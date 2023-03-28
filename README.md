@@ -6,15 +6,15 @@ A command line utility to support FHIRCore content authoring. This tool supports
 
 Download the latest release from https://github.com/opensrp/fhircore-tooling/releases
 
-To run it as a java jar by using the command `efsity-1.0.0.jar -h` . This is the help command and will list the available options.
+To run it as a java jar use the command `java -jar efsity-1.0.0.jar -h` . This is the help command and will list the available options.
 
-If you are using a linux environment e.g. bash you can choose to create an alias for this as shown below. _(Remember to reload the terminal)_
+If you are using a linux environment e.g. bash you can choose to create an _alias_ for this as shown below. _(Remember to reload the terminal)_
 
 `alias fct='java -jar ~/Downloads/efsity-1.0.0.jar'`
 
 To run the previous help command you can then run `fct -h` in your terminal.
 
-The rest of the documentation will assume you have configured an alias for running the efsity jar file name fct as above.
+The rest of the documentation will assume you have configured an _alias_ for running the efsity jar with alias name `fct` as above.
 
 ### Converting structure map .txt to .json
 To convert your `structure-map.txt` file to its corresponding `.json` file, you can run the command
@@ -23,6 +23,7 @@ $ fct convert -t sm --input ~/Workspace/fhir-resources/coda/structure_map/coda-c
 ```
 
 ### Converting library .cql to .json
+To covert a `library.cql` file to a `library.cql.fhir.json` file you can run the command
 ```console
 $ fct convert -t cql -i /some/path/Patient-1.0.0.cql
 ```
@@ -48,11 +49,11 @@ $ fct extract -qr /patient-registration-questionnaire/questionnaire-response.jso
 ```
 
 ### Validating your app configurations
-The tool supports some validations for the fhircore app configurations. To validate you can run the command:
+The tool supports some validations for the FHIRCore app configurations. To validate you can run the command:
 ```console
 $ fct validate -c ~/path/to/composition_config_file.json -i ~/Workspace/fhir-resources/<project>/app_configs/
 ```
-The above will output a list of errors and warnings based on any rules that have been violated.
+The above will output a list of errors and warnings based on any configuration rules that have been violated.
 
 **Options**
 ```
@@ -66,9 +67,9 @@ The above will output a list of errors and warnings based on any rules that have
 
 ## Development
 ### Set up
-This is a Java + Kotlin maven project. You can import it in you JetBrains IDE as such. The utility is built on the very awesome `Picocli` library https://picocli.info/
+This is a Java + Kotlin maven project. You can import it in you JetBrains IntelliJ IDE as such. The utility is built on the very awesome `Picocli` library found here https://picocli.info/.
 
-### building
+### Building
 To build and create a new jar file run the maven package command
 
 `mvn spotless:apply package`
