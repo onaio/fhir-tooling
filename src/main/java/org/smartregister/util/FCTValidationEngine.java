@@ -35,7 +35,8 @@ public class FCTValidationEngine {
   private void handleValue(String key, Object value, boolean isComposition) {
     if (value instanceof JSONArray) {
 
-      if (Constants.base.equals(key)) validateDuplicates(((JSONArray) value).toList());
+      if (Constants.base.equals(key) || Constants.resourcesToSync.equals(key))
+        validateDuplicates(((JSONArray) value).toList(), key);
 
       handleJSONArray(key, (JSONArray) value, isComposition);
 
@@ -124,7 +125,7 @@ public class FCTValidationEngine {
     }
   }
 
-  private void validateDuplicates(List<Object> currentArrayList) {
+  private void validateDuplicates(List<Object> currentArrayList, String keyToValidate) {
 
     Set<Object> duplicates =
         currentArrayList.stream()
@@ -136,7 +137,9 @@ public class FCTValidationEngine {
           "Duplicate",
           "\u001b[33mDUPS\u001b[0m :: "
               + duplicates.size()
-              + " duplicate base resource"
+              + " duplicate \u001b[36m"
+              + keyToValidate
+              + "\u001b[0m resource"
               + (duplicates.size() > 1 ? "s" : "")
               + " found - \u001b[36m"
               + StringUtils.join(duplicates, ", ")
@@ -320,6 +323,7 @@ public class FCTValidationEngine {
     public static final String ROOT = "root";
     public static final String ID = "id";
     public static final String base = "base";
+    public static final String resourcesToSync = "resourcesToSync";
     public static final String planDefinitions = "planDefinitions";
     public static final String questionnaire = "questionnaire";
     public static final String REFERENCE = "reference";
