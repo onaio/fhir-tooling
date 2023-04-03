@@ -27,10 +27,15 @@ public class FCTValidationEngine {
   private Map<String, Set<String>> compositionReferencedResources = new HashMap<>();
   private Map<String, Properties> translationsMap = new HashMap<>();
   private Map<String, Map<String, Set<String>>> errorsMap = new HashMap<>();
+
+  private JSONObject currentParamDataWorkflowJSONObject;
+  private JSONObject previousParentJSONObject;
+  private JSONObject parentJSONObject;
   private String parentJSONObjectKey;
   private String currentFile;
   private int configurationFilesCount;
   private Set<String> factMapKeys = new HashSet<>();
+  private Map<String, String> fileConfigTypeIdentifierToFilenameMap = new HashMap<>();
 
   private void handleValue(String key, Object value, boolean isComposition) {
     if (value instanceof JSONArray) {
@@ -43,6 +48,9 @@ public class FCTValidationEngine {
     } else if (value instanceof JSONObject) {
 
       parentJSONObjectKey = key;
+      previousParentJSONObject = parentJSONObject;
+      parentJSONObject = (JSONObject) value;
+
       handleJSONObject((JSONObject) value, isComposition);
 
     } else {
@@ -119,6 +127,29 @@ public class FCTValidationEngine {
             if (!factMapKeys.contains(ruleFactKey)) {
               addToErrorMap(Constants.Rules, ruleFactKey);
             }
+          }
+
+          if (Constants.PARAMDATA.equals(value)) {
+
+            if (previousParentJSONObject != null
+                && previousParentJSONObject.has(Constants.workflow))
+              currentParamDataWorkflowJSONObject = previousParentJSONObject;
+
+            String configFileIdentifier =
+                currentParamDataWorkflowJSONObject.getString(Constants.ID);
+
+            // Pop any pre-persisted errors
+            errorsMap
+                .getOrDefault(
+                    fileConfigTypeIdentifierToFilenameMap.getOrDefault(configFileIdentifier, ""),
+                    new HashMap<>())
+                .getOrDefault(Constants.Rules, new HashSet<>())
+                .remove(parentJSONObject.getString(Constants.KEY));
+
+            // Add to fact-map for this file
+            if (currentFile.equals(
+                fileConfigTypeIdentifierToFilenameMap.getOrDefault(configFileIdentifier, null)))
+              factMapKeys.add(parentJSONObject.getString(Constants.KEY));
           }
         }
       }
@@ -233,13 +264,17 @@ public class FCTValidationEngine {
           translationsMap.put(nestedEntry.getKey(), properties);
 
         } else if (nestedEntry.getKey().endsWith(".json")) {
+          resetStatePerFile();
           // Configurations
           configurationFilesCount++;
           currentFile = nestedEntry.getValue();
           FCTFile configFile = FCTUtils.readFile(nestedEntry.getValue());
+          JSONObject fileJSONObject = new JSONObject(configFile.getContent());
+          if (fileJSONObject.has("configType") && fileJSONObject.has(Constants.ID))
+            fileConfigTypeIdentifierToFilenameMap.put(
+                fileJSONObject.getString(Constants.ID), currentFile);
           handleJSONObject(
-              new JSONObject(configFile.getContent()),
-              Paths.get(compositionPath).equals(Paths.get(nestedEntry.getValue())));
+              fileJSONObject, Paths.get(compositionPath).equals(Paths.get(nestedEntry.getValue())));
 
         } else {
           FCTUtils.printWarning("Unrecognized Config File Format");
@@ -253,6 +288,11 @@ public class FCTValidationEngine {
 
     FCTUtils.printNewLine();
     FCTUtils.printCompletedInDuration(startTime);
+  }
+
+  private void resetStatePerFile() {
+    currentFile = null;
+    factMapKeys.clear();
   }
 
   private void printValidationResults() {
@@ -330,8 +370,12 @@ public class FCTValidationEngine {
     public static final String Translations = "Translations";
     public static final String Rules = "Rules";
     public static final String DEFAULT_LANGUAGE_RESOURCE_FILE = "strings_config.properties";
+    public static final String PARAMDATA = "PARAMDATA";
+    public static final String workflow = "workflow";
+    public static final String KEY = "key";
     public static final Set translatables =
-        ImmutableSet.of("saveButtonText", "title", "display"); // , "description"
+        ImmutableSet.of(
+            "saveButtonText", "title", "display", "actionButtonText", "message"); // , "description"
     public static final String SEPARATOR = "/";
   }
 }
