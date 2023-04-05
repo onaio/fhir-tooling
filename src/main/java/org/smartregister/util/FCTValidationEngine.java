@@ -3,12 +3,7 @@ package org.smartregister.util;
 
 import com.google.common.collect.ImmutableSet;
 import java.io.IOException;
-import java.nio.file.FileVisitResult;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.SimpleFileVisitor;
-import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -29,6 +24,7 @@ public class FCTValidationEngine {
   private Map<String, Map<String, Set<String>>> errorsMap = new HashMap<>();
 
   private JSONObject currentParamDataWorkflowJSONObject;
+  private JSONObject lastWorkflowJSONObject;
   private JSONObject previousParentJSONObject;
   private JSONObject parentJSONObject;
   private String parentJSONObjectKey;
@@ -36,6 +32,9 @@ public class FCTValidationEngine {
   private int configurationFilesCount;
   private Set<String> factMapKeys = new HashSet<>();
   private Map<String, String> fileConfigTypeIdentifierToFilenameMap = new HashMap<>();
+  private Map<String, Set<String>> questionnairesToLinkIds;
+  private Map<String, Set<String>> structureMapToLinkIds;
+  private Map<String, Set<String>> questionnaireToStructureMapId;
 
   private void handleValue(String key, Object value, boolean isComposition) {
     if (value instanceof JSONArray) {
@@ -50,6 +49,9 @@ public class FCTValidationEngine {
       parentJSONObjectKey = key;
       previousParentJSONObject = parentJSONObject;
       parentJSONObject = (JSONObject) value;
+
+      if (parentJSONObject != null && parentJSONObject.has(Constants.workflow))
+        lastWorkflowJSONObject = parentJSONObject;
 
       handleJSONObject((JSONObject) value, isComposition);
 
@@ -151,6 +153,61 @@ public class FCTValidationEngine {
                 fileConfigTypeIdentifierToFilenameMap.getOrDefault(configFileIdentifier, null)))
               factMapKeys.add(parentJSONObject.getString(Constants.KEY));
           }
+
+          //
+          if (questionnairesToLinkIds != null && Constants.PREPOPULATE.equals(value.toString())) {
+
+            // All Pre-populate ids should be in questionnaire
+            String questionnaireId =
+                lastWorkflowJSONObject
+                    .getJSONObject(Constants.questionnaire)
+                    .getString(Constants.ID);
+
+            String fieldLinkId = parentJSONObject.getString(Constants.linkId);
+
+            if (questionnairesToLinkIds.containsKey(questionnaireId)
+                && !questionnairesToLinkIds.get(questionnaireId).contains(fieldLinkId)) {
+              addToErrorMap(
+                  "Prepopulate",
+                  String.format(
+                      "\u001b[34mPREP\u001b[0m :: link id \u001b[36m%s\u001b[0m missing in Questionnaire with id \u001b[36m%s\u001b[0m",
+                      fieldLinkId, questionnaireId));
+            }
+
+            // All Pre-populate ids should be in Structure map
+            String structureMapId =
+                questionnaireToStructureMapId.containsKey(questionnaireId)
+                        && questionnaireToStructureMapId.get(questionnaireId).iterator().hasNext()
+                    ? questionnaireToStructureMapId.get(questionnaireId).iterator().next()
+                    : null;
+
+            if (structureMapId == null && !questionnaireId.contains("{")) {
+              // Executes multiple times (per pre-populate) - consider move to process() function?
+              addToErrorMap(
+                  "Questionnaire",
+                  String.format(
+                      "\u001b[31mSMAP\u001b[0m :: Structure Map missing for Questionnaire with id \u001b[36m%s\u001b[0m",
+                      questionnaireId));
+            }
+
+            if (structureMapToLinkIds.containsKey(structureMapId)
+                && !structureMapToLinkIds.get(structureMapId).contains(fieldLinkId)) {
+              addToErrorMap(
+                  "Prepopulate",
+                  String.format(
+                      "\u001b[34mPREP\u001b[0m :: link id \u001b[36m%s\u001b[0m missing in Structure Map with id \u001b[36m%s\u001b[0m",
+                      fieldLinkId, structureMapId));
+            } else if (structureMapId != null
+                && !structureMapToLinkIds.containsKey(structureMapId)
+                && !questionnaireId.contains("{")) {
+              // Executes multiple times (per pre-populate) - consider move to process() function?
+              addToErrorMap(
+                  "Questionnaire",
+                  String.format(
+                      "\u001b[31mSMAP\u001b[0m :: Structure Map with id \u001b[36m%s\u001b[0m missing for Questionnaire with id \u001b[36m%s\u001b[0m",
+                      structureMapId, questionnaireId));
+            }
+          }
         }
       }
     }
@@ -214,37 +271,63 @@ public class FCTValidationEngine {
     jsonArrayIterator.forEachRemaining(element -> handleValue(key, element, isComposition));
   }
 
-  private Map<String, Map<String, String>> indexConfigurationFiles(String inputDirectoryPath)
+  public void process(
+      String compositionPath,
+      String structureMapsFolderPath,
+      String questionnairesFolderPath,
+      String directoryPath)
       throws IOException {
-    Map<String, Map<String, String>> filesMap = new HashMap<>();
-    Path rootDir = Paths.get(inputDirectoryPath);
-    Files.walkFileTree(
-        rootDir,
-        new SimpleFileVisitor<>() {
-          @Override
-          public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
-            if (!Files.isDirectory(file)) {
-
-              String parentDirKey =
-                  file.getParent().equals(rootDir)
-                      ? FCTValidationEngine.Constants.ROOT
-                      : file.getParent().getFileName().toString();
-              Map<String, String> fileList = filesMap.getOrDefault(parentDirKey, new HashMap<>());
-              fileList.put(file.getFileName().toString(), file.toAbsolutePath().toString());
-              filesMap.put(parentDirKey, fileList);
-            }
-            return FileVisitResult.CONTINUE;
-          }
-        });
-    return filesMap;
-  }
-
-  public void process(String compositionPath, String directoryPath) throws IOException {
     FCTUtils.printToConsole("Processing starting... \uD83D\uDE80");
 
     long startTime = System.currentTimeMillis();
-    Map<String, Map<String, String>> configDirIndexMap = indexConfigurationFiles(directoryPath);
+    Map<String, Map<String, String>> configDirIndexMap =
+        FCTUtils.indexConfigurationFiles(directoryPath);
 
+    if (questionnairesFolderPath != null) {
+
+      FCTUtils.printInfo("\u001b[36mRunning preprocessor...\u001b[0m");
+
+      Map<String, Map<String, Set<String>>> questionnaireProcessorResults =
+          new QuestionnaireProcessor(questionnairesFolderPath).process();
+      questionnairesToLinkIds =
+          questionnaireProcessorResults.getOrDefault(Constants.questionnaire, new HashMap<>());
+      questionnaireToStructureMapId =
+          questionnaireProcessorResults.getOrDefault(Constants.structuremap, new HashMap<>());
+      structureMapToLinkIds = new StructureMapProcessor(structureMapsFolderPath).process();
+
+      FCTUtils.printNewLine();
+      FCTUtils.printInfo("\u001b[36mPRE PARSING VALIDATION\u001b[0m");
+
+      // Validate all Structure Map Link ids should be in questionnaire
+      for (var entry : structureMapToLinkIds.entrySet()) {
+
+        String structureMapId = entry.getKey();
+        String questionnaireID = getQuestionnaireIdByStructureMapId(structureMapId);
+
+        if (questionnaireID != null) {
+
+          Iterator<String> iterator = entry.getValue().iterator();
+          while (iterator.hasNext()) {
+
+            String structureMapLinkId = iterator.next();
+
+            if (!questionnairesToLinkIds.get(questionnaireID).contains(structureMapLinkId)) {
+
+              FCTUtils.printError(
+                  String.format(
+                      "No Structure Map link id \u001b[36m%s\u001b[0m found in Questionnaire with id \u001b[36m%s\u001b[0m",
+                      structureMapLinkId, structureMapId));
+            }
+          }
+
+        } else {
+          FCTUtils.printError(
+              String.format(
+                  "No Questionnaire found for Structure Map with id \u001b[36m%s\u001b[0m",
+                  structureMapId));
+        }
+      }
+    }
     // Load Composition
     currentFile = compositionPath;
     FCTFile compositionFile = FCTUtils.readFile(compositionPath);
@@ -277,7 +360,8 @@ public class FCTValidationEngine {
               fileJSONObject, Paths.get(compositionPath).equals(Paths.get(nestedEntry.getValue())));
 
         } else {
-          FCTUtils.printWarning("Unrecognized Config File Format");
+          FCTUtils.printWarning(
+              String.format("Unrecognized Config File Format for file %s", nestedEntry.getKey()));
         }
       }
     }
@@ -288,6 +372,17 @@ public class FCTValidationEngine {
 
     FCTUtils.printNewLine();
     FCTUtils.printCompletedInDuration(startTime);
+  }
+
+  private String getQuestionnaireIdByStructureMapId(String structureMapId) {
+
+    for (var entry : questionnaireToStructureMapId.entrySet()) {
+      String questionnaireId = entry.getKey();
+
+      if (entry.getValue().contains(structureMapId)) return questionnaireId;
+    }
+
+    return null;
   }
 
   private void resetStatePerFile() {
@@ -339,7 +434,8 @@ public class FCTValidationEngine {
     StringBuilder errorMessageBuilder =
         new StringBuilder(
                 String.format(
-                    "%d out of %d files with errors", errorsMap.size(), configurationFilesCount))
+                    "%d out of %d configuration files with errors",
+                    errorsMap.size(), configurationFilesCount))
             .append("\n\n\u001b[32mVALIDATION SUMMARY\u001b[0m \n----------------");
 
     for (var entry : errorsMapCount.entrySet()) {
@@ -373,6 +469,9 @@ public class FCTValidationEngine {
     public static final String PARAMDATA = "PARAMDATA";
     public static final String workflow = "workflow";
     public static final String KEY = "key";
+    public static final String linkId = "linkId";
+    public static final String structuremap = "structuremap";
+    public static final String PREPOPULATE = "PREPOPULATE";
     public static final Set translatables =
         ImmutableSet.of(
             "saveButtonText", "title", "display", "actionButtonText", "message"); // , "description"

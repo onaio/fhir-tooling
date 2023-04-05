@@ -6,11 +6,11 @@ A command line utility to support FHIRCore content authoring. This tool supports
 
 Download the latest release from https://github.com/opensrp/fhircore-tooling/releases
 
-To run it as a java jar use the command `java -jar efsity-1.0.0.jar -h` . This is the help command and will list the available options.
+To run it as a java jar by using the command `java -jar efsity-2.0.0.jar -h` . This is the help command and will list the available options.
 
 If you are using a linux environment e.g. bash you can choose to create an _alias_ for this as shown below. _(Remember to reload the terminal)_
 
-`alias fct='java -jar ~/Downloads/efsity-1.0.0.jar'`
+`alias fct='java -jar ~/Downloads/efsity-2.0.0.jar'`
 
 To run the previous help command you can then run `fct -h` in your terminal.
 
@@ -60,7 +60,12 @@ The above will output a list of errors and warnings based on any configuration r
 -c or --composition - the composition json file of the project
 -i or --input - the input directory path. This should point to the folder with the app configurations e.g. ~/Workspace/fhir-resources/ecbis_cha_preview/
 -o or --output - the output path, can be a file or directory. Optional - default is current directory
+-sm or --structure-maps - (Optional) the directory path to the location of structure map .txt or .map files. Must be a directory. Must be used with the -q flag
+-q or --questionnaires - (Optional) the directory path to the location of questionnaires .json files. Must be a directory. Must be used with the -sm flag
 ```
+
+**Note:** To include _Questionnaire_ and _Structure Map_ validation add the `-sm` and `-q` flags
+
 **Sample screenshot output**
 <br/>
 <img width="715" alt="Screenshot 2023-03-27 at 21 43 09" src="https://user-images.githubusercontent.com/10017086/228037581-209f9bab-d1b9-45eb-a920-aa12c70c5b98.png">

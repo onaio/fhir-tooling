@@ -12,9 +12,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.nio.file.*;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 import org.smartregister.domain.FCTFile;
 
@@ -121,6 +122,31 @@ public class FCTUtils {
         String.format(
             "\u001b[32mCompleted in %s \u001b[0m \n",
             FCTUtils.getHumanDuration(System.currentTimeMillis() - startTime)));
+  }
+
+  public static Map<String, Map<String, String>> indexConfigurationFiles(String inputDirectoryPath)
+      throws IOException {
+    Map<String, Map<String, String>> filesMap = new HashMap<>();
+    Path rootDir = Paths.get(inputDirectoryPath);
+    Files.walkFileTree(
+        rootDir,
+        new SimpleFileVisitor<>() {
+          @Override
+          public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
+            if (!Files.isDirectory(file)) {
+
+              String parentDirKey =
+                  file.getParent().equals(rootDir)
+                      ? FCTValidationEngine.Constants.ROOT
+                      : file.getParent().getFileName().toString();
+              Map<String, String> fileList = filesMap.getOrDefault(parentDirKey, new HashMap<>());
+              fileList.put(file.getFileName().toString(), file.toAbsolutePath().toString());
+              filesMap.put(parentDirKey, fileList);
+            }
+            return FileVisitResult.CONTINUE;
+          }
+        });
+    return filesMap;
   }
 
   public static final class Constants {

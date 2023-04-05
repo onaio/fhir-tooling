@@ -4,7 +4,7 @@
 
   <groupId>org.smartregister</groupId>
   <artifactId>fhircore-tooling</artifactId>
-  <version>1.0.0</version>
+  <version>2.0.0</version>
 
   <properties>
     <code.name>efsity</code.name>
@@ -118,22 +118,48 @@
     <dependency>
       <groupId>org.opencds.cqf.cql</groupId>
       <artifactId>evaluator</artifactId>
-      <version>${opencds.cql.version}</version>
+      <version>${cql.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>ca.uhn.hapi.fhir</groupId>
+          <artifactId>org.hl7.fhir.r5</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>ca.uhn.hapi.fhir</groupId>
+          <artifactId>org.hl7.fhir.dstu2</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>ca.uhn.hapi.fhir</groupId>
+          <artifactId>org.hl7.fhir.dstu3</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>ca.uhn.hapi.fhir</groupId>
+          <artifactId>org.hl7.fhir.dstu2016may</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>ca.uhn.hapi.fhir</groupId>
+          <artifactId>hapi-fhir-structures-dstu3</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>ca.uhn.hapi.fhir</groupId>
+          <artifactId>hapi-fhir-structures-r5</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.opencds.cqf.cql</groupId>
       <artifactId>evaluator.builder</artifactId>
-      <version>${opencds.cql.version}</version>
+      <version>${cql.version}</version>
     </dependency>
     <dependency>
       <groupId>org.opencds.cqf.cql</groupId>
       <artifactId>evaluator.dagger</artifactId>
-      <version>${opencds.cql.version}</version>
+      <version>${cql.version}</version>
     </dependency>
     <dependency>
       <groupId>org.opencds.cqf.cql</groupId>
       <artifactId>evaluator.plandefinition</artifactId>
-      <version>${opencds.cql.version}</version>
+      <version>${cql.version}</version>
     </dependency>
 
     <dependency>
@@ -291,19 +317,29 @@
         </executions>
       </plugin>
       <plugin>
-        <!-- Build an executable JAR -->
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jar-plugin</artifactId>
-        <version>${maven.jar.plugin.version}</version>
-        <configuration>
-          <archive>
-            <manifest>
-              <addClasspath>true</addClasspath>
-              <classpathPrefix>libs/</classpathPrefix>
-              <mainClass>org.smartregister.Main</mainClass>
-            </manifest>
-          </archive>
-        </configuration>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>single</goal>
+            </goals>
+            <phase>package</phase>
+            <configuration>
+              <archive>
+                <manifest>
+                  <mainClass>org.smartregister.Main</mainClass>
+                </manifest>
+              </archive>
+              <descriptors>
+                <descriptor>src/main/resources/dependency-set.xml</descriptor>
+              </descriptors>
+              <descriptorRefs>
+                <descriptorRef>jar-with-dependencies</descriptorRef>
+              </descriptorRefs>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
 
     </plugins>
