@@ -347,7 +347,7 @@ public class FCTValidationEngine {
 
           FCTUtils.printError(
               String.format(
-                  "No Structure Map with id \u001b[36m%s\u001b[0m was found. Defining Questionnaire is id \u001b[36m%s\u001b[0m",
+                  "No Structure Map with id \u001b[36m%s\u001b[0m was found. Defining Questionnaire has id \u001b[36m%s\u001b[0m",
                   structureMapId, questionnaireId));
         }
       }
