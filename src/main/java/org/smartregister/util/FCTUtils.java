@@ -14,9 +14,11 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+import org.apache.commons.io.FilenameUtils;
 import org.smartregister.domain.FCTFile;
 
 public class FCTUtils {
@@ -124,8 +126,8 @@ public class FCTUtils {
             FCTUtils.getHumanDuration(System.currentTimeMillis() - startTime)));
   }
 
-  public static Map<String, Map<String, String>> indexConfigurationFiles(String inputDirectoryPath)
-      throws IOException {
+  public static Map<String, Map<String, String>> indexConfigurationFiles(
+      String inputDirectoryPath, String... fileExtensions) throws IOException {
     Map<String, Map<String, String>> filesMap = new HashMap<>();
     Path rootDir = Paths.get(inputDirectoryPath);
     Files.walkFileTree(
@@ -133,7 +135,10 @@ public class FCTUtils {
         new SimpleFileVisitor<>() {
           @Override
           public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
-            if (!Files.isDirectory(file)) {
+            if (!Files.isDirectory(file)
+                && (fileExtensions.length == 1 && fileExtensions[0] == "*"
+                    || Arrays.asList(fileExtensions)
+                        .contains(FilenameUtils.getExtension(file.getFileName().toString())))) {
 
               String parentDirKey =
                   file.getParent().equals(rootDir)

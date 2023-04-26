@@ -31,7 +31,7 @@ public class QuestionnaireProcessor {
     try {
 
       Map<String, Map<String, String>> folderTofilesIndexMap =
-          FCTUtils.indexConfigurationFiles(directoryPath);
+          FCTUtils.indexConfigurationFiles(directoryPath, "json");
 
       // Process other configurations
       for (var entry : folderTofilesIndexMap.entrySet()) {
@@ -69,7 +69,7 @@ public class QuestionnaireProcessor {
           } catch (JSONException jsonException) {
 
             FCTUtils.printError(String.format("Error processing file %s", currentFile));
-            FCTUtils.printError(String.format("Error message %s", jsonException.getMessage()));
+            printJsonExceptionMessages(jsonException.getMessage());
           }
         }
       }
@@ -80,6 +80,15 @@ public class QuestionnaireProcessor {
 
     resultsMap.put(FCTValidationEngine.Constants.questionnaire, questionnairesToLinkIds);
     return resultsMap;
+  }
+
+  private void printJsonExceptionMessages(String message) {
+    if (message.contains("JSONObject[\"id\"] not found")) {
+      FCTUtils.printWarning(
+          "Questionnaire DOES NOT have an id field. Are we expecting it to be generated on the Server?");
+    } else {
+      FCTUtils.printError(String.format("%s", message));
+    }
   }
 
   private String getStructureMapId(JSONArray extensionJSONArray) {

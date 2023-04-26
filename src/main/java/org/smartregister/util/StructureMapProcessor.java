@@ -29,7 +29,7 @@ public class StructureMapProcessor {
     try {
 
       Map<String, Map<String, String>> folderTofilesIndexMap =
-          FCTUtils.indexConfigurationFiles(directoryPath);
+          FCTUtils.indexConfigurationFiles(directoryPath, "map", "txt");
 
       // Process other configurations
       for (var entry : folderTofilesIndexMap.entrySet()) {
@@ -82,7 +82,8 @@ public class StructureMapProcessor {
             }
           }
 
-          structureMapToLinkIds.put(getStructureMapId(firstLine), linkIds);
+          if (!firstLine.isBlank())
+            structureMapToLinkIds.put(getStructureMapId(firstLine), linkIds);
         }
       }
 
