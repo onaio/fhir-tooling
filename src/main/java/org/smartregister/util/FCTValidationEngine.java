@@ -25,12 +25,12 @@ public class FCTValidationEngine {
 
   private JSONObject currentParamDataWorkflowJSONObject;
   private JSONObject lastWorkflowJSONObject;
-  private JSONObject previousParentJSONObject;
   private JSONObject parentJSONObject;
   private String parentJSONObjectKey;
   private String currentFile;
   private int configurationFilesCount;
-  private Set<String> factMapKeys = new HashSet<>();
+
+  private Map<String, Set<String>> factMapKeysByFile = new HashMap<>();
   private Map<String, String> fileConfigTypeIdentifierToFilenameMap = new HashMap<>();
   private Map<String, Set<String>> questionnairesToLinkIds;
   private Map<String, Set<String>> structureMapToLinkIds;
@@ -47,7 +47,6 @@ public class FCTValidationEngine {
     } else if (value instanceof JSONObject) {
 
       parentJSONObjectKey = key;
-      previousParentJSONObject = parentJSONObject;
       parentJSONObject = (JSONObject) value;
 
       if (parentJSONObject != null && parentJSONObject.has(Constants.workflow))
@@ -121,22 +120,24 @@ public class FCTValidationEngine {
 
           if (value.toString().contains("data.put(")) {
             String ruleFactKey = StringUtils.substringBetween(value.toString(), "'", "'");
-            factMapKeys.add(ruleFactKey);
+            Set<String> factsByFile = factMapKeysByFile.getOrDefault(currentFile, new HashSet<>());
+            factsByFile.add(ruleFactKey);
+            factMapKeysByFile.put(currentFile, factsByFile);
             if (errorsMap.getOrDefault(currentFile, new HashMap<>()).containsKey(Constants.Rules))
               errorsMap.get(currentFile).get(Constants.Rules).remove(ruleFactKey);
           } else if (value.toString().contains("@{")) {
             String ruleFactKey = StringUtils.substringBetween(value.toString(), "@{", "}");
-            if (!factMapKeys.contains(ruleFactKey)) {
+            if (!factMapKeysByFile
+                .getOrDefault(currentFile, new HashSet<>())
+                .contains(ruleFactKey)) {
               addToErrorMap(Constants.Rules, ruleFactKey);
             }
           }
 
+          if (Constants.workflow.equals(key))
+            currentParamDataWorkflowJSONObject = lastWorkflowJSONObject;
+
           if (Constants.PARAMDATA.equals(value)) {
-
-            if (previousParentJSONObject != null
-                && previousParentJSONObject.has(Constants.workflow))
-              currentParamDataWorkflowJSONObject = previousParentJSONObject;
-
             String configFileIdentifier =
                 currentParamDataWorkflowJSONObject.getString(Constants.ID);
 
@@ -150,8 +151,13 @@ public class FCTValidationEngine {
 
             // Add to fact-map for this file
             if (currentFile.equals(
-                fileConfigTypeIdentifierToFilenameMap.getOrDefault(configFileIdentifier, null)))
-              factMapKeys.add(parentJSONObject.getString(Constants.KEY));
+                fileConfigTypeIdentifierToFilenameMap.getOrDefault(configFileIdentifier, null))) {
+
+              Set<String> factsByFile =
+                  factMapKeysByFile.getOrDefault(currentFile, new HashSet<>());
+              factsByFile.add(parentJSONObject.getString(Constants.KEY));
+              factMapKeysByFile.put(currentFile, factsByFile);
+            }
           }
 
           //
@@ -190,7 +196,8 @@ public class FCTValidationEngine {
                       questionnaireId));
             }
 
-            if (structureMapToLinkIds.containsKey(structureMapId)
+            if (structureMapId != null
+                && structureMapToLinkIds.containsKey(structureMapId)
                 && !structureMapToLinkIds.get(structureMapId).contains(fieldLinkId)) {
               addToErrorMap(
                   "Prepopulate",
@@ -281,7 +288,7 @@ public class FCTValidationEngine {
 
     long startTime = System.currentTimeMillis();
     Map<String, Map<String, String>> configDirIndexMap =
-        FCTUtils.indexConfigurationFiles(directoryPath);
+        FCTUtils.indexConfigurationFiles(directoryPath, "*");
 
     if (questionnairesFolderPath != null) {
 
@@ -296,7 +303,7 @@ public class FCTValidationEngine {
       structureMapToLinkIds = new StructureMapProcessor(structureMapsFolderPath).process();
 
       FCTUtils.printNewLine();
-      FCTUtils.printInfo("\u001b[36mPRE PARSING VALIDATION\u001b[0m");
+      FCTUtils.printInfo("\u001b[36mPreparsing validation\u001b[0m");
 
       // Validate all Structure Map Link ids should be in questionnaire
       for (var entry : structureMapToLinkIds.entrySet()) {
@@ -323,11 +330,31 @@ public class FCTValidationEngine {
         } else {
           FCTUtils.printError(
               String.format(
-                  "No Questionnaire found for Structure Map with id \u001b[36m%s\u001b[0m",
+                  "No Questionnaire resource was found for the Structure Map with id \u001b[36m%s\u001b[0m",
                   structureMapId));
         }
       }
+
+      // Validate all Structure Map IDs referenced in Questionnaire extensions exist as Structure
+      // Maps(files)
+
+      for (var entry : questionnaireToStructureMapId.entrySet()) {
+
+        String questionnaireId = entry.getKey();
+        String structureMapId = entry.getValue().stream().findFirst().orElse("");
+
+        if (!structureMapId.isBlank() && !structureMapToLinkIds.containsKey(structureMapId)) {
+
+          FCTUtils.printError(
+              String.format(
+                  "No Structure Map with id \u001b[36m%s\u001b[0m was found. Defining Questionnaire is id \u001b[36m%s\u001b[0m",
+                  structureMapId, questionnaireId));
+        }
+      }
     }
+
+    FCTUtils.printInfo("\u001b[36mPreparsing validation complete\u001b[0m");
+
     // Load Composition
     currentFile = compositionPath;
     FCTFile compositionFile = FCTUtils.readFile(compositionPath);
@@ -365,9 +392,15 @@ public class FCTValidationEngine {
         }
       }
     }
-
-    FCTUtils.printToConsole(String.format("%d translation files found", translationsMap.size()));
-    FCTUtils.printToConsole(String.format("%d configuration files found", configurationFilesCount));
+    FCTUtils.printNewLine();
+    FCTUtils.printToConsole(
+        String.format(
+            "%d translation file" + (translationsMap.size() > 1 ? "s" : "") + " found",
+            translationsMap.size()));
+    FCTUtils.printToConsole(
+        String.format(
+            "%d configuration file" + (configurationFilesCount > 1 ? "s" : "") + " found",
+            configurationFilesCount));
     printValidationResults();
 
     FCTUtils.printNewLine();
@@ -387,7 +420,6 @@ public class FCTValidationEngine {
 
   private void resetStatePerFile() {
     currentFile = null;
-    factMapKeys.clear();
   }
 
   private void printValidationResults() {
