@@ -1,0 +1,98 @@
+[
+    {
+        "request": {
+            "method": "PUT",
+            "url": "Practitioner/$practitioner_uuid",
+            "ifMatch": "1"
+        },
+        "resource": {
+            "resourceType": "Practitioner",
+            "id": "$practitioner_uuid",
+            "identifier": [
+                {
+                "use": "official",
+                "value": "$practitioner_uuid"
+                },
+                {
+                "use": "secondary",
+                "value": "$keycloak_user_uuid"
+                }
+            ],
+            "active": true,
+            "name": [
+                {
+                "use": "official",
+                "family": "$lastName",
+                "given": [
+                    "$firstName",
+                    ""
+                ]
+                }
+            ],
+            "telecom": [
+                {
+                "system": "email",
+                "value": "$email"
+                }
+            ]
+        }
+    },
+    {
+        "request": {
+            "method": "PUT",
+            "url": "Group/$group_uuid",
+            "ifMatch": "1"
+        },
+        "resource": {
+            "resourceType": "Group",
+            "id": "$group_uuid",
+            "identifier": [
+                {
+                "use": "official",
+                "value": "$group_uuid"
+                },
+                {
+                "use": "secondary",
+                "value": "$keycloak_user_uuid"
+                }
+            ],
+            "active": true,
+            "type": "practitioner",
+            "actual": true,
+            "name": "$firstName $lastName",
+            "member": [
+                {
+                "entity": {
+                    "reference": "Practitioner/$practitioner_uuid"
+                }
+                }
+            ]
+        }
+    },
+    {
+        "request": {
+            "method": "PUT",
+            "url": "PractitionerRole/$practitioner_role_uuid",
+            "ifMatch": "1"
+        },
+        "resource": {
+            "resourceType": "PractitionerRole",
+            "id": "$practitioner_role_uuid",
+            "identifier": [
+                {
+                "use": "official",
+                "value": "$practitioner_role_uuid"
+                },
+                {
+                "use": "secondary",
+                "value": "$keycloak_user_uuid"
+                }
+            ],
+            "active": true,
+            "practitioner": {
+                "reference": "Practitioner/$practitioner_uuid",
+                "display": "$firstName $lastName"
+            }
+        }
+    }
+]
