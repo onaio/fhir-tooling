@@ -1,0 +1,17 @@
+{
+    "request": {
+        "method": "PUT",
+        "url": "Location/$location_uuid",
+        "ifMatch" : "1"
+    },
+    "resource": {
+        "resourceType": "Location",
+        "id": "$location_uuid",
+        "meta": {
+            "versionId": "1",
+            "lastUpdated": ""
+        },
+        "status": "$status",
+        "name": "$name"
+    }
+}

@@ -1,0 +1,12 @@
+{
+  "firstName": "$firstName",
+  "lastName": "$lastName",
+  "username": "$username",
+  "email": "$email",
+  "enabled": true,
+  "attributes": {
+    "fhir_core_app_id": [
+      "$application_id"
+    ]
+  }
+}

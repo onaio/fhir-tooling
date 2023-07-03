@@ -1,0 +1,7 @@
+client_id = ''
+client_secret = ''
+username = ''
+password = ''
+access_token_url = ''
+fhir_base_url = ''
+keycloak_url = ''
