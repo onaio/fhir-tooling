@@ -2,10 +2,15 @@ import csv
 import json
 import uuid
 import click
-import config
 import requests
 from oauthlib.oauth2 import LegacyApplicationClient
 from requests_oauthlib import OAuth2Session
+
+try:
+    import config
+except ModuleNotFoundError:
+    print("ERROR: The config.py file is missing!")
+    exit()
 
 
 # This function takes in a csv file
