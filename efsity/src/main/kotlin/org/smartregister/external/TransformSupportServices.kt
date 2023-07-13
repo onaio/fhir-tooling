@@ -48,6 +48,7 @@ class TransformSupportServices constructor(private val simpleWorkerContext: Simp
       "EpisodeOfCare_Diagnosis" -> EpisodeOfCare.DiagnosisComponent()
       "Encounter_Diagnosis" -> Encounter.DiagnosisComponent()
       "Encounter_Participant" -> Encounter.EncounterParticipantComponent()
+      "Encounter_Location" -> Encounter.EncounterLocationComponent()
       "CarePlan_Activity" -> CarePlan.CarePlanActivityComponent()
       "CarePlan_ActivityDetail" -> CarePlan.CarePlanActivityDetailComponent()
       "Patient_Link" -> Patient.PatientLinkComponent()
@@ -55,6 +56,9 @@ class TransformSupportServices constructor(private val simpleWorkerContext: Simp
       "PlanDefinition_Action" -> PlanDefinition.PlanDefinitionActionComponent()
       "Group_Characteristic" -> Group.GroupCharacteristicComponent()
       "Observation_Component" -> Observation.ObservationComponentComponent()
+      "Task_Input" -> Task.ParameterComponent()
+      "Task_Output" -> Task.TaskOutputComponent()
+      "Task_Restriction" -> Task.TaskRestrictionComponent()
       else -> ResourceFactory.createResourceOrType(name)
     }
   }
