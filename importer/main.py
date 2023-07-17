@@ -3,13 +3,14 @@ import json
 import uuid
 import click
 import requests
+import logging
 from oauthlib.oauth2 import LegacyApplicationClient
 from requests_oauthlib import OAuth2Session
 
 try:
     import config
 except ModuleNotFoundError:
-    print("ERROR: The config.py file is missing!")
+    logging.error("The config.py file is missing!")
     exit()
 
 
@@ -17,20 +18,31 @@ except ModuleNotFoundError:
 # reads it and returns a list of strings/lines
 # It ignores the first line (assumes headers)
 def read_csv(csv_file):
+    logging.info("Reading csv file")
     with open(csv_file, mode="r") as file:
         records = csv.reader(file, delimiter=",")
-        next(records)
-        all_records = []
+        try:
+            next(records)
+            all_records = []
 
-        for record in records:
-            all_records.append(record)
+            for record in records:
+                all_records.append(record)
 
-    return all_records
+            logging.info("Returning records from csv file")
+            return all_records
+
+        except StopIteration:
+            logging.error("Stop iteration on empty file")
 
 
 # This function makes the request to the provided url
 # to create resources
 def post_request(request_type, payload, url):
+    logging.info("Posting request-----------------")
+    logging.info("Request type: " + request_type)
+    logging.info("Url: " + url)
+    logging.debug("Payload: " + payload)
+
     # get credentials from config file
     client_id = config.client_id
     client_secret = config.client_secret
@@ -53,14 +65,19 @@ def post_request(request_type, payload, url):
     try:
         if request_type == "POST":
             r = requests.post(url, data=payload, headers=headers)
+            if r.status_code == 200 or r.status_code == 201:
+                logging.info(str(r.status_code) + ": SUCCESS!")
             return r
         elif request_type == "PUT":
             r = requests.put(url, data=payload, headers=headers)
+            if r.status_code == 200 or r.status_code == 201:
+                logging.info(str(r.status_code) + ": SUCCESS!")
             return r
         else:
-            print("ERROR: Unsupported request type!")
-    except:
-        print("ERROR: Request failed!")
+            logging.error("Unsupported request type!")
+    except Exception as err:
+        logging.error(err)
+        raise
 
 
 # This function builds the user payload and posts it to
@@ -79,9 +96,11 @@ def create_user(user):
     obj["attributes"]["fhir_core_app_id"][0] = user[8]
 
     final_string = json.dumps(obj)
+    logging.info("Creating user: " + user[2])
     r = post_request("POST", final_string, config.keycloak_url)
 
     if r.status_code == 201:
+        logging.info("User created successfully")
         new_user_location = r.headers["Location"]
         user_id = (new_user_location.split("/"))[-1]
 
@@ -89,26 +108,29 @@ def create_user(user):
         payload = '{"id": "' + user[6] + '", "name": "' + user[7] + '"}'
         group_endpoint = "/" + user_id + "/groups/" + user[6]
         url = config.keycloak_url + group_endpoint
+        logging.info("Adding user to Keycloak group: " + user[7])
         r = post_request("PUT", payload, url)
 
         # set password
         payload = '{"temporary":false,"type":"password","value":"' + user[9] + '"}'
         password_endpoint = "/" + user_id + "/reset-password"
         url = config.keycloak_url + password_endpoint
+        logging.info("Setting user password")
         r = post_request("PUT", payload, url)
 
         return user_id
     elif r.status_code == 409:
-        print("ERROR: User " + user[0] + " " + user[1] + " already exists!")
+        logging.error(r.text)
         return 0
     else:
-        print("ERROR: User creation failed!")
+        logging.error(str(r.status_code) + ":" + r.text)
         return 0
 
 
 # This function build the FHIR resources related to a
 # new user and posts them to the FHIR api for creation
 def create_user_resources(user_id, user):
+    logging.info("Creating user resources")
     # generate uuids
     practitioner_uuid = str(uuid.uuid4())
     group_uuid = str(uuid.uuid4())
@@ -137,6 +159,7 @@ def create_user_resources(user_id, user):
 # This function builds a json payload
 # which is posted to the api to create resources
 def build_payload(resources, resource_payload_file):
+    logging.info("Building request payload")
     initial_string = """{"resourceType": "Bundle","type": "transaction","meta": {"lastUpdated": ""},"entry": [ """
     final_string = " "
     with open(resource_payload_file) as json_file:
@@ -156,27 +179,40 @@ def build_payload(resources, resource_payload_file):
 
 
 @click.command()
-@click.option("--csv_file")
-@click.option("--resource_type")
-def main(csv_file, resource_type):
+@click.option("--csv_file", required=True)
+@click.option("--resource_type", required=True)
+@click.option(
+    "--log_level", type=click.Choice(["DEBUG", "INFO", "ERROR"], case_sensitive=False)
+)
+def main(csv_file, resource_type, log_level):
+    if log_level == "DEBUG":
+        logging.basicConfig(level=logging.DEBUG)
+    elif log_level == "INFO":
+        logging.basicConfig(level=logging.INFO)
+    elif log_level == "ERROR":
+        logging.basicConfig(level=logging.ERROR)
+
+    logging.info("Starting csv import...")
     resource_list = read_csv(csv_file)
     if resource_list:
         if resource_type == "users":
+            logging.info("Processing users")
             for user in resource_list:
                 user_id = create_user(user)
                 if user_id != 0:
                     create_user_resources(user_id, user)
-                    print("Process complete!")
+                    logging.info("Processing complete!")
         elif resource_type == "locations":
+            logging.info("Processing locations")
             json_payload = build_payload(
                 resource_list, "json_payloads/locations_payload.json"
             )
             post_request("POST", json_payload, config.fhir_base_url)
-            print("Process complete!")
+            logging.info("Processing complete!")
         else:
-            print("ERROR: Unsupported resource type!")
+            logging.error("Unsupported resource type!")
     else:
-        print("ERROR: Your csv file is empty!")
+        logging.error("Empty csv file!")
 
 
 if __name__ == "__main__":

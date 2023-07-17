@@ -8,5 +8,6 @@ To run script
 2. Install requirements.txt - `pip install -r requirements.txt`
 3. Create a `config.py` file. The `sample_config.py` is an example  of what this should look like. Populate it with the right credentials
 4. Run script - `python3 main.py --csv_file csv/locations.csv --resource_type locations`
+5. You can turn on logging by passing a `--log_level` to the command like as `info`, `debug` or `error`. For example `python3 main.py --csv_file csv/locations.csv --resource_type locations --log_level info`
 
 See example csvs in the csv folder
