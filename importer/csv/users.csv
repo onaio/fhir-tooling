@@ -1,3 +1,3 @@
 FirstName,LastName,Username,Email,UserType,EnableUser,KeycloakGroupID,KeycloakGroupName,ApplicationID,Password
-Jane,Doe,Janey,jdoe@gmail.com,Practitioner,TRUE,a715b562-27f2-432a-b1ba-e57db35e0f93,test,demo,pa$$word
-John,Doe,Johny,jodoe@gmail.com,Practitioner,TRUE,a715b562-27f2-432a-b1ba-e57db35e0f93,test,demo,pa$$word
+Jane,Doe,Janey,jdoe@example.com,Practitioner,TRUE,a715b562-27f2-432a-b1ba-e57db35e0f93,test,demo,pa$$word
+John,Doe,Johny,jodoe@example.com,Practitioner,TRUE,a715b562-27f2-432a-b1ba-e57db35e0f93,test,demo,pa$$word
