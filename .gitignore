@@ -1,4 +1,4 @@
 .DS_Store
-efsity/fhircore-tooling.iml
-efsity/target
-efsity/.idea
+fhircore-tooling.iml
+target
+.idea
