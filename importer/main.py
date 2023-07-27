@@ -253,8 +253,8 @@ def main(csv_file, resource_type, log_level):
             json_payload = build_payload(
                 "organizations", resource_list, "json_payloads/organizations_payload.json"
             )
-            logging.info("RESULT-----------------------------------------------------")
-            logging.info(json_payload)
+            post_request("POST", json_payload, config.fhir_base_url)
+            logging.info("Processing complete!")
         else:
             logging.error("Unsupported resource type!")
     else:
