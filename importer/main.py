@@ -255,6 +255,13 @@ def main(csv_file, resource_type, log_level):
             )
             post_request("POST", json_payload, config.fhir_base_url)
             logging.info("Processing complete!")
+        elif resource_type == "careTeams":
+            logging.info("Processing CareTeams")
+            json_payload = build_payload(
+                "careTeams", resource_list, "json_payloads/careteams_payload.json"
+            )
+            post_request("POST", json_payload, config.fhir_base_url)
+            logging.info("Processing complete!")
         else:
             logging.error("Unsupported resource type!")
     else:
