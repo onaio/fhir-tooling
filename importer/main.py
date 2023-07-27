@@ -66,12 +66,16 @@ def post_request(request_type, payload, url):
         if request_type == "POST":
             r = requests.post(url, data=payload, headers=headers)
             if r.status_code == 200 or r.status_code == 201:
-                logging.info(str(r.status_code) + ": SUCCESS!")
+                logging.info('[' + str(r.status_code) + ']' + ": SUCCESS!")
+            else:
+                logging.error('[' + str(r.status_code) + ']' + r.text )
             return r
         elif request_type == "PUT":
             r = requests.put(url, data=payload, headers=headers)
             if r.status_code == 200 or r.status_code == 201:
-                logging.info(str(r.status_code) + ": SUCCESS!")
+                logging.info('[' + str(r.status_code) + ']' + ": SUCCESS!")
+            else:
+                logging.error('[' + str(r.status_code) + ']' + r.text)
             return r
         else:
             logging.error("Unsupported request type!")
@@ -155,10 +159,20 @@ def create_user_resources(user_id, user):
     payload = initial_string + ff + "}"
     post_request("POST", payload, config.fhir_base_url)
 
+# custom extras for organizations
+def organization_extras(resource, payload_string):
+    try:
+        if resource[6]:
+            payload_string = payload_string.replace("$alias", resource[6])
+    except IndexError:
+        obj = json.loads(payload_string)
+        del obj['resource']['alias']
+        payload_string = json.dumps(obj, indent=4)
+    return payload_string
 
 # This function builds a json payload
 # which is posted to the api to create resources
-def build_payload(resources, resource_payload_file):
+def build_payload(resource_type, resources, resource_payload_file):
     logging.info("Building request payload")
     initial_string = """{"resourceType": "Bundle","type": "transaction","meta": {"lastUpdated": ""},"entry": [ """
     final_string = " "
@@ -166,13 +180,38 @@ def build_payload(resources, resource_payload_file):
         payload_string = json_file.read()
 
     for resource in resources:
-        unique_uuid = str(uuid.uuid4())
-        ff = (
-            payload_string.replace("$status", resource[1])
-            .replace("$name", resource[0])
-            .replace("$location_uuid", unique_uuid)
-        )
-        final_string = final_string + ff + ","
+        try:
+            if resource[2] == 'update':
+                # use the provided id
+                unique_uuid = resource[4]
+                identifier_uuid = resource[5]
+            else:
+                # generate a new uuid
+                unique_uuid = str(uuid.uuid4())
+                identifier_uuid = unique_uuid
+        except IndexError:
+            # default if method is not provided
+            unique_uuid = str(uuid.uuid4())
+            identifier_uuid = unique_uuid
+
+        # ps = payload_string
+        ps = payload_string.replace("$name", resource[0]).replace(
+            "$unique_uuid", unique_uuid).replace("$identifier_uuid", identifier_uuid)
+
+        try:
+            ps = ps.replace("$status", resource[1])
+        except IndexError:
+            ps = ps.replace("$status", "active")
+
+        try:
+            ps = ps.replace("$version", resource[3])
+        except IndexError:
+            ps = ps.replace("$version", "1")
+
+        if resource_type == "organizations":
+            ps = organization_extras(resource, ps)
+
+        final_string = final_string + ps + ","
 
     final_string = initial_string + final_string[:-1] + " ] } "
     return final_string
@@ -205,10 +244,17 @@ def main(csv_file, resource_type, log_level):
         elif resource_type == "locations":
             logging.info("Processing locations")
             json_payload = build_payload(
-                resource_list, "json_payloads/locations_payload.json"
+                "locations", resource_list, "json_payloads/locations_payload.json"
             )
             post_request("POST", json_payload, config.fhir_base_url)
             logging.info("Processing complete!")
+        elif resource_type == "organizations":
+            logging.info("Processing organizations")
+            json_payload = build_payload(
+                "organizations", resource_list, "json_payloads/organizations_payload.json"
+            )
+            logging.info("RESULT-----------------------------------------------------")
+            logging.info(json_payload)
         else:
             logging.error("Unsupported resource type!")
     else:
