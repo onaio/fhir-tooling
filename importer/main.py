@@ -170,6 +170,38 @@ def organization_extras(resource, payload_string):
         payload_string = json.dumps(obj, indent=4)
     return payload_string
 
+# custom extras for locations
+def location_extras(resource, payload_string):
+    try:
+        if resource[5]:
+            payload_string = payload_string.replace("$parentName", resource[5]).replace("$parentID", resource[6])
+        else:
+            obj = json.loads(payload_string)
+            del obj['resource']['partOf']
+            payload_string = json.dumps(obj, indent=4)
+    except IndexError:
+        obj = json.loads(payload_string)
+        del obj['resource']['partOf']
+        payload_string = json.dumps(obj, indent=4)
+
+    try:
+        if resource[7] == "building":
+            payload_string = payload_string.replace("$pt_code", "bu").replace("$pt_display", "Building")
+        elif resource[7] == "jurisdiction":
+            payload_string = payload_string.replace("$pt_code", "jdn").replace("$pt_display", "Jurisdiction")
+        else:
+            logging.error("Unsupported location type provided for " + resource[0])
+            obj = json.loads(payload_string)
+            del obj['resource']['physicalType']
+            payload_string = json.dumps(obj, indent=4)
+    except IndexError:
+        obj = json.loads(payload_string)
+        del obj['resource']['physicalType']
+        payload_string = json.dumps(obj, indent=4)
+
+    return payload_string
+
+
 # This function builds a json payload
 # which is posted to the api to create resources
 def build_payload(resource_type, resources, resource_payload_file):
@@ -210,6 +242,8 @@ def build_payload(resource_type, resources, resource_payload_file):
 
         if resource_type == "organizations":
             ps = organization_extras(resource, ps)
+        elif resource_type == "locations":
+            ps = location_extras(resource, ps)
 
         final_string = final_string + ps + ","
 
