@@ -209,40 +209,69 @@ def location_extras(resource, payload_string):
     return payload_string
 
 # custom extras for careTeams
-def care_team_extras(resource, payload_string, load_type):
+def care_team_extras(resource, payload_string, load_type, c_participants, c_orgs, ftype ):
     orgs_list = []
     participant_list = []
-    orgs = []
+    elements = []
+    elements2 = []
 
     if load_type == 'min':
         try:
             if resource[5]:
-                orgs = resource[5].split('|')
+                elements = resource[5].split('|')
+        except IndexError:
+            pass
+        try:
+            if resource[6]:
+                elements2 = resource[6].split('|')
         except IndexError:
             pass
     elif load_type == 'full':
-        orgs = resource
+        elements = resource
     else:
         logging.error('Unsupported load type')
 
-    for org in orgs:
-        y = {}
-        x = org.split(':')
-        y['display'] = str(x[1])
-        y['reference'] = "Organization/" + str(x[0])
-        orgs_list.append(y)
+    if 'orgs' in ftype:
+        for org in elements:
+            y = {}
+            x = org.split(':')
+            y['reference'] = "Organization/" + str(x[0])
+            y['display'] = str(x[1])
+            orgs_list.append(y)
 
-        z = {"role": [{"coding": [{"system": "http://snomed.info/sct","code": "394730007","display": "Healthcare related organization"}]}],"member": {}}
-        z['member']['display'] = str(x[1])
-        z['member']['reference'] = "Organization/" + str(x[0])
-        participant_list.append(z)
+            z = {"role": [{"coding": [{"system": "http://snomed.info/sct","code": "394730007","display": "Healthcare related organization"}]}],"member": {}}
+            z['member']['reference'] = "Organization/" + str(x[0])
+            z['member']['display'] = str(x[1])
+            participant_list.append(z)
 
+        if len(c_participants) > 0:
+            participant_list = c_participants + participant_list
+        if len(c_orgs) > 0:
+            orgs_list = c_orgs + orgs_list
 
-    if len(participant_list) > 0:
-        obj = json.loads(payload_string)
-        obj['resource']['participant'] = participant_list
-        obj['resource']['managingOrganization'] = orgs_list
-        payload_string = json.dumps(obj)
+        if len(participant_list) > 0:
+            obj = json.loads(payload_string)
+            obj['resource']['participant'] = participant_list
+            obj['resource']['managingOrganization'] = orgs_list
+            payload_string = json.dumps(obj)
+
+    if 'users' in ftype:
+        if len(elements2) > 0:
+            elements = elements2
+        for user in elements:
+            y = {"member": {}}
+            x = user.split(':')
+            y['member']['reference'] = "Practitioner/" + str(x[0])
+            y['member']['display'] = str(x[1])
+            participant_list.append(y)
+
+        if len(c_participants) > 0:
+            participant_list = c_participants + participant_list
+
+        if len(participant_list) > 0:
+            obj = json.loads(payload_string)
+            obj['resource']['participant'] = participant_list
+            payload_string = json.dumps(obj)
 
     return payload_string
 
@@ -256,7 +285,7 @@ def extract_matches(resource_list):
             teamMap[resource[1]].append(resource[3] + ':' + resource[2])
     return teamMap
 
-def fetch_and_build(extracted_matches):
+def fetch_and_build(extracted_matches, ftype):
     fp = """{"resourceType": "Bundle","type": "transaction","entry": [ """
 
     for key in extracted_matches:
@@ -273,8 +302,10 @@ def fetch_and_build(extracted_matches):
         full_payload['request']['ifMatch'] = current_version
         full_payload['resource'] = obj
         del obj['meta']
+        curr_participants = full_payload['resource']['participant']
+        curr_orgs = full_payload['resource']['managingOrganization']
         payload_string = json.dumps(full_payload, indent=4)
-        payload_string = care_team_extras(extracted_matches[key], payload_string, 'full')
+        payload_string = care_team_extras(extracted_matches[key], payload_string, 'full', curr_participants, curr_orgs, ftype)
         fp = fp + payload_string + ","
 
     fp = fp[:-1] + " ] } "
@@ -323,7 +354,7 @@ def build_payload(resource_type, resources, resource_payload_file):
         elif resource_type == "locations":
             ps = location_extras(resource, ps)
         elif resource_type == "careTeams":
-            ps = care_team_extras(resource, ps, 'min')
+            ps = care_team_extras(resource, ps, 'min', [], [], 'orgs & users')
 
         final_string = final_string + ps + ","
 
@@ -375,13 +406,18 @@ def main(csv_file, resource_type, assign, log_level):
             json_payload = build_payload(
                 "careTeams", resource_list, "json_payloads/careteams_payload.json"
             )
-            print(json_payload)
             post_request("POST", json_payload, config.fhir_base_url)
             logging.info("Processing complete!")
         elif assign == "careTeam-Organization":
             logging.info("Assigning CareTeam to Organization")
             matches = extract_matches(resource_list)
-            json_payload = fetch_and_build(matches)
+            json_payload = fetch_and_build(matches, 'orgs')
+            post_request("POST", json_payload, config.fhir_base_url)
+            logging.info("Processing complete!")
+        elif assign == "user-careTeam":
+            logging.info("Assing users to careTeam")
+            matches = extract_matches(resource_list)
+            json_payload = fetch_and_build(matches, 'users')
             post_request("POST", json_payload, config.fhir_base_url)
             logging.info("Processing complete!")
         else:
