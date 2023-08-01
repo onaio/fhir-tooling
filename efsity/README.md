@@ -5,11 +5,11 @@ A command line utility to support FHIRCore content authoring. This tool supports
 
 Download the latest release from https://github.com/opensrp/fhircore-tooling/releases
 
-To run it as a java jar by using the command `java -jar efsity-2.1.0.jar -h` . This is the help command and will list the available options.
+To run it as a java jar by using the command `java -jar efsity-2.1.1.jar -h` . This is the help command and will list the available options.
 
 If you are using a linux environment e.g. bash you can choose to create an _alias_ for this as shown below. _(Remember to reload the terminal)_
 
-`alias fct='java -jar ~/Downloads/efsity-2.1.0.jar'`
+`alias fct='java -jar ~/Downloads/efsity-2.1.1.jar'`
 
 To run the previous help command you can then run `fct -h` in your terminal.
 

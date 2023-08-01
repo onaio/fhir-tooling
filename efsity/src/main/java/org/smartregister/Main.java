@@ -11,7 +11,7 @@ import picocli.CommandLine.Command;
 @Command(
     name = "fct",
     description = "FHIRCore tooling to make content authoring easier.",
-    version = "2.1.0",
+    version = "2.1.1",
     mixinStandardHelpOptions = true,
     subcommands = {
       ConvertCommand.class,
@@ -19,7 +19,7 @@ import picocli.CommandLine.Command;
       ValidateCommand.class
     })
 public class Main implements Runnable {
-  public static final String VERSION = "2.1.0";
+  public static final String VERSION = "2.1.1";
 
   @CommandLine.Option(
       names = {"-v"},
