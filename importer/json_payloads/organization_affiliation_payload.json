@@ -1,0 +1,16 @@
+{
+    "resourceType": "OrganizationAffiliation",
+    "id": "$unique_uuid",
+    "identifier": [
+      {
+        "use": "official",
+        "value": "$identifier_uuid"
+      }
+    ],
+    "active": true,
+    "organization": {
+      "reference": "Organization/$orgID",
+      "display": "$orgName"
+    },
+    "location": []
+}

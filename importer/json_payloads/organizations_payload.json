@@ -1,0 +1,32 @@
+{
+    "request": {
+        "method": "PUT",
+        "url": "Organization/$unique_uuid",
+        "ifMatch" : "$version"
+    },
+    "resource": {
+        "resourceType": "Organization",
+        "status": "$status",
+        "name": "$name",
+        "id": "$unique_uuid",
+        "identifier": [
+            {
+            "value": "$identifier_uuid",
+            "use": "official"
+            }
+        ],
+        "alias": [
+            "$alias"
+        ],
+        "type": [
+            {
+            "coding": [
+                {
+                "code": "team",
+                "system": "http://terminology.hl7.org/CodeSystem/organization-type"
+                }
+            ]
+            }
+        ]
+    }
+}
