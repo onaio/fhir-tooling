@@ -311,6 +311,45 @@ def fetch_and_build(extracted_matches, ftype):
     fp = fp[:-1] + " ] } "
     return fp
 
+def get_org_name(key, resource_list):
+    for x in resource_list:
+        if x[1] == key:
+            org_name = x[0]
+    
+    return org_name
+
+def build_org_affiliation(resources, resource_list):
+    fp = """{"resourceType": "Bundle","type": "transaction","entry": [ """
+    
+    with open('json_payloads/organization_affiliation_payload.json') as json_file:
+        payload_string = json_file.read()
+
+    for key in resources:
+        rp = ''
+        unique_uuid = str(uuid.uuid4())
+        org_name = get_org_name(key, resource_list)
+        
+        rp = payload_string.replace("$unique_uuid", unique_uuid).replace(
+            "$identifier_uuid", unique_uuid).replace("$orgID", key).replace(
+                "$orgName", org_name)
+
+        locations = []
+        for x in resources[key]:
+            y = {}
+            z = x.split(':')
+            y['reference'] = "Location/" + str(z[0])
+            y['display'] = str(z[1])
+            locations.append(y)
+
+        obj = json.loads(rp)
+        obj['location'] = locations
+        rp = json.dumps(obj)
+
+        fp = fp + rp + ","
+
+    fp = fp[:-1] + " ] } "
+    return fp
+
 # This function builds a json payload
 # which is posted to the api to create resources
 def build_payload(resource_type, resources, resource_payload_file):
@@ -406,6 +445,12 @@ def main(csv_file, resource_type, assign, log_level):
             json_payload = build_payload(
                 "careTeams", resource_list, "json_payloads/careteams_payload.json"
             )
+            post_request("POST", json_payload, config.fhir_base_url)
+            logging.info("Processing complete!")
+        elif assign == "organization-Location":
+            logging.info("Assigning Organizations to Locations")
+            matches = extract_matches(resource_list)
+            json_payload = build_org_affiliation(matches, resource_list)
             post_request("POST", json_payload, config.fhir_base_url)
             logging.info("Processing complete!")
         elif assign == "careTeam-Organization":
