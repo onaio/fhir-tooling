@@ -1,13 +1,69 @@
-## Resource Importer
+# FHIR Resource CSV Importer
 
 This script takes in a csv file with a list of resources, builds the payloads 
 and then posts them to the API for creation
 
-To run script
+### To run script
 1. Create virtualenv
 2. Install requirements.txt - `pip install -r requirements.txt`
 3. Create a `config.py` file. The `sample_config.py` is an example  of what this should look like. Populate it with the right credentials
 4. Run script - `python3 main.py --csv_file csv/locations.csv --resource_type locations`
-5. You can turn on logging by passing a `--log_level` to the command like as `info`, `debug` or `error`. For example `python3 main.py --csv_file csv/locations.csv --resource_type locations --log_level info`
+5. You can turn on logging by passing a `--log_level` to the command line as `info`, `debug` or `error`. For example `python3 main.py --csv_file csv/locations.csv --resource_type locations --log_level info`
 
 See example csvs in the csv folder
+
+## How to use it
+
+### 1. Create locations in bulk
+- Run `python3 main.py --csv_file csv/locations/locations_min.csv --resource_type locations --log_level info`
+- See example csv [here](/importer/csv/locations/locations_min.csv)
+- The first two columns __name__ and __status__ is the minimum required
+- [locations_full](/importer/csv/locations/locations_full.csv) shows more options available
+- The third column is the request method, can be either create or update. Default is set to create
+- The fourth column is the version. Default is set to 1 for creation, needs to be set when updating
+- The fifth column is the id, which is required when upating
+
+### 2. Create users in bulk
+- Run `python3 main.py --csv_file csv/users.csv --resource_type users --log_level info`
+- See example csv [here](/importer/csv/users.csv)
+
+### 3. Create organizations in bulk
+- Run `python3 main.py --csv_file csv/organizations/organizations_min.csv --resource_type organizations --log_level info`
+- See example csv [here](/importer/csv/organizations/organizations_min.csv)
+- The first  column __name__ is the only one reqired
+- [organizations_full](/importer/csv/organizations/organizations_full.csv) shows more options available
+- The third column is the request method, can be either create or update. Default is set to create
+- The fourth column is the version. Default is set to 1 for creation, needs to be set when updating
+- The fifth column is the id, which is required when updating
+- The sixth columns in the identifier, in some cases this is different from the id
+
+### 4. Create care teams in bulk
+- Run `python3 main.py --csv_file csv/careteams/careteam_min.csv --resource_type careTeams --log_level info`
+- See example csv [here](/importer/csv/careteams/careteam_min.csv)
+- The first  column __name__ is the only one reqired
+- If the status is not set it will default to __active__
+- [careteam_full](/importer/csv/careteams/careteam_full.csv) shows more options available
+
+
+### 5. Assign locations to parent locations
+- Run `python3 main.py --csv_file csv/locations/locations_full.csv --resource_type locations --log_level info`
+- See example csv [here](/importer/csv/locations/locations_full.csv)
+- Adding the last two columns __parentID__ and __parentName__ will ensure the locations are assigned the right parent both during creation or updating
+
+
+
+### 6. Assign organizations to locations
+- Run `python3 main.py --csv_file csv/organizations/organization_locations.csv --assign organization-Location --log_level info`
+- See example csv [here](/importer/csv/organizations/organization_locations.csv)
+
+### 7. Assign care teams to organizations
+- Run `python3 main.py --csv_file csv/careteams/careteam_organizations.csv --assign careTeam-Organization --log_level info`
+- See example [here](/importer/csv/careteams/careteam_organizations.csv)
+- The first two columns are __name__ and __id__ of the careTeam, while the last two columns are the __organization(name)__ and __organizationID__
+- You can also assign a couple of careTeams during creation, by passing in the orgs and their ids as an array as shown in [careteam_full](/importer/csv/careteams/careteam_full.csv), in the sixth column
+
+### 8. Assign users to care teams
+- Run `python3 main.py --csv_file csv/careteams/users_careteams.csv --assign user-careTeam --log_level info`
+- See example [here](/importer/csv/careteams/users_careteam.csv)
+- The first two columns are __name__ and __id__ of the careTeam, while the last two columns are the __user(name)__ and __userID__ of the user getting assigned
+- You can also assign a couple of users during creation, by passing in the users and their ids as an array as shown in [careteam_full](/importer/csv/careteams/careteam_full.csv) in the seventh column
