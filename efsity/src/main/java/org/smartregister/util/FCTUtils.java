@@ -1,6 +1,7 @@
 /* (C)2023 */
 package org.smartregister.util;
 
+import ca.uhn.fhir.context.FhirContext;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
@@ -92,18 +93,12 @@ public class FCTUtils {
     return new FCTFile(path.getFileName().toString(), content.toString(), firstLine);
   }
 
-  public static void writeFile(String outputPath, String structureMapString) throws IOException {
-    try (BufferedWriter writer =
-        new BufferedWriter(new FileWriter(outputPath, StandardCharsets.UTF_8, false))) {
-      writer.write(structureMapString);
-    }
-  }
-
   public static void writeJsonFile(String outputPath, String structureMapString)
       throws IOException {
-    JsonElement je = JsonParser.parseString(structureMapString);
-    String prettyJsonString = gson.toJson(je);
-    writeFile(outputPath, prettyJsonString);
+    try (BufferedWriter writer =
+                 new BufferedWriter(new FileWriter(outputPath, StandardCharsets.UTF_8, false))) {
+      FhirContext.forR4B().newJsonParser().setPrettyPrint(true).encodeResourceToWriter(FhirContext.forR4B().newJsonParser().parseResource(structureMapString),writer);
+    }
   }
 
   public static Properties readPropertiesFile(String filePath) {

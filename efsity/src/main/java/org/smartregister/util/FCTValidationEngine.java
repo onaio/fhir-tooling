@@ -378,7 +378,7 @@ public class FCTValidationEngine {
           // Configurations
           configurationFilesCount++;
           currentFile = nestedEntry.getValue();
-          FCTFile configFile = FCTUtils.readFile(nestedEntry.getValue());
+          FCTFile configFile = FCTUtils.readFile(currentFile);
           JSONObject fileJSONObject = new JSONObject(configFile.getContent());
           if (fileJSONObject.has("configType") && fileJSONObject.has(Constants.ID))
             fileConfigTypeIdentifierToFilenameMap.put(
