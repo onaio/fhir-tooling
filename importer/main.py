@@ -66,23 +66,23 @@ def post_request(request_type, payload, url):
         if request_type == "POST":
             r = requests.post(url, data=payload, headers=headers)
             if r.status_code == 200 or r.status_code == 201:
-                logging.info('[' + str(r.status_code) + ']' + ": SUCCESS!")
+                logging.info("[" + str(r.status_code) + "]" + ": SUCCESS!")
             else:
-                logging.error('[' + str(r.status_code) + ']' + r.text )
+                logging.error("[" + str(r.status_code) + "]" + r.text)
             return r
         elif request_type == "PUT":
             r = requests.put(url, data=payload, headers=headers)
             if r.status_code == 200 or r.status_code == 201:
-                logging.info('[' + str(r.status_code) + ']' + ": SUCCESS!")
+                logging.info("[" + str(r.status_code) + "]" + ": SUCCESS!")
             else:
-                logging.error('[' + str(r.status_code) + ']' + r.text)
+                logging.error("[" + str(r.status_code) + "]" + r.text)
             return r
         elif request_type == "GET":
             r = requests.get(url, headers=headers)
             if r.status_code == 200 or r.status_code == 201:
-                logging.info('[' + str(r.status_code) + ']' + ": SUCCESS!")
+                logging.info("[" + str(r.status_code) + "]" + ": SUCCESS!")
             else:
-                logging.error('[' + str(r.status_code) + ']' + r.text)
+                logging.error("[" + str(r.status_code) + "]" + r.text)
             return r.text
         else:
             logging.error("Unsupported request type!")
@@ -166,6 +166,7 @@ def create_user_resources(user_id, user):
     payload = initial_string + ff + "}"
     post_request("POST", payload, config.fhir_base_url)
 
+
 # custom extras for organizations
 def organization_extras(resource, payload_string):
     try:
@@ -173,75 +174,98 @@ def organization_extras(resource, payload_string):
             payload_string = payload_string.replace("$alias", resource[6])
     except IndexError:
         obj = json.loads(payload_string)
-        del obj['resource']['alias']
+        del obj["resource"]["alias"]
         payload_string = json.dumps(obj, indent=4)
     return payload_string
+
 
 # custom extras for locations
 def location_extras(resource, payload_string):
     try:
         if resource[5]:
-            payload_string = payload_string.replace("$parentName", resource[5]).replace("$parentID", resource[6])
+            payload_string = payload_string.replace("$parentName", resource[5]).replace(
+                "$parentID", resource[6]
+            )
         else:
             obj = json.loads(payload_string)
-            del obj['resource']['partOf']
+            del obj["resource"]["partOf"]
             payload_string = json.dumps(obj, indent=4)
     except IndexError:
         obj = json.loads(payload_string)
-        del obj['resource']['partOf']
+        del obj["resource"]["partOf"]
         payload_string = json.dumps(obj, indent=4)
 
     try:
         if resource[7] == "building":
-            payload_string = payload_string.replace("$pt_code", "bu").replace("$pt_display", "Building")
+            payload_string = payload_string.replace("$pt_code", "bu").replace(
+                "$pt_display", "Building"
+            )
         elif resource[7] == "jurisdiction":
-            payload_string = payload_string.replace("$pt_code", "jdn").replace("$pt_display", "Jurisdiction")
+            payload_string = payload_string.replace("$pt_code", "jdn").replace(
+                "$pt_display", "Jurisdiction"
+            )
         else:
             logging.error("Unsupported location type provided for " + resource[0])
             obj = json.loads(payload_string)
-            del obj['resource']['physicalType']
+            del obj["resource"]["physicalType"]
             payload_string = json.dumps(obj, indent=4)
     except IndexError:
         obj = json.loads(payload_string)
-        del obj['resource']['physicalType']
+        del obj["resource"]["physicalType"]
         payload_string = json.dumps(obj, indent=4)
 
     return payload_string
 
+
 # custom extras for careTeams
-def care_team_extras(resource, payload_string, load_type, c_participants, c_orgs, ftype ):
+def care_team_extras(
+    resource, payload_string, load_type, c_participants, c_orgs, ftype
+):
     orgs_list = []
     participant_list = []
     elements = []
     elements2 = []
 
-    if load_type == 'min':
+    if load_type == "min":
         try:
             if resource[5]:
-                elements = resource[5].split('|')
+                elements = resource[5].split("|")
         except IndexError:
             pass
         try:
             if resource[6]:
-                elements2 = resource[6].split('|')
+                elements2 = resource[6].split("|")
         except IndexError:
             pass
-    elif load_type == 'full':
+    elif load_type == "full":
         elements = resource
     else:
-        logging.error('Unsupported load type')
+        logging.error("Unsupported load type")
 
-    if 'orgs' in ftype:
+    if "orgs" in ftype:
         for org in elements:
             y = {}
-            x = org.split(':')
-            y['reference'] = "Organization/" + str(x[0])
-            y['display'] = str(x[1])
+            x = org.split(":")
+            y["reference"] = "Organization/" + str(x[0])
+            y["display"] = str(x[1])
             orgs_list.append(y)
 
-            z = {"role": [{"coding": [{"system": "http://snomed.info/sct","code": "394730007","display": "Healthcare related organization"}]}],"member": {}}
-            z['member']['reference'] = "Organization/" + str(x[0])
-            z['member']['display'] = str(x[1])
+            z = {
+                "role": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http://snomed.info/sct",
+                                "code": "394730007",
+                                "display": "Healthcare related organization",
+                            }
+                        ]
+                    }
+                ],
+                "member": {},
+            }
+            z["member"]["reference"] = "Organization/" + str(x[0])
+            z["member"]["display"] = str(x[1])
             participant_list.append(z)
 
         if len(c_participants) > 0:
@@ -251,18 +275,18 @@ def care_team_extras(resource, payload_string, load_type, c_participants, c_orgs
 
         if len(participant_list) > 0:
             obj = json.loads(payload_string)
-            obj['resource']['participant'] = participant_list
-            obj['resource']['managingOrganization'] = orgs_list
+            obj["resource"]["participant"] = participant_list
+            obj["resource"]["managingOrganization"] = orgs_list
             payload_string = json.dumps(obj)
 
-    if 'users' in ftype:
+    if "users" in ftype:
         if len(elements2) > 0:
             elements = elements2
         for user in elements:
             y = {"member": {}}
-            x = user.split(':')
-            y['member']['reference'] = "Practitioner/" + str(x[0])
-            y['member']['display'] = str(x[1])
+            x = user.split(":")
+            y["member"]["reference"] = "Practitioner/" + str(x[0])
+            y["member"]["display"] = str(x[1])
             participant_list.append(y)
 
         if len(c_participants) > 0:
@@ -270,7 +294,7 @@ def care_team_extras(resource, payload_string, load_type, c_participants, c_orgs
 
         if len(participant_list) > 0:
             obj = json.loads(payload_string)
-            obj['resource']['participant'] = participant_list
+            obj["resource"]["participant"] = participant_list
             payload_string = json.dumps(obj)
 
     return payload_string
@@ -280,75 +304,96 @@ def extract_matches(resource_list):
     teamMap = {}
     for resource in resource_list:
         if resource[1] not in teamMap.keys():
-            teamMap[resource[1]] = [resource[3] + ':' + resource[2]]
+            teamMap[resource[1]] = [resource[3] + ":" + resource[2]]
         else:
-            teamMap[resource[1]].append(resource[3] + ':' + resource[2])
+            teamMap[resource[1]].append(resource[3] + ":" + resource[2])
     return teamMap
+
 
 def fetch_and_build(extracted_matches, ftype):
     fp = """{"resourceType": "Bundle","type": "transaction","entry": [ """
 
     for key in extracted_matches:
         # hit api to get current payload
-        endpoint = config.fhir_base_url + '/CareTeam/' + key
-        fetch_payload = post_request("GET", '', endpoint)
+        endpoint = config.fhir_base_url + "/CareTeam/" + key
+        fetch_payload = post_request("GET", "", endpoint)
 
         obj = json.loads(fetch_payload)
-        current_version = obj['meta']['versionId']
+        current_version = obj["meta"]["versionId"]
 
         # build participants and managing orgs
-        full_payload = {"request": {"method": "PUT","url": "CareTeam/$unique_uuid","ifMatch" : "$version"}, "resource": {}}
-        full_payload['request']['url'] = "CareTeam/" + str(key)
-        full_payload['request']['ifMatch'] = current_version
-        full_payload['resource'] = obj
-        del obj['meta']
-        curr_participants = full_payload['resource']['participant']
-        curr_orgs = full_payload['resource']['managingOrganization']
+        full_payload = {
+            "request": {
+                "method": "PUT",
+                "url": "CareTeam/$unique_uuid",
+                "ifMatch": "$version",
+            },
+            "resource": {},
+        }
+        full_payload["request"]["url"] = "CareTeam/" + str(key)
+        full_payload["request"]["ifMatch"] = current_version
+        full_payload["resource"] = obj
+        del obj["meta"]
+        curr_participants = full_payload["resource"]["participant"]
+        curr_orgs = full_payload["resource"]["managingOrganization"]
         payload_string = json.dumps(full_payload, indent=4)
-        payload_string = care_team_extras(extracted_matches[key], payload_string, 'full', curr_participants, curr_orgs, ftype)
+        payload_string = care_team_extras(
+            extracted_matches[key],
+            payload_string,
+            "full",
+            curr_participants,
+            curr_orgs,
+            ftype,
+        )
         fp = fp + payload_string + ","
 
     fp = fp[:-1] + " ] } "
     return fp
 
+
 def get_org_name(key, resource_list):
     for x in resource_list:
         if x[1] == key:
             org_name = x[0]
-    
+
     return org_name
+
 
 def build_org_affiliation(resources, resource_list):
     fp = """{"resourceType": "Bundle","type": "transaction","entry": [ """
-    
-    with open('json_payloads/organization_affiliation_payload.json') as json_file:
+
+    with open("json_payloads/organization_affiliation_payload.json") as json_file:
         payload_string = json_file.read()
 
     for key in resources:
-        rp = ''
+        rp = ""
         unique_uuid = str(uuid.uuid4())
         org_name = get_org_name(key, resource_list)
-        
-        rp = payload_string.replace("$unique_uuid", unique_uuid).replace(
-            "$identifier_uuid", unique_uuid).replace("$orgID", key).replace(
-                "$orgName", org_name)
+
+        rp = (
+            payload_string.replace("$unique_uuid", unique_uuid)
+            .replace("$identifier_uuid", unique_uuid)
+            .replace("$orgID", key)
+            .replace("$orgName", org_name)
+        )
 
         locations = []
         for x in resources[key]:
             y = {}
-            z = x.split(':')
-            y['reference'] = "Location/" + str(z[0])
-            y['display'] = str(z[1])
+            z = x.split(":")
+            y["reference"] = "Location/" + str(z[0])
+            y["display"] = str(z[1])
             locations.append(y)
 
         obj = json.loads(rp)
-        obj['location'] = locations
+        obj["location"] = locations
         rp = json.dumps(obj)
 
         fp = fp + rp + ","
 
     fp = fp[:-1] + " ] } "
     return fp
+
 
 # This function builds a json payload
 # which is posted to the api to create resources
@@ -361,7 +406,7 @@ def build_payload(resource_type, resources, resource_payload_file):
 
     for resource in resources:
         try:
-            if resource[2] == 'update':
+            if resource[2] == "update":
                 # use the provided id
                 unique_uuid = resource[4]
                 identifier_uuid = resource[5]
@@ -375,8 +420,11 @@ def build_payload(resource_type, resources, resource_payload_file):
             identifier_uuid = unique_uuid
 
         # ps = payload_string
-        ps = payload_string.replace("$name", resource[0]).replace(
-            "$unique_uuid", unique_uuid).replace("$identifier_uuid", identifier_uuid)
+        ps = (
+            payload_string.replace("$name", resource[0])
+            .replace("$unique_uuid", unique_uuid)
+            .replace("$identifier_uuid", identifier_uuid)
+        )
 
         try:
             ps = ps.replace("$status", resource[1])
@@ -393,7 +441,7 @@ def build_payload(resource_type, resources, resource_payload_file):
         elif resource_type == "locations":
             ps = location_extras(resource, ps)
         elif resource_type == "careTeams":
-            ps = care_team_extras(resource, ps, 'min', [], [], 'orgs & users')
+            ps = care_team_extras(resource, ps, "min", [], [], "orgs & users")
 
         final_string = final_string + ps + ","
 
@@ -436,7 +484,9 @@ def main(csv_file, resource_type, assign, log_level):
         elif resource_type == "organizations":
             logging.info("Processing organizations")
             json_payload = build_payload(
-                "organizations", resource_list, "json_payloads/organizations_payload.json"
+                "organizations",
+                resource_list,
+                "json_payloads/organizations_payload.json",
             )
             post_request("POST", json_payload, config.fhir_base_url)
             logging.info("Processing complete!")
@@ -456,13 +506,13 @@ def main(csv_file, resource_type, assign, log_level):
         elif assign == "careTeam-Organization":
             logging.info("Assigning CareTeam to Organization")
             matches = extract_matches(resource_list)
-            json_payload = fetch_and_build(matches, 'orgs')
+            json_payload = fetch_and_build(matches, "orgs")
             post_request("POST", json_payload, config.fhir_base_url)
             logging.info("Processing complete!")
         elif assign == "user-careTeam":
             logging.info("Assing users to careTeam")
             matches = extract_matches(resource_list)
-            json_payload = fetch_and_build(matches, 'users')
+            json_payload = fetch_and_build(matches, "users")
             post_request("POST", json_payload, config.fhir_base_url)
             logging.info("Processing complete!")
         else:
