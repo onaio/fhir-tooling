@@ -14,9 +14,9 @@ import org.hl7.fhir.r4.model.CarePlan;
 import org.hl7.fhir.r4.model.PlanDefinition;
 import org.hl7.fhir.r4.model.QuestionnaireResponse;
 import org.hl7.fhir.r4.model.Resource;
-import org.smartregister.domain.FCTFile;
-import org.smartregister.external.FHIRCarePlanGeneratorLite;
-import org.smartregister.util.FCTUtils;
+import org.smartregister.domain.FctFile;
+import org.smartregister.external.FhirCarePlanGeneratorLite;
+import org.smartregister.util.FctUtils;
 import picocli.CommandLine;
 
 @CommandLine.Command(name = "careplan")
@@ -75,29 +75,29 @@ public class CarePlanGeneratorCommand implements Runnable {
     long start = System.currentTimeMillis();
     IParser iParser = FhirContext.forR4().newJsonParser();
 
-    FCTUtils.printInfo(
+    FctUtils.printInfo(
         String.format(
             "QuestionnaireResponse file path \u001b[35m%s\u001b[0m",
             questionnaireResponseFilePath));
-    FCTUtils.printInfo(
+    FctUtils.printInfo(
         String.format("PlanDefinition file path \u001b[35m%s\u001b[0m", planDefinitionFilePath));
-    FCTUtils.printInfo(String.format("Subject file path \u001b[35m%s\u001b[0m", subjectFilePath));
-    FCTUtils.printInfo(
+    FctUtils.printInfo(String.format("Subject file path \u001b[35m%s\u001b[0m", subjectFilePath));
+    FctUtils.printInfo(
         String.format(
             "Structure Maps folder path \u001b[35m%s\u001b[0m", this.structureMapFolderPath));
 
-    FCTFile questionnaireResponseFile = FCTUtils.readFile(questionnaireResponseFilePath);
-    FCTFile planDefinitionFile = FCTUtils.readFile(planDefinitionFilePath);
-    FCTFile subjectFile = FCTUtils.readFile(subjectFilePath);
+    FctFile questionnaireResponseFile = FctUtils.readFile(questionnaireResponseFilePath);
+    FctFile planDefinitionFile = FctUtils.readFile(planDefinitionFilePath);
+    FctFile subjectFile = FctUtils.readFile(subjectFilePath);
 
-    FHIRCarePlanGeneratorLite fhirCarePlanGeneratorLite =
-        new FHIRCarePlanGeneratorLite(structureMapFolderPath);
+    FhirCarePlanGeneratorLite fhirCarePlanGeneratorLite =
+        new FhirCarePlanGeneratorLite(structureMapFolderPath);
 
     PlanDefinition planDefinition =
-        FCTUtils.getFhirResource(PlanDefinition.class, planDefinitionFile.getContent());
+        FctUtils.getFhirResource(PlanDefinition.class, planDefinitionFile.getContent());
     IBaseResource subject = iParser.parseResource(subjectFile.getContent());
     QuestionnaireResponse questionnaireResponse =
-        FCTUtils.getFhirResource(
+        FctUtils.getFhirResource(
             QuestionnaireResponse.class, questionnaireResponseFile.getContent());
 
     Bundle questionnaireResponseDataBundle = new Bundle();
@@ -127,12 +127,12 @@ public class CarePlanGeneratorCommand implements Runnable {
             : this.outputFilePath;
 
     String outputResourcesAsString = iParser.encodeResourceToString(responseResourceBundle);
-    FCTUtils.writeJsonFile(outputFilePath, outputResourcesAsString);
+    FctUtils.writeJsonFile(outputFilePath, outputResourcesAsString);
 
-    FCTUtils.printInfo(
+    FctUtils.printInfo(
         String.format(
             "Careplan and Tasks generated to path\u001b[36m %s \u001b[0m", outputFilePath));
-    FCTUtils.printCompletedInDuration(start);
+    FctUtils.printCompletedInDuration(start);
   }
 
   public class Constants {

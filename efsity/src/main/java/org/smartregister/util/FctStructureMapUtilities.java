@@ -11,15 +11,15 @@ import org.hl7.fhir.r4.model.StructureMap;
 import org.hl7.fhir.r4.utils.StructureMapUtilities;
 import org.hl7.fhir.utilities.npm.FilesystemPackageCacheManager;
 import org.hl7.fhir.utilities.npm.ToolsVersion;
-import org.smartregister.domain.FCTFile;
+import org.smartregister.domain.FctFile;
 import org.smartregister.external.TransformSupportServices;
 
 /** Wrapper around the org.hl7.fhir.r4.utils.StructureMapUtilities class */
-public class FCTStructureMapUtilities {
+public class FctStructureMapUtilities {
   private IWorkerContext context;
   private StructureMapUtilities structureMapUtilities;
 
-  public FCTStructureMapUtilities() throws IOException {
+  public FctStructureMapUtilities() throws IOException {
 
     FilesystemPackageCacheManager pcm =
         new FilesystemPackageCacheManager(true, ToolsVersion.TOOLS_VERSION);
@@ -29,7 +29,7 @@ public class FCTStructureMapUtilities {
     SimpleWorkerContext simpleWorkerContext =
         SimpleWorkerContext.fromPackage(
             pcm.loadPackage(
-                FCTUtils.Constants.HL7_FHIR_PACKAGE, FCTUtils.Constants.HL7_FHIR_PACKAGE_VERSION));
+                FctUtils.Constants.HL7_FHIR_PACKAGE, FctUtils.Constants.HL7_FHIR_PACKAGE_VERSION));
     simpleWorkerContext.setExpansionProfile(new Parameters());
     simpleWorkerContext.setCanRunWithoutTerminology(true);
 
@@ -55,9 +55,9 @@ public class FCTStructureMapUtilities {
   }
 
   public StructureMap getStructureMap(String structureMapFilePath) throws IOException {
-    FCTFile structureMapFile = FCTUtils.readFile(structureMapFilePath);
+    FctFile structureMapFile = FctUtils.readFile(structureMapFilePath);
     return structureMapUtilities.parse(
         structureMapFile.getContent(),
-        FCTUtils.getStructureMapName(structureMapFile.getFirstLine()));
+        FctUtils.getStructureMapName(structureMapFile.getFirstLine()));
   }
 }

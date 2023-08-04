@@ -24,10 +24,10 @@ import java.util.Properties;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.instance.model.api.IBaseResource;
-import org.smartregister.domain.FCTFile;
-import org.smartregister.processor.FCTValidationProcessor;
+import org.smartregister.domain.FctFile;
+import org.smartregister.processor.FctValidationProcessor;
 
-public class FCTUtils {
+public class FctUtils {
 
   public static void printToConsole(String message) {
     System.out.println("EFSITY: " + message);
@@ -72,7 +72,7 @@ public class FCTUtils {
         firstLine.lastIndexOf("= " + quoteType) + 3, firstLine.lastIndexOf(quoteType));
   }
 
-  public static FCTFile readFile(String filePath) throws IOException {
+  public static FctFile readFile(String filePath) throws IOException {
     Path path = Paths.get(filePath);
 
     StringBuilder content = new StringBuilder();
@@ -93,7 +93,7 @@ public class FCTUtils {
       }
     }
 
-    return new FCTFile(path.getFileName().toString(), content.toString(), firstLine);
+    return new FctFile(path.getFileName().toString(), content.toString(), firstLine);
   }
 
   public static void writeJsonFile(String outputPath, String fhirResourceAsString)
@@ -122,10 +122,10 @@ public class FCTUtils {
   }
 
   public static void printCompletedInDuration(long startTime) {
-    FCTUtils.printToConsole(
+    FctUtils.printToConsole(
         String.format(
             "\u001b[32mCompleted in %s \u001b[0m \n",
-            FCTUtils.getHumanDuration(System.currentTimeMillis() - startTime)));
+            FctUtils.getHumanDuration(System.currentTimeMillis() - startTime)));
   }
 
   public static Map<String, Map<String, String>> indexConfigurationFiles(
@@ -144,7 +144,7 @@ public class FCTUtils {
 
               String parentDirKey =
                   file.getParent().equals(rootDir)
-                      ? FCTValidationProcessor.Constants.ROOT
+                      ? FctValidationProcessor.Constants.ROOT
                       : file.getParent().getFileName().toString();
               Map<String, String> fileList = filesMap.getOrDefault(parentDirKey, new HashMap<>());
               fileList.put(file.getFileName().toString(), file.toAbsolutePath().toString());

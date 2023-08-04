@@ -5,7 +5,7 @@ import org.smartregister.command.CarePlanGeneratorCommand;
 import org.smartregister.command.ConvertCommand;
 import org.smartregister.command.StructureMapExtractResourcesCommand;
 import org.smartregister.command.ValidateCommand;
-import org.smartregister.util.FCTUtils;
+import org.smartregister.util.FctUtils;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 
@@ -29,9 +29,9 @@ public class Main implements Runnable {
   private boolean getVersion;
 
   public static void main(String[] args) {
-    FCTUtils.printToConsole(
+    FctUtils.printToConsole(
         String.format("Running\u001b[36m EFSITY Version %s \u001b[0m", VERSION));
-    FCTUtils.printNewLine();
+    FctUtils.printNewLine();
 
     int exitCode = new CommandLine(new Main()).execute(args);
     System.exit(exitCode);

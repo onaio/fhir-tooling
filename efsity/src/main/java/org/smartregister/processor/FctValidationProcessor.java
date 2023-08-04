@@ -16,10 +16,10 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.smartregister.domain.FCTFile;
-import org.smartregister.util.FCTUtils;
+import org.smartregister.domain.FctFile;
+import org.smartregister.util.FctUtils;
 
-public class FCTValidationProcessor {
+public class FctValidationProcessor {
   private Map<String, Set<String>> compositionReferencedResources = new HashMap<>();
   private Map<String, Properties> translationsMap = new HashMap<>();
   private Map<String, Map<String, Set<String>>> errorsMap = new HashMap<>();
@@ -285,15 +285,15 @@ public class FCTValidationProcessor {
       String questionnairesFolderPath,
       String directoryPath)
       throws IOException {
-    FCTUtils.printToConsole("Processing starting... \uD83D\uDE80");
+    FctUtils.printToConsole("Processing starting... \uD83D\uDE80");
 
     long startTime = System.currentTimeMillis();
     Map<String, Map<String, String>> configDirIndexMap =
-        FCTUtils.indexConfigurationFiles(directoryPath, "*");
+        FctUtils.indexConfigurationFiles(directoryPath, "*");
 
     if (questionnairesFolderPath != null) {
 
-      FCTUtils.printInfo("\u001b[36mRunning preprocessor...\u001b[0m");
+      FctUtils.printInfo("\u001b[36mRunning preprocessor...\u001b[0m");
 
       Map<String, Map<String, Set<String>>> questionnaireProcessorResults =
           new QuestionnaireProcessor(questionnairesFolderPath).process();
@@ -303,8 +303,8 @@ public class FCTValidationProcessor {
           questionnaireProcessorResults.getOrDefault(Constants.structuremap, new HashMap<>());
       structureMapToLinkIds = new StructureMapProcessor(structureMapsFolderPath).process();
 
-      FCTUtils.printNewLine();
-      FCTUtils.printInfo("\u001b[36mPreparsing validation\u001b[0m");
+      FctUtils.printNewLine();
+      FctUtils.printInfo("\u001b[36mPreparsing validation\u001b[0m");
 
       // Validate all Structure Map Link ids should be in questionnaire
       for (var entry : structureMapToLinkIds.entrySet()) {
@@ -321,7 +321,7 @@ public class FCTValidationProcessor {
 
             if (!questionnairesToLinkIds.get(questionnaireID).contains(structureMapLinkId)) {
 
-              FCTUtils.printError(
+              FctUtils.printError(
                   String.format(
                       "No Structure Map link id \u001b[36m%s\u001b[0m found in Questionnaire with id \u001b[36m%s\u001b[0m",
                       structureMapLinkId, structureMapId));
@@ -329,7 +329,7 @@ public class FCTValidationProcessor {
           }
 
         } else {
-          FCTUtils.printError(
+          FctUtils.printError(
               String.format(
                   "No Questionnaire resource was found for the Structure Map with id \u001b[36m%s\u001b[0m",
                   structureMapId));
@@ -346,7 +346,7 @@ public class FCTValidationProcessor {
 
         if (!structureMapId.isBlank() && !structureMapToLinkIds.containsKey(structureMapId)) {
 
-          FCTUtils.printError(
+          FctUtils.printError(
               String.format(
                   "No Structure Map with id \u001b[36m%s\u001b[0m was found. Defining Questionnaire has id \u001b[36m%s\u001b[0m",
                   structureMapId, questionnaireId));
@@ -354,11 +354,11 @@ public class FCTValidationProcessor {
       }
     }
 
-    FCTUtils.printInfo("\u001b[36mPreparsing validation complete\u001b[0m");
+    FctUtils.printInfo("\u001b[36mPreparsing validation complete\u001b[0m");
 
     // Load Composition
     currentFile = compositionPath;
-    FCTFile compositionFile = FCTUtils.readFile(compositionPath);
+    FctFile compositionFile = FctUtils.readFile(compositionPath);
     handleJSONObject(new JSONObject(compositionFile.getContent()), true);
 
     // Process other configurations
@@ -371,7 +371,7 @@ public class FCTValidationProcessor {
         if (nestedEntry.getKey().endsWith(".properties")) {
 
           // Translations
-          Properties properties = FCTUtils.readPropertiesFile(nestedEntry.getValue());
+          Properties properties = FctUtils.readPropertiesFile(nestedEntry.getValue());
           translationsMap.put(nestedEntry.getKey(), properties);
 
         } else if (nestedEntry.getKey().endsWith(".json")) {
@@ -379,7 +379,7 @@ public class FCTValidationProcessor {
           // Configurations
           configurationFilesCount++;
           currentFile = nestedEntry.getValue();
-          FCTFile configFile = FCTUtils.readFile(currentFile);
+          FctFile configFile = FctUtils.readFile(currentFile);
           JSONObject fileJSONObject = new JSONObject(configFile.getContent());
           if (fileJSONObject.has("configType") && fileJSONObject.has(Constants.ID))
             fileConfigTypeIdentifierToFilenameMap.put(
@@ -388,24 +388,24 @@ public class FCTValidationProcessor {
               fileJSONObject, Paths.get(compositionPath).equals(Paths.get(nestedEntry.getValue())));
 
         } else {
-          FCTUtils.printWarning(
+          FctUtils.printWarning(
               String.format("Unrecognized Config File Format for file %s", nestedEntry.getKey()));
         }
       }
     }
-    FCTUtils.printNewLine();
-    FCTUtils.printToConsole(
+    FctUtils.printNewLine();
+    FctUtils.printToConsole(
         String.format(
             "%d translation file" + (translationsMap.size() > 1 ? "s" : "") + " found",
             translationsMap.size()));
-    FCTUtils.printToConsole(
+    FctUtils.printToConsole(
         String.format(
             "%d configuration file" + (configurationFilesCount > 1 ? "s" : "") + " found",
             configurationFilesCount));
     printValidationResults();
 
-    FCTUtils.printNewLine();
-    FCTUtils.printCompletedInDuration(startTime);
+    FctUtils.printNewLine();
+    FctUtils.printCompletedInDuration(startTime);
   }
 
   private String getQuestionnaireIdByStructureMapId(String structureMapId) {
@@ -426,15 +426,15 @@ public class FCTValidationProcessor {
   private void printValidationResults() {
 
     if (!translationsMap.containsKey(Constants.DEFAULT_LANGUAGE_RESOURCE_FILE)) {
-      FCTUtils.printError("i18N :: Default translations file strings_config.json is missing");
+      FctUtils.printError("i18N :: Default translations file strings_config.json is missing");
     }
 
     Map<String, Integer> errorsMapCount = new HashMap<>();
 
     for (var entry : errorsMap.entrySet()) {
 
-      FCTUtils.printNewLine();
-      FCTUtils.printInfo(String.format("\u001b[35m%s\u001b[0m", entry.getKey()));
+      FctUtils.printNewLine();
+      FctUtils.printInfo(String.format("\u001b[35m%s\u001b[0m", entry.getKey()));
 
       for (var innerEntry : entry.getValue().entrySet()) {
 
@@ -449,16 +449,16 @@ public class FCTValidationProcessor {
 
           if (innerEntry.getKey().equals(Constants.Translations) && !errorMessage.contains("{{")) {
 
-            FCTUtils.printWarning(errorMessage);
+            FctUtils.printWarning(errorMessage);
 
           } else if (innerEntry.getKey().equals(Constants.Rules)) {
 
-            FCTUtils.printError(
+            FctUtils.printError(
                 String.format(
                     "\u001b[35;1mRULE\u001b[0m :: \u001b[36m%s\u001b[0m fact is missing",
                     errorMessage));
 
-          } else FCTUtils.printError(errorMessage);
+          } else FctUtils.printError(errorMessage);
         }
       }
     }
@@ -479,11 +479,11 @@ public class FCTValidationProcessor {
           .append(entry.getKey().contains("Translations") ? " warnings - " : " errors - ")
           .append(entry.getValue());
     }
-    FCTUtils.printNewLine();
-    FCTUtils.printToConsole(errorMessageBuilder.toString());
+    FctUtils.printNewLine();
+    FctUtils.printToConsole(errorMessageBuilder.toString());
 
     if (errorsMap.size() == 0) {
-      FCTUtils.printToConsole(
+      FctUtils.printToConsole(
           "\u001b[33mAs far as we can tell\u001b[0m \u001b[35myour configs\u001b[0m are flawless \uD83D\uDC9A ...\n");
     }
   }

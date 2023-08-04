@@ -12,7 +12,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import org.apache.commons.lang3.StringUtils;
-import org.smartregister.util.FCTUtils;
+import org.smartregister.util.FctUtils;
 
 public class StructureMapProcessor {
   private String directoryPath;
@@ -28,7 +28,7 @@ public class StructureMapProcessor {
     try {
 
       Map<String, Map<String, String>> folderTofilesIndexMap =
-          FCTUtils.indexConfigurationFiles(directoryPath, "map", "txt");
+          FctUtils.indexConfigurationFiles(directoryPath, "map", "txt");
 
       // Process other configurations
       for (var entry : folderTofilesIndexMap.entrySet()) {
@@ -56,16 +56,16 @@ public class StructureMapProcessor {
               }
               lineNumber++;
 
-              if (line.contains(FCTValidationProcessor.Constants.linkId)) {
+              if (line.contains(FctValidationProcessor.Constants.linkId)) {
 
                 String[] linkIdRaw =
                     StringUtils.deleteWhitespace(line.toString())
-                        .split(FCTValidationProcessor.Constants.linkId);
+                        .split(FctValidationProcessor.Constants.linkId);
                 for (int j = 0; j < linkIdRaw.length; j++) {
 
                   String subLine =
                       StringUtils.deleteWhitespace(line.toString())
-                          .split(FCTValidationProcessor.Constants.linkId)[j];
+                          .split(FctValidationProcessor.Constants.linkId)[j];
                   if (subLine.startsWith("=")) {
 
                     try {
@@ -77,7 +77,7 @@ public class StructureMapProcessor {
                         linkIds.add(getSubstringBetween(subLine, "=\"", "\""));
 
                       } catch (StringIndexOutOfBoundsException innerException) {
-                        FCTUtils.printWarning(
+                        FctUtils.printWarning(
                             String.format(
                                 "Parsing failed for link id value at \u001b[36m'linkId%s'\u001b[0m line %d, file \u001b[35;1m%s\u001b[0m. Could it be a dynamic link id?",
                                 subLine, lineNumber, currentFile));
@@ -106,7 +106,7 @@ public class StructureMapProcessor {
     try {
 
       Map<String, Map<String, String>> folderTofilesIndexMap =
-          FCTUtils.indexConfigurationFiles(directoryPath, "map", "txt");
+          FctUtils.indexConfigurationFiles(directoryPath, "map", "txt");
 
       // Process other configurations
       for (var entry : folderTofilesIndexMap.entrySet()) {

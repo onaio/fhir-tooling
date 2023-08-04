@@ -17,7 +17,7 @@ import org.smartregister.domain.FCTFile
  * Borrows the implementation from this android fhir sdk class
  * https://github.com/google/android-fhir/blob/master/workflow-testing/src/main/java/com/google/android/fhir/workflow/testing/CqlBuilder.kt
  */
-class CQLToLibraryConvertServices {
+class CqlToLibraryConvertServices {
   /**
    * Compiles a CQL Text into ELM and assembles a FHIR Library that includes a Base64 representation
    * of the JSON representation of the compiled ELM Library

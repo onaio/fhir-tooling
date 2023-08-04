@@ -12,9 +12,9 @@ import org.hl7.fhir.r4.model.Base;
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.QuestionnaireResponse;
 import org.hl7.fhir.r4.model.StructureMap;
-import org.smartregister.domain.FCTFile;
-import org.smartregister.util.FCTStructureMapUtilities;
-import org.smartregister.util.FCTUtils;
+import org.smartregister.domain.FctFile;
+import org.smartregister.util.FctStructureMapUtilities;
+import org.smartregister.util.FctUtils;
 import picocli.CommandLine;
 
 @CommandLine.Command(name = "extract")
@@ -53,12 +53,12 @@ public class StructureMapExtractResourcesCommand implements Runnable {
 
     long start = System.currentTimeMillis();
 
-    FCTUtils.printInfo(String.format("Questionnaire Response file path \u001b[35m%s\u001b[0m", qr));
-    FCTUtils.printInfo(String.format("Structure Map file path \u001b[35m%s\u001b[0m", sm));
+    FctUtils.printInfo(String.format("Questionnaire Response file path \u001b[35m%s\u001b[0m", qr));
+    FctUtils.printInfo(String.format("Structure Map file path \u001b[35m%s\u001b[0m", sm));
 
-    FCTFile questionnaireResponse = FCTUtils.readFile(qrFilePath);
+    FctFile questionnaireResponse = FctUtils.readFile(qrFilePath);
 
-    FCTStructureMapUtilities structureMapUtilities = new FCTStructureMapUtilities();
+    FctStructureMapUtilities structureMapUtilities = new FctStructureMapUtilities();
     StructureMap structureMap = structureMapUtilities.getStructureMap(structureMapFilePath);
 
     IParser iParser = FhirContext.forCached(FhirVersionEnum.R4).newJsonParser();
@@ -80,9 +80,9 @@ public class StructureMapExtractResourcesCommand implements Runnable {
             : output;
 
     String outputResourcesAsString = iParser.encodeResourceToString(targetResource);
-    FCTUtils.writeJsonFile(outputFilePath, outputResourcesAsString);
+    FctUtils.writeJsonFile(outputFilePath, outputResourcesAsString);
 
-    FCTUtils.printInfo(String.format("Extracted to path\u001b[36m %s \u001b[0m", outputFilePath));
-    FCTUtils.printCompletedInDuration(start);
+    FctUtils.printInfo(String.format("Extracted to path\u001b[36m %s \u001b[0m", outputFilePath));
+    FctUtils.printCompletedInDuration(start);
   }
 }

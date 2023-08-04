@@ -12,8 +12,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.smartregister.domain.FCTFile;
-import org.smartregister.util.FCTUtils;
+import org.smartregister.domain.FctFile;
+import org.smartregister.util.FctUtils;
 
 public class QuestionnaireProcessor {
   private String directoryPath;
@@ -36,7 +36,7 @@ public class QuestionnaireProcessor {
     try {
 
       Map<String, Map<String, String>> folderTofilesIndexMap =
-          FCTUtils.indexConfigurationFiles(directoryPath, "json");
+          FctUtils.indexConfigurationFiles(directoryPath, "json");
 
       // Process other configurations
       for (var entry : folderTofilesIndexMap.entrySet()) {
@@ -49,13 +49,13 @@ public class QuestionnaireProcessor {
 
           if (nestedEntry.getKey().startsWith(".")) continue;
 
-          FCTFile file = FCTUtils.readFile(nestedEntry.getValue());
+          FctFile file = FctUtils.readFile(nestedEntry.getValue());
 
           try {
 
             JSONObject questionnaireJSONObject = new JSONObject(file.getContent());
             currentQuestionnaireId =
-                questionnaireJSONObject.getString(FCTValidationProcessor.Constants.ID);
+                questionnaireJSONObject.getString(FctValidationProcessor.Constants.ID);
             currentStructureMapId =
                 questionnaireJSONObject.has(Constants.EXTENSION)
                     ? getStructureMapId(questionnaireJSONObject.getJSONArray(Constants.EXTENSION))
@@ -67,13 +67,13 @@ public class QuestionnaireProcessor {
                     ? Sets.newHashSet(currentStructureMapId)
                     : Sets.newHashSet());
             resultsMap.put(
-                FCTValidationProcessor.Constants.structuremap, questionnairesToStructureMapIds);
+                FctValidationProcessor.Constants.structuremap, questionnairesToStructureMapIds);
 
             handleJSONObject(questionnaireJSONObject, true);
 
           } catch (JSONException jsonException) {
 
-            FCTUtils.printInfo(String.format("\u001b[35;1m%s\u001b[0m", currentFile));
+            FctUtils.printInfo(String.format("\u001b[35;1m%s\u001b[0m", currentFile));
             printJsonExceptionMessages(jsonException.getMessage());
           }
         }
@@ -83,16 +83,16 @@ public class QuestionnaireProcessor {
       ioException.toString();
     }
 
-    resultsMap.put(FCTValidationProcessor.Constants.questionnaire, questionnairesToLinkIds);
+    resultsMap.put(FctValidationProcessor.Constants.questionnaire, questionnairesToLinkIds);
     return resultsMap;
   }
 
   private void printJsonExceptionMessages(String message) {
     if (message.contains("JSONObject[\"id\"] not found")) {
-      FCTUtils.printWarning(
+      FctUtils.printWarning(
           "Questionnaire DOES NOT have an id field. Are we expecting it to be generated on the server?");
     } else {
-      FCTUtils.printError(String.format("%s", message));
+      FctUtils.printError(String.format("%s", message));
     }
   }
 
@@ -114,7 +114,7 @@ public class QuestionnaireProcessor {
               valueReferenceJSONObject.optString(Constants.REFERENCE).trim(), "/");
         } else {
 
-          FCTUtils.printError("Structure Map value format not supported");
+          FctUtils.printError("Structure Map value format not supported");
         }
       }
     }
@@ -133,7 +133,7 @@ public class QuestionnaireProcessor {
 
     } else {
 
-      if (FCTValidationProcessor.Constants.linkId.equals(key)) {
+      if (FctValidationProcessor.Constants.linkId.equals(key)) {
 
         Set<String> results =
             questionnairesToLinkIds.getOrDefault(currentQuestionnaireId, new HashSet<>());

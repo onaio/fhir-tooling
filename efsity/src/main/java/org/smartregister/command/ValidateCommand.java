@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.logging.Logger;
-import org.smartregister.processor.FCTValidationProcessor;
+import org.smartregister.processor.FctValidationProcessor;
 import picocli.CommandLine;
 
 @CommandLine.Command(name = "validate")
@@ -68,7 +68,7 @@ public class ValidateCommand implements Runnable {
 
     try {
 
-      FCTValidationProcessor FCTValidationProcessor = new FCTValidationProcessor();
+      FctValidationProcessor FCTValidationProcessor = new FctValidationProcessor();
       FCTValidationProcessor.process(
           compositionFilePath, structureMapsFolderPath, questionnairesFolderPath, inputFolder);
 

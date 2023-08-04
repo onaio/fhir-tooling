@@ -9,10 +9,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import org.hl7.fhir.instance.model.api.IBaseResource;
-import org.smartregister.domain.FCTFile;
-import org.smartregister.external.CQLToLibraryConvertServices;
-import org.smartregister.util.FCTStructureMapUtilities;
-import org.smartregister.util.FCTUtils;
+import org.smartregister.domain.FctFile;
+import org.smartregister.external.CqlToLibraryConvertServices;
+import org.smartregister.util.FctStructureMapUtilities;
+import org.smartregister.util.FctUtils;
 import picocli.CommandLine;
 
 @CommandLine.Command(name = "convert")
@@ -67,11 +67,11 @@ public class ConvertCommand implements Runnable {
 
     String outputFileSuffix = Constants.SM.equals(conversionType) ? ".json" : ".fhir.json";
 
-    FCTUtils.printInfo(String.format("Starting %s conversion...", entities));
-    FCTUtils.printInfo(String.format("Input file \u001b[35m%s\u001b[0m", inputFilePath));
+    FctUtils.printInfo(String.format("Starting %s conversion...", entities));
+    FctUtils.printInfo(String.format("Input file \u001b[35m%s\u001b[0m", inputFilePath));
 
     IParser iParser = FhirContext.forCached(FhirVersionEnum.R4).newJsonParser();
-    FCTFile inputFile = FCTUtils.readFile(inputFilePath);
+    FctFile inputFile = FctUtils.readFile(inputFilePath);
     IBaseResource resource;
 
     if (Constants.SM.equals(conversionType)) { // Structure Map
@@ -95,22 +95,22 @@ public class ConvertCommand implements Runnable {
             ? outputFilePath + File.separator + inputFile.getName() + outputFileSuffix
             : outputFilePath;
 
-    FCTUtils.writeJsonFile(outputPath, structureMapJsonString);
+    FctUtils.writeJsonFile(outputPath, structureMapJsonString);
 
-    FCTUtils.printInfo(String.format("Output file\u001b[36m %s \u001b[0m", outputPath));
-    FCTUtils.printCompletedInDuration(start);
+    FctUtils.printInfo(String.format("Output file\u001b[36m %s \u001b[0m", outputPath));
+    FctUtils.printCompletedInDuration(start);
   }
 
-  private IBaseResource convertDotCqlToJsonLibrary(FCTFile inputFile) {
+  private IBaseResource convertDotCqlToJsonLibrary(FctFile inputFile) {
     CQLToLibraryConvertServices services = new CQLToLibraryConvertServices();
     return services.compileAndBuildCqlLibrary(inputFile);
   }
 
-  public IBaseResource convertStructureMapToJson(FCTFile inputFile) throws IOException {
+  public IBaseResource convertStructureMapToJson(FctFile inputFile) throws IOException {
 
-    FCTStructureMapUtilities structureMapUtilities = new FCTStructureMapUtilities();
+    FctStructureMapUtilities structureMapUtilities = new FctStructureMapUtilities();
     return structureMapUtilities.parse(
-        inputFile.getContent(), FCTUtils.getStructureMapName(inputFile.getFirstLine()));
+        inputFile.getContent(), FctUtils.getStructureMapName(inputFile.getFirstLine()));
   }
 
   public class Constants {

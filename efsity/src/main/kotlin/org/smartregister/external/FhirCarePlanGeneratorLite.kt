@@ -20,7 +20,7 @@ import org.smartregister.util.FCTUtils
  * extract the raw Tasks. Its application on efsity is to confirm the correct types of resources are
  * generated
  */
-class FHIRCarePlanGeneratorLite {
+class FhirCarePlanGeneratorLite {
 
   private var structureMapProcessor: StructureMapProcessor
   private var structureMapDictionary: Map<String, String>
