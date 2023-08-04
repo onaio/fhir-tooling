@@ -1,6 +1,7 @@
 /* (C)2023 */
 package org.smartregister;
 
+import org.smartregister.command.CarePlanGeneratorCommand;
 import org.smartregister.command.ConvertCommand;
 import org.smartregister.command.StructureMapExtractResourcesCommand;
 import org.smartregister.command.ValidateCommand;
@@ -11,15 +12,16 @@ import picocli.CommandLine.Command;
 @Command(
     name = "fct",
     description = "FHIRCore tooling to make content authoring easier.",
-    version = "2.1.1",
+    version = "2.2.0",
     mixinStandardHelpOptions = true,
     subcommands = {
       ConvertCommand.class,
       StructureMapExtractResourcesCommand.class,
-      ValidateCommand.class
+      ValidateCommand.class,
+      CarePlanGeneratorCommand.class
     })
 public class Main implements Runnable {
-  public static final String VERSION = "2.1.1";
+  public static final String VERSION = "2.2.0";
 
   @CommandLine.Option(
       names = {"-v"},

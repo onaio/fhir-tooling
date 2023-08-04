@@ -2,10 +2,8 @@
 package org.smartregister.util;
 
 import ca.uhn.fhir.context.FhirContext;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
+import ca.uhn.fhir.context.FhirVersionEnum;
+import ca.uhn.fhir.parser.IParser;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileInputStream;
@@ -13,18 +11,22 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.*;
+import java.nio.file.FileVisitResult;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.smartregister.domain.FCTFile;
 
 public class FCTUtils {
-
-  private static Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
   public static void printToConsole(String message) {
     System.out.println("EFSITY: " + message);
@@ -93,11 +95,15 @@ public class FCTUtils {
     return new FCTFile(path.getFileName().toString(), content.toString(), firstLine);
   }
 
-  public static void writeJsonFile(String outputPath, String structureMapString)
+  public static void writeJsonFile(String outputPath, String fhirResourceAsString)
       throws IOException {
     try (BufferedWriter writer =
-                 new BufferedWriter(new FileWriter(outputPath, StandardCharsets.UTF_8, false))) {
-      FhirContext.forR4B().newJsonParser().setPrettyPrint(true).encodeResourceToWriter(FhirContext.forR4B().newJsonParser().parseResource(structureMapString),writer);
+        new BufferedWriter(new FileWriter(outputPath, StandardCharsets.UTF_8, false))) {
+      FhirContext.forR4()
+          .newJsonParser()
+          .setPrettyPrint(true)
+          .encodeResourceToWriter(
+              FhirContext.forR4().newJsonParser().parseResource(fhirResourceAsString), writer);
     }
   }
 
@@ -147,6 +153,21 @@ public class FCTUtils {
           }
         });
     return filesMap;
+  }
+
+  /**
+   * @param resourcePath a string of the format Resource/id e.g. Patient/1234
+   * @return 1234
+   */
+  public static String getResourceId(String resourcePath) {
+    return StringUtils.isNotBlank(resourcePath) && resourcePath.contains("/")
+        ? resourcePath.substring(resourcePath.lastIndexOf('/') + 1)
+        : resourcePath;
+  }
+
+  public static <T extends IBaseResource> T getFhirResource(Class<T> t, String contentAsString) {
+    IParser iParser = FhirContext.forCached(FhirVersionEnum.R4).newJsonParser();
+    return iParser.parseResource(t, contentAsString);
   }
 
   public static final class Constants {

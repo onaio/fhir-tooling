@@ -9,12 +9,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import org.hl7.fhir.instance.model.api.IBaseResource;
-import org.hl7.fhir.r4.context.SimpleWorkerContext;
-import org.hl7.fhir.r4.utils.StructureMapUtilities;
-import org.hl7.fhir.utilities.npm.FilesystemPackageCacheManager;
-import org.hl7.fhir.utilities.npm.ToolsVersion;
 import org.smartregister.domain.FCTFile;
 import org.smartregister.external.CQLToLibraryConvertServices;
+import org.smartregister.util.FCTStructureMapUtilities;
 import org.smartregister.util.FCTUtils;
 import picocli.CommandLine;
 
@@ -110,19 +107,7 @@ public class ConvertCommand implements Runnable {
 
   public IBaseResource convertStructureMapToJson(FCTFile inputFile) throws IOException {
 
-    FilesystemPackageCacheManager pcm =
-        new FilesystemPackageCacheManager(true, ToolsVersion.TOOLS_VERSION);
-
-    // Package name manually checked from
-    // https://simplifier.net/packages?Text=hl7.fhir.core&fhirVersion=All+FHIR+Versions
-    SimpleWorkerContext contextR4 =
-        SimpleWorkerContext.fromPackage(
-            pcm.loadPackage(
-                FCTUtils.Constants.HL7_FHIR_PACKAGE, FCTUtils.Constants.HL7_FHIR_PACKAGE_VERSION));
-    contextR4.setCanRunWithoutTerminology(true);
-
-    StructureMapUtilities structureMapUtilities = new StructureMapUtilities(contextR4);
-
+    FCTStructureMapUtilities structureMapUtilities = new FCTStructureMapUtilities();
     return structureMapUtilities.parse(
         inputFile.getContent(), FCTUtils.getStructureMapName(inputFile.getFirstLine()));
   }

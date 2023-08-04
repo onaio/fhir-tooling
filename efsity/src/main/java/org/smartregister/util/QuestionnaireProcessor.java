@@ -3,7 +3,11 @@ package org.smartregister.util;
 
 import com.google.common.collect.Sets;
 import java.io.IOException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -52,8 +56,8 @@ public class QuestionnaireProcessor {
             currentQuestionnaireId =
                 questionnaireJSONObject.getString(FCTValidationEngine.Constants.ID);
             currentStructureMapId =
-                questionnaireJSONObject.has("extension")
-                    ? getStructureMapId(questionnaireJSONObject.getJSONArray("extension"))
+                questionnaireJSONObject.has(Constants.EXTENSION)
+                    ? getStructureMapId(questionnaireJSONObject.getJSONArray(Constants.EXTENSION))
                     : null;
 
             questionnairesToStructureMapIds.put(
@@ -68,7 +72,7 @@ public class QuestionnaireProcessor {
 
           } catch (JSONException jsonException) {
 
-            FCTUtils.printError(String.format("Error processing file %s", currentFile));
+            FCTUtils.printInfo(String.format("\u001b[35;1m%s\u001b[0m", currentFile));
             printJsonExceptionMessages(jsonException.getMessage());
           }
         }
@@ -85,7 +89,7 @@ public class QuestionnaireProcessor {
   private void printJsonExceptionMessages(String message) {
     if (message.contains("JSONObject[\"id\"] not found")) {
       FCTUtils.printWarning(
-          "Questionnaire DOES NOT have an id field. Are we expecting it to be generated on the Server?");
+          "Questionnaire DOES NOT have an id field. Are we expecting it to be generated on the server?");
     } else {
       FCTUtils.printError(String.format("%s", message));
     }
@@ -95,18 +99,18 @@ public class QuestionnaireProcessor {
 
     for (int i = 0; i < extensionJSONArray.length(); i++) {
 
-      if ("http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-targetStructureMap"
-          .equals(extensionJSONArray.getJSONObject(i).getString("url"))) {
+      if (Constants.STRUCTURE_DEFINITION_TARGET_STRUCTURE_MAP.equals(
+          extensionJSONArray.getJSONObject(i).getString(Constants.URL))) {
 
-        if (extensionJSONArray.getJSONObject(i).has("valueCanonical")) {
+        if (extensionJSONArray.getJSONObject(i).has(Constants.VALUE_CANONICAL)) {
           return StringUtils.substringAfterLast(
-              extensionJSONArray.getJSONObject(i).optString("valueCanonical").trim(), "/");
-        } else if (extensionJSONArray.getJSONObject(i).has("valueReference")) {
+              extensionJSONArray.getJSONObject(i).optString(Constants.VALUE_CANONICAL).trim(), "/");
+        } else if (extensionJSONArray.getJSONObject(i).has(Constants.VALUE_REFERENCE)) {
 
           JSONObject valueReferenceJSONObject =
-              extensionJSONArray.getJSONObject(i).getJSONObject("valueReference");
+              extensionJSONArray.getJSONObject(i).getJSONObject(Constants.VALUE_REFERENCE);
           return StringUtils.substringAfterLast(
-              valueReferenceJSONObject.optString("reference").trim(), "/");
+              valueReferenceJSONObject.optString(Constants.REFERENCE).trim(), "/");
         } else {
 
           FCTUtils.printError("Structure Map value format not supported");
@@ -150,5 +154,15 @@ public class QuestionnaireProcessor {
   private void handleJSONArray(String key, JSONArray jsonArray, boolean isComposition) {
     Iterator<Object> jsonArrayIterator = jsonArray.iterator();
     jsonArrayIterator.forEachRemaining(element -> handleValue(key, element, isComposition));
+  }
+
+  public static final class Constants {
+    public static final String VALUE_CANONICAL = "valueCanonical";
+    public static final String VALUE_REFERENCE = "valueReference";
+    public static final String REFERENCE = "reference";
+    public static final String EXTENSION = "extension";
+    public static final String URL = "url";
+    public static final String STRUCTURE_DEFINITION_TARGET_STRUCTURE_MAP =
+        "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-targetStructureMap";
   }
 }

@@ -17,6 +17,10 @@ public class FCTFile {
     return name;
   }
 
+  public String getNameWithoutExtension() {
+    return name.substring(0, name.lastIndexOf('.'));
+  }
+
   public String getContent() {
     return content;
   }

@@ -1,3 +1,4 @@
+/* (C)2023 */
 package org.smartregister.external
 
 import com.ibm.icu.impl.Assert.fail
@@ -17,111 +18,110 @@ import org.smartregister.domain.FCTFile
  * https://github.com/google/android-fhir/blob/master/workflow-testing/src/main/java/com/google/android/fhir/workflow/testing/CqlBuilder.kt
  */
 class CQLToLibraryConvertServices {
-    /**
-     * Compiles a CQL Text into ELM and assembles a FHIR Library that includes a Base64 representation
-     * of the JSON representation of the compiled ELM Library
-     *
-     * @param cqlInputFile the CQL Library .cql file path
-     * @return the assembled FHIR Library
-     */
-    fun compileAndBuildCqlLibrary(cqlInputFile: FCTFile): Library {
-        return compile(cqlInputFile.content).let {
-            assembleFhirLib(
-                cqlInputFile.content,
-                it.toJson(),
-                it.toXml(),
-                it.toELM().identifier.id,
-                it.toELM().identifier.version
-            )
-        }
-
+  /**
+   * Compiles a CQL Text into ELM and assembles a FHIR Library that includes a Base64 representation
+   * of the JSON representation of the compiled ELM Library
+   *
+   * @param cqlInputFile the CQL Library .cql file path
+   * @return the assembled FHIR Library
+   */
+  fun compileAndBuildCqlLibrary(cqlInputFile: FCTFile): Library {
+    return compile(cqlInputFile.content).let {
+      assembleFhirLib(
+        cqlInputFile.content,
+        it.toJson(),
+        it.toXml(),
+        it.toELM().identifier.id,
+        it.toELM().identifier.version
+      )
     }
-    /**
-     * Compiles a CQL Text to ELM
-     *
-     * @param cqlText the CQL Library
-     * @return a [CqlTranslator] object that contains the elm representation of the library inside it.
-     */
-    private fun compile(cqlText: String): CqlTranslator {
-        val modelManager = ModelManager()
-        val libraryManager =
-            LibraryManager(modelManager).apply {
-                librarySourceLoader.registerProvider(FhirLibrarySourceProvider())
-            }
+  }
+  /**
+   * Compiles a CQL Text to ELM
+   *
+   * @param cqlText the CQL Library
+   * @return a [CqlTranslator] object that contains the elm representation of the library inside it.
+   */
+  private fun compile(cqlText: String): CqlTranslator {
+    val modelManager = ModelManager()
+    val libraryManager =
+      LibraryManager(modelManager).apply {
+        librarySourceLoader.registerProvider(FhirLibrarySourceProvider())
+      }
 
-        val translator =
-            CqlTranslator.fromText(
-                cqlText,
-                modelManager,
-                libraryManager,
-                UcumEssenceService(this::class.java.getResourceAsStream("/ucum-essence.xml")),
-                *CqlTranslatorOptions.defaultOptions().options.toTypedArray()
-            )
+    val translator =
+      CqlTranslator.fromText(
+        cqlText,
+        modelManager,
+        libraryManager,
+        UcumEssenceService(this::class.java.getResourceAsStream("/ucum-essence.xml")),
+        *CqlTranslatorOptions.defaultOptions().options.toTypedArray()
+      )
 
-        // Helper makes sure the test CQL compiles. Reports an error if it doesn't
-        if (translator.errors.isNotEmpty()) {
-            val errors =
-                translator.errors
-                    .map { "${it.locator?.toLocator() ?: "[n/a]"}: ${it.message}" }
-                    .joinToString("\n")
+    // Helper makes sure the test CQL compiles. Reports an error if it doesn't
+    if (translator.errors.isNotEmpty()) {
+      val errors =
+        translator.errors
+          .map { "${it.locator?.toLocator() ?: "[n/a]"}: ${it.message}" }
+          .joinToString("\n")
 
-            fail("Could not compile CQL File. Errors:\n$errors")
-        }
-
-        return translator
+      fail("Could not compile CQL File. Errors:\n$errors")
     }
 
-    /**
-     * Assembles an ELM Library exported as a JSON in to a FHIRLibrary
-     *
-     * @param jsonElmStr the JSON representation of the ELM Library
-     * @param libName the Library name
-     * @param libVersion the Library Version
-     *
-     * @return a FHIR Library that includes the ELM Library.
-     */
-    private fun assembleFhirLib(
-        cqlStr: String?,
-        jsonElmStr: String?,
-        xmlElmStr: String?,
-        libName: String,
-        libVersion: String
-    ): Library {
+    return translator
+  }
 
-        val attachmentCql =
-            cqlStr?.let {
-                Attachment().apply {
-                    contentType = "text/cql"
-                    data = it.toByteArray()
-                }
-            }
+  /**
+   * Assembles an ELM Library exported as a JSON in to a FHIRLibrary
+   *
+   * @param jsonElmStr the JSON representation of the ELM Library
+   * @param libName the Library name
+   * @param libVersion the Library Version
+   *
+   * @return a FHIR Library that includes the ELM Library.
+   */
+  private fun assembleFhirLib(
+    cqlStr: String?,
+    jsonElmStr: String?,
+    xmlElmStr: String?,
+    libName: String,
+    libVersion: String
+  ): Library {
 
-        val attachmentJson =
-            jsonElmStr?.let {
-                Attachment().apply {
-                    contentType = "application/elm+json"
-                    data = it.toByteArray()
-                }
-            }
-
-        val attachmentXml =
-            xmlElmStr?.let {
-                Attachment().apply {
-                    contentType = "application/elm+xml"
-                    data = it.toByteArray()
-                }
-            }
-
-        return Library().apply {
-            id = "$libName-$libVersion"
-            name = libName
-            version = libVersion
-            status = Enumerations.PublicationStatus.ACTIVE
-            experimental = true
-            url = "http://localhost/Library/$libName|$libVersion"
-            attachmentCql?.let { addContent(it) }
-            attachmentJson?.let { addContent(it) }
-            attachmentXml?.let { addContent(it) }
+    val attachmentCql =
+      cqlStr?.let {
+        Attachment().apply {
+          contentType = "text/cql"
+          data = it.toByteArray()
         }
+      }
+
+    val attachmentJson =
+      jsonElmStr?.let {
+        Attachment().apply {
+          contentType = "application/elm+json"
+          data = it.toByteArray()
+        }
+      }
+
+    val attachmentXml =
+      xmlElmStr?.let {
+        Attachment().apply {
+          contentType = "application/elm+xml"
+          data = it.toByteArray()
+        }
+      }
+
+    return Library().apply {
+      id = "$libName-$libVersion"
+      name = libName
+      version = libVersion
+      status = Enumerations.PublicationStatus.ACTIVE
+      experimental = true
+      url = "http://localhost/Library/$libName|$libVersion"
+      attachmentCql?.let { addContent(it) }
+      attachmentJson?.let { addContent(it) }
+      attachmentXml?.let { addContent(it) }
     }
+  }
 }

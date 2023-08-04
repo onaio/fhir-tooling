@@ -17,8 +17,6 @@ public class StructureMapProcessor {
   private String directoryPath;
   private String currentFile;
 
-  private Map<String, Map<String, Set<String>>> exceptionsMap = new HashMap<>();
-
   public StructureMapProcessor(String folderPath) {
     this.directoryPath = folderPath;
   }
@@ -47,15 +45,15 @@ public class StructureMapProcessor {
 
           String line;
           String firstLine = "";
-          int i = 0;
+          int lineNumber = 0;
           try (BufferedReader reader = Files.newBufferedReader(path, StandardCharsets.UTF_8); ) {
 
             while ((line = reader.readLine()) != null) {
 
-              if (i == 0) {
-                i++;
+              if (lineNumber == 0) {
                 firstLine = line;
               }
+              lineNumber++;
 
               if (line.contains(FCTValidationEngine.Constants.linkId)) {
 
@@ -74,7 +72,15 @@ public class StructureMapProcessor {
 
                     } catch (StringIndexOutOfBoundsException e) {
 
-                      linkIds.add(getSubstringBetween(subLine, "=\"", "\""));
+                      try {
+                        linkIds.add(getSubstringBetween(subLine, "=\"", "\""));
+
+                      } catch (StringIndexOutOfBoundsException innerException) {
+                        FCTUtils.printWarning(
+                            String.format(
+                                "Parsing failed for link id value at \u001b[36m'linkId%s'\u001b[0m line %d, file \u001b[35;1m%s\u001b[0m. Could it be a dynamic link id?",
+                                subLine, lineNumber, currentFile));
+                      }
                     }
                   }
                 }
@@ -84,6 +90,42 @@ public class StructureMapProcessor {
 
           if (!firstLine.isBlank())
             structureMapToLinkIds.put(getStructureMapId(firstLine), linkIds);
+        }
+      }
+
+    } catch (IOException ioException) {
+      ioException.toString();
+    }
+    return structureMapToLinkIds;
+  }
+
+  public Map<String, String> generateIdToFilepathMap() {
+    Map<String, String> structureMapToLinkIds = new HashMap<>();
+
+    try {
+
+      Map<String, Map<String, String>> folderTofilesIndexMap =
+          FCTUtils.indexConfigurationFiles(directoryPath, "map", "txt");
+
+      // Process other configurations
+      for (var entry : folderTofilesIndexMap.entrySet()) {
+
+        Map<String, String> fileIndexMap = folderTofilesIndexMap.get(entry.getKey());
+
+        for (var nestedEntry : fileIndexMap.entrySet()) {
+
+          currentFile = nestedEntry.getValue();
+
+          if (nestedEntry.getKey().startsWith(".")) continue;
+
+          Path path = Paths.get(nestedEntry.getValue());
+          String firstLine;
+          try (BufferedReader reader = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
+            firstLine = reader.readLine();
+          }
+
+          if (StringUtils.isNotBlank(firstLine))
+            structureMapToLinkIds.put(getStructureMapId(firstLine), currentFile);
         }
       }
 
