@@ -4,7 +4,7 @@
 
   <groupId>org.smartregister</groupId>
   <artifactId>fhircore-tooling</artifactId>
-  <version>2.1.1</version>
+  <version>2.2.0</version>
 
   <properties>
     <code.name>efsity</code.name>
@@ -43,6 +43,11 @@
       <groupId>ca.uhn.hapi.fhir</groupId>
       <artifactId>hapi-fhir-structures-r4</artifactId>
       <version>6.4.3</version>
+    </dependency>
+    <dependency>
+      <groupId>ca.uhn.hapi.fhir</groupId>
+      <artifactId>hapi-fhir-caching-caffeine</artifactId>
+      <version>6.6.2</version>
     </dependency>
     <dependency>
       <groupId>org.apache.commons</groupId>
@@ -272,6 +277,23 @@
               <!-- or <file>${project.basedir}/license-header</file> -->
             </licenseHeader>
           </java>
+          <kotlin>
+            <!-- These are the defaults, you can override if you want -->
+            <includes>
+              <include>src/main/kotlin/**/*.kt</include>
+              <include>src/test/kotlin/**/*.kt</include>
+            </includes>
+
+            <ktfmt>
+              <version>0.39</version>
+              <style>GOOGLE</style>
+            </ktfmt>
+
+            <licenseHeader>
+              <content>/* (C)$YEAR */</content>
+              <!-- or <file>${project.basedir}/license-header</file> -->
+            </licenseHeader>
+          </kotlin>
           <pom>
             <sortPom>
               <expandEmptyElements>false</expandEmptyElements>

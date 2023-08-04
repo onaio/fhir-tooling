@@ -1,10 +1,9 @@
 /* (C)2023 */
 package org.smartregister.util;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
+import ca.uhn.fhir.context.FhirContext;
+import ca.uhn.fhir.context.FhirVersionEnum;
+import ca.uhn.fhir.parser.IParser;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileInputStream;
@@ -12,18 +11,23 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.*;
+import java.nio.file.FileVisitResult;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 import org.apache.commons.io.FilenameUtils;
-import org.smartregister.domain.FCTFile;
+import org.apache.commons.lang3.StringUtils;
+import org.hl7.fhir.instance.model.api.IBaseResource;
+import org.smartregister.domain.FctFile;
+import org.smartregister.processor.FctValidationProcessor;
 
-public class FCTUtils {
-
-  private static Gson gson = new GsonBuilder().setPrettyPrinting().create();
+public class FctUtils {
 
   public static void printToConsole(String message) {
     System.out.println("EFSITY: " + message);
@@ -68,7 +72,7 @@ public class FCTUtils {
         firstLine.lastIndexOf("= " + quoteType) + 3, firstLine.lastIndexOf(quoteType));
   }
 
-  public static FCTFile readFile(String filePath) throws IOException {
+  public static FctFile readFile(String filePath) throws IOException {
     Path path = Paths.get(filePath);
 
     StringBuilder content = new StringBuilder();
@@ -89,21 +93,19 @@ public class FCTUtils {
       }
     }
 
-    return new FCTFile(path.getFileName().toString(), content.toString(), firstLine);
+    return new FctFile(path.getFileName().toString(), content.toString(), firstLine);
   }
 
-  public static void writeFile(String outputPath, String structureMapString) throws IOException {
+  public static void writeJsonFile(String outputPath, String fhirResourceAsString)
+      throws IOException {
     try (BufferedWriter writer =
         new BufferedWriter(new FileWriter(outputPath, StandardCharsets.UTF_8, false))) {
-      writer.write(structureMapString);
+      FhirContext.forR4()
+          .newJsonParser()
+          .setPrettyPrint(true)
+          .encodeResourceToWriter(
+              FhirContext.forR4().newJsonParser().parseResource(fhirResourceAsString), writer);
     }
-  }
-
-  public static void writeJsonFile(String outputPath, String structureMapString)
-      throws IOException {
-    JsonElement je = JsonParser.parseString(structureMapString);
-    String prettyJsonString = gson.toJson(je);
-    writeFile(outputPath, prettyJsonString);
   }
 
   public static Properties readPropertiesFile(String filePath) {
@@ -120,10 +122,10 @@ public class FCTUtils {
   }
 
   public static void printCompletedInDuration(long startTime) {
-    FCTUtils.printToConsole(
+    FctUtils.printToConsole(
         String.format(
             "\u001b[32mCompleted in %s \u001b[0m \n",
-            FCTUtils.getHumanDuration(System.currentTimeMillis() - startTime)));
+            FctUtils.getHumanDuration(System.currentTimeMillis() - startTime)));
   }
 
   public static Map<String, Map<String, String>> indexConfigurationFiles(
@@ -142,7 +144,7 @@ public class FCTUtils {
 
               String parentDirKey =
                   file.getParent().equals(rootDir)
-                      ? FCTValidationEngine.Constants.ROOT
+                      ? FctValidationProcessor.Constants.ROOT
                       : file.getParent().getFileName().toString();
               Map<String, String> fileList = filesMap.getOrDefault(parentDirKey, new HashMap<>());
               fileList.put(file.getFileName().toString(), file.toAbsolutePath().toString());
@@ -152,6 +154,21 @@ public class FCTUtils {
           }
         });
     return filesMap;
+  }
+
+  /**
+   * @param resourcePath a string of the format Resource/id e.g. Patient/1234
+   * @return 1234
+   */
+  public static String getResourceId(String resourcePath) {
+    return StringUtils.isNotBlank(resourcePath) && resourcePath.contains("/")
+        ? resourcePath.substring(resourcePath.lastIndexOf('/') + 1)
+        : resourcePath;
+  }
+
+  public static <T extends IBaseResource> T getFhirResource(Class<T> t, String contentAsString) {
+    IParser iParser = FhirContext.forCached(FhirVersionEnum.R4).newJsonParser();
+    return iParser.parseResource(t, contentAsString);
   }
 
   public static final class Constants {

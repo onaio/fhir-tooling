@@ -1,19 +1,21 @@
 # efsity
-A command line utility to support FHIRCore content authoring. This tool supports the HL7 FHIR R4 spec.
+A command line utility to support OpenSRP v2 (FHIRCore) app configs and content authoring. This tool supports the HL7 FHIR R4 spec.
 
 ## How to use it
 
 Download the latest release from https://github.com/opensrp/fhircore-tooling/releases
 
-To run it as a java jar by using the command `java -jar efsity-2.1.1.jar -h` . This is the help command and will list the available options.
+To run it as a java jar by using the command `java -jar efsity-2.2.0.jar -h` . This is the help command and will list the available options.
 
 If you are using a linux environment e.g. bash you can choose to create an _alias_ for this as shown below. _(Remember to reload the terminal)_
 
-`alias fct='java -jar ~/Downloads/efsity-2.1.1.jar'`
+`alias fct='java -jar ~/Downloads/efsity-2.2.0.jar'`
 
 To run the previous help command you can then run `fct -h` in your terminal.
 
 The rest of the documentation will assume you have configured an _alias_ for running the efsity jar with alias name `fct` as above.
+
+**NB:** The _efsity_ jar is compatible from minimum version JAVA 11. If doesn't run on your workstation please build your own jar file using instructions in the [Building](#Building) section below.
 
 ### Converting structure map .txt to .json
 To convert your `structure-map.txt` file to its corresponding `.json` file, you can run the command
@@ -31,6 +33,22 @@ $ fct convert -t cql -i /some/path/Patient-1.0.0.cql
 ```
 -t or --type - the type of conversion, can be sm for structure map to json or cql for cql to json library
 -i or --input - the input file or file path
+-o or --output - the output path, can be a file or directory. Optional - default is current directory
+```
+
+### Generating a Careplan for a subject
+To generate a Careplan, you need to provide the _subject_, the _plan definition_ and the _questionnaire response_. You can optionally provide an output path. The output will be a bundle containing the generated Careplan and list of Tasks. To generate a Careplan you can run the command:
+
+```console
+$ fct careplan -s /path/to/subject/e.g./patient.json -qr /path/to/qr/questionnaire-response.json -pd /path/to/plan/definition/plandefinition.json -sm /path/to/structuremap/folder/
+```
+
+**Options**
+```
+-s or --subject - file path to the Careplan subject
+-qr or --questionnaire-response - file path to the questionnaire response json file
+-sm or --structure-map - file path to the path to the folder containing the structure maps. These can be nested
+-pd or --plan-definition - file path to the Plandefinition for the Careplan
 -o or --output - the output path, can be a file or directory. Optional - default is current directory
 ```
 
