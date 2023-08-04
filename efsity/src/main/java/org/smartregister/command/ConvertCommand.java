@@ -37,7 +37,8 @@ public class ConvertCommand implements Runnable {
 
   @CommandLine.Option(
       names = {"-o", "--output"},
-      description = "output path, can be file or directory",
+      description =
+          "(Optional) output path, can be file or directory, default is current directory",
       defaultValue = ".")
   private String output;
 

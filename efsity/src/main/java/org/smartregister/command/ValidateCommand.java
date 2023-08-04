@@ -27,14 +27,14 @@ public class ValidateCommand implements Runnable {
   @CommandLine.Option(
       names = {"-sm", "--structure-maps"},
       description =
-          "directory path to the location of structure map .txt or .map files. Must be a directory. Must be used with the -q flag",
+          "(Optional) directory path to the location of structure map .txt or .map files. Must be a directory, default is current directory. Must be used with the -q flag",
       required = false)
   private String structureMapsFolderPath;
 
   @CommandLine.Option(
       names = {"-q", "--questionnaires"},
       description =
-          "directory path to the location of questionnaires .json files. Must be a directory. Must be used with the -sm flag",
+          "(Optional) directory path to the location of questionnaires .json files. Must be a directory. Must be used with the -sm flag",
       required = false)
   private String questionnairesFolderPath;
 

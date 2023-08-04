@@ -33,7 +33,8 @@ public class StructureMapExtractResourcesCommand implements Runnable {
 
   @CommandLine.Option(
       names = {"-o", "--output"},
-      description = "output path, can be a file or a directory",
+      description =
+          "(Optional) output path, can be a file or a directory, default is current directory",
       defaultValue = ".")
   private String output;
 
