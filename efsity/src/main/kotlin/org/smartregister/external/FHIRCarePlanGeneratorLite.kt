@@ -9,9 +9,9 @@ import org.apache.commons.lang3.StringUtils
 import org.hl7.fhir.r4.hapi.ctx.HapiWorkerContext
 import org.hl7.fhir.r4.model.*
 import org.hl7.fhir.r4.utils.FHIRPathEngine
+import org.smartregister.processor.StructureMapProcessor
 import org.smartregister.util.FCTStructureMapUtilities
 import org.smartregister.util.FCTUtils
-import org.smartregister.util.StructureMapProcessor
 
 /**
  * This class (loosely) borrows from

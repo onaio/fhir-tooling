@@ -1,5 +1,5 @@
 /* (C)2023 */
-package org.smartregister.util;
+package org.smartregister.processor;
 
 import com.google.common.collect.ImmutableSet;
 import java.io.IOException;
@@ -17,8 +17,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.smartregister.domain.FCTFile;
+import org.smartregister.util.FCTUtils;
 
-public class FCTValidationEngine {
+public class FCTValidationProcessor {
   private Map<String, Set<String>> compositionReferencedResources = new HashMap<>();
   private Map<String, Properties> translationsMap = new HashMap<>();
   private Map<String, Map<String, Set<String>>> errorsMap = new HashMap<>();
@@ -475,7 +476,7 @@ public class FCTValidationEngine {
       errorMessageBuilder
           .append('\n')
           .append(entry.getKey())
-          .append(" errors - ")
+          .append(entry.getKey().contains("Translations") ? " warnings - " : " errors - ")
           .append(entry.getValue());
     }
     FCTUtils.printNewLine();

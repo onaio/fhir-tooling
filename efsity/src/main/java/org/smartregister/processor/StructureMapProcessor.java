@@ -1,5 +1,5 @@
 /* (C)2023 */
-package org.smartregister.util;
+package org.smartregister.processor;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,6 +12,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import org.apache.commons.lang3.StringUtils;
+import org.smartregister.util.FCTUtils;
 
 public class StructureMapProcessor {
   private String directoryPath;
@@ -55,16 +56,16 @@ public class StructureMapProcessor {
               }
               lineNumber++;
 
-              if (line.contains(FCTValidationEngine.Constants.linkId)) {
+              if (line.contains(FCTValidationProcessor.Constants.linkId)) {
 
                 String[] linkIdRaw =
                     StringUtils.deleteWhitespace(line.toString())
-                        .split(FCTValidationEngine.Constants.linkId);
+                        .split(FCTValidationProcessor.Constants.linkId);
                 for (int j = 0; j < linkIdRaw.length; j++) {
 
                   String subLine =
                       StringUtils.deleteWhitespace(line.toString())
-                          .split(FCTValidationEngine.Constants.linkId)[j];
+                          .split(FCTValidationProcessor.Constants.linkId)[j];
                   if (subLine.startsWith("=")) {
 
                     try {

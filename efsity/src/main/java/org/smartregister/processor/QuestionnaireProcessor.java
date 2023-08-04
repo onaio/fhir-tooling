@@ -1,5 +1,5 @@
 /* (C)2023 */
-package org.smartregister.util;
+package org.smartregister.processor;
 
 import com.google.common.collect.Sets;
 import java.io.IOException;
@@ -13,6 +13,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.smartregister.domain.FCTFile;
+import org.smartregister.util.FCTUtils;
 
 public class QuestionnaireProcessor {
   private String directoryPath;
@@ -54,7 +55,7 @@ public class QuestionnaireProcessor {
 
             JSONObject questionnaireJSONObject = new JSONObject(file.getContent());
             currentQuestionnaireId =
-                questionnaireJSONObject.getString(FCTValidationEngine.Constants.ID);
+                questionnaireJSONObject.getString(FCTValidationProcessor.Constants.ID);
             currentStructureMapId =
                 questionnaireJSONObject.has(Constants.EXTENSION)
                     ? getStructureMapId(questionnaireJSONObject.getJSONArray(Constants.EXTENSION))
@@ -66,7 +67,7 @@ public class QuestionnaireProcessor {
                     ? Sets.newHashSet(currentStructureMapId)
                     : Sets.newHashSet());
             resultsMap.put(
-                FCTValidationEngine.Constants.structuremap, questionnairesToStructureMapIds);
+                FCTValidationProcessor.Constants.structuremap, questionnairesToStructureMapIds);
 
             handleJSONObject(questionnaireJSONObject, true);
 
@@ -82,7 +83,7 @@ public class QuestionnaireProcessor {
       ioException.toString();
     }
 
-    resultsMap.put(FCTValidationEngine.Constants.questionnaire, questionnairesToLinkIds);
+    resultsMap.put(FCTValidationProcessor.Constants.questionnaire, questionnairesToLinkIds);
     return resultsMap;
   }
 
@@ -132,7 +133,7 @@ public class QuestionnaireProcessor {
 
     } else {
 
-      if (FCTValidationEngine.Constants.linkId.equals(key)) {
+      if (FCTValidationProcessor.Constants.linkId.equals(key)) {
 
         Set<String> results =
             questionnairesToLinkIds.getOrDefault(currentQuestionnaireId, new HashSet<>());

@@ -25,6 +25,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.smartregister.domain.FCTFile;
+import org.smartregister.processor.FCTValidationProcessor;
 
 public class FCTUtils {
 
@@ -143,7 +144,7 @@ public class FCTUtils {
 
               String parentDirKey =
                   file.getParent().equals(rootDir)
-                      ? FCTValidationEngine.Constants.ROOT
+                      ? FCTValidationProcessor.Constants.ROOT
                       : file.getParent().getFileName().toString();
               Map<String, String> fileList = filesMap.getOrDefault(parentDirKey, new HashMap<>());
               fileList.put(file.getFileName().toString(), file.toAbsolutePath().toString());
