@@ -102,7 +102,7 @@ public class ConvertCommand implements Runnable {
   }
 
   private IBaseResource convertDotCqlToJsonLibrary(FctFile inputFile) {
-    CQLToLibraryConvertServices services = new CQLToLibraryConvertServices();
+    CqlToLibraryConvertServices services = new CqlToLibraryConvertServices();
     return services.compileAndBuildCqlLibrary(inputFile);
   }
 

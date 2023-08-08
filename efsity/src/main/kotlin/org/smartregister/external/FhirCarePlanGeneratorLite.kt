@@ -4,14 +4,32 @@ package org.smartregister.external
 import ca.uhn.fhir.context.FhirContext
 import ca.uhn.fhir.context.FhirVersionEnum
 import ca.uhn.fhir.util.TerserUtil
-import java.util.*
+import java.util.Date
 import org.apache.commons.lang3.StringUtils
 import org.hl7.fhir.r4.hapi.ctx.HapiWorkerContext
-import org.hl7.fhir.r4.model.*
+import org.hl7.fhir.r4.model.ActivityDefinition
+import org.hl7.fhir.r4.model.Base
+import org.hl7.fhir.r4.model.BaseDateTimeType
+import org.hl7.fhir.r4.model.Bundle
+import org.hl7.fhir.r4.model.CanonicalType
+import org.hl7.fhir.r4.model.CarePlan
+import org.hl7.fhir.r4.model.DateTimeType
+import org.hl7.fhir.r4.model.Dosage
+import org.hl7.fhir.r4.model.Expression
+import org.hl7.fhir.r4.model.IdType
+import org.hl7.fhir.r4.model.IntegerType
+import org.hl7.fhir.r4.model.Parameters
+import org.hl7.fhir.r4.model.Period
+import org.hl7.fhir.r4.model.PlanDefinition
+import org.hl7.fhir.r4.model.Reference
+import org.hl7.fhir.r4.model.Resource
+import org.hl7.fhir.r4.model.ResourceType
+import org.hl7.fhir.r4.model.Task
+import org.hl7.fhir.r4.model.Timing
 import org.hl7.fhir.r4.utils.FHIRPathEngine
 import org.smartregister.processor.StructureMapProcessor
-import org.smartregister.util.FCTStructureMapUtilities
-import org.smartregister.util.FCTUtils
+import org.smartregister.util.FctStructureMapUtilities
+import org.smartregister.util.FctUtils
 
 /**
  * This class (loosely) borrows from
@@ -64,13 +82,13 @@ class FhirCarePlanGeneratorLite {
             source.setParameter(Task.SP_PERIOD, period)
             source.setParameter(ActivityDefinition.SP_VERSION, IntegerType(index))
 
-            val structureMapUtilities = FCTStructureMapUtilities()
+            val structureMapUtilities = FctStructureMapUtilities()
             val structureMapId = IdType(action.transform).idPart
             val structureMapFilePath = getStructureMapById(structureMapId)
 
             if (StringUtils.isNotBlank(structureMapFilePath)) {
 
-              FCTUtils.printInfo(
+              FctUtils.printInfo(
                 String.format(
                   "Extracting with structure map id \u001B[36m%s\u001B[0m - \u001b[35m%s\u001b[0m",
                   structureMapId,
@@ -87,7 +105,7 @@ class FhirCarePlanGeneratorLite {
               )
             } else {
 
-              FCTUtils.printError(
+              FctUtils.printError(
                 String.format(
                   "Structure Map with id \u001B[36m%s\u001B[0m missing for the provided Plan definition",
                   structureMapId
@@ -221,7 +239,7 @@ class FhirCarePlanGeneratorLite {
   private val fhirPathEngine: FHIRPathEngine =
     with(FhirContext.forCached(FhirVersionEnum.R4)) {
       FHIRPathEngine(HapiWorkerContext(this, this.validationSupport)).apply {
-        hostServices = FHIRPathEngineHostServices
+        hostServices = FhirPathEngineHostServices
       }
     }
 

@@ -68,8 +68,8 @@ public class ValidateCommand implements Runnable {
 
     try {
 
-      FctValidationProcessor FCTValidationProcessor = new FctValidationProcessor();
-      FCTValidationProcessor.process(
+      FctValidationProcessor FctValidationProcessor = new FctValidationProcessor();
+      FctValidationProcessor.process(
           compositionFilePath, structureMapsFolderPath, questionnairesFolderPath, inputFolder);
 
     } catch (IOException e) {
