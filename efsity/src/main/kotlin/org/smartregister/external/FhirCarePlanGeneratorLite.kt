@@ -62,9 +62,28 @@ class FhirCarePlanGeneratorLite {
         this.instantiatesCanonical = listOf(CanonicalType(planDefinition.asReference().reference))
       }
 
+    FctUtils.printInfo(
+      String.format(
+        "Processing Plan Definition with name \u001B[36m%s\u001B[0m and title \u001b[35m%s\u001b[0m : \u001B[35m%s\u001B[0m",
+        planDefinition.name,
+        planDefinition.title,
+        planDefinition.description
+      )
+    )
+
+    if (planDefinition == null || planDefinition.action == null || planDefinition.action.size < 1) {
+      FctUtils.printWarning("No Actions defined found for the Plan definition")
+    } else
+      FctUtils.printInfo(
+        String.format(
+          "Total Plan definition Actions found: \u001B[36m%s\u001B[0m",
+          planDefinition.action.size
+        )
+      )
+
+    var tasksGenerated = 0
     planDefinition.action.forEach { action ->
       val input = Bundle().apply { entry.addAll(data.entry) }
-
       if (action.passesConditions(input, planDefinition, subject)) {
         val definition = action.activityDefinition(planDefinition)
 
@@ -113,6 +132,8 @@ class FhirCarePlanGeneratorLite {
               )
             }
           }
+
+          tasksGenerated++
         }
         if (definition.hasDynamicValue()) {
           definition.dynamicValue.forEach { dynamicValue ->
@@ -136,9 +157,18 @@ class FhirCarePlanGeneratorLite {
             }
           }
         }
-      }
+      } else
+        FctUtils.printWarning(
+          String.format(
+            "Condition failed for Plan Definition Action \u001B[36m%s\u001B[0m",
+            action.definition.primitiveValue()
+          )
+        )
     }
 
+    if (tasksGenerated == 0) {
+      FctUtils.printWarning("No Plan definition Action condition passed. 0 Tasks generated!")
+    } else FctUtils.printInfo(String.format("%s Tasks generated!", tasksGenerated))
     return output
   }
 

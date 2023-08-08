@@ -131,7 +131,7 @@ public class CarePlanGeneratorCommand implements Runnable {
 
     FctUtils.printInfo(
         String.format(
-            "Careplan and Tasks generated to path\u001b[36m %s \u001b[0m", outputFilePath));
+            "Result Bundle generated and saved to path\u001b[36m %s \u001b[0m", outputFilePath));
     FctUtils.printCompletedInDuration(start);
   }
 
