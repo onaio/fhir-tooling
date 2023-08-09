@@ -50,6 +50,7 @@ $ fct careplan -s /path/to/subject/e.g./patient.json -qr /path/to/qr/questionnai
 -sm or --structure-map - file path to the path to the folder containing the structure maps. These can be nested
 -pd or --plan-definition - file path to the Plandefinition for the Careplan
 -o or --output - the output path, can be a file or directory. Optional - default is current directory
+-ws or --with-subject - A flag to determine whether the subject should be passed as part of the Careplan generator data bundle. Default is `false`
 ```
 
 ### Extracting resources from questionnaire response
@@ -77,8 +78,8 @@ The above will output a list of errors and warnings based on any configuration r
 -c or --composition - the composition json file of the project
 -i or --input - the input directory path. This should point to the folder with the app configurations e.g. ~/Workspace/fhir-resources/ecbis_cha_preview/
 -o or --output - the output path, can be a file or directory. Optional - default is current directory
--sm or --structure-maps - (Optional) the directory path to the location of structure map .txt or .map files. Must be a directory. Must be used with the -q flag
--q or --questionnaires - (Optional) the directory path to the location of questionnaires .json files. Must be a directory. Must be used with the -sm flag
+-sm or --structure-maps - the directory path to the location of structure map .txt or .map files. Optional - Must be a directory. Must be used with the -q flag
+-q or --questionnaires - the directory path to the location of questionnaires .json files. Optional - Must be a directory. Must be used with the -sm flag
 ```
 
 **Note:** To include _Questionnaire_ and _Structure Map_ validation add the `-sm` and `-q` flags

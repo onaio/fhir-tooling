@@ -52,6 +52,12 @@ public class CarePlanGeneratorCommand implements Runnable {
       defaultValue = ".")
   private String outputFilePath;
 
+  @CommandLine.Option(
+      names = {"-ws", "--with-subject"},
+      description =
+          "Determines whether the subject should be passed as part of the Careplan generator data bundle")
+  private boolean withSubject = false;
+
   @Override
   public void run() {
 
@@ -91,7 +97,7 @@ public class CarePlanGeneratorCommand implements Runnable {
     FctFile subjectFile = FctUtils.readFile(subjectFilePath);
 
     FhirCarePlanGeneratorLite fhirCarePlanGeneratorLite =
-        new FhirCarePlanGeneratorLite(structureMapFolderPath);
+        new FhirCarePlanGeneratorLite(structureMapFolderPath, withSubject);
 
     PlanDefinition planDefinition =
         FctUtils.getFhirResource(PlanDefinition.class, planDefinitionFile.getContent());
@@ -102,6 +108,7 @@ public class CarePlanGeneratorCommand implements Runnable {
 
     Bundle questionnaireResponseDataBundle = new Bundle();
     Bundle responseResourceBundle = new Bundle();
+    responseResourceBundle.setType(Bundle.BundleType.COLLECTION);
 
     questionnaireResponseDataBundle.addEntry(
         new Bundle.BundleEntryComponent().setResource(questionnaireResponse));
@@ -115,6 +122,9 @@ public class CarePlanGeneratorCommand implements Runnable {
     for (Resource resource : carePlan.getContained()) {
       responseResourceBundle.addEntry(new Bundle.BundleEntryComponent().setResource(resource));
     }
+
+    if (responseResourceBundle.getEntry() != null)
+      responseResourceBundle.setTotal(responseResourceBundle.getEntry().size());
 
     carePlan.getContained().clear();
 

@@ -42,10 +42,12 @@ class FhirCarePlanGeneratorLite {
 
   private var structureMapProcessor: StructureMapProcessor
   private var structureMapDictionary: Map<String, String>
+  private var withSubject: Boolean
 
-  constructor(structureMapFolderPath: String) {
+  constructor(structureMapFolderPath: String, withSubject: Boolean) {
     structureMapProcessor = StructureMapProcessor(structureMapFolderPath)
     structureMapDictionary = structureMapProcessor.generateIdToFilepathMap()
+    this.withSubject = withSubject
   }
 
   fun generateOrUpdateCarePlan(
@@ -61,6 +63,8 @@ class FhirCarePlanGeneratorLite {
         this.description = planDefinition.description
         this.instantiatesCanonical = listOf(CanonicalType(planDefinition.asReference().reference))
       }
+
+    if (withSubject) data.entry.add(0, Bundle.BundleEntryComponent().apply { resource = subject })
 
     FctUtils.printInfo(
       String.format(
@@ -81,7 +85,6 @@ class FhirCarePlanGeneratorLite {
         )
       )
 
-    var tasksGenerated = 0
     planDefinition.action.forEach { action ->
       val input = Bundle().apply { entry.addAll(data.entry) }
       if (action.passesConditions(input, planDefinition, subject)) {
@@ -132,8 +135,6 @@ class FhirCarePlanGeneratorLite {
               )
             }
           }
-
-          tasksGenerated++
         }
         if (definition.hasDynamicValue()) {
           definition.dynamicValue.forEach { dynamicValue ->
@@ -166,9 +167,11 @@ class FhirCarePlanGeneratorLite {
         )
     }
 
-    if (tasksGenerated == 0) {
-      FctUtils.printWarning("No Plan definition Action condition passed. 0 Tasks generated!")
-    } else FctUtils.printInfo(String.format("%s Tasks generated!", tasksGenerated))
+    if (output.contained?.size == 0) {
+      FctUtils.printError(
+        "No Plan definition Action condition passed. 0 Tasks generated! Do you perhaps need the \u001B[34m--with-subject\u001B[0m flag? See documentation"
+      )
+    } else FctUtils.printInfo(String.format("%s Tasks generated!", output.contained?.size))
     return output
   }
 
