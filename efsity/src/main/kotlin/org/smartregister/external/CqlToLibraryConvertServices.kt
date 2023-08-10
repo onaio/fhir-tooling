@@ -11,7 +11,7 @@ import org.fhir.ucum.UcumEssenceService
 import org.hl7.fhir.r4.model.Attachment
 import org.hl7.fhir.r4.model.Enumerations
 import org.hl7.fhir.r4.model.Library
-import org.smartregister.domain.FCTFile
+import org.smartregister.domain.FctFile
 
 /**
  * Borrows the implementation from this android fhir sdk class
@@ -25,7 +25,7 @@ class CqlToLibraryConvertServices {
    * @param cqlInputFile the CQL Library .cql file path
    * @return the assembled FHIR Library
    */
-  fun compileAndBuildCqlLibrary(cqlInputFile: FCTFile): Library {
+  fun compileAndBuildCqlLibrary(cqlInputFile: FctFile): Library {
     return compile(cqlInputFile.content).let {
       assembleFhirLib(
         cqlInputFile.content,

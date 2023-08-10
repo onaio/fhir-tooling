@@ -4,14 +4,32 @@ package org.smartregister.external
 import ca.uhn.fhir.context.FhirContext
 import ca.uhn.fhir.context.FhirVersionEnum
 import ca.uhn.fhir.util.TerserUtil
-import java.util.*
+import java.util.Date
 import org.apache.commons.lang3.StringUtils
 import org.hl7.fhir.r4.hapi.ctx.HapiWorkerContext
-import org.hl7.fhir.r4.model.*
+import org.hl7.fhir.r4.model.ActivityDefinition
+import org.hl7.fhir.r4.model.Base
+import org.hl7.fhir.r4.model.BaseDateTimeType
+import org.hl7.fhir.r4.model.Bundle
+import org.hl7.fhir.r4.model.CanonicalType
+import org.hl7.fhir.r4.model.CarePlan
+import org.hl7.fhir.r4.model.DateTimeType
+import org.hl7.fhir.r4.model.Dosage
+import org.hl7.fhir.r4.model.Expression
+import org.hl7.fhir.r4.model.IdType
+import org.hl7.fhir.r4.model.IntegerType
+import org.hl7.fhir.r4.model.Parameters
+import org.hl7.fhir.r4.model.Period
+import org.hl7.fhir.r4.model.PlanDefinition
+import org.hl7.fhir.r4.model.Reference
+import org.hl7.fhir.r4.model.Resource
+import org.hl7.fhir.r4.model.ResourceType
+import org.hl7.fhir.r4.model.Task
+import org.hl7.fhir.r4.model.Timing
 import org.hl7.fhir.r4.utils.FHIRPathEngine
 import org.smartregister.processor.StructureMapProcessor
-import org.smartregister.util.FCTStructureMapUtilities
-import org.smartregister.util.FCTUtils
+import org.smartregister.util.FctStructureMapUtilities
+import org.smartregister.util.FctUtils
 
 /**
  * This class (loosely) borrows from
@@ -24,10 +42,12 @@ class FhirCarePlanGeneratorLite {
 
   private var structureMapProcessor: StructureMapProcessor
   private var structureMapDictionary: Map<String, String>
+  private var withSubject: Boolean
 
-  constructor(structureMapFolderPath: String) {
+  constructor(structureMapFolderPath: String, withSubject: Boolean) {
     structureMapProcessor = StructureMapProcessor(structureMapFolderPath)
     structureMapDictionary = structureMapProcessor.generateIdToFilepathMap()
+    this.withSubject = withSubject
   }
 
   fun generateOrUpdateCarePlan(
@@ -44,9 +64,29 @@ class FhirCarePlanGeneratorLite {
         this.instantiatesCanonical = listOf(CanonicalType(planDefinition.asReference().reference))
       }
 
+    if (withSubject) data.entry.add(0, Bundle.BundleEntryComponent().apply { resource = subject })
+
+    FctUtils.printInfo(
+      String.format(
+        "Processing Plan Definition with name \u001B[36m%s\u001B[0m and title \u001b[35m%s\u001b[0m : \u001B[35m%s\u001B[0m",
+        planDefinition.name,
+        planDefinition.title,
+        planDefinition.description
+      )
+    )
+
+    if (planDefinition == null || planDefinition.action == null || planDefinition.action.size < 1) {
+      FctUtils.printWarning("No Actions defined found for the Plan definition")
+    } else
+      FctUtils.printInfo(
+        String.format(
+          "Total Plan definition Actions found: \u001B[36m%s\u001B[0m",
+          planDefinition.action.size
+        )
+      )
+
     planDefinition.action.forEach { action ->
       val input = Bundle().apply { entry.addAll(data.entry) }
-
       if (action.passesConditions(input, planDefinition, subject)) {
         val definition = action.activityDefinition(planDefinition)
 
@@ -64,13 +104,13 @@ class FhirCarePlanGeneratorLite {
             source.setParameter(Task.SP_PERIOD, period)
             source.setParameter(ActivityDefinition.SP_VERSION, IntegerType(index))
 
-            val structureMapUtilities = FCTStructureMapUtilities()
+            val structureMapUtilities = FctStructureMapUtilities()
             val structureMapId = IdType(action.transform).idPart
             val structureMapFilePath = getStructureMapById(structureMapId)
 
             if (StringUtils.isNotBlank(structureMapFilePath)) {
 
-              FCTUtils.printInfo(
+              FctUtils.printInfo(
                 String.format(
                   "Extracting with structure map id \u001B[36m%s\u001B[0m - \u001b[35m%s\u001b[0m",
                   structureMapId,
@@ -87,7 +127,7 @@ class FhirCarePlanGeneratorLite {
               )
             } else {
 
-              FCTUtils.printError(
+              FctUtils.printError(
                 String.format(
                   "Structure Map with id \u001B[36m%s\u001B[0m missing for the provided Plan definition",
                   structureMapId
@@ -118,9 +158,20 @@ class FhirCarePlanGeneratorLite {
             }
           }
         }
-      }
+      } else
+        FctUtils.printWarning(
+          String.format(
+            "Condition failed for Plan Definition Action \u001B[36m%s\u001B[0m",
+            action.definition.primitiveValue()
+          )
+        )
     }
 
+    if (output.contained?.size == 0) {
+      FctUtils.printError(
+        "No Plan definition Action condition passed. 0 Tasks generated! Do you perhaps need the \u001B[34m--with-subject\u001B[0m flag? See documentation"
+      )
+    } else FctUtils.printInfo(String.format("%s Tasks generated!", output.contained?.size))
     return output
   }
 
@@ -221,7 +272,7 @@ class FhirCarePlanGeneratorLite {
   private val fhirPathEngine: FHIRPathEngine =
     with(FhirContext.forCached(FhirVersionEnum.R4)) {
       FHIRPathEngine(HapiWorkerContext(this, this.validationSupport)).apply {
-        hostServices = FHIRPathEngineHostServices
+        hostServices = FhirPathEngineHostServices
       }
     }
 
