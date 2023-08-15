@@ -51,15 +51,15 @@ public class ValidateFhirResourcesCommand implements Runnable {
     IParser iParser = FhirContext.forCached(FhirVersionEnum.R4).newJsonParser();
     IBaseResource resource = iParser.parseResource(inputFile.getContent());
 
-    FhirContext ctx = FhirContext.forR4();
+    FhirContext fhirContext = FhirContext.forR4();
 
     ValidationSupportChain validationSupportChain =
         new ValidationSupportChain(
-            new DefaultProfileValidationSupport(ctx),
-            new InMemoryTerminologyServerValidationSupport(ctx),
-            new CommonCodeSystemsTerminologyService(ctx));
+            new DefaultProfileValidationSupport(fhirContext),
+            new InMemoryTerminologyServerValidationSupport(fhirContext),
+            new CommonCodeSystemsTerminologyService(fhirContext));
 
-    FhirValidator validator = ctx.newValidator();
+    FhirValidator validator = fhirContext.newValidator();
     FhirInstanceValidator instanceValidator = new FhirInstanceValidator(validationSupportChain);
     validator.registerValidatorModule(instanceValidator);
 
