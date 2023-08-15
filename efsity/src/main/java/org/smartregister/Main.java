@@ -5,6 +5,7 @@ import org.smartregister.command.CarePlanGeneratorCommand;
 import org.smartregister.command.ConvertCommand;
 import org.smartregister.command.StructureMapExtractResourcesCommand;
 import org.smartregister.command.ValidateCommand;
+import org.smartregister.command.ValidateFhirResourcesCommand;
 import org.smartregister.util.FctUtils;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
@@ -18,7 +19,8 @@ import picocli.CommandLine.Command;
       ConvertCommand.class,
       StructureMapExtractResourcesCommand.class,
       ValidateCommand.class,
-      CarePlanGeneratorCommand.class
+      CarePlanGeneratorCommand.class,
+      ValidateFhirResourcesCommand.class
     })
 public class Main implements Runnable {
   public static final String VERSION = "2.2.0";

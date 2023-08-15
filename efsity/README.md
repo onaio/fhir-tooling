@@ -88,6 +88,18 @@ The above will output a list of errors and warnings based on any configuration r
 <br/>
 <img width="715" alt="Screenshot 2023-03-27 at 21 43 09" src="https://user-images.githubusercontent.com/10017086/228037581-209f9bab-d1b9-45eb-a920-aa12c70c5b98.png">
 
+### Validating FHIR resources
+The tool supports validating FHIR resources using FHIR's own conformance resources. It will use terminology services to validate codes, StructureDefinitions to validate semantics, and uses a customized XML/JSON parser in order to provide descriptive error messages. To do this run the command:
+```console
+$ fct validateFhir -i ~/Workspace/fhir-resources/<project>/<resource-type>/resource.json
+```
+The above will output a list of errors, warnings and information.
+
+**Options**
+```
+-i or --input - the input file path. This should point to the FHIR resource json file e.g. ~/Workspace/fhir-resources/<project>/<resource-type>/resource.json
+```
+
 ## Development
 ### Set up
 This is a Java + Kotlin maven project. You can import it in you JetBrains IntelliJ IDE as such. The utility is built on the very awesome `Picocli` library found here https://picocli.info/.
