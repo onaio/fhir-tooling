@@ -4,12 +4,16 @@ package org.smartregister.command;
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.context.FhirVersionEnum;
 import ca.uhn.fhir.context.support.DefaultProfileValidationSupport;
+import ca.uhn.fhir.parser.DataFormatException;
 import ca.uhn.fhir.parser.IParser;
 import ca.uhn.fhir.validation.FhirValidator;
 import ca.uhn.fhir.validation.ResultSeverityEnum;
 import ca.uhn.fhir.validation.SingleValidationMessage;
 import ca.uhn.fhir.validation.ValidationResult;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Map;
 import org.hl7.fhir.common.hapi.validation.support.CommonCodeSystemsTerminologyService;
 import org.hl7.fhir.common.hapi.validation.support.InMemoryTerminologyServerValidationSupport;
 import org.hl7.fhir.common.hapi.validation.support.ValidationSupportChain;
@@ -46,11 +50,6 @@ public class ValidateFhirResourcesCommand implements Runnable {
     FctUtils.printInfo(String.format("Starting FHIR resource validation"));
     FctUtils.printInfo(String.format("Input file path \u001b[35m%s\u001b[0m", inputFilePath));
 
-    FctFile inputFile = FctUtils.readFile(inputFilePath);
-
-    IParser iParser = FhirContext.forCached(FhirVersionEnum.R4).newJsonParser();
-    IBaseResource resource = iParser.parseResource(inputFile.getContent());
-
     FhirContext fhirContext = FhirContext.forR4();
 
     ValidationSupportChain validationSupportChain =
@@ -62,6 +61,43 @@ public class ValidateFhirResourcesCommand implements Runnable {
     FhirValidator validator = fhirContext.newValidator();
     FhirInstanceValidator instanceValidator = new FhirInstanceValidator(validationSupportChain);
     validator.registerValidatorModule(instanceValidator);
+
+    IParser iParser = FhirContext.forCached(FhirVersionEnum.R4).newJsonParser();
+    FctFile inputFile;
+
+    if (!Files.isDirectory(Paths.get(inputFilePath))) {
+      FctUtils.printInfo(String.format("--> %s", inputFilePath));
+      inputFile = FctUtils.readFile(inputFilePath);
+      IBaseResource resource = iParser.parseResource(inputFile.getContent());
+      validateResource(validator, resource);
+
+    } else {
+      Map<String, Map<String, String>> folderTofilesIndexMap =
+          FctUtils.indexConfigurationFiles(inputFilePath, "json");
+      for (var entry : folderTofilesIndexMap.entrySet()) {
+        Map<String, String> fileIndexMap = folderTofilesIndexMap.get(entry.getKey());
+
+        for (var nestedEntry : fileIndexMap.entrySet()) {
+          if (nestedEntry.getKey().startsWith(".")) continue;
+          FctUtils.printInfo(String.format("--> %s", nestedEntry.getValue()));
+          inputFile = FctUtils.readFile(nestedEntry.getValue());
+
+          try {
+            IBaseResource resource = iParser.parseResource(inputFile.getContent());
+            validateResource(validator, resource);
+          } catch (DataFormatException e) {
+            FctUtils.printError(e.toString());
+          } catch (NoSuchMethodError e) {
+            FctUtils.printError(e.toString());
+          }
+        }
+      }
+    }
+
+    FctUtils.printCompletedInDuration(start);
+  }
+
+  private void validateResource(FhirValidator validator, IBaseResource resource) {
 
     ValidationResult result = validator.validateWithResult(resource);
 
@@ -81,8 +117,8 @@ public class ValidateFhirResourcesCommand implements Runnable {
                   " \u001b[30m%s\u001b[0m - %s", next.getLocationString(), next.getMessage()));
         }
       }
+    } else {
+      FctUtils.printInfo(String.format("File is valid!"));
     }
-
-    FctUtils.printCompletedInDuration(start);
   }
 }

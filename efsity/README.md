@@ -97,7 +97,7 @@ The above will output a list of errors, warnings and information.
 
 **Options**
 ```
--i or --input - the input file path. This should point to the FHIR resource json file e.g. ~/Workspace/fhir-resources/<project>/<resource-type>/resource.json
+-i or --input - the input file path, can be a file or directory with multiple files. Passing a path to a directory will automatically process all json files in the folder recursively
 ```
 
 ## Development
