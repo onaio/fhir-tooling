@@ -373,6 +373,7 @@ def build_org_affiliation(resources, resource_list):
         rp = (
             payload_string.replace("$unique_uuid", unique_uuid)
             .replace("$identifier_uuid", unique_uuid)
+            .replace("$version", "1")
             .replace("$orgID", key)
             .replace("$orgName", org_name)
         )
@@ -386,7 +387,7 @@ def build_org_affiliation(resources, resource_list):
             locations.append(y)
 
         obj = json.loads(rp)
-        obj["location"] = locations
+        obj["resource"]["location"] = locations
         rp = json.dumps(obj)
 
         fp = fp + rp + ","
