@@ -66,7 +66,7 @@ public class ValidateFhirResourcesCommand implements Runnable {
     FctFile inputFile;
 
     if (!Files.isDirectory(Paths.get(inputFilePath))) {
-      FctUtils.printInfo(String.format("--> %s", inputFilePath));
+      FctUtils.printInfo(String.format("\u001b[35m%s\u001b[0m", inputFilePath));
       inputFile = FctUtils.readFile(inputFilePath);
       IBaseResource resource = iParser.parseResource(inputFile.getContent());
       validateResource(validator, resource);
@@ -79,7 +79,7 @@ public class ValidateFhirResourcesCommand implements Runnable {
 
         for (var nestedEntry : fileIndexMap.entrySet()) {
           if (nestedEntry.getKey().startsWith(".")) continue;
-          FctUtils.printInfo(String.format("--> %s", nestedEntry.getValue()));
+          FctUtils.printInfo(String.format("\u001b[35m%s\u001b[0m", nestedEntry.getValue()));
           inputFile = FctUtils.readFile(nestedEntry.getValue());
 
           try {
