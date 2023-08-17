@@ -14,15 +14,9 @@
             <unpack>true</unpack>
             <scope>runtime</scope>
             <excludes>
-                <exclude>ca.uhn.hapi.fhir:org.hl7.fhir.r5</exclude>
-                <exclude>ca.uhn.hapi.fhir:org.hl7.fhir.dstu2</exclude>
-                <exclude>ca.uhn.hapi.fhir:org.hl7.fhir.dstu3</exclude>
                 <exclude>ca.uhn.hapi.fhir:org.hl7.fhir.dstu2016may</exclude>
                 <exclude>ca.uhn.hapi.fhir:hapi-fhir-structures-dstu3</exclude>
-                <exclude>ca.uhn.hapi.fhir:hapi-fhir-structures-r5</exclude>
-                <exclude>ca.uhn.hapi.fhir:hapi-fhir-structures-dstu2</exclude>
                 <exclude>ca.uhn.hapi.fhir:hapi-fhir-structures-hl7org-dstu2</exclude>
-
             </excludes>
         </dependencySet>
     </dependencySets>
