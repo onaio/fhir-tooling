@@ -106,15 +106,15 @@ public class ValidateFhirResourcesCommand implements Runnable {
         if (next.getSeverity() == ResultSeverityEnum.ERROR) {
           FctUtils.printError(
               String.format(
-                  " \u001b[30m%s\u001b[0m - %s", next.getLocationString(), next.getMessage()));
+                  " \u001b[36m%s\u001b[0m - %s", next.getLocationString(), next.getMessage()));
         } else if (next.getSeverity() == ResultSeverityEnum.INFORMATION) {
           FctUtils.printInfo(
               String.format(
-                  " \u001b[30m%s\u001b[0m - %s", next.getLocationString(), next.getMessage()));
+                  " \u001b[36m%s\u001b[0m - %s", next.getLocationString(), next.getMessage()));
         } else if (next.getSeverity() == ResultSeverityEnum.WARNING) {
           FctUtils.printWarning(
               String.format(
-                  " \u001b[30m%s\u001b[0m - %s", next.getLocationString(), next.getMessage()));
+                  " \u001b[36m%s\u001b[0m - %s", next.getLocationString(), next.getMessage()));
         }
       }
     } else {
