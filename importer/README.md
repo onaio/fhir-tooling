@@ -43,6 +43,13 @@ See example csvs in the csv folder
 - The first  column __name__ is the only one reqired
 - If the status is not set it will default to __active__
 - [careteam_full](/importer/csv/careteams/careteam_full.csv) shows more options available
+- The third column is the request method, can be either create or update. Default is set to create
+- The fourth column is the version. Default is set to 1 for creation, needs to be set when updating
+- The fifth column is the id, which is required when updating
+- The sixth columns is the identifier, in some cases this is different from the id
+- The seventh column is the organizations. This is only useful when you want to assign a few organizations when creating careteams. The format expected is a string like `orgId1:orgName1|orgId2:orgName2|orgId3:orgNam3`. Otherwise use the "Assign careTeams to organizations" csv below.
+- The eighth column is the participants. This is only useful when you want to assign a few users when creating careteams. The format expected is a string like `userId1:fullName1|userId2:fullName2|userId3:fullName3`. Otherwise use the "Assign users to careteams" csv below
+
 
 
 ### 5. Assign locations to parent locations
@@ -60,10 +67,10 @@ See example csvs in the csv folder
 - Run `python3 main.py --csv_file csv/careteams/careteam_organizations.csv --assign careTeam-Organization --log_level info`
 - See example [here](/importer/csv/careteams/careteam_organizations.csv)
 - The first two columns are __name__ and __id__ of the careTeam, while the last two columns are the __organization(name)__ and __organizationID__
-- You can also assign a couple of careTeams during creation, by passing in the orgs and their ids as an array as shown in [careteam_full](/importer/csv/careteams/careteam_full.csv), in the sixth column
+- You can also assign a couple of careTeams during creation, by passing in the orgs names and their ids as a string as shown in [careteam_full](/importer/csv/careteams/careteam_full.csv), in the seventh column
 
 ### 8. Assign users to care teams
-- Run `python3 main.py --csv_file csv/careteams/users_careteams.csv --assign user-careTeam --log_level info`
+- Run `python3 main.py --csv_file csv/careteams/users_careteam.csv --assign user-careTeam --log_level info`
 - See example [here](/importer/csv/careteams/users_careteam.csv)
 - The first two columns are __name__ and __id__ of the careTeam, while the last two columns are the __user(name)__ and __userID__ of the user getting assigned
-- You can also assign a couple of users during creation, by passing in the users and their ids as an array as shown in [careteam_full](/importer/csv/careteams/careteam_full.csv) in the seventh column
+- You can also assign a couple of users during creation, by passing in the user's names and their ids as a string as shown in [careteam_full](/importer/csv/careteams/careteam_full.csv) in the eighth column
