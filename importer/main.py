@@ -228,13 +228,13 @@ def care_team_extras(
 
     if load_type == "min":
         try:
-            if resource[5]:
-                elements = resource[5].split("|")
+            if resource[6]:
+                elements = resource[6].split("|")
         except IndexError:
             pass
         try:
-            if resource[6]:
-                elements2 = resource[6].split("|")
+            if resource[7]:
+                elements2 = resource[7].split("|")
         except IndexError:
             pass
     elif load_type == "full":
@@ -410,7 +410,7 @@ def build_payload(resource_type, resources, resource_payload_file):
             if resource[2] == "update":
                 # use the provided id
                 unique_uuid = resource[4]
-                identifier_uuid = resource[5]
+                identifier_uuid = resource[4] if resource[5] == "" else resource[5]
             else:
                 # generate a new uuid
                 unique_uuid = str(uuid.uuid4())
