@@ -228,13 +228,13 @@ def care_team_extras(
 
     if load_type == "min":
         try:
-            if resource[5]:
-                elements = resource[5].split("|")
+            if resource[6]:
+                elements = resource[6].split("|")
         except IndexError:
             pass
         try:
-            if resource[6]:
-                elements2 = resource[6].split("|")
+            if resource[7]:
+                elements2 = resource[7].split("|")
         except IndexError:
             pass
     elif load_type == "full":
@@ -334,8 +334,17 @@ def fetch_and_build(extracted_matches, ftype):
         full_payload["request"]["ifMatch"] = current_version
         full_payload["resource"] = obj
         del obj["meta"]
-        curr_participants = full_payload["resource"]["participant"]
-        curr_orgs = full_payload["resource"]["managingOrganization"]
+
+        try:
+            curr_participants = full_payload["resource"]["participant"]
+        except KeyError:
+            curr_participants = {}
+
+        try:
+            curr_orgs = full_payload["resource"]["managingOrganization"]
+        except KeyError:
+            curr_orgs = {}
+
         payload_string = json.dumps(full_payload, indent=4)
         payload_string = care_team_extras(
             extracted_matches[key],
@@ -373,6 +382,7 @@ def build_org_affiliation(resources, resource_list):
         rp = (
             payload_string.replace("$unique_uuid", unique_uuid)
             .replace("$identifier_uuid", unique_uuid)
+            .replace("$version", "1")
             .replace("$orgID", key)
             .replace("$orgName", org_name)
         )
@@ -386,7 +396,7 @@ def build_org_affiliation(resources, resource_list):
             locations.append(y)
 
         obj = json.loads(rp)
-        obj["location"] = locations
+        obj["resource"]["location"] = locations
         rp = json.dumps(obj)
 
         fp = fp + rp + ","
@@ -409,7 +419,7 @@ def build_payload(resource_type, resources, resource_payload_file):
             if resource[2] == "update":
                 # use the provided id
                 unique_uuid = resource[4]
-                identifier_uuid = resource[5]
+                identifier_uuid = resource[4] if resource[5] == "" else resource[5]
             else:
                 # generate a new uuid
                 unique_uuid = str(uuid.uuid4())
