@@ -334,8 +334,17 @@ def fetch_and_build(extracted_matches, ftype):
         full_payload["request"]["ifMatch"] = current_version
         full_payload["resource"] = obj
         del obj["meta"]
-        curr_participants = full_payload["resource"]["participant"]
-        curr_orgs = full_payload["resource"]["managingOrganization"]
+
+        try:
+            curr_participants = full_payload["resource"]["participant"]
+        except KeyError:
+            curr_participants = {}
+
+        try:
+            curr_orgs = full_payload["resource"]["managingOrganization"]
+        except KeyError:
+            curr_orgs = {}
+
         payload_string = json.dumps(full_payload, indent=4)
         payload_string = care_team_extras(
             extracted_matches[key],
