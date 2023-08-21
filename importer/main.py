@@ -165,9 +165,25 @@ def create_user_resources(user_id, user):
 
     obj = json.loads(ff)
     if user[4] == "Supervisors":
-        obj[2]["resource"]["code"] = {"coding":[{"system":"http://snomed.info/sct","code":"236321002","display":"Supervisor (occupation)"}]}
+        obj[2]["resource"]["code"] = {
+            "coding": [
+                {
+                    "system": "http://snomed.info/sct",
+                    "code": "236321002",
+                    "display": "Supervisor (occupation)",
+                }
+            ]
+        }
     elif user[4] == "Practitioner":
-        obj[2]["resource"]["code"] = {"coding":[{"system":"http://snomed.info/sct","code":"405623001","display":"Assigned practitioner"}]}
+        obj[2]["resource"]["code"] = {
+            "coding": [
+                {
+                    "system": "http://snomed.info/sct",
+                    "code": "405623001",
+                    "display": "Assigned practitioner",
+                }
+            ]
+        }
     else:
         del obj[2]["resource"]["code"]
     ff = json.dumps(obj, indent=4)
