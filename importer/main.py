@@ -164,7 +164,7 @@ def create_user_resources(user_id, user):
     )
 
     obj = json.loads(ff)
-    if user[4] == "Supervisors":
+    if user[4] == "Supervisor":
         obj[2]["resource"]["code"] = {
             "coding": [
                 {
