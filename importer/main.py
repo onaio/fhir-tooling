@@ -163,6 +163,15 @@ def create_user_resources(user_id, user):
         .replace("$practitioner_role_uuid", practitioner_role_uuid)
     )
 
+    obj = json.loads(ff)
+    if user[4] == "Supervisors":
+        obj[2]["resource"]["code"] = {"coding":[{"system":"http://snomed.info/sct","code":"236321002","display":"Supervisor (occupation)"}]}
+    elif user[4] == "Practitioner":
+        obj[2]["resource"]["code"] = {"coding":[{"system":"http://snomed.info/sct","code":"405623001","display":"Assigned practitioner"}]}
+    else:
+        del obj[2]["resource"]["code"]
+    ff = json.dumps(obj, indent=4)
+
     payload = initial_string + ff + "}"
     post_request("POST", payload, config.fhir_base_url)
 
