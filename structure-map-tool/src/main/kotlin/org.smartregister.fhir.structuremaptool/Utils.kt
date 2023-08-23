@@ -4,7 +4,8 @@ import org.apache.poi.ss.usermodel.Row
 import org.hl7.fhir.r4.model.Questionnaire
 import org.hl7.fhir.r4.model.Questionnaire.QuestionnaireItemComponent
 import org.hl7.fhir.r4.model.Resource
-import java.io.File
+import java.lang.reflect.Field
+import java.lang.reflect.ParameterizedType
 import java.util.ArrayList
 import kotlin.text.StringBuilder
 
@@ -57,6 +58,7 @@ class Group (entry : Map.Entry<String, MutableList<Instruction>>, val stringBuil
         val mainNest = Nest()
         mainNest.fullPath = ""
         mainNest.name = ""
+        mainNest.resourceName = resourceName
         instructions.forEachIndexed { index, instruction ->
             mainNest.add(instruction)
         }
@@ -110,8 +112,8 @@ class Group (entry : Map.Entry<String, MutableList<Instruction>>, val stringBuil
                 resourceIndex = "[$resourceIndex]"
             }
 
-            //return """reference(evaluate(bundle, ${"$"}this.entry.where(resourceType = '$resourceName')$resourceIndex))"""
-            return "''"
+            return """reference(evaluate(bundle, ${"$"}this.entry.where(resourceType = '$resourceName')$resourceIndex))"""
+            //return "''"
         }
 
 
@@ -131,6 +133,7 @@ class Group (entry : Map.Entry<String, MutableList<Instruction>>, val stringBuil
         val nests = ArrayList<Nest>()
         lateinit var name: String
         lateinit var fullPath: String
+        lateinit var resourceName: String
 
         fun add(instruction: Instruction) {
             /*if (instruction.fieldPath.startsWith(fullPath)) {
@@ -181,6 +184,7 @@ class Group (entry : Map.Entry<String, MutableList<Instruction>>, val stringBuil
                         } else {
                             fullPath = partName
                         }
+                        resourceName = inferType("${this@Nest.resourceName}.$fullPath")
 
                         if ((parts[0].isEmpty() && parts.size > 2) || (!parts[0].isEmpty() && parts.size > 1) ) {
                             val nextInstruction = Instruction().apply {
@@ -205,6 +209,7 @@ class Group (entry : Map.Entry<String, MutableList<Instruction>>, val stringBuil
                         name = remainingPath
                         fullPath = instruction.fieldPath
                         this@apply.instruction = instruction
+                        resourceName = inferType("${this@Nest.resourceName}.$fullPath")
                     })
                 }
             }
@@ -217,9 +222,10 @@ class Group (entry : Map.Entry<String, MutableList<Instruction>>, val stringBuil
                 addRuleNo()
                 stringBuilder.appendNewLine()
             } else if (nests.size > 0) {
-                val resourceType = inferType()
+                //val resourceType = inferType("entity$currLevel.$name", instruction)
 
                 if (!name.equals("")) {
+                    val resourceType = resourceName
                     stringBuilder.append("src -> entity$currLevel.$name = create('$resourceType') as entity${currLevel + 1} then {")
                     stringBuilder.appendNewLine()
                 } else {
@@ -245,9 +251,28 @@ class Group (entry : Map.Entry<String, MutableList<Instruction>>, val stringBuil
             }
         }
 
-        fun inferType() : String {
-            //TODO("Complete this")
-            return "Sample"
+        fun inferType(propertyPath: String) : String {
+            // TODO: Handle possible errors
+            val parentClass = Class.forName("org.hl7.fhir.r4.model.${propertyPath.getParentResource()}")
+
+            val propertyField = parentClass.getFieldOrNull(propertyPath.getResourceProperty()!!)!!
+
+            val propertyType = if (propertyField.isList)
+                propertyField.nonParameterizedType
+            else
+                propertyField.type
+
+            return propertyType.name
+                .replace("org.hl7.fhir.r4.model.", "")
+        }
+
+        fun String.getParentResource() : String? {
+            return substring(0, lastIndexOf('.'))
+        }
+
+
+        fun String.getResourceProperty() : String? {
+            return substring(lastIndexOf('.') + 1)
         }
     }
 
@@ -260,4 +285,25 @@ fun generateStructureMapLine(structureMapBody: String, row: Row, resource: Resou
 fun StringBuilder.appendNewLine() : StringBuilder {
     append(System.lineSeparator())
     return this
+}
+
+
+private val Field.isList: Boolean
+    get() = isParameterized && type == List::class.java
+
+private val Field.isParameterized: Boolean
+    get() = genericType is ParameterizedType
+
+/** The non-parameterized type of this field (e.g. `String` for a field of type `List<String>`). */
+private val Field.nonParameterizedType: Class<*>
+    get() =
+        if (isParameterized) (genericType as ParameterizedType).actualTypeArguments[0] as Class<*>
+        else type
+
+private fun Class<*>.getFieldOrNull(name: String): Field? {
+    return try {
+        getDeclaredField(name)
+    } catch (ex: NoSuchFieldException) {
+        superclass?.getFieldOrNull(name)
+    }
 }

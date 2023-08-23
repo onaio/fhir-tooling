@@ -85,6 +85,10 @@ class Application : CliktCommand() {
         val xlsFile = FileInputStream(xlsfile)
         val xlWb = WorkbookFactory.create(xlsFile)
 
+        // TODO: Check that all the Resource(s) ub the Resource column are the correct name and type eg. RiskFlag in the previous XLSX was not valid
+        // TODO: Check that all the path's and other entries in the excel sheet are valid
+        // TODO: Add instructions for adding embedded classes like `RiskAssessment$RiskAssessmentPredictionComponent` to the TransformSupportServices
+
         /*
 
         READ THE SETTINGS SHEET
