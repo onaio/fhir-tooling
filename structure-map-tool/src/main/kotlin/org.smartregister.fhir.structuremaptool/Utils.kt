@@ -39,7 +39,7 @@ class Group (entry : Map.Entry<String, MutableList<Instruction>>, val stringBuil
 
         stringBuilder.appendNewLine()
         stringBuilder.append("group $groupName(source src : QuestionniareResponse, target bundle: Bundle) {").appendNewLine()
-        stringBuilder.append("src -> bundle.entry as  entry, entry.resource = create('$resourceName') as entity then {").appendNewLine()
+        stringBuilder.append("src -> bundle.entry as  entry, entry.resource = create('$resourceName') as entity1 then {").appendNewLine()
 
         // TODO: Remove below and replace with Nest.buildStructureMap
         /*instructions.forEachIndexed { index, instruction ->
