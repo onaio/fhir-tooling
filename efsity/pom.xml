@@ -11,16 +11,17 @@
     <maven.compiler.source>11</maven.compiler.source>
     <maven.compiler.target>11</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <info.picocli.version>4.7.1</info.picocli.version>
-    <spotless.version>2.34.0</spotless.version>
+    <info.picocli.version>4.7.4</info.picocli.version>
+    <spotless.version>2.38.0</spotless.version>
     <maven.compiler.plugin.version>3.11.0</maven.compiler.plugin.version>
-    <maven.dependency.plugin.version>3.5.0</maven.dependency.plugin.version>
+    <maven.dependency.plugin.version>3.6.0</maven.dependency.plugin.version>
     <maven.jar.plugin.version>3.3.0</maven.jar.plugin.version>
-    <hapi.fhir.version>5.6.971</hapi.fhir.version>
+    <hapi.fhir.version>6.0.1</hapi.fhir.version>
+    <hapi.fhir.core.version>5.6.106</hapi.fhir.core.version>
     <kotlin.version>1.8.10</kotlin.version>
-    <cql.version>2.6.0</cql.version>
+    <cql.version>2.11.0</cql.version>
     <opencds.cql.version>2.4.0</opencds.cql.version>
-    <jackson.version>2.14.2</jackson.version>
+    <jackson.version>2.15.2</jackson.version>
   </properties>
 
   <dependencies>
@@ -32,22 +33,22 @@
     <dependency>
       <groupId>ca.uhn.hapi.fhir</groupId>
       <artifactId>org.hl7.fhir.r4</artifactId>
-      <version>${hapi.fhir.version}</version>
+      <version>${hapi.fhir.core.version}</version>
     </dependency>
     <dependency>
       <groupId>ca.uhn.hapi.fhir</groupId>
       <artifactId>org.hl7.fhir.utilities</artifactId>
-      <version>${hapi.fhir.version}</version>
+      <version>${hapi.fhir.core.version}</version>
     </dependency>
     <dependency>
       <groupId>ca.uhn.hapi.fhir</groupId>
       <artifactId>hapi-fhir-structures-r4</artifactId>
-      <version>6.4.3</version>
+      <version>${hapi.fhir.version}</version>
     </dependency>
     <dependency>
-      <groupId>ca.uhn.hapi.fhir</groupId>
-      <artifactId>hapi-fhir-caching-caffeine</artifactId>
-      <version>6.6.2</version>
+      <groupId>com.github.ben-manes.caffeine</groupId>
+      <artifactId>caffeine</artifactId>
+      <version>2.9.3</version>
     </dependency>
     <dependency>
       <groupId>org.apache.commons</groupId>
@@ -67,12 +68,12 @@
     <dependency>
       <groupId>org.jetbrains.kotlin</groupId>
       <artifactId>kotlin-stdlib</artifactId>
-      <version>1.8.20-RC</version>
+      <version>1.8.22</version>
     </dependency>
     <dependency>
       <groupId>org.json</groupId>
       <artifactId>json</artifactId>
-      <version>20230227</version>
+      <version>20230618</version>
     </dependency>
     <!--CQL dependencies -->
     <dependency>
@@ -123,7 +124,7 @@
     <dependency>
       <groupId>org.opencds.cqf.cql</groupId>
       <artifactId>evaluator</artifactId>
-      <version>${cql.version}</version>
+      <version>${opencds.cql.version}</version>
       <exclusions>
         <exclusion>
           <groupId>ca.uhn.hapi.fhir</groupId>
@@ -154,17 +155,17 @@
     <dependency>
       <groupId>org.opencds.cqf.cql</groupId>
       <artifactId>evaluator.builder</artifactId>
-      <version>${cql.version}</version>
+      <version>${opencds.cql.version}</version>
     </dependency>
     <dependency>
       <groupId>org.opencds.cqf.cql</groupId>
       <artifactId>evaluator.dagger</artifactId>
-      <version>${cql.version}</version>
+      <version>${opencds.cql.version}</version>
     </dependency>
     <dependency>
       <groupId>org.opencds.cqf.cql</groupId>
       <artifactId>evaluator.plandefinition</artifactId>
-      <version>${cql.version}</version>
+      <version>${opencds.cql.version}</version>
     </dependency>
 
     <dependency>
