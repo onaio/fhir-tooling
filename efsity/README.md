@@ -34,6 +34,7 @@ $ fct convert -t cql -i /some/path/Patient-1.0.0.cql
 -t or --type - the type of conversion, can be sm for structure map to json or cql for cql to json library
 -i or --input - the input file or file path
 -o or --output - the output path, can be a file or directory. Optional - default is current directory
+-sm or --strict-mode - (Optional) whether to enable or disable strict CQL compiler validation for generated CQL json. Optional boolean - default is `true`
 ```
 
 ### Generating a Careplan for a subject
