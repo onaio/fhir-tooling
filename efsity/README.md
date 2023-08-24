@@ -5,11 +5,11 @@ A command line utility to support OpenSRP v2 (FHIRCore) app configs and content 
 
 Download the latest release from https://github.com/opensrp/fhircore-tooling/releases
 
-To run it as a java jar by using the command `java -jar efsity-2.3.0.jar -h` . This is the help command and will list the available options.
+To run it as a java jar by using the command `java -jar efsity-2.3.1.jar -h` . This is the help command and will list the available options.
 
 If you are using a linux environment e.g. bash you can choose to create an _alias_ for this as shown below. _(Remember to reload the terminal)_
 
-`alias fct='java -jar ~/Downloads/efsity-2.3.0.jar'`
+`alias fct='java -jar ~/Downloads/efsity-2.3.1.jar'`
 
 To run the previous help command you can then run `fct -h` in your terminal.
 
@@ -34,6 +34,7 @@ $ fct convert -t cql -i /some/path/Patient-1.0.0.cql
 -t or --type - the type of conversion, can be sm for structure map to json or cql for cql to json library
 -i or --input - the input file or file path
 -o or --output - the output path, can be a file or directory. Optional - default is current directory
+-sm or --strict-mode - (Optional) whether to enable or disable strict CQL compiler validation for generated CQL json. Optional boolean - default is `true`
 ```
 
 ### Generating a Careplan for a subject
