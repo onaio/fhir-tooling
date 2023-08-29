@@ -255,6 +255,11 @@ class Group (entry : Map.Entry<String, MutableList<Instruction>>, val stringBuil
                 val answerExpression = instruction!!.getAnswerExpression(questionnaireResponse)
 
                 if (answerExpression.isNotEmpty() && answerExpression.isNotBlank() && answerExpression != "''") {
+                    val propertyType = inferType(instruction!!.fullPropertyPath())
+                    val answerType = answerExpression.getAnswerType(questionnaireResponse)
+
+                    if (proper)
+
                     stringBuilder.append("src -> entity$currLevel.${instruction!!.fieldPath} = ")
 
                     // TODO: Skip this instruction if empty and probably log this
@@ -326,13 +331,18 @@ private fun Class<*>.getFieldOrNull(name: String): Field? {
 }
 
 private fun String.isCoding(questionnaireResponse: QuestionnaireResponse) : Boolean {
-    val answer = fhirPathEngine.evaluate(questionnaireResponse, this)
-
-    return if (answer.size > 0) {
-        answer.first().javaClass.name == "org.hl7.fhir.r4.model.Coding"
+    val answerType = getType(questionnaireResponse)
+    return if (answerType != null) {
+        answerType == "org.hl7.fhir.r4.model.Coding"
     } else {
         false
     }
+}
+
+private fun String.getType(questionnaireResponse: QuestionnaireResponse) : String? {
+    val answer = fhirPathEngine.evaluate(questionnaireResponse, this)
+
+    return answer.firstOrNull()?.javaClass?.name
 }
 
 
@@ -345,6 +355,25 @@ internal val fhirPathEngine: FHIRPathEngine =
 
 private fun String.isEnumeration(instruction: Instruction) : Boolean {
     return inferType(instruction.fullPropertyPath()) == "Enumeration"
+}
+
+
+
+fun String.getAnswerType(questionnaireResponse: QuestionnaireResponse) : String? {
+    return if (isEvaluateExpression()) {
+        val fhirPath = replace("evaluate(src, ", "").run {
+            substring(0, length - 2)
+        }
+
+        getType(questionnaireResponse)
+            ?.replace("org.hl7.fhir.r4.model", "")
+    } else {
+        "StringType";
+    }
+}
+
+fun String.isEvaluateExpression() : Boolean {
+
 }
 
 
