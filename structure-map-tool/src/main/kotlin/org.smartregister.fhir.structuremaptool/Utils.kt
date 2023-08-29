@@ -4,10 +4,12 @@ import ca.uhn.fhir.context.FhirContext
 import ca.uhn.fhir.context.FhirVersionEnum
 import org.apache.poi.ss.usermodel.Row
 import org.hl7.fhir.r4.hapi.ctx.HapiWorkerContext
+import org.hl7.fhir.r4.model.Enumeration
 import org.hl7.fhir.r4.model.Questionnaire
 import org.hl7.fhir.r4.model.Questionnaire.QuestionnaireItemComponent
 import org.hl7.fhir.r4.model.QuestionnaireResponse
 import org.hl7.fhir.r4.model.Resource
+import org.hl7.fhir.r4.model.Type
 import org.hl7.fhir.r4.utils.FHIRPathEngine
 import java.lang.reflect.Field
 import java.lang.reflect.ParameterizedType
@@ -150,9 +152,6 @@ class Group (entry : Map.Entry<String, MutableList<Instruction>>, val stringBuil
             return "reference(src)"
         }
 
-
-        // TODO: FINISH THIS WHICH SEEMS LIKE THE LAST PART
-
         /*
         5. You can use $Resource eg $Patient to reference another resource being extracted here, but how do we actually get it's instance so that we can use it????
          */
@@ -255,6 +254,24 @@ class Group (entry : Map.Entry<String, MutableList<Instruction>>, val stringBuil
                 val answerExpression = instruction!!.getAnswerExpression(questionnaireResponse)
 
                 if (answerExpression.isNotEmpty() && answerExpression.isNotBlank() && answerExpression != "''") {
+                    val propertyType = inferType(instruction!!.fullPropertyPath())
+                    val answerType = answerExpression.getAnswerType(questionnaireResponse)
+
+                    if (propertyType != "Type" && answerType != propertyType && !propertyType.canHandleConversion(answerType!!) && answerExpression.startsWith("evaluate")) {
+                        System.out.println("Failed type matching --> ${instruction!!.fullPropertyPath()} of type $answerType != $propertyType")
+
+                        /*val possibleTypes = listOf<>()
+                        if ()*/
+
+                        stringBuilder.append("src -> entity$currLevel.${instruction!!.fieldPath} = ")
+                        stringBuilder.append("create('${propertyType.getFhirType()}') as randomVal, randomVal.value = ")
+                        stringBuilder.append(answerExpression)
+                        addRuleNo()
+                        stringBuilder.appendNewLine()
+
+                        return
+                    }
+
                     stringBuilder.append("src -> entity$currLevel.${instruction!!.fieldPath} = ")
 
                     // TODO: Skip this instruction if empty and probably log this
@@ -326,13 +343,18 @@ private fun Class<*>.getFieldOrNull(name: String): Field? {
 }
 
 private fun String.isCoding(questionnaireResponse: QuestionnaireResponse) : Boolean {
-    val answer = fhirPathEngine.evaluate(questionnaireResponse, this)
-
-    return if (answer.size > 0) {
-        answer.first().javaClass.name == "org.hl7.fhir.r4.model.Coding"
+    val answerType = getType(questionnaireResponse)
+    return if (answerType != null) {
+        answerType == "org.hl7.fhir.r4.model.Coding"
     } else {
         false
     }
+}
+
+private fun String.getType(questionnaireResponse: QuestionnaireResponse) : String? {
+    val answer = fhirPathEngine.evaluate(questionnaireResponse, this)
+
+    return answer.firstOrNull()?.javaClass?.name
 }
 
 
@@ -344,8 +366,25 @@ internal val fhirPathEngine: FHIRPathEngine =
     }
 
 private fun String.isEnumeration(instruction: Instruction) : Boolean {
-    return inferType(instruction.fullPropertyPath()) == "Enumeration"
+    return inferType(instruction.fullPropertyPath()).contains("Enumeration")
 }
+
+
+
+fun String.getAnswerType(questionnaireResponse: QuestionnaireResponse) : String? {
+    return if (isEvaluateExpression()) {
+        val fhirPath = substring(indexOf(",") + 1, length - 1)
+
+        fhirPath.getType(questionnaireResponse)
+            ?.replace("org.hl7.fhir.r4.model.", "")
+    } else {
+        // TODO: WE can run the actual line against StructureMapUtilities.runTransform to get the actual one that is generated and confirm if we need more conversions
+        "StringType";
+    }
+}
+
+// TODO: Confirm and fix this
+fun String.isEvaluateExpression() : Boolean = startsWith("evaluate(")
 
 
 /**
@@ -354,19 +393,65 @@ private fun String.isEnumeration(instruction: Instruction) : Boolean {
  */
 fun inferType(propertyPath: String) : String {
     // TODO: Handle possible errors
-    val parentClass = Class.forName("org.hl7.fhir.r4.model.${propertyPath.getParentResource()}")
+    // TODO: Handle inferring nested types
 
-    val propertyField = parentClass.getFieldOrNull(propertyPath.getResourceProperty()!!)!!
+    val parts = propertyPath.split(".")
+    val parentResourceClassName = parts[0]
+
+    val parentClass = Class.forName("org.hl7.fhir.r4.model.$parentResourceClassName")
+
+    return inferType(parentClass, parts, 1)
+}
+
+fun inferType(parentClass: Class<*>, parts: List<String>, index: Int) : String {
+    val resourcePropertyName = parts[index]
+    val propertyField = parentClass.getFieldOrNull(resourcePropertyName)!!
 
     val propertyType = if (propertyField.isList)
+        propertyField.nonParameterizedType
+    // TODO: Check if this is required
+    else if (propertyField.type == Enumeration::class.java)
+    // TODO: Check if this works
         propertyField.nonParameterizedType
     else
         propertyField.type
 
-    return propertyType.name
-        .replace("org.hl7.fhir.r4.model.", "")
+    return if (parts.size > index + 1) {
+        return inferType(propertyType, parts, index + 1)
+    } else
+        propertyType.name
+            .replace("org.hl7.fhir.r4.model.", "")
 }
 
+fun String.isMultipleTypes() : Boolean = this == "Type"
+
+// TODO: Finish this. Use the annotation @Chid.type
+fun String.getPossibleTypes() : List<Type> {
+    return listOf()
+}
+
+
+
+fun String.canHandleConversion(sourceType: String) : Boolean {
+    val propertyClass = Class.forName("org.hl7.fhir.r4.model.$this")
+    val targetType2 = if (sourceType == "StringType") String::class.java else Class.forName("org.hl7.fhir.r4.model.$sourceType")
+
+    val possibleConversions = listOf("BooleanType" to "StringType", "DateType" to "StringType", "DecimalType" to "IntegerType", "AdministrativeGender" to "CodeType")
+
+    possibleConversions.forEach {
+        if (this.contains(it.first) && sourceType == it.second) {
+            return true
+        }
+    }
+
+    try {
+        propertyClass.getDeclaredMethod("fromCode", targetType2)
+    } catch (ex: NoSuchMethodException) {
+        return false
+    }
+
+    return true
+}
 
 fun String.getParentResource() : String? {
     return substring(0, lastIndexOf('.'))
@@ -376,3 +461,6 @@ fun String.getParentResource() : String? {
 fun String.getResourceProperty() : String? {
     return substring(lastIndexOf('.') + 1)
 }
+
+fun String.getFhirType() : String = replace("Type", "")
+    .lowercase()
