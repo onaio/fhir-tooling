@@ -196,7 +196,7 @@ class Application : CliktCommand() {
 
         resourceConversionInstructions.forEach {
             Group(it, sb, questionsPath)
-                .generateGroup()
+                .generateGroup(questionnaireResponse)
         }
 
         val structureMapString = sb.toString()
@@ -275,6 +275,10 @@ class Instruction {
     var field: String? = null
     var conversion : String? = null
     var fhirPathStructureMapFunctions: String? = null
+
+
+    // TODO: Clean the following properties
+    fun fullPropertyPath() : String = "$resource.$fieldPath"
 
     fun searchKey() = resource + resourceIndex
 }

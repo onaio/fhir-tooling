@@ -1,18 +1,21 @@
 package org.smartregister.fhir.structuremaptool
 
+import ca.uhn.fhir.context.FhirContext
+import ca.uhn.fhir.context.FhirVersionEnum
 import org.apache.poi.ss.usermodel.Row
+import org.hl7.fhir.r4.hapi.ctx.HapiWorkerContext
 import org.hl7.fhir.r4.model.Questionnaire
 import org.hl7.fhir.r4.model.Questionnaire.QuestionnaireItemComponent
+import org.hl7.fhir.r4.model.QuestionnaireResponse
 import org.hl7.fhir.r4.model.Resource
+import org.hl7.fhir.r4.utils.FHIRPathEngine
 import java.lang.reflect.Field
 import java.lang.reflect.ParameterizedType
-import java.util.ArrayList
-import kotlin.text.StringBuilder
 
 fun getQuestionsPath(questionnaire: Questionnaire) : HashMap<String, String> {
     val questionsMap = hashMapOf<String, String>()
 
-    questionnaire.item.forEachIndexed { index, itemComponent ->
+    questionnaire.item.forEach {itemComponent ->
         getQuestionNames("", itemComponent, questionsMap)
     }
     return questionsMap
@@ -22,8 +25,8 @@ fun getQuestionNames(parentName: String, item: QuestionnaireItemComponent, quest
     val currParentName = if (parentName.isEmpty()) "" else parentName
     questionsMap.put(item.linkId, currParentName)
 
-    item.item.forEachIndexed { index, itemComponent ->
-        getQuestionNames(currParentName + "[$index].item", itemComponent, questionsMap)
+    item.item.forEach { itemComponent ->
+        getQuestionNames(currParentName + ".where(linkId = '${item.linkId}').item", itemComponent, questionsMap)
     }
 }
 
@@ -35,7 +38,7 @@ class Group (entry : Map.Entry<String, MutableList<Instruction>>, val stringBuil
     val instructions = entry.value
 
 
-    fun generateGroup() {
+    fun generateGroup(questionnaireResponse: QuestionnaireResponse) {
         val resourceName = instructions[0].resource
 
         stringBuilder.appendNewLine()
@@ -64,7 +67,7 @@ class Group (entry : Map.Entry<String, MutableList<Instruction>>, val stringBuil
             mainNest.add(instruction)
         }
 
-        mainNest.buildStructureMap(0)
+        mainNest.buildStructureMap(0, questionnaireResponse)
 
 
         stringBuilder.append("} ")
@@ -83,7 +86,7 @@ class Group (entry : Map.Entry<String, MutableList<Instruction>>, val stringBuil
         return questionsPath.getOrDefault(responseFieldId, "")
     }
 
-    fun Instruction.getAnswerExpression() : String {
+    fun Instruction.getAnswerExpression(questionnaireResponse: QuestionnaireResponse) : String {
 
         //1. If the answer is static/literal, just return it here
         // TODO: We should infer the resource element and add the correct conversion or code to assign this correctly
@@ -110,7 +113,19 @@ class Group (entry : Map.Entry<String, MutableList<Instruction>>, val stringBuil
             } else if (fieldPath.equals("rank")) {
                 return "create('positiveInt') as rank, rank.value = evaluate(src, ${"$"}this.item${getPropertyPath()}.where(linkId = '$responseFieldId').answer.value)";
             } else {
-                return "evaluate(src, ${"$"}this.item${getPropertyPath()}.where(linkId = '$responseFieldId').answer.value)"
+
+                // TODO: Infer the resource property type and answer to perform other conversions
+                // TODO: Extend this to cover other corner cases
+                var expression = "${"$"}this.item${getPropertyPath()}.where(linkId = '$responseFieldId').answer.value"
+
+                if (expression.isCoding(questionnaireResponse) && fieldPath.isEnumeration(this)) {
+                    expression = expression.replace("answer.value", "answer.value.code")
+                } else if (inferType(fullPropertyPath()) == "CodeableConcept") {
+                    return "''";
+                }
+
+                return "evaluate(src, $expression)"
+
             }
         }
 
@@ -234,13 +249,12 @@ class Group (entry : Map.Entry<String, MutableList<Instruction>>, val stringBuil
             }
         }
 
-        fun buildStructureMap(currLevel: Int) {
+        fun buildStructureMap(currLevel: Int, questionnaireResponse: QuestionnaireResponse) {
             if (instruction != null) {
 
-                val answerExpression = instruction!!.getAnswerExpression()
+                val answerExpression = instruction!!.getAnswerExpression(questionnaireResponse)
 
                 if (answerExpression.isNotEmpty() && answerExpression.isNotBlank() && answerExpression != "''") {
-
                     stringBuilder.append("src -> entity$currLevel.${instruction!!.fieldPath} = ")
 
                     // TODO: Skip this instruction if empty and probably log this
@@ -261,7 +275,7 @@ class Group (entry : Map.Entry<String, MutableList<Instruction>>, val stringBuil
                 }
 
                 nests.forEach {
-                    it.buildStructureMap(currLevel + 1)
+                    it.buildStructureMap(currLevel + 1, questionnaireResponse)
                 }
 
                 //nest!!.buildStructureMap(currLevel + 1)
@@ -276,30 +290,6 @@ class Group (entry : Map.Entry<String, MutableList<Instruction>>, val stringBuil
             } else {
                 throw Exception("nest & instruction are null inside Nest object")
             }
-        }
-
-        fun inferType(propertyPath: String) : String {
-            // TODO: Handle possible errors
-            val parentClass = Class.forName("org.hl7.fhir.r4.model.${propertyPath.getParentResource()}")
-
-            val propertyField = parentClass.getFieldOrNull(propertyPath.getResourceProperty()!!)!!
-
-            val propertyType = if (propertyField.isList)
-                propertyField.nonParameterizedType
-            else
-                propertyField.type
-
-            return propertyType.name
-                .replace("org.hl7.fhir.r4.model.", "")
-        }
-
-        fun String.getParentResource() : String? {
-            return substring(0, lastIndexOf('.'))
-        }
-
-
-        fun String.getResourceProperty() : String? {
-            return substring(lastIndexOf('.') + 1)
         }
     }
 
@@ -333,4 +323,56 @@ private fun Class<*>.getFieldOrNull(name: String): Field? {
     } catch (ex: NoSuchFieldException) {
         superclass?.getFieldOrNull(name)
     }
+}
+
+private fun String.isCoding(questionnaireResponse: QuestionnaireResponse) : Boolean {
+    val answer = fhirPathEngine.evaluate(questionnaireResponse, this)
+
+    return if (answer.size > 0) {
+        answer.first().javaClass.name == "org.hl7.fhir.r4.model.Coding"
+    } else {
+        false
+    }
+}
+
+
+internal val fhirPathEngine: FHIRPathEngine =
+    with(FhirContext.forCached(FhirVersionEnum.R4)) {
+        FHIRPathEngine(HapiWorkerContext(this, this.validationSupport)).apply {
+            hostServices = FHIRPathEngineHostServices
+        }
+    }
+
+private fun String.isEnumeration(instruction: Instruction) : Boolean {
+    return inferType(instruction.fullPropertyPath()) == "Enumeration"
+}
+
+
+/**
+ * Infer's the type and return the short class name eg `HumanName` for org.fhir.hl7.r4.model.Patient
+ * when given the path `Patient.name`
+ */
+fun inferType(propertyPath: String) : String {
+    // TODO: Handle possible errors
+    val parentClass = Class.forName("org.hl7.fhir.r4.model.${propertyPath.getParentResource()}")
+
+    val propertyField = parentClass.getFieldOrNull(propertyPath.getResourceProperty()!!)!!
+
+    val propertyType = if (propertyField.isList)
+        propertyField.nonParameterizedType
+    else
+        propertyField.type
+
+    return propertyType.name
+        .replace("org.hl7.fhir.r4.model.", "")
+}
+
+
+fun String.getParentResource() : String? {
+    return substring(0, lastIndexOf('.'))
+}
+
+
+fun String.getResourceProperty() : String? {
+    return substring(lastIndexOf('.') + 1)
 }
