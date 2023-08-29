@@ -86,6 +86,7 @@ class Group (entry : Map.Entry<String, MutableList<Instruction>>, val stringBuil
     fun Instruction.getAnswerExpression() : String {
 
         //1. If the answer is static/literal, just return it here
+        // TODO: We should infer the resource element and add the correct conversion or code to assign this correctly
         if (constantValue != null) {
             if (fieldPath.equals("id")) {
                 return "create('id') as id, id.value = '$constantValue'";
@@ -236,13 +237,17 @@ class Group (entry : Map.Entry<String, MutableList<Instruction>>, val stringBuil
         fun buildStructureMap(currLevel: Int) {
             if (instruction != null) {
 
+                val answerExpression = instruction!!.getAnswerExpression()
 
-                stringBuilder.append("src -> entity$currLevel.${instruction!!.fieldPath} = ")
+                if (answerExpression.isNotEmpty() && answerExpression.isNotBlank() && answerExpression != "''") {
 
-                // TODO: Skip this instruction if empty and probably log this
-                stringBuilder.append(instruction!!.getAnswerExpression())
-                addRuleNo()
-                stringBuilder.appendNewLine()
+                    stringBuilder.append("src -> entity$currLevel.${instruction!!.fieldPath} = ")
+
+                    // TODO: Skip this instruction if empty and probably log this
+                    stringBuilder.append(answerExpression)
+                    addRuleNo()
+                    stringBuilder.appendNewLine()
+                }
             } else if (nests.size > 0) {
                 //val resourceType = inferType("entity$currLevel.$name", instruction)
 
