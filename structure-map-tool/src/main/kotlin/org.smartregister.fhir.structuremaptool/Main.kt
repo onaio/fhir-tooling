@@ -9,8 +9,10 @@ import org.apache.poi.ss.usermodel.CellType
 import org.apache.poi.ss.usermodel.Row
 import org.apache.poi.ss.usermodel.WorkbookFactory
 import org.hl7.fhir.r4.context.SimpleWorkerContext
+import org.hl7.fhir.r4.model.Bundle
 import org.hl7.fhir.r4.model.Parameters
 import org.hl7.fhir.r4.model.Questionnaire
+import org.hl7.fhir.r4.model.QuestionnaireResponse
 import org.hl7.fhir.r4.model.Resource
 import java.io.File
 import java.io.FileInputStream
@@ -51,7 +53,7 @@ class Application : CliktCommand() {
         =============================
 
         1. Read the settings and save them in a Settings object
-        2. Read the main sheet. Group the rules into end Resources
+        2. Read the main sheet "Field Mappings". Group the rules into end Resources
             a) Index it into a Hashmap. The hashmap should have a ResourceExtractionDetails object that contains
                 - Resources
                 - GroupName
@@ -82,6 +84,7 @@ class Application : CliktCommand() {
         val contextR4 = FhirContext.forR4()
         val fhirJsonParser = contextR4.newJsonParser()
         val questionnaire : Questionnaire = fhirJsonParser.parseResource(Questionnaire::class.java, FileUtils.readFileToString(File(questionnairefile), Charset.defaultCharset()))
+        val questionnaireResponse : QuestionnaireResponse = fhirJsonParser.parseResource(QuestionnaireResponse::class.java, FileUtils.readFileToString(File("/mnt/windows-ubuntu/Projects/opensrp/fhircore-tooling/structure-map-tool/src/main/resources/questionnaire-response.json"), Charset.defaultCharset()))
         val xlsFile = FileInputStream(xlsfile)
         val xlWb = WorkbookFactory.create(xlsFile)
 
@@ -111,7 +114,10 @@ class Application : CliktCommand() {
 
          */
 
-        val fieldMappingsSheet = xlWb.getSheet("Field Mappings")
+        /*
+        TODO: Fix Groups calling sequence so that Groups that depend on other resources to be generated need to be called first
+           We can also throw an exception if to figure out cyclic dependency. Good candidate for Floyd's tortoise and/or topological sorting 😁. Cool!!!!
+         */
 
         val sb = StringBuilder()
         val structureMapHeader = """
@@ -142,6 +148,7 @@ class Application : CliktCommand() {
         val resourceConversionInstructions = hashMapOf<String, MutableList<Instruction>>()
 
         // Group the rules according to the resource
+        val fieldMappingsSheet = xlWb.getSheet("Field Mappings")
         fieldMappingsSheet.forEachIndexed { index, row ->
             if (index == 0) return@forEachIndexed
 
@@ -202,6 +209,14 @@ class Application : CliktCommand() {
             val scu = org.hl7.fhir.r4.utils.StructureMapUtilities(simpleWorkerContext, transformSupportServices)
             val structureMap = scu.parse(structureMapString, questionnaireId!!.clean())
             // DataFormatException | FHIRLexerException
+
+            val bundle = Bundle()
+
+            scu.transform(contextR4, questionnaireResponse, structureMap, bundle)
+
+            val jsonParser = FhirContext.forR4().newJsonParser()
+
+            println(jsonParser.encodeResourceToString(bundle))
         } catch (ex: Exception) {
             System.out.println("The generated StructureMap has a formatting error")
             ex.printStackTrace()

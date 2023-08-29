@@ -39,7 +39,7 @@ class Group (entry : Map.Entry<String, MutableList<Instruction>>, val stringBuil
         val resourceName = instructions[0].resource
 
         stringBuilder.appendNewLine()
-        stringBuilder.append("group $groupName(source src : QuestionniareResponse, target bundle: Bundle) {").appendNewLine()
+        stringBuilder.append("group Extract$groupName(source src : QuestionniareResponse, target bundle: Bundle) {").appendNewLine()
         stringBuilder.append("src -> bundle.entry as  entry, entry.resource = create('$resourceName') as entity1 then {").appendNewLine()
 
         // TODO: Remove below and replace with Nest.buildStructureMap
@@ -59,6 +59,7 @@ class Group (entry : Map.Entry<String, MutableList<Instruction>>, val stringBuil
         mainNest.fullPath = ""
         mainNest.name = ""
         mainNest.resourceName = resourceName
+
         instructions.forEachIndexed { index, instruction ->
             mainNest.add(instruction)
         }
@@ -86,25 +87,41 @@ class Group (entry : Map.Entry<String, MutableList<Instruction>>, val stringBuil
 
         //1. If the answer is static/literal, just return it here
         if (constantValue != null) {
-            return "'$constantValue'"
+            if (fieldPath.equals("id")) {
+                return "create('id') as id, id.value = '$constantValue'";
+            } else if (fieldPath.equals("rank")) {
+                val constValue = constantValue!!.replace(".0", "")
+                return "create('positiveInt') as rank, rank.value = '$constValue'";
+            } else {
+                return "'$constantValue'"
+            }
         }
 
         // 2. If the answer is from the QuestionnaireResponse, get the ID of the item in the "Questionnaire Response Field Id" and
         // get it's value using FHIR Path expressions
         if (responseFieldId != null) {
-            // TODO: Fix the 2nd param inside the evaluate expression
-            return """evaluate(src, ${"$"}this.item${getPropertyPath()}.where(linkId = '$responseFieldId').answer.value)"""
+            // TODO: Fix the 1st param inside the evaluate expression
+            // It needs to reference the specific resource in this bundle
+
+            // TODO: Fix these to use infer
+            if (fieldPath.equals("id")) {
+                return "create('id') as id, id.value = evaluate(src, ${"$"}this.item${getPropertyPath()}.where(linkId = '$responseFieldId').answer.value)";
+            } else if (fieldPath.equals("rank")) {
+                return "create('positiveInt') as rank, rank.value = evaluate(src, ${"$"}this.item${getPropertyPath()}.where(linkId = '$responseFieldId').answer.value)";
+            } else {
+                return "evaluate(src, ${"$"}this.item${getPropertyPath()}.where(linkId = '$responseFieldId').answer.value)"
+            }
         }
 
         // 3. If it's a FHIR Path/StructureMap function, add the contents directly from here to the StructureMap
         if (fhirPathStructureMapFunctions != null && !fhirPathStructureMapFunctions!!.isEmpty()) {
-            // TODO: Fix the 2nd param inside the evaluate expression
+            // TODO: Fix the 2nd param inside the evaluate expression --> Not sure what this is but check this
             return fhirPathStructureMapFunctions!!
         }
 
         // If it's a conversion
         // 4. If the answer is a conversion, (Assume this means it's being convered to a reference)
-        if (conversion != null) {
+        if (conversion != null && conversion!!.isNotBlank() && conversion!!.isNotEmpty()) {
             val resourceName = conversion!!.replace("$", "")
             var resourceIndex = conversion!!.replace("$" + resourceName, "")
 
@@ -112,8 +129,9 @@ class Group (entry : Map.Entry<String, MutableList<Instruction>>, val stringBuil
                 resourceIndex = "[$resourceIndex]"
             }
 
-            return """reference(evaluate(bundle, ${"$"}this.entry.where(resourceType = '$resourceName')$resourceIndex))"""
-            //return "''"
+            // TODO: Create a GROUP that generates a reference to encapsulate this
+            //return "reference(evaluate(bundle, ${"$"}this.entry.where(resourceType = '$resourceName')$resourceIndex))"
+            return "reference(src)"
         }
 
 
@@ -217,7 +235,11 @@ class Group (entry : Map.Entry<String, MutableList<Instruction>>, val stringBuil
 
         fun buildStructureMap(currLevel: Int) {
             if (instruction != null) {
+
+
                 stringBuilder.append("src -> entity$currLevel.${instruction!!.fieldPath} = ")
+
+                // TODO: Skip this instruction if empty and probably log this
                 stringBuilder.append(instruction!!.getAnswerExpression())
                 addRuleNo()
                 stringBuilder.appendNewLine()
