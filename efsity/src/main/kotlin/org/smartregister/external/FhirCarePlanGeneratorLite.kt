@@ -245,6 +245,7 @@ class FhirCarePlanGeneratorLite {
       else -> extractTaskPeriodsFromTiming(definition.timingTiming, carePlan)
     }
   }
+
   private fun Parameters.addResourceParameter(name: String, resource: Resource) =
     this.addParameter(
       Parameters.ParametersParameterComponent().apply {
@@ -252,6 +253,7 @@ class FhirCarePlanGeneratorLite {
         this.resource = resource
       },
     )
+
   private fun PlanDefinition.PlanDefinitionActionComponent.passesConditions(
     focus: Resource?,
     root: Resource?,

@@ -5,3 +5,7 @@
  */
 
 rootProject.name = "fhircore-tooling"
+
+dependencyResolutionManagement {
+  versionCatalogs { create("deps") { from(files("libs.versions.toml")) } }
+}
