@@ -29,60 +29,60 @@
   </properties>
 
   <distributionManagement>
-		<snapshotRepository>
-			<id>nexus-snapshots</id>
-			<name>Nexus Snapshots Repository</name>
-			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
-			<uniqueVersion>false</uniqueVersion>
-		</snapshotRepository>
-		<repository>
-			<id>nexus-releases</id>
-			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
-		</repository>
-	</distributionManagement>
+        <snapshotRepository>
+            <id>nexus-snapshots</id>
+            <name>Nexus Snapshots Repository</name>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+            <uniqueVersion>false</uniqueVersion>
+        </snapshotRepository>
+        <repository>
+            <id>nexus-releases</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+        </repository>
+    </distributionManagement>
 
   <scm>
-		<connection>scm:git:git@github.com:onaio/fhircore-tooling.git</connection>
-		<developerConnection>scm:git:git@github.com:onaio/fhircore-tooling.git</developerConnection>
-		<url>https://github.com/onaio/fhircore-tooling</url>
-	</scm>
+        <connection>scm:git:git@github.com:onaio/fhircore-tooling.git</connection>
+        <developerConnection>scm:git:git@github.com:onaio/fhircore-tooling.git</developerConnection>
+        <url>https://github.com/onaio/fhircore-tooling</url>
+    </scm>
 
-	<licenses>
-		<license>
-			<name>Apache License, Version 2.0</name>
-			<url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
-			<distribution>repo</distribution>
-			<comments>Open Smart Register Platform (OpenSRP) is Licensed under the Apache License, Version 2.0</comments>
-		</license>
-	</licenses>
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+            <comments>Open Smart Register Platform (OpenSRP) is Licensed under the Apache License, Version 2.0</comments>
+        </license>
+    </licenses>
 
-	<developers>
-		<developer>
-			<id>opensrp_developer</id>
-			<name>OpenSRP Developer</name>
-			<email>info@smartregister.org</email>
-			<url>https://groups.google.com/forum/#!forum/opensrp-dev</url>
-			<organization>OpenSRP</organization>
-			<organizationUrl>http://smartregister.org</organizationUrl>
-			<roles>
-				<role>developer</role>
-			</roles>
-			<timezone>Africa/Nairobi</timezone>
-		</developer>
-	</developers>
+    <developers>
+        <developer>
+            <id>opensrp_developer</id>
+            <name>OpenSRP Developer</name>
+            <email>info@smartregister.org</email>
+            <url>https://groups.google.com/forum/#!forum/opensrp-dev</url>
+            <organization>OpenSRP</organization>
+            <organizationUrl>http://smartregister.org</organizationUrl>
+            <roles>
+                <role>developer</role>
+            </roles>
+            <timezone>Africa/Nairobi</timezone>
+        </developer>
+    </developers>
 
-	<repositories>
-		<repository>
-			<id>snapshots-repo</id>
-			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
-			<releases>
-				<enabled>false</enabled>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-	</repositories>
+    <repositories>
+        <repository>
+            <id>snapshots-repo</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
 
   <dependencies>
     <dependency>
