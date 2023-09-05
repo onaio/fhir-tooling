@@ -26,6 +26,12 @@ See example csvs in the csv folder
 ### 2. Create users in bulk
 - Run `python3 main.py --csv_file csv/users.csv --resource_type users --log_level info`
 - See example csv [here](/importer/csv/users.csv)
+- First four columns are firstName, lastName, Username and email. Username and email need to be unique
+- The fifth column `id` is optional. If populated with a uuid, it will be used as the Practitioner uuid when creating the Practitioner resource. If left empty, a random uuid will be generated
+- The sixth column is the `userType`, this needs to be set to either `Practitioner` or `Supervisor`
+- The seventh column is `enableUser` which defaults to True if not set
+- The eigth and nineth column are details about the users Keycloak Group and are required for proper assignment
+- The last two columns are the `ApplicationID` and `password`
 
 ### 3. Create organizations in bulk
 - Run `python3 main.py --csv_file csv/organizations/organizations_min.csv --resource_type organizations --log_level info`
