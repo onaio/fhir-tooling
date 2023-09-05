@@ -104,7 +104,7 @@ def create_user(user):
     obj["lastName"] = user[1]
     obj["username"] = user[2]
     obj["email"] = user[3]
-    obj["attributes"]["fhir_core_app_id"][0] = user[8]
+    obj["attributes"]["fhir_core_app_id"][0] = user[9]
 
     final_string = json.dumps(obj)
     logging.info("Creating user: " + user[2])
@@ -116,14 +116,14 @@ def create_user(user):
         user_id = (new_user_location.split("/"))[-1]
 
         # add user to group
-        payload = '{"id": "' + user[6] + '", "name": "' + user[7] + '"}'
-        group_endpoint = "/" + user_id + "/groups/" + user[6]
+        payload = '{"id": "' + user[7] + '", "name": "' + user[8] + '"}'
+        group_endpoint = "/" + user_id + "/groups/" + user[7]
         url = config.keycloak_url + group_endpoint
-        logging.info("Adding user to Keycloak group: " + user[7])
+        logging.info("Adding user to Keycloak group: " + user[8])
         r = post_request("PUT", payload, url)
 
         # set password
-        payload = '{"temporary":false,"type":"password","value":"' + user[9] + '"}'
+        payload = '{"temporary":false,"type":"password","value":"' + user[10] + '"}'
         password_endpoint = "/" + user_id + "/reset-password"
         url = config.keycloak_url + password_endpoint
         logging.info("Setting user password")
@@ -143,7 +143,11 @@ def create_user(user):
 def create_user_resources(user_id, user):
     logging.info("Creating user resources")
     # generate uuids
-    practitioner_uuid = str(uuid.uuid4())
+    if (len(str(user[4]).strip()) == 0):
+        practitioner_uuid = str(uuid.uuid4())
+    else:
+        practitioner_uuid = user[4]
+
     group_uuid = str(uuid.uuid4())
     practitioner_role_uuid = str(uuid.uuid4())
 
@@ -164,7 +168,7 @@ def create_user_resources(user_id, user):
     )
 
     obj = json.loads(ff)
-    if user[4] == "Supervisor":
+    if user[5] == "Supervisor":
         obj[2]["resource"]["code"] = {
             "coding": [
                 {
@@ -174,7 +178,7 @@ def create_user_resources(user_id, user):
                 }
             ]
         }
-    elif user[4] == "Practitioner":
+    elif user[5] == "Practitioner":
         obj[2]["resource"]["code"] = {
             "coding": [
                 {
