@@ -9,6 +9,12 @@
         "id": "$unique_uuid",
         "status": "$status",
         "name": "$name",
+        "identifier": [
+            {
+                "use": "official",
+                "value": "$unique_uuid"
+            }
+        ],
         "partOf": {
             "reference": "Location/$parentID",
             "display": "$parentName"
