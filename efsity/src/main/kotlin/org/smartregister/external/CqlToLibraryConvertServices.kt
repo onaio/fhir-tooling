@@ -89,7 +89,6 @@ class CqlToLibraryConvertServices {
    * @param jsonElmStr the JSON representation of the ELM Library
    * @param libName the Library name
    * @param libVersion the Library Version
-   *
    * @return a FHIR Library that includes the ELM Library.
    */
   private fun assembleFhirLib(

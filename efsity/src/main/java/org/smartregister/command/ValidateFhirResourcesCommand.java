@@ -14,6 +14,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Map;
+import java.util.Set;
+
 import org.hl7.fhir.common.hapi.validation.support.CommonCodeSystemsTerminologyService;
 import org.hl7.fhir.common.hapi.validation.support.InMemoryTerminologyServerValidationSupport;
 import org.hl7.fhir.common.hapi.validation.support.ValidationSupportChain;
@@ -74,10 +76,10 @@ public class ValidateFhirResourcesCommand implements Runnable {
     } else {
       Map<String, Map<String, String>> folderTofilesIndexMap =
           FctUtils.indexConfigurationFiles(inputFilePath, "json");
-      for (var entry : folderTofilesIndexMap.entrySet()) {
+      for (Map.Entry<String, Map<String, String>> entry : folderTofilesIndexMap.entrySet()) {
         Map<String, String> fileIndexMap = folderTofilesIndexMap.get(entry.getKey());
 
-        for (var nestedEntry : fileIndexMap.entrySet()) {
+        for (Map.Entry<String,String> nestedEntry : fileIndexMap.entrySet()) {
           if (nestedEntry.getKey().startsWith(".")) continue;
           FctUtils.printInfo(String.format("\u001b[35m%s\u001b[0m", nestedEntry.getValue()));
           inputFile = FctUtils.readFile(nestedEntry.getValue());

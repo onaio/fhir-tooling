@@ -5,11 +5,11 @@ A command line utility to support OpenSRP v2 (FHIRCore) app configs and content 
 
 Download the latest release from https://github.com/opensrp/fhircore-tooling/releases
 
-To run it as a java jar by using the command `java -jar efsity-2.3.1.jar -h` . This is the help command and will list the available options.
+You can run it as a java jar by using the command `java -jar efsity-<version>.jar -h` . This is the help command and will list the available options.
 
 If you are using a linux environment e.g. bash you can choose to create an _alias_ for this as shown below. _(Remember to reload the terminal)_
 
-`alias fct='java -jar ~/Downloads/efsity-2.3.1.jar'`
+`alias fct='java -jar ~/Downloads/efsity-<version>.jar'`
 
 To run the previous help command you can then run `fct -h` in your terminal.
 
@@ -103,9 +103,41 @@ The above will output a list of errors, warnings and information.
 
 ## Development
 ### Set up
-This is a Java + Kotlin maven project. You can import it in you JetBrains IntelliJ IDE as such. The utility is built on the very awesome `Picocli` library found here https://picocli.info/.
+This is a Java + Kotlin gradle project. You can import it in you JetBrains IntelliJ IDE as such. The utility is built on the very awesome `Picocli` library found here https://picocli.info/.
+
+### Contributing
+Before you push the code remember to run the spotless plugin to format the changed files
+
+```console
+./gradlew spotlessApply
+```
 
 ### Building
-To build and create a new jar file run the maven package command
+To build and create a new jar file run the gradle **assemble** command
 
-`mvn spotless:apply package`
+```console
+./gradlew clean assemble
+```
+
+The jar will be created in the path `build/libs/fhircore-tooling-<version>-SNAPSHOT-release.jar`
+
+### Publishing
+To publish a snapshot of the jar file to _Sonatype_ , run the following gradle command. 
+
+```console
+./gradlew clean publishMavenPublicationToSonatypeRepository
+```
+
+Note for this to work you need you sonatype account and credentials set up. To set up your credentials, create a file in your user home gradle folder
+
+```properties
+# ~/.gradle/gradle.properties
+SonatypeUsername=<your sonatype username>
+SonatypePassword=<your sonatype password>
+```
+
+**Note:** For development purposes you can publish to maven local using the command
+
+```console
+./gradlew clean publishMavenPublicationToMavenLocal
+```
