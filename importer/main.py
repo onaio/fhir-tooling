@@ -205,6 +205,11 @@ def organization_extras(resource, payload_string):
         obj = json.loads(payload_string)
         del obj["resource"]["alias"]
         payload_string = json.dumps(obj, indent=4)
+
+    try:
+        payload_string = payload_string.replace("$active", resource[1])
+    except IndexError:
+        payload_string = payload_string.replace("$active", "true")
     return payload_string
 
 
