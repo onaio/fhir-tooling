@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.logging.Logger;
-import org.smartregister.util.FCTValidationEngine;
+import org.smartregister.processor.FctValidationProcessor;
 import picocli.CommandLine;
 
 @CommandLine.Command(name = "validate")
@@ -27,14 +27,14 @@ public class ValidateCommand implements Runnable {
   @CommandLine.Option(
       names = {"-sm", "--structure-maps"},
       description =
-          "directory path to the location of structure map .txt or .map files. Must be a directory. Must be used with the -q flag",
+          "(Optional) directory path to the location of structure map .txt or .map files. Must be a directory, default is current directory. Must be used with the -q flag",
       required = false)
   private String structureMapsFolderPath;
 
   @CommandLine.Option(
       names = {"-q", "--questionnaires"},
       description =
-          "directory path to the location of questionnaires .json files. Must be a directory. Must be used with the -sm flag",
+          "(Optional) directory path to the location of questionnaires .json files. Must be a directory. Must be used with the -sm flag",
       required = false)
   private String questionnairesFolderPath;
 
@@ -68,8 +68,8 @@ public class ValidateCommand implements Runnable {
 
     try {
 
-      FCTValidationEngine FCTValidationEngine = new FCTValidationEngine();
-      FCTValidationEngine.process(
+      FctValidationProcessor FctValidationProcessor = new FctValidationProcessor();
+      FctValidationProcessor.process(
           compositionFilePath, structureMapsFolderPath, questionnairesFolderPath, inputFolder);
 
     } catch (IOException e) {

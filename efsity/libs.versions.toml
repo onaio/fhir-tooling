@@ -1,0 +1,54 @@
+[versions]
+buildConfig-version="4.1.2"
+caffeine-version="2.9.3"
+common-compress-version="1.22"
+cql-version="2.11.0"
+gson-version="2.10.1"
+hapi-fhir-core-version="5.6.106"
+hapi-fhir-utilities-version="3.8.0"
+hapi-fhir-version="6.0.1"
+info-picocli-version="4.7.4"
+jackson-version="2.15.2"
+json-version="20230618"
+kotlin-stdlib="1.8.22"
+opencds-cql-version="2.4.0"
+project-build-sourceEncoding="UTF-8"
+spotless-version ="6.20.0"
+xstream="1.4.20"
+
+[libraries]
+caffeine = { module = "com.github.ben-manes.caffeine:caffeine", version.ref = "caffeine-version" }
+commons-compress = { module = "org.apache.commons:commons-compress", version.ref = "common-compress-version" }
+cql-to-elm = { module = "info.cqframework:cql-to-elm", version.ref = "cql-version" }
+elm = { module = "info.cqframework:elm", version.ref = "cql-version" }
+elm-jackson = { module = "info.cqframework:elm-jackson", version.ref = "cql-version" }
+engine = { module = "org.opencds.cqf.cql:engine", version.ref = "opencds-cql-version" }
+engine-jackson = { module = "org.opencds.cqf.cql:engine.jackson", version.ref = "opencds-cql-version" }
+evaluator = { module = "org.opencds.cqf.cql:evaluator", version.ref = "opencds-cql-version" }
+evaluator-builder = { module = "org.opencds.cqf.cql:evaluator.builder", version.ref = "opencds-cql-version" }
+evaluator-dagger = { module = "org.opencds.cqf.cql:evaluator.dagger", version.ref = "opencds-cql-version" }
+evaluator-plandefinition = { module = "org.opencds.cqf.cql:evaluator.plandefinition", version.ref = "opencds-cql-version" }
+gson = { module = "com.google.code.gson:gson", version.ref = "gson-version" }
+hapi-fhir-structures-r4 = { module = "ca.uhn.hapi.fhir:hapi-fhir-structures-r4", version.ref = "hapi-fhir-version" }
+hapi-fhir-utilities = { module = "ca.uhn.hapi.fhir:hapi-fhir-utilities", version.ref = "hapi-fhir-utilities-version" }
+org-hl7-fhir-r4 = { module = "ca.uhn.hapi.fhir:org.hl7.fhir.r4", version.ref = "hapi-fhir-core-version" }
+org-hl7-fhir-utilities = { module = "ca.uhn.hapi.fhir:org.hl7.fhir.utilities", version.ref = "hapi-fhir-core-version" }
+kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin-stdlib" }
+model = { module = "info.cqframework:model", version.ref = "cql-version" }
+model-jackson = { module = "info.cqframework:model-jackson", version.ref = "cql-version" }
+json = { module = "org.json:json", version.ref = "json-version" }
+jackson-annotations = { module = "com.fasterxml.jackson.core:jackson-annotations", version.ref = "jackson-version" }
+jackson-core = { module = "com.fasterxml.jackson.core:jackson-core", version.ref = "jackson-version" }
+jackson-databind = { module = "com.fasterxml.jackson.core:jackson-databind", version.ref = "jackson-version" }
+picocli = { module = "info.picocli:picocli", version.ref = "info-picocli-version" }
+xstream = { module = "com.thoughtworks.xstream:xstream", version.ref = "xstream" }
+
+[bundles]
+cqf-cql = ["cql-to-elm","elm","elm-jackson","model","model-jackson"]
+hapi-fhir-core = ["org-hl7-fhir-r4","org-hl7-fhir-utilities"]
+jackson = ["jackson-annotations","jackson-core", "jackson-databind"]
+opencds = ["engine","engine-jackson","evaluator","evaluator-builder","evaluator-dagger","evaluator-plandefinition"]
+
+[plugins]
+buildConfig-constants-plugin = {id="com.github.gmazzo.buildconfig", version.ref="buildConfig-version"}
+spotless-maven-plugin = { id = "com.diffplug.spotless", version.ref = "spotless-version" }

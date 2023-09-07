@@ -1,0 +1,19 @@
+{
+    "request": {
+        "method": "PUT",
+        "url": "CareTeam/$unique_uuid",
+        "ifMatch" : "$version"
+    },
+    "resource": {
+        "resourceType": "CareTeam",
+        "identifier": [
+            {
+            "use": "official",
+            "value": "$identifier_uuid"
+            }
+        ],
+        "id": "$unique_uuid",
+        "name": "$name",
+        "status": "$status"
+    }
+}
