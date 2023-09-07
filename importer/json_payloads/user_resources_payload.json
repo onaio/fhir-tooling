@@ -92,7 +92,8 @@
             "practitioner": {
                 "reference": "Practitioner/$practitioner_uuid",
                 "display": "$firstName $lastName"
-            }
+            },
+            "code": "$code"
         }
     }
 ]

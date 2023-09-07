@@ -1,17 +1,32 @@
 {
     "request": {
         "method": "PUT",
-        "url": "Location/$location_uuid",
-        "ifMatch" : "1"
+        "url": "Location/$unique_uuid",
+        "ifMatch" : "$version"
     },
     "resource": {
         "resourceType": "Location",
-        "id": "$location_uuid",
-        "meta": {
-            "versionId": "1",
-            "lastUpdated": ""
-        },
+        "id": "$unique_uuid",
         "status": "$status",
-        "name": "$name"
+        "name": "$name",
+        "identifier": [
+            {
+                "use": "official",
+                "value": "$unique_uuid"
+            }
+        ],
+        "partOf": {
+            "reference": "Location/$parentID",
+            "display": "$parentName"
+        },
+        "physicalType": {
+            "coding": [
+                {
+                    "system": "http://terminology.hl7.org/CodeSystem/location-physical-type",
+                    "code": "$pt_code",
+                    "display": "$pt_display"
+                }
+            ]
+        }
     }
 }
