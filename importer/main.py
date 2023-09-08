@@ -168,7 +168,7 @@ def create_user_resources(user_id, user):
     )
 
     obj = json.loads(ff)
-    if user[5] == "Supervisor":
+    if user[5].strip() == "Supervisor":
         obj[2]["resource"]["code"] = {
             "coding": [
                 {
@@ -178,7 +178,7 @@ def create_user_resources(user_id, user):
                 }
             ]
         }
-    elif user[5] == "Practitioner":
+    elif user[5].strip() == "Practitioner":
         obj[2]["resource"]["code"] = {
             "coding": [
                 {
