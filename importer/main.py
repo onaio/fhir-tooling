@@ -168,7 +168,7 @@ def create_user_resources(user_id, user):
     )
 
     obj = json.loads(ff)
-    if user[5] == "Supervisor":
+    if user[5].strip() == "Supervisor":
         obj[2]["resource"]["code"] = {
             "coding": [
                 {
@@ -178,7 +178,7 @@ def create_user_resources(user_id, user):
                 }
             ]
         }
-    elif user[5] == "Practitioner":
+    elif user[5].strip() == "Practitioner":
         obj[2]["resource"]["code"] = {
             "coding": [
                 {
@@ -337,10 +337,13 @@ def care_team_extras(
 def extract_matches(resource_list):
     teamMap = {}
     for resource in resource_list:
-        if resource[1] not in teamMap.keys():
-            teamMap[resource[1]] = [resource[3] + ":" + resource[2]]
+        if resource[1].strip() and resource[3].strip():
+            if resource[1] not in teamMap.keys():
+                teamMap[resource[1]] = [resource[3] + ":" + resource[2]]
+            else:
+                teamMap[resource[1]].append(resource[3] + ":" + resource[2])
         else:
-            teamMap[resource[1]].append(resource[3] + ":" + resource[2])
+            logging.error('Missing required id: Skipping ' + str(resource))
     return teamMap
 
 
