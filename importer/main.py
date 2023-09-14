@@ -108,7 +108,7 @@ def create_user(user):
 
     final_string = json.dumps(obj)
     logging.info("Creating user: " + user[2])
-    r = post_request("POST", final_string, config.keycloak_url)
+    r = post_request("POST", final_string, config.keycloak_url + "/users")
 
     if r.status_code == 201:
         logging.info("User created successfully")
@@ -117,15 +117,15 @@ def create_user(user):
 
         # add user to group
         payload = '{"id": "' + user[7] + '", "name": "' + user[8] + '"}'
-        group_endpoint = "/" + user_id + "/groups/" + user[7]
-        url = config.keycloak_url + group_endpoint
+        group_endpoint = user_id + "/groups/" + user[7]
+        url = config.keycloak_url + "/users/" + group_endpoint
         logging.info("Adding user to Keycloak group: " + user[8])
         r = post_request("PUT", payload, url)
 
         # set password
         payload = '{"temporary":false,"type":"password","value":"' + user[10] + '"}'
-        password_endpoint = "/" + user_id + "/reset-password"
-        url = config.keycloak_url + password_endpoint
+        password_endpoint = user_id + "/reset-password"
+        url = config.keycloak_url + "/users/" + password_endpoint
         logging.info("Setting user password")
         r = post_request("PUT", payload, url)
 
@@ -143,7 +143,7 @@ def create_user(user):
 def create_user_resources(user_id, user):
     logging.info("Creating user resources")
     # generate uuids
-    if (len(str(user[4]).strip()) == 0):
+    if len(str(user[4]).strip()) == 0:
         practitioner_uuid = str(uuid.uuid4())
     else:
         practitioner_uuid = user[4]
@@ -343,7 +343,7 @@ def extract_matches(resource_list):
             else:
                 teamMap[resource[1]].append(resource[3] + ":" + resource[2])
         else:
-            logging.error('Missing required id: Skipping ' + str(resource))
+            logging.error("Missing required id: Skipping " + str(resource))
     return teamMap
 
 
@@ -496,14 +496,150 @@ def build_payload(resource_type, resources, resource_payload_file):
     return final_string
 
 
+def create_roles(role_list, roles_max):
+    for role in role_list:
+        current_role = str(role[0])
+        logging.debug("The current role is: " + current_role)
+
+        # check if role already exists
+        role_response = post_request(
+            "GET", "", config.keycloak_url + "/roles/" + current_role
+        )
+        logging.debug(role_response)
+        if current_role in role_response:
+            logging.error("A role already exists with the name " + current_role)
+        else:
+            role_payload = '{"name": "' + current_role + '"}'
+            create_role = post_request(
+                "POST", role_payload, config.keycloak_url + "/roles"
+            )
+            if create_role.status_code == 201:
+                logging.info("Successfully created role: " + current_role)
+
+        try:
+            # check if role has composite roles
+            if role[1]:
+                logging.debug("Role has composite roles")
+                # get roled id
+                full_role = post_request(
+                    "GET", "", config.keycloak_url + "/roles/" + current_role
+                )
+                json_resp = json.loads(full_role)
+                role_id = json_resp["id"]
+                logging.debug("roleId: " + str(role_id))
+
+                # get all available roles
+                available_roles = post_request(
+                    "GET",
+                    "",
+                    config.keycloak_url
+                    + "/admin-ui-available-roles/roles/"
+                    + role_id
+                    + "?first=0&max="
+                    + str(roles_max)
+                    + "&search=",
+                )
+                json_roles = json.loads(available_roles)
+                logging.debug("json_roles: " + str(json_roles))
+
+                rolesMap = {}
+
+                for jrole in json_roles:
+                    # remove client and clientId, then rename role to name
+                    # to build correct payload
+                    del jrole["client"]
+                    del jrole["clientId"]
+                    jrole["name"] = jrole["role"]
+                    del jrole["role"]
+                    rolesMap[str(jrole["name"])] = jrole
+
+                associated_roles = str(role[2])
+                logging.debug("Associated roles: " + associated_roles)
+                associated_role_array = associated_roles.split("|")
+                arr = []
+                for arole in associated_role_array:
+                    if arole in rolesMap.keys():
+                        arr.append(rolesMap[arole])
+                    else:
+                        logging.error("Role " + arole + "does not exist")
+
+                payload_arr = json.dumps(arr)
+                post_request(
+                    "POST",
+                    payload_arr,
+                    config.keycloak_url + "/roles-by-id/" + role_id + "/composites",
+                )
+
+        except IndexError:
+            pass
+
+
+def get_group_id(group):
+    # check if group exists
+    all_groups = post_request("GET", "", config.keycloak_url + "/groups")
+    json_groups = json.loads(all_groups)
+    group_obj = {}
+
+    for agroup in json_groups:
+        group_obj[agroup["name"]] = agroup
+
+    if group in group_obj.keys():
+        gid = str(group_obj[group]["id"])
+        logging.info("Group already exists with id : " + gid)
+        return gid
+
+    else:
+        logging.info("Group does not exists, lets create it")
+        # create the group
+        create_group_payload = '{"name":"' + group + '"}'
+        post_request("POST", create_group_payload, config.keycloak_url + "/groups")
+        return get_group_id(group)
+
+
+def assign_group_roles(role_list, group, roles_max):
+    group_id = get_group_id(group)
+    logging.debug("The groupID is: " + group_id)
+
+    # get available roles
+    available_roles_for_group = post_request(
+        "GET",
+        "",
+        config.keycloak_url
+        + "/groups/"
+        + group_id
+        + "/role-mappings/realm/available?first=0&max="
+        + str(roles_max),
+    )
+    json_roles = json.loads(available_roles_for_group)
+    role_obj = {}
+
+    for j in json_roles:
+        role_obj[j["name"]] = j
+
+    assign_payload = []
+    for r in role_list:
+        if r[0] in role_obj.keys():
+            assign_payload.append(role_obj[r[0]])
+
+    json_assign_payload = json.dumps(assign_payload)
+    post_request(
+        "POST",
+        json_assign_payload,
+        config.keycloak_url + "/groups/" + group_id + "/role-mappings/realm",
+    )
+
+
 @click.command()
 @click.option("--csv_file", required=True)
 @click.option("--resource_type", required=False)
 @click.option("--assign", required=False)
+@click.option("--setup", required=False)
+@click.option("--group", required=False)
+@click.option("--roles_max", required=False, default=500)
 @click.option(
     "--log_level", type=click.Choice(["DEBUG", "INFO", "ERROR"], case_sensitive=False)
 )
-def main(csv_file, resource_type, assign, log_level):
+def main(csv_file, resource_type, assign, setup, group, roles_max, log_level):
     if log_level == "DEBUG":
         logging.basicConfig(level=logging.DEBUG)
     elif log_level == "INFO":
@@ -562,6 +698,12 @@ def main(csv_file, resource_type, assign, log_level):
             json_payload = fetch_and_build(matches, "users")
             post_request("POST", json_payload, config.fhir_base_url)
             logging.info("Processing complete!")
+        elif setup == "roles":
+            logging.info("Setting up keycloak roles")
+            create_roles(resource_list, roles_max)
+            if group:
+                assign_group_roles(resource_list, group, roles_max)
+            logging.info("Processing complete")
         else:
             logging.error("Unsupported resource type!")
     else:
