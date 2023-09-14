@@ -80,3 +80,27 @@ See example csvs in the csv folder
 - See example [here](/importer/csv/careteams/users_careteam.csv)
 - The first two columns are __name__ and __id__ of the careTeam, while the last two columns are the __user(name)__ and __userID__ of the user getting assigned
 - You can also assign a couple of users during creation, by passing in the user's names and their ids as a string as shown in [careteam_full](/importer/csv/careteams/careteam_full.csv) in the eighth column
+
+
+# Setup Keycloak Roles
+
+This script is used to setup keycloak roles and groups. It takes in a csv file with the following columns:
+
+- **role**: The actual names of the roles you would like to create
+- **composite**: A boolean value that tells if the role has composite roles or not
+- **associated_roles**: Roles to be created/added to the main role as associated roles
+
+### Options
+
+- `setup` : (Required) This needs to be set to "roles" in order to initiate the setup process
+- `csv_file` : (Required) The csv file with the list of roles
+- `group` : (Not required) This is the actual group name. If not passed then the roles will just be created but not assigned to any group
+- `roles_max` : (Not required) This is the maximum number of roles to pull from the api. The default is set to 500. If the number of roles in your setup is more than this you will need to change this value
+
+
+### To run script
+1. Create virtualenv
+2. Install requirements.txt - `pip install -r requirements.txt`
+3. Create a `config.py` file. The `sample_config.py` is an example  of what this should look like. Populate it with the right credentials
+4. Run script - `python3 main.py --setup roles --csv_file csv/setup/roles.csv --group Supervisor`
+5. You can turn on logging by passing a `--log_level` to the command line as `info`, `debug` or `error`. For example `python3 main.py --setup roles --csv_file csv/setup/roles.csv --group Supervisor --log_level debug`
