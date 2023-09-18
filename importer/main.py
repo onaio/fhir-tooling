@@ -492,6 +492,35 @@ def build_payload(resource_type, resources, resource_payload_file):
     return final_string
 
 
+def confirm_keycloak_user(user):
+    # Confirm that the keycloak user details are as expected
+    user_username = str(user[2]).strip()
+    user_email = str(user[3]).strip()
+    # TODO update keycloak url
+    response = post_request("GET", "", config.keycloak_url + "?username=" + user_username )
+    logging.info(response)
+
+    try:
+        json_response = json.loads(response)
+        response_email = json_response[0]["email"]
+        response_username = json_response[0]["username"]
+        if response_email == user_email and response_username == user_username:
+            # username and email match input user as expected
+            # return id
+            keycloak_id = json_response[0]["id"]
+            logging.info('User confirmed with id: ' + keycloak_id)
+            return keycloak_id
+        else:
+            logging.error("Skipping user: " + str(user))
+            logging.error("No user found with the provided username and email")
+            return 0
+    except IndexError:
+        logging.error("Skipping user: " + str(user))
+        logging.error("No user found with the provided username and email")
+        return 0
+
+
+
 @click.command()
 @click.option("--csv_file", required=True)
 @click.option("--resource_type", required=False)
@@ -514,9 +543,15 @@ def main(csv_file, resource_type, assign, log_level):
             logging.info("Processing users")
             for user in resource_list:
                 user_id = create_user(user)
+                if user_id == 0:
+                    # user was not created above, check if it already exists
+                    user_id = confirm_keycloak_user(user)
                 if user_id != 0:
-                    create_user_resources(user_id, user)
-                    logging.info("Processing complete!")
+                    # user_id has been retrieved
+                    # check practitioner
+                    # create_user_resources(user_id, user)
+                    i = 1
+                logging.info("Processing complete!")
         elif resource_type == "locations":
             logging.info("Processing locations")
             json_payload = build_payload(
