@@ -130,11 +130,7 @@ def create_user(user):
         r = post_request("PUT", payload, url)
 
         return user_id
-    elif r.status_code == 409:
-        logging.error(r.text)
-        return 0
     else:
-        logging.error(str(r.status_code) + ":" + r.text)
         return 0
 
 
