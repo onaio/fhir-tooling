@@ -139,7 +139,7 @@ def create_user(user):
 def create_user_resources(user_id, user):
     logging.info("Creating user resources")
     # generate uuids
-    if (len(str(user[4]).strip()) == 0):
+    if len(str(user[4]).strip()) == 0:
         practitioner_uuid = str(uuid.uuid4())
     else:
         practitioner_uuid = user[4]
@@ -339,7 +339,7 @@ def extract_matches(resource_list):
             else:
                 teamMap[resource[1]].append(resource[3] + ":" + resource[2])
         else:
-            logging.error('Missing required id: Skipping ' + str(resource))
+            logging.error("Missing required id: Skipping " + str(resource))
     return teamMap
 
 
@@ -497,7 +497,9 @@ def confirm_keycloak_user(user):
     user_username = str(user[2]).strip()
     user_email = str(user[3]).strip()
     # TODO update keycloak url
-    response = post_request("GET", "", config.keycloak_url + "?username=" + user_username )
+    response = post_request(
+        "GET", "", config.keycloak_url + "?username=" + user_username
+    )
     logging.debug(response)
 
     try:
@@ -508,7 +510,7 @@ def confirm_keycloak_user(user):
             # username and email match input user as expected
             # return id
             keycloak_id = json_response[0]["id"]
-            logging.info('User confirmed with id: ' + keycloak_id)
+            logging.info("User confirmed with id: " + keycloak_id)
             return keycloak_id
         else:
             logging.error("Skipping user: " + str(user))
@@ -525,19 +527,25 @@ def confirm_practitioner(user, user_id):
 
     if not practitioner_uuid:
         # If practitioner uuid not provided in csv, check if any practitioners exist linked to the keycloak user_id
-        r = post_request("GET", "", config.fhir_base_url + "/Practitioner?identifier=" + user_id)
+        r = post_request(
+            "GET", "", config.fhir_base_url + "/Practitioner?identifier=" + user_id
+        )
         json_r = json.loads(r)
         counter = json_r["total"]
         if counter > 0:
-            logging.info(str(counter) + " Practitioner(s) exist, linked to the provided user")
+            logging.info(
+                str(counter) + " Practitioner(s) exist, linked to the provided user"
+            )
             return True
         else:
             return False
 
-    r = post_request("GET", "", config.fhir_base_url + "/Practitioner/" + practitioner_uuid)
+    r = post_request(
+        "GET", "", config.fhir_base_url + "/Practitioner/" + practitioner_uuid
+    )
 
     if '"severity": "error"' in r:
-        logging.info('Practitioner does not exist, proceed to creation')
+        logging.info("Practitioner does not exist, proceed to creation")
         return False
     else:
         try:
@@ -549,14 +557,18 @@ def confirm_practitioner(user, user_id):
                     keycloak_id = id["value"]
 
             if str(keycloak_id) == user_id:
-                logging.info("The Keycloak user and Practitioner are linked as expected")
+                logging.info(
+                    "The Keycloak user and Practitioner are linked as expected"
+                )
                 return True
             else:
-                logging.error("The Keycloak user and Practitioner are not linked as exppected")
+                logging.error(
+                    "The Keycloak user and Practitioner are not linked as exppected"
+                )
                 return True
 
         except Exception as err:
-            logging.error('Error occured trying to find Practitioner: ' + str(err))
+            logging.error("Error occured trying to find Practitioner: " + str(err))
             return True
 
 
