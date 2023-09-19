@@ -83,7 +83,7 @@ def post_request(request_type, payload, url):
                 logging.info("[" + str(r.status_code) + "]" + ": SUCCESS!")
             else:
                 logging.error("[" + str(r.status_code) + "]" + r.text)
-            return r.text
+            return r.text, r.status_code
         else:
             logging.error("Unsupported request type!")
     except Exception as err:
@@ -351,7 +351,7 @@ def fetch_and_build(extracted_matches, ftype):
         endpoint = config.fhir_base_url + "/CareTeam/" + key
         fetch_payload = post_request("GET", "", endpoint)
 
-        obj = json.loads(fetch_payload)
+        obj = json.loads(fetch_payload[0])
         current_version = obj["meta"]["versionId"]
 
         # build participants and managing orgs
@@ -503,7 +503,7 @@ def confirm_keycloak_user(user):
     logging.debug(response)
 
     try:
-        json_response = json.loads(response)
+        json_response = json.loads(response[0])
         response_email = json_response[0]["email"]
         response_username = json_response[0]["username"]
         if response_email == user_email and response_username == user_username:
@@ -530,7 +530,7 @@ def confirm_practitioner(user, user_id):
         r = post_request(
             "GET", "", config.fhir_base_url + "/Practitioner?identifier=" + user_id
         )
-        json_r = json.loads(r)
+        json_r = json.loads(r[0])
         counter = json_r["total"]
         if counter > 0:
             logging.info(
@@ -544,12 +544,12 @@ def confirm_practitioner(user, user_id):
         "GET", "", config.fhir_base_url + "/Practitioner/" + practitioner_uuid
     )
 
-    if '"severity": "error"' in r:
+    if r[1] == 404:
         logging.info("Practitioner does not exist, proceed to creation")
         return False
     else:
         try:
-            json_r = json.loads(r)
+            json_r = json.loads(r[0])
             identifiers = json_r["identifier"]
             keycloak_id = 0
             for id in identifiers:
