@@ -498,7 +498,7 @@ def confirm_keycloak_user(user):
     user_email = str(user[3]).strip()
     # TODO update keycloak url
     response = post_request("GET", "", config.keycloak_url + "?username=" + user_username )
-    logging.info(response)
+    logging.debug(response)
 
     try:
         json_response = json.loads(response)
@@ -519,6 +519,45 @@ def confirm_keycloak_user(user):
         logging.error("No user found with the provided username and email")
         return 0
 
+
+def confirm_practitioner(user, user_id):
+    practitioner_uuid = str(user[4]).strip()
+
+    if not practitioner_uuid:
+        # If practitioner uuid not provided in csv, check if any practitioners exist linked to the keycloak user_id
+        r = post_request("GET", "", config.fhir_base_url + "/Practitioner?identifier=" + user_id)
+        json_r = json.loads(r)
+        counter = json_r["total"]
+        if counter > 0:
+            logging.info(str(counter) + " Practitioner(s) exist, linked to the provided user")
+            return True
+        else:
+            return False
+
+    r = post_request("GET", "", config.fhir_base_url + "/Practitioner/" + practitioner_uuid)
+
+    if '"severity": "error"' in r:
+        logging.info('Practitioner does not exist, proceed to creation')
+        return False
+    else:
+        try:
+            json_r = json.loads(r)
+            identifiers = json_r["identifier"]
+            keycloak_id = 0
+            for id in identifiers:
+                if id["use"] == "secondary":
+                    keycloak_id = id["value"]
+
+            if str(keycloak_id) == user_id:
+                logging.info("The Keycloak user and Practitioner are linked as expected")
+                return True
+            else:
+                logging.error("The Keycloak user and Practitioner are not linked as exppected")
+                return True
+
+        except Exception as err:
+            logging.error('Error occured trying to find Practitioner: ' + str(err))
+            return True
 
 
 @click.command()
@@ -549,8 +588,9 @@ def main(csv_file, resource_type, assign, log_level):
                 if user_id != 0:
                     # user_id has been retrieved
                     # check practitioner
-                    # create_user_resources(user_id, user)
-                    i = 1
+                    practitioner_exists = confirm_practitioner(user, user_id)
+                    if not practitioner_exists:
+                        create_user_resources(user_id, user)
                 logging.info("Processing complete!")
         elif resource_type == "locations":
             logging.info("Processing locations")
