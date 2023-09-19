@@ -1,0 +1,4 @@
+role,composite,associated_roles
+GET_PATIENT
+GET_LOCATION
+EDIT_KEYCLOAK_USERS,true,manage-users|query-users
