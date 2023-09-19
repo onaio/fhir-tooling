@@ -83,7 +83,7 @@ def post_request(request_type, payload, url):
                 logging.info("[" + str(r.status_code) + "]" + ": SUCCESS!")
             else:
                 logging.error("[" + str(r.status_code) + "]" + r.text)
-            return r.text
+            return r.text, r.status_code
         else:
             logging.error("Unsupported request type!")
     except Exception as err:
@@ -130,11 +130,7 @@ def create_user(user):
         r = post_request("PUT", payload, url)
 
         return user_id
-    elif r.status_code == 409:
-        logging.error(r.text)
-        return 0
     else:
-        logging.error(str(r.status_code) + ":" + r.text)
         return 0
 
 
@@ -355,7 +351,7 @@ def fetch_and_build(extracted_matches, ftype):
         endpoint = config.fhir_base_url + "/CareTeam/" + key
         fetch_payload = post_request("GET", "", endpoint)
 
-        obj = json.loads(fetch_payload)
+        obj = json.loads(fetch_payload[0])
         current_version = obj["meta"]["versionId"]
 
         # build participants and managing orgs
@@ -494,6 +490,86 @@ def build_payload(resource_type, resources, resource_payload_file):
 
     final_string = initial_string + final_string[:-1] + " ] } "
     return final_string
+
+
+def confirm_keycloak_user(user):
+    # Confirm that the keycloak user details are as expected
+    user_username = str(user[2]).strip()
+    user_email = str(user[3]).strip()
+    # TODO update keycloak url
+    response = post_request(
+        "GET", "", config.keycloak_url + "?username=" + user_username
+    )
+    logging.debug(response)
+
+    try:
+        json_response = json.loads(response[0])
+        response_email = json_response[0]["email"]
+        response_username = json_response[0]["username"]
+        if response_email == user_email and response_username == user_username:
+            # username and email match input user as expected
+            # return id
+            keycloak_id = json_response[0]["id"]
+            logging.info("User confirmed with id: " + keycloak_id)
+            return keycloak_id
+        else:
+            logging.error("Skipping user: " + str(user))
+            logging.error("No user found with the provided username and email")
+            return 0
+    except IndexError:
+        logging.error("Skipping user: " + str(user))
+        logging.error("No user found with the provided username and email")
+        return 0
+
+
+def confirm_practitioner(user, user_id):
+    practitioner_uuid = str(user[4]).strip()
+
+    if not practitioner_uuid:
+        # If practitioner uuid not provided in csv, check if any practitioners exist linked to the keycloak user_id
+        r = post_request(
+            "GET", "", config.fhir_base_url + "/Practitioner?identifier=" + user_id
+        )
+        json_r = json.loads(r[0])
+        counter = json_r["total"]
+        if counter > 0:
+            logging.info(
+                str(counter) + " Practitioner(s) exist, linked to the provided user"
+            )
+            return True
+        else:
+            return False
+
+    r = post_request(
+        "GET", "", config.fhir_base_url + "/Practitioner/" + practitioner_uuid
+    )
+
+    if r[1] == 404:
+        logging.info("Practitioner does not exist, proceed to creation")
+        return False
+    else:
+        try:
+            json_r = json.loads(r[0])
+            identifiers = json_r["identifier"]
+            keycloak_id = 0
+            for id in identifiers:
+                if id["use"] == "secondary":
+                    keycloak_id = id["value"]
+
+            if str(keycloak_id) == user_id:
+                logging.info(
+                    "The Keycloak user and Practitioner are linked as expected"
+                )
+                return True
+            else:
+                logging.error(
+                    "The Keycloak user and Practitioner are not linked as exppected"
+                )
+                return True
+
+        except Exception as err:
+            logging.error("Error occured trying to find Practitioner: " + str(err))
+            return True
 
 
 def create_roles(role_list, roles_max):
@@ -654,9 +730,16 @@ def main(csv_file, resource_type, assign, setup, group, roles_max, log_level):
             logging.info("Processing users")
             for user in resource_list:
                 user_id = create_user(user)
+                if user_id == 0:
+                    # user was not created above, check if it already exists
+                    user_id = confirm_keycloak_user(user)
                 if user_id != 0:
-                    create_user_resources(user_id, user)
-                    logging.info("Processing complete!")
+                    # user_id has been retrieved
+                    # check practitioner
+                    practitioner_exists = confirm_practitioner(user, user_id)
+                    if not practitioner_exists:
+                        create_user_resources(user_id, user)
+                logging.info("Processing complete!")
         elif resource_type == "locations":
             logging.info("Processing locations")
             json_payload = build_payload(
