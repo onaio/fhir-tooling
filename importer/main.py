@@ -496,9 +496,8 @@ def confirm_keycloak_user(user):
     # Confirm that the keycloak user details are as expected
     user_username = str(user[2]).strip()
     user_email = str(user[3]).strip()
-    # TODO update keycloak url
     response = post_request(
-        "GET", "", config.keycloak_url + "?username=" + user_username
+        "GET", "", config.keycloak_url + "/users?username=" + user_username
     )
     logging.debug(response)
 
