@@ -91,6 +91,13 @@ def delete_resources(resource_url, resource_type):
         for resource in resources:
             resource_id = resource["resource"]["id"]
             resource_ids.append(resource_id)
+
+        del_payload = build_payload(resource_ids, resource_type)
+        post_request("POST", del_payload, config.fhir_base_url)
+        logging.info(str(len(resource_ids)) + " resources deleted")
+        time.sleep(20)
+        delete_resources(resource_url, resource_type)
+
     else:
         # confirm the count and that we are done
         logging.info("Checking count")
@@ -100,24 +107,15 @@ def delete_resources(resource_url, resource_type):
         count = json_count["total"]
         if count == 0:
             logging.info("All resourcess successfully deleted")
-            exit()
         else:
             time.sleep(20)
             logging.info("Call delete_resources again")
             delete_resources(resource_url, resource_type)
 
-    del_payload = build_payload(resource_ids, resource_type)
-    # post_request("POST", del_payload, config.fhir_base_url)
-    logging.info(str(len(resource_ids)) + " resources deleted")
-    time.sleep(20)
-    logging.info("Call delete_resources again")
-    delete_resources(resource_url, resource_type)
-
-
 def expunge_resources(expunge_url):
     full_payload = """ { "resourceType": "Parameters", "parameter": [{ "name": "expungeDeletedResources", "valueBoolean": true }]} """
     response = post_request("POST", full_payload, expunge_url)
-    json_response = json.loads(response)
+    json_response = json.loads(response.text)
     counter = json_response["parameter"][0]["valueInteger"]
     if counter > 0:
         expunge_resources(expunge_url)
