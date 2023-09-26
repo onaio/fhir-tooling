@@ -494,7 +494,7 @@ def confirm_keycloak_user(user):
     user_username = str(user[2]).strip()
     user_email = str(user[3]).strip()
     response = handle_request(
-        "GET", "", config.keycloak_url + "/users?username=" + user_username
+        "GET", "", config.keycloak_url + "/users?exact=true&username=" + user_username
     )
     logging.debug(response)
 
