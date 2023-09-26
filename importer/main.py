@@ -4,6 +4,7 @@ import uuid
 import click
 import requests
 import logging
+import backoff
 from oauthlib.oauth2 import LegacyApplicationClient
 from requests_oauthlib import OAuth2Session
 
@@ -37,6 +38,7 @@ def read_csv(csv_file):
 
 # This function makes the request to the provided url
 # to create resources
+@backoff.on_exception(backoff.expo, requests.exceptions.RequestException, max_time=180)
 def post_request(request_type, payload, url):
     logging.info("Posting request-----------------")
     logging.info("Request type: " + request_type)
@@ -62,33 +64,28 @@ def post_request(request_type, payload, url):
     access_token = "Bearer " + token["access_token"]
     headers = {"Content-type": "application/json", "Authorization": access_token}
 
+    if request_type == "POST":
+        return requests.post(url, data=payload, headers=headers)
+    elif request_type == "PUT":
+        return requests.put(url, data=payload, headers=headers)
+    elif request_type == "GET":
+        return requests.get(url, headers=headers)
+    else:
+        logging.error("Unsupported request type!")
+
+
+def handle_request(request_type, payload, url):
     try:
-        if request_type == "POST":
-            r = requests.post(url, data=payload, headers=headers)
-            if r.status_code == 200 or r.status_code == 201:
-                logging.info("[" + str(r.status_code) + "]" + ": SUCCESS!")
-            else:
-                logging.error("[" + str(r.status_code) + "]" + r.text)
-            return r
-        elif request_type == "PUT":
-            r = requests.put(url, data=payload, headers=headers)
-            if r.status_code == 200 or r.status_code == 201:
-                logging.info("[" + str(r.status_code) + "]" + ": SUCCESS!")
-            else:
-                logging.error("[" + str(r.status_code) + "]" + r.text)
-            return r
-        elif request_type == "GET":
-            r = requests.get(url, headers=headers)
-            if r.status_code == 200 or r.status_code == 201:
-                logging.info("[" + str(r.status_code) + "]" + ": SUCCESS!")
-            else:
-                logging.error("[" + str(r.status_code) + "]" + r.text)
-            return r.text, r.status_code
+        response = post_request(request_type, payload, url)
+        if response.status_code == 200 or response.status_code == 201:
+            logging.info("[" + str(response.status_code) + "]" + ": SUCCESS!")
+
+        if request_type == "GET":
+            return response.text, response.status_code
         else:
-            logging.error("Unsupported request type!")
+            return response
     except Exception as err:
         logging.error(err)
-        raise
 
 
 # This function builds the user payload and posts it to
@@ -108,7 +105,7 @@ def create_user(user):
 
     final_string = json.dumps(obj)
     logging.info("Creating user: " + user[2])
-    r = post_request("POST", final_string, config.keycloak_url + "/users")
+    r = handle_request("POST", final_string, config.keycloak_url + "/users")
 
     if r.status_code == 201:
         logging.info("User created successfully")
@@ -120,14 +117,14 @@ def create_user(user):
         group_endpoint = user_id + "/groups/" + user[7]
         url = config.keycloak_url + "/users/" + group_endpoint
         logging.info("Adding user to Keycloak group: " + user[8])
-        r = post_request("PUT", payload, url)
+        r = handle_request("PUT", payload, url)
 
         # set password
         payload = '{"temporary":false,"type":"password","value":"' + user[10] + '"}'
         password_endpoint = user_id + "/reset-password"
         url = config.keycloak_url + "/users/" + password_endpoint
         logging.info("Setting user password")
-        r = post_request("PUT", payload, url)
+        r = handle_request("PUT", payload, url)
 
         return user_id
     else:
@@ -189,7 +186,7 @@ def create_user_resources(user_id, user):
     ff = json.dumps(obj, indent=4)
 
     payload = initial_string + ff + "}"
-    post_request("POST", payload, config.fhir_base_url)
+    handle_request("POST", payload, config.fhir_base_url)
 
 
 # custom extras for organizations
@@ -349,7 +346,7 @@ def fetch_and_build(extracted_matches, ftype):
     for key in extracted_matches:
         # hit api to get current payload
         endpoint = config.fhir_base_url + "/CareTeam/" + key
-        fetch_payload = post_request("GET", "", endpoint)
+        fetch_payload = handle_request("GET", "", endpoint)
 
         obj = json.loads(fetch_payload[0])
         current_version = obj["meta"]["versionId"]
@@ -496,7 +493,7 @@ def confirm_keycloak_user(user):
     # Confirm that the keycloak user details are as expected
     user_username = str(user[2]).strip()
     user_email = str(user[3]).strip()
-    response = post_request(
+    response = handle_request(
         "GET", "", config.keycloak_url + "/users?username=" + user_username
     )
     logging.debug(response)
@@ -526,7 +523,7 @@ def confirm_practitioner(user, user_id):
 
     if not practitioner_uuid:
         # If practitioner uuid not provided in csv, check if any practitioners exist linked to the keycloak user_id
-        r = post_request(
+        r = handle_request(
             "GET", "", config.fhir_base_url + "/Practitioner?identifier=" + user_id
         )
         json_r = json.loads(r[0])
@@ -539,7 +536,7 @@ def confirm_practitioner(user, user_id):
         else:
             return False
 
-    r = post_request(
+    r = handle_request(
         "GET", "", config.fhir_base_url + "/Practitioner/" + practitioner_uuid
     )
 
@@ -577,15 +574,15 @@ def create_roles(role_list, roles_max):
         logging.debug("The current role is: " + current_role)
 
         # check if role already exists
-        role_response = post_request(
+        role_response = handle_request(
             "GET", "", config.keycloak_url + "/roles/" + current_role
         )
         logging.debug(role_response)
-        if current_role in role_response:
+        if current_role in role_response[0]:
             logging.error("A role already exists with the name " + current_role)
         else:
             role_payload = '{"name": "' + current_role + '"}'
-            create_role = post_request(
+            create_role = handle_request(
                 "POST", role_payload, config.keycloak_url + "/roles"
             )
             if create_role.status_code == 201:
@@ -596,15 +593,15 @@ def create_roles(role_list, roles_max):
             if role[1]:
                 logging.debug("Role has composite roles")
                 # get roled id
-                full_role = post_request(
+                full_role = handle_request(
                     "GET", "", config.keycloak_url + "/roles/" + current_role
                 )
-                json_resp = json.loads(full_role)
+                json_resp = json.loads(full_role[0])
                 role_id = json_resp["id"]
                 logging.debug("roleId: " + str(role_id))
 
                 # get all available roles
-                available_roles = post_request(
+                available_roles = handle_request(
                     "GET",
                     "",
                     config.keycloak_url
@@ -614,7 +611,7 @@ def create_roles(role_list, roles_max):
                     + str(roles_max)
                     + "&search=",
                 )
-                json_roles = json.loads(available_roles)
+                json_roles = json.loads(available_roles[0])
                 logging.debug("json_roles: " + str(json_roles))
 
                 rolesMap = {}
@@ -639,7 +636,7 @@ def create_roles(role_list, roles_max):
                         logging.error("Role " + arole + "does not exist")
 
                 payload_arr = json.dumps(arr)
-                post_request(
+                handle_request(
                     "POST",
                     payload_arr,
                     config.keycloak_url + "/roles-by-id/" + role_id + "/composites",
@@ -651,8 +648,8 @@ def create_roles(role_list, roles_max):
 
 def get_group_id(group):
     # check if group exists
-    all_groups = post_request("GET", "", config.keycloak_url + "/groups")
-    json_groups = json.loads(all_groups)
+    all_groups = handle_request("GET", "", config.keycloak_url + "/groups")
+    json_groups = json.loads(all_groups[0])
     group_obj = {}
 
     for agroup in json_groups:
@@ -667,7 +664,7 @@ def get_group_id(group):
         logging.info("Group does not exists, lets create it")
         # create the group
         create_group_payload = '{"name":"' + group + '"}'
-        post_request("POST", create_group_payload, config.keycloak_url + "/groups")
+        handle_request("POST", create_group_payload, config.keycloak_url + "/groups")
         return get_group_id(group)
 
 
@@ -676,7 +673,7 @@ def assign_group_roles(role_list, group, roles_max):
     logging.debug("The groupID is: " + group_id)
 
     # get available roles
-    available_roles_for_group = post_request(
+    available_roles_for_group = handle_request(
         "GET",
         "",
         config.keycloak_url
@@ -685,7 +682,7 @@ def assign_group_roles(role_list, group, roles_max):
         + "/role-mappings/realm/available?first=0&max="
         + str(roles_max),
     )
-    json_roles = json.loads(available_roles_for_group)
+    json_roles = json.loads(available_roles_for_group[0])
     role_obj = {}
 
     for j in json_roles:
@@ -697,7 +694,7 @@ def assign_group_roles(role_list, group, roles_max):
             assign_payload.append(role_obj[r[0]])
 
     json_assign_payload = json.dumps(assign_payload)
-    post_request(
+    handle_request(
         "POST",
         json_assign_payload,
         config.keycloak_url + "/groups/" + group_id + "/role-mappings/realm",
@@ -744,7 +741,7 @@ def main(csv_file, resource_type, assign, setup, group, roles_max, log_level):
             json_payload = build_payload(
                 "locations", resource_list, "json_payloads/locations_payload.json"
             )
-            post_request("POST", json_payload, config.fhir_base_url)
+            handle_request("POST", json_payload, config.fhir_base_url)
             logging.info("Processing complete!")
         elif resource_type == "organizations":
             logging.info("Processing organizations")
@@ -753,32 +750,32 @@ def main(csv_file, resource_type, assign, setup, group, roles_max, log_level):
                 resource_list,
                 "json_payloads/organizations_payload.json",
             )
-            post_request("POST", json_payload, config.fhir_base_url)
+            handle_request("POST", json_payload, config.fhir_base_url)
             logging.info("Processing complete!")
         elif resource_type == "careTeams":
             logging.info("Processing CareTeams")
             json_payload = build_payload(
                 "careTeams", resource_list, "json_payloads/careteams_payload.json"
             )
-            post_request("POST", json_payload, config.fhir_base_url)
+            handle_request("POST", json_payload, config.fhir_base_url)
             logging.info("Processing complete!")
         elif assign == "organization-Location":
             logging.info("Assigning Organizations to Locations")
             matches = extract_matches(resource_list)
             json_payload = build_org_affiliation(matches, resource_list)
-            post_request("POST", json_payload, config.fhir_base_url)
+            handle_request("POST", json_payload, config.fhir_base_url)
             logging.info("Processing complete!")
         elif assign == "careTeam-Organization":
             logging.info("Assigning CareTeam to Organization")
             matches = extract_matches(resource_list)
             json_payload = fetch_and_build(matches, "orgs")
-            post_request("POST", json_payload, config.fhir_base_url)
+            handle_request("POST", json_payload, config.fhir_base_url)
             logging.info("Processing complete!")
         elif assign == "user-careTeam":
             logging.info("Assing users to careTeam")
             matches = extract_matches(resource_list)
             json_payload = fetch_and_build(matches, "users")
-            post_request("POST", json_payload, config.fhir_base_url)
+            handle_request("POST", json_payload, config.fhir_base_url)
             logging.info("Processing complete!")
         elif setup == "roles":
             logging.info("Setting up keycloak roles")
