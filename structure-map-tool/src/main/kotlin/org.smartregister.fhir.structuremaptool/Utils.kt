@@ -311,9 +311,45 @@ class Group (entry : Map.Entry<String, MutableList<Instruction>>, val stringBuil
     }
 
 }
-fun generateStructureMapLine(structureMapBody: String, row: Row, resource: Resource, extractionResources: HashMap<String, Resource>)  {
+fun generateStructureMapLine(structureMapBody: StringBuilder, row: Row, resource: Resource, extractionResources: HashMap<String, Resource>)  {
+    row.forEachIndexed { index, cell ->
+        val cellValue =cell.stringCellValue
+        val fieldPath = row.getCell(4).stringCellValue
+        val targetDataType = determineFhirDataType(cellValue)
+        structureMapBody.append("src -> entity.${fieldPath}=")
 
+        when(targetDataType){
+            "string" -> {
+                structureMapBody.append("create('string').value ='$cellValue'")
+            }
+            "integer" -> {
+                structureMapBody.append("create('integer').value = $cellValue")
+            }
+            "boolean" -> {
+                val booleanValue =
+                    if (cellValue.equals("true", ignoreCase = true)) "true" else "false"
+                structureMapBody.append("create('boolean').value = $booleanValue")
+            }
+            else -> {
+                structureMapBody.append("create('unsupportedDataType').value = '$cellValue'")
+            }
+        }
+        structureMapBody.appendNewLine()
+    }
+}
+fun determineFhirDataType(cellValue: String):String{
+    val cleanedValue = cellValue.trim().toLowerCase()
 
+    when {
+        cleanedValue == "true" || cleanedValue == "false" -> return "boolean"
+        cleanedValue.matches(Regex("-?\\d+")) -> return "boolean"
+        cleanedValue.matches(Regex("-?\\d*\\.\\d+")) -> return "decimal"
+        cleanedValue.matches(Regex("\\d{4}-\\d{2}-\\d{2}")) -> return "date"
+        cleanedValue.matches(Regex("\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}")) -> return "dateTime"
+        else -> {
+            return "string"
+        }
+    }
 }
 
 fun StringBuilder.appendNewLine() : StringBuilder {
