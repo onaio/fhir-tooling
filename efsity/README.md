@@ -103,6 +103,7 @@ The above will output a list of errors, warnings and information.
 
 ### Localization
 Tool that supports localization by the use of the translation extension
+
 #### 1. Extraction
 It extracts all `text` from the specific resource provided or from all resources in the directory provided and generates a `strings_default.properties` document in the `translation` folder by default or in the file provided using the `-tf` flag.
 ```console
