@@ -101,6 +101,23 @@ The above will output a list of errors, warnings and information.
 -i or --input - the input file path, can be a file or directory with multiple files. Passing a path to a directory will automatically process all json files in the folder recursively
 ```
 
+### Localization
+Tool that supports localization by the use of the translation extension
+#### 1. Extraction
+It extracts all `text` from the specific resource provided or from all resources in the directory provided and generates a `strings_default.properties` document in the `translation` folder by default or in the file provided using the `-tf` flag.
+```console
+$ fct translate -m extract -rf ~/Workspace/fhir-resources/<project>/<environment>/<app>/fhir_content/questionnaire -tf ~/Workspace/fhir-resources/<project>/<environment>/<app>/fhir_content/translation/strings_default.properties
+```
+The above will output a list of errors, warnings and information.
+
+**Options**
+```
+-m or --mode - the options are either `extract` to generate the translation file from a questionnaire or `merge` to import a translated file and populate the original questionnaire
+-rf or --resourceFile path to the resource file or the folder containing the resource files
+-tf or --translationFile (Optional during extraction) this is path to the string_default.properties file. If not provided it defaults to ~/Workspace/fhir-resources/<project>/<environment>/<app>/fhir_content/translation/strings_default.properties
+-i or --input - the input file path, can be a file or directory with multiple files. Passing a path to a directory will automatically process all json files in the folder recursively
+```
+
 ## Development
 ### Set up
 This is a Java + Kotlin gradle project. You can import it in you JetBrains IntelliJ IDE as such. The utility is built on the very awesome `Picocli` library found here https://picocli.info/.

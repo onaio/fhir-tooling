@@ -2,8 +2,19 @@ package org.smartregister.command;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
 import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.*;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Properties;
 import java.util.*;
+
 import org.smartregister.util.FctUtils;
 import picocli.CommandLine;
 
@@ -42,210 +53,119 @@ public class TranslateCommand implements Runnable {
     if (!Arrays.asList(modes).contains(mode)) {
       throw new RuntimeException("Modes should either be `extract` or `merge`");
     }
-    try {
-      if (Objects.equals(mode, "extract")) {
-        long start = System.currentTimeMillis();
 
-        FctUtils.printInfo("Starting text extraction");
-        FctUtils.printInfo(String.format("Input file \u001b[35m%s\u001b[0m", resourceFile));
-        ObjectMapper objectMapper = new ObjectMapper();
-        JsonNode rootNode = objectMapper.readTree(new File(resourceFile));
+    if (Objects.equals(mode, "extract")) {
+      long start = System.currentTimeMillis();
 
-        // Create a properties object to store the results
-        Properties properties = new Properties();
+      FctUtils.printInfo("Starting text extraction");
+      FctUtils.printInfo(String.format("Input file \u001b[35m%s\u001b[0m", resourceFile));
+      Map<String, String> textToHash = new HashMap<>();
 
-        // Start the recursive extraction
-        extractTranslationText(rootNode, "", properties);
-
-        // Write the properties to a file
-        if (translationFile == null) {
-
-          String fileName = getFileName(resourceFile);
-          String defaultLanguage = getLanguageOrDefault(rootNode);
-          translationFile = fileName + "_" + defaultLanguage + ".properties";
-        }
-        FctUtils.printInfo(String.format("Translation file \u001b[35m%s\u001b[0m", translationFile));
-        properties.store(new FileOutputStream(translationFile), null);
-
-        FctUtils.printInfo(String.format("Output file\u001b[36m %s \u001b[0m", translationFile));
-        FctUtils.printCompletedInDuration(start);
-      } else if (Objects.equals(mode, "merge")) {
-        if (locale == null) {
-          throw new RuntimeException("Translation Locale should be provided during merge.");
-        }
-        if (translationFile == null) {
-          throw new RuntimeException("Translation file should be provided during merge.");
-        }
-        long start = System.currentTimeMillis();
-
-        FctUtils.printInfo("Starting text merging");
-        FctUtils.printInfo(String.format("Input file \u001b[35m%s\u001b[0m", resourceFile));
-        FctUtils.printInfo(String.format("Translation file \u001b[35m%s\u001b[0m", translationFile));
-
-        ObjectMapper objectMapper = new ObjectMapper();
-        JsonNode jsonContent = objectMapper.readTree(new FileReader(resourceFile));
-        List<String> properties = readPropertiesFile(translationFile);
-        populateJson(properties, jsonContent, locale);
-
-        // Serializing json
-        String jsonObject = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(jsonContent);
-
-        // Writing to ni.json
-        FileWriter fileWriter = new FileWriter("ni.json");
-        fileWriter.write(jsonObject);
-        fileWriter.close();
-
-        FctUtils.printInfo(String.format("Output file\u001b[36m %s \u001b[0m", "updated_qs.json"));
-        FctUtils.printCompletedInDuration(start);
-      }
-
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
-  }
-
-  private void extractTranslationText(JsonNode node, String path, Properties properties)
-    throws IOException {
-    if (node.isObject()) {
-      node.fields().forEachRemaining(entry -> {
-        String key = entry.getKey();
-        JsonNode value = entry.getValue();
-
-        String newPath = path.isEmpty() ? key : path + "." + key;
-
-        if (Objects.equals(key, "text")) {
-          properties.setProperty(newPath, value.asText());
-        }
-
-        try {
-          extractTranslationText(value, newPath, properties);
-        } catch (IOException e) {
-          throw new RuntimeException(e);
-        }
-      });
-    } else if (node.isArray()) {
-      for (int i = 0; i < node.size(); i++) {
-        extractTranslationText(node.get(i), path + "." + i, properties);
-      }
-    }
-  }
-
-  private static String getLanguageOrDefault(JsonNode jsonNode) {
-    if (jsonNode.has("language")) {
-      return jsonNode.get("language").asText();
-    } else {
-      return "default";
-    }
-  }
-
-  private static List<String> readPropertiesFile(String filePath) throws IOException {
-    List<String> properties = new ArrayList<>();
-    BufferedReader reader = new BufferedReader(new FileReader(filePath));
-    String line;
-    while ((line = reader.readLine()) != null) {
-      properties.add(line);
-    }
-    reader.close();
-    return properties;
-  }
-
-  private static String getFileName(String filePath) {
-    File file = new File(filePath);
-    String fileName = file.getName();
-
-    int lastIndex = fileName.lastIndexOf(".");
-    if (lastIndex != -1) {
-      return fileName.substring(0, lastIndex);
-    } else {
-      return fileName;
-    }
-  }
-
-  private static void populateJson(List<String> properties, JsonNode jsonContent, String locale) {
-    String url = "localhost:8000";
-
-    for (String prop : properties) {
-      if (prop.contains("=")) {
-        String[] propParts = prop.split("=");
-        String jsonPath = propParts[0];
-        String value = propParts[1];
-        String[] jsonPathList = jsonPath.split("\\.");
-        replaceJson(jsonContent, jsonPathList, locale, value, url);
-      }
-    }
-  }
-
-  private static void replaceJson(JsonNode jsonContent, String[] jsonPathList, String language, String value, String url) {
-    String currentPath = jsonPathList[0];
-    ObjectMapper objectMapper = new ObjectMapper();
-
-    if (!currentPath.equals("text")) {
       try {
-        int index = Integer.parseInt(currentPath);
-        jsonContent = jsonContent.get(index);
-      } catch (NumberFormatException ignored) {
-        jsonContent = jsonContent.get(currentPath);
-      }
-
-      String[] newPathList = new String[jsonPathList.length - 1];
-      System.arraycopy(jsonPathList, 1, newPathList, 0, jsonPathList.length - 1);
-      replaceJson(jsonContent, newPathList, language, value, url);
-    } else {
-      if (jsonContent.has("_text")) {
-        JsonNode textNode = jsonContent.get("_text");
-        if (!textNode.has("extension")) {
-          // Create a new extension array
-          ((com.fasterxml.jackson.databind.node.ObjectNode) textNode).putArray("extension");
+        // Check if the input path is a directory or a JSON file
+        Path inputFilePath = Paths.get(resourceFile);
+        if (Files.isDirectory(inputFilePath)) {
+          if (translationFile == null) {
+            translationFile = inputFilePath.resolve("translations/strings_default.properties").toString();
+          }
+          Files.walk(inputFilePath)
+            .filter(Files::isRegularFile)
+            .filter(file -> file.toString().endsWith(".json"))
+            .forEach(file -> {
+              try {
+                processJsonFile(file, textToHash);
+              } catch (IOException | NoSuchAlgorithmException e) {
+                throw new RuntimeException(e);
+              }
+            });
+        } else if (Files.isRegularFile(inputFilePath) && resourceFile.endsWith(".json")) {
+          if (translationFile == null) {
+            translationFile = inputFilePath.getParent()
+              .resolve("translation/strings_default.properties").toString();
+          }
+          processJsonFile(inputFilePath, textToHash);
+        } else {
+          System.out.println("Invalid input path. Please provide a directory or a JSON file.");
+          return;
         }
 
-        boolean extensionExists = false;
-        for (JsonNode extension : textNode.get("extension")) {
-          for (JsonNode langExtension : extension.get("extension")) {
-            if (langExtension.get("url").asText().equals("lang") &&
-              langExtension.get("valueCode").asText().equals(language)) {
-              extensionExists = true;
-              break;
-            }
+        // Read existing properties file, if it exists
+        Properties existingProperties = new Properties();
+        Path propertiesFilePath = Paths.get(translationFile);
+
+        if (Files.exists(propertiesFilePath)) {
+          try (InputStream input = new FileInputStream(propertiesFilePath.toFile())) {
+            existingProperties.load(input);
           }
         }
+        // Merge existing properties with new properties
+        existingProperties.putAll(textToHash);
 
-        if (!extensionExists) {
-          ((com.fasterxml.jackson.databind.node.ArrayNode) textNode.get("extension")).addPOJO(
-            objectMapper.createObjectNode()
-              .put("url", url)
-              .putPOJO("extension", objectMapper.createArrayNode()
-                .addPOJO(
-                  objectMapper.createObjectNode()
-                    .put("url", "lang")
-                    .put("valueCode", language)
-                )
-                .addPOJO(
-                  objectMapper.createObjectNode()
-                    .put("url", "content")
-                    .put("valueString", value)
-                ))
-          );
-        }
-      } else {
-        ((com.fasterxml.jackson.databind.node.ObjectNode) jsonContent).set("_text",
-          objectMapper.createObjectNode()
-            .putPOJO("extension", objectMapper.createArrayNode()
-              .addPOJO(objectMapper.createObjectNode()
-                .put("url", url)
-                .putPOJO("extension", objectMapper.createArrayNode()
-                  .addPOJO(
-                    objectMapper.createObjectNode()
-                      .put("url", "lang")
-                      .put("valueCode", language)
-                  )
-                  .addPOJO(
-                    objectMapper.createObjectNode()
-                      .put("url", "content")
-                      .put("valueString", value)
-                  ))
-              ))
-        );
+        // Write the updated properties to a new file
+        writePropertiesFile(existingProperties, translationFile);
+        FctUtils.printInfo(String.format("Translation file \u001b[35m%s\u001b[0m", translationFile));
+        FctUtils.printInfo(String.format("Output file\u001b[36m %s \u001b[0m", translationFile));
+        FctUtils.printCompletedInDuration(start);
+      } catch (IOException | NoSuchAlgorithmException e) {
+        throw new RuntimeException(e);
       }
+    }
+
+  }
+
+  private static void processJsonFile(Path filePath, Map<String, String> textToHash)
+    throws IOException, NoSuchAlgorithmException {
+    ObjectMapper objectMapper = new ObjectMapper();
+    JsonNode rootNode = objectMapper.readTree(Files.newBufferedReader(filePath, StandardCharsets.UTF_8));
+    findTextFields(rootNode, textToHash);
+  }
+
+  private static void findTextFields(JsonNode node, Map<String, String> textToHash)
+    throws NoSuchAlgorithmException {
+    if (node.isObject()) {
+      ObjectNode objectNode = (ObjectNode) node;
+      Iterator<Map.Entry<String, JsonNode>> fields = objectNode.fields();
+      while (fields.hasNext()) {
+        Map.Entry<String, JsonNode> field = fields.next();
+        if ("text".equals(field.getKey()) && field.getValue().isTextual()) {
+          String text = field.getValue().asText();
+          String md5Hash = calculateMD5Hash(text);
+          textToHash.put(md5Hash, text);
+        } else if (field.getValue().isObject() || field.getValue().isArray()) {
+          findTextFields(field.getValue(), textToHash);
+        }
+      }
+    } else if (node.isArray()) {
+      for (JsonNode arrayNode : node) {
+        findTextFields(arrayNode, textToHash);
+      }
+    }
+  }
+
+  private static String calculateMD5Hash(String text) throws NoSuchAlgorithmException {
+    MessageDigest md = MessageDigest.getInstance("MD5");
+    byte[] bytes = md.digest(text.getBytes(StandardCharsets.UTF_8));
+
+    StringBuilder result = new StringBuilder();
+    for (byte b : bytes) {
+      result.append(String.format("%02x", b));
+    }
+
+    return result.toString();
+  }
+
+  private static void writePropertiesFile(Properties properties, String filePath) throws IOException {
+    Path propertiesFilePath = Paths.get(filePath);
+    Path translationDirectory = propertiesFilePath.getParent();
+    if (translationDirectory != null && !Files.exists(translationDirectory)) {
+      try {
+        Files.createDirectories(translationDirectory);
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
+    }
+    try (OutputStream output = new FileOutputStream(filePath)) {
+      properties.store(output, null);
     }
   }
 }
