@@ -1,11 +1,7 @@
 /* (C)2023 */
 package org.smartregister;
 
-import org.smartregister.command.CarePlanGeneratorCommand;
-import org.smartregister.command.ConvertCommand;
-import org.smartregister.command.StructureMapExtractResourcesCommand;
-import org.smartregister.command.ValidateCommand;
-import org.smartregister.command.ValidateFhirResourcesCommand;
+import org.smartregister.command.*;
 import org.smartregister.fhircore_tooling.BuildConfig;
 import org.smartregister.util.FctUtils;
 import picocli.CommandLine;
@@ -21,7 +17,8 @@ import picocli.CommandLine.Command;
       StructureMapExtractResourcesCommand.class,
       ValidateCommand.class,
       CarePlanGeneratorCommand.class,
-      ValidateFhirResourcesCommand.class
+      ValidateFhirResourcesCommand.class,
+      TranslateCommand.class
     })
 public class Main implements Runnable {
   public static void main(String[] args) {
