@@ -836,7 +836,9 @@ def main(csv_file, resource_type, assign, setup, group, roles_max, cascade_delet
                 assign_group_roles(resource_list, group, roles_max)
             logging.info("Processing complete")
         elif setup == "clean_duplicates":
-            logging.info("Cleaning duplicate Practitioners on HAPI")
+            logging.info('=========================================')
+            logging.info("You are about to clean/delete Practitioner resources on the HAPI server")
+            click.confirm('Do you want to continue?', abort=True)
             clean_duplicates(resource_list, cascade_delete)
             logging.info("Processing complete!")
         else:
