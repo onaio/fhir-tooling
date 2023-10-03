@@ -499,25 +499,31 @@ def confirm_keycloak_user(user):
         "GET", "", config.keycloak_url + "/users?exact=true&username=" + user_username
     )
     logging.debug(response)
+    json_response = json.loads(response[0])
 
     try:
-        json_response = json.loads(response[0])
         response_email = json_response[0]["email"]
+    except IndexError:
+        response_email = ""
+
+    try:
         response_username = json_response[0]["username"]
-        if response_email == user_email and response_username == user_username:
-            # username and email match input user as expected
-            # return id
-            keycloak_id = json_response[0]["id"]
-            logging.info("User confirmed with id: " + keycloak_id)
-            return keycloak_id
-        else:
-            logging.error("Skipping user: " + str(user))
-            logging.error("No user found with the provided username and email")
-            return 0
     except IndexError:
         logging.error("Skipping user: " + str(user))
-        logging.error("No user found with the provided username and email")
+        logging.error("Username not found!")
         return 0
+
+    if response_username != user_username:
+        logging.error("Skipping user: " + str(user))
+        logging.error("Username does not match")
+        return 0
+
+    if len(response_email) > 0 and response_email != user_email:
+        logging.error("Email does not match for user: " + str(user))
+
+    keycloak_id = json_response[0]["id"]
+    logging.info("User confirmed with id: " + keycloak_id)
+    return keycloak_id
 
 
 def confirm_practitioner(user, user_id):
