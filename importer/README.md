@@ -108,6 +108,8 @@ See example csvs in the csv folder
 
 ## 9. Delete duplicate Practitioners on HAPI
 - Run `python3 main.py --csv_file csv/users.csv --setup clean_duplicates --cascade_delete true --log_level info`
+- This should be used very carefully and in very special circumstances such as early stages of server setup. Avoid usage in active production environments as it will actually delete FHIR resources
+- It is recommended to first run with cascade_delete set to false in order to see if there are any linked resources which will also be deleted. Also any resources that are actually deleted are only soft deleted and can be recovered
 - For this to work you must provide Practitioner uuids on your users.csv file. This is what is used to know which Practitioner to not delete
 - The script will check to see if every user has a keycloak uuid that has a Practitioner uuid that matches the one provided in the csv file
 - Note that if none of the Practitioner uuids match then all will be deleted
