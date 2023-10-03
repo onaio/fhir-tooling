@@ -70,6 +70,8 @@ def post_request(request_type, payload, url):
         return requests.put(url, data=payload, headers=headers)
     elif request_type == "GET":
         return requests.get(url, headers=headers)
+    elif request_type == "DELETE":
+        return requests.delete(url, headers=headers)
     else:
         logging.error("Unsupported request type!")
 
@@ -701,6 +703,74 @@ def assign_group_roles(role_list, group, roles_max):
     )
 
 
+def delete_resource(resource_type, resource_id, cascade):
+    if cascade:
+        cascade = "?_cascade=delete"
+    else:
+        cascade = ""
+
+    r = handle_request(
+        "DELETE",
+        "",
+        config.fhir_base_url + "/" + resource_type + "/" + resource_id + cascade,
+    )
+    logging.info(r.text)
+
+
+def clean_duplicates(users, cascade_delete):
+    for user in users:
+        # get keycloak user uuid
+        username = str(user[2].strip())
+        user_details = handle_request(
+            "GET", "", config.keycloak_url + "/users?exact=true&username=" + username
+        )
+        obj = json.loads(user_details[0])
+        keycloak_uuid = obj[0]["id"]
+
+        # get Practitioner(s)
+        r = handle_request(
+            "GET",
+            "",
+            config.fhir_base_url + "/Practitioner?identifier=" + keycloak_uuid,
+        )
+        practitioner_details = json.loads(r[0])
+        count = practitioner_details["total"]
+
+        try:
+            practitioner_uuid_provided = str(user[4].strip())
+        except IndexError:
+            practitioner_uuid_provided = None
+
+        if practitioner_uuid_provided:
+            if count == 1:
+                practitioner_uuid_returned = practitioner_details["entry"][0][
+                    "resource"
+                ]["id"]
+                # confirm the uuid matches the one provided in csv
+                if practitioner_uuid_returned == practitioner_uuid_provided:
+                    logging.info("User " + username + " ok!")
+                else:
+                    logging.error(
+                        "User "
+                        + username
+                        + "has 1 Practitioner but it does not match the provided uuid"
+                    )
+            elif count > 1:
+                for x in practitioner_details["entry"]:
+                    p_uuid = x["resource"]["id"]
+                    if practitioner_uuid_provided == p_uuid:
+                        # This is the correct resource, so skip it
+                        continue
+                    else:
+                        logging.info(
+                            "Deleting practitioner resource with uuid: " + str(p_uuid)
+                        )
+                        delete_resource("Practitioner", p_uuid, cascade_delete)
+            else:
+                # count is less than 1
+                logging.info("No Practitioners found")
+
+
 @click.command()
 @click.option("--csv_file", required=True)
 @click.option("--resource_type", required=False)
@@ -708,10 +778,13 @@ def assign_group_roles(role_list, group, roles_max):
 @click.option("--setup", required=False)
 @click.option("--group", required=False)
 @click.option("--roles_max", required=False, default=500)
+@click.option("--cascade_delete", required=False, default=False)
 @click.option(
     "--log_level", type=click.Choice(["DEBUG", "INFO", "ERROR"], case_sensitive=False)
 )
-def main(csv_file, resource_type, assign, setup, group, roles_max, log_level):
+def main(
+    csv_file, resource_type, assign, setup, group, roles_max, cascade_delete, log_level
+):
     if log_level == "DEBUG":
         logging.basicConfig(level=logging.DEBUG)
     elif log_level == "INFO":
@@ -783,8 +856,16 @@ def main(csv_file, resource_type, assign, setup, group, roles_max, log_level):
             if group:
                 assign_group_roles(resource_list, group, roles_max)
             logging.info("Processing complete")
+        elif setup == "clean_duplicates":
+            logging.info("=========================================")
+            logging.info(
+                "You are about to clean/delete Practitioner resources on the HAPI server"
+            )
+            click.confirm("Do you want to continue?", abort=True)
+            clean_duplicates(resource_list, cascade_delete)
+            logging.info("Processing complete!")
         else:
-            logging.error("Unsupported resource type!")
+            logging.error("Unsupported request!")
     else:
         logging.error("Empty csv file!")
 
