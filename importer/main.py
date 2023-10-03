@@ -709,19 +709,30 @@ def delete_resource(resource_type, resource_id, cascade):
     else:
         cascade = ""
 
-    r = handle_request("DELETE", "", config.fhir_base_url + "/" + resource_type + "/" + resource_id + cascade)
+    r = handle_request(
+        "DELETE",
+        "",
+        config.fhir_base_url + "/" + resource_type + "/" + resource_id + cascade,
+    )
     logging.info(r.text)
+
 
 def clean_duplicates(users, cascade_delete):
     for user in users:
         # get keycloak user uuid
         username = str(user[2].strip())
-        user_details = handle_request("GET", "", config.keycloak_url + "/users?exact=true&username=" + username )
+        user_details = handle_request(
+            "GET", "", config.keycloak_url + "/users?exact=true&username=" + username
+        )
         obj = json.loads(user_details[0])
         keycloak_uuid = obj[0]["id"]
 
         # get Practitioner(s)
-        r = handle_request("GET", "", config.fhir_base_url + "/Practitioner?identifier=" + keycloak_uuid)
+        r = handle_request(
+            "GET",
+            "",
+            config.fhir_base_url + "/Practitioner?identifier=" + keycloak_uuid,
+        )
         practitioner_details = json.loads(r[0])
         count = practitioner_details["total"]
 
@@ -732,12 +743,18 @@ def clean_duplicates(users, cascade_delete):
 
         if practitioner_uuid_provided:
             if count == 1:
-                practitioner_uuid_returned = practitioner_details["entry"][0]["resource"]["id"]
+                practitioner_uuid_returned = practitioner_details["entry"][0][
+                    "resource"
+                ]["id"]
                 # confirm the uuid matches the one provided in csv
                 if practitioner_uuid_returned == practitioner_uuid_provided:
                     logging.info("User " + username + " ok!")
                 else:
-                    logging.error("User " + username + "has 1 Practitioner but it does not match the provided uuid")
+                    logging.error(
+                        "User "
+                        + username
+                        + "has 1 Practitioner but it does not match the provided uuid"
+                    )
             elif count > 1:
                 for x in practitioner_details["entry"]:
                     p_uuid = x["resource"]["id"]
@@ -745,7 +762,9 @@ def clean_duplicates(users, cascade_delete):
                         # This is the correct resource, so skip it
                         continue
                     else:
-                        logging.info('Deleting practitioner resource with uuid: ' + str(p_uuid))
+                        logging.info(
+                            "Deleting practitioner resource with uuid: " + str(p_uuid)
+                        )
                         delete_resource("Practitioner", p_uuid, cascade_delete)
             else:
                 # count is less than 1
@@ -763,7 +782,9 @@ def clean_duplicates(users, cascade_delete):
 @click.option(
     "--log_level", type=click.Choice(["DEBUG", "INFO", "ERROR"], case_sensitive=False)
 )
-def main(csv_file, resource_type, assign, setup, group, roles_max, cascade_delete, log_level):
+def main(
+    csv_file, resource_type, assign, setup, group, roles_max, cascade_delete, log_level
+):
     if log_level == "DEBUG":
         logging.basicConfig(level=logging.DEBUG)
     elif log_level == "INFO":
@@ -836,9 +857,11 @@ def main(csv_file, resource_type, assign, setup, group, roles_max, cascade_delet
                 assign_group_roles(resource_list, group, roles_max)
             logging.info("Processing complete")
         elif setup == "clean_duplicates":
-            logging.info('=========================================')
-            logging.info("You are about to clean/delete Practitioner resources on the HAPI server")
-            click.confirm('Do you want to continue?', abort=True)
+            logging.info("=========================================")
+            logging.info(
+                "You are about to clean/delete Practitioner resources on the HAPI server"
+            )
+            click.confirm("Do you want to continue?", abort=True)
             clean_duplicates(resource_list, cascade_delete)
             logging.info("Processing complete!")
         else:
