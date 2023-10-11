@@ -85,7 +85,7 @@ class Application : CliktCommand() {
         val contextR4 = FhirContext.forR4()
         val fhirJsonParser = contextR4.newJsonParser()
         val questionnaire : Questionnaire = fhirJsonParser.parseResource(Questionnaire::class.java, FileUtils.readFileToString(File(questionnairefile), Charset.defaultCharset()))
-        val questionnaireResponse : QuestionnaireResponse = fhirJsonParser.parseResource(QuestionnaireResponse::class.java, FileUtils.readFileToString(File("/mnt/windows-ubuntu/Projects/opensrp/fhircore-tooling/structure-map-tool/src/main/resources/questionnaire-response.json"), Charset.defaultCharset()))
+        val questionnaireResponse : QuestionnaireResponse = fhirJsonParser.parseResource(QuestionnaireResponse::class.java, FileUtils.readFileToString(File("C:\\Users\\Kigamba\\Projects\\onaio\\fhircore-tooling\\structure-map-tool\\src\\main\\resources\\questionnaire-response.json"), Charset.defaultCharset()))
         val xlsFile = FileInputStream(xlsfile)
         val xlWb = WorkbookFactory.create(xlsFile)
 
@@ -240,6 +240,7 @@ class Application : CliktCommand() {
             resource = getCell(2).stringCellValue
             resourceIndex = getCell(3) ?.numericCellValue?.toInt() ?: 0
             fieldPath = getCell(4) ?.stringCellValue ?: ""
+            fullFieldPath = fieldPath
             field = getCell(5) ?.stringCellValue
             conversion = getCell(6) ?.stringCellValue
             fhirPathStructureMapFunctions = getCell(7) ?.stringCellValue
@@ -281,7 +282,8 @@ class Instruction {
 
 
     // TODO: Clean the following properties
-    fun fullPropertyPath() : String = "$resource.$fieldPath"
+    var fullFieldPath = ""
+    fun fullPropertyPath() : String = "$resource.$fullFieldPath"
 
     fun searchKey() = resource + resourceIndex
 }
@@ -291,6 +293,7 @@ fun Instruction.copyFrom(instruction: Instruction) {
     resource = instruction.resource
     resourceIndex = instruction.resourceIndex
     fieldPath = instruction.fieldPath
+    fullFieldPath = instruction.fullFieldPath
     field = instruction.field
     conversion = instruction.conversion
     fhirPathStructureMapFunctions = instruction.fhirPathStructureMapFunctions
