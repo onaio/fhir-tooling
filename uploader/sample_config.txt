@@ -1,0 +1,7 @@
+CLIENT_ID="client_id"
+CLIENT_SECRET="client_secret"
+USERNAME="username"
+PASSWORD="password"
+ACCESS_TOKEN_URL="https://keycloak.smartregister.org/auth/realms/example/protocol/openid-connect/token"
+RESOURCE_FOLDER="name_of_folder_with_resources"
+SERVER_URL="https://example.smartregister.org/fhir"
