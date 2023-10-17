@@ -6,5 +6,5 @@ A bash script to help with uploading content
 
 - Update the `config.txt` file with your credentials, resource folder name and base FHIR server url. See the [sample-config file](sample_config.txt) for examples
 
-- On the comman line run `bash uploader.sh`
+- On the command line run `bash uploader.sh`
 - Output will be posted to a file named `output.txt` in the same folder
