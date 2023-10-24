@@ -68,7 +68,7 @@ $ fct generateResponse -i /path/to/questionnaire.json -k your_api_key
 -i or --input - file path to the questionnaire
 -k or --apiKey - api key to authenticate
 -m or --model - (Optional) model you want to use. The default is `gpt-3.5-turbo-16k`
--t or --tokens - (Optional) max number of tokens to be used for the request. The default is 12000
+-t or --tokens - (Optional) max number of tokens to be used for the request. The default is 9000
 -o or --output - (Optional) output file path, can be a file or a directory. The default is set to the current directory
 ```
 
