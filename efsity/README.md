@@ -105,19 +105,44 @@ The above will output a list of errors, warnings and information.
 Tool that supports localization by the use of the translation extension
 
 #### 1. Extraction
-It extracts all `text` from the specific resource provided or from all resources in the directory provided and generates a `strings_default.properties` document in the `translation` folder by default or in the file provided using the `-tf` flag.
+It extracts specific fields from the specific resource provided or from all resources in the directory provided and generates a `strings_default.properties` document in the `translation` folder by default or in the file provided using the `-tf` flag.
+Performs best if project is consistent with this [structure](https://docs.google.com/document/d/1Seoo9YYDBI87lmkA5siNqWsdYIgiwE_EYZ6relz8V14/edit#heading=h.qqxoq1r6u4zf)
 ```console
-$ fct translate -m extract -rf ~/Workspace/fhir-resources/<project>/<environment>/<app>/fhir_content/questionnaire -tf ~/Workspace/fhir-resources/<project>/<environment>/<app>/fhir_content/translation/strings_default.properties
+$ fct translate -m extract -rf ~/Workspace/fhir-resources/<project>/<environment>/<app>/fhir_content -tf ~/Workspace/fhir-resources/<project>/<environment>/<app>/fhir_content/translation/strings_default.properties
 ```
-The above will output a list of errors, warnings and information.
+The above extract all [text and display](https://github.com/onaio/fhir-tooling/blob/main/efsity/src/main/java/org/smartregister/util/FCTConstants.java#L8) fields from the `fhir_content` directory and creates a `strings_default.properties` file in the specified directory.
 
 **Options**
 ```
 -m or --mode - the options are either `extract` to generate the translation file from a questionnaire or `merge` to import a translated file and populate the original questionnaire
 -rf or --resourceFile path to the resource file or the folder containing the resource files
--tf or --translationFile (Optional during extraction) this is path to the string_default.properties file. If not provided it defaults to ~/Workspace/fhir-resources/<project>/<environment>/<app>/fhir_content/translation/strings_default.properties
--i or --input - the input file path, can be a file or directory with multiple files. Passing a path to a directory will automatically process all json files in the folder recursively
+-tf or --translationFile (Optional during extraction unless extraction is being done on a specific file) this is path to the string_default.properties file. If not provided it defaults to ~/Workspace/fhir-resources/<project>/<environment>/<app>/fhir_content/translation/strings_default.properties
+-et or --extractionType (Optional except when performing extraction for an entire directory) the options are either `all` to perform an extraction of an entire directory, `configs` to perform an exraction of configs or `fhirContent` to perform extraction on questionnaires.
 ```
+
+**Examples**
+```agsl
+// extract content
+$ fct translate -m extract -rf ~/Workspace/fhir-resources/<project>/<environment>/<app>/fhir_content
+or 
+$ fct translate -m extract -rf ~/Workspace/fhir-resources/<project>/<environment>/<app>/fhir_content -et fhirContent
+or
+$ fct translate -m extract -rf ~/Workspace/fhir-resources/<project>/<environment>/<app>/fhir_content/questionnaires/content.json -et fhirContent -tf ~/Workspace/fhir-resources/<project>/<environment>/<app>/fhir_content/translation/strings_default.properties
+
+// extract configs
+$ fct translate -m extract -rf ~/Workspace/fhir-resources/<project>/<environment>/<app>/configs
+or 
+$ fct translate -m extract -rf ~/Workspace/fhir-resources/<project>/<environment>/<app>/configs -et configs
+or
+$ fct translate -m extract -rf ~/Workspace/fhir-resources/<project>/<environment>/<app>/configs/profile/config.json -et configs -tf ~/Workspace/fhir-resources/<project>/<environment>/<app>/configs/translation/strings_config.properties
+
+// extract configs and content from entire project
+$ fct translate -m extract -rf ~/Workspace/fhir-resources/<project>/<environment>/<app>
+or 
+$ fct translate -m extract -rf ~/Workspace/fhir-resources/<project>/<environment>/<app> -et all
+
+```
+Extracts content from specified directory or file and populates the specified translation file or default translation files location consistent with this [format](https://docs.google.com/document/d/1Seoo9YYDBI87lmkA5siNqWsdYIgiwE_EYZ6relz8V14/edit#heading=h.qqxoq1r6u4zf)
 
 ## Development
 ### Set up
