@@ -18,7 +18,8 @@ import picocli.CommandLine.Command;
       ValidateCommand.class,
       CarePlanGeneratorCommand.class,
       ValidateFhirResourcesCommand.class,
-      TranslateCommand.class
+      TranslateCommand.class,
+      QuestionnaireResponseGeneratorCommand.class
     })
 public class Main implements Runnable {
   public static void main(String[] args) {
