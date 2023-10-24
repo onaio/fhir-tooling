@@ -3,6 +3,8 @@ package org.smartregister.command;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.SerializationFeature;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -81,14 +83,14 @@ public class TranslateCommand implements Runnable {
             if (translationFile == null) {
               translationFile = inputFilePath.resolve("translations/strings_configs.properties").toString();
             }
-            extractDirectories(translationFile, inputFilePath, targetFields);
+            extractDirectories(translationFile, inputFilePath, targetFields, extractionType);
           } else if (Objects.equals(extractionType, "fhirContent") || inputFilePath.endsWith("fhir_content") ) {
             Set targetFields = FCTConstants.questionnaireTranslatables;
             if (translationFile == null) {
               translationFile = inputFilePath.resolve("translations/strings_default.properties").toString();
             }
             inputFilePath = inputFilePath.resolve("questionnaires");
-            extractDirectories(translationFile, inputFilePath, targetFields);
+            extractDirectories(translationFile, inputFilePath, targetFields, extractionType);
           } else if (extractionType == null || Objects.equals(extractionType, "all") ) {
             Path configsPath = inputFilePath.resolve("configs");
             Path fhirContentPath = inputFilePath.resolve("fhir_content");
@@ -102,7 +104,7 @@ public class TranslateCommand implements Runnable {
               } else {
                 configsTranslationFile = translationFile;
               }
-              extractDirectories(configsTranslationFile, configsPath, targetFields);
+              extractDirectories(configsTranslationFile, configsPath, targetFields, extractionType);
             } else {
               FctUtils.printWarning("`configs` directory not found in directory");
             }
@@ -116,7 +118,7 @@ public class TranslateCommand implements Runnable {
               } else {
                 contentTranslationFile = translationFile;
               }
-              extractDirectories(contentTranslationFile, questionnairePath, targetFields);
+              extractDirectories(contentTranslationFile, questionnairePath, targetFields, extractionType);
             } else {
               FctUtils.printWarning("`fhir_content` or `fhir_content/questionnaires` directory not found in directory");
             }
@@ -134,7 +136,7 @@ public class TranslateCommand implements Runnable {
           } else {
             targetFields = FCTConstants.questionnaireTranslatables;
           }
-          extractDirectories(translationFile, inputFilePath, targetFields);
+          extractDirectories(translationFile, inputFilePath, targetFields, extractionType);
         } else {
           throw new RuntimeException("Invalid input path. Please provide a directory or a JSON file.");
         }
@@ -146,24 +148,42 @@ public class TranslateCommand implements Runnable {
   }
 
   private static void extractDirectories(
-    String translationFile, Path inputFilePath, Set targetFields)
+    String translationFile, Path inputFilePath, Set<String> targetFields, String extractionType)
     throws IOException, NoSuchAlgorithmException {
     Map<String, String> textToHash = new HashMap<>();
     Path propertiesFilePath = Paths.get(translationFile);
 
     if (Files.isRegularFile(inputFilePath) && inputFilePath.endsWith(".json")) {
-      processJsonFile(inputFilePath, textToHash, targetFields);
+
+      if (Objects.equals(extractionType, "configs")) {
+        // Extract and replace target fields with hashed values
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode rootNode = objectMapper.readTree(Files.newBufferedReader(inputFilePath, StandardCharsets.UTF_8));
+        replaceTargetFieldsWithHashedValues(rootNode, targetFields, textToHash, inputFilePath);
+      } else {
+        // For other types (content/questionnaire), extract as usual
+        processJsonFile(inputFilePath, textToHash, targetFields);
+      }
     } else {
+      // Handle the case where inputFilePath is a directory (folders may contain multiple JSON files)
       Files.walk(inputFilePath)
         .filter(Files::isRegularFile)
         .filter(file -> file.toString().endsWith(".json"))
         .forEach(file -> {
           try {
-            processJsonFile(file, textToHash, targetFields);
+            if (Objects.equals(extractionType, "configs")) {
+              // Extract and replace target fields with hashed values
+              ObjectMapper objectMapper = new ObjectMapper();
+              JsonNode rootNode = objectMapper.readTree(Files.newBufferedReader(file, StandardCharsets.UTF_8));
+              replaceTargetFieldsWithHashedValues(rootNode, targetFields, textToHash, file);
+            } else {
+              // For other types (content/questionnaire), extract as usual
+              processJsonFile(file, textToHash, targetFields);
+            }
           } catch (IOException | NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
           }
-        }) ;
+        });
     }
 
     // Read existing properties file, if it exists
@@ -188,6 +208,54 @@ public class TranslateCommand implements Runnable {
     JsonNode rootNode = objectMapper.readTree(Files.newBufferedReader(filePath, StandardCharsets.UTF_8));
     findTargetFields(rootNode, textToHash, targetFields);
   }
+
+  private static void replaceTargetFieldsWithHashedValues(
+    JsonNode node, Set<String> targetFields, Map<String, String> textToHash, Path filePath)
+    throws NoSuchAlgorithmException {
+    if (node.isObject()) {
+      ObjectNode objectNode = (ObjectNode) node;
+      for (String fieldName : targetFields) {
+        JsonNode fieldValue = objectNode.get(fieldName);
+        if (fieldValue != null && fieldValue.isTextual()) {
+          String text = fieldValue.asText();
+          // Check if the field has not already been extracted
+          if (!text.startsWith("{{") || !text.endsWith("}}")) {
+            String md5Hash = calculateMD5Hash(text);
+            textToHash.put(md5Hash, text);
+            objectNode.put(fieldName, "{{ " + md5Hash + " }}");
+          }
+        }
+      }
+      Iterator<Map.Entry<String, JsonNode>> fields = objectNode.fields();
+      while (fields.hasNext()) {
+        Map.Entry<String, JsonNode> field = fields.next();
+        JsonNode fieldValue = field.getValue();
+        if (fieldValue.isObject() || fieldValue.isArray()) {
+          // Recursively update nested objects or arrays
+          replaceTargetFieldsWithHashedValues(fieldValue, targetFields, textToHash, filePath);
+        }
+      }
+    } else if (node.isArray()) {
+      ArrayNode arrayNode = (ArrayNode) node;
+      for (int i = 0; i < arrayNode.size(); i++) {
+        JsonNode arrayElement = arrayNode.get(i);
+        if (arrayElement.isObject() || arrayElement.isArray()) {
+          // Recursively update nested objects or arrays
+          replaceTargetFieldsWithHashedValues(arrayElement, targetFields, textToHash, filePath);
+        }
+      }
+    }
+
+    // Write the updated JSON back to the file
+    try (BufferedWriter writer = Files.newBufferedWriter(filePath, StandardCharsets.UTF_8)) {
+      ObjectMapper objectMapper = new ObjectMapper();
+      objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+      objectMapper.writeValue(writer, node);
+    } catch (IOException e) {
+      throw new RuntimeException("Failed to write the updated JSON to file.", e);
+    }
+  }
+
 
   private static void findTargetFields(JsonNode node, Map<String, String> textToHash, Set targetFields)
     throws NoSuchAlgorithmException {
