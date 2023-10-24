@@ -87,10 +87,12 @@ public class TranslateCommand implements Runnable {
             if (translationFile == null) {
               translationFile = inputFilePath.resolve("translations/strings_default.properties").toString();
             }
+            inputFilePath = inputFilePath.resolve("questionnaires");
             extractDirectories(translationFile, inputFilePath, targetFields);
           } else if (extractionType == null || Objects.equals(extractionType, "all") ) {
             Path configsPath = inputFilePath.resolve("configs");
             Path fhirContentPath = inputFilePath.resolve("fhir_content");
+            Path questionnairePath = fhirContentPath.resolve("questionnaires");
             if (Files.exists(configsPath) && Files.isDirectory(configsPath)) {
               Set targetFields = FCTConstants.configTranslatables;
               String configsTranslationFile = null;
@@ -104,7 +106,8 @@ public class TranslateCommand implements Runnable {
             } else {
               FctUtils.printWarning("`configs` directory not found in directory");
             }
-            if (Files.exists(fhirContentPath) && Files.isDirectory(fhirContentPath)) {
+            if (Files.exists(fhirContentPath) && Files.isDirectory(fhirContentPath) &&
+              Files.exists(questionnairePath) && Files.isDirectory(questionnairePath) ) {
               Set targetFields = FCTConstants.questionnaireTranslatables;
               String contentTranslationFile = null;
               if (translationFile == null) {
@@ -113,9 +116,9 @@ public class TranslateCommand implements Runnable {
               } else {
                 contentTranslationFile = translationFile;
               }
-              extractDirectories(contentTranslationFile, fhirContentPath, targetFields);
+              extractDirectories(contentTranslationFile, questionnairePath, targetFields);
             } else {
-              FctUtils.printWarning("`fhir_content` directory not found in directory");
+              FctUtils.printWarning("`fhir_content` or `fhir_content/questionnaires` directory not found in directory");
             }
           }
         } else if (Files.isRegularFile(inputFilePath) && resourceFile.endsWith(".json")) {
@@ -174,8 +177,7 @@ public class TranslateCommand implements Runnable {
     // Merge existing properties with new properties
     existingProperties.putAll(textToHash);
     writePropertiesFile(existingProperties, translationFile);
-    FctUtils.printInfo(String.format("Translation file \u001b[35m%s\u001b[0m", translationFile));
-    FctUtils.printInfo(String.format("Output file\u001b[36m %s \u001b[0m", translationFile));
+    FctUtils.printInfo(String.format("Translation file\u001b[36m %s \u001b[0m", translationFile));
 
   }
 

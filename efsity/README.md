@@ -137,7 +137,9 @@ or
 $ fct translate -m extract -rf ~/Workspace/fhir-resources/<project>/<environment>/<app>/configs/profile/config.json -et configs -tf ~/Workspace/fhir-resources/<project>/<environment>/<app>/configs/translation/strings_config.properties
 
 // extract configs and content from entire project
-$ fct translate -m extract -rf ~/Workspace/fhir-resources/<project>/<environment>/<app>/fhir_content -et all
+$ fct translate -m extract -rf ~/Workspace/fhir-resources/<project>/<environment>/<app>
+or 
+$ fct translate -m extract -rf ~/Workspace/fhir-resources/<project>/<environment>/<app> -et all
 
 ```
 Extracts content from specified directory or file and populates the specified translation file or default translation files location consistent with this [format](https://docs.google.com/document/d/1Seoo9YYDBI87lmkA5siNqWsdYIgiwE_EYZ6relz8V14/edit#heading=h.qqxoq1r6u4zf)
