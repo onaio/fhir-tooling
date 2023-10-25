@@ -89,7 +89,9 @@ public class TranslateCommand implements Runnable {
             if (translationFile == null) {
               translationFile = inputFilePath.resolve("translations/strings_default.properties").toString();
             }
-            inputFilePath = inputFilePath.resolve("questionnaires");
+            if (!inputFilePath.endsWith("questionnaires")) {
+              inputFilePath = inputFilePath.resolve("questionnaires");
+            }
             extractContent(translationFile, inputFilePath, targetFields, extractionType);
           } else if (extractionType == null || Objects.equals(extractionType, "all") ) {
             Path configsPath = inputFilePath.resolve("configs");
@@ -163,6 +165,9 @@ public class TranslateCommand implements Runnable {
         if (Files.isRegularFile(inputFilePath) && inputFilePath.toString().endsWith(".json")) {
           mergeContent(inputFilePath, translationFile, locale, targetFields);
         } else if (Files.isDirectory(inputFilePath)) {
+          if (!inputFilePath.endsWith("questionnaires")) {
+            inputFilePath = inputFilePath.resolve("questionnaires");
+          }
           Files.walk(inputFilePath)
             .filter(Files::isRegularFile)
             .filter(file -> file.toString().endsWith(".json"))
@@ -184,7 +189,8 @@ public class TranslateCommand implements Runnable {
   }
 
   private static void mergeContent(
-    Path inputFilePath, String translationFile, String locale, Set<String> targetFields) throws IOException, NoSuchAlgorithmException {
+    Path inputFilePath, String translationFile, String locale, Set<String> targetFields)
+    throws IOException, NoSuchAlgorithmException {
     ObjectMapper objectMapper = new ObjectMapper();
     JsonNode rootNode = objectMapper.readTree(Files.newBufferedReader(inputFilePath, StandardCharsets.UTF_8));
 
@@ -202,7 +208,9 @@ public class TranslateCommand implements Runnable {
     objectMapper.writeValue(inputFilePath.toFile(), updatedNode);
     FctUtils.printInfo(String.format("Merged JSON saved to \u001b[36m%s\u001b[0m", inputFilePath.toString()));
   }
-  private static JsonNode updateJson(JsonNode node, Properties translationProperties, String locale, Set<String> targetFields) throws NoSuchAlgorithmException {
+  private static JsonNode updateJson (
+    JsonNode node, Properties translationProperties, String locale, Set<String> targetFields)
+    throws NoSuchAlgorithmException {
     if (node.isObject()) {
       ObjectNode objectNode = (ObjectNode) node;
       ObjectNode updatedNode = objectNode.objectNode();
