@@ -144,11 +144,14 @@ $ fct translate -m extract -rf ~/Workspace/fhir-resources/<project>/<environment
 ```
 Extracts content from specified directory or file and populates the specified translation file or default translation files location consistent with this [format](https://docs.google.com/document/d/1Seoo9YYDBI87lmkA5siNqWsdYIgiwE_EYZ6relz8V14/edit#heading=h.qqxoq1r6u4zf)
 
-#### 1. Merging
+#### 2. Merging
 It merges specific fields from the specific translation file provided to a resource or resources in the directory provided. 
 Performs best if project is consistent with this [structure](https://docs.google.com/document/d/1Seoo9YYDBI87lmkA5siNqWsdYIgiwE_EYZ6relz8V14/edit#heading=h.qqxoq1r6u4zf)
 ```console
 $ fct translate -m merge -rf ~/Workspace/fhir-resources/<project>/<environment>/<app>/fhir_content -tf ~/Workspace/fhir-resources/<project>/<environment>/<app>/fhir_content/translation/strings_fr.properties -l fr
+or
+$ fct translate -m merge -rf ~/Workspace/fhir-resources/<project>/<environment>/<app>/fhir_content/questionnaires -tf ~/Workspace/fhir-resources/<project>/<environment>/<app>/fhir_content/translation/strings_fr.properties -l fr
+
 ```
 
 **Options**
@@ -156,7 +159,7 @@ $ fct translate -m merge -rf ~/Workspace/fhir-resources/<project>/<environment>/
 -m or --mode - the options are either `extract` to generate the translation file from a questionnaire or `merge` to import a translated file and populate the original questionnaire
 -rf or --resourceFile path to the resource file or the folder containing the resource files
 -tf or --translationFile this is path to the string_fr.properties file.
--l or --locale the translation locale
+-l or --locale (Optional if it can be derived from the properties file). The translation locale
 ```
 
 ## Development
