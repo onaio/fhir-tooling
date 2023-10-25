@@ -203,17 +203,18 @@ public class TranslateCommand implements Runnable {
     }
 
     // Traverse and update the JSON structure
-    updateJson(rootNode, translationProperties, locale, targetFields);
+    JsonNode updatedNode = updateJson(rootNode, translationProperties, locale, targetFields);
 
     // Write the updated JSON to the output file
     objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
-    objectMapper.writeValue(inputFilePath.toFile(), rootNode);
+    objectMapper.writeValue(inputFilePath.toFile(), updatedNode);
     FctUtils.printInfo(String.format("Merged JSON saved to \u001b[36m%s\u001b[0m", inputFilePath.toString()));
   }
-  private static void updateJson(
-    JsonNode node, Properties translationProperties, String locale, Set targetFields) throws NoSuchAlgorithmException {
+  private static JsonNode updateJson(JsonNode node, Properties translationProperties, String locale, Set targetFields) throws NoSuchAlgorithmException {
     if (node.isObject()) {
       ObjectNode objectNode = (ObjectNode) node;
+      ObjectNode updatedNode = objectNode.objectNode();
+
       Iterator<Map.Entry<String, JsonNode>> fields = objectNode.fields();
       while (fields.hasNext()) {
         Map.Entry<String, JsonNode> field = fields.next();
@@ -226,40 +227,49 @@ public class TranslateCommand implements Runnable {
             String translation = translationProperties.getProperty(translationKey);
 
             if (translation != null) {
-              // Add the new field with underscore prefix and update it
-              ObjectMapper objectMapper = new ObjectMapper();
-
               String newFieldName = "_" + fieldName;
               JsonNode existingField = objectNode.get(newFieldName);
+
               if (existingField != null && existingField.isObject()) {
                 // If the existing field is an object, add a new language object to it
-                ObjectNode extensionNode = objectMapper.createObjectNode();
+                ObjectNode extensionNode = updatedNode.objectNode();
                 extensionNode.put("url", "localhost:8000");
                 extensionNode.set("extension", createExtensionNode(locale, translation));
                 ArrayNode extensionArray = (ArrayNode) existingField.get("extension");
+
                 boolean isPresent = isObjectNodeInArrayNode(extensionArray, extensionNode);
                 if (!isPresent) {
                   extensionArray.add(extensionNode);
                 }
               } else {
                 // Create a new field with underscore prefix
-                ObjectNode extensionNode = objectMapper.createObjectNode();
+                ObjectNode extensionNode = updatedNode.objectNode();
                 extensionNode.put("url", "localhost:8000");
                 extensionNode.set("extension", createExtensionNode(locale, translation));
-                objectNode.set(newFieldName, extensionNode);
+                updatedNode.set(newFieldName, extensionNode);
               }
             }
           }
         }
 
         if (fieldValue.isObject() || fieldValue.isArray()) {
-          updateJson(fieldValue, translationProperties, locale, targetFields);
+          // Recursively update nested objects or arrays
+          updatedNode.set(fieldName, updateJson(fieldValue, translationProperties, locale, targetFields));
+        } else {
+          updatedNode.set(fieldName, fieldValue);
         }
       }
+
+      return updatedNode;
     } else if (node.isArray()) {
-      for (JsonNode arrayNode : node) {
-        updateJson(arrayNode, translationProperties, locale, targetFields);
+      ArrayNode arrayNode = (ArrayNode) node;
+      ArrayNode updatedArray = arrayNode.arrayNode();
+      for (JsonNode arrayElement : arrayNode) {
+        updatedArray.add(updateJson(arrayElement, translationProperties, locale, targetFields));
       }
+      return updatedArray;
+    } else {
+      return node;
     }
   }
 
