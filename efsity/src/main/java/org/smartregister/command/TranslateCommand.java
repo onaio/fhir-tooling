@@ -79,13 +79,13 @@ public class TranslateCommand implements Runnable {
         if (Files.isDirectory(inputFilePath)) {
 
           if (Objects.equals(extractionType, "configs") || inputFilePath.endsWith("configs") ) {
-            Set targetFields = FCTConstants.configTranslatables;
+            Set<String> targetFields = FCTConstants.configTranslatables;
             if (translationFile == null) {
               translationFile = inputFilePath.resolve("translations/strings_configs.properties").toString();
             }
             extractContent(translationFile, inputFilePath, targetFields, extractionType);
           } else if (Objects.equals(extractionType, "fhirContent") || inputFilePath.endsWith("fhir_content") ) {
-            Set targetFields = FCTConstants.questionnaireTranslatables;
+            Set<String> targetFields = FCTConstants.questionnaireTranslatables;
             if (translationFile == null) {
               translationFile = inputFilePath.resolve("translations/strings_default.properties").toString();
             }
@@ -96,28 +96,20 @@ public class TranslateCommand implements Runnable {
             Path fhirContentPath = inputFilePath.resolve("fhir_content");
             Path questionnairePath = fhirContentPath.resolve("questionnaires");
             if (Files.exists(configsPath) && Files.isDirectory(configsPath)) {
-              Set targetFields = FCTConstants.configTranslatables;
+              Set<String> targetFields = FCTConstants.configTranslatables;
               String configsTranslationFile = null;
-              if (translationFile == null) {
-                configsTranslationFile = configsPath.resolve(
-                  "translations/strings_configs.properties").toString();
-              } else {
-                configsTranslationFile = translationFile;
-              }
+              configsTranslationFile = Objects.requireNonNullElseGet(translationFile, () -> configsPath.resolve(
+                "translations/strings_configs.properties").toString());
               extractContent(configsTranslationFile, configsPath, targetFields, extractionType);
             } else {
               FctUtils.printWarning("`configs` directory not found in directory");
             }
             if (Files.exists(fhirContentPath) && Files.isDirectory(fhirContentPath) &&
               Files.exists(questionnairePath) && Files.isDirectory(questionnairePath) ) {
-              Set targetFields = FCTConstants.questionnaireTranslatables;
+              Set<String> targetFields = FCTConstants.questionnaireTranslatables;
               String contentTranslationFile = null;
-              if (translationFile == null) {
-                contentTranslationFile = fhirContentPath.resolve(
-                  "translations/strings_default.properties").toString();
-              } else {
-                contentTranslationFile = translationFile;
-              }
+              contentTranslationFile = Objects.requireNonNullElseGet(translationFile, () -> fhirContentPath.resolve(
+                "translations/strings_default.properties").toString());
               extractContent(contentTranslationFile, questionnairePath, targetFields, extractionType);
             } else {
               FctUtils.printWarning("`fhir_content` or `fhir_content/questionnaires` directory not found in directory");
@@ -130,7 +122,7 @@ public class TranslateCommand implements Runnable {
           if (extractionType == null) {
             throw new RuntimeException("Provide extractionType when extracting from a specific file");
           }
-          Set targetFields;
+          Set<String> targetFields;
           if (extractionType.equals("configs")) {
             targetFields = FCTConstants.configTranslatables;
           } else {
@@ -166,7 +158,7 @@ public class TranslateCommand implements Runnable {
 
       try {
         Path inputFilePath = Paths.get(resourceFile);
-        Set targetFields = FCTConstants.questionnaireTranslatables;
+        Set<String> targetFields = FCTConstants.questionnaireTranslatables;
 
         if (Files.isRegularFile(inputFilePath) && inputFilePath.toString().endsWith(".json")) {
           mergeContent(inputFilePath, translationFile, locale, targetFields);
@@ -192,7 +184,7 @@ public class TranslateCommand implements Runnable {
   }
 
   private static void mergeContent(
-    Path inputFilePath, String translationFile, String locale, Set targetFields) throws IOException, NoSuchAlgorithmException {
+    Path inputFilePath, String translationFile, String locale, Set<String> targetFields) throws IOException, NoSuchAlgorithmException {
     ObjectMapper objectMapper = new ObjectMapper();
     JsonNode rootNode = objectMapper.readTree(Files.newBufferedReader(inputFilePath, StandardCharsets.UTF_8));
 
@@ -210,7 +202,7 @@ public class TranslateCommand implements Runnable {
     objectMapper.writeValue(inputFilePath.toFile(), updatedNode);
     FctUtils.printInfo(String.format("Merged JSON saved to \u001b[36m%s\u001b[0m", inputFilePath.toString()));
   }
-  private static JsonNode updateJson(JsonNode node, Properties translationProperties, String locale, Set targetFields) throws NoSuchAlgorithmException {
+  private static JsonNode updateJson(JsonNode node, Properties translationProperties, String locale, Set<String> targetFields) throws NoSuchAlgorithmException {
     if (node.isObject()) {
       ObjectNode objectNode = (ObjectNode) node;
       ObjectNode updatedNode = objectNode.objectNode();
@@ -354,7 +346,7 @@ public class TranslateCommand implements Runnable {
 
   }
 
-  private static void processJsonFile(Path filePath, Map<String, String> textToHash, Set targetFields)
+  private static void processJsonFile(Path filePath, Map<String, String> textToHash, Set<String> targetFields)
     throws IOException, NoSuchAlgorithmException {
     FctUtils.printInfo(String.format("Extracting from \u001b[35m%s\u001b[0m", filePath));
     ObjectMapper objectMapper = new ObjectMapper();
@@ -410,7 +402,7 @@ public class TranslateCommand implements Runnable {
   }
 
 
-  private static void findTargetFields(JsonNode node, Map<String, String> textToHash, Set targetFields)
+  private static void findTargetFields(JsonNode node, Map<String, String> textToHash, Set<String> targetFields)
     throws NoSuchAlgorithmException {
     if (node.isObject()) {
       ObjectNode objectNode = (ObjectNode) node;
