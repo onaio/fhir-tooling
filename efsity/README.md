@@ -54,6 +54,24 @@ $ fct careplan -s /path/to/subject/e.g./patient.json -qr /path/to/qr/questionnai
 -ws or --with-subject - A flag to determine whether the subject should be passed as part of the Careplan generator data bundle. Default is `false`
 ```
 
+### Generating a QuestionnaireResponse for a Questionnaire
+The tool supports generation of a QuestionnaireResponse via [openai api](https://platform.openai.com/docs/api-reference/introduction) using the [chat completions endpoint](https://platform.openai.com/docs/api-reference/chat/create). You will need to provide a [token](https://platform.openai.com/docs/api-reference/authentication) for authentication and a path to the _Questionnaire_
+
+Optionally, you can also provide the [model](https://platform.openai.com/docs/models) you would like to use, the number of [max-token](https://platform.openai.com/docs/api-reference/completions/create#completions/create-max_tokens) and an output file path
+
+```console
+$ fct generateResponse -i /path/to/questionnaire.json -k your_api_key
+```
+
+**Options**
+```
+-i or --input - file path to the questionnaire
+-k or --apiKey - api key to authenticate
+-m or --model - (Optional) model you want to use. The default is `gpt-3.5-turbo-16k`
+-t or --tokens - (Optional) max number of tokens to be used for the request. The default is 9000
+-o or --output - (Optional) output file path, can be a file or a directory. The default is set to the current directory
+```
+
 ### Extracting resources from questionnaire response
 To extract FHIR Resources you can run the command:
 ```console
