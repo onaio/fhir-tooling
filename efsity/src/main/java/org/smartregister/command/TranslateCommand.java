@@ -80,12 +80,14 @@ public class TranslateCommand implements Runnable {
 
           if (Objects.equals(extractionType, "configs") || inputFilePath.endsWith("configs") ) {
             Set<String> targetFields = FCTConstants.configTranslatables;
+
             if (translationFile == null) {
               translationFile = inputFilePath.resolve("translations/strings_configs.properties").toString();
             }
             extractContent(translationFile, inputFilePath, targetFields, extractionType);
           } else if (Objects.equals(extractionType, "fhirContent") || inputFilePath.endsWith("fhir_content") ) {
             Set<String> targetFields = FCTConstants.questionnaireTranslatables;
+
             if (translationFile == null) {
               translationFile = inputFilePath.resolve("translations/strings_default.properties").toString();
             }
@@ -97,6 +99,7 @@ public class TranslateCommand implements Runnable {
             Path configsPath = inputFilePath.resolve("configs");
             Path fhirContentPath = inputFilePath.resolve("fhir_content");
             Path questionnairePath = fhirContentPath.resolve("questionnaires");
+
             if (Files.exists(configsPath) && Files.isDirectory(configsPath)) {
               Set<String> targetFields = FCTConstants.configTranslatables;
               String configsTranslationFile = null;
@@ -153,7 +156,6 @@ public class TranslateCommand implements Runnable {
         }
       }
 
-
       FctUtils.printInfo("Starting merge");
       FctUtils.printInfo(String.format("Input file \u001b[35m%s\u001b[0m", resourceFile));
       FctUtils.printInfo(String.format("Translation file \u001b[35m%s\u001b[0m", translationFile));
@@ -208,6 +210,7 @@ public class TranslateCommand implements Runnable {
     objectMapper.writeValue(inputFilePath.toFile(), updatedNode);
     FctUtils.printInfo(String.format("Merged JSON saved to \u001b[36m%s\u001b[0m", inputFilePath.toString()));
   }
+
   private static JsonNode updateJson (
     JsonNode node, Properties translationProperties, String locale, Set<String> targetFields)
     throws NoSuchAlgorithmException {
@@ -259,7 +262,6 @@ public class TranslateCommand implements Runnable {
           updatedNode.set(fieldName, fieldValue);
         }
       }
-
       return updatedNode;
     } else if (node.isArray()) {
       ArrayNode arrayNode = (ArrayNode) node;
@@ -298,6 +300,7 @@ public class TranslateCommand implements Runnable {
 
     return extensionArray;
   }
+
   private static void extractContent(
     String translationFile, Path inputFilePath, Set<String> targetFields, String extractionType)
     throws IOException, NoSuchAlgorithmException {
@@ -351,7 +354,6 @@ public class TranslateCommand implements Runnable {
     existingProperties.putAll(textToHash);
     writePropertiesFile(existingProperties, translationFile);
     FctUtils.printInfo(String.format("Translation file\u001b[36m %s \u001b[0m", translationFile));
-
   }
 
   private static void processJsonFile(Path filePath, Map<String, String> textToHash, Set<String> targetFields)
@@ -365,6 +367,8 @@ public class TranslateCommand implements Runnable {
   private static void replaceTargetFieldsWithHashedValues(
     JsonNode node, Set<String> targetFields, Map<String, String> textToHash, Path filePath)
     throws NoSuchAlgorithmException {
+    FctUtils.printInfo(String.format("Extracting config file \u001b[35m%s\u001b[0m", filePath.toString()));
+
     if (node.isObject()) {
       ObjectNode objectNode = (ObjectNode) node;
       for (String fieldName : targetFields) {
@@ -409,16 +413,17 @@ public class TranslateCommand implements Runnable {
     }
   }
 
-
   private static void findTargetFields(JsonNode node, Map<String, String> textToHash, Set<String> targetFields)
     throws NoSuchAlgorithmException {
     if (node.isObject()) {
       ObjectNode objectNode = (ObjectNode) node;
       Iterator<Map.Entry<String, JsonNode>> fields = objectNode.fields();
+
       while (fields.hasNext()) {
         Map.Entry<String, JsonNode> field = fields.next();
         String fieldName = field.getKey();
         JsonNode fieldValue = field.getValue();
+
         if (targetFields.contains(fieldName)) {
           if (fieldValue.isTextual()) {
             String text = fieldValue.asText();
@@ -445,7 +450,6 @@ public class TranslateCommand implements Runnable {
     for (byte b : bytes) {
       result.append(String.format("%02x", b));
     }
-
     return result.toString();
   }
 
