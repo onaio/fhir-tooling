@@ -58,6 +58,8 @@ public class TranslateCommand implements Runnable {
   private final String[] modes = {"merge", "extract"};
   private final String[] extractionTypes = {"all", "configs", "fhirContent"};
 
+  private static String url = "http://hl7.org/fhir/StructureDefinition/translation";
+
   @Override
   public void run() {
     if (!Arrays.asList(modes).contains(mode)) {
@@ -236,7 +238,7 @@ public class TranslateCommand implements Runnable {
               if (existingField != null && existingField.isObject()) {
                 // If the existing field is an object, add a new language object to it
                 ObjectNode extensionNode = updatedNode.objectNode();
-                extensionNode.put("url", "localhost:8000");
+                extensionNode.put("url", url);
                 extensionNode.set("extension", createExtensionNode(locale, translation));
                 ArrayNode extensionArray = (ArrayNode) existingField.get("extension");
 
@@ -247,7 +249,7 @@ public class TranslateCommand implements Runnable {
               } else {
                 // Create a new field with underscore prefix
                 ObjectNode extensionNode = updatedNode.objectNode();
-                extensionNode.put("url", "localhost:8000");
+                extensionNode.put("url", url);
                 extensionNode.set("extension", createExtensionNode(locale, translation));
                 updatedNode.set(newFieldName, extensionNode);
               }
