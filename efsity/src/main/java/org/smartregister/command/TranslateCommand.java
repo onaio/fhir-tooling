@@ -83,14 +83,14 @@ public class TranslateCommand implements Runnable {
             if (translationFile == null) {
               translationFile = inputFilePath.resolve("translations/strings_configs.properties").toString();
             }
-            extractDirectories(translationFile, inputFilePath, targetFields, extractionType);
+            extractContent(translationFile, inputFilePath, targetFields, extractionType);
           } else if (Objects.equals(extractionType, "fhirContent") || inputFilePath.endsWith("fhir_content") ) {
             Set targetFields = FCTConstants.questionnaireTranslatables;
             if (translationFile == null) {
               translationFile = inputFilePath.resolve("translations/strings_default.properties").toString();
             }
             inputFilePath = inputFilePath.resolve("questionnaires");
-            extractDirectories(translationFile, inputFilePath, targetFields, extractionType);
+            extractContent(translationFile, inputFilePath, targetFields, extractionType);
           } else if (extractionType == null || Objects.equals(extractionType, "all") ) {
             Path configsPath = inputFilePath.resolve("configs");
             Path fhirContentPath = inputFilePath.resolve("fhir_content");
@@ -104,7 +104,7 @@ public class TranslateCommand implements Runnable {
               } else {
                 configsTranslationFile = translationFile;
               }
-              extractDirectories(configsTranslationFile, configsPath, targetFields, extractionType);
+              extractContent(configsTranslationFile, configsPath, targetFields, extractionType);
             } else {
               FctUtils.printWarning("`configs` directory not found in directory");
             }
@@ -118,7 +118,7 @@ public class TranslateCommand implements Runnable {
               } else {
                 contentTranslationFile = translationFile;
               }
-              extractDirectories(contentTranslationFile, questionnairePath, targetFields, extractionType);
+              extractContent(contentTranslationFile, questionnairePath, targetFields, extractionType);
             } else {
               FctUtils.printWarning("`fhir_content` or `fhir_content/questionnaires` directory not found in directory");
             }
@@ -136,7 +136,7 @@ public class TranslateCommand implements Runnable {
           } else {
             targetFields = FCTConstants.questionnaireTranslatables;
           }
-          extractDirectories(translationFile, inputFilePath, targetFields, extractionType);
+          extractContent(translationFile, inputFilePath, targetFields, extractionType);
         } else {
           throw new RuntimeException("Invalid input path. Please provide a directory or a JSON file.");
         }
@@ -144,10 +144,151 @@ public class TranslateCommand implements Runnable {
       } catch (IOException | NoSuchAlgorithmException e) {
         throw new RuntimeException(e);
       }
+    } else if (Objects.equals(mode, "merge")) {
+      if (translationFile == null) {
+        throw new RuntimeException("For merge, translationFile and locale must be provided.");
+      }
+
+      if (locale == null) {
+        // Assuming the translation file name follows the format "strings_{locale}.properties"
+        String[] parts = translationFile.split("_");
+        if (parts.length == 2 && parts[0].equals("strings") && parts[1].endsWith(".properties")) {
+          locale = parts[1].substring(0, parts[1].length() - ".properties".length());
+        } else {
+          throw new RuntimeException("Failed to determine the locale from the translation file name.");
+        }
+      }
+
+
+      FctUtils.printInfo("Starting merge");
+      FctUtils.printInfo(String.format("Input file \u001b[35m%s\u001b[0m", resourceFile));
+      FctUtils.printInfo(String.format("Translation file \u001b[35m%s\u001b[0m", translationFile));
+
+      try {
+        Path inputFilePath = Paths.get(resourceFile);
+        Set targetFields = FCTConstants.questionnaireTranslatables;
+
+        if (Files.isRegularFile(inputFilePath) && inputFilePath.toString().endsWith(".json")) {
+          mergeContent(inputFilePath, translationFile, locale, targetFields);
+        } else if (Files.isDirectory(inputFilePath)) {
+          Files.walk(inputFilePath)
+            .filter(Files::isRegularFile)
+            .filter(file -> file.toString().endsWith(".json"))
+            .forEach(file -> {
+              try {
+                mergeContent(file, translationFile, locale, targetFields);
+
+              } catch (IOException | NoSuchAlgorithmException e) {
+                throw new RuntimeException(e);
+              }
+            }) ;
+        } else {
+          throw new RuntimeException("Provide a valid `resourceFile` directory or file.");
+        }
+      } catch (IOException | NoSuchAlgorithmException e) {
+        throw new RuntimeException(e);
+      }
     }
   }
 
-  private static void extractDirectories(
+  private static void mergeContent(
+    Path inputFilePath, String translationFile, String locale, Set targetFields) throws IOException, NoSuchAlgorithmException {
+    ObjectMapper objectMapper = new ObjectMapper();
+    JsonNode rootNode = objectMapper.readTree(Files.newBufferedReader(inputFilePath, StandardCharsets.UTF_8));
+
+    // Load the translation properties
+    Properties translationProperties = new Properties();
+    try (InputStream input = new FileInputStream(translationFile)) {
+      translationProperties.load(input);
+    }
+
+    // Traverse and update the JSON structure
+    updateJson(rootNode, translationProperties, locale, targetFields);
+
+    // Write the updated JSON to the output file
+    objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+    objectMapper.writeValue(inputFilePath.toFile(), rootNode);
+    FctUtils.printInfo(String.format("Merged JSON saved to \u001b[36m%s\u001b[0m", inputFilePath.toString()));
+  }
+  private static void updateJson(
+    JsonNode node, Properties translationProperties, String locale, Set targetFields) throws NoSuchAlgorithmException {
+    if (node.isObject()) {
+      ObjectNode objectNode = (ObjectNode) node;
+      Iterator<Map.Entry<String, JsonNode>> fields = objectNode.fields();
+      while (fields.hasNext()) {
+        Map.Entry<String, JsonNode> field = fields.next();
+        String fieldName = field.getKey();
+        JsonNode fieldValue = field.getValue();
+
+        if (targetFields.contains(fieldName)) {
+          if (fieldValue.isTextual()) {
+            String translationKey = calculateMD5Hash(fieldValue.asText());
+            String translation = translationProperties.getProperty(translationKey);
+
+            if (translation != null) {
+              // Add the new field with underscore prefix and update it
+              ObjectMapper objectMapper = new ObjectMapper();
+
+              String newFieldName = "_" + fieldName;
+              JsonNode existingField = objectNode.get(newFieldName);
+              if (existingField != null && existingField.isObject()) {
+                // If the existing field is an object, add a new language object to it
+                ObjectNode extensionNode = objectMapper.createObjectNode();
+                extensionNode.put("url", "localhost:8000");
+                extensionNode.set("extension", createExtensionNode(locale, translation));
+                ArrayNode extensionArray = (ArrayNode) existingField.get("extension");
+                boolean isPresent = isObjectNodeInArrayNode(extensionArray, extensionNode);
+                if (!isPresent) {
+                  extensionArray.add(extensionNode);
+                }
+              } else {
+                // Create a new field with underscore prefix
+                ObjectNode extensionNode = objectMapper.createObjectNode();
+                extensionNode.put("url", "localhost:8000");
+                extensionNode.set("extension", createExtensionNode(locale, translation));
+                objectNode.set(newFieldName, extensionNode);
+              }
+            }
+          }
+        }
+
+        if (fieldValue.isObject() || fieldValue.isArray()) {
+          updateJson(fieldValue, translationProperties, locale, targetFields);
+        }
+      }
+    } else if (node.isArray()) {
+      for (JsonNode arrayNode : node) {
+        updateJson(arrayNode, translationProperties, locale, targetFields);
+      }
+    }
+  }
+
+  public static boolean isObjectNodeInArrayNode(ArrayNode arrayNode, ObjectNode objectNode) {
+    for (JsonNode element : arrayNode) {
+      if (element.equals(objectNode)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  private static JsonNode createExtensionNode(String locale, String translation) {
+    ObjectMapper objectMapper = new ObjectMapper();
+    ObjectNode languageNode = objectMapper.createObjectNode();
+    languageNode.put("url", "lang");
+    languageNode.put("valueCode", locale);
+
+    ObjectNode contentNode = objectMapper.createObjectNode();
+    contentNode.put("url", "content");
+    contentNode.put("valueString", translation);
+
+    ArrayNode extensionArray = objectMapper.createArrayNode();
+    extensionArray.add(languageNode);
+    extensionArray.add(contentNode);
+
+    return extensionArray;
+  }
+  private static void extractContent(
     String translationFile, Path inputFilePath, Set<String> targetFields, String extractionType)
     throws IOException, NoSuchAlgorithmException {
     Map<String, String> textToHash = new HashMap<>();
@@ -164,7 +305,7 @@ public class TranslateCommand implements Runnable {
         // For other types (content/questionnaire), extract as usual
         processJsonFile(inputFilePath, textToHash, targetFields);
       }
-    } else {
+    } else if (Files.isDirectory(inputFilePath)) {
       // Handle the case where inputFilePath is a directory (folders may contain multiple JSON files)
       Files.walk(inputFilePath)
         .filter(Files::isRegularFile)
@@ -184,6 +325,8 @@ public class TranslateCommand implements Runnable {
             throw new RuntimeException(e);
           }
         });
+    } else {
+      throw new RuntimeException("Provide a valid `resourceFile` directory or file.");
     }
 
     // Read existing properties file, if it exists
