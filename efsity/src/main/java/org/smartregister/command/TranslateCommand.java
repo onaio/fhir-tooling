@@ -81,13 +81,15 @@ public class TranslateCommand implements Runnable {
         if (Files.isDirectory(inputFilePath)) {
 
           if (Objects.equals(extractionType, "configs") || inputFilePath.endsWith("configs") ) {
+            extractionType = "configs";
             Set<String> targetFields = FCTConstants.configTranslatables;
 
             if (translationFile == null) {
-              translationFile = inputFilePath.resolve("translations/strings_configs.properties").toString();
+              translationFile = inputFilePath.resolve("translations/strings_config.properties").toString();
             }
             extractContent(translationFile, inputFilePath, targetFields, extractionType);
           } else if (Objects.equals(extractionType, "fhirContent") || inputFilePath.endsWith("fhir_content") ) {
+            extractionType = "fhirContent";
             Set<String> targetFields = FCTConstants.questionnaireTranslatables;
 
             if (translationFile == null) {
@@ -103,16 +105,18 @@ public class TranslateCommand implements Runnable {
             Path questionnairePath = fhirContentPath.resolve("questionnaires");
 
             if (Files.exists(configsPath) && Files.isDirectory(configsPath)) {
+              extractionType = "configs";
               Set<String> targetFields = FCTConstants.configTranslatables;
               String configsTranslationFile = null;
               configsTranslationFile = Objects.requireNonNullElseGet(translationFile, () -> configsPath.resolve(
-                "translations/strings_configs.properties").toString());
+                "translations/strings_config.properties").toString());
               extractContent(configsTranslationFile, configsPath, targetFields, extractionType);
             } else {
               FctUtils.printWarning("`configs` directory not found in directory");
             }
             if (Files.exists(fhirContentPath) && Files.isDirectory(fhirContentPath) &&
               Files.exists(questionnairePath) && Files.isDirectory(questionnairePath) ) {
+              extractionType = "fhirContent";
               Set<String> targetFields = FCTConstants.questionnaireTranslatables;
               String contentTranslationFile = null;
               contentTranslationFile = Objects.requireNonNullElseGet(translationFile, () -> fhirContentPath.resolve(
@@ -205,11 +209,11 @@ public class TranslateCommand implements Runnable {
     }
 
     // Traverse and update the JSON structure
-    JsonNode updatedNode = updateJson(rootNode, translationProperties, locale, targetFields);
+    updateJson(rootNode, translationProperties, locale, targetFields);
 
     // Write the updated JSON to the output file
     objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
-    objectMapper.writeValue(inputFilePath.toFile(), updatedNode);
+    objectMapper.writeValue(inputFilePath.toFile(), rootNode);
     FctUtils.printInfo(String.format("Merged JSON saved to \u001b[36m%s\u001b[0m", inputFilePath.toString()));
   }
 
@@ -309,12 +313,13 @@ public class TranslateCommand implements Runnable {
     Map<String, String> textToHash = new HashMap<>();
     Path propertiesFilePath = Paths.get(translationFile);
 
-    if (Files.isRegularFile(inputFilePath) && inputFilePath.endsWith(".json")) {
+    if (Files.isRegularFile(inputFilePath) && inputFilePath.toString().toLowerCase(Locale.ENGLISH).endsWith(".json")) {
 
       if (Objects.equals(extractionType, "configs")) {
         // Extract and replace target fields with hashed values
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode rootNode = objectMapper.readTree(Files.newBufferedReader(inputFilePath, StandardCharsets.UTF_8));
+        FctUtils.printInfo(String.format("Extracting config file \u001b[35m%s\u001b[0m", inputFilePath.toString()));
         replaceTargetFieldsWithHashedValues(rootNode, targetFields, textToHash, inputFilePath);
       } else {
         // For other types (content/questionnaire), extract as usual
@@ -331,6 +336,7 @@ public class TranslateCommand implements Runnable {
               // Extract and replace target fields with hashed values
               ObjectMapper objectMapper = new ObjectMapper();
               JsonNode rootNode = objectMapper.readTree(Files.newBufferedReader(file, StandardCharsets.UTF_8));
+              FctUtils.printInfo(String.format("Extracting config file \u001b[35m%s\u001b[0m", file.toString()));
               replaceTargetFieldsWithHashedValues(rootNode, targetFields, textToHash, file);
             } else {
               // For other types (content/questionnaire), extract as usual
@@ -369,14 +375,13 @@ public class TranslateCommand implements Runnable {
   private static void replaceTargetFieldsWithHashedValues(
     JsonNode node, Set<String> targetFields, Map<String, String> textToHash, Path filePath)
     throws NoSuchAlgorithmException {
-    FctUtils.printInfo(String.format("Extracting config file \u001b[35m%s\u001b[0m", filePath.toString()));
 
     if (node.isObject()) {
       ObjectNode objectNode = (ObjectNode) node;
       for (String fieldName : targetFields) {
         JsonNode fieldValue = objectNode.get(fieldName);
         if (fieldValue != null && fieldValue.isTextual()) {
-          String text = fieldValue.asText();
+          String text = fieldValue.asText().replace("\"", "");
           // Check if the field has not already been extracted
           if (!text.startsWith("{{") || !text.endsWith("}}")) {
             String md5Hash = calculateMD5Hash(text);
