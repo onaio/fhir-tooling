@@ -209,11 +209,11 @@ public class TranslateCommand implements Runnable {
     }
 
     // Traverse and update the JSON structure
-    updateJson(rootNode, translationProperties, locale, targetFields);
+    JsonNode updatedJson = updateJson(rootNode, translationProperties, locale, targetFields);
 
     // Write the updated JSON to the output file
     objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
-    objectMapper.writeValue(inputFilePath.toFile(), rootNode);
+    objectMapper.writeValue(inputFilePath.toFile(), updatedJson);
     FctUtils.printInfo(String.format("Merged JSON saved to \u001b[36m%s\u001b[0m", inputFilePath.toString()));
   }
 
@@ -229,10 +229,11 @@ public class TranslateCommand implements Runnable {
         Map.Entry<String, JsonNode> field = fields.next();
         String fieldName = field.getKey();
         JsonNode fieldValue = field.getValue();
+        String trimmedStringValue = fieldValue.asText().trim();
 
         if (targetFields.contains(fieldName)) {
           if (fieldValue.isTextual()) {
-            String translationKey = calculateMD5Hash(fieldValue.asText());
+            String translationKey = calculateMD5Hash(trimmedStringValue);
             String translation = translationProperties.getProperty(translationKey);
 
             if (translation != null) {
@@ -242,20 +243,25 @@ public class TranslateCommand implements Runnable {
               if (existingField != null && existingField.isObject()) {
                 // If the existing field is an object, add a new language object to it
                 ObjectNode extensionNode = updatedNode.objectNode();
+                ObjectNode extExtensionNode = updatedNode.objectNode();
                 extensionNode.put("url", url);
                 extensionNode.set("extension", createExtensionNode(locale, translation));
                 ArrayNode extensionArray = (ArrayNode) existingField.get("extension");
 
-                boolean isPresent = isObjectNodeInArrayNode(extensionArray, extensionNode);
-                if (!isPresent) {
-                  extensionArray.add(extensionNode);
-                }
+                ArrayNode updatedArray = updateExtensionWithTranslation(extensionArray, extensionNode, locale);
+                extExtensionNode.set("extension", updatedArray);
+                updatedNode.set(newFieldName, extExtensionNode);
               } else {
                 // Create a new field with underscore prefix
                 ObjectNode extensionNode = updatedNode.objectNode();
+                ObjectNode extExtensionNode = updatedNode.objectNode();
+                ObjectMapper objectMapper = new ObjectMapper();
+                ArrayNode extensionArray = new ArrayNode(objectMapper.getNodeFactory());
                 extensionNode.put("url", url);
                 extensionNode.set("extension", createExtensionNode(locale, translation));
-                updatedNode.set(newFieldName, extensionNode);
+                extensionArray.add(extensionNode);
+                extExtensionNode.set("extension", extensionArray);
+                updatedNode.set(newFieldName, extExtensionNode);
               }
             }
           }
@@ -281,13 +287,29 @@ public class TranslateCommand implements Runnable {
     }
   }
 
-  public static boolean isObjectNodeInArrayNode(ArrayNode arrayNode, ObjectNode objectNode) {
-    for (JsonNode element : arrayNode) {
-      if (element.equals(objectNode)) {
-        return true;
+  public static ArrayNode updateExtensionWithTranslation(ArrayNode arrayNode, ObjectNode objectNode, String locale) {
+    boolean foundSw = false;
+    int translationIdx = 0;
+    for (int i = 0; i < arrayNode.size(); i++) {
+      JsonNode jsonNode = arrayNode.get(i);
+      if (jsonNode.has("extension")) {
+        JsonNode extensionNode = jsonNode.get("extension");
+        if (extensionNode.isArray()) {
+          for (JsonNode extension : extensionNode) {
+            if (extension.has("valueCode") && extension.get("valueCode").asText().equals(locale)) {
+              foundSw = true;
+              translationIdx = i;
+              break;
+            }
+          }
+        }
       }
     }
-    return false;
+    if (foundSw) {
+      arrayNode.remove(translationIdx);
+    }
+    arrayNode.add(objectNode);
+    return arrayNode;
   }
 
   private static JsonNode createExtensionNode(String locale, String translation) {
@@ -381,7 +403,7 @@ public class TranslateCommand implements Runnable {
       for (String fieldName : targetFields) {
         JsonNode fieldValue = objectNode.get(fieldName);
         if (fieldValue != null && fieldValue.isTextual()) {
-          String text = fieldValue.asText().replace("\"", "");
+          String text = fieldValue.asText().replace("\"", "").trim();
           // Check if the field has not already been extracted
           if (!text.startsWith("{{") || !text.endsWith("}}")) {
             String md5Hash = calculateMD5Hash(text);
@@ -433,7 +455,7 @@ public class TranslateCommand implements Runnable {
 
         if (targetFields.contains(fieldName)) {
           if (fieldValue.isTextual()) {
-            String text = fieldValue.asText();
+            String text = fieldValue.asText().trim();
             String md5Hash = calculateMD5Hash(text);
             textToHash.put(md5Hash, text);
           }
