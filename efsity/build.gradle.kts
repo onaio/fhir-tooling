@@ -75,6 +75,7 @@ dependencies {
   implementation(deps.xstream)
 
   testImplementation(kotlin("test"))
+  testImplementation("junit:junit:5.8.1")
 }
 
 tasks.withType<JavaCompile> { options.encoding = deps.versions.project.build.sourceEncoding.get() }
