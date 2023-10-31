@@ -29,19 +29,19 @@ public class TranslateCommand implements Runnable {
       "Options are either `extract` to generate the translation file from a questionnaire or " +
         "`merge` to import a translated file and populate the original questionnaire",
     required = true)
-  private String mode;
+  String mode;
 
   @CommandLine.Option(
     names = {"-rf", "--resourceFile"},
     description = "resource file path",
     required = true)
-  private String resourceFile;
+  String resourceFile;
 
   @CommandLine.Option(
     names = {"-tf", "--translationFile"},
     description = "translation file path",
     required = false)
-  private String translationFile;
+  String translationFile;
 
   @CommandLine.Option(
     names = {"-l", "--locale"},
