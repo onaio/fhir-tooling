@@ -229,10 +229,10 @@ public class TranslateCommand implements Runnable {
         Map.Entry<String, JsonNode> field = fields.next();
         String fieldName = field.getKey();
         JsonNode fieldValue = field.getValue();
-        String trimmedStringValue = fieldValue.asText().trim();
 
-        if (targetFields.contains(fieldName)) {
-          if (fieldValue.isTextual()) {
+        if (fieldValue.isTextual()) {
+          if (targetFields.contains(fieldName)) {
+            String trimmedStringValue = fieldValue.asText().trim();
             String translationKey = calculateMD5Hash(trimmedStringValue);
             String translation = translationProperties.getProperty(translationKey);
 
@@ -265,9 +265,7 @@ public class TranslateCommand implements Runnable {
               }
             }
           }
-        }
-
-        if (fieldValue.isObject() || fieldValue.isArray()) {
+        } else if (fieldValue.isObject() || fieldValue.isArray()) {
           // Recursively update nested objects or arrays
           updatedNode.set(fieldName, updateJson(fieldValue, translationProperties, locale, targetFields));
         } else {
@@ -288,7 +286,7 @@ public class TranslateCommand implements Runnable {
   }
 
   public static ArrayNode updateExtensionWithTranslation(ArrayNode arrayNode, ObjectNode objectNode, String locale) {
-    boolean foundSw = false;
+    boolean localeExists = false;
     int translationIdx = 0;
     for (int i = 0; i < arrayNode.size(); i++) {
       JsonNode jsonNode = arrayNode.get(i);
@@ -297,7 +295,7 @@ public class TranslateCommand implements Runnable {
         if (extensionNode.isArray()) {
           for (JsonNode extension : extensionNode) {
             if (extension.has("valueCode") && extension.get("valueCode").asText().equals(locale)) {
-              foundSw = true;
+              localeExists = true;
               translationIdx = i;
               break;
             }
@@ -305,7 +303,7 @@ public class TranslateCommand implements Runnable {
         }
       }
     }
-    if (foundSw) {
+    if (localeExists) {
       arrayNode.remove(translationIdx);
     }
     arrayNode.add(objectNode);
