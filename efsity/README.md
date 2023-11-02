@@ -220,3 +220,16 @@ SonatypePassword=<your sonatype password>
 ```console
 ./gradlew clean publishMavenPublicationToMavenLocal
 ```
+
+### Testing
+To run all tests:
+
+```console
+./gradlew test
+```
+To run some tests
+```console
+./gradlew test --test <fully qualified name glob>
+#example
+./gradlew test --test com.example.TestClassName.testMethodName
+```

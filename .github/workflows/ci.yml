@@ -21,9 +21,6 @@ jobs:
           distribution: 'temurin'
           java-version: 11
 
-      - name: Change working directory to 'efsity'
-        run: cd efsity
-
       - name: Run Unit tests
         run: ./gradlew test
         working-directory: efsity
@@ -39,8 +36,6 @@ jobs:
           distribution: 'temurin'
           java-version: 11
 
-      - name: Change working directory to 'efsity'
-        run: cd efsity
-
       - name: Run spotless check
         run: ./gradlew spotlessApply
+        working-directory: efsity
