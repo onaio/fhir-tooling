@@ -66,6 +66,9 @@ public class TranslateCommandTest {
 
     // Compare the contents of the two files
     assertEquals(existingProperties, newProperties, "File contents are similar.");
+    // Clean up temporary resources
+    tempRawQuestionnaire.toFile().delete();
+    tempDefaultPropertiesPath.toFile().delete();
   }
 
   @Test
@@ -93,5 +96,6 @@ public class TranslateCommandTest {
 
     // Compare the contents of the two nodes
     assertEquals(rawQuestionnaire, mergedQuestionnaire, "File merged as expected");
+    tempRawQuestionnaire.toFile().delete();
   }
 }
