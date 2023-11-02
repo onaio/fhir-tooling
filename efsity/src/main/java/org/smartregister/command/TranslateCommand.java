@@ -47,13 +47,13 @@ public class TranslateCommand implements Runnable {
     names = {"-l", "--locale"},
     description = "translation locale",
     required = false)
-  private String locale;
+  String locale;
 
   @CommandLine.Option(
     names = {"-et", "--extractionType"},
     description = "extraction type",
     required = false)
-  private String extractionType;
+  String extractionType;
 
   private final String[] modes = {"merge", "extract"};
   private final String[] extractionTypes = {"all", "configs", "fhirContent"};
@@ -230,8 +230,8 @@ public class TranslateCommand implements Runnable {
         String fieldName = field.getKey();
         JsonNode fieldValue = field.getValue();
 
-        if (fieldValue.isTextual()) {
-          if (targetFields.contains(fieldName)) {
+        if (targetFields.contains(fieldName)) {
+          if (fieldValue.isTextual()) {
             String trimmedStringValue = fieldValue.asText().trim();
             String translationKey = calculateMD5Hash(trimmedStringValue);
             String translation = translationProperties.getProperty(translationKey);
@@ -265,7 +265,8 @@ public class TranslateCommand implements Runnable {
               }
             }
           }
-        } else if (fieldValue.isObject() || fieldValue.isArray()) {
+        }
+        if (fieldValue.isObject() || fieldValue.isArray()) {
           // Recursively update nested objects or arrays
           updatedNode.set(fieldName, updateJson(fieldValue, translationProperties, locale, targetFields));
         } else {
