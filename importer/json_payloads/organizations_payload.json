@@ -6,7 +6,7 @@
     },
     "resource": {
         "resourceType": "Organization",
-        "status": "$status",
+        "active": "$active",
         "name": "$name",
         "id": "$unique_uuid",
         "identifier": [

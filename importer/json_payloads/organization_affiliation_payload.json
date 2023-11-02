@@ -1,4 +1,10 @@
 {
+  "request": {
+      "method": "PUT",
+      "url": "OrganizationAffiliation/$unique_uuid",
+      "ifMatch" : "$version"
+  },
+  "resource": {
     "resourceType": "OrganizationAffiliation",
     "id": "$unique_uuid",
     "identifier": [
@@ -13,4 +19,5 @@
       "display": "$orgName"
     },
     "location": []
+  }
 }
