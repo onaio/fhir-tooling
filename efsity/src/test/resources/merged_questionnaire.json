@@ -1,0 +1,137 @@
+{
+  "resourceType": "Questionnaire",
+  "id": "126118",
+  "meta": {
+    "versionId": "8",
+    "lastUpdated": "2023-05-31T06:19:02.292+00:00",
+    "source": "#4275f7914f8abcd2"
+  },
+  "language": "en-GB",
+  "extension": [
+    {
+      "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-targetStructureMap",
+      "valueCanonical": "https://fhir.demo.smartregister.org/fhir/StructureMap/8f7828f5-3910-4bfc-94a9-a0daagt51422"
+    }
+  ],
+  "version": "0.0.1",
+  "title": "Abdominal Exam form",
+  "status": "active",
+  "date": "2023-01-26T00:00:00Z",
+  "publisher": "ONA",
+  "contact": [
+    {
+      "name": "http://www.smartregister.org/"
+    }
+  ],
+  "description": "Abdominal Exam form",
+  "item": [
+    {
+      "linkId": "1a559b8c-6f3c-499c-dca6-b4d23cf95d12",
+      "_text": {
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/translation",
+            "extension": [
+              {
+                "url": "lang",
+                "valueCode": "fr"
+              },
+              {
+                "url": "content",
+                "valueString": "Examen abdominal effectué"
+              }
+            ]
+          }
+        ]
+      },
+      "text": "Abdominal Exam Done ",
+      "type": "choice",
+      "required": false,
+      "answerOption": [
+        {
+          "valueCoding": {
+            "id": "7aa39ab2-7679-4f03-de70-d2cdacf1c1fa",
+            "system": "urn:uuid:17c49587-689b-4912-8142-2d75470c0b88",
+            "code": "yes",
+            "_display": {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/translation",
+                  "extension": [
+                    {
+                      "url": "lang",
+                      "valueCode": "fr"
+                    },
+                    {
+                      "url": "content",
+                      "valueString": "Oui"
+                    }
+                  ]
+                }
+              ]
+            },
+            "display": "Yes"
+          }
+        },
+        {
+          "valueCoding": {
+            "id": "f7a3746c-cc67-4970-807f-5b7ccb95808c",
+            "system": "urn:uuid:17c49587-689b-4912-8142-2d75470c0b88",
+            "code": "no",
+            "_display": {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/translation",
+                  "extension": [
+                    {
+                      "url": "lang",
+                      "valueCode": "fr"
+                    },
+                    {
+                      "url": "content",
+                      "valueString": "Non"
+                    }
+                  ]
+                }
+              ]
+            },
+            "display": "No"
+          }
+        }
+      ]
+    },
+    {
+      "linkId": "ae62194b-1e9a-44f4-9e47-48561f148758",
+      "_text": {
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/translation",
+            "extension": [
+              {
+                "url": "lang",
+                "valueCode": "fr"
+              },
+              {
+                "url": "content",
+                "valueString": "Raison de l?examen abdominal"
+              }
+            ]
+          }
+        ]
+      },
+      "text": "Abdominal Exam Reason",
+      "type": "string",
+      "enableWhen": [
+        {
+          "question": "1a559b8c-6f3c-499c-dca6-b4d23cf95d12",
+          "operator": "=",
+          "answerCoding": {
+            "system": "urn:uuid:17c49587-689b-4912-8142-2d75470c0b88",
+            "code": "yes"
+          }
+        }
+      ],
+      "required": false
+    }
+  ]
+}
