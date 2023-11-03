@@ -2,7 +2,7 @@
 
 # For more information see: https://docs.github.com/en/enterprise-cloud@latest/actions/automating-builds-and-tests/building-and-testing-java-with-gradle
 
-name: Java CI with Gradle
+name: CI
 
 on:
   pull_request:
@@ -10,7 +10,7 @@ on:
       - main
 
 jobs:
-  run-unit-tests:
+  run-efsity-unit-tests:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -39,3 +39,37 @@ jobs:
       - name: Run spotless check
         run: ./gradlew spotlessCheck
         working-directory: efsity
+
+  run-importer-unit-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Generate Importer Report
+        run: |
+          python3 -m venv venv
+            . venv/bin/activate
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest-cov
+          pytest --doctest-modules --junitxml=coverage.xml --cov=importer --cov-report=xml --cov-report=html
+          coverage xml
+          ls -al
+        working-directory: importer
+
+  run-cleaner-unit-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Generate Cleaner Report
+        run: |
+          python3 -m venv venv
+            . venv/bin/activate
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest-cov
+          pytest --doctest-modules --junitxml=coverage.xml --cov=cleaner --cov-report=xml --cov-report=html
+          coverage xml
+          ls -al
+        working-directory: cleaner
