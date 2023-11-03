@@ -129,11 +129,13 @@ class Application : CliktCommand() {
             uses "http://hl7.org/fhir/StructureDefinition/Bundle" as target
         """.trimIndent()
 
-        val structureMapBody = """
+        lateinit var structureMapBody:StringBuilder
+
+        structureMapBody.append("""
             group ${questionnaireId?.clean()}(source src : QuestionnaireResponse, target bundle: Bundle) {
             src -> bundle.id = uuid() "rule_c";
             src -> bundle.type = 'collection' "rule_b";
-            src -> bundle.entry as entry then """.trimIndent()
+            src -> bundle.entry as entry then """.trimIndent())
 
         /*
 
@@ -171,7 +173,7 @@ class Application : CliktCommand() {
         val resourceIndex = 1
         val resource = Patient()
 
-//        generateStructureMapLine(structureMapBody, row, resource, extractionResources, resourceName, resourceIndex)
+        generateStructureMapLine(structureMapBody, row, resource, extractionResources, resourceName, resourceIndex)
 
         sb.append(structureMapHeader)
         sb.appendNewLine().appendNewLine().appendNewLine()
