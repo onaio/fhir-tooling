@@ -48,8 +48,8 @@ jobs:
       - name: Generate Importer Report
         run: |
           python3 -m venv venv
-            . venv/bin/activate
-          python -m pip install --upgrade pip
+          source venv/bin/activate
+          python3 -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install pytest-cov
           pytest --doctest-modules --junitxml=coverage.xml --cov=importer --cov-report=xml --cov-report=html
@@ -65,8 +65,8 @@ jobs:
       - name: Generate Cleaner Report
         run: |
           python3 -m venv venv
-            . venv/bin/activate
-          python -m pip install --upgrade pip
+          source venv/bin/activate
+          python3 -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install pytest-cov
           pytest --doctest-modules --junitxml=coverage.xml --cov=cleaner --cov-report=xml --cov-report=html
