@@ -52,7 +52,7 @@ jobs:
           python3 -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install pytest-cov
-          pytest --doctest-modules --junitxml=coverage.xml --cov=importer --cov-report=xml --cov-report=html
+          pytest --junitxml=coverage.xml --cov=importer --cov-report=xml --cov-report=html
           coverage xml
           ls -al
         working-directory: importer
@@ -69,7 +69,7 @@ jobs:
           python3 -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install pytest-cov
-          pytest --doctest-modules --junitxml=coverage.xml --cov=cleaner --cov-report=xml --cov-report=html
+          pytest --junitxml=coverage.xml --cov=cleaner --cov-report=xml --cov-report=html
           coverage xml
           ls -al
         working-directory: cleaner

@@ -37,6 +37,23 @@ and then posts them to the API for creation
 
 See example csvs in the csv folder
 
+## To test
+
+To run all tests
+```console
+$ pytest
+```
+To run specific tests
+```console
+$ pytest path/to/test_file.py::TestClass::test_function
+```
+
+To run tests and generate a coverage report
+```console
+$ pytest --junitxml=coverage.html --cov=importer --cov-report=html
+```
+The coverage report `coverage.html` will be at the working directory
+
 ## How to use it
 
 ### 1. Create locations in bulk
