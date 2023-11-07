@@ -21,8 +21,8 @@ jobs:
           distribution: 'temurin'
           java-version: 11
 
-      - name: Run Unit tests
-        run: ./gradlew test
+      - name: Run Unit Tests and Generate Coverage Report
+        run: ./gradlew test jacocoTestReport
         working-directory: efsity
 
   run-spotless-check:
@@ -37,5 +37,5 @@ jobs:
           java-version: 11
 
       - name: Run spotless check
-        run: ./gradlew spotlessApply
+        run: ./gradlew spotlessCheck
         working-directory: efsity

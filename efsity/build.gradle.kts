@@ -6,6 +6,7 @@ plugins {
   id("maven-publish")
   alias(deps.plugins.spotless.maven.plugin)
   alias(deps.plugins.buildConfig.constants.plugin)
+  id("jacoco")
 }
 
 repositories {
@@ -131,3 +132,5 @@ tasks.assemble {
 }
 
 application { mainClass.set("org.smartregister.Main") }
+
+jacoco { toolVersion = "0.8.7" }
