@@ -17,3 +17,20 @@ The following are command options for running the script
 3. Create a `config.py` file. The `sample_config.py` is an example  of what this should look like. Populate it with the right credentials
 4. Run script - `python3 main.py --resource_type Locations --parameter lastUpdated --value lt2023-03-01`
 5. You can turn on logging by passing a `--log_level` to the command line as `info`, `debug` or `error`. 
+
+## To test
+
+To run all tests
+```console
+$ pytest
+```
+To run specific tests
+```console
+$ pytest path/to/test_file.py::TestClass::test_function
+```
+
+To run tests and generate a coverage report
+```console
+$ pytest --junitxml=coverage.html --cov=importer --cov-report=html
+```
+The coverage report `coverage.html` will be at the working directory
