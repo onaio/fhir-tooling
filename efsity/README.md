@@ -233,3 +233,11 @@ To run some tests
 #example
 ./gradlew test --test com.example.TestClassName.testMethodName
 ```
+
+To run tests and generate a coverage report:
+
+```console
+./gradlew test jacocoTestReport
+```
+
+A report will be generated at `$buildDir/reports/jacoco/test`
