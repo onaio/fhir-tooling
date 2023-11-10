@@ -6,6 +6,7 @@ plugins {
   id("maven-publish")
   alias(deps.plugins.spotless.maven.plugin)
   alias(deps.plugins.buildConfig.constants.plugin)
+  id("jacoco")
 }
 
 repositories {
@@ -75,6 +76,7 @@ dependencies {
   implementation(deps.xstream)
 
   testImplementation(kotlin("test"))
+  testImplementation("junit:junit:4.13.2")
 }
 
 tasks.withType<JavaCompile> { options.encoding = deps.versions.project.build.sourceEncoding.get() }
@@ -130,3 +132,5 @@ tasks.assemble {
 }
 
 application { mainClass.set("org.smartregister.Main") }
+
+jacoco { toolVersion = "0.8.7" }
