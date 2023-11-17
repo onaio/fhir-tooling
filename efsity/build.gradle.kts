@@ -17,7 +17,7 @@ repositories {
 
 group = "org.smartregister"
 
-version = "2.3.1-SNAPSHOT"
+version = "2.3.2-SNAPSHOT"
 
 description = "fhircore-tooling (efsity)"
 
