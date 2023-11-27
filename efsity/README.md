@@ -119,6 +119,20 @@ The above will output a list of errors, warnings and information.
 -i or --input - the input file path, can be a file or directory with multiple files. Passing a path to a directory will automatically process all json files in the folder recursively
 ```
 
+### Validating File Structure
+The tool supports validation of a project file structure using JSON schema. To run the command:
+```console
+$ fct validateFileStructure -i ~/Workspace/fhir-resources/<project> -s ~/path/to/file/structure/schema.json
+```
+
+**Options**
+```console
+-i or --input - path to project folder which needs to be validated
+-s or --schema - JSON schema that should be used to validate the file structure
+```
+If the file structure matches the schema then a positive result is printed to the terminal, otherwise an error 
+is thrown showing the issue.
+
 ### Localization
 Tool that supports localization by the use of the translation extension
 
