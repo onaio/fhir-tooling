@@ -217,7 +217,7 @@ class Group (entry : Map.Entry<String, MutableList<Instruction>>, val stringBuil
                         } else {
                             fullPath = partName
                         }
-                        resourceName = inferType("${this@Nest.resourceName}.$fullPath")
+                        resourceName = inferType("${this@Nest.resourceName}.$fullPath") ?:""
 
                         if ((parts[0].isEmpty() && parts.size > 2) || (!parts[0].isEmpty() && parts.size > 1) ) {
                             val nextInstruction = Instruction().apply {
@@ -242,7 +242,7 @@ class Group (entry : Map.Entry<String, MutableList<Instruction>>, val stringBuil
                         name = remainingPath
                         fullPath = instruction.fieldPath
                         this@apply.instruction = instruction
-                        resourceName = inferType("${this@Nest.resourceName}.$fullPath")
+                        resourceName = inferType("${this@Nest.resourceName}.$fullPath") ?:""
                     })
                 }
             }
@@ -257,14 +257,14 @@ class Group (entry : Map.Entry<String, MutableList<Instruction>>, val stringBuil
                     val propertyType = inferType(instruction!!.fullPropertyPath())
                     val answerType = answerExpression.getAnswerType(questionnaireResponse)
 
-                    if (propertyType != "Type" && answerType != propertyType && !propertyType.canHandleConversion(answerType!!) && answerExpression.startsWith("evaluate")) {
+                    if (propertyType != "Type" && answerType != propertyType && propertyType?.canHandleConversion(answerType!!)?.not() == true && answerExpression.startsWith("evaluate")) {
                         System.out.println("Failed type matching --> ${instruction!!.fullPropertyPath()} of type $answerType != $propertyType")
 
                         /*val possibleTypes = listOf<>()
                         if ()*/
 
                         stringBuilder.append("src -> entity$currLevel.${instruction!!.fieldPath} = ")
-                        stringBuilder.append("create('${propertyType.getFhirType()}') as randomVal, randomVal.value = ")
+                        stringBuilder.append("create('${propertyType?.getFhirType()}') as randomVal, randomVal.value = ")
                         stringBuilder.append(answerExpression)
                         addRuleNo()
                         stringBuilder.appendNewLine()
@@ -402,7 +402,7 @@ internal val fhirPathEngine: FHIRPathEngine =
     }
 
 private fun String.isEnumeration(instruction: Instruction) : Boolean {
-    return inferType(instruction.fullPropertyPath()).contains("Enumeration")
+    return inferType(instruction.fullPropertyPath())?.contains("Enumeration") ?: false
 }
 
 
@@ -427,7 +427,7 @@ fun String.isEvaluateExpression() : Boolean = startsWith("evaluate(")
  * Infer's the type and return the short class name eg `HumanName` for org.fhir.hl7.r4.model.Patient
  * when given the path `Patient.name`
  */
-fun inferType(propertyPath: String) : String {
+fun inferType(propertyPath: String) : String? {
     // TODO: Handle possible errors
     // TODO: Handle inferring nested types
 
@@ -439,24 +439,24 @@ fun inferType(propertyPath: String) : String {
     return inferType(parentClass, parts, 1)
 }
 
-fun inferType(parentClass: Class<*>, parts: List<String>, index: Int) : String {
+fun inferType(parentClass: Class<*>?, parts: List<String>, index: Int) : String? {
     val resourcePropertyName = parts[index]
-    val propertyField = parentClass.getFieldOrNull(resourcePropertyName)!!
+    val propertyField = parentClass?.getFieldOrNull(resourcePropertyName)
 
-    val propertyType = if (propertyField.isList)
+    val propertyType = if (propertyField?.isList == true)
         propertyField.nonParameterizedType
     // TODO: Check if this is required
-    else if (propertyField.type == Enumeration::class.java)
+    else if (propertyField?.type == Enumeration::class.java)
     // TODO: Check if this works
         propertyField.nonParameterizedType
     else
-        propertyField.type
+        propertyField?.type
 
     return if (parts.size > index + 1) {
         return inferType(propertyType, parts, index + 1)
     } else
-        propertyType.name
-            .replace("org.hl7.fhir.r4.model.", "")
+        propertyType?.name
+            ?.replace("org.hl7.fhir.r4.model.", "")
 }
 
 fun String.isMultipleTypes() : Boolean = this == "Type"
@@ -500,3 +500,8 @@ fun String.getResourceProperty() : String? {
 
 fun String.getFhirType() : String = replace("Type", "")
     .lowercase()
+
+
+//  /Users/onake/IdeaProjects/fhir-tooling/sm-gen/src/main/resources/StructureMap XLS.xlsx
+ // old xls /Users/onake/IdeaProjects/fhir-tooling/sm-gen/src/main/resources/StructureMap XLS-old.xlsx
+  // /Users/onake/IdeaProjects/fhir-tooling/sm-gen/src/main/resources/questionnaire.json
