@@ -14,7 +14,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Map;
-import java.util.Set;
 
 import org.hl7.fhir.common.hapi.validation.support.CommonCodeSystemsTerminologyService;
 import org.hl7.fhir.common.hapi.validation.support.InMemoryTerminologyServerValidationSupport;
@@ -41,7 +40,6 @@ public class ValidateFhirResourcesCommand implements Runnable {
       } catch (IOException e) {
         throw new RuntimeException(e);
       }
-      ;
     }
   }
 
@@ -49,7 +47,7 @@ public class ValidateFhirResourcesCommand implements Runnable {
 
     long start = System.currentTimeMillis();
 
-    FctUtils.printInfo(String.format("Starting FHIR resource validation"));
+    FctUtils.printInfo("Starting FHIR resource validation");
     FctUtils.printInfo(String.format("Input file path \u001b[35m%s\u001b[0m", inputFilePath));
 
     FhirContext fhirContext = FhirContext.forR4();
@@ -66,12 +64,13 @@ public class ValidateFhirResourcesCommand implements Runnable {
 
     IParser iParser = FhirContext.forCached(FhirVersionEnum.R4).newJsonParser();
     FctFile inputFile;
+    int failCheck = 0;
 
     if (!Files.isDirectory(Paths.get(inputFilePath))) {
       FctUtils.printInfo(String.format("\u001b[35m%s\u001b[0m", inputFilePath));
       inputFile = FctUtils.readFile(inputFilePath);
       IBaseResource resource = iParser.parseResource(inputFile.getContent());
-      validateResource(validator, resource);
+      failCheck = validateResource(validator, resource);
 
     } else {
       Map<String, Map<String, String>> folderTofilesIndexMap =
@@ -86,20 +85,21 @@ public class ValidateFhirResourcesCommand implements Runnable {
 
           try {
             IBaseResource resource = iParser.parseResource(inputFile.getContent());
-            validateResource(validator, resource);
-          } catch (DataFormatException e) {
-            FctUtils.printError(e.toString());
-          } catch (NoSuchMethodError e) {
+            failCheck = ( validateResource(validator, resource) == -1) ? -1 : failCheck;
+          } catch (DataFormatException | NoSuchMethodError e) {
             FctUtils.printError(e.toString());
           }
         }
       }
     }
-
     FctUtils.printCompletedInDuration(start);
+
+    if (failCheck < 0){
+      throw new RuntimeException("Invalid FHIR Resources!");
+    }
   }
 
-  private void validateResource(FhirValidator validator, IBaseResource resource) {
+  private int validateResource(FhirValidator validator, IBaseResource resource) {
 
     ValidationResult result = validator.validateWithResult(resource);
 
@@ -119,8 +119,10 @@ public class ValidateFhirResourcesCommand implements Runnable {
                   " \u001b[36m%s\u001b[0m - %s", next.getLocationString(), next.getMessage()));
         }
       }
+      return -1;
     } else {
-      FctUtils.printInfo(String.format("File is valid!"));
+      FctUtils.printInfo("File is valid!");
+      return 0;
     }
   }
 }

@@ -10,6 +10,7 @@ hapi-fhir-version="6.0.1"
 info-picocli-version="4.7.4"
 jackson-version="2.15.2"
 json-version="20230618"
+jsonschemafriend-version="0.12.2"
 kotlin-stdlib="1.8.22"
 opencds-cql-version="2.4.0"
 project-build-sourceEncoding="UTF-8"
@@ -37,6 +38,7 @@ kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "
 model = { module = "info.cqframework:model", version.ref = "cql-version" }
 model-jackson = { module = "info.cqframework:model-jackson", version.ref = "cql-version" }
 json = { module = "org.json:json", version.ref = "json-version" }
+jsonschemafriend = { module = "net.jimblackler.jsonschemafriend:core", version.ref = "jsonschemafriend-version" }
 jackson-annotations = { module = "com.fasterxml.jackson.core:jackson-annotations", version.ref = "jackson-version" }
 jackson-core = { module = "com.fasterxml.jackson.core:jackson-core", version.ref = "jackson-version" }
 jackson-databind = { module = "com.fasterxml.jackson.core:jackson-databind", version.ref = "jackson-version" }

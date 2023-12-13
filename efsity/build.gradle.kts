@@ -13,11 +13,12 @@ repositories {
   mavenLocal()
   mavenCentral()
   google()
+  maven { setUrl("https://jitpack.io") }
 }
 
 group = "org.smartregister"
 
-version = "2.3.1-SNAPSHOT"
+version = "2.3.2-SNAPSHOT"
 
 description = "fhircore-tooling (efsity)"
 
@@ -72,6 +73,7 @@ dependencies {
   implementation(deps.hapi.fhir.structures.r4)
   implementation(deps.hapi.fhir.utilities)
   implementation(deps.json)
+  implementation(deps.jsonschemafriend)
   implementation(deps.picocli)
   implementation(deps.xstream)
 
