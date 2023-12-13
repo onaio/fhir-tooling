@@ -85,6 +85,23 @@ $ fct extract -qr /patient-registration-questionnaire/questionnaire-response.jso
 -o or --output - the output path, can be a file or directory. Optional - default is current directory
 ```
 
+### Publish FHIR resources
+To publish your FHIR resources run the command:
+
+```console
+$ fct publish -e /path/to/env.properties
+```
+
+**Options**
+```
+ -i or --input : Path to the project folder with the resources to be published
+-bu or --fhir-base-url : The base url of the FHIR server to post resources to
+-at or --access-token : Access token to grant access to the FHIR server
+ -e or --env : A properties file that contains the neessary variables
+```
+You can either pass your variables on the CLI or include them in the properties file. Variables passed on CLI
+take precedence over anything in the properties file.
+
 ### Validating your app configurations
 The tool supports some validations for the FHIRCore app configurations. To validate you can run the command:
 ```console
