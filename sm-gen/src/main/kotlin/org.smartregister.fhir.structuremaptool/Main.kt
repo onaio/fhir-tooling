@@ -81,10 +81,16 @@ class Application : CliktCommand() {
         // For each resource loop through creating or adding the correct instructions
 
 
+        lateinit var questionnaireResponse:QuestionnaireResponse
         val contextR4 = FhirContext.forR4()
         val fhirJsonParser = contextR4.newJsonParser()
         val questionnaire : Questionnaire = fhirJsonParser.parseResource(Questionnaire::class.java, FileUtils.readFileToString(File(questionnairefile), Charset.defaultCharset()))
-        val questionnaireResponse : QuestionnaireResponse = fhirJsonParser.parseResource(QuestionnaireResponse::class.java, FileUtils.readFileToString(File("C:\\Users\\Kigamba\\Projects\\onaio\\fhircore-tooling\\structure-map-tool\\src\\main\\resources\\questionnaire-response.json"), Charset.defaultCharset()))
+        val questionnaireResponseFile = File(javaClass.classLoader.getResource("questionnaire-response.json")?.file)
+        if (questionnaireResponseFile.exists()) {
+            questionnaireResponse = fhirJsonParser.parseResource(QuestionnaireResponse::class.java, questionnaireResponseFile.readText(Charset.defaultCharset()))
+        } else {
+            println("File not found: questionnaire-response.json")
+        }
         val xlsFile = FileInputStream(xlsfile)
         val xlWb = WorkbookFactory.create(xlsFile)
 
