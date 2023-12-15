@@ -1,0 +1,156 @@
+{
+  "$id": "https://fhir-configs-validation-schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "FHIR configs JSON Schema",
+  "type": "object",
+  "properties": {
+    "configType": {
+      "type": "string"
+    }
+  },
+  "required": ["configType"],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "configType": {
+            "const": "profile"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "appId": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "fhirResource": {
+            "type": "object"
+          },
+          "rules": {
+            "type": "array"
+          },
+          "views": {
+            "type": "array"
+          },
+          "overFlowMenuItems": {
+            "type": "array"
+          }
+        },
+        "required": ["appId", "id", "fhirResource", "rules", "views", "overFlowMenuItems"]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "configType": {
+            "const": "register"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "appId": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "fhirResource": {
+            "type": "object"
+          },
+          "registerCard": {
+            "type": "object"
+          }
+        },
+        "required": ["appId", "id", "fhirResource", "registerCard"]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "configType": {
+            "const": "sync"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "resourceType": {
+            "type": "string"
+          },
+          "parameter": {
+            "type": "array"
+          }
+        },
+        "required": ["resourceType", "parameter"]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "configType": {
+            "const": "navigation"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "appId": {
+            "type": "string"
+          },
+          "menuActionButton": {
+            "type": "object"
+          },
+          "clientRegisters": {
+            "type": "array"
+          },
+          "staticMenu": {
+            "type": "array"
+          }
+        },
+        "required": ["appId", "menuActionButton", "clientRegisters", "staticMenu"]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "configType": {
+            "const": "application"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "appId": {
+            "type": "string"
+          },
+          "theme": {
+            "type": "string"
+          },
+          "appTitle": {
+            "type": "string"
+          },
+          "remoteSyncPageSize": {
+            "type": "integer"
+          },
+          "languages": {
+            "type": "array"
+          },
+          "useDarkTheme": {
+            "type": "boolean"
+          },
+          "syncInterval": {
+            "type": "integer"
+          },
+          "syncStrategy": {
+            "type": "array"
+          }
+        },
+        "required": ["appId", "theme", "appTitle", "remoteSyncPageSize", "languages", "useDarkTheme", "syncInterval", "syncStrategy"]
+      }
+    }
+  ]
+}
