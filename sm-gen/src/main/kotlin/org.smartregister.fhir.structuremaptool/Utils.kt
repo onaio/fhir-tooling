@@ -132,7 +132,7 @@ class Group (entry : Map.Entry<String, MutableList<Instruction>>, val stringBuil
         }
 
         // 3. If it's a FHIR Path/StructureMap function, add the contents directly from here to the StructureMap
-        if (fhirPathStructureMapFunctions != null && !fhirPathStructureMapFunctions!!.isEmpty()) {
+        if (fhirPathStructureMapFunctions != null && fhirPathStructureMapFunctions!!.isNotEmpty()) {
             // TODO: Fix the 2nd param inside the evaluate expression --> Not sure what this is but check this
             return fhirPathStructureMapFunctions!!
         }
@@ -177,9 +177,7 @@ class Group (entry : Map.Entry<String, MutableList<Instruction>>, val stringBuil
             remainingPath.run {
                 if (contains(".")) {
                     val parts = split(".")
-                    val partName = if (!parts[0].isEmpty()) {
-                        parts[0]
-                    } else {
+                    val partName = parts[0].ifEmpty {
                         parts[1]
                     }
 
@@ -219,7 +217,7 @@ class Group (entry : Map.Entry<String, MutableList<Instruction>>, val stringBuil
                         }
                         resourceName = inferType("${this@Nest.resourceName}.$fullPath") ?:""
 
-                        if ((parts[0].isEmpty() && parts.size > 2) || (!parts[0].isEmpty() && parts.size > 1) ) {
+                        if ((parts[0].isEmpty() && parts.size > 2) || (parts[0].isNotEmpty() && parts.size > 1) ) {
                             val nextInstruction = Instruction().apply {
                                 copyFrom(instruction)
                                 var newFieldPath = ""
@@ -257,7 +255,7 @@ class Group (entry : Map.Entry<String, MutableList<Instruction>>, val stringBuil
                     val propertyType = inferType(instruction!!.fullPropertyPath())
                     val answerType = answerExpression.getAnswerType(questionnaireResponse)
 
-                    if (propertyType != "Type" && answerType != propertyType && propertyType?.canHandleConversion(answerType!!)?.not() == true && answerExpression.startsWith("evaluate")) {
+                    if (propertyType != "Type" && answerType != propertyType && propertyType?.canHandleConversion(answerType?:"")?.not() == true && answerExpression.startsWith("evaluate")) {
                         System.out.println("Failed type matching --> ${instruction!!.fullPropertyPath()} of type $answerType != $propertyType")
 
                         /*val possibleTypes = listOf<>()

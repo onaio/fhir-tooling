@@ -43,10 +43,32 @@ REMAINING TASKS
  */
 
 class Application : CliktCommand() {
-    val xlsfile: String by option(help = "XLS filepath").prompt("Kindly enter the XLS filepath")
-    val questionnairefile : String by option(help = "Questionnaire filepath").prompt("Kindly enter the questionnaire filepath")
+    val xlsFileName: String by option(help = "XLS filepath").prompt("Kindly enter the XLS filename")
+   // val xlsfile: String by option(help = "XLS filepath").prompt("Kindly enter the XLS filepath")
+    val questionnaireFileName: String by option(help = "Questionnaire filename").prompt("Kindly enter the questionnaire filename")
+    //val questionnairefile : String by option(help = "Questionnaire filepath").prompt("Kindly enter the questionnaire filepath")
 
     override fun run() {
+        var xlsfile= ""
+        var questionnairefile = ""
+
+        val xlsUrl = Application::class.java.getResource("/$xlsFileName")
+        val questionnaireUrl = Application::class.java.getResource("/$questionnaireFileName")
+
+        // Check if the resource exists
+        if (xlsUrl != null && questionnaireUrl != null) {
+            // Xls file path extraction
+            val xlsfilePath = File(xlsUrl.toURI())
+            xlsfile = xlsfilePath.absolutePath
+
+            // questionnaire file path extraction
+            val questionnaireFilePath = File(questionnaireUrl.toURI())
+            questionnairefile = questionnaireFilePath.absolutePath
+        } else {
+            println("Resource not found: $xlsFileName")
+            println("Resource not found: $questionnaireFileName")
+        }
+
         /*
 
         ALGORITHM / PSEUDOCODE
@@ -163,7 +185,7 @@ class Application : CliktCommand() {
             }
 
             val instruction = row.getInstruction()
-            if (!instruction.resource.isEmpty()) {
+            if (instruction.resource.isNotEmpty()) {
                 resourceConversionInstructions.computeIfAbsent(instruction.searchKey(), { key -> mutableListOf() })
                     .add(instruction)
             }
