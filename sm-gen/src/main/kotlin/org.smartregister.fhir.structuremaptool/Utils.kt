@@ -500,8 +500,3 @@ fun String.getResourceProperty() : String? {
 
 fun String.getFhirType() : String = replace("Type", "")
     .lowercase()
-
-
-//  /Users/onake/IdeaProjects/fhir-tooling/sm-gen/src/main/resources/StructureMap XLS.xlsx
- // old xls /Users/onake/IdeaProjects/fhir-tooling/sm-gen/src/main/resources/StructureMap XLS-old.xlsx
-  // /Users/onake/IdeaProjects/fhir-tooling/sm-gen/src/main/resources/questionnaire.json
