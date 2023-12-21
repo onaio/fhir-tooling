@@ -103,6 +103,7 @@ $ fct publish -e /path/to/env.properties
 -bu or --fhir-base-url : The base url of the FHIR server to post resources to
 -at or --access-token : Access token to grant access to the FHIR server
  -e or --env : A properties file that contains the neessary variables
+ -vr or --validate-resources : (Optional) whether to validate FHIR resources before publishing or not. Optional boolean - default is `true`
 ```
 You can either pass your variables on the CLI or include them in the properties file. Variables passed on CLI
 take precedence over anything in the properties file.

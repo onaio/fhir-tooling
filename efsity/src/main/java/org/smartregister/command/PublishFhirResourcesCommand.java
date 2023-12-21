@@ -1,5 +1,7 @@
 package org.smartregister.command;
 
+import net.jimblackler.jsonschemafriend.GenerationException;
+import net.jimblackler.jsonschemafriend.ValidationException;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
@@ -41,6 +43,13 @@ public class PublishFhirResourcesCommand implements Runnable{
             description = "path to env.properties file")
     String propertiesFile;
 
+    @CommandLine.Option(
+      names = {"-vr", "--validate-resource"},
+      description =
+        "-vr or --validate-resource - (Optional) whether to validate FHIR resources before publishing or not. Optional boolean - default is `true`",
+      required = false)
+    private String validateResource = "true";
+
     @Override
     public void run() {
         long start = System.currentTimeMillis();
@@ -56,7 +65,7 @@ public class PublishFhirResourcesCommand implements Runnable{
         try {
             publishResources();
             stateManagement();
-        } catch (IOException e) {
+        } catch (IOException | ValidationException | GenerationException e) {
             throw new RuntimeException(e);
         }
         FctUtils.printCompletedInDuration(start);
@@ -86,12 +95,20 @@ public class PublishFhirResourcesCommand implements Runnable{
         }
     }
 
-    void publishResources() throws IOException {
+    void publishResources() throws IOException, ValidationException, GenerationException {
         ArrayList<String> resourceFiles = getResourceFiles(projectFolder);
         ArrayList<JSONObject> resourceObjects = new ArrayList<>();
+        boolean validateResourceBoolean = Boolean.parseBoolean(validateResource);
+
         for(String f: resourceFiles){
+            if (validateResourceBoolean) {
+                FctUtils.printInfo(String.format("Validating file \u001b[35m%s\u001b[0m", f));
+                ValidateFhirResourcesCommand.validateFhirResources(f);
+            } else {
+                FctUtils.printInfo("Publishing Without Validation");
+            }
+
             FctFile inputFile = FctUtils.readFile(f);
-            // TODO check if file contains valid fhir resource
             JSONObject resourceObject = buildResourceObject(inputFile);
             resourceObjects.add(resourceObject);
         }
@@ -107,7 +124,7 @@ public class PublishFhirResourcesCommand implements Runnable{
         postRequest(bundle.toString(), accessToken);
     }
 
-    ArrayList<String> getResourceFiles(String pathToFolder) throws IOException {
+    static ArrayList<String> getResourceFiles(String pathToFolder) throws IOException {
         ArrayList<String> filesArray = new ArrayList<>();
         Path projectPath = Paths.get(pathToFolder);
         if (Files.isDirectory(projectPath)){
@@ -118,7 +135,7 @@ public class PublishFhirResourcesCommand implements Runnable{
         return filesArray;
     }
 
-    void getFiles(ArrayList<String> filesArray, File file){
+    static void getFiles(ArrayList<String> filesArray, File file){
         if (file.isFile()) {
             filesArray.add(file.getAbsolutePath());
         }
