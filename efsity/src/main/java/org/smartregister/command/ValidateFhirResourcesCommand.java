@@ -15,6 +15,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import net.jimblackler.jsonschemafriend.*;
@@ -40,7 +42,7 @@ public class ValidateFhirResourcesCommand implements Runnable {
       names = {"-s", "--schema"},
       description = "configs schema"
   )
-  static String configSchema;
+  private static String configSchema;
 
   @Override
   public void run() {
