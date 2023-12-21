@@ -40,7 +40,7 @@ public class ValidateFhirResourcesCommand implements Runnable {
       names = {"-s", "--schema"},
       description = "configs schema"
   )
-  private String configSchema;
+  static String configSchema;
 
   @Override
   public void run() {
@@ -53,7 +53,7 @@ public class ValidateFhirResourcesCommand implements Runnable {
     }
   }
 
-  private void validateFhirResources(String inputFilePath) throws IOException, ValidationException, GenerationException {
+  public static void validateFhirResources(String inputFilePath) throws IOException, ValidationException, GenerationException {
 
     long start = System.currentTimeMillis();
 
@@ -117,7 +117,7 @@ public class ValidateFhirResourcesCommand implements Runnable {
     }
   }
 
-  private int validateResource(FhirValidator validator, IBaseResource resource) {
+  private static int validateResource(FhirValidator validator, IBaseResource resource) {
 
     ValidationResult result = validator.validateWithResult(resource);
 
@@ -144,12 +144,12 @@ public class ValidateFhirResourcesCommand implements Runnable {
     }
   }
 
-  boolean isConfigFile(FctFile inputFile){
+  static boolean isConfigFile(FctFile inputFile){
     JSONObject resource = new JSONObject(inputFile.getContent());
     return resource.has("configType");
   }
 
-  int validateConfig(FctFile configFile) throws GenerationException, ValidationException {
+  static int validateConfig(FctFile configFile) throws GenerationException, ValidationException {
     SchemaStore schemaStore = new SchemaStore();
     Schema schema = schemaStore.loadSchema(new File(String.valueOf(Paths.get(configSchema))));
 
