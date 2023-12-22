@@ -15,8 +15,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 
 import net.jimblackler.jsonschemafriend.*;
@@ -156,8 +154,12 @@ public class ValidateFhirResourcesCommand implements Runnable {
     Schema schema = schemaStore.loadSchema(new File(String.valueOf(Paths.get(configSchema))));
 
     Validator validator = new Validator();
-    validator.validateJson(schema, configFile.getContent());
-    FctUtils.printToConsole("Config file is valid!");
+    try {
+      validator.validateJson(schema, configFile.getContent());
+      FctUtils.printToConsole("Config file is valid!");
+    } catch (ValidationException e) {
+      FctUtils.printError(e.toString());
+    }
     return 0;
   }
 }
