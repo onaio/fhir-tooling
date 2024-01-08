@@ -11,6 +11,11 @@ If you are using a linux environment e.g. bash you can choose to create an _alia
 
 `alias fct='java -jar ~/Downloads/efsity-<version>.jar'`
 
+To make sure that the alias persists on reload, add the alias to the `.bashrc` file in your `home` directory (you may not see it but you can check if it exists by running the below command). <br>
+`vim .bashrc`
+
+Add the alias shown above in the file then run `source .bashrc` to update the alias globally. Run `alias fct` to confirm that the alias was updated.
+
 To run the previous help command you can then run `fct -h` in your terminal.
 
 The rest of the documentation will assume you have configured an _alias_ for running the efsity jar with alias name `fct` as above.
