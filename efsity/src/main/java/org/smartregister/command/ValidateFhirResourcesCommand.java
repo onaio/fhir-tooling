@@ -10,16 +10,20 @@ import ca.uhn.fhir.validation.FhirValidator;
 import ca.uhn.fhir.validation.ResultSeverityEnum;
 import ca.uhn.fhir.validation.SingleValidationMessage;
 import ca.uhn.fhir.validation.ValidationResult;
+
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Map;
 
+import net.jimblackler.jsonschemafriend.*;
 import org.hl7.fhir.common.hapi.validation.support.CommonCodeSystemsTerminologyService;
 import org.hl7.fhir.common.hapi.validation.support.InMemoryTerminologyServerValidationSupport;
 import org.hl7.fhir.common.hapi.validation.support.ValidationSupportChain;
 import org.hl7.fhir.common.hapi.validation.validator.FhirInstanceValidator;
 import org.hl7.fhir.instance.model.api.IBaseResource;
+import org.json.JSONObject;
 import org.smartregister.domain.FctFile;
 import org.smartregister.util.FctUtils;
 import picocli.CommandLine;
@@ -32,18 +36,24 @@ public class ValidateFhirResourcesCommand implements Runnable {
       required = true)
   private String input;
 
+  @CommandLine.Option(
+      names = {"-s", "--schema"},
+      description = "configs schema"
+  )
+  static String configSchema;
+
   @Override
   public void run() {
     if (input != null) {
       try {
         validateFhirResources(input);
-      } catch (IOException e) {
+      } catch (IOException | ValidationException | GenerationException e) {
         throw new RuntimeException(e);
       }
     }
   }
 
-  private void validateFhirResources(String inputFilePath) throws IOException {
+  public static void validateFhirResources(String inputFilePath) throws IOException, ValidationException, GenerationException {
 
     long start = System.currentTimeMillis();
 
@@ -69,8 +79,12 @@ public class ValidateFhirResourcesCommand implements Runnable {
     if (!Files.isDirectory(Paths.get(inputFilePath))) {
       FctUtils.printInfo(String.format("\u001b[35m%s\u001b[0m", inputFilePath));
       inputFile = FctUtils.readFile(inputFilePath);
-      IBaseResource resource = iParser.parseResource(inputFile.getContent());
-      failCheck = validateResource(validator, resource);
+      if(isConfigFile(inputFile)){
+        failCheck = validateConfig(inputFile);
+      } else {
+        IBaseResource resource = iParser.parseResource(inputFile.getContent());
+        failCheck = validateResource(validator, resource);
+      }
 
     } else {
       Map<String, Map<String, String>> folderTofilesIndexMap =
@@ -84,8 +98,12 @@ public class ValidateFhirResourcesCommand implements Runnable {
           inputFile = FctUtils.readFile(nestedEntry.getValue());
 
           try {
-            IBaseResource resource = iParser.parseResource(inputFile.getContent());
-            failCheck = ( validateResource(validator, resource) == -1) ? -1 : failCheck;
+            if(isConfigFile(inputFile)){
+              failCheck = ( validateConfig(inputFile) == -1) ? -1 : failCheck;
+            } else {
+              IBaseResource resource = iParser.parseResource(inputFile.getContent());
+              failCheck = ( validateResource(validator, resource) == -1) ? -1 : failCheck;
+            }
           } catch (DataFormatException | NoSuchMethodError e) {
             FctUtils.printError(e.toString());
           }
@@ -95,11 +113,11 @@ public class ValidateFhirResourcesCommand implements Runnable {
     FctUtils.printCompletedInDuration(start);
 
     if (failCheck < 0){
-      throw new RuntimeException("Invalid FHIR Resources!");
+      throw new RuntimeException("Found Invalid file(s)");
     }
   }
 
-  private int validateResource(FhirValidator validator, IBaseResource resource) {
+  private static int validateResource(FhirValidator validator, IBaseResource resource) {
 
     ValidationResult result = validator.validateWithResult(resource);
 
@@ -123,6 +141,32 @@ public class ValidateFhirResourcesCommand implements Runnable {
     } else {
       FctUtils.printInfo("File is valid!");
       return 0;
+    }
+  }
+
+  static boolean isConfigFile(FctFile inputFile){
+    JSONObject resource = new JSONObject(inputFile.getContent());
+    return resource.has("configType");
+  }
+
+  static int validateConfig(FctFile configFile) throws GenerationException, ValidationException {
+    boolean valid = true;
+    SchemaStore schemaStore = new SchemaStore();
+    Schema schema = schemaStore.loadSchema(new File(String.valueOf(Paths.get(configSchema))));
+
+    Validator validator = new Validator();
+    try {
+      validator.validateJson(schema, configFile.getContent());
+      FctUtils.printToConsole("Config file is valid!");
+    } catch (ValidationException e) {
+      valid = false;
+      FctUtils.printError(e.toString());
+    }
+
+    if (valid){
+      return 0;
+    } else {
+      return -1;
     }
   }
 }
