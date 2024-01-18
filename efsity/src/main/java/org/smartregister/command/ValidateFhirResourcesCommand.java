@@ -99,7 +99,7 @@ public class ValidateFhirResourcesCommand implements Runnable {
 
           try {
             if(isConfigFile(inputFile)){
-              failCheck = validateConfig(inputFile);
+              failCheck = ( validateConfig(inputFile) == -1) ? -1 : failCheck;
             } else {
               IBaseResource resource = iParser.parseResource(inputFile.getContent());
               failCheck = ( validateResource(validator, resource) == -1) ? -1 : failCheck;
@@ -113,7 +113,7 @@ public class ValidateFhirResourcesCommand implements Runnable {
     FctUtils.printCompletedInDuration(start);
 
     if (failCheck < 0){
-      throw new RuntimeException("Invalid FHIR Resources!");
+      throw new RuntimeException("Found Invalid file(s)");
     }
   }
 
@@ -150,6 +150,7 @@ public class ValidateFhirResourcesCommand implements Runnable {
   }
 
   static int validateConfig(FctFile configFile) throws GenerationException, ValidationException {
+    boolean valid = true;
     SchemaStore schemaStore = new SchemaStore();
     Schema schema = schemaStore.loadSchema(new File(String.valueOf(Paths.get(configSchema))));
 
@@ -158,8 +159,14 @@ public class ValidateFhirResourcesCommand implements Runnable {
       validator.validateJson(schema, configFile.getContent());
       FctUtils.printToConsole("Config file is valid!");
     } catch (ValidationException e) {
+      valid = false;
       FctUtils.printError(e.toString());
     }
-    return 0;
+
+    if (valid){
+      return 0;
+    } else {
+      return -1;
+    }
   }
 }
