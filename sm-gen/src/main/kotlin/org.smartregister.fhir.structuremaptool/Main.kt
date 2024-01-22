@@ -43,17 +43,21 @@ REMAINING TASKS
  */
 
 class Application : CliktCommand() {
-    val xlsFileName: String by option(help = "XLS filepath").prompt("Kindly enter the XLS filename")
+    val xlsFileName: String by option(help = "XLS filepath").prompt("Kindly enter the XLS filename or filepath")
    // val xlsfile: String by option(help = "XLS filepath").prompt("Kindly enter the XLS filepath")
-    val questionnaireFileName: String by option(help = "Questionnaire filename").prompt("Kindly enter the questionnaire filename")
+    val questionnaireFileName: String by option(help = "Questionnaire filename").prompt("Kindly enter the questionnaire filename or filepath")
     //val questionnairefile : String by option(help = "Questionnaire filepath").prompt("Kindly enter the questionnaire filepath")
 
     override fun run() {
         var xlsfile= ""
         var questionnairefile = ""
+        lateinit var questionnaireResponse:QuestionnaireResponse
+        val contextR4 = FhirContext.forR4()
+        val fhirJsonParser = contextR4.newJsonParser()
 
         val xlsUrl = Application::class.java.getResource("/$xlsFileName")
         val questionnaireUrl = Application::class.java.getResource("/$questionnaireFileName")
+
 
         // Check if the resource exists
         if (xlsUrl != null && questionnaireUrl != null) {
@@ -65,8 +69,11 @@ class Application : CliktCommand() {
             val questionnaireFilePath = File(questionnaireUrl.toURI())
             questionnairefile = questionnaireFilePath.absolutePath
         } else {
-            println("Resource not found: $xlsFileName")
-            println("Resource not found: $questionnaireFileName")
+         /*   println("Resource not found: $xlsFileName")
+            println("Resource not found: $questionnaireFileName")*/
+            xlsfile = xlsFileName
+            questionnairefile = questionnaireFileName
+
         }
 
         /*
@@ -101,11 +108,6 @@ class Application : CliktCommand() {
 
         // Create a map of Resource -> questionnaire name or path -> value
         // For each resource loop through creating or adding the correct instructions
-
-
-        lateinit var questionnaireResponse:QuestionnaireResponse
-        val contextR4 = FhirContext.forR4()
-        val fhirJsonParser = contextR4.newJsonParser()
         val questionnaire : Questionnaire = fhirJsonParser.parseResource(Questionnaire::class.java, FileUtils.readFileToString(File(questionnairefile), Charset.defaultCharset()))
         val questionnaireResponseFile = File(javaClass.classLoader.getResource("questionnaire-response.json")?.file)
         if (questionnaireResponseFile.exists()) {
