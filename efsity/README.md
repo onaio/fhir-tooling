@@ -106,7 +106,7 @@ $ fct publish -e /path/to/env.properties
 -cs or --client-secret :The client secret for authentication
  -u or --username : The username for authentication
  -p or --password : The password for authentication
--au or accessToken-url : The endpoint for the authentication server
+-au or --accessToken-url : The endpoint for the authentication server
  -g or --grant-type : The authorization code grant type
  -e or --env : A properties file that contains the neessary variables
 ```
