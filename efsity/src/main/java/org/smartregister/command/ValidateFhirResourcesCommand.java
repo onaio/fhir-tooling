@@ -42,7 +42,7 @@ public class ValidateFhirResourcesCommand implements Runnable {
       names = {"-s", "--schema"},
       description = "configs schema"
   )
-  private static String configSchema;
+  static String configSchema;
 
   @Override
   public void run() {

@@ -79,9 +79,9 @@ public class PublishFhirResourcesCommand implements Runnable{
     @CommandLine.Option(
       names = {"-vr", "--validate-resource"},
       description =
-        "-vr or --validate-resource - (Optional) whether to validate FHIR resources before publishing or not. Optional boolean - default is `true`",
+        "(Optional) whether to validate FHIR resources before publishing or not. Boolean - default is `true`",
       required = false)
-    private String validateResource = "true";
+    String validateResource = "true";
 
     @Override
     public void run() {
@@ -166,7 +166,7 @@ public class PublishFhirResourcesCommand implements Runnable{
                 FctUtils.printInfo(String.format("Validating file \u001b[35m%s\u001b[0m", f));
                 ValidateFhirResourcesCommand.validateFhirResources(f);
             } else {
-                FctUtils.printInfo("Publishing Without Validation");
+                FctUtils.printInfo(String.format("Publishing \u001b[35m%s\u001b[0m Without Validation", f));
             }
 
             FctFile inputFile = FctUtils.readFile(f);

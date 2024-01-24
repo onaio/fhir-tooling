@@ -1,22 +1,29 @@
 package org.smartregister.command;
 
+import net.jimblackler.jsonschemafriend.GenerationException;
+import net.jimblackler.jsonschemafriend.ValidationException;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
+import org.mockito.*;
 import org.smartregister.domain.FctFile;
 import org.smartregister.util.FctUtils;
 
 import java.io.FileWriter;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 public class PublishFhirResourcesCommandTest {
 
+    @InjectMocks
     private PublishFhirResourcesCommand publishFhirResourcesCommand;
 
     @TempDir
@@ -86,5 +93,47 @@ public class PublishFhirResourcesCommandTest {
         JSONObject resource = (JSONObject) resourceObject.get("resource");
         assertTrue(resource.get("meta").toString()
                 .contains("{\"tag\":[{\"system\":\"https://smartregister.org/fct-release-version\",\"code\":\""));
+    }
+
+    @Test
+    void testPublishResourcesValidationFalse() throws IOException, ValidationException, GenerationException {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outputStream));
+        try (MockedStatic<ValidateFhirResourcesCommand> validateMock =
+               Mockito.mockStatic(ValidateFhirResourcesCommand.class)) {
+           validateMock.when(() -> ValidateFhirResourcesCommand.validateFhirResources(
+             "src/test/resources/raw_questionnaire.json")).thenAnswer(Answers.RETURNS_DEFAULTS);
+            PublishFhirResourcesCommand mockPublishFhirResourcesCommand = mock(PublishFhirResourcesCommand.class);
+            mockPublishFhirResourcesCommand.validateResource = "false";
+            mockPublishFhirResourcesCommand.accessToken = "testAccessToken";
+            mockPublishFhirResourcesCommand.projectFolder = "src/test/resources/raw_questionnaire.json";
+            doNothing().when(mockPublishFhirResourcesCommand).postRequest(Mockito.anyString(), Mockito.anyString());
+            doCallRealMethod().when(mockPublishFhirResourcesCommand).publishResources();
+            mockPublishFhirResourcesCommand.publishResources();
+        }
+        System.setOut(System.out);
+        String printedOutput = outputStream.toString().trim();
+        assertTrue(printedOutput.contains("Without Validation"));
+    }
+
+    @Test
+    void testPublishResourcesValidationTrue() throws IOException, ValidationException, GenerationException {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outputStream));
+        try (MockedStatic<ValidateFhirResourcesCommand> validateMock =
+               Mockito.mockStatic(ValidateFhirResourcesCommand.class)) {
+            validateMock.when(() -> ValidateFhirResourcesCommand.validateFhirResources(
+              "src/test/resources/raw_questionnaire.json")).thenAnswer(Answers.RETURNS_DEFAULTS);
+            PublishFhirResourcesCommand mockPublishFhirResourcesCommand = mock(PublishFhirResourcesCommand.class);
+            mockPublishFhirResourcesCommand.validateResource = "true";
+            mockPublishFhirResourcesCommand.accessToken = "testAccessToken";
+            mockPublishFhirResourcesCommand.projectFolder = "src/test/resources/raw_questionnaire.json";
+            doNothing().when(mockPublishFhirResourcesCommand).postRequest(Mockito.anyString(), Mockito.anyString());
+            doCallRealMethod().when(mockPublishFhirResourcesCommand).publishResources();
+            mockPublishFhirResourcesCommand.publishResources();
+        }
+        System.setOut(System.out);
+        String printedOutput = outputStream.toString().trim();
+        assertTrue(printedOutput.contains("Validating file"));
     }
 }
