@@ -256,13 +256,13 @@ class Group (entry : Map.Entry<String, MutableList<Instruction>>, val stringBuil
                     val answerType = answerExpression.getAnswerType(questionnaireResponse)
 
                     if (propertyType != "Type" && answerType != propertyType && propertyType?.canHandleConversion(answerType?:"")?.not() == true && answerExpression.startsWith("evaluate")) {
-                        System.out.println("Failed type matching --> ${instruction!!.fullPropertyPath()} of type $answerType != $propertyType")
+                        println("Failed type matching --> ${instruction!!.fullPropertyPath()} of type $answerType != $propertyType")
 
                         /*val possibleTypes = listOf<>()
                         if ()*/
 
                         stringBuilder.append("src -> entity$currLevel.${instruction!!.fieldPath} = ")
-                        stringBuilder.append("create('${propertyType?.getFhirType()}') as randomVal, randomVal.value = ")
+                        stringBuilder.append("create('${propertyType.getFhirType()}') as randomVal, randomVal.value = ")
                         stringBuilder.append(answerExpression)
                         addRuleNo()
                         stringBuilder.appendNewLine()
