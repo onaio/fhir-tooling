@@ -196,7 +196,7 @@ class Application : CliktCommand() {
             // TODO: Generate the links to the group names here
             var index = 0
             var len = resourceConversionInstructions.size
-            var resourceName:String = ""
+            var resourceName = ""
             resourceConversionInstructions.forEach { entry ->
                 resourceName = entry.key.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
                 if (index++ != 0) sb.append(",")
