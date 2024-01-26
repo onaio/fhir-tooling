@@ -4,6 +4,7 @@ import ca.uhn.fhir.context.FhirContext
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.prompt
+import org.apache.commons.codec.Resources
 import org.apache.commons.io.FileUtils
 import org.apache.poi.ss.usermodel.CellType
 import org.apache.poi.ss.usermodel.Row
@@ -17,6 +18,7 @@ import org.hl7.fhir.r4.model.Resource
 import java.io.File
 import java.io.FileInputStream
 import java.nio.charset.Charset
+import java.util.*
 
 fun main(args: Array<String>) {
     Application().main(args)
@@ -43,31 +45,10 @@ REMAINING TASKS
  */
 
 class Application : CliktCommand() {
-    val xlsFileName: String by option(help = "XLS filepath").prompt("Kindly enter the XLS filename")
-   // val xlsfile: String by option(help = "XLS filepath").prompt("Kindly enter the XLS filepath")
-    val questionnaireFileName: String by option(help = "Questionnaire filename").prompt("Kindly enter the questionnaire filename")
-    //val questionnairefile : String by option(help = "Questionnaire filepath").prompt("Kindly enter the questionnaire filepath")
+    val xlsfile: String by option(help = "XLS filepath").prompt("Kindly enter the XLS filepath")
+    val questionnairefile : String by option(help = "Questionnaire filepath").prompt("Kindly enter the questionnaire filepath")
 
     override fun run() {
-        var xlsfile= ""
-        var questionnairefile = ""
-
-        val xlsUrl = Application::class.java.getResource("/$xlsFileName")
-        val questionnaireUrl = Application::class.java.getResource("/$questionnaireFileName")
-
-        // Check if the resource exists
-        if (xlsUrl != null && questionnaireUrl != null) {
-            // Xls file path extraction
-            val xlsfilePath = File(xlsUrl.toURI())
-            xlsfile = xlsfilePath.absolutePath
-
-            // questionnaire file path extraction
-            val questionnaireFilePath = File(questionnaireUrl.toURI())
-            questionnairefile = questionnaireFilePath.absolutePath
-        } else {
-            println("Resource not found: $xlsFileName")
-            println("Resource not found: $questionnaireFileName")
-        }
 
         /*
 
@@ -106,6 +87,7 @@ class Application : CliktCommand() {
         lateinit var questionnaireResponse:QuestionnaireResponse
         val contextR4 = FhirContext.forR4()
         val fhirJsonParser = contextR4.newJsonParser()
+        val fhirResources = contextR4.resourceTypes
         val questionnaire : Questionnaire = fhirJsonParser.parseResource(Questionnaire::class.java, FileUtils.readFileToString(File(questionnairefile), Charset.defaultCharset()))
         val questionnaireResponseFile = File(javaClass.classLoader.getResource("questionnaire-response.json")?.file)
         if (questionnaireResponseFile.exists()) {
@@ -115,6 +97,7 @@ class Application : CliktCommand() {
         }
         val xlsFile = FileInputStream(xlsfile)
         val xlWb = WorkbookFactory.create(xlsFile)
+
 
         // TODO: Check that all the Resource(s) ub the Resource column are the correct name and type eg. RiskFlag in the previous XLSX was not valid
         // TODO: Check that all the path's and other entries in the excel sheet are valid
@@ -213,10 +196,11 @@ class Application : CliktCommand() {
             // TODO: Generate the links to the group names here
             var index = 0
             var len = resourceConversionInstructions.size
+            var resourceName:String = ""
             resourceConversionInstructions.forEach { entry ->
-                val resourceName = entry.key.capitalize()
-                if (index++ != 0) sb.append(", ")
-                sb.append("Extract$resourceName(src, bundle)")
+                resourceName = entry.key.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
+                if (index++ != 0) sb.append(",")
+                if(resourceName.isNotEmpty()) sb.append("Extract$resourceName(src, bundle)")
             }
             sb.append(""" "rule_a";""".trimMargin())
             sb.appendNewLine()
@@ -245,13 +229,17 @@ class Application : CliktCommand() {
 
                 val bundle = Bundle()
 
-                scu.transform(contextR4, questionnaireResponse, structureMap, bundle)
+                if(fhirResources.contains(resourceName)) {
+                    scu.transform(contextR4, questionnaireResponse, structureMap, bundle)
+                } else{
+                    println("The resource type $resourceName is not among HL7 resources")
+                }
 
                 val jsonParser = FhirContext.forR4().newJsonParser()
 
                 println(jsonParser.encodeResourceToString(bundle))
             } catch (ex: Exception) {
-                System.out.println("The generated StructureMap has a formatting error")
+                println("The generated StructureMap has a formatting error")
                 ex.printStackTrace()
             }
 
