@@ -14,7 +14,7 @@ except ModuleNotFoundError:
 
 
 # This function makes the request to the provided url
-def post_request(request_type, payload, url):
+def handle_request(request_type, payload, url):
     logging.debug("Posting request")
     logging.debug("Request type: " + request_type)
     logging.debug("Url: " + url)
@@ -54,6 +54,13 @@ def post_request(request_type, payload, url):
             else:
                 logging.error("[" + str(r.status_code) + "]" + r.text)
             return r.text
+        elif request_type == "DELETE":
+            r = requests.delete(url, headers=headers)
+            if r.status_code == 200 or r.status_code == 201:
+                logging.debug("[" + str(r.status_code) + "]" + ": SUCCESS!")
+            else:
+                logging.error("[" + str(r.status_code) + "]" + r.text)
+            return r.text
         else:
             logging.error("Unsupported request type!")
     except Exception as err:
@@ -77,7 +84,7 @@ def build_payload(resource_ids, resource_type):
 def delete_resources(resource_url, resource_type):
     # Get the resources from the url
     logging.info("Getting resources")
-    response = post_request("GET", "", resource_url)
+    response = handle_request("GET", "", resource_url)
 
     try:
         json_response = json.loads(response)
@@ -93,7 +100,7 @@ def delete_resources(resource_url, resource_type):
             resource_ids.append(resource_id)
 
         del_payload = build_payload(resource_ids, resource_type)
-        post_request("POST", del_payload, config.fhir_base_url)
+        handle_request("POST", del_payload, config.fhir_base_url)
         logging.info(str(len(resource_ids)) + " resources deleted")
         time.sleep(20)
         delete_resources(resource_url, resource_type)
@@ -102,7 +109,7 @@ def delete_resources(resource_url, resource_type):
         # confirm the count and that we are done
         logging.info("Checking count")
         count_url = resource_url + "&_summary=count"
-        count_response = post_request("GET", "", count_url)
+        count_response = handle_request("GET", "", count_url)
         json_count = json.loads(count_response)
         count = json_count["total"]
         if count == 0:
@@ -112,9 +119,10 @@ def delete_resources(resource_url, resource_type):
             logging.info("Call delete_resources again")
             delete_resources(resource_url, resource_type)
 
+
 def expunge_resources(expunge_url):
     full_payload = """ { "resourceType": "Parameters", "parameter": [{ "name": "expungeDeletedResources", "valueBoolean": true }]} """
-    response = post_request("POST", full_payload, expunge_url)
+    response = handle_request("POST", full_payload, expunge_url)
     json_response = json.loads(response.text)
     counter = json_response["parameter"][0]["valueInteger"]
     if counter > 0:
@@ -129,10 +137,11 @@ def expunge_resources(expunge_url):
 @click.option("--value", required=True)
 @click.option("--batch_size", default=1000)
 @click.option("--expunge", default=False)
+@click.option("--cascade", default=False)
 @click.option(
     "--log_level", type=click.Choice(["DEBUG", "INFO", "ERROR"], case_sensitive=False)
 )
-def main(resource_type, parameter, value, batch_size, expunge, log_level):
+def main(resource_type, parameter, value, batch_size, expunge, cascade, log_level):
     if log_level == "DEBUG":
         logging.basicConfig(level=logging.DEBUG)
     elif log_level == "INFO":
@@ -158,6 +167,9 @@ def main(resource_type, parameter, value, batch_size, expunge, log_level):
     if expunge:
         expunge_url = config.fhir_base_url + "/" + resource_type + "/$expunge"
         expunge_resources(expunge_url)
+    if cascade:
+        resource_url = resource_url + "&_cascade=delete"
+        handle_request("DELETE", "", resource_url)
 
 
 if __name__ == "__main__":
