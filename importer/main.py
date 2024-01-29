@@ -236,11 +236,11 @@ def location_extras(resource, payload_string):
         else:
             logging.error("Unsupported location type provided for " + resource[0])
             obj = json.loads(payload_string)
-            del obj["resource"]["physicalType"]
+            del obj["resource"]["type"]
             payload_string = json.dumps(obj, indent=4)
     except IndexError:
         obj = json.loads(payload_string)
-        del obj["resource"]["physicalType"]
+        del obj["resource"]["type"]
         payload_string = json.dumps(obj, indent=4)
 
     return payload_string
