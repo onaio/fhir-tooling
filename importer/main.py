@@ -194,8 +194,8 @@ def create_user_resources(user_id, user):
 # custom extras for organizations
 def organization_extras(resource, payload_string):
     try:
-        if resource[6]:
-            payload_string = payload_string.replace("$alias", resource[6])
+        if resource[5]:
+            payload_string = payload_string.replace("$alias", resource[5])
     except IndexError:
         obj = json.loads(payload_string)
         del obj["resource"]["alias"]
@@ -211,9 +211,9 @@ def organization_extras(resource, payload_string):
 # custom extras for locations
 def location_extras(resource, payload_string):
     try:
-        if resource[5]:
-            payload_string = payload_string.replace("$parentName", resource[5]).replace(
-                "$parentID", resource[6]
+        if resource[4]:
+            payload_string = payload_string.replace("$parentName", resource[4]).replace(
+                "$parentID", resource[5]
             )
         else:
             obj = json.loads(payload_string)
@@ -276,13 +276,13 @@ def care_team_extras(
 
     if load_type == "min":
         try:
-            if resource[6]:
-                elements = resource[6].split("|")
+            if resource[5]:
+                elements = resource[5].split("|")
         except IndexError:
             pass
         try:
-            if resource[7]:
-                elements2 = resource[7].split("|")
+            if resource[6]:
+                elements2 = resource[6].split("|")
         except IndexError:
             pass
     elif load_type == "full":
@@ -456,6 +456,24 @@ def build_org_affiliation(resources, resource_list):
     return fp
 
 
+# This function is used to Capitalize the 'resource_type'
+# and remove the 's' at the end, a version suitable with the API
+def get_valid_resource_type(resource_type):
+    logging.info("Modify the string resource_type")
+    modified_resource_type = resource_type[0].upper() + resource_type[1:-1]
+    return modified_resource_type
+
+
+# This function gets the current resource version from the API
+def get_resource_version(resource_id, resource_type):
+    logging.info("Getting resource version")
+    modified_resource_type = get_valid_resource_type(resource_type)
+    resource_url = config.fhir_base_url + "/" + modified_resource_type + "/" + resource_id
+    response = handle_request("GET", "", resource_url)
+    json_response = json.loads(response[0])
+    return json_response["meta"]["versionId"]
+
+
 # This function builds a json payload
 # which is posted to the api to create resources
 def build_payload(resource_type, resources, resource_payload_file):
@@ -502,9 +520,11 @@ def build_payload(resource_type, resources, resource_payload_file):
         except IndexError:
             ps = ps.replace("$status", "active")
 
+        # Get resource versions from API
         try:
-            ps = ps.replace("$version", resource[3])
-        except IndexError:
+            version = get_resource_version(resource[3], resource_type)
+            ps = ps.replace("$version", version)
+        except Exception:
             ps = ps.replace("$version", "1")
 
         if resource_type == "organizations":
