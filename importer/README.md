@@ -84,9 +84,8 @@ The coverage report `coverage.html` will be at the working directory
 - The first  column __name__ is the only one reqired
 - [organizations_full](/importer/csv/organizations/organizations_full.csv) shows more options available
 - The third column is the request method, can be either create or update. Default is set to create
-- The fourth column is the version. Default is set to 1 for creation, needs to be set when updating
-- The fifth column is the id, which is required when updating
-- The sixth columns in the identifier, in some cases this is different from the id
+- The fourth column is the id, which is required when updating
+- The fifth columns in the identifier, in some cases this is different from the id
 
 ### 4. Create care teams in bulk
 - Run `python3 main.py --csv_file csv/careteams/careteam_min.csv --resource_type careTeams --log_level info`
@@ -95,11 +94,10 @@ The coverage report `coverage.html` will be at the working directory
 - If the status is not set it will default to __active__
 - [careteam_full](/importer/csv/careteams/careteam_full.csv) shows more options available
 - The third column is the request method, can be either create or update. Default is set to create
-- The fourth column is the version. Default is set to 1 for creation, needs to be set when updating
-- The fifth column is the id, which is required when updating
-- The sixth columns is the identifier, in some cases this is different from the id
-- The seventh column is the organizations. This is only useful when you want to assign a few organizations when creating careteams. The format expected is a string like `orgId1:orgName1|orgId2:orgName2|orgId3:orgNam3`. Otherwise use the "Assign careTeams to organizations" csv below.
-- The eighth column is the participants. This is only useful when you want to assign a few users when creating careteams. The format expected is a string like `userId1:fullName1|userId2:fullName2|userId3:fullName3`. Otherwise use the "Assign users to careteams" csv below
+- The fourth column is the id, which is required when updating
+- The fifth columns is the identifier, in some cases this is different from the id
+- The sixth column is the organizations. This is only useful when you want to assign a few organizations when creating careteams. The format expected is a string like `orgId1:orgName1|orgId2:orgName2|orgId3:orgNam3`. Otherwise use the "Assign careTeams to organizations" csv below.
+- The seventh column is the participants. This is only useful when you want to assign a few users when creating careteams. The format expected is a string like `userId1:fullName1|userId2:fullName2|userId3:fullName3`. Otherwise use the "Assign users to careteams" csv below
 
 
 
