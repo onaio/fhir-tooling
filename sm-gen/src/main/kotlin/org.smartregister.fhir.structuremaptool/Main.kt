@@ -87,7 +87,6 @@ class Application : CliktCommand() {
         lateinit var questionnaireResponse:QuestionnaireResponse
         val contextR4 = FhirContext.forR4()
         val fhirJsonParser = contextR4.newJsonParser()
-        val fhirResources = contextR4.resourceTypes
         val questionnaire : Questionnaire = fhirJsonParser.parseResource(Questionnaire::class.java, FileUtils.readFileToString(File(questionnairefile), Charset.defaultCharset()))
         val questionnaireResponseFile = File(javaClass.classLoader.getResource("questionnaire-response.json")?.file)
         if (questionnaireResponseFile.exists()) {
@@ -227,17 +226,16 @@ class Application : CliktCommand() {
                 val structureMap = scu.parse(structureMapString, questionnaireId.clean())
                 // DataFormatException | FHIRLexerException
 
-                val bundle = Bundle()
-
-                if(fhirResources.contains(resourceName)) {
+                try{
+                    val bundle = Bundle()
                     scu.transform(contextR4, questionnaireResponse, structureMap, bundle)
-                } else{
-                    println("The resource type $resourceName is not among HL7 resources")
+                    val jsonParser = FhirContext.forR4().newJsonParser()
+
+                    println(jsonParser.encodeResourceToString(bundle))
+                } catch (e:Exception){
+                    e.printStackTrace()
                 }
 
-                val jsonParser = FhirContext.forR4().newJsonParser()
-
-                println(jsonParser.encodeResourceToString(bundle))
             } catch (ex: Exception) {
                 println("The generated StructureMap has a formatting error")
                 ex.printStackTrace()
