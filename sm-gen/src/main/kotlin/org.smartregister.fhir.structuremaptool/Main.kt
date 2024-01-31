@@ -252,8 +252,9 @@ class Application : CliktCommand() {
 
             // TODO: Generate JSON version
             // TODO: Provide both as new files
+            writeStructureMapOutput(sb.toString().addIdentation())
         }
-        writeStructureMapOutput(sb.toString().addIdentation())
+
     }
 
     fun Row.getInstruction() : Instruction {
