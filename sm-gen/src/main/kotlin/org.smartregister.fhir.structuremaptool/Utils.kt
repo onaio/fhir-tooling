@@ -14,10 +14,10 @@ import org.hl7.fhir.r4.utils.FHIRPathEngine
 import java.lang.reflect.Field
 import java.lang.reflect.ParameterizedType
 
-fun getQuestionsPath(questionnaire: Questionnaire) : HashMap<String, String> {
+fun getQuestionsPath(questionnaire: Questionnaire): HashMap<String, String> {
     val questionsMap = hashMapOf<String, String>()
 
-    questionnaire.item.forEach {itemComponent ->
+    questionnaire.item.forEach { itemComponent ->
         getQuestionNames("", itemComponent, questionsMap)
     }
     return questionsMap
@@ -33,7 +33,11 @@ fun getQuestionNames(parentName: String, item: QuestionnaireItemComponent, quest
 }
 
 
-class Group (entry : Map.Entry<String, MutableList<Instruction>>, val stringBuilder : StringBuilder, val questionsPath : HashMap<String, String>) {
+class Group(
+    entry: Map.Entry<String, MutableList<Instruction>>,
+    val stringBuilder: StringBuilder,
+    val questionsPath: HashMap<String, String>
+) {
 
     var lineCounter = 0
     var groupName = entry.key
@@ -44,8 +48,10 @@ class Group (entry : Map.Entry<String, MutableList<Instruction>>, val stringBuil
         val resourceName = instructions[0].resource
 
         stringBuilder.appendNewLine()
-        stringBuilder.append("group Extract$groupName(source src : QuestionniareResponse, target bundle: Bundle) {").appendNewLine()
-        stringBuilder.append("src -> bundle.entry as  entry, entry.resource = create('$resourceName') as entity1 then {").appendNewLine()
+        stringBuilder.append("group Extract$groupName(source src : QuestionniareResponse, target bundle: Bundle) {")
+            .appendNewLine()
+        stringBuilder.append("src -> bundle.entry as  entry, entry.resource = create('$resourceName') as entity1 then {")
+            .appendNewLine()
 
         // TODO: Remove below and replace with Nest.buildStructureMap
         /*instructions.forEachIndexed { index, instruction ->
@@ -84,11 +90,11 @@ class Group (entry : Map.Entry<String, MutableList<Instruction>>, val stringBuil
         stringBuilder.append(""" "${groupName}_${lineCounter++}"; """)
     }
 
-    fun Instruction.getPropertyPath() : String {
+    fun Instruction.getPropertyPath(): String {
         return questionsPath.getOrDefault(responseFieldId, "")
     }
 
-    fun Instruction.getAnswerExpression(questionnaireResponse: QuestionnaireResponse) : String {
+    fun Instruction.getAnswerExpression(questionnaireResponse: QuestionnaireResponse): String {
 
         //1. If the answer is static/literal, just return it here
         // TODO: We should infer the resource element and add the correct conversion or code to assign this correctly
@@ -162,6 +168,7 @@ class Group (entry : Map.Entry<String, MutableList<Instruction>>, val stringBuil
 
     inner class Nest {
         var instruction: Instruction? = null
+
         // We can change this to a linked list
         val nests = ArrayList<Nest>()
         lateinit var name: String
@@ -215,9 +222,9 @@ class Group (entry : Map.Entry<String, MutableList<Instruction>>, val stringBuil
                         } else {
                             fullPath = partName
                         }
-                        resourceName = inferType("${this@Nest.resourceName}.$fullPath") ?:""
+                        resourceName = inferType("${this@Nest.resourceName}.$fullPath") ?: ""
 
-                        if ((parts[0].isEmpty() && parts.size > 2) || (parts[0].isNotEmpty() && parts.size > 1) ) {
+                        if ((parts[0].isEmpty() && parts.size > 2) || (parts[0].isNotEmpty() && parts.size > 1)) {
                             val nextInstruction = Instruction().apply {
                                 copyFrom(instruction)
                                 var newFieldPath = ""
@@ -240,7 +247,7 @@ class Group (entry : Map.Entry<String, MutableList<Instruction>>, val stringBuil
                         name = remainingPath
                         fullPath = instruction.fieldPath
                         this@apply.instruction = instruction
-                        resourceName = inferType("${this@Nest.resourceName}.$fullPath") ?:""
+                        resourceName = inferType("${this@Nest.resourceName}.$fullPath") ?: ""
                     })
                 }
             }
@@ -255,14 +262,17 @@ class Group (entry : Map.Entry<String, MutableList<Instruction>>, val stringBuil
                     val propertyType = inferType(instruction!!.fullPropertyPath())
                     val answerType = answerExpression.getAnswerType(questionnaireResponse)
 
-                    if (propertyType != "Type" && answerType != propertyType && propertyType?.canHandleConversion(answerType?:"")?.not() == true && answerExpression.startsWith("evaluate")) {
-                        System.out.println("Failed type matching --> ${instruction!!.fullPropertyPath()} of type $answerType != $propertyType")
+                    if (propertyType != "Type" && answerType != propertyType && propertyType?.canHandleConversion(
+                            answerType ?: ""
+                        )?.not() == true && answerExpression.startsWith("evaluate")
+                    ) {
+                        println("Failed type matching --> ${instruction!!.fullPropertyPath()} of type $answerType != $propertyType")
 
                         /*val possibleTypes = listOf<>()
                         if ()*/
 
                         stringBuilder.append("src -> entity$currLevel.${instruction!!.fieldPath} = ")
-                        stringBuilder.append("create('${propertyType?.getFhirType()}') as randomVal, randomVal.value = ")
+                        stringBuilder.append("create('${propertyType.getFhirType()}') as randomVal, randomVal.value = ")
                         stringBuilder.append(answerExpression)
                         addRuleNo()
                         stringBuilder.appendNewLine()
@@ -309,25 +319,34 @@ class Group (entry : Map.Entry<String, MutableList<Instruction>>, val stringBuil
     }
 
 }
-fun generateStructureMapLine(structureMapBody: StringBuilder, row: Row, resource: Resource, extractionResources: HashMap<String, Resource>)  {
+
+fun generateStructureMapLine(
+    structureMapBody: StringBuilder,
+    row: Row,
+    resource: Resource,
+    extractionResources: HashMap<String, Resource>
+) {
     row.forEachIndexed { index, cell ->
-        val cellValue =cell.stringCellValue
+        val cellValue = cell.stringCellValue
         val fieldPath = row.getCell(4).stringCellValue
         val targetDataType = determineFhirDataType(cellValue)
         structureMapBody.append("src -> entity.${fieldPath}=")
 
-        when(targetDataType){
+        when (targetDataType) {
             "string" -> {
                 structureMapBody.append("create('string').value ='$cellValue'")
             }
+
             "integer" -> {
                 structureMapBody.append("create('integer').value = $cellValue")
             }
+
             "boolean" -> {
                 val booleanValue =
                     if (cellValue.equals("true", ignoreCase = true)) "true" else "false"
                 structureMapBody.append("create('boolean').value = $booleanValue")
             }
+
             else -> {
                 structureMapBody.append("create('unsupportedDataType').value = '$cellValue'")
             }
@@ -335,7 +354,8 @@ fun generateStructureMapLine(structureMapBody: StringBuilder, row: Row, resource
         structureMapBody.appendNewLine()
     }
 }
-fun determineFhirDataType(cellValue: String):String{
+
+fun determineFhirDataType(cellValue: String): String {
     val cleanedValue = cellValue.trim().toLowerCase()
 
     when {
@@ -350,7 +370,7 @@ fun determineFhirDataType(cellValue: String):String{
     }
 }
 
-fun StringBuilder.appendNewLine() : StringBuilder {
+fun StringBuilder.appendNewLine(): StringBuilder {
     append(System.lineSeparator())
     return this
 }
@@ -376,7 +396,7 @@ private fun Class<*>.getFieldOrNull(name: String): Field? {
     }
 }
 
-private fun String.isCoding(questionnaireResponse: QuestionnaireResponse) : Boolean {
+private fun String.isCoding(questionnaireResponse: QuestionnaireResponse): Boolean {
     val answerType = getType(questionnaireResponse)
     return if (answerType != null) {
         answerType == "org.hl7.fhir.r4.model.Coding"
@@ -385,7 +405,7 @@ private fun String.isCoding(questionnaireResponse: QuestionnaireResponse) : Bool
     }
 }
 
-private fun String.getType(questionnaireResponse: QuestionnaireResponse) : String? {
+private fun String.getType(questionnaireResponse: QuestionnaireResponse): String? {
     val answer = fhirPathEngine.evaluate(questionnaireResponse, this)
 
     return answer.firstOrNull()?.javaClass?.name
@@ -399,13 +419,12 @@ internal val fhirPathEngine: FHIRPathEngine =
         }
     }
 
-private fun String.isEnumeration(instruction: Instruction) : Boolean {
+private fun String.isEnumeration(instruction: Instruction): Boolean {
     return inferType(instruction.fullPropertyPath())?.contains("Enumeration") ?: false
 }
 
 
-
-fun String.getAnswerType(questionnaireResponse: QuestionnaireResponse) : String? {
+fun String.getAnswerType(questionnaireResponse: QuestionnaireResponse): String? {
     return if (isEvaluateExpression()) {
         val fhirPath = substring(indexOf(",") + 1, length - 1)
 
@@ -418,26 +437,31 @@ fun String.getAnswerType(questionnaireResponse: QuestionnaireResponse) : String?
 }
 
 // TODO: Confirm and fix this
-fun String.isEvaluateExpression() : Boolean = startsWith("evaluate(")
+fun String.isEvaluateExpression(): Boolean = startsWith("evaluate(")
 
 
 /**
  * Infer's the type and return the short class name eg `HumanName` for org.fhir.hl7.r4.model.Patient
  * when given the path `Patient.name`
  */
-fun inferType(propertyPath: String) : String? {
+fun inferType(propertyPath: String): String? {
     // TODO: Handle possible errors
     // TODO: Handle inferring nested types
-
+    val contextR4 = FhirContext.forR4()
+    val fhirResources = contextR4.resourceTypes
     val parts = propertyPath.split(".")
     val parentResourceClassName = parts[0]
+    lateinit var parentClass: Class<*>
 
-    val parentClass = Class.forName("org.hl7.fhir.r4.model.$parentResourceClassName")
-
-    return inferType(parentClass, parts, 1)
+    if (fhirResources.contains(parentResourceClassName)) {
+        parentClass = Class.forName("org.hl7.fhir.r4.model.$parentResourceClassName")
+        return inferType(parentClass, parts, 1)
+    } else {
+        return null
+    }
 }
 
-fun inferType(parentClass: Class<*>?, parts: List<String>, index: Int) : String? {
+fun inferType(parentClass: Class<*>?, parts: List<String>, index: Int): String? {
     val resourcePropertyName = parts[index]
     val propertyField = parentClass?.getFieldOrNull(resourcePropertyName)
 
@@ -457,20 +481,25 @@ fun inferType(parentClass: Class<*>?, parts: List<String>, index: Int) : String?
             ?.replace("org.hl7.fhir.r4.model.", "")
 }
 
-fun String.isMultipleTypes() : Boolean = this == "Type"
+fun String.isMultipleTypes(): Boolean = this == "Type"
 
 // TODO: Finish this. Use the annotation @Chid.type
-fun String.getPossibleTypes() : List<Type> {
+fun String.getPossibleTypes(): List<Type> {
     return listOf()
 }
 
 
-
-fun String.canHandleConversion(sourceType: String) : Boolean {
+fun String.canHandleConversion(sourceType: String): Boolean {
     val propertyClass = Class.forName("org.hl7.fhir.r4.model.$this")
-    val targetType2 = if (sourceType == "StringType") String::class.java else Class.forName("org.hl7.fhir.r4.model.$sourceType")
+    val targetType2 =
+        if (sourceType == "StringType") String::class.java else Class.forName("org.hl7.fhir.r4.model.$sourceType")
 
-    val possibleConversions = listOf("BooleanType" to "StringType", "DateType" to "StringType", "DecimalType" to "IntegerType", "AdministrativeGender" to "CodeType")
+    val possibleConversions = listOf(
+        "BooleanType" to "StringType",
+        "DateType" to "StringType",
+        "DecimalType" to "IntegerType",
+        "AdministrativeGender" to "CodeType"
+    )
 
     possibleConversions.forEach {
         if (this.contains(it.first) && sourceType == it.second) {
@@ -487,14 +516,14 @@ fun String.canHandleConversion(sourceType: String) : Boolean {
     return true
 }
 
-fun String.getParentResource() : String? {
+fun String.getParentResource(): String? {
     return substring(0, lastIndexOf('.'))
 }
 
 
-fun String.getResourceProperty() : String? {
+fun String.getResourceProperty(): String? {
     return substring(lastIndexOf('.') + 1)
 }
 
-fun String.getFhirType() : String = replace("Type", "")
+fun String.getFhirType(): String = replace("Type", "")
     .lowercase()
