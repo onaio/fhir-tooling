@@ -2,3 +2,7 @@ build/
 **/build
 .idea/
 .gradle/
+generated-structure-map.txt
+generated-json-map.txt
+generated-json-map.json
+.~lock.StructureMap XLS.xlsx#

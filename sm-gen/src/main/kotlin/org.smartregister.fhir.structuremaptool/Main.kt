@@ -1,10 +1,13 @@
 package org.smartregister.fhir.structuremaptool
 
 import ca.uhn.fhir.context.FhirContext
+import ca.uhn.fhir.context.FhirVersionEnum
+import ca.uhn.fhir.parser.IParser
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.prompt
 import org.apache.commons.codec.Resources
+import com.google.gson.GsonBuilder
 import org.apache.commons.io.FileUtils
 import org.apache.poi.ss.usermodel.CellType
 import org.apache.poi.ss.usermodel.Row
@@ -15,6 +18,8 @@ import org.hl7.fhir.r4.model.Parameters
 import org.hl7.fhir.r4.model.Questionnaire
 import org.hl7.fhir.r4.model.QuestionnaireResponse
 import org.hl7.fhir.r4.model.Resource
+import org.hl7.fhir.utilities.npm.FilesystemPackageCacheManager
+import org.hl7.fhir.utilities.npm.ToolsVersion
 import java.io.File
 import java.io.FileInputStream
 import java.nio.charset.Charset
@@ -248,6 +253,7 @@ class Application : CliktCommand() {
             // TODO: Generate JSON version
             // TODO: Provide both as new files
         }
+        writeStructureMapOutput(sb.toString().addIdentation())
     }
 
     fun Row.getInstruction() : Instruction {
@@ -349,4 +355,18 @@ fun String.addIdentation(times: Int) : String {
 
     processedString += this
     return processedString
+}
+
+fun writeStructureMapOutput( structureMap: String){
+    File("generated-structure-map.txt").writeText(structureMap.addIdentation())
+    val pcm = FilesystemPackageCacheManager(true, ToolsVersion.TOOLS_VERSION)
+    val contextR5 = SimpleWorkerContext.fromPackage(pcm.loadPackage("hl7.fhir.r4.core", "4.0.1"))
+    contextR5.setExpansionProfile(Parameters())
+    contextR5.isCanRunWithoutTerminology = true
+    val transformSupportServices = TransformSupportServices(contextR5)
+    val scu = org.hl7.fhir.r4.utils.StructureMapUtilities(contextR5, transformSupportServices)
+    val map = scu.parse(structureMap, "LocationRegistration")
+    val iParser: IParser = FhirContext.forCached(FhirVersionEnum.R4).newJsonParser().setPrettyPrint(true)
+    val mapString = iParser.encodeResourceToString(map)
+    File("generated-json-map.json").writeText(mapString)
 }
