@@ -226,12 +226,12 @@ def location_extras(resource, payload_string):
 
     try:
         if resource[7] == "building":
-            payload_string = payload_string.replace("$pt_code", "bu").replace(
-                "$pt_display", "Building"
+            payload_string = payload_string.replace("$t_code", "bu").replace(
+                "$t_display", "Building"
             )
         elif resource[7] == "jurisdiction":
-            payload_string = payload_string.replace("$pt_code", "jdn").replace(
-                "$pt_display", "Jurisdiction"
+            payload_string = payload_string.replace("$t_code", "jdn").replace(
+                "$t_display", "Jurisdiction"
             )
         else:
             logging.error("Unsupported location type provided for " + resource[0])
@@ -241,6 +241,25 @@ def location_extras(resource, payload_string):
     except IndexError:
         obj = json.loads(payload_string)
         del obj["resource"]["type"]
+        payload_string = json.dumps(obj, indent=4)
+
+    try:
+        if resource[8] == "building":
+            payload_string = payload_string.replace("$pt_code", "bu").replace(
+                "$pt_display", "Building"
+            )
+        elif resource[8] == "jurisdiction":
+            payload_string = payload_string.replace("$pt_code", "jdn").replace(
+                "$pt_display", "Jurisdiction"
+            )
+        else:
+            logging.error("Unsupported location physical type provided for " + resource[0])
+            obj = json.loads(payload_string)
+            del obj["resource"]["physicalType"]
+            payload_string = json.dumps(obj, indent=4)
+    except IndexError:
+        obj = json.loads(payload_string)
+        del obj["resource"]["physicalType"]
         payload_string = json.dumps(obj, indent=4)
 
     return payload_string
@@ -851,7 +870,7 @@ def main(
             handle_request("POST", json_payload, config.fhir_base_url)
             logging.info("Processing complete!")
         elif assign == "user-careTeam":
-            logging.info("Assing users to careTeam")
+            logging.info("Assigning users to careTeam")
             matches = extract_matches(resource_list)
             json_payload = fetch_and_build(matches, "users")
             handle_request("POST", json_payload, config.fhir_base_url)
