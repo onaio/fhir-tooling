@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Locale;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.smartregister.domain.FctFile;
 import org.smartregister.external.CqlToLibraryConvertServices;
@@ -41,6 +42,13 @@ public class ConvertCommand implements Runnable {
           "(Optional) output path, can be file or directory, default is current directory",
       defaultValue = ".")
   private String output;
+
+  @CommandLine.Option(
+      names = {"-sm", "--strict-mode"},
+      description =
+          "-sm or --strict-mode - (Optional) whether to enable or disable strict CQL compiler validation for generated CQL json. Optional boolean - default is `true`",
+      required = false)
+  private String isStrictMode = "true";
 
   @Override
   public void run() { // StructureMapToJson
@@ -102,7 +110,8 @@ public class ConvertCommand implements Runnable {
   }
 
   private IBaseResource convertDotCqlToJsonLibrary(FctFile inputFile) {
-    CqlToLibraryConvertServices services = new CqlToLibraryConvertServices();
+    CqlToLibraryConvertServices services =
+        new CqlToLibraryConvertServices("true".equals(isStrictMode.toLowerCase(Locale.ENGLISH)));
     return services.compileAndBuildCqlLibrary(inputFile);
   }
 

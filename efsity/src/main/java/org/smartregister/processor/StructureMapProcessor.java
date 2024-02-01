@@ -31,11 +31,11 @@ public class StructureMapProcessor {
           FctUtils.indexConfigurationFiles(directoryPath, "map", "txt");
 
       // Process other configurations
-      for (var entry : folderTofilesIndexMap.entrySet()) {
+      for (Map.Entry<String, Map<String, String>> entry : folderTofilesIndexMap.entrySet()) {
 
         Map<String, String> fileIndexMap = folderTofilesIndexMap.get(entry.getKey());
 
-        for (var nestedEntry : fileIndexMap.entrySet()) {
+        for (Map.Entry<String,String> nestedEntry : fileIndexMap.entrySet()) {
 
           currentFile = nestedEntry.getValue();
 
@@ -109,11 +109,11 @@ public class StructureMapProcessor {
           FctUtils.indexConfigurationFiles(directoryPath, "map", "txt");
 
       // Process other configurations
-      for (var entry : folderTofilesIndexMap.entrySet()) {
+      for (Map.Entry<String, Map<String, String>> entry : folderTofilesIndexMap.entrySet()) {
 
         Map<String, String> fileIndexMap = folderTofilesIndexMap.get(entry.getKey());
 
-        for (var nestedEntry : fileIndexMap.entrySet()) {
+        for (Map.Entry<String,String> nestedEntry : fileIndexMap.entrySet()) {
 
           currentFile = nestedEntry.getValue();
 

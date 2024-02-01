@@ -2,5 +2,12 @@
 
 A repo to hold our FHIR content and configuration creation tools and scripts.
 
-- [efsity](https://github.com/onaio/fhircore-tooling/efsity)
-- [importer](https://github.com/onaio/fhircore-tooling/importer)
+- [cleaner](https://github.com/onaio/fhircore-tooling/tree/main/cleaner)
+- [efsity](https://github.com/onaio/fhircore-tooling/tree/main/efsity)
+- [importer](https://github.com/onaio/fhircore-tooling/tree/main/importer)
+- [sm-gen](https://github.com/onaio/fhircore-tooling/tree/main/sm-gen)
+- [uploader](https://github.com/onaio/fhircore-tooling/tree/main/uploader)
+
+## License
+
+All code is made source available under the terms in the file LICENSE.

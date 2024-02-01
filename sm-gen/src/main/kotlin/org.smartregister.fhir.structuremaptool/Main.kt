@@ -1,9 +1,13 @@
 package org.smartregister.fhir.structuremaptool
 
 import ca.uhn.fhir.context.FhirContext
+import ca.uhn.fhir.context.FhirVersionEnum
+import ca.uhn.fhir.parser.IParser
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.prompt
+import org.apache.commons.codec.Resources
+import com.google.gson.GsonBuilder
 import org.apache.commons.io.FileUtils
 import org.apache.poi.ss.usermodel.CellType
 import org.apache.poi.ss.usermodel.Row
@@ -11,13 +15,15 @@ import org.apache.poi.ss.usermodel.WorkbookFactory
 import org.hl7.fhir.r4.context.SimpleWorkerContext
 import org.hl7.fhir.r4.model.Bundle
 import org.hl7.fhir.r4.model.Parameters
-import org.hl7.fhir.r4.model.Patient
 import org.hl7.fhir.r4.model.Questionnaire
 import org.hl7.fhir.r4.model.QuestionnaireResponse
 import org.hl7.fhir.r4.model.Resource
+import org.hl7.fhir.utilities.npm.FilesystemPackageCacheManager
+import org.hl7.fhir.utilities.npm.ToolsVersion
 import java.io.File
 import java.io.FileInputStream
 import java.nio.charset.Charset
+import java.util.*
 
 fun main(args: Array<String>) {
     Application().main(args)
@@ -48,6 +54,7 @@ class Application : CliktCommand() {
     val questionnairefile : String by option(help = "Questionnaire filepath").prompt("Kindly enter the questionnaire filepath")
 
     override fun run() {
+
         /*
 
         ALGORITHM / PSEUDOCODE
@@ -82,12 +89,19 @@ class Application : CliktCommand() {
         // For each resource loop through creating or adding the correct instructions
 
 
+        lateinit var questionnaireResponse:QuestionnaireResponse
         val contextR4 = FhirContext.forR4()
         val fhirJsonParser = contextR4.newJsonParser()
         val questionnaire : Questionnaire = fhirJsonParser.parseResource(Questionnaire::class.java, FileUtils.readFileToString(File(questionnairefile), Charset.defaultCharset()))
-        val questionnaireResponse : QuestionnaireResponse = fhirJsonParser.parseResource(QuestionnaireResponse::class.java, FileUtils.readFileToString(File("C:\\Users\\Kigamba\\Projects\\onaio\\fhircore-tooling\\structure-map-tool\\src\\main\\resources\\questionnaire-response.json"), Charset.defaultCharset()))
+        val questionnaireResponseFile = File(javaClass.classLoader.getResource("questionnaire-response.json")?.file)
+        if (questionnaireResponseFile.exists()) {
+            questionnaireResponse = fhirJsonParser.parseResource(QuestionnaireResponse::class.java, questionnaireResponseFile.readText(Charset.defaultCharset()))
+        } else {
+            println("File not found: questionnaire-response.json")
+        }
         val xlsFile = FileInputStream(xlsfile)
         val xlWb = WorkbookFactory.create(xlsFile)
+
 
         // TODO: Check that all the Resource(s) ub the Resource column are the correct name and type eg. RiskFlag in the previous XLSX was not valid
         // TODO: Check that all the path's and other entries in the excel sheet are valid
@@ -119,120 +133,128 @@ class Application : CliktCommand() {
         TODO: Fix Groups calling sequence so that Groups that depend on other resources to be generated need to be called first
            We can also throw an exception if to figure out cyclic dependency. Good candidate for Floyd's tortoise and/or topological sorting 😁. Cool!!!!
          */
+        val questionnaireResponseItemIds = questionnaireResponse.item.map { it.id }
+        if(questionnaireId != null && questionnaireResponseItemIds.isNotEmpty()){
 
-        val sb = StringBuilder()
-        val structureMapHeader = """
-            map "http://hl7.org/fhir/StructureMap/$questionnaireId" = '${questionnaireId?.clean()}'
+            val sb = StringBuilder()
+            val structureMapHeader = """
+            map "http://hl7.org/fhir/StructureMap/$questionnaireId" = '${questionnaireId.clean()}'
             
             
             uses "http://hl7.org/fhir/StructureDefinition/QuestionnaireReponse" as source
             uses "http://hl7.org/fhir/StructureDefinition/Bundle" as target
         """.trimIndent()
 
-        lateinit var structureMapBody:StringBuilder
-
-        structureMapBody.append("""
-            group ${questionnaireId?.clean()}(source src : QuestionnaireResponse, target bundle: Bundle) {
+            val structureMapBody = """
+            group ${questionnaireId.clean()}(source src : QuestionnaireResponse, target bundle: Bundle) {
             src -> bundle.id = uuid() "rule_c";
             src -> bundle.type = 'collection' "rule_b";
-            src -> bundle.entry as entry then """.trimIndent())
+            src -> bundle.entry as entry then """.trimIndent()
 
-        /*
+            /*
 
-        Create a mapping of COLUMN_NAMES to COLUMN indexes
+            Create a mapping of COLUMN_NAMES to COLUMN indexes
 
-         */
-        //val mapColumns
+             */
+            //val mapColumns
 
 
-        val lineNos = 1
-        var firstResource = true
-        val extractionResources = hashMapOf<String, Resource>()
-        val resourceConversionInstructions = hashMapOf<String, MutableList<Instruction>>()
+            val lineNos = 1
+            var firstResource = true
+            val extractionResources = hashMapOf<String, Resource>()
+            val resourceConversionInstructions = hashMapOf<String, MutableList<Instruction>>()
 
-        // Group the rules according to the resource
-        val fieldMappingsSheet = xlWb.getSheet("Field Mappings")
-        fieldMappingsSheet.forEachIndexed { index, row ->
-            if (index == 0) return@forEachIndexed
+            // Group the rules according to the resource
+            val fieldMappingsSheet = xlWb.getSheet("Field Mappings")
+            fieldMappingsSheet.forEachIndexed { index, row ->
+                if (index == 0) return@forEachIndexed
 
-            if (row.isEmpty()) {
-                return@forEachIndexed
+                if (row.isEmpty()) {
+                    return@forEachIndexed
+                }
+
+
+                val instruction = row.getInstruction()
+                val xlsId = instruction.responseFieldId
+                val comparedResponseAndXlsId = questionnaireResponseItemIds.contains(xlsId)
+                if (instruction.resource.isNotEmpty() && comparedResponseAndXlsId) {
+                    resourceConversionInstructions.computeIfAbsent(instruction.searchKey(), { key -> mutableListOf() })
+                        .add(instruction)
+                }
+            }
+            //val resource =  ?: Class.forName("org.hl7.fhir.r4.model.$resourceName").newInstance() as Resource
+
+
+            // Perform the extraction for the row
+            /*generateStructureMapLine(structureMapBody, row, resource, extractionResources)
+
+            extractionResources[resourceName + resourceIndex] = resource*/
+
+            sb.append(structureMapHeader)
+            sb.appendNewLine().appendNewLine().appendNewLine()
+            sb.append(structureMapBody)
+
+            // Fix the questions path
+            val questionsPath = getQuestionsPath(questionnaire)
+
+            // TODO: Generate the links to the group names here
+            var index = 0
+            var len = resourceConversionInstructions.size
+            var resourceName = ""
+            resourceConversionInstructions.forEach { entry ->
+                resourceName = entry.key.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
+                if (index++ != 0) sb.append(",")
+                if(resourceName.isNotEmpty()) sb.append("Extract$resourceName(src, bundle)")
+            }
+            sb.append(""" "rule_a";""".trimMargin())
+            sb.appendNewLine()
+            sb.append("}")
+
+            // Add the embedded instructions
+            val groupNames = mutableListOf<String>()
+
+            sb.appendNewLine().appendNewLine().appendNewLine()
+
+            resourceConversionInstructions.forEach {
+                Group(it, sb, questionsPath)
+                    .generateGroup(questionnaireResponse)
             }
 
-            val instruction = row.getInstruction()
-            if (!instruction.resource.isEmpty()) {
-                resourceConversionInstructions.computeIfAbsent(instruction.searchKey(), { key -> mutableListOf() })
-                    .add(instruction)
+            val structureMapString = sb.toString()
+            try {
+                val simpleWorkerContext = SimpleWorkerContext().apply {
+                    setExpansionProfile(Parameters())
+                    isCanRunWithoutTerminology = true
+                }
+                val transformSupportServices = TransformSupportServices(simpleWorkerContext)
+                val scu = org.hl7.fhir.r4.utils.StructureMapUtilities(simpleWorkerContext, transformSupportServices)
+                val structureMap = scu.parse(structureMapString, questionnaireId.clean())
+                // DataFormatException | FHIRLexerException
+
+                try{
+                    val bundle = Bundle()
+                    scu.transform(contextR4, questionnaireResponse, structureMap, bundle)
+                    val jsonParser = FhirContext.forR4().newJsonParser()
+
+                    println(jsonParser.encodeResourceToString(bundle))
+                } catch (e:Exception){
+                    e.printStackTrace()
+                }
+
+            } catch (ex: Exception) {
+                println("The generated StructureMap has a formatting error")
+                ex.printStackTrace()
             }
-        }
-        //val resource =  ?: Class.forName("org.hl7.fhir.r4.model.$resourceName").newInstance() as Resource
 
+            var finalStructureMap = sb.toString()
+            finalStructureMap = finalStructureMap.addIdentation()
+            println(finalStructureMap)
 
-        // Perform the extraction for the row
-        val resourceName = "Patient"
-        val resourceIndex = 1
-        val resource = Patient()
-
-        generateStructureMapLine(structureMapBody, row, resource, extractionResources, resourceName, resourceIndex)
-
-        sb.append(structureMapHeader)
-        sb.appendNewLine().appendNewLine().appendNewLine()
-        sb.append(structureMapBody)
-
-        // Fix the questions path
-        val questionsPath = getQuestionsPath(questionnaire)
-
-        // TODO: Generate the links to the group names here
-        var index = 0
-        var len = resourceConversionInstructions.size
-        resourceConversionInstructions.forEach { entry ->
-            val resourceName = entry.key.capitalize()
-            if (index++ != 0) sb.append(", ")
-            sb.append("Extract$resourceName(src, bundle)")
-        }
-        sb.append(""" "rule_a";""".trimMargin())
-        sb.appendNewLine()
-        sb.append("}")
-
-        // Add the embedded instructions
-        val groupNames = mutableListOf<String>()
-
-        sb.appendNewLine().appendNewLine().appendNewLine()
-
-        resourceConversionInstructions.forEach {
-            Group(it, sb, questionsPath)
-                .generateGroup(questionnaireResponse)
+            // TODO: Generate JSON version
+            // TODO: Provide both as new files
+            writeStructureMapOutput(sb.toString().addIdentation())
         }
 
-        val structureMapString = sb.toString()
-        try {
-            val simpleWorkerContext = SimpleWorkerContext().apply {
-                setExpansionProfile(Parameters())
-                isCanRunWithoutTerminology = true
-            }
-            val transformSupportServices = TransformSupportServices(simpleWorkerContext)
-            val scu = org.hl7.fhir.r4.utils.StructureMapUtilities(simpleWorkerContext, transformSupportServices)
-            val structureMap = scu.parse(structureMapString, questionnaireId!!.clean())
-            // DataFormatException | FHIRLexerException
-
-            val bundle = Bundle()
-
-            scu.transform(contextR4, questionnaireResponse, structureMap, bundle)
-
-            val jsonParser = FhirContext.forR4().newJsonParser()
-
-            println(jsonParser.encodeResourceToString(bundle))
-        } catch (ex: Exception) {
-            System.out.println("The generated StructureMap has a formatting error")
-            ex.printStackTrace()
-        }
-
-        var finalStructureMap = sb.toString()
-        finalStructureMap = finalStructureMap.addIdentation()
-        println(finalStructureMap)
-
-        // TODO: Generate JSON version
-        // TODO: Provide both as new files
     }
 
     fun Row.getInstruction() : Instruction {
@@ -334,4 +356,18 @@ fun String.addIdentation(times: Int) : String {
 
     processedString += this
     return processedString
+}
+
+fun writeStructureMapOutput( structureMap: String){
+    File("generated-structure-map.txt").writeText(structureMap.addIdentation())
+    val pcm = FilesystemPackageCacheManager(true, ToolsVersion.TOOLS_VERSION)
+    val contextR5 = SimpleWorkerContext.fromPackage(pcm.loadPackage("hl7.fhir.r4.core", "4.0.1"))
+    contextR5.setExpansionProfile(Parameters())
+    contextR5.isCanRunWithoutTerminology = true
+    val transformSupportServices = TransformSupportServices(contextR5)
+    val scu = org.hl7.fhir.r4.utils.StructureMapUtilities(contextR5, transformSupportServices)
+    val map = scu.parse(structureMap, "LocationRegistration")
+    val iParser: IParser = FhirContext.forCached(FhirVersionEnum.R4).newJsonParser().setPrettyPrint(true)
+    val mapString = iParser.encodeResourceToString(map)
+    File("generated-json-map.json").writeText(mapString)
 }

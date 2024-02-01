@@ -1,4 +1,4 @@
-name,status,method,version,id,parentID,parentName
-City1,active,update,1,ba787982-b973-4bd5-854e-eacbe161e297,18fcbc2e-4240-4a84-a270-7a444523d7b6,test location-1,jurisdiction
-Building1,active,update,1,0a04f1c2-de2a-4869-bab2-763d017e5316,18fcbc2e-4240-4a84-a270-7a444523d7b6,test location-1,building
-City2,active,create,1,,18fcbc2e-4240-4a84-a270-7a444523d7b6,test location-1,jurisdiction
+name,status,method,version,id,parentName,parentID,type
+City1,active,update,1,ba787982-b973-4bd5-854e-eacbe161e297,test location-1,18fcbc2e-4240-4a84-a270-7a444523d7b6,jurisdiction
+Building1,active,update,1,0a04f1c2-de2a-4869-bab2-763d017e5316,test location-1,18fcbc2e-4240-4a84-a270-7a444523d7b6,building
+City2,active,create,1,,test location-1,18fcbc2e-4240-4a84-a270-7a444523d7b6,jurisdiction

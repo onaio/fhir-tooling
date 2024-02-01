@@ -307,7 +307,7 @@ public class FctValidationProcessor {
       FctUtils.printInfo("\u001b[36mPreparsing validation\u001b[0m");
 
       // Validate all Structure Map Link ids should be in questionnaire
-      for (var entry : structureMapToLinkIds.entrySet()) {
+      for (Map.Entry<String, Set<String>> entry : structureMapToLinkIds.entrySet()) {
 
         String structureMapId = entry.getKey();
         String questionnaireID = getQuestionnaireIdByStructureMapId(structureMapId);
@@ -339,7 +339,7 @@ public class FctValidationProcessor {
       // Validate all Structure Map IDs referenced in Questionnaire extensions exist as Structure
       // Maps(files)
 
-      for (var entry : questionnaireToStructureMapId.entrySet()) {
+      for (Map.Entry<String, Set<String>> entry : questionnaireToStructureMapId.entrySet()) {
 
         String questionnaireId = entry.getKey();
         String structureMapId = entry.getValue().stream().findFirst().orElse("");
@@ -362,11 +362,11 @@ public class FctValidationProcessor {
     handleJSONObject(new JSONObject(compositionFile.getContent()), true);
 
     // Process other configurations
-    for (var entry : configDirIndexMap.entrySet()) {
+    for (Map.Entry<String, Map<String, String>> entry : configDirIndexMap.entrySet()) {
 
       Map<String, String> fileIndexMap = configDirIndexMap.get(entry.getKey());
 
-      for (var nestedEntry : fileIndexMap.entrySet()) {
+      for (Map.Entry<String,String> nestedEntry : fileIndexMap.entrySet()) {
 
         if (nestedEntry.getKey().endsWith(".properties")) {
 
@@ -410,7 +410,7 @@ public class FctValidationProcessor {
 
   private String getQuestionnaireIdByStructureMapId(String structureMapId) {
 
-    for (var entry : questionnaireToStructureMapId.entrySet()) {
+    for (Map.Entry<String, Set<String>> entry : questionnaireToStructureMapId.entrySet()) {
       String questionnaireId = entry.getKey();
 
       if (entry.getValue().contains(structureMapId)) return questionnaireId;
@@ -431,12 +431,12 @@ public class FctValidationProcessor {
 
     Map<String, Integer> errorsMapCount = new HashMap<>();
 
-    for (var entry : errorsMap.entrySet()) {
+    for (Map.Entry<String, Map<String, Set<String>>> entry : errorsMap.entrySet()) {
 
       FctUtils.printNewLine();
       FctUtils.printInfo(String.format("\u001b[35m%s\u001b[0m", entry.getKey()));
 
-      for (var innerEntry : entry.getValue().entrySet()) {
+      for (Map.Entry<String, Set<String>> innerEntry : entry.getValue().entrySet()) {
 
         Set<String> errorList = innerEntry.getValue();
 
@@ -471,7 +471,7 @@ public class FctValidationProcessor {
                     errorsMap.size(), configurationFilesCount))
             .append("\n\n\u001b[32mVALIDATION SUMMARY\u001b[0m \n----------------");
 
-    for (var entry : errorsMapCount.entrySet()) {
+    for (Map.Entry<String, Integer> entry : errorsMapCount.entrySet()) {
 
       errorMessageBuilder
           .append('\n')

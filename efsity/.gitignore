@@ -1,0 +1,11 @@
+# gradle files
+.gradle
+build
+
+# intellij files
+fhircore-tooling.iml
+.idea
+
+# build files
+bin
+target
