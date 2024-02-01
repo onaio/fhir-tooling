@@ -63,7 +63,10 @@ The coverage report `coverage.html` will be at the working directory
 - [locations_full](/importer/csv/locations/locations_full.csv) shows more options available
 - The third column is the request method, can be either create or update. Default is set to create
 - The fourth column is the version. Default is set to 1 for creation, needs to be set when updating
-- The fifth column is the id, which is required when upating
+- The fifth column is the id, which is required when updating
+- The sixth and seventh columns are parentName and parentID,respectively 
+- The eighth column is the type, it can be either jurisdication or building
+- The ninth column is the physicalType,it can be either jurisdication or building
 
 ### 2. Create users in bulk
 - Run `python3 main.py --csv_file csv/users.csv --resource_type users --log_level info`
