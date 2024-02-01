@@ -24,7 +24,7 @@ fun getQuestionsPath(questionnaire: Questionnaire): HashMap<String, String> {
 }
 
 fun getQuestionNames(parentName: String, item: QuestionnaireItemComponent, questionsMap: HashMap<String, String>) {
-    val currParentName = if (parentName.isEmpty()) "" else parentName
+    val currParentName = parentName.ifEmpty { "" }
     questionsMap.put(item.linkId, currParentName)
 
     item.item.forEach { itemComponent ->
@@ -99,9 +99,9 @@ class Group(
         //1. If the answer is static/literal, just return it here
         // TODO: We should infer the resource element and add the correct conversion or code to assign this correctly
         if (constantValue != null) {
-            if (fieldPath.equals("id")) {
+            if (fieldPath == "id") {
                 return "create('id') as id, id.value = '$constantValue'";
-            } else if (fieldPath.equals("rank")) {
+            } else if (fieldPath == "rank") {
                 val constValue = constantValue!!.replace(".0", "")
                 return "create('positiveInt') as rank, rank.value = '$constValue'";
             } else {
@@ -116,9 +116,9 @@ class Group(
             // It needs to reference the specific resource in this bundle
 
             // TODO: Fix these to use infer
-            if (fieldPath.equals("id")) {
+            if (fieldPath == "id") {
                 return "create('id') as id, id.value = evaluate(src, ${"$"}this.item${getPropertyPath()}.where(linkId = '$responseFieldId').answer.value)";
-            } else if (fieldPath.equals("rank")) {
+            } else if (fieldPath == "rank") {
                 return "create('positiveInt') as rank, rank.value = evaluate(src, ${"$"}this.item${getPropertyPath()}.where(linkId = '$responseFieldId').answer.value)";
             } else {
 
@@ -268,9 +268,6 @@ class Group(
                     ) {
                         println("Failed type matching --> ${instruction!!.fullPropertyPath()} of type $answerType != $propertyType")
 
-                        /*val possibleTypes = listOf<>()
-                        if ()*/
-
                         stringBuilder.append("src -> entity$currLevel.${instruction!!.fieldPath} = ")
                         stringBuilder.append("create('${propertyType.getFhirType()}') as randomVal, randomVal.value = ")
                         stringBuilder.append(answerExpression)
@@ -326,7 +323,7 @@ fun generateStructureMapLine(
     resource: Resource,
     extractionResources: HashMap<String, Resource>
 ) {
-    row.forEachIndexed { index, cell ->
+    row.forEachIndexed { _, cell ->
         val cellValue = cell.stringCellValue
         val fieldPath = row.getCell(4).stringCellValue
         val targetDataType = determineFhirDataType(cellValue)
@@ -358,14 +355,14 @@ fun generateStructureMapLine(
 fun determineFhirDataType(cellValue: String): String {
     val cleanedValue = cellValue.trim().toLowerCase()
 
-    when {
-        cleanedValue == "true" || cleanedValue == "false" -> return "boolean"
-        cleanedValue.matches(Regex("-?\\d+")) -> return "boolean"
-        cleanedValue.matches(Regex("-?\\d*\\.\\d+")) -> return "decimal"
-        cleanedValue.matches(Regex("\\d{4}-\\d{2}-\\d{2}")) -> return "date"
-        cleanedValue.matches(Regex("\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}")) -> return "dateTime"
+    return when {
+        cleanedValue == "true" || cleanedValue == "false" -> "boolean"
+        cleanedValue.matches(Regex("-?\\d+")) -> "boolean"
+        cleanedValue.matches(Regex("-?\\d*\\.\\d+")) -> "decimal"
+        cleanedValue.matches(Regex("\\d{4}-\\d{2}-\\d{2}")) -> "date"
+        cleanedValue.matches(Regex("\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}")) -> "dateTime"
         else -> {
-            return "string"
+            "string"
         }
     }
 }
@@ -483,7 +480,7 @@ fun inferType(parentClass: Class<*>?, parts: List<String>, index: Int): String? 
 
 fun String.isMultipleTypes(): Boolean = this == "Type"
 
-// TODO: Finish this. Use the annotation @Chid.type
+// TODO: Finish this. Use the annotation @Child.type
 fun String.getPossibleTypes(): List<Type> {
     return listOf()
 }

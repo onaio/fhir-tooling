@@ -147,7 +147,7 @@ class Application : CliktCommand() {
                 val xlsId = instruction.responseFieldId
                 val comparedResponseAndXlsId = questionnaireResponseItemIds.contains(xlsId)
                 if (instruction.resource.isNotEmpty() && comparedResponseAndXlsId) {
-                    resourceConversionInstructions.computeIfAbsent(instruction.searchKey(), { key -> mutableListOf() })
+                    resourceConversionInstructions.computeIfAbsent(instruction.searchKey()) { mutableListOf() }
                         .add(instruction)
                 }
             }
