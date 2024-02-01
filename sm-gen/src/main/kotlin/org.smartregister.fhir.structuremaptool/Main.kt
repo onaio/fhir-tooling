@@ -44,8 +44,7 @@ fun main(args: Array<String>) {
 REMAINING TASKS
 ==================
 
-1. Allow converting of a StructureMap text to JSON
-2. Add support for processing "StructureMap XLS-old.xlsx" file. Allow multiple similar properties eg multiple RelatedPerson.telecom
+1. Add support for processing "StructureMap XLS-old.xlsx" file. Allow multiple similar properties eg multiple RelatedPerson.telecom
 
  */
 
@@ -55,45 +54,15 @@ class Application : CliktCommand() {
 
     override fun run() {
 
-        /*
-
-        ALGORITHM / PSEUDOCODE
-        =============================
-
-        1. Read the settings and save them in a Settings object
-        2. Read the main sheet "Field Mappings". Group the rules into end Resources
-            a) Index it into a Hashmap. The hashmap should have a ResourceExtractionDetails object that contains
-                - Resources
-                - GroupName
-                - Parameters of the group
-                - the Field mappings
-        3. Start creating the StructureMap
-            a) First create the bundle and all the resources, each in it's own group
-
-        4. Loop through all the questions and check if the QR field is used somewhere and fix the complete path
-        5. Add an errors list
-        6. Loop through each end Resource from step (2) and generate the Group. Keep a variable to track the line number + line
-            a) Add the function/group declaration with params
-            b) Start looping each of the Resource field and use FHIR Path to get the value
-            c) Check the expected type for that field in the resource rather Resource.field type and have a utility that converts
-                from the current type to the final type or skips and add this field and the error to the errors list
-            d) Create the line to assign the equation to the Resource.field with the line number
-        7. Close the Resource loop by adding the closing } for the group
-        8. Validate the generated StructureMap and throw an error if it fails to build with the error thrown by the validator
-        9. Else, Loop through the errors
-
-         */
-
 
         // Create a map of Resource -> questionnaire name or path -> value
         // For each resource loop through creating or adding the correct instructions
-
 
         lateinit var questionnaireResponse:QuestionnaireResponse
         val contextR4 = FhirContext.forR4()
         val fhirJsonParser = contextR4.newJsonParser()
         val questionnaire : Questionnaire = fhirJsonParser.parseResource(Questionnaire::class.java, FileUtils.readFileToString(File(questionnairefile), Charset.defaultCharset()))
-        val questionnaireResponseFile = File(javaClass.classLoader.getResource("questionnaire-response.json")?.file)
+        val questionnaireResponseFile = File(javaClass.classLoader.getResource("questionnaire-response.json")?.file.toString())
         if (questionnaireResponseFile.exists()) {
             questionnaireResponse = fhirJsonParser.parseResource(QuestionnaireResponse::class.java, questionnaireResponseFile.readText(Charset.defaultCharset()))
         } else {

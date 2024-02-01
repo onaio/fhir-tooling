@@ -147,7 +147,7 @@ class Group(
         // 4. If the answer is a conversion, (Assume this means it's being convered to a reference)
         if (conversion != null && conversion!!.isNotBlank() && conversion!!.isNotEmpty()) {
             val resourceName = conversion!!.replace("$", "")
-            var resourceIndex = conversion!!.replace("$" + resourceName, "")
+            var resourceIndex = conversion!!.replace("$$resourceName", "")
 
             if (resourceIndex.isNotEmpty()) {
                 resourceIndex = "[$resourceIndex]"
@@ -217,10 +217,10 @@ class Group(
                     val newNest = Nest().apply {
                         name = partName
 
-                        if (!this@Nest.fullPath.isEmpty()) {
-                            fullPath = "${this@Nest.fullPath}.$partName"
+                        fullPath = if (this@Nest.fullPath.isNotEmpty()) {
+                            "${this@Nest.fullPath}.$partName"
                         } else {
-                            fullPath = partName
+                            partName
                         }
                         resourceName = inferType("${this@Nest.resourceName}.$fullPath") ?: ""
 
