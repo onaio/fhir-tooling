@@ -10,6 +10,7 @@ The following are command options for running the script
 * `value` : (Required) This is the actual value of the parameter provided to filter the resources e.g Nairobi, lt2023-08-02 etc
 * `batch_size`: (Not required) This is the batch size of resources pulled. The default value is 1000
 * `expunge`: (Not required) This is a boolean value that tells the function whether it should expunge the deleted data or not. The default is set to false. __NOTE: This does not work with a filter, it will expunge all deleted resources of the specified resource type__
+* `cascade`: (Not required) This is a boolean value that tells the function whether it should cascade in deleting data or not. The default is set to false. __NOTE: This works with all filter types, it will delete all resources specified and their related resources__
 
 ### To run script
 1. Create virtualenv

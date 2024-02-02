@@ -1,5 +1,7 @@
 package org.smartregister.command;
 
+import net.jimblackler.jsonschemafriend.GenerationException;
+import net.jimblackler.jsonschemafriend.ValidationException;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
@@ -17,6 +19,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.*;
+
+import static org.smartregister.util.authentication.OAuthAuthentication.getAccessToken;
 
 @CommandLine.Command(name = "publish")
 public class PublishFhirResourcesCommand implements Runnable{
@@ -37,9 +41,47 @@ public class PublishFhirResourcesCommand implements Runnable{
     String accessToken;
 
     @CommandLine.Option(
+            names = {"-ci", "--client-id"},
+            description = "The client identifier for authentication")
+    String clientId;
+
+    @CommandLine.Option(
+            names = {"-cs", "--client-secret"},
+            description = "The client secret for authentication")
+    String clientSecret;
+
+    @CommandLine.Option(
+            names = {"-u", "--username"},
+            description = "The username for authentication")
+    String username;
+
+    @CommandLine.Option(
+            names = {"-p", "--password"},
+            description = "The password for authentication")
+    String password;
+
+    @CommandLine.Option(
+            names = {"-au", "--accessToken-url"},
+            description = "The endpoint for the authentication server")
+    String accessTokenUrl;
+
+    @CommandLine.Option(
+            names = {"-g", "--grant-type"},
+            description = "The authorization code grant type",
+            defaultValue = "password")
+    String grantType;
+
+    @CommandLine.Option(
             names = {"-e", "--env"},
             description = "path to env.properties file")
     String propertiesFile;
+
+    @CommandLine.Option(
+      names = {"-vr", "--validate-resource"},
+      description =
+        "(Optional) whether to validate FHIR resources before publishing or not. Boolean - default is `true`",
+      required = false)
+    String validateResource = "true";
 
     @Override
     public void run() {
@@ -56,7 +98,7 @@ public class PublishFhirResourcesCommand implements Runnable{
         try {
             publishResources();
             stateManagement();
-        } catch (IOException e) {
+        } catch (IOException | ValidationException | GenerationException e) {
             throw new RuntimeException(e);
         }
         FctUtils.printCompletedInDuration(start);
@@ -80,18 +122,54 @@ public class PublishFhirResourcesCommand implements Runnable{
         if (accessToken == null || accessToken.isBlank()){
             if (properties.getProperty("accessToken") != null){
                 accessToken = properties.getProperty("accessToken");
-            } else {
-                throw new NullPointerException("The accessToken is missing");
+            }
+        }
+        if (clientId == null || clientId.isBlank()){
+            if (properties.getProperty("clientId") != null){
+                clientId = properties.getProperty("clientId");
+            }
+        }
+        if (clientSecret == null || clientSecret.isBlank()){
+            if (properties.getProperty("clientSecret") != null){
+                clientSecret = properties.getProperty("clientSecret");
+            }
+        }
+        if (username == null || username.isBlank()){
+            if (properties.getProperty("username") != null){
+                username = properties.getProperty("username");
+            }
+        }
+        if (password == null || password.isBlank()){
+            if (properties.getProperty("password") != null){
+                password = properties.getProperty("password");
+            }
+        }
+        if (accessTokenUrl == null || accessTokenUrl.isBlank()){
+            if (properties.getProperty("accessTokenUrl") != null){
+                accessTokenUrl = properties.getProperty("accessTokenUrl");
+            }
+        }
+        if (grantType == null || grantType.isBlank()){
+            if (properties.getProperty("grantType") != null){
+                grantType = properties.getProperty("grantType");
             }
         }
     }
 
-    void publishResources() throws IOException {
+    void publishResources() throws IOException, ValidationException, GenerationException {
         ArrayList<String> resourceFiles = getResourceFiles(projectFolder);
         ArrayList<JSONObject> resourceObjects = new ArrayList<>();
+        boolean validateResourceBoolean = Boolean.parseBoolean(validateResource);
+
         for(String f: resourceFiles){
+            if (validateResourceBoolean) {
+                FctUtils.printInfo(String.format("Validating file \u001b[35m%s\u001b[0m", f));
+                ValidateFhirResourcesCommand.validateFhirResources(f);
+            } else {
+                FctUtils.printInfo(String.format("Publishing \u001b[35m%s\u001b[0m Without Validation", f));
+            }
+
             FctFile inputFile = FctUtils.readFile(f);
-            // TODO check if file contains valid fhir resource
             JSONObject resourceObject = buildResourceObject(inputFile);
             resourceObjects.add(resourceObject);
         }
@@ -104,10 +182,25 @@ public class PublishFhirResourcesCommand implements Runnable{
         FctUtils.printToConsole("Full Payload to POST: ");
         FctUtils.printToConsole(bundle.toString());
 
+        if (accessToken == null || accessToken.isBlank()){
+            if(clientId == null || clientId.isBlank()){
+                throw new IllegalArgumentException("You must provide either the accessToken or the clientId");
+            }
+            if(clientSecret == null || clientSecret.isBlank()){
+                throw new IllegalArgumentException("You must provide either the accessToken or the clientSecret");
+            }
+            if(username == null || username.isBlank()){
+                throw new IllegalArgumentException("You must provide either the accessToken or the username");
+            }
+            if(password == null || password.isBlank()){
+                throw new IllegalArgumentException("You must provide either the accessToken or the password");
+            }
+            accessToken = getAccessToken(clientId, clientSecret, accessTokenUrl, grantType, username, password);
+        }
         postRequest(bundle.toString(), accessToken);
     }
 
-    ArrayList<String> getResourceFiles(String pathToFolder) throws IOException {
+    static ArrayList<String> getResourceFiles(String pathToFolder) throws IOException {
         ArrayList<String> filesArray = new ArrayList<>();
         Path projectPath = Paths.get(pathToFolder);
         if (Files.isDirectory(projectPath)){
@@ -118,7 +211,7 @@ public class PublishFhirResourcesCommand implements Runnable{
         return filesArray;
     }
 
-    void getFiles(ArrayList<String> filesArray, File file){
+    static void getFiles(ArrayList<String> filesArray, File file){
         if (file.isFile()) {
             filesArray.add(file.getAbsolutePath());
         }

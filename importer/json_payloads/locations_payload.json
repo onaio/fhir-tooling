@@ -19,6 +19,17 @@
             "reference": "Location/$parentID",
             "display": "$parentName"
         },
+        "type": [
+            {
+                "coding": [
+                    {
+                        "system": "http://terminology.hl7.org/CodeSystem/location-type",
+                        "code": "$t_code",
+                        "display": "$t_display"
+                    }
+                ]
+            }
+        ],
         "physicalType": {
             "coding": [
                 {
@@ -30,3 +41,4 @@
         }
     }
 }
+
