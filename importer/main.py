@@ -225,11 +225,11 @@ def location_extras(resource, payload_string):
         payload_string = json.dumps(obj, indent=4)
 
     try:
-        if resource[7] == "building":
+        if resource[6] == "building":
             payload_string = payload_string.replace("$t_code", "bu").replace(
                 "$t_display", "Building"
             )
-        elif resource[7] == "jurisdiction":
+        elif resource[6] == "jurisdiction":
             payload_string = payload_string.replace("$t_code", "jdn").replace(
                 "$t_display", "Jurisdiction"
             )
@@ -244,16 +244,18 @@ def location_extras(resource, payload_string):
         payload_string = json.dumps(obj, indent=4)
 
     try:
-        if resource[8] == "building":
+        if resource[7] == "building":
             payload_string = payload_string.replace("$pt_code", "bu").replace(
                 "$pt_display", "Building"
             )
-        elif resource[8] == "jurisdiction":
+        elif resource[7] == "jurisdiction":
             payload_string = payload_string.replace("$pt_code", "jdn").replace(
                 "$pt_display", "Jurisdiction"
             )
         else:
-            logging.error("Unsupported location physical type provided for " + resource[0])
+            logging.error(
+                "Unsupported location physical type provided for " + resource[0]
+            )
             obj = json.loads(payload_string)
             del obj["resource"]["type"]
             payload_string = json.dumps(obj, indent=4)
@@ -468,7 +470,9 @@ def get_valid_resource_type(resource_type):
 def get_resource_version(resource_id, resource_type):
     logging.info("Getting resource version")
     modified_resource_type = get_valid_resource_type(resource_type)
-    resource_url = config.fhir_base_url + "/" + modified_resource_type + "/" + resource_id
+    resource_url = (
+        config.fhir_base_url + "/" + modified_resource_type + "/" + resource_id
+    )
     response = handle_request("GET", "", resource_url)
     json_response = json.loads(response[0])
     return json_response["meta"]["versionId"]
@@ -486,19 +490,19 @@ def build_payload(resource_type, resources, resource_payload_file):
     for resource in resources:
         try:
             if resource[2] == "create":
-                if len(resource[4].strip()) > 0:
+                if len(resource[3].strip()) > 0:
                     # use the provided id
-                    unique_uuid = resource[4].strip()
-                    identifier_uuid = resource[4] if resource[5] == "" else resource[5]
+                    unique_uuid = resource[3].strip()
+                    identifier_uuid = resource[3] if resource[4] == "" else resource[4]
                 else:
                     # generate a new uuid
                     unique_uuid = str(uuid.uuid5(uuid.NAMESPACE_DNS, resource[0]))
                     identifier_uuid = unique_uuid
             elif resource[2] == "update":
-                if len(resource[4].strip()) > 0:
+                if len(resource[3].strip()) > 0:
                     # use the provided id
-                    unique_uuid = resource[4].strip()
-                    identifier_uuid = resource[4] if resource[5] == "" else resource[5]
+                    unique_uuid = resource[3].strip()
+                    identifier_uuid = resource[3] if resource[4] == "" else resource[4]
                 else:
                     # generate a new uuid
                     unique_uuid = str(uuid.uuid5(uuid.NAMESPACE_DNS, resource[0]))
