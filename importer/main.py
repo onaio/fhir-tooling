@@ -461,18 +461,16 @@ def build_org_affiliation(resources, resource_list):
 # This function is used to Capitalize the 'resource_type'
 # and remove the 's' at the end, a version suitable with the API
 def get_valid_resource_type(resource_type):
-    logging.info("Modify the string resource_type")
+    logging.debug("Modify the string resource_type")
     modified_resource_type = resource_type[0].upper() + resource_type[1:-1]
     return modified_resource_type
 
 
 # This function gets the current resource version from the API
 def get_resource_version(resource_id, resource_type):
-    logging.info("Getting resource version")
+    logging.debug("Getting resource version")
     modified_resource_type = get_valid_resource_type(resource_type)
-    resource_url = (
-        config.fhir_base_url + "/" + modified_resource_type + "/" + resource_id
-    )
+    resource_url = "/".join([config.fhir_base_url, modified_resource_type, resource_id])
     response = handle_request("GET", "", resource_url)
     json_response = json.loads(response[0])
     return json_response["meta"]["versionId"]
@@ -768,11 +766,10 @@ def delete_resource(resource_type, resource_id, cascade):
     else:
         cascade = ""
 
-    r = handle_request(
-        "DELETE",
-        "",
-        config.fhir_base_url + "/" + resource_type + "/" + resource_id + cascade,
+    resource_url = "/".join(
+        [config.fhir_base_url, resource_type, resource_id + cascade]
     )
+    r = handle_request("DELETE", "", resource_url)
     logging.info(r.text)
 
 
