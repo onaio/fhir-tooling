@@ -225,41 +225,23 @@ def location_extras(resource, payload_string):
         payload_string = json.dumps(obj, indent=4)
 
     try:
-        if resource[7] == "building":
-            payload_string = payload_string.replace("$t_code", "bu").replace(
-                "$t_display", "Building"
-            )
-        elif resource[7] == "jurisdiction":
-            payload_string = payload_string.replace("$t_code", "jdn").replace(
-                "$t_display", "Jurisdiction"
-            )
-        else:
-            logging.error("Unsupported location type provided for " + resource[0])
-            obj = json.loads(payload_string)
-            del obj["resource"]["type"]
-            payload_string = json.dumps(obj, indent=4)
+        if resource[7]:
+            payload_string = payload_string.replace("$t_display", resource[7])
+        if resource[8]:
+            payload_string = payload_string.replace("$t_code", resource[8])
     except IndexError:
         obj = json.loads(payload_string)
         del obj["resource"]["type"]
         payload_string = json.dumps(obj, indent=4)
 
     try:
-        if resource[8] == "building":
-            payload_string = payload_string.replace("$pt_code", "bu").replace(
-                "$pt_display", "Building"
-            )
-        elif resource[8] == "jurisdiction":
-            payload_string = payload_string.replace("$pt_code", "jdn").replace(
-                "$pt_display", "Jurisdiction"
-            )
-        else:
-            logging.error("Unsupported location physical type provided for " + resource[0])
-            obj = json.loads(payload_string)
-            del obj["resource"]["type"]
-            payload_string = json.dumps(obj, indent=4)
+        if resource[9]:
+            payload_string = payload_string.replace("$pt_display", resource[9])
+        if resource[10]:
+            payload_string = payload_string.replace("$pt_code", resource[10])
     except IndexError:
         obj = json.loads(payload_string)
-        del obj["resource"]["type"]
+        del obj["resource"]["physicalType"]
         payload_string = json.dumps(obj, indent=4)
 
     return payload_string
@@ -869,8 +851,9 @@ def main(
             json_payload = build_payload(
                 "locations", resource_list, "json_payloads/locations_payload.json"
             )
-            handle_request("POST", json_payload, config.fhir_base_url)
+            # handle_request("POST", json_payload, config.fhir_base_url)
             logging.info("Processing complete!")
+            logging.info(json_payload)
         elif resource_type == "organizations":
             logging.info("Processing organizations")
             json_payload = build_payload(
