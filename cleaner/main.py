@@ -163,7 +163,8 @@ def main(resource_type, parameter, value, batch_size, expunge, cascade, log_leve
         + "&_count="
         + str(batch_size)
     )
-    delete_resources(resource_url, resource_type)
+    if not cascade:
+        delete_resources(resource_url, resource_type)
     if expunge:
         expunge_url = config.fhir_base_url + "/" + resource_type + "/$expunge"
         expunge_resources(expunge_url)
