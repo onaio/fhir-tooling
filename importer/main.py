@@ -139,12 +139,12 @@ def create_user_resources(user_id, user):
     logging.info("Creating user resources")
     # generate uuids
     if len(str(user[4]).strip()) == 0:
-        practitioner_uuid = str(uuid.uuid4())
+        practitioner_uuid = str(uuid.uuid5(uuid.NAMESPACE_DNS, user[2] + user[7] + "practitioner_uuid"))
     else:
         practitioner_uuid = user[4]
 
-    group_uuid = str(uuid.uuid4())
-    practitioner_role_uuid = str(uuid.uuid4())
+    group_uuid = str(uuid.uuid5(uuid.NAMESPACE_DNS, user[2] + user[7] + "group_uuid"))
+    practitioner_role_uuid = str(uuid.uuid5(uuid.NAMESPACE_DNS, user[2] + user[7] + "practitioner_role_uuid"))
 
     # get payload and replace strings
     initial_string = """{"resourceType": "Bundle","type": "transaction","meta": {"lastUpdated": ""},"entry": """
@@ -427,7 +427,7 @@ def build_org_affiliation(resources, resource_list):
 
     for key in resources:
         rp = ""
-        unique_uuid = str(uuid.uuid4())
+        unique_uuid = str(uuid.uuid5(uuid.NAMESPACE_DNS, key))
         org_name = get_org_name(key, resource_list)
 
         rp = (
