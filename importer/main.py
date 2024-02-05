@@ -492,7 +492,7 @@ def build_payload(resource_type, resources, resource_payload_file):
                     identifier_uuid = resource[4] if resource[5] == "" else resource[5]
                 else:
                     # generate a new uuid
-                    unique_uuid = str(uuid.uuid5(uuid.NAMESPACE_DNS, resource[0]))
+                    unique_uuid = str(uuid.uuid5(uuid.NAMESPACE_DNS, resource[0] + resource[6]))
                     identifier_uuid = unique_uuid
             elif resource[2] == "update":
                 if len(resource[4].strip()) > 0:
@@ -501,11 +501,11 @@ def build_payload(resource_type, resources, resource_payload_file):
                     identifier_uuid = resource[4] if resource[5] == "" else resource[5]
                 else:
                     # generate a new uuid
-                    unique_uuid = str(uuid.uuid5(uuid.NAMESPACE_DNS, resource[0]))
+                    unique_uuid = str(uuid.uuid5(uuid.NAMESPACE_DNS, resource[0] + resource[6]))
                     identifier_uuid = unique_uuid
         except IndexError:
             # default if method is not provided
-            unique_uuid = str(uuid.uuid5(uuid.NAMESPACE_DNS, resource[0]))
+            unique_uuid = str(uuid.uuid5(uuid.NAMESPACE_DNS, resource[0] + resource[6]))
             identifier_uuid = unique_uuid
 
         # ps = payload_string
