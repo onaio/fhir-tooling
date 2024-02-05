@@ -225,20 +225,28 @@ def location_extras(resource, payload_string):
         payload_string = json.dumps(obj, indent=4)
 
     try:
-        if resource[7]:
+        if len(resource[7].strip()) > 0:
             payload_string = payload_string.replace("$t_display", resource[7])
-        if resource[8]:
+        if len(resource[8].strip()) > 0:
             payload_string = payload_string.replace("$t_code", resource[8])
+        else:
+            obj = json.loads(payload_string)
+            del obj["resource"]["type"]
+            payload_string = json.dumps(obj, indent=4)
     except IndexError:
         obj = json.loads(payload_string)
         del obj["resource"]["type"]
         payload_string = json.dumps(obj, indent=4)
 
     try:
-        if resource[9]:
+        if len(resource[9].strip()) > 0:
             payload_string = payload_string.replace("$pt_display", resource[9])
-        if resource[10]:
+        if len(resource[10].strip()) > 0:
             payload_string = payload_string.replace("$pt_code", resource[10])
+        else:
+            obj = json.loads(payload_string)
+            del obj["resource"]["physicalType"]
+            payload_string = json.dumps(obj, indent=4)
     except IndexError:
         obj = json.loads(payload_string)
         del obj["resource"]["physicalType"]
