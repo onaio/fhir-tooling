@@ -193,16 +193,21 @@ def create_user_resources(user_id, user):
 
 # custom extras for organizations
 def organization_extras(resource, payload_string):
+    _, active, *_, alias = resource
     try:
-        if resource[5]:
-            payload_string = payload_string.replace("$alias", resource[5])
+        if alias:
+            payload_string = payload_string.replace("$alias", alias)
+        else:
+            obj = json.loads(payload_string)
+            del obj["resource"]["alias"]
+            payload_string = json.dumps(obj, indent=4)
     except IndexError:
         obj = json.loads(payload_string)
         del obj["resource"]["alias"]
         payload_string = json.dumps(obj, indent=4)
 
     try:
-        payload_string = payload_string.replace("$active", resource[1])
+        payload_string = payload_string.replace("$active", active)
     except IndexError:
         payload_string = payload_string.replace("$active", "true")
     return payload_string
@@ -210,10 +215,11 @@ def organization_extras(resource, payload_string):
 
 # custom extras for locations
 def location_extras(resource, payload_string):
+    name, *_, parentName, parentID, type, physicalType = resource
     try:
-        if resource[4]:
-            payload_string = payload_string.replace("$parentName", resource[4]).replace(
-                "$parentID", resource[5]
+        if parentName:
+            payload_string = payload_string.replace("$parentName", parentName).replace(
+                "$parentID", parentID
             )
         else:
             obj = json.loads(payload_string)
@@ -225,16 +231,16 @@ def location_extras(resource, payload_string):
         payload_string = json.dumps(obj, indent=4)
 
     try:
-        if resource[6] == "building":
+        if type == "building":
             payload_string = payload_string.replace("$t_code", "bu").replace(
                 "$t_display", "Building"
             )
-        elif resource[6] == "jurisdiction":
+        elif type == "jurisdiction":
             payload_string = payload_string.replace("$t_code", "jdn").replace(
                 "$t_display", "Jurisdiction"
             )
         else:
-            logging.error("Unsupported location type provided for " + resource[0])
+            logging.error("Unsupported location type provided for " + name)
             obj = json.loads(payload_string)
             del obj["resource"]["type"]
             payload_string = json.dumps(obj, indent=4)
@@ -244,17 +250,17 @@ def location_extras(resource, payload_string):
         payload_string = json.dumps(obj, indent=4)
 
     try:
-        if resource[7] == "building":
+        if physicalType == "building":
             payload_string = payload_string.replace("$pt_code", "bu").replace(
                 "$pt_display", "Building"
             )
-        elif resource[7] == "jurisdiction":
+        elif physicalType == "jurisdiction":
             payload_string = payload_string.replace("$pt_code", "jdn").replace(
                 "$pt_display", "Jurisdiction"
             )
         else:
             logging.error(
-                "Unsupported location physical type provided for " + resource[0]
+                "Unsupported location physical type provided for " + name
             )
             obj = json.loads(payload_string)
             del obj["resource"]["type"]
@@ -276,15 +282,16 @@ def care_team_extras(
     elements = []
     elements2 = []
 
+    *_, organizations, participants = resource
     if load_type == "min":
         try:
-            if resource[5]:
-                elements = resource[5].split("|")
+            if organizations:
+                elements = organizations.split("|")
         except IndexError:
             pass
         try:
-            if resource[6]:
-                elements2 = resource[6].split("|")
+            if participants:
+                elements2 = participants.split("|")
         except IndexError:
             pass
     elif load_type == "full":
@@ -353,11 +360,12 @@ def care_team_extras(
 def extract_matches(resource_list):
     teamMap = {}
     for resource in resource_list:
-        if resource[1].strip() and resource[3].strip():
-            if resource[1] not in teamMap.keys():
-                teamMap[resource[1]] = [resource[3] + ":" + resource[2]]
+        group_name, group_id, item_name, item_id = resource
+        if group_id.strip() and item_id.strip():
+            if group_id not in teamMap.keys():
+                teamMap[group_id] = [item_id + ":" + item_name]
             else:
-                teamMap[resource[1]].append(resource[3] + ":" + resource[2])
+                teamMap[group_id].append(item_id + ":" + item_name)
         else:
             logging.error("Missing required id: Skipping " + str(resource))
     return teamMap
@@ -486,45 +494,46 @@ def build_payload(resource_type, resources, resource_payload_file):
         payload_string = json_file.read()
 
     for resource in resources:
+        name, status, method, id, *_ = resource
         try:
-            if resource[2] == "create":
-                if len(resource[3].strip()) > 0:
+            if method == "create":
+                if len(id.strip()) > 0:
                     # use the provided id
-                    unique_uuid = resource[3].strip()
-                    identifier_uuid = resource[3] if resource[4] == "" else resource[4]
+                    unique_uuid = id.strip()
+                    identifier_uuid = id.strip()
                 else:
                     # generate a new uuid
-                    unique_uuid = str(uuid.uuid5(uuid.NAMESPACE_DNS, resource[0]))
+                    unique_uuid = str(uuid.uuid5(uuid.NAMESPACE_DNS, name))
                     identifier_uuid = unique_uuid
-            elif resource[2] == "update":
-                if len(resource[3].strip()) > 0:
+            elif method == "update":
+                if len(id.strip()) > 0:
                     # use the provided id
-                    unique_uuid = resource[3].strip()
-                    identifier_uuid = resource[3] if resource[4] == "" else resource[4]
+                    unique_uuid = id.strip()
+                    identifier_uuid = id.strip()
                 else:
                     # generate a new uuid
-                    unique_uuid = str(uuid.uuid5(uuid.NAMESPACE_DNS, resource[0]))
+                    unique_uuid = str(uuid.uuid5(uuid.NAMESPACE_DNS, name))
                     identifier_uuid = unique_uuid
         except IndexError:
             # default if method is not provided
-            unique_uuid = str(uuid.uuid5(uuid.NAMESPACE_DNS, resource[0]))
+            unique_uuid = str(uuid.uuid5(uuid.NAMESPACE_DNS, name))
             identifier_uuid = unique_uuid
 
         # ps = payload_string
         ps = (
-            payload_string.replace("$name", resource[0])
+            payload_string.replace("$name", name)
             .replace("$unique_uuid", unique_uuid)
             .replace("$identifier_uuid", identifier_uuid)
         )
 
         try:
-            ps = ps.replace("$status", resource[1])
+            ps = ps.replace("$status", status)
         except IndexError:
             ps = ps.replace("$status", "active")
 
         # Get resource versions from API
         try:
-            version = get_resource_version(resource[3], resource_type)
+            version = get_resource_version(id, resource_type)
             ps = ps.replace("$version", version)
         except Exception:
             ps = ps.replace("$version", "1")
