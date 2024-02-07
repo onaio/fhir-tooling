@@ -217,18 +217,23 @@ class TestMain(unittest.TestCase):
         self.assertNotEqual(users_uuids[1][2], users_uuids[2][2])
 
     def test_uuid_generated_for_locations_is_unique_and_repeatable(self):
-        resources = [['location1', 'active', 'create', '1', '', 'test location-1', '18fcbc2e-4240-4a84-a270-7a444523d7b6', 'jurisdiction', 'jurisdiction'],
-                     ['location2', 'active', 'create', '1', '', 'test location-1', '18fcbc2e-4240-4a84-a270-7a444523d7b6', 'building', 'building'],
-                     ['location2', 'active', 'create', '1', '', 'test location-1', '18fcbc2e-4240-4a84-a270-7a444523d7b6', 'jurisdiction', 'jurisdiction']]
+        resources = [
+            ['City1', 'active', 'create', '', 'test location-1', '18fcbc2e-4240-4a84-a270-7a444523d7b6', 'jurisdiction',
+             'jurisdiction'],
+            ['Building1', 'active', 'create', '', 'test location-1', '18fcbc2e-4240-4a84-a270-7a444523d7b6', 'building',
+             'building'],
+            ['City1', 'active', 'create', '', 'test location-1', '18fcbc2e-4240-4a84-a270-7a444523d7b6', 'jurisdiction',
+             'jurisdiction']]
 
         payload = build_payload("locations", resources, "json_payloads/locations_payload.json")
         payload_obj = json.loads(payload)
         location1 = payload_obj["entry"][0]["resource"]["id"]
         location2 = payload_obj["entry"][1]["resource"]["id"]
         location3 = payload_obj["entry"][2]["resource"]["id"]
+        print(location1, location2, location3)
 
         self.assertNotEqual(location1, location2)
-        self.assertEqual(location2, location3)
+        self.assertEqual(location1, location3)
 
     def test_uuid_generated_in_build_org_affiliation_is_unique_and_repeatable(self):
         resource_list = [['HealthyU', 'a9137781-eb94-4d5f-8d39-471a92aec9f2', 'World', '138396'],
