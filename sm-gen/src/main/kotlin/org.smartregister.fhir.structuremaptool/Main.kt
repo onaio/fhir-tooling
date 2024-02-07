@@ -218,9 +218,6 @@ class Application : CliktCommand() {
             var finalStructureMap = sb.toString()
             finalStructureMap = finalStructureMap.addIdentation()
             println(finalStructureMap)
-
-            // TODO: Generate JSON version
-            // TODO: Provide both as new files
             writeStructureMapOutput(sb.toString().addIdentation())
         }
 

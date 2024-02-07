@@ -14,6 +14,9 @@ import org.hl7.fhir.r4.utils.FHIRPathEngine
 import java.lang.reflect.Field
 import java.lang.reflect.ParameterizedType
 
+// Get the hl7 resources
+val contextR4 = FhirContext.forR4()
+val fhirResources = contextR4.resourceTypes
 fun getQuestionsPath(questionnaire: Questionnaire): HashMap<String, String> {
     val questionsMap = hashMapOf<String, String>()
 
@@ -45,45 +48,47 @@ class Group(
 
 
     fun generateGroup(questionnaireResponse: QuestionnaireResponse) {
-        val resourceName = instructions[0].resource
+        if(fhirResources.contains(groupName.dropLast(1))){
+            val resourceName = instructions[0].resource
 
-        stringBuilder.appendNewLine()
-        stringBuilder.append("group Extract$groupName(source src : QuestionniareResponse, target bundle: Bundle) {")
-            .appendNewLine()
-        stringBuilder.append("src -> bundle.entry as  entry, entry.resource = create('$resourceName') as entity1 then {")
-            .appendNewLine()
+            stringBuilder.appendNewLine()
+            stringBuilder.append("group Extract$groupName(source src : QuestionniareResponse, target bundle: Bundle) {")
+                .appendNewLine()
+            stringBuilder.append("src -> bundle.entry as  entry, entry.resource = create('$resourceName') as entity1 then {")
+                .appendNewLine()
+            // TODO: Remove below and replace with Nest.buildStructureMap
+            /*instructions.forEachIndexed { index, instruction ->
 
-        // TODO: Remove below and replace with Nest.buildStructureMap
-        /*instructions.forEachIndexed { index, instruction ->
+                //if (instruction.fi)
 
-            //if (instruction.fi)
+                stringBuilder.append("src -> entity.${instruction.fieldPath} = ")
+                stringBuilder.append(instruction.getAnswerExpression())
+                addRuleNo()
+                stringBuilder.appendNewLine()
+            }*/
+            val instructionStartMap = hashMapOf<String, List<Instruction>>()
 
-            stringBuilder.append("src -> entity.${instruction.fieldPath} = ")
-            stringBuilder.append(instruction.getAnswerExpression())
+            val mainNest = Nest()
+            mainNest.fullPath = ""
+            mainNest.name = ""
+            mainNest.resourceName = resourceName
+
+            instructions.forEachIndexed { index, instruction ->
+                mainNest.add(instruction)
+            }
+
+            mainNest.buildStructureMap(0, questionnaireResponse)
+
+
+            stringBuilder.append("} ")
             addRuleNo()
             stringBuilder.appendNewLine()
-        }*/
-
-        val instructionStartMap = hashMapOf<String, List<Instruction>>()
-
-        val mainNest = Nest()
-        mainNest.fullPath = ""
-        mainNest.name = ""
-        mainNest.resourceName = resourceName
-
-        instructions.forEachIndexed { index, instruction ->
-            mainNest.add(instruction)
+            stringBuilder.append("}")
+            stringBuilder.appendNewLine()
+            stringBuilder.appendNewLine()
+        } else{
+            println("$groupName is not a valid hl7 resource name")
         }
-
-        mainNest.buildStructureMap(0, questionnaireResponse)
-
-
-        stringBuilder.append("} ")
-        addRuleNo()
-        stringBuilder.appendNewLine()
-        stringBuilder.append("}")
-        stringBuilder.appendNewLine()
-        stringBuilder.appendNewLine()
     }
 
     fun addRuleNo() {
@@ -255,7 +260,6 @@ class Group(
 
         fun buildStructureMap(currLevel: Int, questionnaireResponse: QuestionnaireResponse) {
             if (instruction != null) {
-
                 val answerExpression = instruction!!.getAnswerExpression(questionnaireResponse)
 
                 if (answerExpression.isNotEmpty() && answerExpression.isNotBlank() && answerExpression != "''") {
@@ -447,8 +451,6 @@ fun String.isEvaluateExpression(): Boolean = startsWith("evaluate(")
 fun inferType(propertyPath: String): String? {
     // TODO: Handle possible errors
     // TODO: Handle inferring nested types
-    val contextR4 = FhirContext.forR4()
-    val fhirResources = contextR4.resourceTypes
     val parts = propertyPath.split(".")
     val parentResourceClassName = parts[0]
     lateinit var parentClass: Class<*>
