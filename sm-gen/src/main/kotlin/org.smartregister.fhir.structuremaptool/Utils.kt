@@ -56,7 +56,6 @@ class Group(
                 .appendNewLine()
             stringBuilder.append("src -> bundle.entry as  entry, entry.resource = create('$resourceName') as entity1 then {")
                 .appendNewLine()
-
             // TODO: Remove below and replace with Nest.buildStructureMap
             /*instructions.forEachIndexed { index, instruction ->
 
@@ -67,7 +66,6 @@ class Group(
                 addRuleNo()
                 stringBuilder.appendNewLine()
             }*/
-
             val instructionStartMap = hashMapOf<String, List<Instruction>>()
 
             val mainNest = Nest()
@@ -262,7 +260,6 @@ class Group(
 
         fun buildStructureMap(currLevel: Int, questionnaireResponse: QuestionnaireResponse) {
             if (instruction != null) {
-
                 val answerExpression = instruction!!.getAnswerExpression(questionnaireResponse)
 
                 if (answerExpression.isNotEmpty() && answerExpression.isNotBlank() && answerExpression != "''") {
