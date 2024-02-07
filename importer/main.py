@@ -188,7 +188,7 @@ def create_user_resources(user_id, user):
     ff = json.dumps(obj, indent=4)
 
     payload = initial_string + ff + "}"
-    handle_request("POST", payload, config.fhir_base_url)
+    return payload
 
 
 # custom extras for organizations
@@ -492,7 +492,7 @@ def build_payload(resource_type, resources, resource_payload_file):
                     identifier_uuid = resource[4] if resource[5] == "" else resource[5]
                 else:
                     # generate a new uuid
-                    unique_uuid = str(uuid.uuid5(uuid.NAMESPACE_DNS, resource[0] + resource[6]))
+                    unique_uuid = str(uuid.uuid5(uuid.NAMESPACE_DNS, resource[0]))
                     identifier_uuid = unique_uuid
             elif resource[2] == "update":
                 if len(resource[4].strip()) > 0:
@@ -501,11 +501,11 @@ def build_payload(resource_type, resources, resource_payload_file):
                     identifier_uuid = resource[4] if resource[5] == "" else resource[5]
                 else:
                     # generate a new uuid
-                    unique_uuid = str(uuid.uuid5(uuid.NAMESPACE_DNS, resource[0] + resource[6]))
+                    unique_uuid = str(uuid.uuid5(uuid.NAMESPACE_DNS, resource[0]))
                     identifier_uuid = unique_uuid
         except IndexError:
             # default if method is not provided
-            unique_uuid = str(uuid.uuid5(uuid.NAMESPACE_DNS, resource[0] + resource[6]))
+            unique_uuid = str(uuid.uuid5(uuid.NAMESPACE_DNS, resource[0]))
             identifier_uuid = unique_uuid
 
         # ps = payload_string
@@ -862,7 +862,8 @@ def main(
                     # check practitioner
                     practitioner_exists = confirm_practitioner(user, user_id)
                     if not practitioner_exists:
-                        create_user_resources(user_id, user)
+                        payload = create_user_resources(user_id, user)
+                        handle_request("POST", payload, config.fhir_base_url)
                 logging.info("Processing complete!")
         elif resource_type == "locations":
             logging.info("Processing locations")
