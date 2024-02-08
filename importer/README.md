@@ -62,11 +62,10 @@ The coverage report `coverage.html` will be at the working directory
 - The first two columns __name__ and __status__ is the minimum required
 - [locations_full](/importer/csv/locations/locations_full.csv) shows more options available
 - The third column is the request method, can be either create or update. Default is set to create
-- The fourth column is the version. Default is set to 1 for creation, needs to be set when updating
-- The fifth column is the id, which is required when updating
-- The sixth and seventh columns are parentName and parentID,respectively 
-- The eighth column is the type, it can be either jurisdication or building
-- The ninth column is the physicalType,it can be either jurisdication or building
+-  The fourth column is the id, which is required when updating
+- The fifth and sixth columns are parentName and parentID,respectively 
+- The seventh and eighth columns are the location's type and typeCode, respectively
+- The ninth and tenth columns are the location's physicalType and physicalTypeCode, respectively
 
 ### 2. Create users in bulk
 - Run `python3 main.py --csv_file csv/users.csv --resource_type users --log_level info`
@@ -75,13 +74,13 @@ The coverage report `coverage.html` will be at the working directory
 - The fifth column `id` is optional. If populated with a uuid, it will be used as the Practitioner uuid when creating the Practitioner resource. If left empty, a random uuid will be generated
 - The sixth column is the `userType`, this needs to be set to either `Practitioner` or `Supervisor`
 - The seventh column is `enableUser` which defaults to True if not set
-- The eigth and nineth column are details about the users Keycloak Group and are required for proper assignment
+- The eighth and ninth column are details about the users Keycloak Group and are required for proper assignment
 - The last two columns are the `ApplicationID` and `password`
 
 ### 3. Create organizations in bulk
 - Run `python3 main.py --csv_file csv/organizations/organizations_min.csv --resource_type organizations --log_level info`
 - See example csv [here](/importer/csv/organizations/organizations_min.csv)
-- The first  column __name__ is the only one reqired
+- The first  column __name__ is the only one required
 - [organizations_full](/importer/csv/organizations/organizations_full.csv) shows more options available
 - The third column is the request method, can be either create or update. Default is set to create
 - The fourth column is the id, which is required when updating
@@ -90,7 +89,7 @@ The coverage report `coverage.html` will be at the working directory
 ### 4. Create care teams in bulk
 - Run `python3 main.py --csv_file csv/careteams/careteam_min.csv --resource_type careTeams --log_level info`
 - See example csv [here](/importer/csv/careteams/careteam_min.csv)
-- The first  column __name__ is the only one reqired
+- The first  column __name__ is the only one required
 - If the status is not set it will default to __active__
 - [careteam_full](/importer/csv/careteams/careteam_full.csv) shows more options available
 - The third column is the request method, can be either create or update. Default is set to create
