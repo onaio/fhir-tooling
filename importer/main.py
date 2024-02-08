@@ -215,7 +215,7 @@ def organization_extras(resource, payload_string):
 
 # custom extras for locations
 def location_extras(resource, payload_string):
-    name, *_, parentName, parentID, type, physicalType = resource
+    name, *_, parentName, parentID, type, typeCode, physicalType, physicalTypeCode = resource
     try:
         if parentName:
             payload_string = payload_string.replace("$parentName", parentName).replace(
@@ -231,16 +231,11 @@ def location_extras(resource, payload_string):
         payload_string = json.dumps(obj, indent=4)
 
     try:
-        if type == "building":
-            payload_string = payload_string.replace("$t_code", "bu").replace(
-                "$t_display", "Building"
-            )
-        elif type == "jurisdiction":
-            payload_string = payload_string.replace("$t_code", "jdn").replace(
-                "$t_display", "Jurisdiction"
-            )
+        if len(type.strip()) > 0:
+            payload_string = payload_string.replace("$t_display", type)
+        if len(typeCode.strip()) > 0:
+            payload_string = payload_string.replace("$t_code", typeCode)
         else:
-            logging.error("Unsupported location type provided for " + name)
             obj = json.loads(payload_string)
             del obj["resource"]["type"]
             payload_string = json.dumps(obj, indent=4)
@@ -250,18 +245,11 @@ def location_extras(resource, payload_string):
         payload_string = json.dumps(obj, indent=4)
 
     try:
-        if physicalType == "building":
-            payload_string = payload_string.replace("$pt_code", "bu").replace(
-                "$pt_display", "Building"
-            )
-        elif physicalType == "jurisdiction":
-            payload_string = payload_string.replace("$pt_code", "jdn").replace(
-                "$pt_display", "Jurisdiction"
-            )
+        if len(physicalType.strip()) > 0:
+            payload_string = payload_string.replace("$pt_display", physicalType)
+        if len(physicalTypeCode.strip()) > 0:
+            payload_string = payload_string.replace("$pt_code", physicalTypeCode)
         else:
-            logging.error(
-                "Unsupported location physical type provided for " + name
-            )
             obj = json.loads(payload_string)
             del obj["resource"]["physicalType"]
             payload_string = json.dumps(obj, indent=4)
@@ -879,9 +867,8 @@ def main(
             json_payload = build_payload(
                 "locations", resource_list, "json_payloads/locations_payload.json"
             )
-            # handle_request("POST", json_payload, config.fhir_base_url)
+            handle_request("POST", json_payload, config.fhir_base_url)
             logging.info("Processing complete!")
-            logging.info(json_payload)
         elif resource_type == "organizations":
             logging.info("Processing organizations")
             json_payload = build_payload(

@@ -79,8 +79,8 @@ class TestMain(unittest.TestCase):
                                         "system": {
                                             "const": "http://terminology.hl7.org/CodeSystem/location-type"
                                         },
-                                        "code": {"const": "jdn"},
-                                        "display": {"const": "Jurisdiction"},
+                                        "code": {"const": "si"},
+                                        "display": {"const": "site"},
                                     },
                                 },
                             }
@@ -98,8 +98,8 @@ class TestMain(unittest.TestCase):
                                     "system": {
                                         "const": "http://terminology.hl7.org/CodeSystem/location-physical-type"
                                     },
-                                    "code": {"const": "jdn"},
-                                    "display": {"const": "Jurisdiction"},
+                                    "code": {"const": "wa"},
+                                    "display": {"const": "ward"},
                                 },
                             },
                         }
