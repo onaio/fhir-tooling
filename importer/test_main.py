@@ -1,13 +1,7 @@
 import json
 import unittest
 from jsonschema import validate
-from main import (
-    read_csv,
-    build_payload,
-    build_org_affiliation,
-    extract_matches,
-    create_user_resources,
-)
+from main import read_csv, build_payload, build_org_affiliation, extract_matches, create_user_resources
 
 
 class TestMain(unittest.TestCase):
