@@ -95,18 +95,21 @@ def handle_request(request_type, payload, url):
 # it also adds the user to the provided keycloak group
 # and sets the user password
 def create_user(user):
+    (firstName, lastName, username, email, id, userType, _, keycloakGroupID,
+     keycloakGroupName,  applicationID, password) = user
+
     with open("json_payloads/keycloak_user_payload.json") as json_file:
         payload_string = json_file.read()
 
     obj = json.loads(payload_string)
-    obj["firstName"] = user[0]
-    obj["lastName"] = user[1]
-    obj["username"] = user[2]
-    obj["email"] = user[3]
-    obj["attributes"]["fhir_core_app_id"][0] = user[9]
+    obj["firstName"] = firstName
+    obj["lastName"] = lastName
+    obj["username"] = username
+    obj["email"] = email
+    obj["attributes"]["fhir_core_app_id"][0] = applicationID
 
     final_string = json.dumps(obj)
-    logging.info("Creating user: " + user[2])
+    logging.info("Creating user: " + username)
     r = handle_request("POST", final_string, config.keycloak_url + "/users")
 
     if r.status_code == 201:
@@ -115,14 +118,14 @@ def create_user(user):
         user_id = (new_user_location.split("/"))[-1]
 
         # add user to group
-        payload = '{"id": "' + user[7] + '", "name": "' + user[8] + '"}'
-        group_endpoint = user_id + "/groups/" + user[7]
+        payload = '{"id": "' + keycloakGroupID + '", "name": "' + keycloakGroupName + '"}'
+        group_endpoint = user_id + "/groups/" + keycloakGroupID
         url = config.keycloak_url + "/users/" + group_endpoint
-        logging.info("Adding user to Keycloak group: " + user[8])
+        logging.info("Adding user to Keycloak group: " + keycloakGroupName)
         r = handle_request("PUT", payload, url)
 
         # set password
-        payload = '{"temporary":false,"type":"password","value":"' + user[10] + '"}'
+        payload = '{"temporary":false,"type":"password","value":"' + password + '"}'
         password_endpoint = user_id + "/reset-password"
         url = config.keycloak_url + "/users/" + password_endpoint
         logging.info("Setting user password")
@@ -137,18 +140,8 @@ def create_user(user):
 # new user and posts them to the FHIR api for creation
 def create_user_resources(user_id, user):
     logging.info("Creating user resources")
-    (
-        firstName,
-        lastName,
-        username,
-        email,
-        id,
-        *_,
-        keycloakGroupID,
-        keycloakGroupName,
-        _,
-        password,
-    ) = user
+    (firstName, lastName, username, email, id, userType,
+     _, keycloakGroupID, keycloakGroupName, _, password) = user
 
     # generate uuids
     if len(str(id).strip()) == 0:
@@ -178,15 +171,15 @@ def create_user_resources(user_id, user):
     ff = (
         payload_string.replace("$practitioner_uuid", practitioner_uuid)
         .replace("$keycloak_user_uuid", user_id)
-        .replace("$firstName", user[0])
-        .replace("$lastName", user[1])
-        .replace("$email", user[3])
+        .replace("$firstName", firstName)
+        .replace("$lastName", lastName)
+        .replace("$email", email)
         .replace("$group_uuid", group_uuid)
         .replace("$practitioner_role_uuid", practitioner_role_uuid)
     )
 
     obj = json.loads(ff)
-    if user[5].strip() == "Supervisor":
+    if userType.strip() == "Supervisor":
         obj[2]["resource"]["code"] = {
             "coding": [
                 {
@@ -196,7 +189,7 @@ def create_user_resources(user_id, user):
                 }
             ]
         }
-    elif user[5].strip() == "Practitioner":
+    elif userType.strip() == "Practitioner":
         obj[2]["resource"]["code"] = {
             "coding": [
                 {
@@ -894,8 +887,7 @@ def main(
                     practitioner_exists = confirm_practitioner(user, user_id)
                     if not practitioner_exists:
                         payload = create_user_resources(user_id, user)
-                        # handle_request("POST", payload, config.fhir_base_url)
-                        logging.info(payload)
+                        handle_request("POST", payload, config.fhir_base_url)
                 logging.info("Processing complete!")
         elif resource_type == "locations":
             logging.info("Processing locations")
