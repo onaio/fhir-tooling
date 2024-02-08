@@ -1,7 +1,13 @@
 import json
 import unittest
 from jsonschema import validate
-from main import read_csv, build_payload, build_org_affiliation, extract_matches, create_user_resources
+from main import (
+    read_csv,
+    build_payload,
+    build_org_affiliation,
+    extract_matches,
+    create_user_resources,
+)
 
 
 class TestMain(unittest.TestCase):
@@ -188,12 +194,47 @@ class TestMain(unittest.TestCase):
         self.assertEqual(len(payload_obj["entry"]), 2)
 
     def test_uuid_generated_in_creating_user_resources_is_unique_and_repeatable(self):
-        users = [['Jane', 'Doe', 'Janey', 'jdoe@example.com', '', 'Practitioner', 'TRUE',
-                  'a715b562-27f2-432a-b1ba-e57db35e0f93', 'test', 'demo', 'pa$$word'],
-                 ['John', 'Doe', 'Janey', 'jodoe@example.com', '', 'Practitioner', 'TRUE',
-                  'a715b562-27f2-432a-b1ba-e57db35e0f93', 'test', 'demo', 'pa$$word'],
-                 ['Janice', 'Doe', 'Jenn', 'jendoe@example.com', '99d54e3c-c26f-4500-a7f9-3f4cb788673f', 'Supervisor',
-                  'TRUE', 'a715b562-27f2-432a-b1ba-e57db35e0f93', 'test', 'demo', 'pa$$word']]
+        users = [
+            [
+                "Jane",
+                "Doe",
+                "Janey",
+                "jdoe@example.com",
+                "",
+                "Practitioner",
+                "TRUE",
+                "a715b562-27f2-432a-b1ba-e57db35e0f93",
+                "test",
+                "demo",
+                "pa$$word",
+            ],
+            [
+                "John",
+                "Doe",
+                "Janey",
+                "jodoe@example.com",
+                "",
+                "Practitioner",
+                "TRUE",
+                "a715b562-27f2-432a-b1ba-e57db35e0f93",
+                "test",
+                "demo",
+                "pa$$word",
+            ],
+            [
+                "Janice",
+                "Doe",
+                "Jenn",
+                "jendoe@example.com",
+                "99d54e3c-c26f-4500-a7f9-3f4cb788673f",
+                "Supervisor",
+                "TRUE",
+                "a715b562-27f2-432a-b1ba-e57db35e0f93",
+                "test",
+                "demo",
+                "pa$$word",
+            ],
+        ]
 
         users_uuids = {}
         for user_id, user in enumerate(users):
@@ -202,7 +243,11 @@ class TestMain(unittest.TestCase):
             practitioner_uuid = payload_obj["entry"][0]["resource"]["id"]
             group_uuid = payload_obj["entry"][1]["resource"]["id"]
             practitioner_role_uuid = payload_obj["entry"][2]["resource"]["id"]
-            users_uuids[user_id] = [practitioner_uuid, group_uuid, practitioner_role_uuid]
+            users_uuids[user_id] = [
+                practitioner_uuid,
+                group_uuid,
+                practitioner_role_uuid,
+            ]
 
         # practitioner_uuid
         self.assertEqual(users_uuids[0][0], users_uuids[1][0])
@@ -218,14 +263,41 @@ class TestMain(unittest.TestCase):
 
     def test_uuid_generated_for_locations_is_unique_and_repeatable(self):
         resources = [
-            ['City1', 'active', 'create', '', 'test location-1', '18fcbc2e-4240-4a84-a270-7a444523d7b6', 'jurisdiction',
-             'jurisdiction'],
-            ['Building1', 'active', 'create', '', 'test location-1', '18fcbc2e-4240-4a84-a270-7a444523d7b6', 'building',
-             'building'],
-            ['City1', 'active', 'create', '', 'test location-1', '18fcbc2e-4240-4a84-a270-7a444523d7b6', 'jurisdiction',
-             'jurisdiction']]
+            [
+                "City1",
+                "active",
+                "create",
+                "",
+                "test location-1",
+                "18fcbc2e-4240-4a84-a270-7a444523d7b6",
+                "jurisdiction",
+                "jurisdiction",
+            ],
+            [
+                "Building1",
+                "active",
+                "create",
+                "",
+                "test location-1",
+                "18fcbc2e-4240-4a84-a270-7a444523d7b6",
+                "building",
+                "building",
+            ],
+            [
+                "City1",
+                "active",
+                "create",
+                "",
+                "test location-1",
+                "18fcbc2e-4240-4a84-a270-7a444523d7b6",
+                "jurisdiction",
+                "jurisdiction",
+            ],
+        ]
 
-        payload = build_payload("locations", resources, "json_payloads/locations_payload.json")
+        payload = build_payload(
+            "locations", resources, "json_payloads/locations_payload.json"
+        )
         payload_obj = json.loads(payload)
         location1 = payload_obj["entry"][0]["resource"]["id"]
         location2 = payload_obj["entry"][1]["resource"]["id"]
@@ -236,10 +308,12 @@ class TestMain(unittest.TestCase):
         self.assertEqual(location1, location3)
 
     def test_uuid_generated_in_build_org_affiliation_is_unique_and_repeatable(self):
-        resource_list = [['HealthyU', 'a9137781-eb94-4d5f-8d39-471a92aec9f2', 'World', '138396'],
-                         ['HealthyU', 'a9137781-eb94-4d5f-8d39-471a92aec9f2', 'Kenya', '54876'],
-                         ['HealthyU', 'a9137781-eb94-4d5f-8d39-471a92aec9f2', 'Nairobi', '105167'],
-                         ['One Org', '8342dd77-aecd-48ab-826b-75c7c33039ed', 'World', '138396']]
+        resource_list = [
+            ["HealthyU", "a9137781-eb94-4d5f-8d39-471a92aec9f2", "World", "138396"],
+            ["HealthyU", "a9137781-eb94-4d5f-8d39-471a92aec9f2", "Kenya", "54876"],
+            ["HealthyU", "a9137781-eb94-4d5f-8d39-471a92aec9f2", "Nairobi", "105167"],
+            ["One Org", "8342dd77-aecd-48ab-826b-75c7c33039ed", "World", "138396"],
+        ]
 
         resources = extract_matches(resource_list)
         payload = build_org_affiliation(resources, resource_list)

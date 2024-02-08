@@ -137,14 +137,37 @@ def create_user(user):
 # new user and posts them to the FHIR api for creation
 def create_user_resources(user_id, user):
     logging.info("Creating user resources")
-    # generate uuids
-    if len(str(user[4]).strip()) == 0:
-        practitioner_uuid = str(uuid.uuid5(uuid.NAMESPACE_DNS, user[2] + user[7] + "practitioner_uuid"))
-    else:
-        practitioner_uuid = user[4]
+    (
+        firstName,
+        lastName,
+        username,
+        email,
+        id,
+        *_,
+        keycloakGroupID,
+        keycloakGroupName,
+        _,
+        password,
+    ) = user
 
-    group_uuid = str(uuid.uuid5(uuid.NAMESPACE_DNS, user[2] + user[7] + "group_uuid"))
-    practitioner_role_uuid = str(uuid.uuid5(uuid.NAMESPACE_DNS, user[2] + user[7] + "practitioner_role_uuid"))
+    # generate uuids
+    if len(str(id).strip()) == 0:
+        practitioner_uuid = str(
+            uuid.uuid5(
+                uuid.NAMESPACE_DNS, username + keycloakGroupID + "practitioner_uuid"
+            )
+        )
+    else:
+        practitioner_uuid = id
+
+    group_uuid = str(
+        uuid.uuid5(uuid.NAMESPACE_DNS, username + keycloakGroupID + "group_uuid")
+    )
+    practitioner_role_uuid = str(
+        uuid.uuid5(
+            uuid.NAMESPACE_DNS, username + keycloakGroupID + "practitioner_role_uuid"
+        )
+    )
 
     # get payload and replace strings
     initial_string = """{"resourceType": "Bundle","type": "transaction","meta": {"lastUpdated": ""},"entry": """
@@ -259,9 +282,7 @@ def location_extras(resource, payload_string):
                 "$pt_display", "Jurisdiction"
             )
         else:
-            logging.error(
-                "Unsupported location physical type provided for " + name
-            )
+            logging.error("Unsupported location physical type provided for " + name)
             obj = json.loads(payload_string)
             del obj["resource"]["type"]
             payload_string = json.dumps(obj, indent=4)
@@ -873,7 +894,8 @@ def main(
                     practitioner_exists = confirm_practitioner(user, user_id)
                     if not practitioner_exists:
                         payload = create_user_resources(user_id, user)
-                        handle_request("POST", payload, config.fhir_base_url)
+                        # handle_request("POST", payload, config.fhir_base_url)
+                        logging.info(payload)
                 logging.info("Processing complete!")
         elif resource_type == "locations":
             logging.info("Processing locations")
