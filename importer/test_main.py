@@ -1,7 +1,9 @@
 import json
 import unittest
+from unittest import mock
 from jsonschema import validate
-from main import read_csv, build_payload, build_org_affiliation, extract_matches, create_user_resources
+from main import (read_csv, build_payload, build_org_affiliation, extract_matches, create_user_resources,
+                  check_if_id_exists)
 
 
 class TestMain(unittest.TestCase):
@@ -128,6 +130,28 @@ class TestMain(unittest.TestCase):
             },
         }
         validate(payload_obj["entry"][0]["request"], request_schema)
+
+    def _mock_response(self, status_code=200, content="CONTENT"):
+        mock_resp = mock.Mock()
+        mock_resp.status_code = status_code
+        mock_resp.content = content
+        return mock_resp
+
+    @mock.patch('requests.get')
+    def test_check_if_id_exists(self, mock_get):
+        json_data = '{"resourceType": "Location","status": "active","name": "City1", "id": "ba787982-b973-4bd5-854e-eacbe161e297"}'
+        mock_resp = self._mock_response(200, json_data)
+        mock_get.return_value = mock_resp
+        result = check_if_id_exists("ba787982-b973-4bd5-854e-eacbe161e297", "Location")
+        self.assertTrue(result)
+        self.assertIn("ba787982-b973-4bd5-854e-eacbe161e297", json_data)
+
+    @mock.patch('requests.get')
+    def test_check_if_id_does_not_exist(self, mock_get):
+        mock_resp = self._mock_response(404)
+        mock_get.return_value = mock_resp
+        result = check_if_id_exists('48ef4df9-9874-4de4-a0ff-16317748a51a', 'Location')
+        self.assertFalse(result)
 
     def test_build_payload_care_teams(self):
         csv_file = "csv/careteams/careteam_full.csv"

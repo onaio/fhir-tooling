@@ -488,6 +488,17 @@ def get_resource_version(resource_id, resource_type):
     return json_response["meta"]["versionId"]
 
 
+def check_if_id_exists(id, resource_type):
+    logging.debug("Checking resource ID")
+    resource_type = get_valid_resource_type(resource_type)
+    resource_url = "/".join([config.fhir_base_url, resource_type, id])
+    response = handle_request("GET", "", resource_url)
+    if response[1] == 200:
+        return True
+    else:
+        return False
+
+
 # This function builds a json payload
 # which is posted to the api to create resources
 def build_payload(resource_type, resources, resource_payload_file):
@@ -511,9 +522,14 @@ def build_payload(resource_type, resources, resource_payload_file):
                     identifier_uuid = unique_uuid
             elif method == "update":
                 if len(id.strip()) > 0:
-                    # use the provided id
-                    unique_uuid = id.strip()
-                    identifier_uuid = id.strip()
+                    check = check_if_id_exists(id, resource_type)
+                    if check:
+                        # use the provided id
+                        unique_uuid = id.strip()
+                        identifier_uuid = id.strip()
+                    else:
+                        logging.error("Provided ID is Non-existent")
+                        raise ValueError(f'Trying to update resource with {id} which does not exist')
                 else:
                     # generate a new uuid
                     unique_uuid = str(uuid.uuid5(uuid.NAMESPACE_DNS, name))
