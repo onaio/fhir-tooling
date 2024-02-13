@@ -2,8 +2,7 @@ import json
 import unittest
 from unittest import mock
 from jsonschema import validate
-from main import (read_csv, build_payload, build_org_affiliation, extract_matches, create_user_resources,
-                  check_if_id_exists)
+from main import read_csv, build_payload, build_org_affiliation, extract_matches, create_user_resources, check_if_id_exists
 
 
 class TestMain(unittest.TestCase):
