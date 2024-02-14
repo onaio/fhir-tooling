@@ -5,6 +5,7 @@ import click
 import requests
 import logging
 import backoff
+from datetime import datetime
 from oauthlib.oauth2 import LegacyApplicationClient
 from requests_oauthlib import OAuth2Session
 
@@ -861,6 +862,9 @@ def main(
     elif log_level == "ERROR":
         logging.basicConfig(level=logging.ERROR)
 
+    start_time = datetime.now()
+    logging.info("Start time: " + start_time.strftime("%H:%M:%S"))
+
     logging.info("Starting csv import...")
     resource_list = read_csv(csv_file)
     if resource_list:
@@ -939,6 +943,10 @@ def main(
     else:
         logging.error("Empty csv file!")
 
+    end_time = datetime.now()
+    logging.info("End time: " + end_time.strftime("%H:%M:%S"))
+    total_time = end_time - start_time
+    logging.info("Total time: " + str(total_time.total_seconds()) + " seconds")
 
 if __name__ == "__main__":
     main()
