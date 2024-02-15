@@ -1,6 +1,7 @@
 import json
 import unittest
 from jsonschema import validate
+from mock import patch
 from main import read_csv, build_payload, build_org_affiliation, extract_matches, create_user_resources
 
 
@@ -11,7 +12,10 @@ class TestMain(unittest.TestCase):
         self.assertIsInstance(records, list)
         self.assertEqual(len(records), 3)
 
-    def test_build_payload_organizations(self):
+    @patch('main.get_resource')
+    def test_build_payload_organizations(self, mock_get_resource):
+        mock_get_resource.return_value = "1"
+
         csv_file = "csv/organizations/organizations_full.csv"
         resource_list = read_csv(csv_file)
         payload = build_payload(
@@ -46,7 +50,10 @@ class TestMain(unittest.TestCase):
         }
         validate(payload_obj["entry"][2]["request"], request_schema)
 
-    def test_build_payload_locations(self):
+    @patch('main.get_resource')
+    def test_build_payload_locations(self, mock_get_resource):
+        mock_get_resource.return_value = "1"
+
         csv_file = "csv/locations/locations_full.csv"
         resource_list = read_csv(csv_file)
         payload = build_payload(
@@ -129,7 +136,10 @@ class TestMain(unittest.TestCase):
         }
         validate(payload_obj["entry"][0]["request"], request_schema)
 
-    def test_build_payload_care_teams(self):
+    @patch('main.get_resource')
+    def test_build_payload_care_teams(self, mock_get_resource):
+        mock_get_resource.return_value = "1"
+
         csv_file = "csv/careteams/careteam_full.csv"
         resource_list = read_csv(csv_file)
         payload = build_payload(
