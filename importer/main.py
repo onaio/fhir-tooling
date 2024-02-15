@@ -479,13 +479,11 @@ def get_valid_resource_type(resource_type):
 
 
 # This function gets the current resource version from the API
-def get_resource_version(resource_id, resource_type):
-    logging.debug("Getting resource version")
-    modified_resource_type = get_valid_resource_type(resource_type)
-    resource_url = "/".join([config.fhir_base_url, modified_resource_type, resource_id])
+def get_resource(resource_id, resource_type):
+    resource_type = get_valid_resource_type(resource_type)
+    resource_url = "/".join([config.fhir_base_url, resource_type, resource_id])
     response = handle_request("GET", "", resource_url)
-    json_response = json.loads(response[0])
-    return json_response["meta"]["versionId"]
+    return json.loads(response[0])["meta"]["versionId"] if response[1] == 200 else "0"
 
 
 # This function builds a json payload
@@ -501,15 +499,7 @@ def build_payload(resource_type, resources, resource_payload_file):
         name, status, method, id, *_ = resource
         try:
             if method == "create":
-                if len(id.strip()) > 0:
-                    # use the provided id
-                    unique_uuid = id.strip()
-                    identifier_uuid = id.strip()
-                else:
-                    # generate a new uuid
-                    unique_uuid = str(uuid.uuid5(uuid.NAMESPACE_DNS, name))
-                    identifier_uuid = unique_uuid
-            elif method == "update":
+                version = "1"
                 if len(id.strip()) > 0:
                     # use the provided id
                     unique_uuid = id.strip()
@@ -522,25 +512,37 @@ def build_payload(resource_type, resources, resource_payload_file):
             # default if method is not provided
             unique_uuid = str(uuid.uuid5(uuid.NAMESPACE_DNS, name))
             identifier_uuid = unique_uuid
+            version = "1"
+
+        try:
+            if method == "update":
+                if len(id.strip()) > 0:
+                    version = get_resource(id, resource_type)
+                    if version != "0":
+                        # use the provided id
+                        unique_uuid = id.strip()
+                        identifier_uuid = id.strip()
+                    else:
+                        logging.info("Failed to get resource!")
+                        raise ValueError("Trying to update a Non-existent resource")
+                else:
+                    logging.info("The id is required!")
+                    raise ValueError("The id is required to update a resource")
+        except IndexError:
+            raise ValueError("The id is required to update a resource")
 
         # ps = payload_string
         ps = (
             payload_string.replace("$name", name)
             .replace("$unique_uuid", unique_uuid)
             .replace("$identifier_uuid", identifier_uuid)
+            .replace("$version", version)
         )
 
         try:
             ps = ps.replace("$status", status)
         except IndexError:
             ps = ps.replace("$status", "active")
-
-        # Get resource versions from API
-        try:
-            version = get_resource_version(id, resource_type)
-            ps = ps.replace("$version", version)
-        except Exception:
-            ps = ps.replace("$version", "1")
 
         if resource_type == "organizations":
             ps = organization_extras(resource, ps)
