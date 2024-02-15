@@ -335,6 +335,21 @@ class TestMain(unittest.TestCase):
         self.assertEqual(organization_affiliation1, organization_affiliation3)
         self.assertEqual(organization_affiliation2, organization_affiliation4)
 
+    def test_update_resource_with_no_id_fails(self):
+        resources = [[ "City1", "active", "update" , "","test location-1","18fcbc2e-4240-4a84-a270-7a444523d7b6", "site", "si", "ward", "wa"]]
+        with self.assertRaises(ValueError) as raised_error:
+            build_payload("locations", resources, "json_payloads/locations_payload.json")
+        self.assertEqual("The id is required to update a resource", str(raised_error.exception))
+
+    @patch('main.get_resource')
+    def test_update_resource_with_non_existing_id_fails(self, mock_get_resource):
+        mock_get_resource.return_value = "0"
+        non_existing_id = "123"
+        resources = [[ "City1", "active", "update" , non_existing_id,"test location-1","18fcbc2e-4240-4a84-a270-7a444523d7b6", "site", "si", "ward", "wa"]]
+        with self.assertRaises(ValueError) as raised_error:
+            build_payload("locations", resources, "json_payloads/locations_payload.json")
+        self.assertEqual("Trying to update a Non-existent resource", str(raised_error.exception))
+
 
 if __name__ == "__main__":
     unittest.main()
