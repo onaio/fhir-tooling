@@ -15,6 +15,7 @@ except ModuleNotFoundError:
     logging.error("The config.py file is missing!")
     exit()
 
+global_access_token = ""
 
 # This function takes in a csv file
 # reads it and returns a list of strings/lines
@@ -37,6 +38,39 @@ def read_csv(csv_file):
             logging.error("Stop iteration on empty file")
 
 
+def get_access_token():
+    access_token = ""
+    if global_access_token:
+        return global_access_token
+
+    try:
+        if config.access_token:
+            # get access token from config file
+            access_token = config.access_token
+    except AttributeError:
+        logging.debug("No access token provided, trying to use client credentials")
+
+    if not access_token:
+        # get client credentials from config file
+        client_id = config.client_id
+        client_secret = config.client_secret
+        username = config.username
+        password = config.password
+        access_token_url = config.access_token_url
+
+        oauth = OAuth2Session(client=LegacyApplicationClient(client_id=client_id))
+        token = oauth.fetch_token(
+            token_url=access_token_url,
+            username=username,
+            password=password,
+            client_id=client_id,
+            client_secret=client_secret,
+        )
+        access_token = token["access_token"]
+
+    return access_token
+
+
 # This function makes the request to the provided url
 # to create resources
 @backoff.on_exception(backoff.expo, requests.exceptions.RequestException, max_time=180)
@@ -46,23 +80,7 @@ def post_request(request_type, payload, url):
     logging.info("Url: " + url)
     logging.debug("Payload: " + payload)
 
-    # get credentials from config file
-    client_id = config.client_id
-    client_secret = config.client_secret
-    username = config.username
-    password = config.password
-    access_token_url = config.access_token_url
-
-    oauth = OAuth2Session(client=LegacyApplicationClient(client_id=client_id))
-    token = oauth.fetch_token(
-        token_url=access_token_url,
-        username=username,
-        password=password,
-        client_id=client_id,
-        client_secret=client_secret,
-    )
-
-    access_token = "Bearer " + token["access_token"]
+    access_token = "Bearer " + get_access_token()
     headers = {"Content-type": "application/json", "Authorization": access_token}
 
     if request_type == "POST":
@@ -845,6 +863,7 @@ def clean_duplicates(users, cascade_delete):
 
 @click.command()
 @click.option("--csv_file", required=True)
+@click.option("--access_token", required=False)
 @click.option("--resource_type", required=False)
 @click.option("--assign", required=False)
 @click.option("--setup", required=False)
@@ -855,7 +874,7 @@ def clean_duplicates(users, cascade_delete):
     "--log_level", type=click.Choice(["DEBUG", "INFO", "ERROR"], case_sensitive=False)
 )
 def main(
-    csv_file, resource_type, assign, setup, group, roles_max, cascade_delete, log_level
+    csv_file, access_token, resource_type, assign, setup, group, roles_max, cascade_delete, log_level
 ):
     if log_level == "DEBUG":
         logging.basicConfig(level=logging.DEBUG)
@@ -866,6 +885,11 @@ def main(
 
     start_time = datetime.now()
     logging.info("Start time: " + start_time.strftime("%H:%M:%S"))
+
+    # set access token
+    if access_token:
+        global global_access_token
+        global_access_token = access_token
 
     logging.info("Starting csv import...")
     resource_list = read_csv(csv_file)
