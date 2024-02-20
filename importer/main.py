@@ -15,6 +15,7 @@ except ModuleNotFoundError:
     logging.error("The config.py file is missing!")
     exit()
 
+global_access_token = ""
 
 # This function takes in a csv file
 # reads it and returns a list of strings/lines
@@ -39,6 +40,8 @@ def read_csv(csv_file):
 
 def get_access_token():
     access_token = ""
+    if global_access_token:
+        return global_access_token
 
     try:
         if config.access_token:
@@ -860,6 +863,7 @@ def clean_duplicates(users, cascade_delete):
 
 @click.command()
 @click.option("--csv_file", required=True)
+@click.option("--access_token", required=False)
 @click.option("--resource_type", required=False)
 @click.option("--assign", required=False)
 @click.option("--setup", required=False)
@@ -870,7 +874,7 @@ def clean_duplicates(users, cascade_delete):
     "--log_level", type=click.Choice(["DEBUG", "INFO", "ERROR"], case_sensitive=False)
 )
 def main(
-    csv_file, resource_type, assign, setup, group, roles_max, cascade_delete, log_level
+    csv_file, access_token, resource_type, assign, setup, group, roles_max, cascade_delete, log_level
 ):
     if log_level == "DEBUG":
         logging.basicConfig(level=logging.DEBUG)
@@ -881,6 +885,11 @@ def main(
 
     start_time = datetime.now()
     logging.info("Start time: " + start_time.strftime("%H:%M:%S"))
+
+    # set access token
+    if access_token:
+        global global_access_token
+        global_access_token = access_token
 
     logging.info("Starting csv import...")
     resource_list = read_csv(csv_file)
