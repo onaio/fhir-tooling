@@ -37,6 +37,37 @@ def read_csv(csv_file):
             logging.error("Stop iteration on empty file")
 
 
+def get_access_token():
+    access_token = ""
+
+    try:
+        if config.access_token:
+            # get access token from config file
+            access_token = config.access_token
+    except AttributeError:
+        logging.debug("No access token provided, trying to use client credentials")
+
+    if not access_token:
+        # get client credentials from config file
+        client_id = config.client_id
+        client_secret = config.client_secret
+        username = config.username
+        password = config.password
+        access_token_url = config.access_token_url
+
+        oauth = OAuth2Session(client=LegacyApplicationClient(client_id=client_id))
+        token = oauth.fetch_token(
+            token_url=access_token_url,
+            username=username,
+            password=password,
+            client_id=client_id,
+            client_secret=client_secret,
+        )
+        access_token = token["access_token"]
+
+    return access_token
+
+
 # This function makes the request to the provided url
 # to create resources
 @backoff.on_exception(backoff.expo, requests.exceptions.RequestException, max_time=180)
@@ -46,23 +77,7 @@ def post_request(request_type, payload, url):
     logging.info("Url: " + url)
     logging.debug("Payload: " + payload)
 
-    # get credentials from config file
-    client_id = config.client_id
-    client_secret = config.client_secret
-    username = config.username
-    password = config.password
-    access_token_url = config.access_token_url
-
-    oauth = OAuth2Session(client=LegacyApplicationClient(client_id=client_id))
-    token = oauth.fetch_token(
-        token_url=access_token_url,
-        username=username,
-        password=password,
-        client_id=client_id,
-        client_secret=client_secret,
-    )
-
-    access_token = "Bearer " + token["access_token"]
+    access_token = "Bearer " + get_access_token()
     headers = {"Content-type": "application/json", "Authorization": access_token}
 
     if request_type == "POST":
