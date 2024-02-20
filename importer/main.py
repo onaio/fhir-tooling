@@ -873,11 +873,12 @@ def clean_duplicates(users, cascade_delete):
 @click.option("--group", required=False)
 @click.option("--roles_max", required=False, default=500)
 @click.option("--cascade_delete", required=False, default=False)
+@click.option("--only_response", required=False)
 @click.option(
     "--log_level", type=click.Choice(["DEBUG", "INFO", "ERROR"], case_sensitive=False)
 )
 def main(
-    csv_file, access_token, resource_type, assign, setup, group, roles_max, cascade_delete, log_level
+    csv_file, access_token, resource_type, assign, setup, group, roles_max, cascade_delete, only_response, log_level
 ):
     if log_level == "DEBUG":
         logging.basicConfig(filename='importer.log', encoding='utf-8', level=logging.DEBUG)
@@ -894,6 +895,8 @@ def main(
     if access_token:
         global global_access_token
         global_access_token = access_token
+
+    final_response = ""
 
     logging.info("Starting csv import...")
     resource_list = read_csv(csv_file)
@@ -912,14 +915,14 @@ def main(
                         practitioner_exists = confirm_practitioner(user, user_id)
                         if not practitioner_exists:
                             payload = create_user_resources(user_id, user)
-                            handle_request("POST", payload, config.fhir_base_url)
+                            final_response = handle_request("POST", payload, config.fhir_base_url)
                     logging.info("Processing complete!")
         elif resource_type == "locations":
             logging.info("Processing locations")
             json_payload = build_payload(
                 "locations", resource_list, "json_payloads/locations_payload.json"
             )
-            handle_request("POST", json_payload, config.fhir_base_url)
+            final_response = handle_request("POST", json_payload, config.fhir_base_url)
             logging.info("Processing complete!")
         elif resource_type == "organizations":
             logging.info("Processing organizations")
@@ -928,32 +931,32 @@ def main(
                 resource_list,
                 "json_payloads/organizations_payload.json",
             )
-            handle_request("POST", json_payload, config.fhir_base_url)
+            final_response = handle_request("POST", json_payload, config.fhir_base_url)
             logging.info("Processing complete!")
         elif resource_type == "careTeams":
             logging.info("Processing CareTeams")
             json_payload = build_payload(
                 "careTeams", resource_list, "json_payloads/careteams_payload.json"
             )
-            handle_request("POST", json_payload, config.fhir_base_url)
+            final_response = handle_request("POST", json_payload, config.fhir_base_url)
             logging.info("Processing complete!")
         elif assign == "organization-Location":
             logging.info("Assigning Organizations to Locations")
             matches = extract_matches(resource_list)
             json_payload = build_org_affiliation(matches, resource_list)
-            handle_request("POST", json_payload, config.fhir_base_url)
+            final_response = handle_request("POST", json_payload, config.fhir_base_url)
             logging.info("Processing complete!")
         elif assign == "careTeam-Organization":
             logging.info("Assigning CareTeam to Organization")
             matches = extract_matches(resource_list)
             json_payload = fetch_and_build(matches, "orgs")
-            handle_request("POST", json_payload, config.fhir_base_url)
+            final_response = handle_request("POST", json_payload, config.fhir_base_url)
             logging.info("Processing complete!")
         elif assign == "user-careTeam":
             logging.info("Assigning users to careTeam")
             matches = extract_matches(resource_list)
             json_payload = fetch_and_build(matches, "users")
-            handle_request("POST", json_payload, config.fhir_base_url)
+            final_response = handle_request("POST", json_payload, config.fhir_base_url)
             logging.info("Processing complete!")
         elif setup == "roles":
             logging.info("Setting up keycloak roles")
@@ -973,6 +976,9 @@ def main(
             logging.error("Unsupported request!")
     else:
         logging.error("Empty csv file!")
+
+    if only_response:
+        print(final_response.text)
 
     end_time = datetime.now()
     logging.info("End time: " + end_time.strftime("%H:%M:%S"))
