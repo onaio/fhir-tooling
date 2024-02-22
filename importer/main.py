@@ -873,6 +873,69 @@ def clean_duplicates(users, cascade_delete):
                 logging.info("No Practitioners found")
 
 
+# Create a csv file and initialize the CSV writer
+def write_csv(data, resource_type, fieldnames):
+    logging.info("Writing to csv file")
+    current_time = datetime.now().strftime("%Y-%m-%d-%H-%M")
+    csv_file = f"csv/{current_time}-export_{resource_type}.csv"
+    with open(csv_file, 'w', newline='') as file:
+        csv_writer = csv.writer(file)
+        csv_writer.writerow(fieldnames)
+        csv_writer.writerows(data)
+
+
+# This function exports resources from the API to a csv file
+def export_resources_to_csv(resource_type, parameter, value, batch_size):
+    resource_type = get_valid_resource_type(resource_type)
+    resource_url = "/".join([config.fhir_base_url, resource_type])
+    if len(parameter) > 0:
+        resource_url = resource_url + "?" + parameter + "=" + value + "&_count=" + str(batch_size)
+    response = handle_request("GET", "", resource_url)
+    if response[1] == 200:
+        resources = json.loads(response[0])
+        data = []
+        if resource_type == "Location":
+            elements = ["name", "status", "id", "identifier", "parentName", "parentID", "type", "typeCode",
+                        "physicalType", "physicalTypeCode"]
+        elif resource_type == "Organization":
+            elements = ["name", "active", "id", "identifier", "alias"]
+        elif resource_type == "CareTeam":
+            elements = ["name", "status", "id", "identifier", " organizations", "participants"]
+        else:
+            elements = []
+        for x in resources["entry"]:
+            rl = []
+            for element in elements:
+                try:
+                    if element == "active":
+                        value = x["resource"]["active"]
+                    elif element == "identifier":
+                        value = x["resource"]["identifier"][0]["value"]
+                    elif element == "parentName":
+                        value = x["resource"]["partOf"]["display"]
+                    elif element == "parentID":
+                        value = x["resource"]["partOf"]["reference"]
+                    elif element == "type":
+                        value = x["resource"]["type"][0]["coding"][0]["display"]
+                    elif element == "typeCode":
+                        value = x["resource"]["type"][0]["coding"][0]["code"]
+                    elif element == "physicalType":
+                        value = x["resource"]["physicalType"]["coding"][0]["display"]
+                    elif element == "physicalTypeCode":
+                        value = x["resource"]["physicalType"]["coding"][0]["code"]
+                    elif element == "alias":
+                        value = x["resource"]["alias"][0]
+                    else:
+                        value = x["resource"][element]
+                except KeyError:
+                    value = ""
+                rl.append(value)
+            data.append(rl)
+        write_csv(data, resource_type, elements)
+    else:
+        logging.error(f"Failed to retrieve resource. Status code: {response[1]}")
+
+
 class ResponseFilter(logging.Filter):
     def __init__(self, param=None):
         self.param = param
@@ -907,7 +970,7 @@ LOGGING = {
 
 
 @click.command()
-@click.option("--csv_file", required=True)
+@click.option("--csv_file", required=False)
 @click.option("--access_token", required=False)
 @click.option("--resource_type", required=False)
 @click.option("--assign", required=False)
@@ -916,11 +979,14 @@ LOGGING = {
 @click.option("--roles_max", required=False, default=500)
 @click.option("--cascade_delete", required=False, default=False)
 @click.option("--only_response", required=False)
-@click.option(
-    "--log_level", type=click.Choice(["DEBUG", "INFO", "ERROR"], case_sensitive=False)
-)
+@click.option("--log_level", type=click.Choice(["DEBUG", "INFO", "ERROR"], case_sensitive=False))
+@click.option("--export_resources", required=False)
+@click.option("--parameter", required=False)
+@click.option("--value", required=False)
+@click.option("--limit", required=False)
 def main(
-    csv_file, access_token, resource_type, assign, setup, group, roles_max, cascade_delete, only_response, log_level
+    csv_file, access_token, resource_type, assign, setup, group, roles_max, cascade_delete, only_response, log_level,
+    export_resources, parameter, value, limit
 ):
     if log_level == "DEBUG":
         logging.basicConfig(filename='importer.log', encoding='utf-8', level=logging.DEBUG)
@@ -935,6 +1001,13 @@ def main(
 
     start_time = datetime.now()
     logging.info("Start time: " + start_time.strftime("%H:%M:%S"))
+
+    logging.info("Starting export...")
+    if export_resources == "True":
+        logging.info("Exporting " + resource_type)
+        export_resources_to_csv(resource_type, parameter, value, limit)
+        logging.info("Successfully written to csv")
+        exit()
 
     # set access token
     if access_token:
