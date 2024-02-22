@@ -877,11 +877,12 @@ def main(
     csv_file, access_token, resource_type, assign, setup, group, roles_max, cascade_delete, log_level
 ):
     if log_level == "DEBUG":
-        logging.basicConfig(level=logging.DEBUG)
+        logging.basicConfig(filename='importer.log', encoding='utf-8', level=logging.DEBUG)
     elif log_level == "INFO":
-        logging.basicConfig(level=logging.INFO)
+        logging.basicConfig(filename='importer.log', encoding='utf-8', level=logging.INFO)
     elif log_level == "ERROR":
-        logging.basicConfig(level=logging.ERROR)
+        logging.basicConfig(filename='importer.log', encoding='utf-8', level=logging.ERROR)
+    logging.getLogger().addHandler(logging.StreamHandler())
 
     start_time = datetime.now()
     logging.info("Start time: " + start_time.strftime("%H:%M:%S"))
