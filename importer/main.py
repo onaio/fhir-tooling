@@ -4,6 +4,7 @@ import uuid
 import click
 import requests
 import logging
+import logging.config
 import backoff
 from datetime import datetime
 from oauthlib.oauth2 import LegacyApplicationClient
@@ -864,6 +865,39 @@ def clean_duplicates(users, cascade_delete):
                 logging.info("No Practitioners found")
 
 
+class ResponseFilter(logging.Filter):
+    def __init__(self, param=None):
+        self.param = param
+
+    def filter(self, record):
+        if self.param is None:
+            allow = True
+        else:
+            allow = self.param in record.msg
+        return allow
+
+
+LOGGING = {
+    'version': 1,
+    'filters': {
+        'custom-filter': {
+            '()': ResponseFilter,
+            'param': 'final-response',
+        }
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'filters': ['custom-filter']
+        }
+    },
+    'root': {
+        'level': 'INFO',
+        'handlers': ['console']
+    },
+}
+
+
 @click.command()
 @click.option("--csv_file", required=True)
 @click.option("--access_token", required=False)
@@ -887,6 +921,9 @@ def main(
     elif log_level == "ERROR":
         logging.basicConfig(filename='importer.log', encoding='utf-8', level=logging.ERROR)
     logging.getLogger().addHandler(logging.StreamHandler())
+
+    if only_response:
+        logging.config.dictConfig(LOGGING)
 
     start_time = datetime.now()
     logging.info("Start time: " + start_time.strftime("%H:%M:%S"))
@@ -977,8 +1014,7 @@ def main(
     else:
         logging.error("Empty csv file!")
 
-    if only_response:
-        print(final_response.text)
+    logging.info("{ \"final-response\": " + final_response.text + "}")
 
     end_time = datetime.now()
     logging.info("End time: " + end_time.strftime("%H:%M:%S"))
