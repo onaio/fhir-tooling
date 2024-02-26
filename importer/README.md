@@ -34,6 +34,8 @@ and then posts them to the API for creation
 3. Create a `config.py` file. The `sample_config.py` is an example  of what this should look like. Populate it with the right credentials
 4. Run script - `python3 main.py --csv_file csv/locations.csv --resource_type locations`
 5. You can turn on logging by passing a `--log_level` to the command line as `info`, `debug` or `error`. For example `python3 main.py --csv_file csv/locations.csv --resource_type locations --log_level info`
+6. There is a progress bar that shows the read_csv and build_payload progress as it is going on
+
 
 See example csvs in the csv folder
 
