@@ -884,12 +884,16 @@ def write_csv(data, resource_type, fieldnames):
         csv_writer.writerows(data)
 
 
+def get_base_url():
+    return config.fhir_base_url
+
+
 # This function exports resources from the API to a csv file
-def export_resources_to_csv(resource_type, parameter, value, batch_size):
-    resource_type = get_valid_resource_type(resource_type)
-    resource_url = "/".join([config.fhir_base_url, resource_type])
+def export_resources_to_csv(resource_type, parameter, value, limit):
+    base_url = get_base_url()
+    resource_url = "/".join([str(base_url), resource_type])
     if len(parameter) > 0:
-        resource_url = resource_url + "?" + parameter + "=" + value + "&_count=" + str(batch_size)
+        resource_url = resource_url + "?" + parameter + "=" + value + "&_count=" + str(limit)
     response = handle_request("GET", "", resource_url)
     if response[1] == 200:
         resources = json.loads(response[0])
