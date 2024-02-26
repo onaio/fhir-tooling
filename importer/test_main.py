@@ -49,11 +49,11 @@ class TestMain(unittest.TestCase):
         )
         self.assertTrue(expected_csv_file_path, "CSV file created in expected location")
 
+    @patch("main.write_csv")
     @patch("main.handle_request")
     @patch("main.get_base_url")
-    @patch("main.write_csv")
     def test_export_resource_to_csv(
-            self, mock_handle_request, mock_get_base_url, mock_write_csv
+            self, mock_get_base_url, mock_handle_request, mock_write_csv
     ):
         mock_get_base_url.return_value = "https://example.smartregister.org/fhir"
         mock_response_data = {
@@ -81,9 +81,11 @@ class TestMain(unittest.TestCase):
                 }
             ]
         }
-        mock_resp = (mock_response_data, 200)
-        mock_handle_request.return_value = mock_resp
-        print(mock_resp)
+
+        string_response = json.dumps(mock_response_data)
+        mock_response = (string_response, 200)
+        mock_handle_request.return_value = mock_response
+
         test_data = [
             [
                 "City1",
@@ -111,8 +113,8 @@ class TestMain(unittest.TestCase):
             "physicalTypeCode",
         ]
         resource_type = "Location"
-        export_resources_to_csv("locations", "_lastUpdated", "gt2023-08-01", 1)
-        # mock_write_csv.assert_called_once_with(test_data, resource_type, test_elements)
+        export_resources_to_csv("Location", "_lastUpdated", "gt2023-08-01", 1)
+        mock_write_csv.assert_called_with(test_data, resource_type, test_elements)
 
     @patch("main.get_resource")
     def test_build_payload_organizations(self, mock_get_resource):
