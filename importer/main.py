@@ -28,8 +28,9 @@ def read_csv(csv_file):
             next(records)
             all_records = []
 
-            for record in records:
-                all_records.append(record)
+            with click.progressbar(records, label='Progress::Reading csv ') as read_csv_progress:
+                for record in read_csv_progress:
+                    all_records.append(record)
 
             logging.info("Returning records from csv file")
             return all_records
@@ -75,7 +76,7 @@ def get_access_token():
 # to create resources
 @backoff.on_exception(backoff.expo, requests.exceptions.RequestException, max_time=180)
 def post_request(request_type, payload, url):
-    logging.info("Posting request-----------------")
+    logging.info("Posting request")
     logging.info("Request type: " + request_type)
     logging.info("Url: " + url)
     logging.debug("Payload: " + payload)
@@ -514,63 +515,65 @@ def build_payload(resource_type, resources, resource_payload_file):
     with open(resource_payload_file) as json_file:
         payload_string = json_file.read()
 
-    for resource in resources:
-        name, status, method, id, *_ = resource
-        try:
-            if method == "create":
-                version = "1"
-                if len(id.strip()) > 0:
-                    # use the provided id
-                    unique_uuid = id.strip()
-                    identifier_uuid = id.strip()
-                else:
-                    # generate a new uuid
-                    unique_uuid = str(uuid.uuid5(uuid.NAMESPACE_DNS, name))
-                    identifier_uuid = unique_uuid
-        except IndexError:
-            # default if method is not provided
-            unique_uuid = str(uuid.uuid5(uuid.NAMESPACE_DNS, name))
-            identifier_uuid = unique_uuid
-            version = "1"
-
-        try:
-            if method == "update":
-                if len(id.strip()) > 0:
-                    version = get_resource(id, resource_type)
-                    if version != "0":
+    with click.progressbar(resources, label='Progress::Building payload ') as build_payload_progress:
+        for resource in build_payload_progress:
+            logging.info("\t")
+            name, status, method, id, *_ = resource
+            try:
+                if method == "create":
+                    version = "1"
+                    if len(id.strip()) > 0:
                         # use the provided id
                         unique_uuid = id.strip()
                         identifier_uuid = id.strip()
                     else:
-                        logging.info("Failed to get resource!")
-                        raise ValueError("Trying to update a Non-existent resource")
-                else:
-                    logging.info("The id is required!")
-                    raise ValueError("The id is required to update a resource")
-        except IndexError:
-            raise ValueError("The id is required to update a resource")
+                        # generate a new uuid
+                        unique_uuid = str(uuid.uuid5(uuid.NAMESPACE_DNS, name))
+                        identifier_uuid = unique_uuid
+            except IndexError:
+                # default if method is not provided
+                unique_uuid = str(uuid.uuid5(uuid.NAMESPACE_DNS, name))
+                identifier_uuid = unique_uuid
+                version = "1"
 
-        # ps = payload_string
-        ps = (
-            payload_string.replace("$name", name)
-            .replace("$unique_uuid", unique_uuid)
-            .replace("$identifier_uuid", identifier_uuid)
-            .replace("$version", version)
-        )
+            try:
+                if method == "update":
+                    if len(id.strip()) > 0:
+                        version = get_resource(id, resource_type)
+                        if version != "0":
+                            # use the provided id
+                            unique_uuid = id.strip()
+                            identifier_uuid = id.strip()
+                        else:
+                            logging.info("Failed to get resource!")
+                            raise ValueError("Trying to update a Non-existent resource")
+                    else:
+                        logging.info("The id is required!")
+                        raise ValueError("The id is required to update a resource")
+            except IndexError:
+                raise ValueError("The id is required to update a resource")
 
-        try:
-            ps = ps.replace("$status", status)
-        except IndexError:
-            ps = ps.replace("$status", "active")
+            # ps = payload_string
+            ps = (
+                payload_string.replace("$name", name)
+                .replace("$unique_uuid", unique_uuid)
+                .replace("$identifier_uuid", identifier_uuid)
+                .replace("$version", version)
+            )
 
-        if resource_type == "organizations":
-            ps = organization_extras(resource, ps)
-        elif resource_type == "locations":
-            ps = location_extras(resource, ps)
-        elif resource_type == "careTeams":
-            ps = care_team_extras(resource, ps, "min", [], [], "orgs & users")
+            try:
+                ps = ps.replace("$status", status)
+            except IndexError:
+                ps = ps.replace("$status", "active")
 
-        final_string = final_string + ps + ","
+            if resource_type == "organizations":
+                ps = organization_extras(resource, ps)
+            elif resource_type == "locations":
+                ps = location_extras(resource, ps)
+            elif resource_type == "careTeams":
+                ps = care_team_extras(resource, ps, "min", [], [], "orgs & users")
+
+            final_string = final_string + ps + ","
 
     final_string = initial_string + final_string[:-1] + " ] } "
     return final_string
@@ -897,19 +900,20 @@ def main(
     if resource_list:
         if resource_type == "users":
             logging.info("Processing users")
-            for user in resource_list:
-                user_id = create_user(user)
-                if user_id == 0:
-                    # user was not created above, check if it already exists
-                    user_id = confirm_keycloak_user(user)
-                if user_id != 0:
-                    # user_id has been retrieved
-                    # check practitioner
-                    practitioner_exists = confirm_practitioner(user, user_id)
-                    if not practitioner_exists:
-                        payload = create_user_resources(user_id, user)
-                        handle_request("POST", payload, config.fhir_base_url)
-                logging.info("Processing complete!")
+            with click.progressbar(resource_list, label="Progress:Processing users ") as process_user_progress:
+                for user in process_user_progress:
+                    user_id = create_user(user)
+                    if user_id == 0:
+                        # user was not created above, check if it already exists
+                        user_id = confirm_keycloak_user(user)
+                    if user_id != 0:
+                        # user_id has been retrieved
+                        # check practitioner
+                        practitioner_exists = confirm_practitioner(user, user_id)
+                        if not practitioner_exists:
+                            payload = create_user_resources(user_id, user)
+                            handle_request("POST", payload, config.fhir_base_url)
+                    logging.info("Processing complete!")
         elif resource_type == "locations":
             logging.info("Processing locations")
             json_payload = build_payload(
