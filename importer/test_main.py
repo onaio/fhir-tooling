@@ -26,6 +26,7 @@ class TestMain(unittest.TestCase):
             [
                 "e2e-mom",
                 "True",
+                "update",
                 "caffe509-ae56-4d42-945e-7b4c161723d1",
                 "d93ae7c3-73c0-43d1-9046-425a3466ecec",
                 "handy",
@@ -33,88 +34,22 @@ class TestMain(unittest.TestCase):
             [
                 "e2e-skate",
                 "True",
+                "update",
                 "2d4feac9-9ab5-4585-9b33-e5abd14ceb0f",
                 "58605ed8-7217-4bf3-8122-229b6f47fa64",
                 "foolish",
             ],
         ]
         self.test_resource_type = "test_organization"
-        self.test_fieldnames = ["name", "active", "id", "identifier", "alias"]
+        self.test_fieldnames = ["name", "active", "method", "id", "identifier", "alias"]
         write_csv(self.test_data, self.test_resource_type, self.test_fieldnames)
         self.assertIsInstance(self.test_data, list)
         self.assertEqual(len(self.test_data), 2)
         current_time = datetime.now().strftime("%Y-%m-%d-%H-%M")
         expected_csv_file_path = (
-            f"csv/exports{current_time}-export_{self.test_resource_type}.csv"
+            f"csv/exports/{current_time}-export_{self.test_resource_type}.csv"
         )
         self.assertTrue(expected_csv_file_path, "CSV file created in expected location")
-
-    @patch("main.write_csv")
-    @patch("main.handle_request")
-    @patch("main.get_base_url")
-    def test_export_resource_to_csv(
-            self, mock_get_base_url, mock_handle_request, mock_write_csv
-    ):
-        mock_get_base_url.return_value = "https://example.smartregister.org/fhir"
-        mock_response_data = {
-            "entry": [
-                {
-                    "resource": {
-                        "name": "City1",
-                        "status": "active",
-                        "id": "ba787982-b973-4bd5-854e-eacbe161e297",
-                        "identifier": [
-                            {"value": "ba787 982-b973-4bd5-854e-eacbe161e297"}
-                        ],
-                        "partOf": {
-                            "display": "test location-1",
-                            "reference": "Location/18fcbc2e-4240-4a84-a270"
-                                         "-7a444523d7b6",
-                        },
-                        "type": [
-                            {"coding": [{"display": "Jurisdiction", "code": "jdn"}]}
-                        ],
-                        "physicalType": {
-                            "coding": [{"display": "Jurisdiction", "code": "jdn"}]
-                        },
-                    }
-                }
-            ]
-        }
-
-        string_response = json.dumps(mock_response_data)
-        mock_response = (string_response, 200)
-        mock_handle_request.return_value = mock_response
-
-        test_data = [
-            [
-                "City1",
-                "active",
-                "ba787982-b973-4bd5-854e-eacbe161e297",
-                "ba787 982-b973-4bd5-854e-eacbe161e297",
-                "test location-1",
-                "Location/18fcbc2e-4240-4a84-a270-7a444523d7b6",
-                "Jurisdiction",
-                "jdn",
-                "Jurisdiction",
-                "jdn",
-            ]
-        ]
-        test_elements = [
-            "name",
-            "status",
-            "id",
-            "identifier",
-            "parentName",
-            "parentID",
-            "type",
-            "typeCode",
-            "physicalType",
-            "physicalTypeCode",
-        ]
-        resource_type = "Location"
-        export_resources_to_csv("Location", "_lastUpdated", "gt2023-08-01", 1)
-        mock_write_csv.assert_called_with(test_data, resource_type, test_elements)
 
     @patch("main.get_resource")
     def test_build_payload_organizations(self, mock_get_resource):
@@ -487,6 +422,71 @@ class TestMain(unittest.TestCase):
         self.assertEqual(
             "Trying to update a Non-existent resource", str(raised_error.exception)
         )
+
+    @patch("main.write_csv")
+    @patch("main.handle_request")
+    @patch("main.get_base_url")
+    def test_export_resource_to_csv(
+        self, mock_get_base_url, mock_handle_request, mock_write_csv
+    ):
+        mock_get_base_url.return_value = "https://example.smartregister.org/fhir"
+        mock_response_data = {
+            "entry": [
+                {
+                    "resource": {
+                        "name": "City1",
+                        "status": "active",
+                        "id": "ba787982-b973-4bd5-854e-eacbe161e297",
+                        "identifier": [
+                            {"value": "ba787 982-b973-4bd5-854e-eacbe161e297"}
+                        ],
+                        "partOf": {
+                            "display": "test location-1",
+                            "reference": "Location/18fcbc2e-4240-4a84-a270"
+                            "-7a444523d7b6",
+                        },
+                        "type": [
+                            {"coding": [{"display": "Jurisdiction", "code": "jdn"}]}
+                        ],
+                        "physicalType": {
+                            "coding": [{"display": "Jurisdiction", "code": "jdn"}]
+                        },
+                    }
+                }
+            ]
+        }
+        string_response = json.dumps(mock_response_data)
+        mock_response = (string_response, 200)
+        mock_handle_request.return_value = mock_response
+        test_data = [
+            [
+                "City1",
+                "active",
+                "ba787982-b973-4bd5-854e-eacbe161e297",
+                "ba787 982-b973-4bd5-854e-eacbe161e297",
+                "test location-1",
+                "Location/18fcbc2e-4240-4a84-a270-7a444523d7b6",
+                "Jurisdiction",
+                "jdn",
+                "Jurisdiction",
+                "jdn",
+            ]
+        ]
+        test_elements = [
+            "name",
+            "status",
+            "id",
+            "identifier",
+            "parentName",
+            "parentID",
+            "type",
+            "typeCode",
+            "physicalType",
+            "physicalTypeCode",
+        ]
+        resource_type = "Location"
+        export_resources_to_csv("Location", "_lastUpdated", "gt2023-08-01", 1)
+        mock_write_csv.assert_called_once_with(test_data, resource_type, test_elements)
 
 
 if __name__ == "__main__":

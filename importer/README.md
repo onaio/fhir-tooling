@@ -136,9 +136,10 @@ The coverage report `coverage.html` will be at the working directory
 - Set `cascade_delete` to True or False if you would like to automatically delete any linked resources. If you set it to False, and there are any linked resources, then the resources will NOT be deleted
 
 ## 10. Export resources from API endpoint to CSV file
-- Run `python3  main.py --export_resources True --parameter _lastUpdated --value gt2023-08-01 --batch_size 20 --resource_type locations --log_level info`
+- Run `python3  main.py --export_resources True --parameter _lastUpdated --value gt2023-08-01 --limit 20 --resource_type Location --log_level info`
 - `export_resources` can either be True or False, checks if it is True and exports the resources
-- The `parameter` is used as a filter for the resources "e.g _lastUpdated", and `value` is where you pass the actual parameter value "e.g gt2023-08-01" used to filter the resources
-- The `batch_size` is the number of resources handled/processed at a time
+- The `parameter` is used as a filter for the resources. The set default parameter is "_lastUpdated", other examples include, "name"
+- The `value` is where you pass the actual parameter value to filter the resources. The set default value is "gt2023-01-01", other examples include, "Good Health Clinic 1"
+- The `limit` is the number of resources exported at a time
 - Specify the `resource_type` you want to export, different resource_types are exported to different csv_files
 - The csv_file containing the exported resources is labelled using the current time, to know when the resources were exported for example, csv/2024-02-21-12-21-export_Location.csv

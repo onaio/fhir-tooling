@@ -117,7 +117,7 @@ def handle_request(request_type, payload, url):
 # and sets the user password
 def create_user(user):
     (firstName, lastName, username, email, id, userType, _, keycloakGroupID,
-     keycloakGroupName,  applicationID, password) = user
+     keycloakGroupName, applicationID, password) = user
 
     with open("json_payloads/keycloak_user_payload.json") as json_file:
         payload_string = json_file.read()
@@ -300,7 +300,7 @@ def location_extras(resource, payload_string):
 
 # custom extras for careTeams
 def care_team_extras(
-    resource, payload_string, load_type, c_participants, c_orgs, ftype
+        resource, payload_string, load_type, c_participants, c_orgs, ftype
 ):
     orgs_list = []
     participant_list = []
@@ -877,8 +877,8 @@ def clean_duplicates(users, cascade_delete):
 def write_csv(data, resource_type, fieldnames):
     logging.info("Writing to csv file")
     current_time = datetime.now().strftime("%Y-%m-%d-%H-%M")
-    csv_file = f"csv/{current_time}-export_{resource_type}.csv"
-    with open(csv_file, 'w', newline='') as file:
+    csv_file = f"csv/exports/{current_time}-export_{resource_type}.csv"
+    with open(csv_file, "w", newline="") as file:
         csv_writer = csv.writer(file)
         csv_writer.writerow(fieldnames)
         csv_writer.writerows(data)
@@ -893,51 +893,83 @@ def export_resources_to_csv(resource_type, parameter, value, limit):
     base_url = get_base_url()
     resource_url = "/".join([str(base_url), resource_type])
     if len(parameter) > 0:
-        resource_url = resource_url + "?" + parameter + "=" + value + "&_count=" + str(limit)
+        resource_url = (
+                resource_url + "?" + parameter + "=" + value + "&_count=" + str(limit)
+        )
     response = handle_request("GET", "", resource_url)
     if response[1] == 200:
         resources = json.loads(response[0])
         data = []
-        if resource_type == "Location":
-            elements = ["name", "status", "id", "identifier", "parentName", "parentID", "type", "typeCode",
-                        "physicalType", "physicalTypeCode"]
-        elif resource_type == "Organization":
-            elements = ["name", "active", "id", "identifier", "alias"]
-        elif resource_type == "CareTeam":
-            elements = ["name", "status", "id", "identifier", " organizations", "participants"]
+        if "entry" in resources:
+            if resource_type == "Location":
+                elements = ["name", "status", "method", "id", "identifier", "parentName", "parentID", "type",
+                            "typeCode",
+                            "physicalType", "physicalTypeCode"]
+            elif resource_type == "Organization":
+                elements = ["name", "active", "method", "id", "identifier", "alias"]
+            elif resource_type == "CareTeam":
+                elements = ["name", "status", "method", "id", "identifier", "organizations", "participants"]
+            else:
+                elements = []
+            for x in resources["entry"]:
+                rl = []
+                orgs_list = []
+                participants_list = []
+                for element in elements:
+                    try:
+                        if element == "method":
+                            value = "update"
+                        elif element == "active":
+                            value = x["resource"]["active"]
+                        elif element == "identifier":
+                            value = x["resource"]["identifier"][0]["value"]
+                        elif element == "organizations":
+                            organizations = x["resource"]["managingOrganization"]
+                            for index, value in enumerate(organizations):
+                                reference = x["resource"]["managingOrganization"][index]["reference"]
+                                new_reference = reference.split("/", 1)[1]
+                                display = x["resource"]["managingOrganization"][index]["display"]
+                                organization = ":".join([new_reference, display])
+                                orgs_list.append(organization)
+                            string = "|".join(map(str, orgs_list))
+                            value = string
+                        elif element == "participants":
+                            participants = x["resource"]["participant"]
+                            for index, value in enumerate(participants):
+                                reference = x["resource"]["participant"][index]["member"]["reference"]
+                                new_reference = reference.split("/", 1)[1]
+                                display = x["resource"]["participant"][index]["member"]["display"]
+                                participant = ":".join([new_reference, display])
+                                participants_list.append(participant)
+                            string = "|".join(map(str, participants_list))
+                            value = string
+                        elif element == "parentName":
+                            value = x["resource"]["partOf"]["display"]
+                        elif element == "parentID":
+                            reference = x["resource"]["partOf"]["reference"]
+                            value = reference.split("/", 1)[1]
+                        elif element == "type":
+                            value = x["resource"]["type"][0]["coding"][0]["display"]
+                        elif element == "typeCode":
+                            value = x["resource"]["type"][0]["coding"][0]["code"]
+                        elif element == "physicalType":
+                            value = x["resource"]["physicalType"]["coding"][0]["display"]
+                        elif element == "physicalTypeCode":
+                            value = x["resource"]["physicalType"]["coding"][0]["code"]
+                        elif element == "alias":
+                            value = x["resource"]["alias"][0]
+                        else:
+                            value = x["resource"][element]
+                    except KeyError:
+                        value = ""
+                    rl.append(value)
+                data.append(rl)
+            write_csv(data, resource_type, elements)
+            logging.info("Successfully written to csv")
         else:
-            elements = []
-        for x in resources["entry"]:
-            rl = []
-            for element in elements:
-                try:
-                    if element == "active":
-                        value = x["resource"]["active"]
-                    elif element == "identifier":
-                        value = x["resource"]["identifier"][0]["value"]
-                    elif element == "parentName":
-                        value = x["resource"]["partOf"]["display"]
-                    elif element == "parentID":
-                        value = x["resource"]["partOf"]["reference"]
-                    elif element == "type":
-                        value = x["resource"]["type"][0]["coding"][0]["display"]
-                    elif element == "typeCode":
-                        value = x["resource"]["type"][0]["coding"][0]["code"]
-                    elif element == "physicalType":
-                        value = x["resource"]["physicalType"]["coding"][0]["display"]
-                    elif element == "physicalTypeCode":
-                        value = x["resource"]["physicalType"]["coding"][0]["code"]
-                    elif element == "alias":
-                        value = x["resource"]["alias"][0]
-                    else:
-                        value = x["resource"][element]
-                except KeyError:
-                    value = ""
-                rl.append(value)
-            data.append(rl)
-        write_csv(data, resource_type, elements)
+            logging.info("No Resources Found")
     else:
-        logging.error(f"Failed to retrieve resource. Status code: {response[1]}")
+        logging.error(f"Failed to retrieve resource. Status code: {response[1]} response: {response[0]}")
 
 
 class ResponseFilter(logging.Filter):
@@ -985,9 +1017,9 @@ LOGGING = {
 @click.option("--only_response", required=False)
 @click.option("--log_level", type=click.Choice(["DEBUG", "INFO", "ERROR"], case_sensitive=False))
 @click.option("--export_resources", required=False)
-@click.option("--parameter", required=False)
-@click.option("--value", required=False)
-@click.option("--limit", required=False)
+@click.option("--parameter", required=False, default="_lastUpdated")
+@click.option("--value", required=False, default="gt2023-01-01")
+@click.option("--limit", required=False, default=1000)
 def main(
     csv_file, access_token, resource_type, assign, setup, group, roles_max, cascade_delete, only_response, log_level,
     export_resources, parameter, value, limit
