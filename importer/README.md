@@ -35,6 +35,7 @@ and then posts them to the API for creation
 4. Run script - `python3 main.py --csv_file csv/locations.csv --resource_type locations`
 5. You can turn on logging by passing a `--log_level` to the command line as `info`, `debug` or `error`. For example `python3 main.py --csv_file csv/locations.csv --resource_type locations --log_level info`
 6. There is a progress bar that shows the read_csv and build_payload progress as it is going on
+7. You can get only the response from the api after the import is done by passing `--only_response true`
 
 
 See example csvs in the csv folder
