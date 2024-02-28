@@ -467,32 +467,33 @@ def build_org_affiliation(resources, resource_list):
     with open("json_payloads/organization_affiliation_payload.json") as json_file:
         payload_string = json_file.read()
 
-    for key in resources:
-        rp = ""
-        unique_uuid = str(uuid.uuid5(uuid.NAMESPACE_DNS, key))
-        org_name = get_org_name(key, resource_list)
+    with click.progressbar(resources, label='Progress::Build payload ') as build_progress:
+        for key in build_progress:
+            rp = ""
+            unique_uuid = str(uuid.uuid5(uuid.NAMESPACE_DNS, key))
+            org_name = get_org_name(key, resource_list)
 
-        rp = (
-            payload_string.replace("$unique_uuid", unique_uuid)
-            .replace("$identifier_uuid", unique_uuid)
-            .replace("$version", "1")
-            .replace("$orgID", key)
-            .replace("$orgName", org_name)
-        )
+            rp = (
+                payload_string.replace("$unique_uuid", unique_uuid)
+                .replace("$identifier_uuid", unique_uuid)
+                .replace("$version", "1")
+                .replace("$orgID", key)
+                .replace("$orgName", org_name)
+            )
 
-        locations = []
-        for x in resources[key]:
-            y = {}
-            z = x.split(":")
-            y["reference"] = "Location/" + str(z[0])
-            y["display"] = str(z[1])
-            locations.append(y)
+            locations = []
+            for x in resources[key]:
+                y = {}
+                z = x.split(":")
+                y["reference"] = "Location/" + str(z[0])
+                y["display"] = str(z[1])
+                locations.append(y)
 
-        obj = json.loads(rp)
-        obj["resource"]["location"] = locations
-        rp = json.dumps(obj)
+            obj = json.loads(rp)
+            obj["resource"]["location"] = locations
+            rp = json.dumps(obj)
 
-        fp = fp + rp + ","
+            fp = fp + rp + ","
 
     fp = fp[:-1] + " ] } "
     return fp
