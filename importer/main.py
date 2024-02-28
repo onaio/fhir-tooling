@@ -307,7 +307,11 @@ def care_team_extras(
     elements = []
     elements2 = []
 
-    *_, organizations, participants = resource
+    try:
+        *_, organizations, participants = resource
+    except ValueError:
+        logging.info("Handling assignment")
+
     if load_type == "min":
         try:
             if organizations:
@@ -384,63 +388,66 @@ def care_team_extras(
 
 def extract_matches(resource_list):
     teamMap = {}
-    for resource in resource_list:
-        group_name, group_id, item_name, item_id = resource
-        if group_id.strip() and item_id.strip():
-            if group_id not in teamMap.keys():
-                teamMap[group_id] = [item_id + ":" + item_name]
+    with click.progressbar(resource_list, label='Progress::Extract matches ') as extract_progress:
+        for resource in extract_progress:
+            group_name, group_id, item_name, item_id = resource
+            if group_id.strip() and item_id.strip():
+                if group_id not in teamMap.keys():
+                    teamMap[group_id] = [item_id + ":" + item_name]
+                else:
+                    teamMap[group_id].append(item_id + ":" + item_name)
             else:
-                teamMap[group_id].append(item_id + ":" + item_name)
-        else:
-            logging.error("Missing required id: Skipping " + str(resource))
+                logging.error("Missing required id: Skipping " + str(resource))
     return teamMap
 
 
 def fetch_and_build(extracted_matches, ftype):
     fp = """{"resourceType": "Bundle","type": "transaction","entry": [ """
 
-    for key in extracted_matches:
-        # hit api to get current payload
-        endpoint = config.fhir_base_url + "/CareTeam/" + key
-        fetch_payload = handle_request("GET", "", endpoint)
+    with click.progressbar(extracted_matches, label='Progress::Build payload ') as build_progress:
+        for key in build_progress:
+            logging.info('\t')
+            # hit api to get current payload
+            endpoint = config.fhir_base_url + "/CareTeam/" + key
+            fetch_payload = handle_request("GET", "", endpoint)
 
-        obj = json.loads(fetch_payload[0])
-        current_version = obj["meta"]["versionId"]
+            obj = json.loads(fetch_payload[0])
+            current_version = obj["meta"]["versionId"]
 
-        # build participants and managing orgs
-        full_payload = {
-            "request": {
-                "method": "PUT",
-                "url": "CareTeam/$unique_uuid",
-                "ifMatch": "$version",
-            },
-            "resource": {},
-        }
-        full_payload["request"]["url"] = "CareTeam/" + str(key)
-        full_payload["request"]["ifMatch"] = current_version
-        full_payload["resource"] = obj
-        del obj["meta"]
+            # build participants and managing orgs
+            full_payload = {
+                "request": {
+                    "method": "PUT",
+                    "url": "CareTeam/$unique_uuid",
+                    "ifMatch": "$version",
+                },
+                "resource": {},
+            }
+            full_payload["request"]["url"] = "CareTeam/" + str(key)
+            full_payload["request"]["ifMatch"] = current_version
+            full_payload["resource"] = obj
+            del obj["meta"]
 
-        try:
-            curr_participants = full_payload["resource"]["participant"]
-        except KeyError:
-            curr_participants = {}
+            try:
+                curr_participants = full_payload["resource"]["participant"]
+            except KeyError:
+                curr_participants = {}
 
-        try:
-            curr_orgs = full_payload["resource"]["managingOrganization"]
-        except KeyError:
-            curr_orgs = {}
+            try:
+                curr_orgs = full_payload["resource"]["managingOrganization"]
+            except KeyError:
+                curr_orgs = {}
 
-        payload_string = json.dumps(full_payload, indent=4)
-        payload_string = care_team_extras(
-            extracted_matches[key],
-            payload_string,
-            "full",
-            curr_participants,
-            curr_orgs,
-            ftype,
-        )
-        fp = fp + payload_string + ","
+            payload_string = json.dumps(full_payload, indent=4)
+            payload_string = care_team_extras(
+                extracted_matches[key],
+                payload_string,
+                "full",
+                curr_participants,
+                curr_orgs,
+                ftype,
+            )
+            fp = fp + payload_string + ","
 
     fp = fp[:-1] + " ] } "
     return fp
@@ -460,32 +467,33 @@ def build_org_affiliation(resources, resource_list):
     with open("json_payloads/organization_affiliation_payload.json") as json_file:
         payload_string = json_file.read()
 
-    for key in resources:
-        rp = ""
-        unique_uuid = str(uuid.uuid5(uuid.NAMESPACE_DNS, key))
-        org_name = get_org_name(key, resource_list)
+    with click.progressbar(resources, label='Progress::Build payload ') as build_progress:
+        for key in build_progress:
+            rp = ""
+            unique_uuid = str(uuid.uuid5(uuid.NAMESPACE_DNS, key))
+            org_name = get_org_name(key, resource_list)
 
-        rp = (
-            payload_string.replace("$unique_uuid", unique_uuid)
-            .replace("$identifier_uuid", unique_uuid)
-            .replace("$version", "1")
-            .replace("$orgID", key)
-            .replace("$orgName", org_name)
-        )
+            rp = (
+                payload_string.replace("$unique_uuid", unique_uuid)
+                .replace("$identifier_uuid", unique_uuid)
+                .replace("$version", "1")
+                .replace("$orgID", key)
+                .replace("$orgName", org_name)
+            )
 
-        locations = []
-        for x in resources[key]:
-            y = {}
-            z = x.split(":")
-            y["reference"] = "Location/" + str(z[0])
-            y["display"] = str(z[1])
-            locations.append(y)
+            locations = []
+            for x in resources[key]:
+                y = {}
+                z = x.split(":")
+                y["reference"] = "Location/" + str(z[0])
+                y["display"] = str(z[1])
+                locations.append(y)
 
-        obj = json.loads(rp)
-        obj["resource"]["location"] = locations
-        rp = json.dumps(obj)
+            obj = json.loads(rp)
+            obj["resource"]["location"] = locations
+            rp = json.dumps(obj)
 
-        fp = fp + rp + ","
+            fp = fp + rp + ","
 
     fp = fp[:-1] + " ] } "
     return fp
