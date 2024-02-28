@@ -462,10 +462,11 @@ class TestMain(unittest.TestCase):
             [
                 "City1",
                 "active",
+                "update",
                 "ba787982-b973-4bd5-854e-eacbe161e297",
                 "ba787 982-b973-4bd5-854e-eacbe161e297",
                 "test location-1",
-                "Location/18fcbc2e-4240-4a84-a270-7a444523d7b6",
+                "18fcbc2e-4240-4a84-a270-7a444523d7b6",
                 "Jurisdiction",
                 "jdn",
                 "Jurisdiction",
@@ -475,6 +476,7 @@ class TestMain(unittest.TestCase):
         test_elements = [
             "name",
             "status",
+            "method",
             "id",
             "identifier",
             "parentName",

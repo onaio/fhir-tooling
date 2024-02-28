@@ -1,3 +1,4 @@
+import os
 import csv
 import json
 import uuid
@@ -876,9 +877,13 @@ def clean_duplicates(users, cascade_delete):
 # Create a csv file and initialize the CSV writer
 def write_csv(data, resource_type, fieldnames):
     logging.info("Writing to csv file")
+    path = 'csv/exports'
+    if not os.path.exists(path):
+        os.makedirs(path)
+
     current_time = datetime.now().strftime("%Y-%m-%d-%H-%M")
-    csv_file = f"csv/exports/{current_time}-export_{resource_type}.csv"
-    with open(csv_file, "w", newline="") as file:
+    csv_file = f"{path}/{current_time}-export_{resource_type}.csv"
+    with open(csv_file, 'w', newline='') as file:
         csv_writer = csv.writer(file)
         csv_writer.writerow(fieldnames)
         csv_writer.writerows(data)
