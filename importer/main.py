@@ -1043,11 +1043,10 @@ def main(
     start_time = datetime.now()
     logging.info("Start time: " + start_time.strftime("%H:%M:%S"))
 
-    logging.info("Starting export...")
     if export_resources == "True":
+        logging.info("Starting export...")
         logging.info("Exporting " + resource_type)
         export_resources_to_csv(resource_type, parameter, value, limit)
-        logging.info("Successfully written to csv")
         exit()
 
     # set access token
