@@ -231,9 +231,13 @@ def create_user_resources(user_id, user):
 
 # custom extras for organizations
 def organization_extras(resource, payload_string):
-    _, active, *_, alias = resource
     try:
-        if alias:
+        _, active, *_, alias = resource
+    except ValueError:
+        active = resource[1]
+        alias = "alias"
+    try:
+        if alias and alias != "alias":
             payload_string = payload_string.replace("$alias", alias)
         else:
             obj = json.loads(payload_string)
@@ -253,9 +257,17 @@ def organization_extras(resource, payload_string):
 
 # custom extras for locations
 def location_extras(resource, payload_string):
-    name, *_, parentName, parentID, type, typeCode, physicalType, physicalTypeCode = resource
     try:
-        if parentName:
+        name, *_, parentName, parentID, type, typeCode, physicalType, physicalTypeCode = resource
+    except ValueError:
+        parentName = "parentName"
+        type = "type"
+        typeCode = "typeCode"
+        physicalType = "physicalType"
+        physicalTypeCode = "physicalTypeCode"
+
+    try:
+        if parentName and parentName != "parentName":
             payload_string = payload_string.replace("$parentName", parentName).replace(
                 "$parentID", parentID
             )
@@ -269,9 +281,9 @@ def location_extras(resource, payload_string):
         payload_string = json.dumps(obj, indent=4)
 
     try:
-        if len(type.strip()) > 0:
+        if len(type.strip()) > 0 and type != "type":
             payload_string = payload_string.replace("$t_display", type)
-        if len(typeCode.strip()) > 0:
+        if len(typeCode.strip()) > 0 and typeCode != "typeCode":
             payload_string = payload_string.replace("$t_code", typeCode)
         else:
             obj = json.loads(payload_string)
@@ -283,9 +295,9 @@ def location_extras(resource, payload_string):
         payload_string = json.dumps(obj, indent=4)
 
     try:
-        if len(physicalType.strip()) > 0:
+        if len(physicalType.strip()) > 0 and physicalType != "physicalType":
             payload_string = payload_string.replace("$pt_display", physicalType)
-        if len(physicalTypeCode.strip()) > 0:
+        if len(physicalTypeCode.strip()) > 0 and physicalTypeCode != "physicalTypeCode":
             payload_string = payload_string.replace("$pt_code", physicalTypeCode)
         else:
             obj = json.loads(payload_string)
@@ -528,7 +540,14 @@ def build_payload(resource_type, resources, resource_payload_file):
     with click.progressbar(resources, label='Progress::Building payload ') as build_payload_progress:
         for resource in build_payload_progress:
             logging.info("\t")
-            name, status, method, id, *_ = resource
+
+            try:
+                name, status, method, id, *_ = resource
+            except ValueError:
+                name, status = resource
+                method = "create"
+                id = str(uuid.uuid5(uuid.NAMESPACE_DNS, name))
+
             try:
                 if method == "create":
                     version = "1"
