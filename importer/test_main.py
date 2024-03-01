@@ -1,6 +1,5 @@
 import json
 import unittest
-from datetime import datetime
 from jsonschema import validate
 from mock import patch
 from main import (
@@ -42,14 +41,9 @@ class TestMain(unittest.TestCase):
         ]
         self.test_resource_type = "test_organization"
         self.test_fieldnames = ["name", "active", "method", "id", "identifier", "alias"]
-        write_csv(self.test_data, self.test_resource_type, self.test_fieldnames)
-        self.assertIsInstance(self.test_data, list)
-        self.assertEqual(len(self.test_data), 2)
-        current_time = datetime.now().strftime("%Y-%m-%d-%H-%M")
-        expected_csv_file_path = (
-            f"csv/exports/{current_time}-export_{self.test_resource_type}.csv"
-        )
-        self.assertTrue(expected_csv_file_path, "CSV file created in expected location")
+        csv_file = write_csv(self.test_data, self.test_resource_type, self.test_fieldnames)
+        csv_content = read_csv(csv_file)
+        self.assertEqual(csv_content, self.test_data)
 
     @patch("main.get_resource")
     def test_build_payload_organizations(self, mock_get_resource):

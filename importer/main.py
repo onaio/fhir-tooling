@@ -886,7 +886,10 @@ def write_csv(data, resource_type, fieldnames):
     with open(csv_file, 'w', newline='') as file:
         csv_writer = csv.writer(file)
         csv_writer.writerow(fieldnames)
-        csv_writer.writerows(data)
+        with click.progressbar(data, label='Progress:: Writing csv') as write_csv_progress:
+            for row in write_csv_progress:
+                csv_writer.writerow(row)
+    return csv_file
 
 
 def get_base_url():
@@ -905,73 +908,78 @@ def export_resources_to_csv(resource_type, parameter, value, limit):
     if response[1] == 200:
         resources = json.loads(response[0])
         data = []
-        if "entry" in resources:
-            if resource_type == "Location":
-                elements = ["name", "status", "method", "id", "identifier", "parentName", "parentID", "type",
-                            "typeCode",
-                            "physicalType", "physicalTypeCode"]
-            elif resource_type == "Organization":
-                elements = ["name", "active", "method", "id", "identifier", "alias"]
-            elif resource_type == "CareTeam":
-                elements = ["name", "status", "method", "id", "identifier", "organizations", "participants"]
+        try:
+            if resources["entry"]:
+                if resource_type == "Location":
+                    elements = ["name", "status", "method", "id", "identifier", "parentName", "parentID", "type",
+                                "typeCode",
+                                "physicalType", "physicalTypeCode"]
+                elif resource_type == "Organization":
+                    elements = ["name", "active", "method", "id", "identifier", "alias"]
+                elif resource_type == "CareTeam":
+                    elements = ["name", "status", "method", "id", "identifier", "organizations", "participants"]
+                else:
+                    elements = []
+                with click.progressbar(resources["entry"],
+                                       label='Progress:: Extracting resource') as extract_resources_progress:
+                    for x in extract_resources_progress:
+                        rl = []
+                        orgs_list = []
+                        participants_list = []
+                        for element in elements:
+                            try:
+                                if element == "method":
+                                    value = "update"
+                                elif element == "active":
+                                    value = x["resource"]["active"]
+                                elif element == "identifier":
+                                    value = x["resource"]["identifier"][0]["value"]
+                                elif element == "organizations":
+                                    organizations = x["resource"]["managingOrganization"]
+                                    for index, value in enumerate(organizations):
+                                        reference = x["resource"]["managingOrganization"][index]["reference"]
+                                        new_reference = reference.split("/", 1)[1]
+                                        display = x["resource"]["managingOrganization"][index]["display"]
+                                        organization = ":".join([new_reference, display])
+                                        orgs_list.append(organization)
+                                    string = "|".join(map(str, orgs_list))
+                                    value = string
+                                elif element == "participants":
+                                    participants = x["resource"]["participant"]
+                                    for index, value in enumerate(participants):
+                                        reference = x["resource"]["participant"][index]["member"]["reference"]
+                                        new_reference = reference.split("/", 1)[1]
+                                        display = x["resource"]["participant"][index]["member"]["display"]
+                                        participant = ":".join([new_reference, display])
+                                        participants_list.append(participant)
+                                    string = "|".join(map(str, participants_list))
+                                    value = string
+                                elif element == "parentName":
+                                    value = x["resource"]["partOf"]["display"]
+                                elif element == "parentID":
+                                    reference = x["resource"]["partOf"]["reference"]
+                                    value = reference.split("/", 1)[1]
+                                elif element == "type":
+                                    value = x["resource"]["type"][0]["coding"][0]["display"]
+                                elif element == "typeCode":
+                                    value = x["resource"]["type"][0]["coding"][0]["code"]
+                                elif element == "physicalType":
+                                    value = x["resource"]["physicalType"]["coding"][0]["display"]
+                                elif element == "physicalTypeCode":
+                                    value = x["resource"]["physicalType"]["coding"][0]["code"]
+                                elif element == "alias":
+                                    value = x["resource"]["alias"][0]
+                                else:
+                                    value = x["resource"][element]
+                            except KeyError:
+                                value = ""
+                            rl.append(value)
+                        data.append(rl)
+                write_csv(data, resource_type, elements)
+                logging.info("Successfully written to csv")
             else:
-                elements = []
-            for x in resources["entry"]:
-                rl = []
-                orgs_list = []
-                participants_list = []
-                for element in elements:
-                    try:
-                        if element == "method":
-                            value = "update"
-                        elif element == "active":
-                            value = x["resource"]["active"]
-                        elif element == "identifier":
-                            value = x["resource"]["identifier"][0]["value"]
-                        elif element == "organizations":
-                            organizations = x["resource"]["managingOrganization"]
-                            for index, value in enumerate(organizations):
-                                reference = x["resource"]["managingOrganization"][index]["reference"]
-                                new_reference = reference.split("/", 1)[1]
-                                display = x["resource"]["managingOrganization"][index]["display"]
-                                organization = ":".join([new_reference, display])
-                                orgs_list.append(organization)
-                            string = "|".join(map(str, orgs_list))
-                            value = string
-                        elif element == "participants":
-                            participants = x["resource"]["participant"]
-                            for index, value in enumerate(participants):
-                                reference = x["resource"]["participant"][index]["member"]["reference"]
-                                new_reference = reference.split("/", 1)[1]
-                                display = x["resource"]["participant"][index]["member"]["display"]
-                                participant = ":".join([new_reference, display])
-                                participants_list.append(participant)
-                            string = "|".join(map(str, participants_list))
-                            value = string
-                        elif element == "parentName":
-                            value = x["resource"]["partOf"]["display"]
-                        elif element == "parentID":
-                            reference = x["resource"]["partOf"]["reference"]
-                            value = reference.split("/", 1)[1]
-                        elif element == "type":
-                            value = x["resource"]["type"][0]["coding"][0]["display"]
-                        elif element == "typeCode":
-                            value = x["resource"]["type"][0]["coding"][0]["code"]
-                        elif element == "physicalType":
-                            value = x["resource"]["physicalType"]["coding"][0]["display"]
-                        elif element == "physicalTypeCode":
-                            value = x["resource"]["physicalType"]["coding"][0]["code"]
-                        elif element == "alias":
-                            value = x["resource"]["alias"][0]
-                        else:
-                            value = x["resource"][element]
-                    except KeyError:
-                        value = ""
-                    rl.append(value)
-                data.append(rl)
-            write_csv(data, resource_type, elements)
-            logging.info("Successfully written to csv")
-        else:
+                logging.info("No entry found")
+        except KeyError:
             logging.info("No Resources Found")
     else:
         logging.error(f"Failed to retrieve resource. Status code: {response[1]} response: {response[0]}")
