@@ -134,3 +134,12 @@ The coverage report `coverage.html` will be at the working directory
 - The script will check to see if every user has a keycloak uuid that has a Practitioner uuid that matches the one provided in the csv file
 - Note that if none of the Practitioner uuids match then all will be deleted
 - Set `cascade_delete` to True or False if you would like to automatically delete any linked resources. If you set it to False, and there are any linked resources, then the resources will NOT be deleted
+
+## 10. Export resources from API endpoint to CSV file
+- Run `python3  main.py --export_resources True --parameter _lastUpdated --value gt2023-08-01 --limit 20 --resource_type Location --log_level info`
+- `export_resources` can either be True or False, checks if it is True and exports the resources
+- The `parameter` is used as a filter for the resources. The set default parameter is "_lastUpdated", other examples include, "name"
+- The `value` is where you pass the actual parameter value to filter the resources. The set default value is "gt2023-01-01", other examples include, "Good Health Clinic 1"
+- The `limit` is the number of resources exported at a time. The set default value is '1000'
+- Specify the `resource_type` you want to export, different resource_types are exported to different csv_files
+- The csv_file containing the exported resources is labelled using the current time, to know when the resources were exported for example, csv/exports/2024-02-21-12-21-export_Location.csv

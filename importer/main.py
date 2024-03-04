@@ -1,3 +1,4 @@
+import os
 import csv
 import json
 import uuid
@@ -117,7 +118,7 @@ def handle_request(request_type, payload, url):
 # and sets the user password
 def create_user(user):
     (firstName, lastName, username, email, id, userType, _, keycloakGroupID,
-     keycloakGroupName,  applicationID, password) = user
+     keycloakGroupName, applicationID, password) = user
 
     with open("json_payloads/keycloak_user_payload.json") as json_file:
         payload_string = json_file.read()
@@ -300,7 +301,7 @@ def location_extras(resource, payload_string):
 
 # custom extras for careTeams
 def care_team_extras(
-    resource, payload_string, load_type, c_participants, c_orgs, ftype
+        resource, payload_string, load_type, c_participants, c_orgs, ftype
 ):
     orgs_list = []
     participant_list = []
@@ -873,6 +874,117 @@ def clean_duplicates(users, cascade_delete):
                 logging.info("No Practitioners found")
 
 
+# Create a csv file and initialize the CSV writer
+def write_csv(data, resource_type, fieldnames):
+    logging.info("Writing to csv file")
+    path = 'csv/exports'
+    if not os.path.exists(path):
+        os.makedirs(path)
+
+    current_time = datetime.now().strftime("%Y-%m-%d-%H-%M")
+    csv_file = f"{path}/{current_time}-export_{resource_type}.csv"
+    with open(csv_file, 'w', newline='') as file:
+        csv_writer = csv.writer(file)
+        csv_writer.writerow(fieldnames)
+        with click.progressbar(data, label='Progress:: Writing csv') as write_csv_progress:
+            for row in write_csv_progress:
+                csv_writer.writerow(row)
+    return csv_file
+
+
+def get_base_url():
+    return config.fhir_base_url
+
+
+# This function exports resources from the API to a csv file
+def export_resources_to_csv(resource_type, parameter, value, limit):
+    base_url = get_base_url()
+    resource_url = "/".join([str(base_url), resource_type])
+    if len(parameter) > 0:
+        resource_url = (
+                resource_url + "?" + parameter + "=" + value + "&_count=" + str(limit)
+        )
+    response = handle_request("GET", "", resource_url)
+    if response[1] == 200:
+        resources = json.loads(response[0])
+        data = []
+        try:
+            if resources["entry"]:
+                if resource_type == "Location":
+                    elements = ["name", "status", "method", "id", "identifier", "parentName", "parentID", "type",
+                                "typeCode",
+                                "physicalType", "physicalTypeCode"]
+                elif resource_type == "Organization":
+                    elements = ["name", "active", "method", "id", "identifier", "alias"]
+                elif resource_type == "CareTeam":
+                    elements = ["name", "status", "method", "id", "identifier", "organizations", "participants"]
+                else:
+                    elements = []
+                with click.progressbar(resources["entry"],
+                                       label='Progress:: Extracting resource') as extract_resources_progress:
+                    for x in extract_resources_progress:
+                        rl = []
+                        orgs_list = []
+                        participants_list = []
+                        for element in elements:
+                            try:
+                                if element == "method":
+                                    value = "update"
+                                elif element == "active":
+                                    value = x["resource"]["active"]
+                                elif element == "identifier":
+                                    value = x["resource"]["identifier"][0]["value"]
+                                elif element == "organizations":
+                                    organizations = x["resource"]["managingOrganization"]
+                                    for index, value in enumerate(organizations):
+                                        reference = x["resource"]["managingOrganization"][index]["reference"]
+                                        new_reference = reference.split("/", 1)[1]
+                                        display = x["resource"]["managingOrganization"][index]["display"]
+                                        organization = ":".join([new_reference, display])
+                                        orgs_list.append(organization)
+                                    string = "|".join(map(str, orgs_list))
+                                    value = string
+                                elif element == "participants":
+                                    participants = x["resource"]["participant"]
+                                    for index, value in enumerate(participants):
+                                        reference = x["resource"]["participant"][index]["member"]["reference"]
+                                        new_reference = reference.split("/", 1)[1]
+                                        display = x["resource"]["participant"][index]["member"]["display"]
+                                        participant = ":".join([new_reference, display])
+                                        participants_list.append(participant)
+                                    string = "|".join(map(str, participants_list))
+                                    value = string
+                                elif element == "parentName":
+                                    value = x["resource"]["partOf"]["display"]
+                                elif element == "parentID":
+                                    reference = x["resource"]["partOf"]["reference"]
+                                    value = reference.split("/", 1)[1]
+                                elif element == "type":
+                                    value = x["resource"]["type"][0]["coding"][0]["display"]
+                                elif element == "typeCode":
+                                    value = x["resource"]["type"][0]["coding"][0]["code"]
+                                elif element == "physicalType":
+                                    value = x["resource"]["physicalType"]["coding"][0]["display"]
+                                elif element == "physicalTypeCode":
+                                    value = x["resource"]["physicalType"]["coding"][0]["code"]
+                                elif element == "alias":
+                                    value = x["resource"]["alias"][0]
+                                else:
+                                    value = x["resource"][element]
+                            except KeyError:
+                                value = ""
+                            rl.append(value)
+                        data.append(rl)
+                write_csv(data, resource_type, elements)
+                logging.info("Successfully written to csv")
+            else:
+                logging.info("No entry found")
+        except KeyError:
+            logging.info("No Resources Found")
+    else:
+        logging.error(f"Failed to retrieve resource. Status code: {response[1]} response: {response[0]}")
+
+
 class ResponseFilter(logging.Filter):
     def __init__(self, param=None):
         self.param = param
@@ -907,7 +1019,7 @@ LOGGING = {
 
 
 @click.command()
-@click.option("--csv_file", required=True)
+@click.option("--csv_file", required=False)
 @click.option("--access_token", required=False)
 @click.option("--resource_type", required=False)
 @click.option("--assign", required=False)
@@ -916,11 +1028,14 @@ LOGGING = {
 @click.option("--roles_max", required=False, default=500)
 @click.option("--cascade_delete", required=False, default=False)
 @click.option("--only_response", required=False)
-@click.option(
-    "--log_level", type=click.Choice(["DEBUG", "INFO", "ERROR"], case_sensitive=False)
-)
+@click.option("--log_level", type=click.Choice(["DEBUG", "INFO", "ERROR"], case_sensitive=False))
+@click.option("--export_resources", required=False)
+@click.option("--parameter", required=False, default="_lastUpdated")
+@click.option("--value", required=False, default="gt2023-01-01")
+@click.option("--limit", required=False, default=1000)
 def main(
-    csv_file, access_token, resource_type, assign, setup, group, roles_max, cascade_delete, only_response, log_level
+    csv_file, access_token, resource_type, assign, setup, group, roles_max, cascade_delete, only_response, log_level,
+    export_resources, parameter, value, limit
 ):
     if log_level == "DEBUG":
         logging.basicConfig(filename='importer.log', encoding='utf-8', level=logging.DEBUG)
@@ -935,6 +1050,12 @@ def main(
 
     start_time = datetime.now()
     logging.info("Start time: " + start_time.strftime("%H:%M:%S"))
+
+    if export_resources == "True":
+        logging.info("Starting export...")
+        logging.info("Exporting " + resource_type)
+        export_resources_to_csv(resource_type, parameter, value, limit)
+        exit()
 
     # set access token
     if access_token:
