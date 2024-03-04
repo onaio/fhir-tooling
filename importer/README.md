@@ -63,6 +63,7 @@ The coverage report `coverage.html` will be at the working directory
 - Run `python3 main.py --csv_file csv/locations/locations_min.csv --resource_type locations --log_level info`
 - See example csv [here](/importer/csv/locations/locations_min.csv)
 - The first two columns __name__ and __status__ is the minimum required
+- If the csv file has only the required columns, (e.g. [locations_min.csv](/importer/csv/locations/locations_min.csv)) the __id__ and __method__ are set to __generating a new unique_uuid__ and a default value __create__ method respectively
 - [locations_full](/importer/csv/locations/locations_full.csv) shows more options available
 - The third column is the request method, can be either create or update. Default is set to create
 -  The fourth column is the id, which is required when updating
@@ -84,6 +85,7 @@ The coverage report `coverage.html` will be at the working directory
 - Run `python3 main.py --csv_file csv/organizations/organizations_min.csv --resource_type organizations --log_level info`
 - See example csv [here](/importer/csv/organizations/organizations_min.csv)
 - The first  column __name__ is the only one required
+- If the csv file has only the required column, (e.g. [organizations_min.csv](/importer/csv/organizations/organizations_min.csv)) the __id__ , __active__, and __method__ are set to __generating a new unique_uuid__ and the default values __create__ and  __true__ respectively
 - [organizations_full](/importer/csv/organizations/organizations_full.csv) shows more options available
 - The third column is the request method, can be either create or update. Default is set to create
 - The fourth column is the id, which is required when updating
@@ -93,7 +95,7 @@ The coverage report `coverage.html` will be at the working directory
 - Run `python3 main.py --csv_file csv/careteams/careteam_min.csv --resource_type careTeams --log_level info`
 - See example csv [here](/importer/csv/careteams/careteam_min.csv)
 - The first  column __name__ is the only one required
-- If the status is not set it will default to __active__
+- If the csv file has only the required column, (e.g. [careteam_min.csv](/importer/(csv/careteams/careteam_min.csv)))  the __id__ , __status__, and __method__ are set to __generating a new unique_uuid__ and the default values __create__ and  __active__ respectively
 - [careteam_full](/importer/csv/careteams/careteam_full.csv) shows more options available
 - The third column is the request method, can be either create or update. Default is set to create
 - The fourth column is the id, which is required when updating

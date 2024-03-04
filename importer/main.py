@@ -234,7 +234,7 @@ def organization_extras(resource, payload_string):
     try:
         _, active, *_, alias = resource
     except ValueError:
-        active = resource[1]
+        active = "true"
         alias = "alias"
     try:
         if alias and alias != "alias":
@@ -320,22 +320,26 @@ def care_team_extras(
     elements = []
     elements2 = []
 
-    try:
-        *_, organizations, participants = resource
-    except ValueError:
-        logging.info("Handling assignment")
+    *_, organizations, participants = resource
 
     if load_type == "min":
+        organizations = "organizations"
+        participants = "participants"
         try:
-            if organizations:
+            if organizations and organizations != "organizations":
                 elements = organizations.split("|")
+            else:
+                return payload_string
         except IndexError:
-            pass
+            return payload_string
         try:
-            if participants:
+            if participants and participants != "participants":
                 elements2 = participants.split("|")
+            else:
+                return payload_string
         except IndexError:
-            pass
+            return payload_string
+
     elif load_type == "full":
         elements = resource
     else:
