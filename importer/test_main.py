@@ -83,6 +83,45 @@ class TestMain(unittest.TestCase):
         }
         validate(payload_obj["entry"][2]["request"], request_schema)
 
+        #  TestCase organizations_min.csv
+        csv_file = "csv/organizations/organizations_min.csv"
+        resource_list = read_csv(csv_file)
+        payload = build_payload(
+            "organizations", resource_list, "json_payloads/organizations_payload.json"
+        )
+        payload_obj = json.loads(payload)
+        self.assertIsInstance(payload_obj, dict)
+        self.assertEqual(payload_obj["resourceType"], "Bundle")
+        self.assertEqual(len(payload_obj["entry"]), 1)
+
+        resource_schema = {
+            "type": "object",
+            "properties": {
+                "resourceType": {"const": "Organization"},
+                "id": {"const": "3da051e0-d743-5574-8f0e-6cb8798551f5"},
+                "identifier": {"type": "array", "items": {"type": "object"}},
+                "active": {"const": "true"},
+                "name": {"const": "Min Organization"}
+            },
+            "required": [
+                "id",
+                "identifier",
+                "active",
+                "name"
+            ],
+        }
+        validate(payload_obj["entry"][0]["resource"], resource_schema)
+
+        request_schema = {
+            "type": "object",
+            "properties": {
+                "method": {"const": "PUT"},
+                "url": {"const": "Organization/3da051e0-d743-5574-8f0e-6cb8798551f5"},
+                "ifMatch": {"const": "1"},
+            },
+        }
+        validate(payload_obj["entry"][0]["resource"], request_schema)
+
     @patch("main.get_resource")
     def test_build_payload_locations(self, mock_get_resource):
         mock_get_resource.return_value = "1"
@@ -169,6 +208,45 @@ class TestMain(unittest.TestCase):
         }
         validate(payload_obj["entry"][0]["request"], request_schema)
 
+        #  TestCase locations_min.csv
+        csv_file = "csv/locations/locations_min.csv"
+        resource_list = read_csv(csv_file)
+        payload = build_payload(
+            "locations", resource_list, "json_payloads/locations_payload.json"
+        )
+        payload_obj = json.loads(payload)
+        self.assertIsInstance(payload_obj, dict)
+        self.assertEqual(payload_obj["resourceType"], "Bundle")
+        self.assertEqual(len(payload_obj["entry"]), 2)
+
+        resource_schema = {
+            "type": "object",
+            "properties": {
+                "resourceType": {"const": "Location"},
+                "id": {"const": "c4336f73-4450-566b-b381-d07a6e857d72"},
+                "identifier": {"type": "array", "items": {"type": "object"}},
+                "status": {"const": "active"},
+                "name": {"const": "City1"}
+            },
+            "required": [
+                "id",
+                "identifier",
+                "status",
+                "name"
+            ],
+        }
+        validate(payload_obj["entry"][0]["resource"], resource_schema)
+
+        request_schema = {
+            "type": "object",
+            "properties": {
+                "method": {"const": "PUT"},
+                "url": {"const": "Location/c4336f73-4450-566b-b381-d07a6e857d72"},
+                "ifMatch": {"const": "1"},
+            },
+        }
+        validate(payload_obj["entry"][0]["resource"], request_schema)
+
     @patch("main.get_resource")
     def test_build_payload_care_teams(self, mock_get_resource):
         mock_get_resource.return_value = "1"
@@ -205,6 +283,45 @@ class TestMain(unittest.TestCase):
             },
         }
         validate(payload_obj["entry"][0]["request"], request_schema)
+
+        #  TestCase careteam_min.csv
+        csv_file = "csv/careteams/careteam_min.csv"
+        resource_list = read_csv(csv_file)
+        payload = build_payload(
+            "careTeams", resource_list, "json_payloads/careteams_payload.json"
+        )
+        payload_obj = json.loads(payload)
+        self.assertIsInstance(payload_obj, dict)
+        self.assertEqual(payload_obj["resourceType"], "Bundle")
+        self.assertEqual(len(payload_obj["entry"]), 2)
+
+        resource_schema = {
+            "type": "object",
+            "properties": {
+                "resourceType": {"const": "CareTeam"},
+                "id": {"const": "17150b86-00db-599b-9984-1e7aa08291bb"},
+                "identifier": {"type": "array", "items": {"type": "object"}},
+                "status": {"const": ""},
+                "name": {"const": "Good careteam"}
+            },
+            "required": [
+                "id",
+                "identifier",
+                "status",
+                "name"
+            ],
+        }
+        validate(payload_obj["entry"][0]["resource"], resource_schema)
+
+        request_schema = {
+            "type": "object",
+            "properties": {
+                "method": {"const": "PUT"},
+                "url": {"const": "Location/17150b86-00db-599b-9984-1e7aa08291bb"},
+                "ifMatch": {"const": "1"},
+            },
+        }
+        validate(payload_obj["entry"][0]["resource"], request_schema)
 
     def test_extract_matches(self):
         csv_file = "csv/organizations/organization_locations.csv"

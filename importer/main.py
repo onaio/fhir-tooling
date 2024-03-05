@@ -320,7 +320,11 @@ def care_team_extras(
     elements = []
     elements2 = []
 
-    *_, organizations, participants = resource
+    try:
+        *_, organizations, participants = resource
+    except ValueError:
+        organizations = "organizations"
+        participants = "participants"
 
     if load_type == "min":
         organizations = "organizations"
@@ -548,7 +552,8 @@ def build_payload(resource_type, resources, resource_payload_file):
             try:
                 name, status, method, id, *_ = resource
             except ValueError:
-                name, status = resource
+                name = resource[0]
+                status = "" if len(resource) == 1 else resource[1]
                 method = "create"
                 id = str(uuid.uuid5(uuid.NAMESPACE_DNS, name))
 
