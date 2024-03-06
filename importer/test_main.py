@@ -10,6 +10,7 @@ from main import (
     extract_matches,
     create_user_resources,
     export_resources_to_csv,
+    build_assign_payload
 )
 
 
@@ -601,6 +602,130 @@ class TestMain(unittest.TestCase):
         export_resources_to_csv("Location", "_lastUpdated", "gt2023-08-01", 1)
         mock_write_csv.assert_called_once_with(test_data, resource_type, test_elements)
 
+    @patch("main.handle_request")
+    @patch("main.get_base_url")
+    def test_build_assign_payload_update_assigned_org(self, mock_get_base_url, mock_handle_request):
+        mock_get_base_url.return_value = "https://example.smartregister.org/fhir"
+        mock_response_data = {
+            "resourceType": "Bundle",
+            "total": 1,
+            "entry": [
+                {
+                    "resource": {
+                        "resourceType": "PractitionerRole",
+                        "id": "de43b370-a772-434e-87b3-49b93e65a399",
+                        "meta": {"versionId": "2"},
+                        "practitioner": {
+                            "reference": "Practitioner/f5d49ba0-50d7-4491-bd6c-62e429707a03",
+                            "display": "Jenn"
+                        },
+                        "organization": {
+                            "reference": "Organization/8342dd77-aecd-48ab-826b-75c7c33039ed",
+                            "display": "Health Organization"
+                        }
+                    }
+                }
+            ]
+        }
+        string_response = json.dumps(mock_response_data)
+        mock_response = (string_response, 200)
+        mock_handle_request.return_value = mock_response
+
+        resource_list = [
+            ["f5d49ba0-50d7-4491-bd6c-62e429707a03", "Jenn", "98199caa-4455-4b2f-a5cf-cb9c89b6bbdc", "New Org"]
+        ]
+        payload = build_assign_payload(resource_list, "PractitionerRole")
+        payload_obj = json.loads(payload)
+
+        self.assertIsInstance(payload_obj, dict)
+        self.assertEqual(payload_obj["resourceType"], "Bundle")
+        self.assertEqual(len(payload_obj["entry"]), 1)
+
+        self.assertEqual(
+            payload_obj["entry"][0]["resource"]["practitioner"],
+            mock_response_data["entry"][0]["resource"]["practitioner"])
+        self.assertNotEqual(
+            payload_obj["entry"][0]["resource"]["organization"],
+            mock_response_data["entry"][0]["resource"]["organization"])
+        self.assertEqual(
+            payload_obj["entry"][0]["resource"]["organization"]["reference"],
+            "Organization/98199caa-4455-4b2f-a5cf-cb9c89b6bbdc")
+        self.assertEqual(payload_obj["entry"][0]["resource"]["organization"]["display"], "New Org")
+
+    @patch("main.handle_request")
+    @patch("main.get_base_url")
+    def test_build_assign_payload_create_org_assignment(self, mock_get_base_url, mock_handle_request):
+        mock_get_base_url.return_value = "https://example.smartregister.org/fhir"
+        mock_response_data = {
+            "resourceType": "Bundle",
+            "total": 1,
+            "entry": [
+                {
+                    "resource": {
+                        "resourceType": "PractitionerRole",
+                        "id": "de43b370-a772-434e-87b3-49b93e65a399",
+                        "meta": {"versionId": "2"},
+                        "practitioner": {
+                            "reference": "Practitioner/f5d49ba0-50d7-4491-bd6c-62e429707a03",
+                            "display": "Jenn"
+                        }
+                    }
+                }
+            ]
+        }
+        string_response = json.dumps(mock_response_data)
+        mock_response = (string_response, 200)
+        mock_handle_request.return_value = mock_response
+
+        resource_list = [
+            ["f5d49ba0-50d7-4491-bd6c-62e429707a03", "Jenn", "98199caa-4455-4b2f-a5cf-cb9c89b6bbdc", "New Org"]
+        ]
+        payload = build_assign_payload(resource_list, "PractitionerRole")
+        payload_obj = json.loads(payload)
+
+        self.assertIsInstance(payload_obj, dict)
+        self.assertEqual(payload_obj["resourceType"], "Bundle")
+        self.assertEqual(len(payload_obj["entry"]), 1)
+
+        self.assertEqual(
+            payload_obj["entry"][0]["resource"]["practitioner"],
+            mock_response_data["entry"][0]["resource"]["practitioner"])
+        self.assertEqual(
+            payload_obj["entry"][0]["resource"]["organization"]["reference"],
+            "Organization/98199caa-4455-4b2f-a5cf-cb9c89b6bbdc")
+        self.assertEqual(payload_obj["entry"][0]["resource"]["organization"]["display"], "New Org")
+
+    @patch("main.handle_request")
+    @patch("main.get_base_url")
+    def test_build_assign_payload_create_new_practitioner_role(self, mock_get_base_url, mock_handle_request):
+        mock_get_base_url.return_value = "https://example.smartregister.org/fhir"
+        mock_response_data = {
+            "resourceType": "Bundle",
+            "total": 0
+        }
+        string_response = json.dumps(mock_response_data)
+        mock_response = (string_response, 200)
+        mock_handle_request.return_value = mock_response
+
+        resource_list = [
+            ["f5d49ba0-50d7-4491-bd6c-62e429707a03", "Jenn", "98199caa-4455-4b2f-a5cf-cb9c89b6bbdc", "New Org"]
+        ]
+        payload = build_assign_payload(resource_list, "PractitionerRole")
+        payload_obj = json.loads(payload)
+
+        self.assertIsInstance(payload_obj, dict)
+        self.assertEqual(payload_obj["resourceType"], "Bundle")
+        self.assertEqual(len(payload_obj["entry"]), 1)
+
+        self.assertEqual(
+            payload_obj["entry"][0]["resource"]["practitioner"]["reference"],
+            "Practitioner/f5d49ba0-50d7-4491-bd6c-62e429707a03")
+        self.assertEqual(
+            payload_obj["entry"][0]["resource"]["practitioner"]["display"], "Jenn")
+        self.assertEqual(
+            payload_obj["entry"][0]["resource"]["organization"]["reference"],
+            "Organization/98199caa-4455-4b2f-a5cf-cb9c89b6bbdc")
+        self.assertEqual(payload_obj["entry"][0]["resource"]["organization"]["display"], "New Org")
 
 if __name__ == "__main__":
     unittest.main()
