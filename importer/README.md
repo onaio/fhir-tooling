@@ -128,7 +128,12 @@ The coverage report `coverage.html` will be at the working directory
 - The first two columns are __name__ and __id__ of the careTeam, while the last two columns are the __user(name)__ and __userID__ of the user getting assigned
 - You can also assign a couple of users during creation, by passing in the user's names and their ids as a string as shown in [careteam_full](/importer/csv/careteams/careteam_full.csv) in the eighth column
 
-## 9. Delete duplicate Practitioners on HAPI
+### 9. Assign practitioners to organizations
+- Run `python3 main.py --csv_file csv/practitioners/practitioner_organization.csv --assign practitioner-organization --log_level info`
+- See example [here](/importer/csv/practitioners/practitioner_organization.csv)
+- The first two columns are __name__ and __id__ of the practitioner, while the last two columns are the __name__ and __id__ of the organization
+
+### 10. Delete duplicate Practitioners on HAPI
 - Run `python3 main.py --csv_file csv/users.csv --setup clean_duplicates --cascade_delete true --log_level info`
 - This should be used very carefully and in very special circumstances such as early stages of server setup. Avoid usage in active production environments as it will actually delete FHIR resources
 - It is recommended to first run with cascade_delete set to false in order to see if there are any linked resources which will also be deleted. Also any resources that are actually deleted are only soft deleted and can be recovered
@@ -137,7 +142,7 @@ The coverage report `coverage.html` will be at the working directory
 - Note that if none of the Practitioner uuids match then all will be deleted
 - Set `cascade_delete` to True or False if you would like to automatically delete any linked resources. If you set it to False, and there are any linked resources, then the resources will NOT be deleted
 
-## 10. Export resources from API endpoint to CSV file
+### 11. Export resources from API endpoint to CSV file
 - Run `python3  main.py --export_resources True --parameter _lastUpdated --value gt2023-08-01 --limit 20 --resource_type Location --log_level info`
 - `export_resources` can either be True or False, checks if it is True and exports the resources
 - The `parameter` is used as a filter for the resources. The set default parameter is "_lastUpdated", other examples include, "name"

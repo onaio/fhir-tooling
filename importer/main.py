@@ -481,7 +481,8 @@ def build_assign_payload(rows, resource_type):
         practitioner_id, practitioner_name, organization_id, organization_name = row
 
         # check if already exists
-        check_url = (config.fhir_base_url + "/" + resource_type + "/_search?_count=1&practitioner=Practitioner/"
+        base_url = get_base_url()
+        check_url = (base_url + "/" + resource_type + "/_search?_count=1&practitioner=Practitioner/"
                      + practitioner_id)
         response = handle_request("GET", "", check_url)
         json_response = json.loads(response[0])
