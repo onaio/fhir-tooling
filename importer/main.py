@@ -474,6 +474,78 @@ def fetch_and_build(extracted_matches, ftype):
     return fp
 
 
+def build_assign_payload(rows, resource_type):
+    initial_string = """{"resourceType": "Bundle","type": "transaction","entry": [ """
+    final_string = ""
+    for row in rows:
+        practitioner_id, practitioner_name, organization_id, organization_name = row
+
+        # check if already exists
+        base_url = get_base_url()
+        check_url = (base_url + "/" + resource_type + "/_search?_count=1&practitioner=Practitioner/"
+                     + practitioner_id)
+        response = handle_request("GET", "", check_url)
+        json_response = json.loads(response[0])
+
+        if json_response["total"] == 1:
+            logging.info("Updating existing resource")
+            resource = json_response["entry"][0]["resource"]
+
+            try:
+                resource["organization"]["reference"] = "Organization/" + organization_id
+                resource["organization"]["display"] = organization_name
+            except KeyError:
+                org = {
+                    "organization": {
+                        "reference": "Organization/" + organization_id,
+                        "display": organization_name
+                    }
+                }
+                resource.update(org)
+
+            version = resource["meta"]["versionId"]
+            practitioner_role_id = resource["id"]
+            del resource["meta"]
+
+        elif json_response["total"] == 0:
+            logging.info("Creating a new resource")
+
+            # generate a new id
+            new_id = str(uuid.uuid5(uuid.NAMESPACE_DNS, practitioner_id + organization_id))
+
+            with open("json_payloads/practitioner_organization_payload.json") as json_file:
+                payload_string = json_file.read()
+
+            # replace the variables in payload
+            payload_string = (
+                payload_string.replace("$id", new_id)
+                .replace("$practitioner_id", practitioner_id)
+                .replace("$practitioner_name", practitioner_name)
+                .replace("$organization_id", organization_id)
+                .replace("$organization_name", organization_name)
+            )
+            version = "1"
+            practitioner_role_id = new_id
+            resource = json.loads(payload_string)
+
+        else:
+            raise ValueError ("The number of practitioner references should only be 0 or 1")
+
+        payload = {
+            "request": {
+                "method": "PUT",
+                "url": resource_type + "/" + practitioner_role_id,
+                "ifMatch": version
+            },
+            "resource": resource
+        }
+        full_string = json.dumps(payload, indent=4)
+        final_string = final_string + full_string + ","
+
+    final_string = initial_string + final_string[:-1] + " ] } "
+    return final_string
+
+
 def get_org_name(key, resource_list):
     for x in resource_list:
         if x[1] == key:
@@ -1150,6 +1222,11 @@ def main(
             logging.info("Assigning users to careTeam")
             matches = extract_matches(resource_list)
             json_payload = fetch_and_build(matches, "users")
+            final_response = handle_request("POST", json_payload, config.fhir_base_url)
+            logging.info("Processing complete!")
+        elif assign == "practitioner-organization":
+            logging.info("Assigning practitioner to Organization")
+            json_payload = build_assign_payload(resource_list, "PractitionerRole")
             final_response = handle_request("POST", json_payload, config.fhir_base_url)
             logging.info("Processing complete!")
         elif setup == "roles":
