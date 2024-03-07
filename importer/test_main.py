@@ -185,6 +185,13 @@ class TestMain(unittest.TestCase):
                         }
                     },
                 },
+                "position": {
+                    "type": "object",
+                    "properties": {
+                        "longitude": {"const": 36.81},
+                        "latitude": {"const": -1.28}
+                    }
+                }
             },
             "required": [
                 "resourceType",
@@ -195,6 +202,7 @@ class TestMain(unittest.TestCase):
                 "partOf",
                 "type",
                 "physicalType",
+                "position",
             ],
         }
         validate(payload_obj["entry"][0]["resource"], resource_schema)
