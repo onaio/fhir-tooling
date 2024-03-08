@@ -258,13 +258,15 @@ def organization_extras(resource, payload_string):
 # custom extras for locations
 def location_extras(resource, payload_string):
     try:
-        name, *_, parentName, parentID, type, typeCode, physicalType, physicalTypeCode = resource
+        name, *_, parentName, parentID, type, typeCode, physicalType, physicalTypeCode, longitude, latitude = resource
     except ValueError:
         parentName = "parentName"
         type = "type"
         typeCode = "typeCode"
         physicalType = "physicalType"
         physicalTypeCode = "physicalTypeCode"
+        longitude = "longitude"
+
 
     try:
         if parentName and parentName != "parentName":
@@ -307,6 +309,20 @@ def location_extras(resource, payload_string):
         obj = json.loads(payload_string)
         del obj["resource"]["physicalType"]
         payload_string = json.dumps(obj, indent=4)
+
+    try:
+        if longitude and longitude != "longitude":
+            payload_string = payload_string.replace('"$longitude"', longitude).replace(
+                '"$latitude"', latitude)
+        else:
+            obj = json.loads(payload_string)
+            del obj["resource"]["position"]
+            payload_string = json.dumps(obj, indent=4)
+    except IndexError:
+        obj = json.loads(payload_string)
+        del obj["resource"]["position"]
+        payload_string = json.dumps(obj, indent=4)
+
 
     return payload_string
 

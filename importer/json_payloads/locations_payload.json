@@ -38,6 +38,10 @@
                     "display": "$pt_display"
                 }
             ]
+        },
+        "position": {
+            "longitude": "$longitude",
+            "latitude": "$latitude"
         }
     }
 }
