@@ -6,3 +6,4 @@ access_token_url = 'https://keycloak.smartregister.org/auth/realms/example-realm
 fhir_base_url = 'https://example.smartregister.org/fhir'
 keycloak_url = 'https://keycloak.smartregister.org/auth/admin/realms/example-realm'
 access_token = 'example-access-token'
+product_access_token = 'example-product-access-token'
