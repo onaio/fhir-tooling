@@ -10,7 +10,9 @@ from main import (
     extract_matches,
     create_user_resources,
     export_resources_to_csv,
-    build_assign_payload
+    build_assign_payload,
+    create_user,
+    confirm_keycloak_user,
 )
 
 
@@ -465,7 +467,6 @@ class TestMain(unittest.TestCase):
         location1 = payload_obj["entry"][0]["resource"]["id"]
         location2 = payload_obj["entry"][1]["resource"]["id"]
         location3 = payload_obj["entry"][2]["resource"]["id"]
-        print(location1, location2, location3)
 
         self.assertNotEqual(location1, location2)
         self.assertEqual(location1, location3)
@@ -734,6 +735,82 @@ class TestMain(unittest.TestCase):
             payload_obj["entry"][0]["resource"]["organization"]["reference"],
             "Organization/98199caa-4455-4b2f-a5cf-cb9c89b6bbdc")
         self.assertEqual(payload_obj["entry"][0]["resource"]["organization"]["display"], "New Org")
+
+    @patch('main.logging')
+    @patch('main.handle_request')
+    @patch('main.get_keycloak_url')
+    def test_create_user(self, mock_get_keycloak_url, mock_handle_request, mock_logging):
+        mock_get_keycloak_url.return_value = "https://keycloak.smartregister.org/auth/admin/realms/example-realm"
+        mock_handle_request.return_value.status_code = 201
+        mock_handle_request.return_value.headers = {"Location": "https://keycloak.smartregister.org/auth/admin/realms"
+                                                                "/example-realm/users/6cd50351-3ddb-4296-b1db"
+                                                                "-aac2273e35f3"}
+        mocked_user_data = (
+            'Jenn', 'Doe', 'Jenny', 'jeendoe@example.com', '431cb523-253f-4c44-9ded-af42c55c0bbb', 'Supervisor', 'TRUE',
+            'a715b562-27f2-432a-b1ba-e57db35e0f93', 'test', 'demo', 'pa$$word'
+        )
+        user_id = create_user(mocked_user_data)
+
+        self.assertEqual(user_id, "6cd50351-3ddb-4296-b1db-aac2273e35f3")
+        mock_logging.info.assert_called_with('Setting user password')
+
+    # Test the confirm_keycloak function
+    @patch('main.logging')
+    @patch('main.handle_request')
+    @patch('main.get_keycloak_url')
+    def test_confirm_keycloak_user(self, mock_get_keycloak_url, mock_handle_request, mock_logging):
+        mock_get_keycloak_url.return_value = "https://keycloak.smartregister.org/auth/admin/realms/example-realm"
+        mocked_user_data = (
+            'Jenn', 'Doe', 'Jenny', 'jeendoe@example.com', '431cb523-253f-4c44-9ded-af42c55c0bbb', 'Supervisor', 'TRUE',
+            'a715b562-27f2-432a-b1ba-e57db35e0f93', 'test', 'demo', 'pa$$word'
+        )
+        user_id = create_user(mocked_user_data)
+        self.assertEqual(user_id, 0)
+
+        mock_response = ('[{"id":"6cd50351-3ddb-4296-b1db-aac2273e35f3","createdTimestamp":1710151827166,'
+                         '"username":"Jenny","enabled":true,"totp":false,"emailVerified":false,"firstName":"Jenn",'
+                         '"lastName":"Doe","email":"jeendoe@example.com","attributes":{"fhir_core_app_id":["demo"]},'
+                         '"disableableCredentialTypes":[],"requiredActions":[],"notBefore":0,"access":{'
+                         '"manageGroupMembership":true,"view":true,"mapRoles":true,"impersonate":true,'
+                         '"manage":true}}]', 200)
+        mock_handle_request.return_value = mock_response
+        mock_json_response = json.loads(mock_response[0])
+        keycloak_id = confirm_keycloak_user(mocked_user_data)
+
+        self.assertEqual(mock_json_response[0]["username"], "Jenny")
+        self.assertEqual(mock_json_response[0]["email"], "jeendoe@example.com")
+        mock_logging.info.assert_called_with("User confirmed with id: " + keycloak_id)
+
+    # Test confirm_practitioner function
+    # @patch('main.handle_request')
+    # @patch('main.get_base_url')
+    # @patch('main.create_user')
+    # def test_confirm_practitioner(self, mock_create_user, mock_get_keycloak_url, mock_handle_request):
+    #     mock_get_keycloak_url.return_value = 'https://example.smartregister.org/fhir'
+    #     mock_create_user.return_value = "6cd50351-3ddb-4296-b1db-aac2273e35f3"
+    #     # mocked_response = 404
+    #     # mock_handle_request.return_value = mocked_response
+    #     mocked_user_data = (
+    #         'Jenn', 'Doe', 'Jenny', 'jeendoe@example.com', '431cb523-253f-4c44-9ded-af42c55c0bbb', 'Supervisor', 'TRUE',
+    #         'a715b562-27f2-432a-b1ba-e57db35e0f93', 'test', 'demo', 'pa$$word'
+    #     )
+    #     practitioner_exists = confirm_practitioner(mocked_user_data, "6cd50351-3ddb-4296-b1db-aac2273e35f3")
+    #     self.assertTrue(practitioner_exists, "Practitioner exist, linked to the provided user")
+
+    # Test create_user_resources function
+    @patch('main.confirm_practitioner')
+    def test_create_user_resources(self, mock_confirm_practitioner):
+        mock_confirm_practitioner.return_value = "False"
+        mocked_user_data = (
+            'Jenn', 'Doe', 'Jenny', 'jeendoe@example.com', '431cb523-253f-4c44-9ded-af42c55c0bbb', 'Supervisor', 'TRUE',
+            'a715b562-27f2-432a-b1ba-e57db35e0f93', 'test', 'demo', 'pa$$word'
+        )
+        payload = create_user_resources("431cb523-253f-4c44-9ded-af42c55c0bbb", mocked_user_data)
+        payload_obj = json.loads(payload)
+        self.assertIsInstance(payload_obj, dict)
+        self.assertEqual(payload_obj["resourceType"], "Bundle")
+        self.assertEqual(len(payload_obj["entry"]), 3)
+
 
 if __name__ == "__main__":
     unittest.main()
