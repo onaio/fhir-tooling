@@ -163,7 +163,7 @@ def create_user(user):
 def create_user_resources(user_id, user):
     logging.info("Creating user resources")
     (firstName, lastName, username, email, id, userType,
-     _, keycloakGroupID, keycloakGroupName, _, password) = user
+     enableUser, keycloakGroupID, keycloakGroupName, _, password) = user
 
     # generate uuids
     if len(str(id).strip()) == 0:
@@ -196,6 +196,7 @@ def create_user_resources(user_id, user):
         .replace("$firstName", firstName)
         .replace("$lastName", lastName)
         .replace("$email", email)
+        .replace('"$enable_user"', enableUser)
         .replace("$group_uuid", group_uuid)
         .replace("$practitioner_role_uuid", practitioner_role_uuid)
     )

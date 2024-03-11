@@ -18,7 +18,7 @@
                 "value": "$keycloak_user_uuid"
                 }
             ],
-            "active": true,
+            "active": "$enable_user",
             "name": [
                 {
                 "use": "official",
@@ -56,7 +56,7 @@
                 "value": "$keycloak_user_uuid"
                 }
             ],
-            "active": true,
+            "active": "$enable_user",
             "type": "practitioner",
             "actual": true,
             "name": "$firstName $lastName",
@@ -88,7 +88,7 @@
                 "value": "$keycloak_user_uuid"
                 }
             ],
-            "active": true,
+            "active": "$enable_user",
             "practitioner": {
                 "reference": "Practitioner/$practitioner_uuid",
                 "display": "$firstName $lastName"
