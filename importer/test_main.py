@@ -857,6 +857,122 @@ class TestMain(unittest.TestCase):
         self.assertEqual(payload_obj["resourceType"], "Bundle")
         self.assertEqual(len(payload_obj["entry"]), 3)
 
+        resource_schema = {
+            "type": "object",
+            "properties": {
+                "resourceType": {"const": "Practitioner"},
+                "id": {"const": "99d54e3c-c26f-4500-a7f9-3f4cb788673f"},
+                "identifier": {"type": "array", "items": {"type": "object"}},
+                "name": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "use": {"const": "official"},
+                            "family": {"const": "Doe"},
+                            "given": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }},
+            },
+            "required": ["resourceType", "id", "identifier", "name"],
+        }
+        validate(payload_obj["entry"][0]["resource"], resource_schema)
+
+        request_schema = {
+            "type": "object",
+            "properties": {
+                "method": {"const": "PUT"},
+                "url": {"const": "Practitioner/99d54e3c-c26f-4500-a7f9-3f4cb788673f"},
+                "ifMatch": {"const": "1"},
+            },
+        }
+        validate(payload_obj["entry"][0]["request"], request_schema)
+
+        resource_schema = {
+            "type": "object",
+            "properties": {
+                "resourceType": {"const": "Group"},
+                "id": {"const": "0de5f541-65ca-5504-ad6b-9b386e5f8810"},
+                "identifier": {"type": "array", "items": {"type": "object"}},
+                "name": {"const": "Jenn Doe"},
+                "member": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "entity": {
+                                "type": "object",
+                                "properties": {
+                                    "reference": {"const": "Practitioner/99d54e3c-c26f-4500-a7f9-3f4cb788673f"}
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "required": ["resourceType", "id", "identifier", "name", "member"],
+        }
+        validate(payload_obj["entry"][1]["resource"], resource_schema)
+
+        request_schema = {
+            "type": "object",
+            "properties": {
+                "method": {"const": "PUT"},
+                "url": {"const": "Group/0de5f541-65ca-5504-ad6b-9b386e5f8810"},
+                "ifMatch": {"const": "1"},
+            },
+        }
+        validate(payload_obj["entry"][1]["request"], request_schema)
+
+        resource_schema = {
+            "type": "object",
+            "properties": {
+                "resourceType": {"const": "PractitionerRole"},
+                "id": {"const": "f08e0373-932e-5bcb-bdf2-0c28a3c8fdd3"},
+                "identifier": {"type": "array", "items": {"type": "object"}},
+                "practitioner": {
+                    "type": "object",
+                    "properties": {
+                        "reference": {"const": "Practitioner/99d54e3c-c26f-4500-a7f9-3f4cb788673f"},
+                        "display": {"const": "Jenn Doe"}
+                    }
+                },
+                "code": {
+                    "type": "object",
+                    "properties": {
+                        "coding": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "system": {"const": "http://snomed.info/sct"},
+                                    "code": {"const": "236321002"},
+                                    "display": {"const": "Supervisor (occupation)"}
+                                },
+                            }
+                        }
+                    }
+                }
+            },
+            "required": ["resourceType", "id", "identifier", "practitioner", "code"],
+        }
+        validate(payload_obj["entry"][2]["resource"], resource_schema)
+
+        request_schema = {
+            "type": "object",
+            "properties": {
+                "method": {"const": "PUT"},
+                "url": {"const": "PractitionerRole/f08e0373-932e-5bcb-bdf2-0c28a3c8fdd3"},
+                "ifMatch": {"const": "1"},
+            },
+        }
+        validate(payload_obj["entry"][2]["request"], request_schema)
+
 
 if __name__ == "__main__":
     unittest.main()
