@@ -10,7 +10,10 @@ from main import (
     extract_matches,
     create_user_resources,
     export_resources_to_csv,
-    build_assign_payload
+    build_assign_payload,
+    create_user,
+    confirm_keycloak_user,
+    confirm_practitioner,
 )
 
 
@@ -465,7 +468,6 @@ class TestMain(unittest.TestCase):
         location1 = payload_obj["entry"][0]["resource"]["id"]
         location2 = payload_obj["entry"][1]["resource"]["id"]
         location3 = payload_obj["entry"][2]["resource"]["id"]
-        print(location1, location2, location3)
 
         self.assertNotEqual(location1, location2)
         self.assertEqual(location1, location3)
@@ -734,6 +736,243 @@ class TestMain(unittest.TestCase):
             payload_obj["entry"][0]["resource"]["organization"]["reference"],
             "Organization/98199caa-4455-4b2f-a5cf-cb9c89b6bbdc")
         self.assertEqual(payload_obj["entry"][0]["resource"]["organization"]["display"], "New Org")
+
+    @patch('main.logging')
+    @patch('main.handle_request')
+    @patch('main.get_keycloak_url')
+    def test_create_user(self, mock_get_keycloak_url, mock_handle_request, mock_logging):
+        mock_get_keycloak_url.return_value = "https://keycloak.smartregister.org/auth/admin/realms/example-realm"
+        mock_handle_request.return_value.status_code = 201
+        mock_handle_request.return_value.headers = {"Location": "https://keycloak.smartregister.org/auth/admin/realms"
+                                                                "/example-realm/users/6cd50351-3ddb-4296-b1db"
+                                                                "-aac2273e35f3"}
+        mocked_user_data = (
+            'Jenn', 'Doe', 'Jenny', 'jeendoe@example.com', '431cb523-253f-4c44-9ded-af42c55c0bbb', 'Supervisor', 'TRUE',
+            'a715b562-27f2-432a-b1ba-e57db35e0f93', 'test', 'demo', 'pa$$word'
+        )
+        user_id = create_user(mocked_user_data)
+
+        self.assertEqual(user_id, "6cd50351-3ddb-4296-b1db-aac2273e35f3")
+        # TODO
+        mock_logging.info.assert_called_with('Setting user password')
+
+    @patch('main.handle_request')
+    @patch('main.get_keycloak_url')
+    def test_create_user_already_exists(self, mock_get_keycloak_url, mock_handle_request):
+        mock_get_keycloak_url.return_value = "https://keycloak.smartregister.org/auth/admin/realms/example-realm"
+        mock_handle_request.return_value.status_code = 409
+        mocked_user_data = (
+            'Jenn', 'Doe', 'Jenn', 'jendoe@example.com', ' 99d54e3c-c26f-4500-a7f9-3f4cb788673f', 'Supervisor', 'false',
+            'a715b562-27f2-432a-b1ba-e57db35e0f93', 'test', 'demo', 'pa$$word'
+        )
+        user_id = create_user(mocked_user_data)
+        self.assertEqual(user_id, 0)
+
+    # Test the confirm_keycloak function
+    @patch('main.logging')
+    @patch('main.handle_request')
+    @patch('main.get_keycloak_url')
+    def test_confirm_keycloak_user(self, mock_get_keycloak_url, mock_handle_request, mock_logging):
+        mock_get_keycloak_url.return_value = "https://keycloak.smartregister.org/auth/admin/realms/example-realm"
+        mocked_user_data = (
+            'Jenn', 'Doe', 'Jenny', 'jeendoe@example.com', '431cb523-253f-4c44-9ded-af42c55c0bbb', 'Supervisor', 'TRUE',
+            'a715b562-27f2-432a-b1ba-e57db35e0f93', 'test', 'demo', 'pa$$word'
+        )
+        user_id = create_user(mocked_user_data)
+        self.assertEqual(user_id, 0)
+
+        mock_response = ('[{"id":"6cd50351-3ddb-4296-b1db-aac2273e35f3","createdTimestamp":1710151827166,'
+                         '"username":"Jenny","enabled":true,"totp":false,"emailVerified":false,"firstName":"Jenn",'
+                         '"lastName":"Doe","email":"jeendoe@example.com","attributes":{"fhir_core_app_id":["demo"]},'
+                         '"disableableCredentialTypes":[],"requiredActions":[],"notBefore":0,"access":{'
+                         '"manageGroupMembership":true,"view":true,"mapRoles":true,"impersonate":true,'
+                         '"manage":true}}]', 200)
+        mock_handle_request.return_value = mock_response
+        mock_json_response = json.loads(mock_response[0])
+        keycloak_id = confirm_keycloak_user(mocked_user_data)
+
+        self.assertEqual(mock_json_response[0]["username"], "Jenny")
+        self.assertEqual(mock_json_response[0]["email"], "jeendoe@example.com")
+        mock_logging.info.assert_called_with("User confirmed with id: " + keycloak_id)
+
+    # Test confirm_practitioner function
+    @patch('main.handle_request')
+    @patch('main.get_base_url')
+    def test_confirm_practitioner_if_practitioner_uuid_not_provided(self, mock_get_base_url, mock_handle_request):
+        mock_get_base_url.return_value = 'https://example.smartregister.org/fhir'
+        mocked_user = (
+            'Jenn', 'Doe', 'Jenny', 'jeendoe@example.com', '', 'Supervisor', 'TRUE',
+            'a715b562-27f2-432a-b1ba-e57db35e0f93', 'test', 'demo', 'pa$$word'
+        )
+        mocked_response_data = {
+            "resourceType": "Bundle",
+            "type": "searchset",
+            "total": 1,
+        }
+        string_response = json.dumps(mocked_response_data)
+        mock_response = (string_response, 200)
+        mock_handle_request.return_value = mock_response
+        practitioner_exists = confirm_practitioner(mocked_user, "431cb523-253f-4c44-9ded-af42c55c0bbb")
+        self.assertTrue(practitioner_exists, "Practitioner exist, linked to the provided user")
+
+    @patch('main.logging')
+    @patch('main.handle_request')
+    @patch('main.get_base_url')
+    def test_confirm_practitioner_linked_keycloak_user_and_practitioner(self, mock_get_base_url, mock_handle_request,
+                                                                        mock_logging):
+        mock_get_base_url.return_value = 'https://example.smartregister.org/fhir'
+        mocked_user = (
+            'Jenn', 'Doe', 'Jenny', 'jeendoe@example.com', '6cd50351-3ddb-4296-b1db-aac2273e35f3', 'Supervisor', 'TRUE',
+            'a715b562-27f2-432a-b1ba-e57db35e0f93', 'test', 'demo', 'pa$$word'
+        )
+        mocked_response_data = {
+            "resourceType": "Practitioner",
+            "identifier": [
+                {
+                    "use": "official",
+                    "value": "431cb523-253f-4c44-9ded-af42c55c0bbb"
+                },
+                {
+                    "use": "secondary",
+                    "value": "6cd50351-3ddb-4296-b1db-aac2273e35f3"
+                }
+            ],
+        }
+        string_response = json.dumps(mocked_response_data)
+        mock_response = (string_response, 200)
+        mock_handle_request.return_value = mock_response
+        practitioner_exists = confirm_practitioner(mocked_user, "6cd50351-3ddb-4296-b1db-aac2273e35f3")
+        self.assertTrue(practitioner_exists)
+        self.assertEqual(mocked_response_data["identifier"][1]["value"], "6cd50351-3ddb-4296-b1db-aac2273e35f3")
+        mock_logging.info.assert_called_with("The Keycloak user and Practitioner are linked as expected")
+
+    # Test create_user_resources function
+    def test_create_user_resources(self):
+        user = ('Jenn', 'Doe', 'Jenn', 'jendoe@example.com', '99d54e3c-c26f-4500-a7f9-3f4cb788673f', 'Supervisor',
+                'false', 'a715b562-27f2-432a-b1ba-e57db35e0f93', 'test', 'demo', 'pa$$word')
+        user_id = "99d54e3c-c26f-4500-a7f9-3f4cb788673f"
+        payload = create_user_resources(user_id, user)
+        payload_obj = json.loads(payload)
+        self.assertIsInstance(payload_obj, dict)
+        self.assertEqual(payload_obj["resourceType"], "Bundle")
+        self.assertEqual(len(payload_obj["entry"]), 3)
+
+        resource_schema = {
+            "type": "object",
+            "properties": {
+                "resourceType": {"const": "Practitioner"},
+                "id": {"const": "99d54e3c-c26f-4500-a7f9-3f4cb788673f"},
+                "identifier": {"type": "array", "items": {"type": "object"}},
+                "name": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "use": {"const": "official"},
+                            "family": {"const": "Doe"},
+                            "given": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }},
+            },
+            "required": ["resourceType", "id", "identifier", "name"],
+        }
+        validate(payload_obj["entry"][0]["resource"], resource_schema)
+
+        request_schema = {
+            "type": "object",
+            "properties": {
+                "method": {"const": "PUT"},
+                "url": {"const": "Practitioner/99d54e3c-c26f-4500-a7f9-3f4cb788673f"},
+                "ifMatch": {"const": "1"},
+            },
+        }
+        validate(payload_obj["entry"][0]["request"], request_schema)
+
+        resource_schema = {
+            "type": "object",
+            "properties": {
+                "resourceType": {"const": "Group"},
+                "id": {"const": "0de5f541-65ca-5504-ad6b-9b386e5f8810"},
+                "identifier": {"type": "array", "items": {"type": "object"}},
+                "name": {"const": "Jenn Doe"},
+                "member": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "entity": {
+                                "type": "object",
+                                "properties": {
+                                    "reference": {"const": "Practitioner/99d54e3c-c26f-4500-a7f9-3f4cb788673f"}
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "required": ["resourceType", "id", "identifier", "name", "member"],
+        }
+        validate(payload_obj["entry"][1]["resource"], resource_schema)
+
+        request_schema = {
+            "type": "object",
+            "properties": {
+                "method": {"const": "PUT"},
+                "url": {"const": "Group/0de5f541-65ca-5504-ad6b-9b386e5f8810"},
+                "ifMatch": {"const": "1"},
+            },
+        }
+        validate(payload_obj["entry"][1]["request"], request_schema)
+
+        resource_schema = {
+            "type": "object",
+            "properties": {
+                "resourceType": {"const": "PractitionerRole"},
+                "id": {"const": "f08e0373-932e-5bcb-bdf2-0c28a3c8fdd3"},
+                "identifier": {"type": "array", "items": {"type": "object"}},
+                "practitioner": {
+                    "type": "object",
+                    "properties": {
+                        "reference": {"const": "Practitioner/99d54e3c-c26f-4500-a7f9-3f4cb788673f"},
+                        "display": {"const": "Jenn Doe"}
+                    }
+                },
+                "code": {
+                    "type": "object",
+                    "properties": {
+                        "coding": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "system": {"const": "http://snomed.info/sct"},
+                                    "code": {"const": "236321002"},
+                                    "display": {"const": "Supervisor (occupation)"}
+                                },
+                            }
+                        }
+                    }
+                }
+            },
+            "required": ["resourceType", "id", "identifier", "practitioner", "code"],
+        }
+        validate(payload_obj["entry"][2]["resource"], resource_schema)
+
+        request_schema = {
+            "type": "object",
+            "properties": {
+                "method": {"const": "PUT"},
+                "url": {"const": "PractitionerRole/f08e0373-932e-5bcb-bdf2-0c28a3c8fdd3"},
+                "ifMatch": {"const": "1"},
+            },
+        }
+        validate(payload_obj["entry"][2]["request"], request_schema)
+
 
 if __name__ == "__main__":
     unittest.main()

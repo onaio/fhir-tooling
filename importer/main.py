@@ -114,6 +114,9 @@ def handle_request(request_type, payload, url):
         logging.error(err)
 
 
+def get_keycloak_url():
+    return config.keycloak_url
+
 # This function builds the user payload and posts it to
 # the keycloak api to create a new user
 # it also adds the user to the provided keycloak group
@@ -134,8 +137,8 @@ def create_user(user):
 
     final_string = json.dumps(obj)
     logging.info("Creating user: " + username)
-    r = handle_request("POST", final_string, config.keycloak_url + "/users")
-
+    keycloak_url = get_keycloak_url()
+    r = handle_request("POST", final_string, keycloak_url + "/users")
     if r.status_code == 201:
         logging.info("User created successfully")
         new_user_location = r.headers["Location"]
@@ -144,14 +147,14 @@ def create_user(user):
         # add user to group
         payload = '{"id": "' + keycloakGroupID + '", "name": "' + keycloakGroupName + '"}'
         group_endpoint = user_id + "/groups/" + keycloakGroupID
-        url = config.keycloak_url + "/users/" + group_endpoint
+        url = keycloak_url + "/users/" + group_endpoint
         logging.info("Adding user to Keycloak group: " + keycloakGroupName)
         r = handle_request("PUT", payload, url)
 
         # set password
         payload = '{"temporary":false,"type":"password","value":"' + password + '"}'
         password_endpoint = user_id + "/reset-password"
-        url = config.keycloak_url + "/users/" + password_endpoint
+        url = keycloak_url + "/users/" + password_endpoint
         logging.info("Setting user password")
         r = handle_request("PUT", payload, url)
 
@@ -269,7 +272,6 @@ def location_extras(resource, payload_string):
         physicalType = "physicalType"
         physicalTypeCode = "physicalTypeCode"
         longitude = "longitude"
-
 
     try:
         if parentName and parentName != "parentName":
@@ -712,8 +714,9 @@ def confirm_keycloak_user(user):
     # Confirm that the keycloak user details are as expected
     user_username = str(user[2]).strip()
     user_email = str(user[3]).strip()
+    keycloak_url = get_keycloak_url()
     response = handle_request(
-        "GET", "", config.keycloak_url + "/users?exact=true&username=" + user_username
+        "GET", "", keycloak_url + "/users?exact=true&username=" + user_username
     )
     logging.debug(response)
     json_response = json.loads(response[0])
@@ -745,11 +748,11 @@ def confirm_keycloak_user(user):
 
 def confirm_practitioner(user, user_id):
     practitioner_uuid = str(user[4]).strip()
-
+    base_url = get_base_url()
     if not practitioner_uuid:
         # If practitioner uuid not provided in csv, check if any practitioners exist linked to the keycloak user_id
         r = handle_request(
-            "GET", "", config.fhir_base_url + "/Practitioner?identifier=" + user_id
+            "GET", "", base_url + "/Practitioner?identifier=" + user_id
         )
         json_r = json.loads(r[0])
         counter = json_r["total"]
@@ -762,7 +765,7 @@ def confirm_practitioner(user, user_id):
             return False
 
     r = handle_request(
-        "GET", "", config.fhir_base_url + "/Practitioner/" + practitioner_uuid
+        "GET", "", base_url + "/Practitioner/" + practitioner_uuid
     )
 
     if r[1] == 404:
@@ -784,7 +787,7 @@ def confirm_practitioner(user, user_id):
                 return True
             else:
                 logging.error(
-                    "The Keycloak user and Practitioner are not linked as exppected"
+                    "The Keycloak user and Practitioner are not linked as expected"
                 )
                 return True
 
