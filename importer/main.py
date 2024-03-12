@@ -7,6 +7,8 @@ import requests
 import logging
 import logging.config
 import backoff
+import base64
+import magic
 from datetime import datetime
 from oauthlib.oauth2 import LegacyApplicationClient
 from requests_oauthlib import OAuth2Session
@@ -1100,6 +1102,62 @@ def export_resources_to_csv(resource_type, parameter, value, limit):
             logging.info("No Resources Found")
     else:
         logging.error(f"Failed to retrieve resource. Status code: {response[1]} response: {response[0]}")
+
+
+def encode_image(image_file):
+    with open(image_file, 'rb') as image:
+        image_b64_data = base64.b64encode(image.read())
+    return image_b64_data
+
+
+# This function takes in the source url of an image, downloads it, encodes it,
+# and saves it as a Binary resource. It returns the id of the Binary resource if
+# successful and 0 if failed
+def save_image(image_source_url):
+    headers = {"Authorization": "Bearer " + config.product_access_token}
+    data = requests.get(url=image_source_url, headers=headers)
+    if data.status_code == 200:
+        with open('images/image_file', 'wb') as image_file:
+            image_file.write(data.content)
+
+        # get file type
+        mime = magic.Magic(mime=True)
+        file_type = mime.from_file('images/image_file')
+
+        encoded_image = encode_image('images/image_file')
+        resource_id = str(uuid.uuid5(uuid.NAMESPACE_DNS, image_source_url))
+        payload = {
+            "resourceType": "Bundle",
+            "type": "transaction",
+            "entry": [{
+                "request": {
+                    "method": "PUT",
+                    "url": "Binary/" + resource_id,
+                    "ifMatch": "1"
+                },
+                "resource": {
+                    "resourceType": "Binary",
+                    "id": resource_id,
+                    "contentType": file_type,
+                    "data": str(encoded_image)
+                }
+            }]
+        }
+        payload_string = json.dumps(payload, indent=4)
+        response = handle_request("POST", payload_string, get_base_url())
+        if response.status_code == 200:
+            logging.info("Binary resource created successfully")
+            logging.info(response.text)
+            return resource_id
+        else:
+            logging.error("Error while creating Binary resource")
+            logging.error(response.text)
+            return 0
+    else:
+        logging.error("Error while attempting to retrieve image")
+        logging.error(data)
+        return 0
+
 
 
 class ResponseFilter(logging.Filter):
