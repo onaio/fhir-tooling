@@ -8,6 +8,7 @@ import logging
 import logging.config
 import backoff
 import base64
+import magic
 from datetime import datetime
 from oauthlib.oauth2 import LegacyApplicationClient
 from requests_oauthlib import OAuth2Session
@@ -1119,6 +1120,10 @@ def save_image(image_source_url):
         with open('images/image_file', 'wb') as image_file:
             image_file.write(data.content)
 
+        # get file type
+        mime = magic.Magic(mime=True)
+        file_type = mime.from_file('images/image_file')
+
         encoded_image = encode_image('images/image_file')
         resource_id = str(uuid.uuid5(uuid.NAMESPACE_DNS, image_source_url))
         payload = {
@@ -1133,7 +1138,7 @@ def save_image(image_source_url):
                 "resource": {
                     "resourceType": "Binary",
                     "id": resource_id,
-                    "contentType": "image/png",
+                    "contentType": file_type,
                     "data": str(encoded_image)
                 }
             }]
