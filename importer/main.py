@@ -785,7 +785,7 @@ def confirm_practitioner(user, user_id):
                 return True
             else:
                 logging.error(
-                    "The Keycloak user and Practitioner are not linked as exppected"
+                    "The Keycloak user and Practitioner are not linked as expected"
                 )
                 return True
 

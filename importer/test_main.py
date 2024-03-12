@@ -13,6 +13,7 @@ from main import (
     build_assign_payload,
     create_user,
     confirm_keycloak_user,
+    confirm_practitioner,
 )
 
 
@@ -752,7 +753,20 @@ class TestMain(unittest.TestCase):
         user_id = create_user(mocked_user_data)
 
         self.assertEqual(user_id, "6cd50351-3ddb-4296-b1db-aac2273e35f3")
+        # TODO
         mock_logging.info.assert_called_with('Setting user password')
+
+    @patch('main.handle_request')
+    @patch('main.get_keycloak_url')
+    def test_create_user_already_exists(self, mock_get_keycloak_url, mock_handle_request):
+        mock_get_keycloak_url.return_value = "https://keycloak.smartregister.org/auth/admin/realms/example-realm"
+        mock_handle_request.return_value.status_code = 409
+        mocked_user_data = (
+            'Jenn', 'Doe', 'Jenn', 'jendoe@example.com', ' 99d54e3c-c26f-4500-a7f9-3f4cb788673f', 'Supervisor', 'false',
+            'a715b562-27f2-432a-b1ba-e57db35e0f93', 'test', 'demo', 'pa$$word'
+        )
+        user_id = create_user(mocked_user_data)
+        self.assertEqual(user_id, 0)
 
     # Test the confirm_keycloak function
     @patch('main.logging')
@@ -782,30 +796,62 @@ class TestMain(unittest.TestCase):
         mock_logging.info.assert_called_with("User confirmed with id: " + keycloak_id)
 
     # Test confirm_practitioner function
-    # @patch('main.handle_request')
-    # @patch('main.get_base_url')
-    # @patch('main.create_user')
-    # def test_confirm_practitioner(self, mock_create_user, mock_get_keycloak_url, mock_handle_request):
-    #     mock_get_keycloak_url.return_value = 'https://example.smartregister.org/fhir'
-    #     mock_create_user.return_value = "6cd50351-3ddb-4296-b1db-aac2273e35f3"
-    #     # mocked_response = 404
-    #     # mock_handle_request.return_value = mocked_response
-    #     mocked_user_data = (
-    #         'Jenn', 'Doe', 'Jenny', 'jeendoe@example.com', '431cb523-253f-4c44-9ded-af42c55c0bbb', 'Supervisor', 'TRUE',
-    #         'a715b562-27f2-432a-b1ba-e57db35e0f93', 'test', 'demo', 'pa$$word'
-    #     )
-    #     practitioner_exists = confirm_practitioner(mocked_user_data, "6cd50351-3ddb-4296-b1db-aac2273e35f3")
-    #     self.assertTrue(practitioner_exists, "Practitioner exist, linked to the provided user")
-
-    # Test create_user_resources function
-    @patch('main.confirm_practitioner')
-    def test_create_user_resources(self, mock_confirm_practitioner):
-        mock_confirm_practitioner.return_value = "False"
-        mocked_user_data = (
-            'Jenn', 'Doe', 'Jenny', 'jeendoe@example.com', '431cb523-253f-4c44-9ded-af42c55c0bbb', 'Supervisor', 'TRUE',
+    @patch('main.handle_request')
+    @patch('main.get_base_url')
+    def test_confirm_practitioner_if_practitioner_uuid_not_provided(self, mock_get_base_url, mock_handle_request):
+        mock_get_base_url.return_value = 'https://example.smartregister.org/fhir'
+        mocked_user = (
+            'Jenn', 'Doe', 'Jenny', 'jeendoe@example.com', '', 'Supervisor', 'TRUE',
             'a715b562-27f2-432a-b1ba-e57db35e0f93', 'test', 'demo', 'pa$$word'
         )
-        payload = create_user_resources("431cb523-253f-4c44-9ded-af42c55c0bbb", mocked_user_data)
+        mocked_response_data = {
+            "resourceType": "Bundle",
+            "type": "searchset",
+            "total": 1,
+        }
+        string_response = json.dumps(mocked_response_data)
+        mock_response = (string_response, 200)
+        mock_handle_request.return_value = mock_response
+        practitioner_exists = confirm_practitioner(mocked_user, "431cb523-253f-4c44-9ded-af42c55c0bbb")
+        self.assertTrue(practitioner_exists, "Practitioner exist, linked to the provided user")
+
+    @patch('main.logging')
+    @patch('main.handle_request')
+    @patch('main.get_base_url')
+    def test_confirm_practitioner_linked_keycloak_user_and_practitioner(self, mock_get_base_url, mock_handle_request,
+                                                                        mock_logging):
+        mock_get_base_url.return_value = 'https://example.smartregister.org/fhir'
+        mocked_user = (
+            'Jenn', 'Doe', 'Jenny', 'jeendoe@example.com', '6cd50351-3ddb-4296-b1db-aac2273e35f3', 'Supervisor', 'TRUE',
+            'a715b562-27f2-432a-b1ba-e57db35e0f93', 'test', 'demo', 'pa$$word'
+        )
+        mocked_response_data = {
+            "resourceType": "Practitioner",
+            "identifier": [
+                {
+                    "use": "official",
+                    "value": "431cb523-253f-4c44-9ded-af42c55c0bbb"
+                },
+                {
+                    "use": "secondary",
+                    "value": "6cd50351-3ddb-4296-b1db-aac2273e35f3"
+                }
+            ],
+        }
+        string_response = json.dumps(mocked_response_data)
+        mock_response = (string_response, 200)
+        mock_handle_request.return_value = mock_response
+        practitioner_exists = confirm_practitioner(mocked_user, "6cd50351-3ddb-4296-b1db-aac2273e35f3")
+        self.assertTrue(practitioner_exists)
+        self.assertEqual(mocked_response_data["identifier"][1]["value"], "6cd50351-3ddb-4296-b1db-aac2273e35f3")
+        mock_logging.info.assert_called_with("The Keycloak user and Practitioner are linked as expected")
+
+    # Test create_user_resources function
+    def test_create_user_resources(self):
+        user = ('Jenn', 'Doe', 'Jenn', 'jendoe@example.com', '99d54e3c-c26f-4500-a7f9-3f4cb788673f', 'Supervisor',
+                'false', 'a715b562-27f2-432a-b1ba-e57db35e0f93', 'test', 'demo', 'pa$$word')
+        user_id = "99d54e3c-c26f-4500-a7f9-3f4cb788673f"
+        payload = create_user_resources(user_id, user)
         payload_obj = json.loads(payload)
         self.assertIsInstance(payload_obj, dict)
         self.assertEqual(payload_obj["resourceType"], "Bundle")
