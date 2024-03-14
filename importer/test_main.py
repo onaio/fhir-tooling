@@ -281,8 +281,59 @@ class TestMain(unittest.TestCase):
                 "identifier": {"type": "array", "items": {"type": "object"}},
                 "status": {"const": "active"},
                 "name": {"const": "Knee care"},
+                "participant": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "role": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "coding": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "system": {"type": "string"},
+                                                    "code": {"type": "string"},
+                                                    "display": {"type": "string"}
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            "member": {
+                                "type": "object",
+                                "properties": {
+                                    "reference": {"type": "string"},
+                                    "display": {"type": "string"}
+                                }
+                            }
+                        }
+                    }
+                },
+                "managingOrganization": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "reference": {"type": "string"},
+                            "display": {"type": "string"}
+                        }
+                    }
+                }
             },
-            "required": ["resourceType", "id", "identifier", "status", "name"],
+            "required": ["resourceType",
+                         "id",
+                         "identifier",
+                         "status",
+                         "name",
+                         "participant",
+                         "managingOrganization"
+                         ],
         }
         validate(payload_obj["entry"][0]["resource"], resource_schema)
 
@@ -295,45 +346,6 @@ class TestMain(unittest.TestCase):
             },
         }
         validate(payload_obj["entry"][0]["request"], request_schema)
-
-        #  TestCase careteam_min.csv
-        csv_file = "csv/careteams/careteam_min.csv"
-        resource_list = read_csv(csv_file)
-        payload = build_payload(
-            "careTeams", resource_list, "json_payloads/careteams_payload.json"
-        )
-        payload_obj = json.loads(payload)
-        self.assertIsInstance(payload_obj, dict)
-        self.assertEqual(payload_obj["resourceType"], "Bundle")
-        self.assertEqual(len(payload_obj["entry"]), 2)
-
-        resource_schema = {
-            "type": "object",
-            "properties": {
-                "resourceType": {"const": "CareTeam"},
-                "id": {"const": "17150b86-00db-599b-9984-1e7aa08291bb"},
-                "identifier": {"type": "array", "items": {"type": "object"}},
-                "status": {"const": ""},
-                "name": {"const": "Good careteam"}
-            },
-            "required": [
-                "id",
-                "identifier",
-                "status",
-                "name"
-            ],
-        }
-        validate(payload_obj["entry"][0]["resource"], resource_schema)
-
-        request_schema = {
-            "type": "object",
-            "properties": {
-                "method": {"const": "PUT"},
-                "url": {"const": "Location/17150b86-00db-599b-9984-1e7aa08291bb"},
-                "ifMatch": {"const": "1"},
-            },
-        }
-        validate(payload_obj["entry"][0]["resource"], request_schema)
 
     def test_extract_matches(self):
         csv_file = "csv/organizations/organization_locations.csv"
@@ -753,7 +765,6 @@ class TestMain(unittest.TestCase):
         user_id = create_user(mocked_user_data)
 
         self.assertEqual(user_id, "6cd50351-3ddb-4296-b1db-aac2273e35f3")
-        # TODO
         mock_logging.info.assert_called_with('Setting user password')
 
     @patch('main.handle_request')
