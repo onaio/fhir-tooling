@@ -1,4 +1,4 @@
-name,active,method,id,identifier,alias
+orgName,orgActive,method,orgId,identifier,alias
 New Organization,true,create,,,Brand new
 Some other Organization,true,create,,,
 Health Organization,true,update,8342dd77-aecd-48ab-826b-75c7c33039ed,bbafb691-efcf-4d7f-8c03-569c5ab2caf1,Health Org
