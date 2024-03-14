@@ -207,6 +207,21 @@ def create_user_resources(user_id, user):
     )
 
     obj = json.loads(ff)
+
+    if user_id != 0:
+        obj[0]["resource"]["identifier"][1]["type"] = {
+            "coding": [
+                {
+                    "system": "http://hl7.org/fhir/identifier-type",
+                    "code": "KUID",
+                    "display": "Keycloak user ID"
+                }
+            ],
+            "text": "Keycloak user ID"
+        }
+    else:
+        del obj[0]["resource"]["identifier"][1]["type"]
+
     if userType.strip() == "Supervisor":
         obj[2]["resource"]["code"] = {
             "coding": [
@@ -327,7 +342,6 @@ def location_extras(resource, payload_string):
         obj = json.loads(payload_string)
         del obj["resource"]["position"]
         payload_string = json.dumps(obj, indent=4)
-
 
     return payload_string
 
@@ -1160,7 +1174,6 @@ def save_image(image_source_url):
         logging.error("Error while attempting to retrieve image")
         logging.error(data)
         return 0
-
 
 
 class ResponseFilter(logging.Filter):

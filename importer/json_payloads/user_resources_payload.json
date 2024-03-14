@@ -15,6 +15,7 @@
                 },
                 {
                 "use": "secondary",
+                "type" : "$type",
                 "value": "$keycloak_user_uuid"
                 }
             ],
