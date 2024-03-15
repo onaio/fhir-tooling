@@ -862,7 +862,36 @@ class TestMain(unittest.TestCase):
             "properties": {
                 "resourceType": {"const": "Practitioner"},
                 "id": {"const": "99d54e3c-c26f-4500-a7f9-3f4cb788673f"},
-                "identifier": {"type": "array", "items": {"type": "object"}},
+                "identifier": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "use": {
+                                "type": "string",
+                                "enum": ["official", "secondary"]
+                            },
+                            "type": {
+                                "type": "object",
+                                "properties": {
+                                    "coding": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "system": {"const": "http://hl7.org/fhir/identifier-type"},
+                                                "code": {"const": "KUID"},
+                                                "display": {"const": "Keycloak user ID"}
+                                            }
+                                        }
+                                    },
+                                    "text": {"const": "Keycloak user ID"}
+                                }
+                            },
+                            "value": {"const": "99d54e3c-c26f-4500-a7f9-3f4cb788673f"}
+                        }
+                    }
+                },
                 "name": {
                     "type": "array",
                     "items": {

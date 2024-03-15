@@ -208,20 +208,6 @@ def create_user_resources(user_id, user):
 
     obj = json.loads(ff)
 
-    if user_id != 0:
-        obj[0]["resource"]["identifier"][1]["type"] = {
-            "coding": [
-                {
-                    "system": "http://hl7.org/fhir/identifier-type",
-                    "code": "KUID",
-                    "display": "Keycloak user ID"
-                }
-            ],
-            "text": "Keycloak user ID"
-        }
-    else:
-        del obj[0]["resource"]["identifier"][1]["type"]
-
     if userType.strip() == "Supervisor":
         obj[2]["resource"]["code"] = {
             "coding": [
