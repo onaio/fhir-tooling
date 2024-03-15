@@ -658,7 +658,7 @@ class TestMain(unittest.TestCase):
         mock_handle_request.return_value = mock_response
 
         resource_list = [
-            ["f5d49ba0-50d7-4491-bd6c-62e429707a03", "Jenn", "98199caa-4455-4b2f-a5cf-cb9c89b6bbdc", "New Org"]
+            ["Jenn", "f5d49ba0-50d7-4491-bd6c-62e429707a03", "New Org", "98199caa-4455-4b2f-a5cf-cb9c89b6bbdc"]
         ]
         payload = build_assign_payload(resource_list, "PractitionerRole")
         payload_obj = json.loads(payload)
@@ -704,7 +704,7 @@ class TestMain(unittest.TestCase):
         mock_handle_request.return_value = mock_response
 
         resource_list = [
-            ["f5d49ba0-50d7-4491-bd6c-62e429707a03", "Jenn", "98199caa-4455-4b2f-a5cf-cb9c89b6bbdc", "New Org"]
+            ["Jenn", "f5d49ba0-50d7-4491-bd6c-62e429707a03", "New Org", "98199caa-4455-4b2f-a5cf-cb9c89b6bbdc"]
         ]
         payload = build_assign_payload(resource_list, "PractitionerRole")
         payload_obj = json.loads(payload)
@@ -734,7 +734,7 @@ class TestMain(unittest.TestCase):
         mock_handle_request.return_value = mock_response
 
         resource_list = [
-            ["f5d49ba0-50d7-4491-bd6c-62e429707a03", "Jenn", "98199caa-4455-4b2f-a5cf-cb9c89b6bbdc", "New Org"]
+            ["Jenn", "f5d49ba0-50d7-4491-bd6c-62e429707a03", "New Org", "98199caa-4455-4b2f-a5cf-cb9c89b6bbdc"]
         ]
         payload = build_assign_payload(resource_list, "PractitionerRole")
         payload_obj = json.loads(payload)

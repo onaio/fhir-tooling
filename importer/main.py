@@ -427,12 +427,12 @@ def build_assign_payload(rows, resource_type):
     initial_string = """{"resourceType": "Bundle","type": "transaction","entry": [ """
     final_string = ""
     for row in rows:
-        userId, username, orgId, orgName = row
+        practitioner_name, practitioner_id, organization_name, organization_id = row
 
         # check if already exists
         base_url = get_base_url()
         check_url = (base_url + "/" + resource_type + "/_search?_count=1&practitioner=Practitioner/"
-                     + userId)
+                     + practitioner_id)
         response = handle_request("GET", "", check_url)
         json_response = json.loads(response[0])
 
@@ -441,13 +441,13 @@ def build_assign_payload(rows, resource_type):
             resource = json_response["entry"][0]["resource"]
 
             try:
-                resource["organization"]["reference"] = "Organization/" + orgId
-                resource["organization"]["display"] = orgName
+                resource["organization"]["reference"] = "Organization/" + organization_id
+                resource["organization"]["display"] = organization_name
             except KeyError:
                 org = {
                     "organization": {
-                        "reference": "Organization/" + orgId,
-                        "display": orgName
+                        "reference": "Organization/" + organization_id,
+                        "display": organization_name
                     }
                 }
                 resource.update(org)
@@ -460,7 +460,7 @@ def build_assign_payload(rows, resource_type):
             logging.info("Creating a new resource")
 
             # generate a new id
-            new_id = str(uuid.uuid5(uuid.NAMESPACE_DNS, userId + orgId))
+            new_id = str(uuid.uuid5(uuid.NAMESPACE_DNS, practitioner_id + organization_id))
 
             with open("json_payloads/practitioner_organization_payload.json") as json_file:
                 payload_string = json_file.read()
@@ -468,10 +468,10 @@ def build_assign_payload(rows, resource_type):
             # replace the variables in payload
             payload_string = (
                 payload_string.replace("$id", new_id)
-                .replace("$practitioner_id", userId)
-                .replace("$practitioner_name", username)
-                .replace("$organization_id", orgId)
-                .replace("$organization_name", orgName)
+                .replace("$practitioner_id", practitioner_id)
+                .replace("$practitioner_name", practitioner_name)
+                .replace("$organization_id", organization_id)
+                .replace("$organization_name", organization_name)
             )
             version = "1"
             practitioner_role_id = new_id
