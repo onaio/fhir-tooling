@@ -95,8 +95,6 @@ The coverage report `coverage.html` will be at the working directory
 - Run `python3 main.py --csv_file csv/careteams/careteam_full.csv --resource_type careTeams --log_level info`
 - See example csv [here](/importer/csv/careteams/careteam_full.csv)
 - The first  column __name__ is the only one required
-- If the csv file has only the required column, (e.g. [careteam_min.csv](/importer/(csv/careteams/careteam_min.csv)))  the __id__ , __status__, and __method__ are set to __generating a new unique_uuid__ and the default values __create__ and  __active__ respectively
-- [careteam_full](/importer/csv/careteams/careteam_full.csv) shows more options available
 - The third column is the request method, can be either create or update. Default is set to create
 - The fourth column is the id, which is required when updating
 - The fifth columns is the identifier, in some cases this is different from the id

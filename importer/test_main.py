@@ -296,9 +296,9 @@ class TestMain(unittest.TestCase):
                                             "items": {
                                                 "type": "object",
                                                 "properties": {
-                                                    "system": {"type": "string"},
-                                                    "code": {"type": "string"},
-                                                    "display": {"type": "string"}
+                                                    "system": {"const": "http://snomed.info/sct"},
+                                                    "code": {"const": "394730007"},
+                                                    "display": {"const": "Healthcare related organization"}
                                                 }
                                             }
                                         }
@@ -312,7 +312,11 @@ class TestMain(unittest.TestCase):
                                     "display": {"type": "string"}
                                 }
                             }
-                        }
+                        },
+                        "anyOf": [
+                            {"required": ["role", "member"]},
+                            {"required": ["member"]}
+                        ]
                     }
                 },
                 "managingOrganization": {
