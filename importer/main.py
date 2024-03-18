@@ -334,7 +334,7 @@ def location_extras(resource, payload_string):
 
 # custom extras for careTeams
 def care_team_extras(
-        resource, payload_string, load_type, c_participants, c_orgs, ftype
+        resource, payload_string, ftype
 ):
     orgs_list = []
     participant_list = []
@@ -347,28 +347,15 @@ def care_team_extras(
         organizations = "organizations"
         participants = "participants"
 
-    if load_type == "min":
-        organizations = "organizations"
-        participants = "participants"
-        try:
-            if organizations and organizations != "organizations":
-                elements = organizations.split("|")
-            else:
-                return payload_string
-        except IndexError:
-            return payload_string
-        try:
-            if participants and participants != "participants":
-                elements2 = participants.split("|")
-            else:
-                return payload_string
-        except IndexError:
-            return payload_string
-
-    elif load_type == "full":
-        elements = resource
+    if organizations and organizations != "organizations":
+        elements = organizations.split("|")
     else:
-        logging.error("Unsupported load type")
+        logging.info("No organizations")
+
+    if participants and participants != "participants":
+        elements2 = participants.split("|")
+    else:
+        logging.info("No participants")
 
     if "orgs" in ftype:
         for org in elements:
@@ -396,11 +383,6 @@ def care_team_extras(
             z["member"]["display"] = str(x[1])
             participant_list.append(z)
 
-        if len(c_participants) > 0:
-            participant_list = c_participants + participant_list
-        if len(c_orgs) > 0:
-            orgs_list = c_orgs + orgs_list
-
         if len(participant_list) > 0:
             obj = json.loads(payload_string)
             obj["resource"]["participant"] = participant_list
@@ -416,9 +398,6 @@ def care_team_extras(
             y["member"]["reference"] = "Practitioner/" + str(x[0])
             y["member"]["display"] = str(x[1])
             participant_list.append(y)
-
-        if len(c_participants) > 0:
-            participant_list = c_participants + participant_list
 
         if len(participant_list) > 0:
             obj = json.loads(payload_string)
@@ -441,58 +420,6 @@ def extract_matches(resource_list):
             else:
                 logging.error("Missing required id: Skipping " + str(resource))
     return teamMap
-
-
-def fetch_and_build(extracted_matches, ftype):
-    fp = """{"resourceType": "Bundle","type": "transaction","entry": [ """
-
-    with click.progressbar(extracted_matches, label='Progress::Build payload ') as build_progress:
-        for key in build_progress:
-            logging.info('\t')
-            # hit api to get current payload
-            endpoint = config.fhir_base_url + "/CareTeam/" + key
-            fetch_payload = handle_request("GET", "", endpoint)
-
-            obj = json.loads(fetch_payload[0])
-            current_version = obj["meta"]["versionId"]
-
-            # build participants and managing orgs
-            full_payload = {
-                "request": {
-                    "method": "PUT",
-                    "url": "CareTeam/$unique_uuid",
-                    "ifMatch": "$version",
-                },
-                "resource": {},
-            }
-            full_payload["request"]["url"] = "CareTeam/" + str(key)
-            full_payload["request"]["ifMatch"] = current_version
-            full_payload["resource"] = obj
-            del obj["meta"]
-
-            try:
-                curr_participants = full_payload["resource"]["participant"]
-            except KeyError:
-                curr_participants = {}
-
-            try:
-                curr_orgs = full_payload["resource"]["managingOrganization"]
-            except KeyError:
-                curr_orgs = {}
-
-            payload_string = json.dumps(full_payload, indent=4)
-            payload_string = care_team_extras(
-                extracted_matches[key],
-                payload_string,
-                "full",
-                curr_participants,
-                curr_orgs,
-                ftype,
-            )
-            fp = fp + payload_string + ","
-
-    fp = fp[:-1] + " ] } "
-    return fp
 
 
 def build_assign_payload(rows, resource_type):
@@ -702,7 +629,7 @@ def build_payload(resource_type, resources, resource_payload_file):
             elif resource_type == "locations":
                 ps = location_extras(resource, ps)
             elif resource_type == "careTeams":
-                ps = care_team_extras(resource, ps, "min", [], [], "orgs & users")
+                ps = care_team_extras(resource, ps, "orgs & users")
 
             final_string = final_string + ps + ","
 
@@ -1287,18 +1214,6 @@ def main(
             logging.info("Assigning Organizations to Locations")
             matches = extract_matches(resource_list)
             json_payload = build_org_affiliation(matches, resource_list)
-            final_response = handle_request("POST", json_payload, config.fhir_base_url)
-            logging.info("Processing complete!")
-        elif assign == "careTeam-Organization":
-            logging.info("Assigning CareTeam to Organization")
-            matches = extract_matches(resource_list)
-            json_payload = fetch_and_build(matches, "orgs")
-            final_response = handle_request("POST", json_payload, config.fhir_base_url)
-            logging.info("Processing complete!")
-        elif assign == "user-careTeam":
-            logging.info("Assigning users to careTeam")
-            matches = extract_matches(resource_list)
-            json_payload = fetch_and_build(matches, "users")
             final_response = handle_request("POST", json_payload, config.fhir_base_url)
             logging.info("Processing complete!")
         elif assign == "practitioner-organization":
