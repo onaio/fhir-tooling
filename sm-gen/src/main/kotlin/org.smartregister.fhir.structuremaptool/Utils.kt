@@ -57,7 +57,7 @@ class Group(
             stringBuilder.append("src -> bundle.entry as  entry, entry.resource = create('$resourceName') as entity1 then {")
                 .appendNewLine()
             // TODO: Remove below and replace with Nest.buildStructureMap
-            /*instructions.forEachIndexed { index, instruction ->
+                /*instructions.forEachIndexed { index, instruction ->
 
                 //if (instruction.fi)
 
