@@ -239,21 +239,9 @@ def create_user_resources(user_id, user):
 # custom extras for organizations
 def organization_extras(resource, payload_string):
     try:
-        _, orgActive, *_, alias = resource
+        _, orgActive, *_ = resource
     except ValueError:
         orgActive = "true"
-        alias = "alias"
-    try:
-        if alias and alias != "alias":
-            payload_string = payload_string.replace("$alias", alias)
-        else:
-            obj = json.loads(payload_string)
-            del obj["resource"]["alias"]
-            payload_string = json.dumps(obj, indent=4)
-    except IndexError:
-        obj = json.loads(payload_string)
-        del obj["resource"]["alias"]
-        payload_string = json.dumps(obj, indent=4)
 
     try:
         payload_string = payload_string.replace("$active", orgActive)
@@ -965,7 +953,7 @@ def export_resources_to_csv(resource_type, parameter, value, limit):
                                 "typeCode",
                                 "physicalType", "physicalTypeCode"]
                 elif resource_type == "Organization":
-                    elements = ["name", "active", "method", "id", "identifier", "alias"]
+                    elements = ["name", "active", "method", "id", "identifier"]
                 elif resource_type == "CareTeam":
                     elements = ["name", "status", "method", "id", "identifier", "organizations", "participants"]
                 else:
@@ -1017,8 +1005,6 @@ def export_resources_to_csv(resource_type, parameter, value, limit):
                                     value = x["resource"]["physicalType"]["coding"][0]["display"]
                                 elif element == "physicalTypeCode":
                                     value = x["resource"]["physicalType"]["coding"][0]["code"]
-                                elif element == "alias":
-                                    value = x["resource"]["alias"][0]
                                 else:
                                     value = x["resource"][element]
                             except KeyError:
@@ -1211,13 +1197,13 @@ def main(
             )
             final_response = handle_request("POST", json_payload, config.fhir_base_url)
             logging.info("Processing complete!")
-        elif assign == "organization-Location":
+        elif assign == "organizations-Locations":
             logging.info("Assigning Organizations to Locations")
             matches = extract_matches(resource_list)
             json_payload = build_org_affiliation(matches, resource_list)
             final_response = handle_request("POST", json_payload, config.fhir_base_url)
             logging.info("Processing complete!")
-        elif assign == "practitioner-organization":
+        elif assign == "users-organizations":
             logging.info("Assigning practitioner to Organization")
             json_payload = build_assign_payload(resource_list, "PractitionerRole")
             final_response = handle_request("POST", json_payload, config.fhir_base_url)

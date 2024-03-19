@@ -32,7 +32,6 @@ class TestMain(unittest.TestCase):
                 "update",
                 "caffe509-ae56-4d42-945e-7b4c161723d1",
                 "d93ae7c3-73c0-43d1-9046-425a3466ecec",
-                "handy",
             ],
             [
                 "e2e-skate",
@@ -40,11 +39,10 @@ class TestMain(unittest.TestCase):
                 "update",
                 "2d4feac9-9ab5-4585-9b33-e5abd14ceb0f",
                 "58605ed8-7217-4bf3-8122-229b6f47fa64",
-                "foolish",
             ],
         ]
         self.test_resource_type = "test_organization"
-        self.test_fieldnames = ["name", "active", "method", "id", "identifier", "alias"]
+        self.test_fieldnames = ["name", "active", "method", "id", "identifier"]
         csv_file = write_csv(self.test_data, self.test_resource_type, self.test_fieldnames)
         csv_content = read_csv(csv_file)
         self.assertEqual(csv_content, self.test_data)
@@ -71,9 +69,8 @@ class TestMain(unittest.TestCase):
                 "identifier": {"type": "array", "items": {"type": "object"}},
                 "active": {"const": "true"},
                 "name": {"const": "Health Organization"},
-                "alias": {"const": ["Health Org"]},
             },
-            "required": ["resourceType", "id", "identifier", "active", "name", "alias"],
+            "required": ["resourceType", "id", "identifier", "active", "name"],
         }
         validate(payload_obj["entry"][2]["resource"], resource_schema)
 
@@ -352,7 +349,7 @@ class TestMain(unittest.TestCase):
         validate(payload_obj["entry"][0]["request"], request_schema)
 
     def test_extract_matches(self):
-        csv_file = "csv/organizations/organization_locations.csv"
+        csv_file = "csv/organizations/organizations_locations.csv"
         resource_list = read_csv(csv_file)
         resources = extract_matches(resource_list)
         expected_matches = {
@@ -366,7 +363,7 @@ class TestMain(unittest.TestCase):
         self.assertEqual(resources, expected_matches)
 
     def test_build_org_affiliation(self):
-        csv_file = "csv/organizations/organization_locations.csv"
+        csv_file = "csv/organizations/organizations_locations.csv"
         resource_list = read_csv(csv_file)
         resources = extract_matches(resource_list)
         payload = build_org_affiliation(resources, resource_list)
