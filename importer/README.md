@@ -108,12 +108,12 @@ The coverage report `coverage.html` will be at the working directory
 - Adding the last two columns __parentID__ and __parentName__ will ensure the locations are assigned the right parent both during creation or updating
 
 ### 6. Assign organizations to locations
-- Run `python3 main.py --csv_file csv/organizations/organization_locations.csv --assign organization-Location --log_level info`
-- See example csv [here](/importer/csv/organizations/organization_locations.csv)
+- Run `python3 main.py --csv_file csv/organizations/organizations_locations.csv --assign organizations-Locations --log_level info`
+- See example csv [here](/importer/csv/organizations/organizations_locations.csv)
 
-### 7. Assign practitioners to organizations
-- Run `python3 main.py --csv_file csv/practitioners/practitioner_organization.csv --assign practitioner-organization --log_level info`
-- See example [here](/importer/csv/practitioners/practitioner_organization.csv)
+### 7. Assign users to organizations
+- Run `python3 main.py --csv_file csv/practitioners/users_organizations.csv --assign users-organizations --log_level info`
+- See example [here](/importer/csv/practitioners/users_organizations.csv)
 - The first two columns are __name__ and __id__ of the practitioner, while the last two columns are the __name__ and __id__ of the organization
 
 ### 8. Delete duplicate Practitioners on HAPI

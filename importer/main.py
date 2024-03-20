@@ -122,8 +122,8 @@ def get_keycloak_url():
 # it also adds the user to the provided keycloak group
 # and sets the user password
 def create_user(user):
-    (firstName, lastName, username, email, id, userType, _, keycloakGroupID,
-     keycloakGroupName, applicationID, password) = user
+    (firstName, lastName, username, email, userId, userType, _, keycloakGroupId,
+     keycloakGroupName, appId, password) = user
 
     with open("json_payloads/keycloak_user_payload.json") as json_file:
         payload_string = json_file.read()
@@ -133,7 +133,7 @@ def create_user(user):
     obj["lastName"] = lastName
     obj["username"] = username
     obj["email"] = email
-    obj["attributes"]["fhir_core_app_id"][0] = applicationID
+    obj["attributes"]["fhir_core_app_id"][0] = appId
 
     final_string = json.dumps(obj)
     logging.info("Creating user: " + username)
@@ -145,8 +145,8 @@ def create_user(user):
         user_id = (new_user_location.split("/"))[-1]
 
         # add user to group
-        payload = '{"id": "' + keycloakGroupID + '", "name": "' + keycloakGroupName + '"}'
-        group_endpoint = user_id + "/groups/" + keycloakGroupID
+        payload = '{"id": "' + keycloakGroupId + '", "name": "' + keycloakGroupName + '"}'
+        group_endpoint = user_id + "/groups/" + keycloakGroupId
         url = keycloak_url + "/users/" + group_endpoint
         logging.info("Adding user to Keycloak group: " + keycloakGroupName)
         r = handle_request("PUT", payload, url)
@@ -168,24 +168,24 @@ def create_user(user):
 def create_user_resources(user_id, user):
     logging.info("Creating user resources")
     (firstName, lastName, username, email, id, userType,
-     enableUser, keycloakGroupID, keycloakGroupName, _, password) = user
+     enableUser, keycloakGroupId, keycloakGroupName, _, password) = user
 
     # generate uuids
     if len(str(id).strip()) == 0:
         practitioner_uuid = str(
             uuid.uuid5(
-                uuid.NAMESPACE_DNS, username + keycloakGroupID + "practitioner_uuid"
+                uuid.NAMESPACE_DNS, username + keycloakGroupId + "practitioner_uuid"
             )
         )
     else:
         practitioner_uuid = id
 
     group_uuid = str(
-        uuid.uuid5(uuid.NAMESPACE_DNS, username + keycloakGroupID + "group_uuid")
+        uuid.uuid5(uuid.NAMESPACE_DNS, username + keycloakGroupId + "group_uuid")
     )
     practitioner_role_uuid = str(
         uuid.uuid5(
-            uuid.NAMESPACE_DNS, username + keycloakGroupID + "practitioner_role_uuid"
+            uuid.NAMESPACE_DNS, username + keycloakGroupId + "practitioner_role_uuid"
         )
     )
 
@@ -239,24 +239,12 @@ def create_user_resources(user_id, user):
 # custom extras for organizations
 def organization_extras(resource, payload_string):
     try:
-        _, active, *_, alias = resource
+        _, orgActive, *_ = resource
     except ValueError:
-        active = "true"
-        alias = "alias"
-    try:
-        if alias and alias != "alias":
-            payload_string = payload_string.replace("$alias", alias)
-        else:
-            obj = json.loads(payload_string)
-            del obj["resource"]["alias"]
-            payload_string = json.dumps(obj, indent=4)
-    except IndexError:
-        obj = json.loads(payload_string)
-        del obj["resource"]["alias"]
-        payload_string = json.dumps(obj, indent=4)
+        orgActive = "true"
 
     try:
-        payload_string = payload_string.replace("$active", active)
+        payload_string = payload_string.replace("$active", orgActive)
     except IndexError:
         payload_string = payload_string.replace("$active", "true")
     return payload_string
@@ -265,19 +253,20 @@ def organization_extras(resource, payload_string):
 # custom extras for locations
 def location_extras(resource, payload_string):
     try:
-        name, *_, parentName, parentID, type, typeCode, physicalType, physicalTypeCode, longitude, latitude = resource
+        (locationName, *_, locationParentName, locationParentId, locationType, locationTypeCode, locationPhysicalType,
+         locationPhysicalTypeCode, longitude, latitude) = resource
     except ValueError:
-        parentName = "parentName"
-        type = "type"
-        typeCode = "typeCode"
-        physicalType = "physicalType"
-        physicalTypeCode = "physicalTypeCode"
+        locationParentName = "parentName"
+        locationType = "type"
+        locationTypeCode = "typeCode"
+        locationPhysicalType = "physicalType"
+        locationPhysicalTypeCode = "physicalTypeCode"
         longitude = "longitude"
 
     try:
-        if parentName and parentName != "parentName":
-            payload_string = payload_string.replace("$parentName", parentName).replace(
-                "$parentID", parentID
+        if locationParentName and locationParentName != "parentName":
+            payload_string = payload_string.replace("$parentName", locationParentName).replace(
+                "$parentID", locationParentId
             )
         else:
             obj = json.loads(payload_string)
@@ -289,10 +278,10 @@ def location_extras(resource, payload_string):
         payload_string = json.dumps(obj, indent=4)
 
     try:
-        if len(type.strip()) > 0 and type != "type":
-            payload_string = payload_string.replace("$t_display", type)
-        if len(typeCode.strip()) > 0 and typeCode != "typeCode":
-            payload_string = payload_string.replace("$t_code", typeCode)
+        if len(locationType.strip()) > 0 and locationType != "type":
+            payload_string = payload_string.replace("$t_display", locationType)
+        if len(locationTypeCode.strip()) > 0 and locationTypeCode != "typeCode":
+            payload_string = payload_string.replace("$t_code", locationTypeCode)
         else:
             obj = json.loads(payload_string)
             del obj["resource"]["type"]
@@ -303,10 +292,10 @@ def location_extras(resource, payload_string):
         payload_string = json.dumps(obj, indent=4)
 
     try:
-        if len(physicalType.strip()) > 0 and physicalType != "physicalType":
-            payload_string = payload_string.replace("$pt_display", physicalType)
-        if len(physicalTypeCode.strip()) > 0 and physicalTypeCode != "physicalTypeCode":
-            payload_string = payload_string.replace("$pt_code", physicalTypeCode)
+        if len(locationPhysicalType.strip()) > 0 and locationPhysicalType != "physicalType":
+            payload_string = payload_string.replace("$pt_display", locationPhysicalType)
+        if len(locationPhysicalTypeCode.strip()) > 0 and locationPhysicalTypeCode != "physicalTypeCode":
+            payload_string = payload_string.replace("$pt_code", locationPhysicalTypeCode)
         else:
             obj = json.loads(payload_string)
             del obj["resource"]["physicalType"]
@@ -426,7 +415,7 @@ def build_assign_payload(rows, resource_type):
     initial_string = """{"resourceType": "Bundle","type": "transaction","entry": [ """
     final_string = ""
     for row in rows:
-        practitioner_id, practitioner_name, organization_id, organization_name = row
+        practitioner_name, practitioner_id, organization_name, organization_id = row
 
         # check if already exists
         base_url = get_base_url()
@@ -964,7 +953,7 @@ def export_resources_to_csv(resource_type, parameter, value, limit):
                                 "typeCode",
                                 "physicalType", "physicalTypeCode"]
                 elif resource_type == "Organization":
-                    elements = ["name", "active", "method", "id", "identifier", "alias"]
+                    elements = ["name", "active", "method", "id", "identifier"]
                 elif resource_type == "CareTeam":
                     elements = ["name", "status", "method", "id", "identifier", "organizations", "participants"]
                 else:
@@ -1016,8 +1005,6 @@ def export_resources_to_csv(resource_type, parameter, value, limit):
                                     value = x["resource"]["physicalType"]["coding"][0]["display"]
                                 elif element == "physicalTypeCode":
                                     value = x["resource"]["physicalType"]["coding"][0]["code"]
-                                elif element == "alias":
-                                    value = x["resource"]["alias"][0]
                                 else:
                                     value = x["resource"][element]
                             except KeyError:
@@ -1210,13 +1197,13 @@ def main(
             )
             final_response = handle_request("POST", json_payload, config.fhir_base_url)
             logging.info("Processing complete!")
-        elif assign == "organization-Location":
+        elif assign == "organizations-Locations":
             logging.info("Assigning Organizations to Locations")
             matches = extract_matches(resource_list)
             json_payload = build_org_affiliation(matches, resource_list)
             final_response = handle_request("POST", json_payload, config.fhir_base_url)
             logging.info("Processing complete!")
-        elif assign == "practitioner-organization":
+        elif assign == "users-organizations":
             logging.info("Assigning practitioner to Organization")
             json_payload = build_assign_payload(resource_list, "PractitionerRole")
             final_response = handle_request("POST", json_payload, config.fhir_base_url)
