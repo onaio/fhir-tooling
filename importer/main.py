@@ -1,10 +1,15 @@
+import os
 import csv
 import json
 import uuid
 import click
 import requests
 import logging
+import logging.config
 import backoff
+import base64
+import magic
+from datetime import datetime
 from oauthlib.oauth2 import LegacyApplicationClient
 from requests_oauthlib import OAuth2Session
 
@@ -14,6 +19,7 @@ except ModuleNotFoundError:
     logging.error("The config.py file is missing!")
     exit()
 
+global_access_token = ""
 
 # This function takes in a csv file
 # reads it and returns a list of strings/lines
@@ -26,8 +32,9 @@ def read_csv(csv_file):
             next(records)
             all_records = []
 
-            for record in records:
-                all_records.append(record)
+            with click.progressbar(records, label='Progress::Reading csv ') as read_csv_progress:
+                for record in read_csv_progress:
+                    all_records.append(record)
 
             logging.info("Returning records from csv file")
             return all_records
@@ -36,32 +43,49 @@ def read_csv(csv_file):
             logging.error("Stop iteration on empty file")
 
 
+def get_access_token():
+    access_token = ""
+    if global_access_token:
+        return global_access_token
+
+    try:
+        if config.access_token:
+            # get access token from config file
+            access_token = config.access_token
+    except AttributeError:
+        logging.debug("No access token provided, trying to use client credentials")
+
+    if not access_token:
+        # get client credentials from config file
+        client_id = config.client_id
+        client_secret = config.client_secret
+        username = config.username
+        password = config.password
+        access_token_url = config.access_token_url
+
+        oauth = OAuth2Session(client=LegacyApplicationClient(client_id=client_id))
+        token = oauth.fetch_token(
+            token_url=access_token_url,
+            username=username,
+            password=password,
+            client_id=client_id,
+            client_secret=client_secret,
+        )
+        access_token = token["access_token"]
+
+    return access_token
+
+
 # This function makes the request to the provided url
 # to create resources
 @backoff.on_exception(backoff.expo, requests.exceptions.RequestException, max_time=180)
 def post_request(request_type, payload, url):
-    logging.info("Posting request-----------------")
+    logging.info("Posting request")
     logging.info("Request type: " + request_type)
     logging.info("Url: " + url)
     logging.debug("Payload: " + payload)
 
-    # get credentials from config file
-    client_id = config.client_id
-    client_secret = config.client_secret
-    username = config.username
-    password = config.password
-    access_token_url = config.access_token_url
-
-    oauth = OAuth2Session(client=LegacyApplicationClient(client_id=client_id))
-    token = oauth.fetch_token(
-        token_url=access_token_url,
-        username=username,
-        password=password,
-        client_id=client_id,
-        client_secret=client_secret,
-    )
-
-    access_token = "Bearer " + token["access_token"]
+    access_token = "Bearer " + get_access_token()
     headers = {"Content-type": "application/json", "Authorization": access_token}
 
     if request_type == "POST":
@@ -90,41 +114,47 @@ def handle_request(request_type, payload, url):
         logging.error(err)
 
 
+def get_keycloak_url():
+    return config.keycloak_url
+
 # This function builds the user payload and posts it to
 # the keycloak api to create a new user
 # it also adds the user to the provided keycloak group
 # and sets the user password
 def create_user(user):
+    (firstName, lastName, username, email, id, userType, _, keycloakGroupID,
+     keycloakGroupName, applicationID, password) = user
+
     with open("json_payloads/keycloak_user_payload.json") as json_file:
         payload_string = json_file.read()
 
     obj = json.loads(payload_string)
-    obj["firstName"] = user[0]
-    obj["lastName"] = user[1]
-    obj["username"] = user[2]
-    obj["email"] = user[3]
-    obj["attributes"]["fhir_core_app_id"][0] = user[9]
+    obj["firstName"] = firstName
+    obj["lastName"] = lastName
+    obj["username"] = username
+    obj["email"] = email
+    obj["attributes"]["fhir_core_app_id"][0] = applicationID
 
     final_string = json.dumps(obj)
-    logging.info("Creating user: " + user[2])
-    r = handle_request("POST", final_string, config.keycloak_url + "/users")
-
+    logging.info("Creating user: " + username)
+    keycloak_url = get_keycloak_url()
+    r = handle_request("POST", final_string, keycloak_url + "/users")
     if r.status_code == 201:
         logging.info("User created successfully")
         new_user_location = r.headers["Location"]
         user_id = (new_user_location.split("/"))[-1]
 
         # add user to group
-        payload = '{"id": "' + user[7] + '", "name": "' + user[8] + '"}'
-        group_endpoint = user_id + "/groups/" + user[7]
-        url = config.keycloak_url + "/users/" + group_endpoint
-        logging.info("Adding user to Keycloak group: " + user[8])
+        payload = '{"id": "' + keycloakGroupID + '", "name": "' + keycloakGroupName + '"}'
+        group_endpoint = user_id + "/groups/" + keycloakGroupID
+        url = keycloak_url + "/users/" + group_endpoint
+        logging.info("Adding user to Keycloak group: " + keycloakGroupName)
         r = handle_request("PUT", payload, url)
 
         # set password
-        payload = '{"temporary":false,"type":"password","value":"' + user[10] + '"}'
+        payload = '{"temporary":false,"type":"password","value":"' + password + '"}'
         password_endpoint = user_id + "/reset-password"
-        url = config.keycloak_url + "/users/" + password_endpoint
+        url = keycloak_url + "/users/" + password_endpoint
         logging.info("Setting user password")
         r = handle_request("PUT", payload, url)
 
@@ -137,14 +167,27 @@ def create_user(user):
 # new user and posts them to the FHIR api for creation
 def create_user_resources(user_id, user):
     logging.info("Creating user resources")
-    # generate uuids
-    if len(str(user[4]).strip()) == 0:
-        practitioner_uuid = str(uuid.uuid4())
-    else:
-        practitioner_uuid = user[4]
+    (firstName, lastName, username, email, id, userType,
+     enableUser, keycloakGroupID, keycloakGroupName, _, password) = user
 
-    group_uuid = str(uuid.uuid4())
-    practitioner_role_uuid = str(uuid.uuid4())
+    # generate uuids
+    if len(str(id).strip()) == 0:
+        practitioner_uuid = str(
+            uuid.uuid5(
+                uuid.NAMESPACE_DNS, username + keycloakGroupID + "practitioner_uuid"
+            )
+        )
+    else:
+        practitioner_uuid = id
+
+    group_uuid = str(
+        uuid.uuid5(uuid.NAMESPACE_DNS, username + keycloakGroupID + "group_uuid")
+    )
+    practitioner_role_uuid = str(
+        uuid.uuid5(
+            uuid.NAMESPACE_DNS, username + keycloakGroupID + "practitioner_role_uuid"
+        )
+    )
 
     # get payload and replace strings
     initial_string = """{"resourceType": "Bundle","type": "transaction","meta": {"lastUpdated": ""},"entry": """
@@ -155,15 +198,17 @@ def create_user_resources(user_id, user):
     ff = (
         payload_string.replace("$practitioner_uuid", practitioner_uuid)
         .replace("$keycloak_user_uuid", user_id)
-        .replace("$firstName", user[0])
-        .replace("$lastName", user[1])
-        .replace("$email", user[3])
+        .replace("$firstName", firstName)
+        .replace("$lastName", lastName)
+        .replace("$email", email)
+        .replace('"$enable_user"', enableUser)
         .replace("$group_uuid", group_uuid)
         .replace("$practitioner_role_uuid", practitioner_role_uuid)
     )
 
     obj = json.loads(ff)
-    if user[5].strip() == "Supervisor":
+
+    if userType.strip() == "Supervisor":
         obj[2]["resource"]["code"] = {
             "coding": [
                 {
@@ -173,7 +218,7 @@ def create_user_resources(user_id, user):
                 }
             ]
         }
-    elif user[5].strip() == "Practitioner":
+    elif userType.strip() == "Practitioner":
         obj[2]["resource"]["code"] = {
             "coding": [
                 {
@@ -188,21 +233,30 @@ def create_user_resources(user_id, user):
     ff = json.dumps(obj, indent=4)
 
     payload = initial_string + ff + "}"
-    handle_request("POST", payload, config.fhir_base_url)
+    return payload
 
 
 # custom extras for organizations
 def organization_extras(resource, payload_string):
     try:
-        if resource[6]:
-            payload_string = payload_string.replace("$alias", resource[6])
+        _, active, *_, alias = resource
+    except ValueError:
+        active = "true"
+        alias = "alias"
+    try:
+        if alias and alias != "alias":
+            payload_string = payload_string.replace("$alias", alias)
+        else:
+            obj = json.loads(payload_string)
+            del obj["resource"]["alias"]
+            payload_string = json.dumps(obj, indent=4)
     except IndexError:
         obj = json.loads(payload_string)
         del obj["resource"]["alias"]
         payload_string = json.dumps(obj, indent=4)
 
     try:
-        payload_string = payload_string.replace("$active", resource[1])
+        payload_string = payload_string.replace("$active", active)
     except IndexError:
         payload_string = payload_string.replace("$active", "true")
     return payload_string
@@ -211,9 +265,19 @@ def organization_extras(resource, payload_string):
 # custom extras for locations
 def location_extras(resource, payload_string):
     try:
-        if resource[5]:
-            payload_string = payload_string.replace("$parentName", resource[5]).replace(
-                "$parentID", resource[6]
+        name, *_, parentName, parentID, type, typeCode, physicalType, physicalTypeCode, longitude, latitude = resource
+    except ValueError:
+        parentName = "parentName"
+        type = "type"
+        typeCode = "typeCode"
+        physicalType = "physicalType"
+        physicalTypeCode = "physicalTypeCode"
+        longitude = "longitude"
+
+    try:
+        if parentName and parentName != "parentName":
+            payload_string = payload_string.replace("$parentName", parentName).replace(
+                "$parentID", parentID
             )
         else:
             obj = json.loads(payload_string)
@@ -225,16 +289,11 @@ def location_extras(resource, payload_string):
         payload_string = json.dumps(obj, indent=4)
 
     try:
-        if resource[7] == "building":
-            payload_string = payload_string.replace("$pt_code", "bu").replace(
-                "$pt_display", "Building"
-            )
-        elif resource[7] == "jurisdiction":
-            payload_string = payload_string.replace("$pt_code", "jdn").replace(
-                "$pt_display", "Jurisdiction"
-            )
+        if len(type.strip()) > 0 and type != "type":
+            payload_string = payload_string.replace("$t_display", type)
+        if len(typeCode.strip()) > 0 and typeCode != "typeCode":
+            payload_string = payload_string.replace("$t_code", typeCode)
         else:
-            logging.error("Unsupported location type provided for " + resource[0])
             obj = json.loads(payload_string)
             del obj["resource"]["type"]
             payload_string = json.dumps(obj, indent=4)
@@ -243,33 +302,60 @@ def location_extras(resource, payload_string):
         del obj["resource"]["type"]
         payload_string = json.dumps(obj, indent=4)
 
+    try:
+        if len(physicalType.strip()) > 0 and physicalType != "physicalType":
+            payload_string = payload_string.replace("$pt_display", physicalType)
+        if len(physicalTypeCode.strip()) > 0 and physicalTypeCode != "physicalTypeCode":
+            payload_string = payload_string.replace("$pt_code", physicalTypeCode)
+        else:
+            obj = json.loads(payload_string)
+            del obj["resource"]["physicalType"]
+            payload_string = json.dumps(obj, indent=4)
+    except IndexError:
+        obj = json.loads(payload_string)
+        del obj["resource"]["physicalType"]
+        payload_string = json.dumps(obj, indent=4)
+
+    try:
+        if longitude and longitude != "longitude":
+            payload_string = payload_string.replace('"$longitude"', longitude).replace(
+                '"$latitude"', latitude)
+        else:
+            obj = json.loads(payload_string)
+            del obj["resource"]["position"]
+            payload_string = json.dumps(obj, indent=4)
+    except IndexError:
+        obj = json.loads(payload_string)
+        del obj["resource"]["position"]
+        payload_string = json.dumps(obj, indent=4)
+
     return payload_string
 
 
 # custom extras for careTeams
 def care_team_extras(
-    resource, payload_string, load_type, c_participants, c_orgs, ftype
+        resource, payload_string, ftype
 ):
     orgs_list = []
     participant_list = []
     elements = []
     elements2 = []
 
-    if load_type == "min":
-        try:
-            if resource[6]:
-                elements = resource[6].split("|")
-        except IndexError:
-            pass
-        try:
-            if resource[7]:
-                elements2 = resource[7].split("|")
-        except IndexError:
-            pass
-    elif load_type == "full":
-        elements = resource
+    try:
+        *_, organizations, participants = resource
+    except ValueError:
+        organizations = "organizations"
+        participants = "participants"
+
+    if organizations and organizations != "organizations":
+        elements = organizations.split("|")
     else:
-        logging.error("Unsupported load type")
+        logging.info("No organizations")
+
+    if participants and participants != "participants":
+        elements2 = participants.split("|")
+    else:
+        logging.info("No participants")
 
     if "orgs" in ftype:
         for org in elements:
@@ -297,11 +383,6 @@ def care_team_extras(
             z["member"]["display"] = str(x[1])
             participant_list.append(z)
 
-        if len(c_participants) > 0:
-            participant_list = c_participants + participant_list
-        if len(c_orgs) > 0:
-            orgs_list = c_orgs + orgs_list
-
         if len(participant_list) > 0:
             obj = json.loads(payload_string)
             obj["resource"]["participant"] = participant_list
@@ -318,9 +399,6 @@ def care_team_extras(
             y["member"]["display"] = str(x[1])
             participant_list.append(y)
 
-        if len(c_participants) > 0:
-            participant_list = c_participants + participant_list
-
         if len(participant_list) > 0:
             obj = json.loads(payload_string)
             obj["resource"]["participant"] = participant_list
@@ -331,65 +409,89 @@ def care_team_extras(
 
 def extract_matches(resource_list):
     teamMap = {}
-    for resource in resource_list:
-        if resource[1].strip() and resource[3].strip():
-            if resource[1] not in teamMap.keys():
-                teamMap[resource[1]] = [resource[3] + ":" + resource[2]]
+    with click.progressbar(resource_list, label='Progress::Extract matches ') as extract_progress:
+        for resource in extract_progress:
+            group_name, group_id, item_name, item_id = resource
+            if group_id.strip() and item_id.strip():
+                if group_id not in teamMap.keys():
+                    teamMap[group_id] = [item_id + ":" + item_name]
+                else:
+                    teamMap[group_id].append(item_id + ":" + item_name)
             else:
-                teamMap[resource[1]].append(resource[3] + ":" + resource[2])
-        else:
-            logging.error("Missing required id: Skipping " + str(resource))
+                logging.error("Missing required id: Skipping " + str(resource))
     return teamMap
 
 
-def fetch_and_build(extracted_matches, ftype):
-    fp = """{"resourceType": "Bundle","type": "transaction","entry": [ """
+def build_assign_payload(rows, resource_type):
+    initial_string = """{"resourceType": "Bundle","type": "transaction","entry": [ """
+    final_string = ""
+    for row in rows:
+        practitioner_id, practitioner_name, organization_id, organization_name = row
 
-    for key in extracted_matches:
-        # hit api to get current payload
-        endpoint = config.fhir_base_url + "/CareTeam/" + key
-        fetch_payload = handle_request("GET", "", endpoint)
+        # check if already exists
+        base_url = get_base_url()
+        check_url = (base_url + "/" + resource_type + "/_search?_count=1&practitioner=Practitioner/"
+                     + practitioner_id)
+        response = handle_request("GET", "", check_url)
+        json_response = json.loads(response[0])
 
-        obj = json.loads(fetch_payload[0])
-        current_version = obj["meta"]["versionId"]
+        if json_response["total"] == 1:
+            logging.info("Updating existing resource")
+            resource = json_response["entry"][0]["resource"]
 
-        # build participants and managing orgs
-        full_payload = {
+            try:
+                resource["organization"]["reference"] = "Organization/" + organization_id
+                resource["organization"]["display"] = organization_name
+            except KeyError:
+                org = {
+                    "organization": {
+                        "reference": "Organization/" + organization_id,
+                        "display": organization_name
+                    }
+                }
+                resource.update(org)
+
+            version = resource["meta"]["versionId"]
+            practitioner_role_id = resource["id"]
+            del resource["meta"]
+
+        elif json_response["total"] == 0:
+            logging.info("Creating a new resource")
+
+            # generate a new id
+            new_id = str(uuid.uuid5(uuid.NAMESPACE_DNS, practitioner_id + organization_id))
+
+            with open("json_payloads/practitioner_organization_payload.json") as json_file:
+                payload_string = json_file.read()
+
+            # replace the variables in payload
+            payload_string = (
+                payload_string.replace("$id", new_id)
+                .replace("$practitioner_id", practitioner_id)
+                .replace("$practitioner_name", practitioner_name)
+                .replace("$organization_id", organization_id)
+                .replace("$organization_name", organization_name)
+            )
+            version = "1"
+            practitioner_role_id = new_id
+            resource = json.loads(payload_string)
+
+        else:
+            raise ValueError ("The number of practitioner references should only be 0 or 1")
+
+        payload = {
             "request": {
                 "method": "PUT",
-                "url": "CareTeam/$unique_uuid",
-                "ifMatch": "$version",
+                "url": resource_type + "/" + practitioner_role_id,
+                "ifMatch": version
             },
-            "resource": {},
+            "resource": resource
         }
-        full_payload["request"]["url"] = "CareTeam/" + str(key)
-        full_payload["request"]["ifMatch"] = current_version
-        full_payload["resource"] = obj
-        del obj["meta"]
+        full_string = json.dumps(payload, indent=4)
+        final_string = final_string + full_string + ","
 
-        try:
-            curr_participants = full_payload["resource"]["participant"]
-        except KeyError:
-            curr_participants = {}
-
-        try:
-            curr_orgs = full_payload["resource"]["managingOrganization"]
-        except KeyError:
-            curr_orgs = {}
-
-        payload_string = json.dumps(full_payload, indent=4)
-        payload_string = care_team_extras(
-            extracted_matches[key],
-            payload_string,
-            "full",
-            curr_participants,
-            curr_orgs,
-            ftype,
-        )
-        fp = fp + payload_string + ","
-
-    fp = fp[:-1] + " ] } "
-    return fp
+    final_string = initial_string + final_string[:-1] + " ] } "
+    return final_string
 
 
 def get_org_name(key, resource_list):
@@ -406,35 +508,52 @@ def build_org_affiliation(resources, resource_list):
     with open("json_payloads/organization_affiliation_payload.json") as json_file:
         payload_string = json_file.read()
 
-    for key in resources:
-        rp = ""
-        unique_uuid = str(uuid.uuid4())
-        org_name = get_org_name(key, resource_list)
+    with click.progressbar(resources, label='Progress::Build payload ') as build_progress:
+        for key in build_progress:
+            rp = ""
+            unique_uuid = str(uuid.uuid5(uuid.NAMESPACE_DNS, key))
+            org_name = get_org_name(key, resource_list)
 
-        rp = (
-            payload_string.replace("$unique_uuid", unique_uuid)
-            .replace("$identifier_uuid", unique_uuid)
-            .replace("$version", "1")
-            .replace("$orgID", key)
-            .replace("$orgName", org_name)
-        )
+            rp = (
+                payload_string.replace("$unique_uuid", unique_uuid)
+                .replace("$identifier_uuid", unique_uuid)
+                .replace("$version", "1")
+                .replace("$orgID", key)
+                .replace("$orgName", org_name)
+            )
 
-        locations = []
-        for x in resources[key]:
-            y = {}
-            z = x.split(":")
-            y["reference"] = "Location/" + str(z[0])
-            y["display"] = str(z[1])
-            locations.append(y)
+            locations = []
+            for x in resources[key]:
+                y = {}
+                z = x.split(":")
+                y["reference"] = "Location/" + str(z[0])
+                y["display"] = str(z[1])
+                locations.append(y)
 
-        obj = json.loads(rp)
-        obj["resource"]["location"] = locations
-        rp = json.dumps(obj)
+            obj = json.loads(rp)
+            obj["resource"]["location"] = locations
+            rp = json.dumps(obj)
 
-        fp = fp + rp + ","
+            fp = fp + rp + ","
 
     fp = fp[:-1] + " ] } "
     return fp
+
+
+# This function is used to Capitalize the 'resource_type'
+# and remove the 's' at the end, a version suitable with the API
+def get_valid_resource_type(resource_type):
+    logging.debug("Modify the string resource_type")
+    modified_resource_type = resource_type[0].upper() + resource_type[1:-1]
+    return modified_resource_type
+
+
+# This function gets the current resource version from the API
+def get_resource(resource_id, resource_type):
+    resource_type = get_valid_resource_type(resource_type)
+    resource_url = "/".join([config.fhir_base_url, resource_type, resource_id])
+    response = handle_request("GET", "", resource_url)
+    return json.loads(response[0])["meta"]["versionId"] if response[1] == 200 else "0"
 
 
 # This function builds a json payload
@@ -446,46 +565,73 @@ def build_payload(resource_type, resources, resource_payload_file):
     with open(resource_payload_file) as json_file:
         payload_string = json_file.read()
 
-    for resource in resources:
-        try:
-            if resource[2] == "update":
-                # use the provided id
-                unique_uuid = resource[4]
-                identifier_uuid = resource[4] if resource[5] == "" else resource[5]
-            else:
-                # generate a new uuid
-                unique_uuid = str(uuid.uuid4())
+    with click.progressbar(resources, label='Progress::Building payload ') as build_payload_progress:
+        for resource in build_payload_progress:
+            logging.info("\t")
+
+            try:
+                name, status, method, id, *_ = resource
+            except ValueError:
+                name = resource[0]
+                status = "" if len(resource) == 1 else resource[1]
+                method = "create"
+                id = str(uuid.uuid5(uuid.NAMESPACE_DNS, name))
+
+            try:
+                if method == "create":
+                    version = "1"
+                    if len(id.strip()) > 0:
+                        # use the provided id
+                        unique_uuid = id.strip()
+                        identifier_uuid = id.strip()
+                    else:
+                        # generate a new uuid
+                        unique_uuid = str(uuid.uuid5(uuid.NAMESPACE_DNS, name))
+                        identifier_uuid = unique_uuid
+            except IndexError:
+                # default if method is not provided
+                unique_uuid = str(uuid.uuid5(uuid.NAMESPACE_DNS, name))
                 identifier_uuid = unique_uuid
-        except IndexError:
-            # default if method is not provided
-            unique_uuid = str(uuid.uuid4())
-            identifier_uuid = unique_uuid
+                version = "1"
 
-        # ps = payload_string
-        ps = (
-            payload_string.replace("$name", resource[0])
-            .replace("$unique_uuid", unique_uuid)
-            .replace("$identifier_uuid", identifier_uuid)
-        )
+            try:
+                if method == "update":
+                    if len(id.strip()) > 0:
+                        version = get_resource(id, resource_type)
+                        if version != "0":
+                            # use the provided id
+                            unique_uuid = id.strip()
+                            identifier_uuid = id.strip()
+                        else:
+                            logging.info("Failed to get resource!")
+                            raise ValueError("Trying to update a Non-existent resource")
+                    else:
+                        logging.info("The id is required!")
+                        raise ValueError("The id is required to update a resource")
+            except IndexError:
+                raise ValueError("The id is required to update a resource")
 
-        try:
-            ps = ps.replace("$status", resource[1])
-        except IndexError:
-            ps = ps.replace("$status", "active")
+            # ps = payload_string
+            ps = (
+                payload_string.replace("$name", name)
+                .replace("$unique_uuid", unique_uuid)
+                .replace("$identifier_uuid", identifier_uuid)
+                .replace("$version", version)
+            )
 
-        try:
-            ps = ps.replace("$version", resource[3])
-        except IndexError:
-            ps = ps.replace("$version", "1")
+            try:
+                ps = ps.replace("$status", status)
+            except IndexError:
+                ps = ps.replace("$status", "active")
 
-        if resource_type == "organizations":
-            ps = organization_extras(resource, ps)
-        elif resource_type == "locations":
-            ps = location_extras(resource, ps)
-        elif resource_type == "careTeams":
-            ps = care_team_extras(resource, ps, "min", [], [], "orgs & users")
+            if resource_type == "organizations":
+                ps = organization_extras(resource, ps)
+            elif resource_type == "locations":
+                ps = location_extras(resource, ps)
+            elif resource_type == "careTeams":
+                ps = care_team_extras(resource, ps, "orgs & users")
 
-        final_string = final_string + ps + ","
+            final_string = final_string + ps + ","
 
     final_string = initial_string + final_string[:-1] + " ] } "
     return final_string
@@ -495,8 +641,9 @@ def confirm_keycloak_user(user):
     # Confirm that the keycloak user details are as expected
     user_username = str(user[2]).strip()
     user_email = str(user[3]).strip()
+    keycloak_url = get_keycloak_url()
     response = handle_request(
-        "GET", "", config.keycloak_url + "/users?exact=true&username=" + user_username
+        "GET", "", keycloak_url + "/users?exact=true&username=" + user_username
     )
     logging.debug(response)
     json_response = json.loads(response[0])
@@ -528,11 +675,11 @@ def confirm_keycloak_user(user):
 
 def confirm_practitioner(user, user_id):
     practitioner_uuid = str(user[4]).strip()
-
+    base_url = get_base_url()
     if not practitioner_uuid:
         # If practitioner uuid not provided in csv, check if any practitioners exist linked to the keycloak user_id
         r = handle_request(
-            "GET", "", config.fhir_base_url + "/Practitioner?identifier=" + user_id
+            "GET", "", base_url + "/Practitioner?identifier=" + user_id
         )
         json_r = json.loads(r[0])
         counter = json_r["total"]
@@ -545,7 +692,7 @@ def confirm_practitioner(user, user_id):
             return False
 
     r = handle_request(
-        "GET", "", config.fhir_base_url + "/Practitioner/" + practitioner_uuid
+        "GET", "", base_url + "/Practitioner/" + practitioner_uuid
     )
 
     if r[1] == 404:
@@ -567,7 +714,7 @@ def confirm_practitioner(user, user_id):
                 return True
             else:
                 logging.error(
-                    "The Keycloak user and Practitioner are not linked as exppected"
+                    "The Keycloak user and Practitioner are not linked as expected"
                 )
                 return True
 
@@ -715,11 +862,10 @@ def delete_resource(resource_type, resource_id, cascade):
     else:
         cascade = ""
 
-    r = handle_request(
-        "DELETE",
-        "",
-        config.fhir_base_url + "/" + resource_type + "/" + resource_id + cascade,
+    resource_url = "/".join(
+        [config.fhir_base_url, resource_type, resource_id + cascade]
     )
+    r = handle_request("DELETE", "", resource_url)
     logging.info(r.text)
 
 
@@ -777,50 +923,276 @@ def clean_duplicates(users, cascade_delete):
                 logging.info("No Practitioners found")
 
 
+# Create a csv file and initialize the CSV writer
+def write_csv(data, resource_type, fieldnames):
+    logging.info("Writing to csv file")
+    path = 'csv/exports'
+    if not os.path.exists(path):
+        os.makedirs(path)
+
+    current_time = datetime.now().strftime("%Y-%m-%d-%H-%M")
+    csv_file = f"{path}/{current_time}-export_{resource_type}.csv"
+    with open(csv_file, 'w', newline='') as file:
+        csv_writer = csv.writer(file)
+        csv_writer.writerow(fieldnames)
+        with click.progressbar(data, label='Progress:: Writing csv') as write_csv_progress:
+            for row in write_csv_progress:
+                csv_writer.writerow(row)
+    return csv_file
+
+
+def get_base_url():
+    return config.fhir_base_url
+
+
+# This function exports resources from the API to a csv file
+def export_resources_to_csv(resource_type, parameter, value, limit):
+    base_url = get_base_url()
+    resource_url = "/".join([str(base_url), resource_type])
+    if len(parameter) > 0:
+        resource_url = (
+                resource_url + "?" + parameter + "=" + value + "&_count=" + str(limit)
+        )
+    response = handle_request("GET", "", resource_url)
+    if response[1] == 200:
+        resources = json.loads(response[0])
+        data = []
+        try:
+            if resources["entry"]:
+                if resource_type == "Location":
+                    elements = ["name", "status", "method", "id", "identifier", "parentName", "parentID", "type",
+                                "typeCode",
+                                "physicalType", "physicalTypeCode"]
+                elif resource_type == "Organization":
+                    elements = ["name", "active", "method", "id", "identifier", "alias"]
+                elif resource_type == "CareTeam":
+                    elements = ["name", "status", "method", "id", "identifier", "organizations", "participants"]
+                else:
+                    elements = []
+                with click.progressbar(resources["entry"],
+                                       label='Progress:: Extracting resource') as extract_resources_progress:
+                    for x in extract_resources_progress:
+                        rl = []
+                        orgs_list = []
+                        participants_list = []
+                        for element in elements:
+                            try:
+                                if element == "method":
+                                    value = "update"
+                                elif element == "active":
+                                    value = x["resource"]["active"]
+                                elif element == "identifier":
+                                    value = x["resource"]["identifier"][0]["value"]
+                                elif element == "organizations":
+                                    organizations = x["resource"]["managingOrganization"]
+                                    for index, value in enumerate(organizations):
+                                        reference = x["resource"]["managingOrganization"][index]["reference"]
+                                        new_reference = reference.split("/", 1)[1]
+                                        display = x["resource"]["managingOrganization"][index]["display"]
+                                        organization = ":".join([new_reference, display])
+                                        orgs_list.append(organization)
+                                    string = "|".join(map(str, orgs_list))
+                                    value = string
+                                elif element == "participants":
+                                    participants = x["resource"]["participant"]
+                                    for index, value in enumerate(participants):
+                                        reference = x["resource"]["participant"][index]["member"]["reference"]
+                                        new_reference = reference.split("/", 1)[1]
+                                        display = x["resource"]["participant"][index]["member"]["display"]
+                                        participant = ":".join([new_reference, display])
+                                        participants_list.append(participant)
+                                    string = "|".join(map(str, participants_list))
+                                    value = string
+                                elif element == "parentName":
+                                    value = x["resource"]["partOf"]["display"]
+                                elif element == "parentID":
+                                    reference = x["resource"]["partOf"]["reference"]
+                                    value = reference.split("/", 1)[1]
+                                elif element == "type":
+                                    value = x["resource"]["type"][0]["coding"][0]["display"]
+                                elif element == "typeCode":
+                                    value = x["resource"]["type"][0]["coding"][0]["code"]
+                                elif element == "physicalType":
+                                    value = x["resource"]["physicalType"]["coding"][0]["display"]
+                                elif element == "physicalTypeCode":
+                                    value = x["resource"]["physicalType"]["coding"][0]["code"]
+                                elif element == "alias":
+                                    value = x["resource"]["alias"][0]
+                                else:
+                                    value = x["resource"][element]
+                            except KeyError:
+                                value = ""
+                            rl.append(value)
+                        data.append(rl)
+                write_csv(data, resource_type, elements)
+                logging.info("Successfully written to csv")
+            else:
+                logging.info("No entry found")
+        except KeyError:
+            logging.info("No Resources Found")
+    else:
+        logging.error(f"Failed to retrieve resource. Status code: {response[1]} response: {response[0]}")
+
+
+def encode_image(image_file):
+    with open(image_file, 'rb') as image:
+        image_b64_data = base64.b64encode(image.read())
+    return image_b64_data
+
+
+# This function takes in the source url of an image, downloads it, encodes it,
+# and saves it as a Binary resource. It returns the id of the Binary resource if
+# successful and 0 if failed
+def save_image(image_source_url):
+    headers = {"Authorization": "Bearer " + config.product_access_token}
+    data = requests.get(url=image_source_url, headers=headers)
+    if data.status_code == 200:
+        with open('images/image_file', 'wb') as image_file:
+            image_file.write(data.content)
+
+        # get file type
+        mime = magic.Magic(mime=True)
+        file_type = mime.from_file('images/image_file')
+
+        encoded_image = encode_image('images/image_file')
+        resource_id = str(uuid.uuid5(uuid.NAMESPACE_DNS, image_source_url))
+        payload = {
+            "resourceType": "Bundle",
+            "type": "transaction",
+            "entry": [{
+                "request": {
+                    "method": "PUT",
+                    "url": "Binary/" + resource_id,
+                    "ifMatch": "1"
+                },
+                "resource": {
+                    "resourceType": "Binary",
+                    "id": resource_id,
+                    "contentType": file_type,
+                    "data": str(encoded_image)
+                }
+            }]
+        }
+        payload_string = json.dumps(payload, indent=4)
+        response = handle_request("POST", payload_string, get_base_url())
+        if response.status_code == 200:
+            logging.info("Binary resource created successfully")
+            logging.info(response.text)
+            return resource_id
+        else:
+            logging.error("Error while creating Binary resource")
+            logging.error(response.text)
+            return 0
+    else:
+        logging.error("Error while attempting to retrieve image")
+        logging.error(data)
+        return 0
+
+
+class ResponseFilter(logging.Filter):
+    def __init__(self, param=None):
+        self.param = param
+
+    def filter(self, record):
+        if self.param is None:
+            allow = True
+        else:
+            allow = self.param in record.msg
+        return allow
+
+
+LOGGING = {
+    'version': 1,
+    'filters': {
+        'custom-filter': {
+            '()': ResponseFilter,
+            'param': 'final-response',
+        }
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'filters': ['custom-filter']
+        }
+    },
+    'root': {
+        'level': 'INFO',
+        'handlers': ['console']
+    },
+}
+
+
 @click.command()
-@click.option("--csv_file", required=True)
+@click.option("--csv_file", required=False)
+@click.option("--access_token", required=False)
 @click.option("--resource_type", required=False)
 @click.option("--assign", required=False)
 @click.option("--setup", required=False)
 @click.option("--group", required=False)
 @click.option("--roles_max", required=False, default=500)
 @click.option("--cascade_delete", required=False, default=False)
-@click.option(
-    "--log_level", type=click.Choice(["DEBUG", "INFO", "ERROR"], case_sensitive=False)
-)
+@click.option("--only_response", required=False)
+@click.option("--log_level", type=click.Choice(["DEBUG", "INFO", "ERROR"], case_sensitive=False))
+@click.option("--export_resources", required=False)
+@click.option("--parameter", required=False, default="_lastUpdated")
+@click.option("--value", required=False, default="gt2023-01-01")
+@click.option("--limit", required=False, default=1000)
 def main(
-    csv_file, resource_type, assign, setup, group, roles_max, cascade_delete, log_level
+    csv_file, access_token, resource_type, assign, setup, group, roles_max, cascade_delete, only_response, log_level,
+    export_resources, parameter, value, limit
 ):
     if log_level == "DEBUG":
-        logging.basicConfig(level=logging.DEBUG)
+        logging.basicConfig(filename='importer.log', encoding='utf-8', level=logging.DEBUG)
     elif log_level == "INFO":
-        logging.basicConfig(level=logging.INFO)
+        logging.basicConfig(filename='importer.log', encoding='utf-8', level=logging.INFO)
     elif log_level == "ERROR":
-        logging.basicConfig(level=logging.ERROR)
+        logging.basicConfig(filename='importer.log', encoding='utf-8', level=logging.ERROR)
+    logging.getLogger().addHandler(logging.StreamHandler())
+
+    if only_response:
+        logging.config.dictConfig(LOGGING)
+
+    start_time = datetime.now()
+    logging.info("Start time: " + start_time.strftime("%H:%M:%S"))
+
+    if export_resources == "True":
+        logging.info("Starting export...")
+        logging.info("Exporting " + resource_type)
+        export_resources_to_csv(resource_type, parameter, value, limit)
+        exit()
+
+    # set access token
+    if access_token:
+        global global_access_token
+        global_access_token = access_token
+
+    final_response = ""
 
     logging.info("Starting csv import...")
     resource_list = read_csv(csv_file)
     if resource_list:
         if resource_type == "users":
             logging.info("Processing users")
-            for user in resource_list:
-                user_id = create_user(user)
-                if user_id == 0:
-                    # user was not created above, check if it already exists
-                    user_id = confirm_keycloak_user(user)
-                if user_id != 0:
-                    # user_id has been retrieved
-                    # check practitioner
-                    practitioner_exists = confirm_practitioner(user, user_id)
-                    if not practitioner_exists:
-                        create_user_resources(user_id, user)
-                logging.info("Processing complete!")
+            with click.progressbar(resource_list, label="Progress:Processing users ") as process_user_progress:
+                for user in process_user_progress:
+                    user_id = create_user(user)
+                    if user_id == 0:
+                        # user was not created above, check if it already exists
+                        user_id = confirm_keycloak_user(user)
+                    if user_id != 0:
+                        # user_id has been retrieved
+                        # check practitioner
+                        practitioner_exists = confirm_practitioner(user, user_id)
+                        if not practitioner_exists:
+                            payload = create_user_resources(user_id, user)
+                            final_response = handle_request("POST", payload, config.fhir_base_url)
+                    logging.info("Processing complete!")
         elif resource_type == "locations":
             logging.info("Processing locations")
             json_payload = build_payload(
                 "locations", resource_list, "json_payloads/locations_payload.json"
             )
-            handle_request("POST", json_payload, config.fhir_base_url)
+            final_response = handle_request("POST", json_payload, config.fhir_base_url)
             logging.info("Processing complete!")
         elif resource_type == "organizations":
             logging.info("Processing organizations")
@@ -829,32 +1201,25 @@ def main(
                 resource_list,
                 "json_payloads/organizations_payload.json",
             )
-            handle_request("POST", json_payload, config.fhir_base_url)
+            final_response = handle_request("POST", json_payload, config.fhir_base_url)
             logging.info("Processing complete!")
         elif resource_type == "careTeams":
             logging.info("Processing CareTeams")
             json_payload = build_payload(
                 "careTeams", resource_list, "json_payloads/careteams_payload.json"
             )
-            handle_request("POST", json_payload, config.fhir_base_url)
+            final_response = handle_request("POST", json_payload, config.fhir_base_url)
             logging.info("Processing complete!")
         elif assign == "organization-Location":
             logging.info("Assigning Organizations to Locations")
             matches = extract_matches(resource_list)
             json_payload = build_org_affiliation(matches, resource_list)
-            handle_request("POST", json_payload, config.fhir_base_url)
+            final_response = handle_request("POST", json_payload, config.fhir_base_url)
             logging.info("Processing complete!")
-        elif assign == "careTeam-Organization":
-            logging.info("Assigning CareTeam to Organization")
-            matches = extract_matches(resource_list)
-            json_payload = fetch_and_build(matches, "orgs")
-            handle_request("POST", json_payload, config.fhir_base_url)
-            logging.info("Processing complete!")
-        elif assign == "user-careTeam":
-            logging.info("Assing users to careTeam")
-            matches = extract_matches(resource_list)
-            json_payload = fetch_and_build(matches, "users")
-            handle_request("POST", json_payload, config.fhir_base_url)
+        elif assign == "practitioner-organization":
+            logging.info("Assigning practitioner to Organization")
+            json_payload = build_assign_payload(resource_list, "PractitionerRole")
+            final_response = handle_request("POST", json_payload, config.fhir_base_url)
             logging.info("Processing complete!")
         elif setup == "roles":
             logging.info("Setting up keycloak roles")
@@ -875,6 +1240,12 @@ def main(
     else:
         logging.error("Empty csv file!")
 
+    logging.info("{ \"final-response\": " + final_response.text + "}")
+
+    end_time = datetime.now()
+    logging.info("End time: " + end_time.strftime("%H:%M:%S"))
+    total_time = end_time - start_time
+    logging.info("Total time: " + str(total_time.total_seconds()) + " seconds")
 
 if __name__ == "__main__":
     main()
