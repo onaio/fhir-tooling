@@ -128,64 +128,7 @@ class TestMain(unittest.TestCase):
     @patch("main.get_resource")
     def test_build_payload_locations(self, mock_get_resource, mock_check_parent_admin_level):
         mock_get_resource.return_value = "1"
-        mocked_payload_string = {
-            "request": {
-                "method": "PUT",
-                "url": "Location/ba787982-b973-4bd5-854e-eacbe161e297",
-                "ifMatch": "1"
-            },
-            "resource": {
-                "resourceType": "Location",
-                "id": "ba787982-b973-4bd5-854e-eacbe161e297",
-                "status": "active",
-                "name": "City1",
-                "identifier": [
-                    {
-                        "use": "official",
-                        "value": "ba787982-b973-4bd5-854e-eacbe161e297"
-                    }
-                ],
-                "partOf": {
-                    "reference": "Location/18fcbc2e-4240-4a84-a270-7a444523d7b6",
-                    "display": "test location-1"
-                },
-                "type": [
-                    {
-                        "coding": [
-                            {
-                                "system": "http://terminology.hl7.org/CodeSystem/location-type",
-                                "code": "si",
-                                "display": "site"
-                            }
-                        ]
-                    },
-                    {
-                        "coding": [
-                            {
-                                "system": "https://smartregister.org/codes/administrative-level",
-                                "code": "3",
-                                "display": "Level 3"
-                            }
-                        ]
-                    }
-                ],
-                "physicalType": {
-                    "coding": [
-                        {
-                            "system": "http://terminology.hl7.org/CodeSystem/location-physical-type",
-                            "code": "$pt_code",
-                            "display": "$pt_display"
-                        }
-                    ]
-                },
-                "position": {
-                    "longitude": "$longitude",
-                    "latitude": "$latitude"
-                }
-            }
-        }
-        string = json.dumps(mocked_payload_string)
-        mock_check_parent_admin_level.return_value = string
+        mock_check_parent_admin_level.return_value = "3"
 
         csv_file = "csv/locations/locations_full.csv"
         resource_list = read_csv(csv_file)
@@ -361,69 +304,9 @@ class TestMain(unittest.TestCase):
         }
         string_mocked_response_text = json.dumps(mocked_response_text)
         mock_handle_request.return_value = (string_mocked_response_text, 200)
-        parentID = "18fcbc2e-4240-4a84-a270-7a444523d7b6"
-        payload_string = {
-            "request": {
-                "method": "PUT",
-                "url": "Location/ba787982-b973-4bd5-854e-eacbe161e297",
-                "ifMatch": "6"
-            },
-            "resource": {
-                "resourceType": "Location",
-                "id": "ba787982-b973-4bd5-854e-eacbe161e297",
-                "status": "active",
-                "name": "City1",
-                "identifier": [
-                    {
-                        "use": "official",
-                        "value": "ba787982-b973-4bd5-854e-eacbe161e297"
-                    }
-                ],
-                "partOf": {
-                    "reference": "Location/18fcbc2e-4240-4a84-a270-7a444523d7b6",
-                    "display": "test location-1"
-                },
-                "type": [
-                    {
-                        "coding": [
-                            {
-                                "system": "http://terminology.hl7.org/CodeSystem/location-type",
-                                "code": "si",
-                                "display": "site"
-                            }
-                        ]
-                    },
-                    {
-                        "coding": [
-                            {
-                                "system": "https://smartregister.org/codes/administrative-level",
-                                "code": "$adminLevelCode",
-                                "display": "Level $adminLevelCode"
-                            }
-                        ]
-                    }
-                ],
-                "physicalType": {
-                    "coding": [
-                        {
-                            "system": "http://terminology.hl7.org/CodeSystem/location-physical-type",
-                            "code": "$pt_code",
-                            "display": "$pt_display"
-                        }
-                    ]
-                },
-                "position": {
-                    "longitude": "$longitude",
-                    "latitude": "$latitude"
-                }
-            }
-        }
-
-        payload_string = json.dumps(payload_string)
-        payload_string = check_parent_admin_level(parentID, payload_string)
-        payload_obj = json.loads(payload_string)
-        self.assertEqual(payload_obj["resource"]["type"][1]["coding"][0]["code"], "3")
-        self.assertTrue('$adminLevelCode' not in payload_obj)
+        locationParentId = "18fcbc2e-4240-4a84-a270-7a444523d7b6"
+        admin_level = check_parent_admin_level(locationParentId)
+        self.assertEqual(admin_level, "3")
 
     @patch("main.get_resource")
     def test_build_payload_care_teams(self, mock_get_resource):
@@ -609,11 +492,7 @@ class TestMain(unittest.TestCase):
         self.assertEqual(users_uuids[0][2], users_uuids[1][2])
         self.assertNotEqual(users_uuids[1][2], users_uuids[2][2])
 
-    @patch("main.check_parent_admin_level")
-    def test_uuid_generated_for_locations_is_unique_and_repeatable(self, mock_check_parent_admin_level):
-        mock_payload_string = {}
-        string = json.dumps(mock_payload_string)
-        mock_check_parent_admin_level.return_value = string
+    def test_uuid_generated_for_locations_is_unique_and_repeatable(self):
         resources = [
             [
                 "City1",
@@ -638,7 +517,7 @@ class TestMain(unittest.TestCase):
                 "test location-1",
                 "18fcbc2e-4240-4a84-a270-7a444523d7b6",
                 "building",
-                "bu"
+                "bu",
                 "3",
                 "building",
                 "bu",
