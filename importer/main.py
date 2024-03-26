@@ -1189,6 +1189,9 @@ def save_image(image_source_url):
         headers = {}
 
     data = requests.get(url=image_source_url, headers=headers)
+    if not os.path.exists('images'):
+        os.makedirs('images')
+
     if data.status_code == 200:
         with open('images/image_file', 'wb') as image_file:
             image_file.write(data.content)
