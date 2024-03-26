@@ -382,9 +382,11 @@ class TestMain(unittest.TestCase):
         }
         validate(payload_obj["entry"][0]["request"], request_schema)
 
+    @patch("main.save_image")
     @patch("main.get_resource")
-    def test_build_payload_group(self, mock_get_resource):
+    def test_build_payload_group(self, mock_get_resource, mock_save_image):
         mock_get_resource.return_value = "1"
+        mock_save_image.return_value = "f374a23a-3c6a-4167-9970-b10c16a91bbd"
 
         csv_file = "csv/import/product.csv"
         resource_list = read_csv(csv_file)
