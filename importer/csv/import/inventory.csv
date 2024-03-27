@@ -1,0 +1,2 @@
+name,active,method,id,previousId,productId,type,deliveryDate,accountabilityEndDate,unicefSection,donor
+sample1,true,create,8adfcfe0-41d0-4f0a-9a89-909c72fbf330,942098123,1d86d0e2-bac8-4424-90ae-e2298900ac3c,device,2021-01-09T00:00:00.000+0000,2025-01-09T00:00:00.000+0000,Health,Fund
