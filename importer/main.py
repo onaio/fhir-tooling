@@ -262,13 +262,19 @@ def check_parent_admin_level(locationParentId):
     resource_url = "/".join([base_url, "Location", locationParentId])
     response = handle_request("GET", "", resource_url)
     obj = json.loads(response[0])
-    response_type = obj["type"]
-    current_system = "administrative-level"
-    index = identify_coding_object_index(response_type, current_system)
-    if index >= 0:
-        code = obj["type"][index]["coding"][0]["code"]
-        admin_level = str(int(code) + 1)
-        return admin_level
+    if "type" in obj:
+        response_type = obj["type"]
+        current_system = "administrative-level"
+        if current_system:
+            index = identify_coding_object_index(response_type, current_system)
+            if index >= 0:
+                code = obj["type"][index]["coding"][0]["code"]
+                admin_level = str(int(code) + 1)
+                return admin_level
+        else:
+            return None
+    else:
+        return None
 
 
 # custom extras for locations
@@ -328,7 +334,15 @@ def location_extras(resource, payload_string):
         else:
             if locationAdminLevel in resource:
                 admin_level = check_parent_admin_level(locationParentId)
-                payload_string = payload_string.replace("$adminLevelCode", admin_level)
+                if admin_level:
+                    payload_string = payload_string.replace("$adminLevelCode", admin_level)
+                else:
+                    obj = json.loads(payload_string)
+                    obj_type = obj["resource"]["type"]
+                    current_system = "administrative-level"
+                    index = identify_coding_object_index(obj_type, current_system)
+                    del obj["resource"]["type"][index]
+                    payload_string = json.dumps(obj, indent=4)
             else:
                 obj = json.loads(payload_string)
                 obj_type = obj["resource"]["type"]
@@ -339,7 +353,15 @@ def location_extras(resource, payload_string):
     except IndexError:
         if locationAdminLevel in resource:
             admin_level = check_parent_admin_level(locationParentId)
-            payload_string = payload_string.replace("$adminLevelCode", admin_level)
+            if admin_level:
+                payload_string = payload_string.replace("$adminLevelCode", admin_level)
+            else:
+                obj = json.loads(payload_string)
+                obj_type = obj["resource"]["type"]
+                current_system = "administrative-level"
+                index = identify_coding_object_index(obj_type, current_system)
+                del obj["resource"]["type"][index]
+                payload_string = json.dumps(obj, indent=4)
         else:
             obj = json.loads(payload_string)
             obj_type = obj["resource"]["type"]
@@ -1236,9 +1258,8 @@ def main(
             json_payload = build_payload(
                 "locations", resource_list, "json_payloads/locations_payload.json"
             )
-            # final_response = handle_request("POST", json_payload, config.fhir_base_url)
-            # logging.info("Processing complete!")
-            logging.info(json_payload)
+            final_response = handle_request("POST", json_payload, config.fhir_base_url)
+            logging.info("Processing complete!")
         elif resource_type == "organizations":
             logging.info("Processing organizations")
             json_payload = build_payload(
