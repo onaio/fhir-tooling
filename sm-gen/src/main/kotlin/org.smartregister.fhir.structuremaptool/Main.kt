@@ -68,6 +68,8 @@ class Application : CliktCommand() {
         } else {
             println("File not found: questionnaire-response.json")
         }
+
+        // reads the xls
         val xlsFile = FileInputStream(xlsfile)
         val xlWb = WorkbookFactory.create(xlsFile)
 
@@ -197,6 +199,7 @@ class Application : CliktCommand() {
                 }
                 val transformSupportServices = TransformSupportServices(simpleWorkerContext)
                 val scu = org.hl7.fhir.r4.utils.StructureMapUtilities(simpleWorkerContext, transformSupportServices)
+                println(structureMapString)
                 val structureMap = scu.parse(structureMapString, questionnaireId.clean())
                 // DataFormatException | FHIRLexerException
 
@@ -211,7 +214,7 @@ class Application : CliktCommand() {
                 }
 
             } catch (ex: Exception) {
-                println("The generated StructureMap has a formatting error")
+               println("The generated StructureMap has a formatting error")
                 ex.printStackTrace()
             }
 
