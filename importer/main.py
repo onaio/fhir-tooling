@@ -331,7 +331,10 @@ def location_extras(resource, payload_string):
                 payload_string = payload_string.replace("$adminLevelCode", admin_level)
             else:
                 obj = json.loads(payload_string)
-                del obj["resource"]["type"]
+                obj_type = obj["resource"]["type"]
+                current_system = "administrative-level"
+                index = identify_coding_object_index(obj_type, current_system)
+                del obj["resource"]["type"][index]
                 payload_string = json.dumps(obj, indent=4)
     except IndexError:
         if locationAdminLevel in resource:
@@ -339,7 +342,10 @@ def location_extras(resource, payload_string):
             payload_string = payload_string.replace("$adminLevelCode", admin_level)
         else:
             obj = json.loads(payload_string)
-            del obj["resource"]["type"]
+            obj_type = obj["resource"]["type"]
+            current_system = "administrative-level"
+            index = identify_coding_object_index(obj_type, current_system)
+            del obj["resource"]["type"][index]
             payload_string = json.dumps(obj, indent=4)
 
     try:
@@ -1230,8 +1236,9 @@ def main(
             json_payload = build_payload(
                 "locations", resource_list, "json_payloads/locations_payload.json"
             )
-            final_response = handle_request("POST", json_payload, config.fhir_base_url)
-            logging.info("Processing complete!")
+            # final_response = handle_request("POST", json_payload, config.fhir_base_url)
+            # logging.info("Processing complete!")
+            logging.info(json_payload)
         elif resource_type == "organizations":
             logging.info("Processing organizations")
             json_payload = build_payload(

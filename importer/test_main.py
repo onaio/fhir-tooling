@@ -264,11 +264,6 @@ class TestMain(unittest.TestCase):
         mocked_response_text = {
             "resourceType": "Location",
             "id": "18fcbc2e-4240-4a84-a270-7a444523d7b6",
-            "meta": {
-                "versionId": "5",
-                "lastUpdated": "2024-03-18T13:16:34.908+00:00",
-                "source": "#08aff535b61baf19"
-            },
             "identifier": [
                 {
                     "use": "official",
@@ -287,20 +282,7 @@ class TestMain(unittest.TestCase):
                         }
                     ]
                 }
-            ],
-            "physicalType": {
-                "coding": [
-                    {
-                        "system": "http://terminology.hl7.org/CodeSystem/location-physical-type",
-                        "code": "jdn",
-                        "display": "jurisdiction"
-                    }
-                ]
-            },
-            "partOf": {
-                "reference": "Location/105164",
-                "display": "test location"
-            }
+            ]
         }
         string_mocked_response_text = json.dumps(mocked_response_text)
         mock_handle_request.return_value = (string_mocked_response_text, 200)
