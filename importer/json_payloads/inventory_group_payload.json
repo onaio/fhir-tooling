@@ -1,0 +1,106 @@
+{
+  "request": {
+    "method": "PUT",
+    "url": "Group/$unique_uuid",
+    "ifMatch": "$version"
+  },
+  "resource": {
+    "resourceType": "Group",
+    "id": "$unique_uuid",
+    "identifier": [
+      {
+        "use": "official",
+        "value": "$unique_uuid"
+      },
+      {
+        "use": "secondary",
+        "value": "$previous_id"
+      }
+    ],
+    "active": "$active",
+    "type": "$type",
+    "code": {
+      "coding": [
+        {
+          "system": "http://smartregister.org/supply-inventory",
+          "code": "78991122",
+          "display": "Supply Inventory"
+        }
+      ]
+    },
+    "name": "$name",
+    "characteristic": [
+      {
+        "code": {
+          "coding": [
+            {
+              "system": "http://smartregister.org/delivery-and-accountability",
+              "code": "09887657",
+              "display": "Delivery and Accountability"
+            }
+          ]
+        },
+        "valuePeriod": {
+          "start": "$delivery_date",
+          "end": "$accountability_date"
+        }
+      },
+      {
+        "code": {
+          "coding": [
+            {
+              "system": "http://smartregister.org/unicef-section",
+              "code": "98734231",
+              "display": "Unicef Section"
+            }
+          ]
+        },
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "system": "http://smartregister.org/unicef-section",
+              "code": "98734231-1",
+              "display": "Value entered on the unicef section"
+            }
+          ],
+          "text": "$unicef_section"
+        }
+      },
+      {
+        "code": {
+          "coding": [
+            {
+              "system": "http://smartregister.org/donor",
+              "code": "45647484",
+              "display": "Donor"
+            }
+          ]
+        },
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "system": "http://smartregister.org/donor",
+              "code": "45647484-1",
+              "display": "Value entered on the donor"
+            }
+          ],
+          "text": "$donor"
+        }
+      },
+      {
+        "code": {
+          "coding": [
+            {
+              "system": "http://smartregister.org/product-reference",
+              "code": "33467722",
+              "display": "Product reference"
+            }
+          ]
+        },
+        "valueReference": {
+          "reference": "Group/$product_id"
+        }
+      }
+    ]
+  }
+}

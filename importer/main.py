@@ -484,63 +484,120 @@ def delete_missing_obj_from_payload(payload_obj, position, tracker):
 
 
 # custom extras for product import
-def product_extras(resource, payload_string):
+def group_extras(resource, payload_string, group_type):
     payload_obj = json.loads(payload_string)
-    product_name = resource[0]
+    item_name = resource[0]
     tracker = 0
 
-    try:
-        (_, active, *_, previous_id, is_attractive_item, availability, condition, appropriate_usage,
-         accountability_period, image_source_url) = resource
-    except ValueError:
-        logging.error("Skipping: " + product_name + " : Because of missing columns ")
-        active = previous_id = is_attractive_item = availability = condition = appropriate_usage = \
-            accountability_period = image_source_url = "missing_column"
+    if group_type == "product":
+        try:
+            (_, active, *_, previous_id, is_attractive_item, availability, condition, appropriate_usage,
+             accountability_period, image_source_url) = resource
+        except ValueError:
+            logging.error("Skipping: " + item_name + " : Because of missing columns ")
+            active = previous_id = is_attractive_item = availability = condition = appropriate_usage = \
+                accountability_period = image_source_url = "missing_column"
 
-    if active and active != "missing_column":
-        payload_obj["resource"]["active"] = active
-    else:
-        del payload_obj["resource"]["active"]
-
-    if previous_id and previous_id != "missing_column":
-        payload_obj["resource"]["identifier"][1]["value"] = previous_id
-    else:
-        del payload_obj["resource"]["identifier"][1]
-
-    if is_attractive_item and is_attractive_item != "missing_column":
-        payload_obj["resource"]["characteristic"][0+tracker]["valueBoolean"] = is_attractive_item
-    else:
-        payload_obj, tracker = delete_missing_obj_from_payload(payload_obj, 0+tracker, tracker)
-
-    if availability and availability != "missing_column":
-        payload_obj["resource"]["characteristic"][1+tracker]["valueCodeableConcept"]["text"] = availability
-    else:
-        payload_obj, tracker = delete_missing_obj_from_payload(payload_obj, 1+tracker, tracker)
-
-    if condition and condition != "missing_column":
-        payload_obj["resource"]["characteristic"][2+tracker]["valueCodeableConcept"]["text"] = condition
-    else:
-        payload_obj, tracker = delete_missing_obj_from_payload(payload_obj, 2+tracker, tracker)
-
-    if appropriate_usage and appropriate_usage != "missing_column":
-        payload_obj["resource"]["characteristic"][3+tracker]["valueCodeableConcept"]["text"] = appropriate_usage
-    else:
-        payload_obj, tracker = delete_missing_obj_from_payload(payload_obj, 3+tracker, tracker)
-
-    if accountability_period and accountability_period != "missing_column":
-        payload_obj["resource"]["characteristic"][4+tracker]["valueQuantity"]["value"] = accountability_period
-    else:
-        payload_obj, tracker = delete_missing_obj_from_payload(payload_obj, 4+tracker, tracker)
-
-    if image_source_url and image_source_url != "missing_column":
-        image_binary = save_image(image_source_url)
-        if image_binary != 0:
-            payload_obj["resource"]["characteristic"][5+tracker]["valueReference"]["reference"] = "Binary/" + image_binary
+        if active and active != "missing_column":
+            payload_obj["resource"]["active"] = active
         else:
-            logging.error("Unable to link the image Binary resource for product " + product_name)
+            del payload_obj["resource"]["active"]
+
+        if previous_id and previous_id != "missing_column":
+            payload_obj["resource"]["identifier"][1]["value"] = previous_id
+        else:
+            del payload_obj["resource"]["identifier"][1]
+
+        if is_attractive_item and is_attractive_item != "missing_column":
+            payload_obj["resource"]["characteristic"][0+tracker]["valueBoolean"] = is_attractive_item
+        else:
+            payload_obj, tracker = delete_missing_obj_from_payload(payload_obj, 0+tracker, tracker)
+
+        if availability and availability != "missing_column":
+            payload_obj["resource"]["characteristic"][1+tracker]["valueCodeableConcept"]["text"] = availability
+        else:
+            payload_obj, tracker = delete_missing_obj_from_payload(payload_obj, 1+tracker, tracker)
+
+        if condition and condition != "missing_column":
+            payload_obj["resource"]["characteristic"][2+tracker]["valueCodeableConcept"]["text"] = condition
+        else:
+            payload_obj, tracker = delete_missing_obj_from_payload(payload_obj, 2+tracker, tracker)
+
+        if appropriate_usage and appropriate_usage != "missing_column":
+            payload_obj["resource"]["characteristic"][3+tracker]["valueCodeableConcept"]["text"] = appropriate_usage
+        else:
+            payload_obj, tracker = delete_missing_obj_from_payload(payload_obj, 3+tracker, tracker)
+
+        if accountability_period and accountability_period != "missing_column":
+            payload_obj["resource"]["characteristic"][4+tracker]["valueQuantity"]["value"] = accountability_period
+        else:
+            payload_obj, tracker = delete_missing_obj_from_payload(payload_obj, 4+tracker, tracker)
+
+        if image_source_url and image_source_url != "missing_column":
+            image_binary = save_image(image_source_url)
+            if image_binary != 0:
+                payload_obj["resource"]["characteristic"][5+tracker]["valueReference"]["reference"] = "Binary/" + image_binary
+            else:
+                logging.error("Unable to link the image Binary resource for product " + item_name)
+                payload_obj, tracker = delete_missing_obj_from_payload(payload_obj, 5+tracker, tracker)
+        else:
             payload_obj, tracker = delete_missing_obj_from_payload(payload_obj, 5+tracker, tracker)
+
+    elif group_type == "inventory":
+        try:
+            (_, active, *_, previous_id, product_id, inventory_type, delivery_date, accountability_end_date,
+             unicef_section, donor) = resource
+        except ValueError:
+            logging.error("Skipping: " + item_name + " : Because of missing columns ")
+            active = previous_id = product_id = inventory_type = delivery_date = accountability_end_date = \
+                unicef_section = donor = "missing_column"
+
+        if active and active != "missing_column":
+            payload_obj["resource"]["active"] = active
+        else:
+            del payload_obj["resource"]["active"]
+
+        if previous_id and previous_id != "missing_column":
+            payload_obj["resource"]["identifier"][1]["value"] = previous_id
+        else:
+            del payload_obj["resource"]["identifier"][1]
+
+        if inventory_type and inventory_type != "missing_column":
+            payload_obj["resource"]["type"] = inventory_type
+        else:
+            del payload_obj["resource"]["type"]
+
+        if delivery_date and delivery_date != "missing_column":
+            payload_obj["resource"]["characteristic"][0+tracker]["valuePeriod"]["start"] = delivery_date
+        else:
+            payload_obj["resource"]["characteristic"][0+tracker]["valuePeriod"]["start"] = ""
+
+        if accountability_end_date and accountability_end_date != "missing_column":
+            payload_obj["resource"]["characteristic"][0+tracker]["valuePeriod"]["end"] = accountability_end_date
+        else:
+            payload_obj["resource"]["characteristic"][0+tracker]["valuePeriod"]["end"] = ""
+
+        if (not delivery_date and not accountability_end_date) or (
+                delivery_date == "missing_column" and accountability_end_date == "missing_column"):
+            payload_obj, tracker = delete_missing_obj_from_payload(payload_obj, 0+tracker, tracker)
+
+        if unicef_section and unicef_section != "missing_column":
+            payload_obj["resource"]["characteristic"][1+tracker]["valueCodeableConcept"]["text"] = unicef_section
+        else:
+            payload_obj, tracker = delete_missing_obj_from_payload(payload_obj, 1+tracker, tracker)
+
+        if donor and donor != "missing_column":
+            payload_obj["resource"]["characteristic"][2+tracker]["valueCodeableConcept"]["text"] = donor
+        else:
+            payload_obj, tracker = delete_missing_obj_from_payload(payload_obj, 2+tracker, tracker)
+
+        if product_id and product_id != "missing_column":
+            payload_obj["resource"]["characteristic"][3+tracker]["valueReference"]["reference"] = "Group/" + product_id
+        else:
+            payload_obj, tracker = delete_missing_obj_from_payload(payload_obj, 3+tracker, tracker)
+
     else:
-        payload_obj, tracker = delete_missing_obj_from_payload(payload_obj, 5+tracker, tracker)
+        logging.info("Group type not defined")
 
     payload_string = json.dumps(payload_obj, indent=4)
     return payload_string
@@ -770,7 +827,13 @@ def build_payload(resource_type, resources, resource_payload_file):
             elif resource_type == "careTeams":
                 ps = care_team_extras(resource, ps, "orgs & users")
             elif resource_type == "Group":
-                ps = product_extras(resource, ps)
+                if "inventory" in resource_payload_file:
+                    group_type = "inventory"
+                elif "product" in resource_payload_file:
+                    group_type = "product"
+                else:
+                    logging.error("Undefined group type")
+                ps = group_extras(resource, ps, group_type)
 
             final_string = final_string + ps + ","
 
@@ -1386,7 +1449,14 @@ def main(
                 "Group", resource_list, "json_payloads/product_group_payload.json")
             final_response = handle_request("POST", json_payload, config.fhir_base_url)
             logging.info("Product importing process complete")
+        elif setup == "inventories":
+            logging.info("Importing inventories as FHIR Group resources")
+            json_payload = build_payload(
+                "Group", resource_list, "json_payloads/inventory_group_payload.json"
+            )
+            final_response = handle_request("POST", json_payload, config.fhir_base_url)
             logging.info(final_response)
+            logging.info("Inventory importing process complete")
         else:
             logging.error("Unsupported request!")
     else:

@@ -141,3 +141,9 @@ The coverage report `coverage.html` will be at the working directory
 - This creates a Group resource for each product imported
 - The first two columns __name__ and __active__ is the minimum required
 - The last column __imageSourceUrl__ contains a url to the product image. If this source requires authentication, then you need to provide the `product_access_token` in the config file. The image is added as a binary resource and referenced in the product's Group resource
+
+### 11. Import inventories from openSRP 1
+- Run `python3 main.py --csv_file csv/import/inventory.csv --setup inventories --log_level info`
+- See example csv [here](/importer/csv/import/inventory.csv)
+- This creates a Group resource for each inventory imported
+- The first two columns __name__ and __active__ is the minimum required
