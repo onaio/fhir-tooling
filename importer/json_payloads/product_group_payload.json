@@ -1,0 +1,137 @@
+{
+  "request": {
+    "method": "PUT",
+    "url": "Group/$unique_uuid",
+    "ifMatch" : "$version"
+  },
+  "resource": {
+    "resourceType": "Group",
+    "id": "$unique_uuid",
+    "identifier": [
+      {
+        "use": "official",
+        "value": "$unique_uuid"
+      },
+      {
+        "use": "secondary",
+        "value": "$previous_id"
+      }
+    ],
+    "active": "$active",
+    "code": {
+      "coding": [
+        {
+          "system": "http://smartregister.org/supply-management",
+          "code": "386452003",
+          "display": "Supply management"
+        }
+      ]
+    },
+    "name": "$name",
+    "characteristic": [
+      {
+        "code": {
+          "coding": [
+            {
+              "system": "http://smartregister.org/is-attractive",
+              "code": "23435363",
+              "display": "Attractive Item code"
+            }
+          ]
+        },
+        "valueBoolean": "$isAttractiveItem"
+      },
+      {
+        "code": {
+          "coding": [
+            {
+              "system": "http://smartregister.org/availability",
+              "code": "34536373",
+              "display": "Is it there code"
+            }
+          ]
+        },
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "system": "http://smartregister.org/availability",
+              "code": "34536373-1",
+              "display": "Value entered on the It is there code"
+            }
+          ],
+          "text": "$availability"
+        }
+      },
+      {
+        "code": {
+          "coding": [
+            {
+              "system": "http://smartregister.org/condition",
+              "code": "45647484",
+              "display": "Is it in good condition? (optional)"
+            }
+          ]
+        },
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "system": "http://smartregister.org/condition",
+              "code": "45647484-1",
+              "display": "Value entered on the Is it in good condition? (optional)"
+            }
+          ],
+          "text": "$condition"
+        }
+      },
+      {
+        "code": {
+          "coding": [
+            {
+              "system": "http://smartregister.org/appropriate-usage",
+              "code": "56758595",
+              "display": "Is it being used appropriately? (optional)"
+            }
+          ]
+        },
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "system": "http://smartregister.org/appropriate-usage",
+              "code": "56758595-1",
+              "display": "Value entered on the Is it being used appropriately? (optional)"
+            }
+          ],
+          "text": "$appropriateUsage"
+        }
+      },
+      {
+        "code": {
+          "coding": [
+            {
+              "system": "http://smartregister.org/accountability-period",
+              "code": "67869606",
+              "display": "Accountability period (in months)"
+            }
+          ]
+        },
+        "valueQuantity": {
+          "value": "$accountabilityPeriod"
+        }
+      },
+      {
+        "code": {
+          "coding": [
+            {
+              "system": "http://smartregister.org/product-image",
+              "code": "1231415",
+              "display": "Product Image code"
+            }
+          ]
+        },
+        "valueReference": {
+          "reference": "Binary/$image-binary"
+        }
+      }
+    ]
+  }
+}
