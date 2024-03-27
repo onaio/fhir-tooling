@@ -14,6 +14,7 @@ from main import (
     create_user,
     confirm_keycloak_user,
     confirm_practitioner,
+    check_parent_admin_level,
 )
 
 
@@ -123,9 +124,11 @@ class TestMain(unittest.TestCase):
         }
         validate(payload_obj["entry"][0]["resource"], request_schema)
 
+    @patch("main.check_parent_admin_level")
     @patch("main.get_resource")
-    def test_build_payload_locations(self, mock_get_resource):
+    def test_build_payload_locations(self, mock_get_resource, mock_check_parent_admin_level):
         mock_get_resource.return_value = "1"
+        mock_check_parent_admin_level.return_value = "3"
 
         csv_file = "csv/locations/locations_full.csv"
         resource_list = read_csv(csv_file)
@@ -156,11 +159,9 @@ class TestMain(unittest.TestCase):
                                 "items": {
                                     "type": "object",
                                     "properties": {
-                                        "system": {
-                                            "const": "http://terminology.hl7.org/CodeSystem/location-type"
-                                        },
-                                        "code": {"const": "si"},
-                                        "display": {"const": "site"},
+                                        "system": {"type": "string"},
+                                        "code": {"type": "string"},
+                                        "display": {"type": "string"},
                                     },
                                 },
                             }
@@ -255,6 +256,39 @@ class TestMain(unittest.TestCase):
             },
         }
         validate(payload_obj["entry"][0]["resource"], request_schema)
+
+    @patch("main.handle_request")
+    @patch("main.get_base_url")
+    def test_check_parent_admin_level(self, mock_get_base_url, mock_handle_request):
+        mock_get_base_url.return_value = "https://example.smartregister.org/fhir"
+        mocked_response_text = {
+            "resourceType": "Location",
+            "id": "18fcbc2e-4240-4a84-a270-7a444523d7b6",
+            "identifier": [
+                {
+                    "use": "official",
+                    "value": "18fcbc2e-4240-4a84-a270-7a444523d7b6"
+                }
+            ],
+            "status": "active",
+            "name": "test location-1",
+            "type": [
+                {
+                    "coding": [
+                        {
+                            "system": "https://smartregister.org/codes/administrative-level",
+                            "code": "2",
+                            "display": "Level 2"
+                        }
+                    ]
+                }
+            ]
+        }
+        string_mocked_response_text = json.dumps(mocked_response_text)
+        mock_handle_request.return_value = (string_mocked_response_text, 200)
+        locationParentId = "18fcbc2e-4240-4a84-a270-7a444523d7b6"
+        admin_level = check_parent_admin_level(locationParentId)
+        self.assertEqual(admin_level, "3")
 
     @patch("main.get_resource")
     def test_build_payload_care_teams(self, mock_get_resource):
@@ -450,7 +484,12 @@ class TestMain(unittest.TestCase):
                 "test location-1",
                 "18fcbc2e-4240-4a84-a270-7a444523d7b6",
                 "jurisdiction",
+                "jdn",
+                "3",
                 "jurisdiction",
+                "jdn",
+                "36.81",
+                "36.81",
             ],
             [
                 "Building1",
@@ -460,7 +499,12 @@ class TestMain(unittest.TestCase):
                 "test location-1",
                 "18fcbc2e-4240-4a84-a270-7a444523d7b6",
                 "building",
+                "bu",
+                "3",
                 "building",
+                "bu",
+                "36.81",
+                "36.81",
             ],
             [
                 "City1",
@@ -470,7 +514,12 @@ class TestMain(unittest.TestCase):
                 "test location-1",
                 "18fcbc2e-4240-4a84-a270-7a444523d7b6",
                 "jurisdiction",
+                "jdn",
+                "3",
                 "jurisdiction",
+                "jdn",
+                "36.81",
+                "36.81",
             ],
         ]
 

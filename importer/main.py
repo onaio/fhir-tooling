@@ -250,15 +250,44 @@ def organization_extras(resource, payload_string):
     return payload_string
 
 
+def identify_coding_object_index(array, current_system):
+    for index, value in enumerate(array):
+        list_of_systems = value["coding"][0]["system"]
+        if current_system in list_of_systems:
+            return index
+
+
+def check_parent_admin_level(locationParentId):
+    base_url = get_base_url()
+    resource_url = "/".join([base_url, "Location", locationParentId])
+    response = handle_request("GET", "", resource_url)
+    obj = json.loads(response[0])
+    if "type" in obj:
+        response_type = obj["type"]
+        current_system = "administrative-level"
+        if current_system:
+            index = identify_coding_object_index(response_type, current_system)
+            if index >= 0:
+                code = obj["type"][index]["coding"][0]["code"]
+                admin_level = str(int(code) + 1)
+                return admin_level
+        else:
+            return None
+    else:
+        return None
+
+
 # custom extras for locations
 def location_extras(resource, payload_string):
     try:
-        (locationName, *_, locationParentName, locationParentId, locationType, locationTypeCode, locationPhysicalType,
-         locationPhysicalTypeCode, longitude, latitude) = resource
+        (locationName, *_, locationParentName, locationParentId, locationType, locationTypeCode,
+         locationAdminLevel, locationPhysicalType, locationPhysicalTypeCode, longitude, latitude) = resource
     except ValueError:
         locationParentName = "parentName"
+        locationParentId = "ParentId"
         locationType = "type"
         locationTypeCode = "typeCode"
+        locationAdminLevel = "adminLevel"
         locationPhysicalType = "physicalType"
         locationPhysicalTypeCode = "physicalTypeCode"
         longitude = "longitude"
@@ -284,12 +313,62 @@ def location_extras(resource, payload_string):
             payload_string = payload_string.replace("$t_code", locationTypeCode)
         else:
             obj = json.loads(payload_string)
-            del obj["resource"]["type"]
-            payload_string = json.dumps(obj, indent=4)
+            payload_type = obj["resource"]["type"]
+            current_system = "location-type"
+            index = identify_coding_object_index(payload_type, current_system)
+            if index >= 0:
+                del obj["resource"]["type"][index]
+                payload_string = json.dumps(obj, indent=4)
     except IndexError:
         obj = json.loads(payload_string)
-        del obj["resource"]["type"]
-        payload_string = json.dumps(obj, indent=4)
+        payload_type = obj["resource"]["type"]
+        current_system = "location-type"
+        index = identify_coding_object_index(payload_type, current_system)
+        if index >= 0:
+            del obj["resource"]["type"][index]
+            payload_string = json.dumps(obj, indent=4)
+
+    try:
+        if len(locationAdminLevel.strip()) > 0 and locationAdminLevel != "adminLevel":
+            payload_string = payload_string.replace("$adminLevelCode", locationAdminLevel)
+        else:
+            if locationAdminLevel in resource:
+                admin_level = check_parent_admin_level(locationParentId)
+                if admin_level:
+                    payload_string = payload_string.replace("$adminLevelCode", admin_level)
+                else:
+                    obj = json.loads(payload_string)
+                    obj_type = obj["resource"]["type"]
+                    current_system = "administrative-level"
+                    index = identify_coding_object_index(obj_type, current_system)
+                    del obj["resource"]["type"][index]
+                    payload_string = json.dumps(obj, indent=4)
+            else:
+                obj = json.loads(payload_string)
+                obj_type = obj["resource"]["type"]
+                current_system = "administrative-level"
+                index = identify_coding_object_index(obj_type, current_system)
+                del obj["resource"]["type"][index]
+                payload_string = json.dumps(obj, indent=4)
+    except IndexError:
+        if locationAdminLevel in resource:
+            admin_level = check_parent_admin_level(locationParentId)
+            if admin_level:
+                payload_string = payload_string.replace("$adminLevelCode", admin_level)
+            else:
+                obj = json.loads(payload_string)
+                obj_type = obj["resource"]["type"]
+                current_system = "administrative-level"
+                index = identify_coding_object_index(obj_type, current_system)
+                del obj["resource"]["type"][index]
+                payload_string = json.dumps(obj, indent=4)
+        else:
+            obj = json.loads(payload_string)
+            obj_type = obj["resource"]["type"]
+            current_system = "administrative-level"
+            index = identify_coding_object_index(obj_type, current_system)
+            del obj["resource"]["type"][index]
+            payload_string = json.dumps(obj, indent=4)
 
     try:
         if len(locationPhysicalType.strip()) > 0 and locationPhysicalType != "physicalType":
