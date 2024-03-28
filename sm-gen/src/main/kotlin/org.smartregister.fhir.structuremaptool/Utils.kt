@@ -48,7 +48,14 @@ class Group(
 
     private fun generateReference(resourceName: String, resourceIndex: String): String {
         // Generate the reference based on the resourceName and resourceIndex
-        return "reference(evaluate(bundle, \$this.entry.where(resourceType = '$resourceName')$resourceIndex))"
+        val sb = StringBuilder()
+        sb.append("create('Reference') as reference then {")
+        sb.appendNewLine()
+        sb.append("src-> reference.reference = evaluate(bundle, \$this.entry.where(resourceType = '$resourceName/$resourceIndex'))")
+        sb.append(""" "rule_d";""".trimMargin())
+        sb.appendNewLine()
+        sb.append("}")
+        return sb.toString()
     }
 
     fun generateGroup(questionnaireResponse: QuestionnaireResponse) {
@@ -143,7 +150,6 @@ class Group(
             }
             val reference = generateReference(resourceName = resourceName, resourceIndex = resourceIndex)
             return reference
-           // return "reference(src)"
         }
 
         /*
