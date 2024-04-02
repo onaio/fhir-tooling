@@ -61,6 +61,8 @@ class Group(
     fun generateGroup(questionnaireResponse: QuestionnaireResponse) {
         if(fhirResources.contains(groupName.dropLast(1))){
             val resourceName = instructions[0].resource
+            val ref = instructions[0].conversion
+            // add target of ref to function
 
             stringBuilder.appendNewLine()
             stringBuilder.append("group Extract$groupName(source src : QuestionniareResponse, target bundle: Bundle) {")
@@ -251,36 +253,38 @@ class Group(
 
         fun buildStructureMap(currLevel: Int, questionnaireResponse: QuestionnaireResponse) {
             if (instruction != null) {
-                val answerExpression = instruction!!.getAnswerExpression(questionnaireResponse)
+                val answerExpression = instruction?.getAnswerExpression(questionnaireResponse)
 
-                if (answerExpression.isNotEmpty() && answerExpression.isNotBlank() && answerExpression != "''") {
-                    val propertyType = inferType(instruction!!.fullPropertyPath())
-                    val answerType = answerExpression.getAnswerType(questionnaireResponse)
+                if (answerExpression != null) {
+                    if (answerExpression.isNotEmpty() && answerExpression.isNotBlank() && answerExpression != "''") {
+                        val propertyType = inferType(instruction!!.fullPropertyPath())
+                        val answerType = answerExpression.getAnswerType(questionnaireResponse)
 
-                    if (propertyType != "Type" && answerType != propertyType && propertyType?.canHandleConversion(
-                            answerType ?: ""
-                        )?.not() == true && answerExpression.startsWith("evaluate")
-                    ) {
-                        println("Failed type matching --> ${instruction!!.fullPropertyPath()} of type $answerType != $propertyType")
+                        if (propertyType != "Type" && answerType != propertyType && propertyType?.canHandleConversion(
+                                answerType ?: ""
+                            )?.not() == true && answerExpression.startsWith("evaluate")
+                        ) {
+                            println("Failed type matching --> ${instruction!!.fullPropertyPath()} of type $answerType != $propertyType")
 
-                        /*val possibleTypes = listOf<>()
-                        if ()*/
+                            /*val possibleTypes = listOf<>()
+                                    if ()*/
+
+                            stringBuilder.append("src -> entity$currLevel.${instruction!!.fieldPath} = ")
+                            stringBuilder.append("create('${propertyType.getFhirType()}') as randomVal, randomVal.value = ")
+                            stringBuilder.append(answerExpression)
+                            addRuleNo()
+                            stringBuilder.appendNewLine()
+
+                            return
+                        }
 
                         stringBuilder.append("src -> entity$currLevel.${instruction!!.fieldPath} = ")
-                        stringBuilder.append("create('${propertyType.getFhirType()}') as randomVal, randomVal.value = ")
+
+                        // TODO: Skip this instruction if empty and probably log this
                         stringBuilder.append(answerExpression)
                         addRuleNo()
                         stringBuilder.appendNewLine()
-
-                        return
                     }
-
-                    stringBuilder.append("src -> entity$currLevel.${instruction!!.fieldPath} = ")
-
-                    // TODO: Skip this instruction if empty and probably log this
-                    stringBuilder.append(answerExpression)
-                    addRuleNo()
-                    stringBuilder.appendNewLine()
                 }
             } else if (nests.size > 0) {
                 //val resourceType = inferType("entity$currLevel.$name", instruction)
