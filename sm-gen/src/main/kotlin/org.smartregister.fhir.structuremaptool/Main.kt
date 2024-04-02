@@ -43,12 +43,12 @@ REMAINING TASKS
  */
 
 class Application : CliktCommand() {
-    val xlsfile: String by option(help = "XLS filepath").prompt("Kindly enter the XLS filepath")
-    val questionnairefile : String by option(help = "Questionnaire filepath").prompt("Kindly enter the questionnaire filepath")
+    //val xlsfile: String by option(help = "XLS filepath").prompt("Kindly enter the XLS filepath")
+    //val questionnairefile : String by option(help = "Questionnaire filepath").prompt("Kindly enter the questionnaire filepath")
 
     // Todo: To be reverted back
-    //val xlsfile = "/Users/onake/IdeaProjects/fhir-tooling/sm-gen/src/main/resources/smobservation.xlsx"
-    //val questionnairefile = "/Users/onake/IdeaProjects/fhir-tooling/sm-gen/src/main/resources/questionnaire.json"
+    val xlsfile = "/Users/onake/IdeaProjects/fhir-tooling/sm-gen/src/main/resources/StructureMap XLS.xls"
+    val questionnairefile = "/Users/onake/IdeaProjects/fhir-tooling/sm-gen/src/main/resources/questionnaire.json"
 
     override fun run() {
         // Create a map of Resource -> questionnaire name or path -> value

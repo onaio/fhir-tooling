@@ -61,11 +61,19 @@ class Group(
     fun generateGroup(questionnaireResponse: QuestionnaireResponse) {
         if(fhirResources.contains(groupName.dropLast(1))){
             val resourceName = instructions[0].resource
-            val ref = instructions[0].conversion
-            // add target of ref to function
+
+            // add target of reference to function if reference is not null
+            var structureMapFunctionHead = "group Extract$groupName(source src : QuestionniareResponse, target bundle: Bundle) {"/*
+            instructions.forEach {
+                val reference = it.conversion
+                structureMapFunctionHead = if(reference != null){"group Extract$groupName(source src : QuestionniareResponse, target bundle: Bundle, target ref:${reference.replace("$", "")}) {"} else{
+                    "group Extract$groupName(source src : QuestionniareResponse, target bundle: Bundle) {"
+                }
+            }*/
+
 
             stringBuilder.appendNewLine()
-            stringBuilder.append("group Extract$groupName(source src : QuestionniareResponse, target bundle: Bundle) {")
+            stringBuilder.append(structureMapFunctionHead)
                 .appendNewLine()
             stringBuilder.append("src -> bundle.entry as  entry, entry.resource = create('$resourceName') as entity1 then {")
                 .appendNewLine()
@@ -145,6 +153,8 @@ class Group(
         }
         // 4. If the answer is a conversion, (Assume this means it's being converted to a reference)
         if (conversion != null && conversion!!.isNotBlank() && conversion!!.isNotEmpty()) {
+            println("current resource to reference is $conversion")
+
             val resourceName = conversion!!.replace("$", "")
             var resourceIndex = conversion!!.replace("$$resourceName", "")
             if (resourceIndex.isNotEmpty()) {
@@ -152,6 +162,7 @@ class Group(
             }
             val reference = generateReference(resourceName = resourceName, resourceIndex = resourceIndex)
             return reference
+            //return "reference(ref)"
         }
 
         /*
