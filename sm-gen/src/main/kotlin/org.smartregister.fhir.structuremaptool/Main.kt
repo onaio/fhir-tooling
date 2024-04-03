@@ -11,7 +11,11 @@ import org.apache.poi.ss.usermodel.CellType
 import org.apache.poi.ss.usermodel.Row
 import org.apache.poi.ss.usermodel.WorkbookFactory
 import org.hl7.fhir.r4.context.SimpleWorkerContext
-import org.hl7.fhir.r4.model.*
+import org.hl7.fhir.r4.model.Resource
+import org.hl7.fhir.r4.model.Bundle
+import org.hl7.fhir.r4.model.Parameters
+import org.hl7.fhir.r4.model.Questionnaire
+import org.hl7.fhir.r4.model.QuestionnaireResponse
 import org.hl7.fhir.utilities.npm.FilesystemPackageCacheManager
 import org.hl7.fhir.utilities.npm.ToolsVersion
 import java.io.File
@@ -43,18 +47,15 @@ REMAINING TASKS
  */
 
 class Application : CliktCommand() {
-    //val xlsfile: String by option(help = "XLS filepath").prompt("Kindly enter the XLS filepath")
-    //val questionnairefile : String by option(help = "Questionnaire filepath").prompt("Kindly enter the questionnaire filepath")
+    val xlsfile: String by option(help = "XLS filepath").prompt("Kindly enter the XLS filepath")
+    val questionnairefile : String by option(help = "Questionnaire filepath").prompt("Kindly enter the questionnaire filepath")
 
-    // Todo: To be reverted back
-    val xlsfile = "/Users/onake/IdeaProjects/fhir-tooling/sm-gen/src/main/resources/StructureMap XLS.xls"
-    val questionnairefile = "/Users/onake/IdeaProjects/fhir-tooling/sm-gen/src/main/resources/questionnaire.json"
 
     override fun run() {
         // Create a map of Resource -> questionnaire name or path -> value
         // For each resource loop through creating or adding the correct instructions
 
-        lateinit var questionnaireResponse:QuestionnaireResponse
+        lateinit var questionnaireResponse: QuestionnaireResponse
         val contextR4 = FhirContext.forR4()
         val fhirJsonParser = contextR4.newJsonParser()
         val questionnaire : Questionnaire = fhirJsonParser.parseResource(Questionnaire::class.java, FileUtils.readFileToString(File(questionnairefile), Charset.defaultCharset()))
