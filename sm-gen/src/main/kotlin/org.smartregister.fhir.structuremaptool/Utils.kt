@@ -63,15 +63,7 @@ class Group(
             val resourceName = instructions[0].resource
 
             // add target of reference to function if reference is not null
-            var structureMapFunctionHead = "group Extract$groupName(source src : QuestionniareResponse, target bundle: Bundle) {"/*
-            instructions.forEach {
-                val reference = it.conversion
-                structureMapFunctionHead = if(reference != null){"group Extract$groupName(source src : QuestionniareResponse, target bundle: Bundle, target ref:${reference.replace("$", "")}) {"} else{
-                    "group Extract$groupName(source src : QuestionniareResponse, target bundle: Bundle) {"
-                }
-            }*/
-
-
+            val structureMapFunctionHead = "group Extract$groupName(source src : QuestionniareResponse, target bundle: Bundle) {"
             stringBuilder.appendNewLine()
             stringBuilder.append(structureMapFunctionHead)
                 .appendNewLine()
@@ -162,7 +154,6 @@ class Group(
             }
             val reference = generateReference(resourceName = resourceName, resourceIndex = resourceIndex)
             return reference
-            //return "reference(ref)"
         }
 
         /*
@@ -276,22 +267,15 @@ class Group(
                             )?.not() == true && answerExpression.startsWith("evaluate")
                         ) {
                             println("Failed type matching --> ${instruction!!.fullPropertyPath()} of type $answerType != $propertyType")
-
-                            /*val possibleTypes = listOf<>()
-                                    if ()*/
-
                             stringBuilder.append("src -> entity$currLevel.${instruction!!.fieldPath} = ")
                             stringBuilder.append("create('${propertyType.getFhirType()}') as randomVal, randomVal.value = ")
                             stringBuilder.append(answerExpression)
                             addRuleNo()
                             stringBuilder.appendNewLine()
-
                             return
                         }
 
                         stringBuilder.append("src -> entity$currLevel.${instruction!!.fieldPath} = ")
-
-                        // TODO: Skip this instruction if empty and probably log this
                         stringBuilder.append(answerExpression)
                         addRuleNo()
                         stringBuilder.appendNewLine()
