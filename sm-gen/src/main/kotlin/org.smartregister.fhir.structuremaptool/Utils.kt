@@ -63,13 +63,13 @@ class Group(
             val resourceName = instructions[0].resource
 
             // add target of reference to function if reference is not null
-            var structureMapFunctionHead = "group Extract$groupName(source src : QuestionniareResponse, target bundle: Bundle) {"/*
+            var structureMapFunctionHead = "group Extract$groupName(source src : QuestionniareResponse, target bundle: Bundle) {"
             instructions.forEach {
                 val reference = it.conversion
-                structureMapFunctionHead = if(reference != null){"group Extract$groupName(source src : QuestionniareResponse, target bundle: Bundle, target ref:${reference.replace("$", "")}) {"} else{
+                structureMapFunctionHead = if(reference != null){"group Extract$groupName(source src : QuestionniareResponse, target bundle: Bundle, target ref:${reference.replace("$", " ")}) {"} else{
                     "group Extract$groupName(source src : QuestionniareResponse, target bundle: Bundle) {"
                 }
-            }*/
+            }
 
 
             stringBuilder.appendNewLine()
@@ -153,16 +153,14 @@ class Group(
         }
         // 4. If the answer is a conversion, (Assume this means it's being converted to a reference)
         if (conversion != null && conversion!!.isNotBlank() && conversion!!.isNotEmpty()) {
-            println("current resource to reference is $conversion")
-
             val resourceName = conversion!!.replace("$", "")
             var resourceIndex = conversion!!.replace("$$resourceName", "")
             if (resourceIndex.isNotEmpty()) {
                 resourceIndex = "[$resourceIndex]"
             }
             val reference = generateReference(resourceName = resourceName, resourceIndex = resourceIndex)
-            return reference
-            //return "reference(ref)"
+            //return reference
+            return "reference(ref)"
         }
 
         /*
