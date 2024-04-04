@@ -46,27 +46,29 @@ class Group(
     var groupName = entry.key
     val instructions = entry.value
 
+    private fun generateReference(resourceName: String, resourceIndex: String): String {
+        // Generate the reference based on the resourceName and resourceIndex
+        val sb = StringBuilder()
+        sb.append("create('Reference') as reference then {")
+        sb.appendNewLine()
+        sb.append("src-> reference.reference = evaluate(bundle, \$this.entry.where(resourceType = '$resourceName/$resourceIndex'))")
+        sb.append(""" "rule_d";""".trimMargin())
+        sb.appendNewLine()
+        sb.append("}")
+        return sb.toString()
+    }
 
     fun generateGroup(questionnaireResponse: QuestionnaireResponse) {
         if(fhirResources.contains(groupName.dropLast(1))){
             val resourceName = instructions[0].resource
 
+            // add target of reference to function if reference is not null
+            val structureMapFunctionHead = "group Extract$groupName(source src : QuestionniareResponse, target bundle: Bundle) {"
             stringBuilder.appendNewLine()
-            stringBuilder.append("group Extract$groupName(source src : QuestionniareResponse, target bundle: Bundle) {")
+            stringBuilder.append(structureMapFunctionHead)
                 .appendNewLine()
             stringBuilder.append("src -> bundle.entry as  entry, entry.resource = create('$resourceName') as entity1 then {")
                 .appendNewLine()
-            // TODO: Remove below and replace with Nest.buildStructureMap
-            /*instructions.forEachIndexed { index, instruction ->
-
-                //if (instruction.fi)
-
-                stringBuilder.append("src -> entity.${instruction.fieldPath} = ")
-                stringBuilder.append(instruction.getAnswerExpression())
-                addRuleNo()
-                stringBuilder.appendNewLine()
-            }*/
-            val instructionStartMap = hashMapOf<String, List<Instruction>>()
 
             val mainNest = Nest()
             mainNest.fullPath = ""
@@ -104,42 +106,36 @@ class Group(
         //1. If the answer is static/literal, just return it here
         // TODO: We should infer the resource element and add the correct conversion or code to assign this correctly
         if (constantValue != null) {
-            if (fieldPath.equals("id")) {
-                return "create('id') as id, id.value = '$constantValue'";
-            } else if (fieldPath.equals("rank")) {
-                val constValue = constantValue!!.replace(".0", "")
-                return "create('positiveInt') as rank, rank.value = '$constValue'";
-            } else {
-                return "'$constantValue'"
+            return when {
+                fieldPath == "id" -> "create('id') as id, id.value = '$constantValue'"
+                fieldPath == "rank" -> {
+                    val constValue = constantValue!!.replace(".0", "")
+                    "create('positiveInt') as rank, rank.value = '$constValue'"
+                }
+                else -> "'$constantValue'"
             }
         }
 
         // 2. If the answer is from the QuestionnaireResponse, get the ID of the item in the "Questionnaire Response Field Id" and
-        // get it's value using FHIR Path expressions
+        // get its value using FHIR Path expressions
         if (responseFieldId != null) {
             // TODO: Fix the 1st param inside the evaluate expression
-            // It needs to reference the specific resource in this bundle
-
+            var expression = "${"$"}this.item${getPropertyPath()}.where(linkId = '$responseFieldId').answer.value"
             // TODO: Fix these to use infer
-            if (fieldPath.equals("id")) {
-                return "create('id') as id, id.value = evaluate(src, ${"$"}this.item${getPropertyPath()}.where(linkId = '$responseFieldId').answer.value)";
-            } else if (fieldPath.equals("rank")) {
-                return "create('positiveInt') as rank, rank.value = evaluate(src, ${"$"}this.item${getPropertyPath()}.where(linkId = '$responseFieldId').answer.value)";
+            if (fieldPath == "id" || fieldPath == "rank") {
+                expression = "create('${if (fieldPath == "id") "id" else "positiveInt"}') as $fieldPath, $fieldPath.value = evaluate(src, $expression)"
             } else {
 
                 // TODO: Infer the resource property type and answer to perform other conversions
                 // TODO: Extend this to cover other corner cases
-                var expression = "${"$"}this.item${getPropertyPath()}.where(linkId = '$responseFieldId').answer.value"
-
                 if (expression.isCoding(questionnaireResponse) && fieldPath.isEnumeration(this)) {
                     expression = expression.replace("answer.value", "answer.value.code")
                 } else if (inferType(fullPropertyPath()) == "CodeableConcept") {
-                    return "''";
+                    return "''"
                 }
-
-                return "evaluate(src, $expression)"
-
+                expression = "evaluate(src, $expression)"
             }
+            return expression
         }
 
         // 3. If it's a FHIR Path/StructureMap function, add the contents directly from here to the StructureMap
@@ -147,28 +143,27 @@ class Group(
             // TODO: Fix the 2nd param inside the evaluate expression --> Not sure what this is but check this
             return fhirPathStructureMapFunctions!!
         }
-
-        // If it's a conversion
-        // 4. If the answer is a conversion, (Assume this means it's being convered to a reference)
+        // 4. If the answer is a conversion, (Assume this means it's being converted to a reference)
         if (conversion != null && conversion!!.isNotBlank() && conversion!!.isNotEmpty()) {
+            println("current resource to reference is $conversion")
+
             val resourceName = conversion!!.replace("$", "")
             var resourceIndex = conversion!!.replace("$$resourceName", "")
-
             if (resourceIndex.isNotEmpty()) {
                 resourceIndex = "[$resourceIndex]"
             }
-
-            // TODO: Create a GROUP that generates a reference to encapsulate this
-            //return "reference(evaluate(bundle, ${"$"}this.entry.where(resourceType = '$resourceName')$resourceIndex))"
-            return "reference(src)"
+            val reference = generateReference(resourceName = resourceName, resourceIndex = resourceIndex)
+            return reference
         }
 
         /*
-        5. You can use $Resource eg $Patient to reference another resource being extracted here, but how do we actually get it's instance so that we can use it????
+        5. You can use $Resource eg $Patient to reference another resource being extracted here,
+        but how do we actually get its instance so that we can use it???? - This should be handled elsewhere
          */
 
         return "''"
     }
+
 
 
     inner class Nest {
@@ -260,36 +255,31 @@ class Group(
 
         fun buildStructureMap(currLevel: Int, questionnaireResponse: QuestionnaireResponse) {
             if (instruction != null) {
-                val answerExpression = instruction!!.getAnswerExpression(questionnaireResponse)
+                val answerExpression = instruction?.getAnswerExpression(questionnaireResponse)
 
-                if (answerExpression.isNotEmpty() && answerExpression.isNotBlank() && answerExpression != "''") {
-                    val propertyType = inferType(instruction!!.fullPropertyPath())
-                    val answerType = answerExpression.getAnswerType(questionnaireResponse)
+                if (answerExpression != null) {
+                    if (answerExpression.isNotEmpty() && answerExpression.isNotBlank() && answerExpression != "''") {
+                        val propertyType = inferType(instruction!!.fullPropertyPath())
+                        val answerType = answerExpression.getAnswerType(questionnaireResponse)
 
-                    if (propertyType != "Type" && answerType != propertyType && propertyType?.canHandleConversion(
-                            answerType ?: ""
-                        )?.not() == true && answerExpression.startsWith("evaluate")
-                    ) {
-                        println("Failed type matching --> ${instruction!!.fullPropertyPath()} of type $answerType != $propertyType")
-
-                        /*val possibleTypes = listOf<>()
-                        if ()*/
+                        if (propertyType != "Type" && answerType != propertyType && propertyType?.canHandleConversion(
+                                answerType ?: ""
+                            )?.not() == true && answerExpression.startsWith("evaluate")
+                        ) {
+                            println("Failed type matching --> ${instruction!!.fullPropertyPath()} of type $answerType != $propertyType")
+                            stringBuilder.append("src -> entity$currLevel.${instruction!!.fieldPath} = ")
+                            stringBuilder.append("create('${propertyType.getFhirType()}') as randomVal, randomVal.value = ")
+                            stringBuilder.append(answerExpression)
+                            addRuleNo()
+                            stringBuilder.appendNewLine()
+                            return
+                        }
 
                         stringBuilder.append("src -> entity$currLevel.${instruction!!.fieldPath} = ")
-                        stringBuilder.append("create('${propertyType.getFhirType()}') as randomVal, randomVal.value = ")
                         stringBuilder.append(answerExpression)
                         addRuleNo()
                         stringBuilder.appendNewLine()
-
-                        return
                     }
-
-                    stringBuilder.append("src -> entity$currLevel.${instruction!!.fieldPath} = ")
-
-                    // TODO: Skip this instruction if empty and probably log this
-                    stringBuilder.append(answerExpression)
-                    addRuleNo()
-                    stringBuilder.appendNewLine()
                 }
             } else if (nests.size > 0) {
                 //val resourceType = inferType("entity$currLevel.$name", instruction)

@@ -6,18 +6,16 @@ import ca.uhn.fhir.parser.IParser
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.prompt
-import org.apache.commons.codec.Resources
-import com.google.gson.GsonBuilder
 import org.apache.commons.io.FileUtils
 import org.apache.poi.ss.usermodel.CellType
 import org.apache.poi.ss.usermodel.Row
 import org.apache.poi.ss.usermodel.WorkbookFactory
 import org.hl7.fhir.r4.context.SimpleWorkerContext
+import org.hl7.fhir.r4.model.Resource
 import org.hl7.fhir.r4.model.Bundle
 import org.hl7.fhir.r4.model.Parameters
 import org.hl7.fhir.r4.model.Questionnaire
 import org.hl7.fhir.r4.model.QuestionnaireResponse
-import org.hl7.fhir.r4.model.Resource
 import org.hl7.fhir.utilities.npm.FilesystemPackageCacheManager
 import org.hl7.fhir.utilities.npm.ToolsVersion
 import java.io.File
@@ -52,13 +50,12 @@ class Application : CliktCommand() {
     val xlsfile: String by option(help = "XLS filepath").prompt("Kindly enter the XLS filepath")
     val questionnairefile : String by option(help = "Questionnaire filepath").prompt("Kindly enter the questionnaire filepath")
 
+
     override fun run() {
-
-
         // Create a map of Resource -> questionnaire name or path -> value
         // For each resource loop through creating or adding the correct instructions
 
-        lateinit var questionnaireResponse:QuestionnaireResponse
+        lateinit var questionnaireResponse: QuestionnaireResponse
         val contextR4 = FhirContext.forR4()
         val fhirJsonParser = contextR4.newJsonParser()
         val questionnaire : Questionnaire = fhirJsonParser.parseResource(Questionnaire::class.java, FileUtils.readFileToString(File(questionnairefile), Charset.defaultCharset()))
@@ -68,6 +65,8 @@ class Application : CliktCommand() {
         } else {
             println("File not found: questionnaire-response.json")
         }
+
+        // reads the xls
         val xlsFile = FileInputStream(xlsfile)
         val xlWb = WorkbookFactory.create(xlsFile)
 
@@ -197,7 +196,7 @@ class Application : CliktCommand() {
                 }
                 val transformSupportServices = TransformSupportServices(simpleWorkerContext)
                 val scu = org.hl7.fhir.r4.utils.StructureMapUtilities(simpleWorkerContext, transformSupportServices)
-                val structureMap = scu.parse(structureMapString, questionnaireId.clean())
+               val structureMap = scu.parse(structureMapString, questionnaireId.clean())
                 // DataFormatException | FHIRLexerException
 
                 try{
@@ -211,7 +210,7 @@ class Application : CliktCommand() {
                 }
 
             } catch (ex: Exception) {
-                println("The generated StructureMap has a formatting error")
+               println("The generated StructureMap has a formatting error")
                 ex.printStackTrace()
             }
 
