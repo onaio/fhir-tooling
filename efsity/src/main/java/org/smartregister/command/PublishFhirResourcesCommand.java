@@ -1,5 +1,7 @@
 package org.smartregister.command;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import net.jimblackler.jsonschemafriend.GenerationException;
 import net.jimblackler.jsonschemafriend.ValidationException;
 import org.apache.http.HttpResponse;
@@ -24,6 +26,7 @@ import static org.smartregister.util.authentication.OAuthAuthentication.getAcces
 
 @CommandLine.Command(name = "publish")
 public class PublishFhirResourcesCommand implements Runnable{
+    static JsonParser jsonParser = new JsonParser();
 
     @CommandLine.Option(
             names = {"-i", "--input"},
@@ -203,18 +206,41 @@ public class PublishFhirResourcesCommand implements Runnable{
     static ArrayList<String> getResourceFiles(String pathToFolder) throws IOException {
         ArrayList<String> filesArray = new ArrayList<>();
         Path projectPath = Paths.get(pathToFolder);
-        if (Files.isDirectory(projectPath)){
+        if (Files.isDirectory(projectPath) && !pathToFolder.startsWith("x_")){
             Files.walk(projectPath).forEach(path -> getFiles(filesArray, path.toFile()));
         } else if (Files.isRegularFile(projectPath)) {
-            filesArray.add(pathToFolder);
+
+            if(!projectPath.getFileName().startsWith("x_") && projectPath.getFileName().endsWith(".json")){
+                addFhirResource(pathToFolder, filesArray);
+            }else{
+                FctUtils.printWarning("Dropping "+ projectPath.getFileName());
+            }
         }
         return filesArray;
     }
 
     static void getFiles(ArrayList<String> filesArray, File file){
         if (file.isFile()) {
-            filesArray.add(file.getAbsolutePath());
+            if(!file.getName().startsWith("x_") && file.getName().endsWith(".json")){
+                addFhirResource(file.getAbsolutePath(), filesArray);
+            }else{
+                FctUtils.printWarning("Dropping "+ file.getAbsolutePath() + " with name: "+ file.getName());
+            }
         }
+    }
+
+    private static void addFhirResource(String filePath, List<String> filesArray) {
+
+        try {
+            JsonElement jsonElement = jsonParser.parse(new FileReader(filePath));
+            if(jsonElement.getAsJsonObject().get("resourceType")!=null)
+                 filesArray.add(filePath);
+            
+        }catch (Exception e){
+            FctUtils.printError(e.getMessage());
+        }
+
+
     }
 
     JSONObject buildResourceObject(FctFile inputFile){
