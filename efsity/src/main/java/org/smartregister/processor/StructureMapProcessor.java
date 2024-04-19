@@ -35,7 +35,7 @@ public class StructureMapProcessor {
 
         Map<String, String> fileIndexMap = folderTofilesIndexMap.get(entry.getKey());
 
-        for (Map.Entry<String,String> nestedEntry : fileIndexMap.entrySet()) {
+        for (Map.Entry<String, String> nestedEntry : fileIndexMap.entrySet()) {
 
           currentFile = nestedEntry.getValue();
 
@@ -113,7 +113,7 @@ public class StructureMapProcessor {
 
         Map<String, String> fileIndexMap = folderTofilesIndexMap.get(entry.getKey());
 
-        for (Map.Entry<String,String> nestedEntry : fileIndexMap.entrySet()) {
+        for (Map.Entry<String, String> nestedEntry : fileIndexMap.entrySet()) {
 
           currentFile = nestedEntry.getValue();
 

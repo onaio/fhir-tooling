@@ -58,6 +58,12 @@ allprojects {
       ktlint()
       ktfmt().googleStyle()
     }
+    java {
+      importOrder()
+      removeUnusedImports()
+      googleJavaFormat()
+      formatAnnotations()
+    }
   }
 }
 

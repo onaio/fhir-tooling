@@ -33,6 +33,7 @@ public class Main implements Runnable {
   @Override
   public void run() {
     FctUtils.printToConsole(
-            String.format("Running\u001b[36m EFSITY Version %s \u001b[0m", BuildConfig.RELEASE_VERSION));
+        String.format(
+            "Running\u001b[36m EFSITY Version %s \u001b[0m", BuildConfig.RELEASE_VERSION));
   }
 }
