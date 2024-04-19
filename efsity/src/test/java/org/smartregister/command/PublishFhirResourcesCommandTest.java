@@ -14,6 +14,7 @@ import java.io.FileWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -47,8 +48,11 @@ public class PublishFhirResourcesCommandTest {
 
         // create a file in each of the folders above
         Path questionnaireFile = Files.createFile(questionnaireFolder.resolve("patient_registration.json"));
+        Files.write(questionnaireFile,"{\"resourceType\":\"Questionnaire\"}".getBytes(StandardCharsets.UTF_8));
         Path planFile = Files.createFile(plansFolder.resolve("anc_visit.json"));
+        Files.write(planFile,"{\"resourceType\":\"PlanDefinition\"}".getBytes(StandardCharsets.UTF_8));
         Path structureMapFile = Files.createFile(structureMapsFolder.resolve("pregnancy_screening.json"));
+        Files.write(structureMapFile,"{\"resourceType\":\"StructureMap\"}".getBytes(StandardCharsets.UTF_8));
 
         // get files in the folder
         ArrayList<String> resourceFiles = publishFhirResourcesCommand.getResourceFiles(projectFolder.toString());

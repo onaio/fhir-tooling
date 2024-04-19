@@ -14,13 +14,24 @@ import org.smartregister.domain.FctFile;
 import org.smartregister.fhircore_tooling.BuildConfig;
 import org.smartregister.util.FctUtils;
 import picocli.CommandLine;
-
-import java.io.*;
-import java.nio.file.Files;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+  import java.nio.file.Files;
+import java.io.FileReader;
+import java.io.BufferedReader;
+import java.io.FileWriter;
+import java.io.InputStreamReader;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.List;
+import java.util.Properties;
+import java.util.ArrayList;
+import java.util.UUID;
+import java.util.Date;
+import java.util.TimeZone;
 
 import static org.smartregister.util.authentication.OAuthAuthentication.getAccessToken;
 
@@ -210,10 +221,10 @@ public class PublishFhirResourcesCommand implements Runnable{
             Files.walk(projectPath).forEach(path -> getFiles(filesArray, path.toFile()));
         } else if (Files.isRegularFile(projectPath)) {
 
-            if(!projectPath.getFileName().startsWith("x_") && projectPath.getFileName().endsWith(".json")){
+            if(!projectPath.getFileName().toString().startsWith("x_") && projectPath.getFileName().toString().endsWith(".json")){
                 addFhirResource(pathToFolder, filesArray);
             }else{
-                FctUtils.printWarning("Dropping "+ projectPath.getFileName());
+                FctUtils.printWarning("Dropping " + projectPath.getFileName());
             }
         }
         return filesArray;
@@ -224,7 +235,7 @@ public class PublishFhirResourcesCommand implements Runnable{
             if(!file.getName().startsWith("x_") && file.getName().endsWith(".json")){
                 addFhirResource(file.getAbsolutePath(), filesArray);
             }else{
-                FctUtils.printWarning("Dropping "+ file.getAbsolutePath() + " with name: "+ file.getName());
+                FctUtils.printWarning("Dropping " + file.getAbsolutePath() + " with name: " + file.getName());
             }
         }
     }
