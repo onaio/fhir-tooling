@@ -9,47 +9,83 @@
     "id": "$unique_uuid",
     "identifier": [
       {
+        "type": {
+          "coding": [
+            {
+              "system": "http://smartregister.org/codes",
+              "code": "SERNUM",
+              "display": "Serial Number"
+            }
+          ],
+          "text": "Serial Number"
+        },
         "use": "official",
-        "value": "$unique_uuid"
+        "value": "$serial_number"
       },
       {
+        "type": {
+          "coding": [
+            {
+              "system": "http://smartregister.org/codes",
+              "code": "PONUM",
+              "display": "PO Number"
+            }
+          ],
+          "text": "PO Number"
+        },
         "use": "secondary",
-        "value": "$previous_id"
+        "value": "$po_number"
+      },
+      {
+        "use": "usual",
+        "value": "$usual_id"
       }
     ],
     "active": "$active",
-    "type": "$type",
+    "type": "substance",
+    "actual": "$actual",
     "code": {
       "coding": [
         {
-          "system": "http://smartregister.org/supply-inventory",
+          "system": "http://smartregister.org/codes",
           "code": "78991122",
           "display": "Supply Inventory"
         }
       ]
     },
     "name": "$name",
+    "member": [
+      {
+        "entity": {
+          "reference": "Group/$product_id"
+        },
+        "period": {
+          "start": "$delivery_date",
+          "end": "$accountability_date"
+        },
+        "inactive": false
+      }
+    ],
     "characteristic": [
       {
         "code": {
           "coding": [
             {
-              "system": "http://smartregister.org/delivery-and-accountability",
-              "code": "09887657",
-              "display": "Delivery and Accountability"
+              "system": "http://smartregister.org/codes",
+              "code": "33467722",
+              "display": "Quantity"
             }
           ]
         },
-        "valuePeriod": {
-          "start": "$delivery_date",
-          "end": "$accountability_date"
+        "valueQuantity": {
+          "value": "$quantity"
         }
       },
       {
         "code": {
           "coding": [
             {
-              "system": "http://smartregister.org/unicef-section",
+              "system": "http://smartregister.org/codes",
               "code": "98734231",
               "display": "Unicef Section"
             }
@@ -58,7 +94,7 @@
         "valueCodeableConcept": {
           "coding": [
             {
-              "system": "http://smartregister.org/unicef-section",
+              "system": "http://smartregister.org/codes",
               "code": "98734231-1",
               "display": "Value entered on the unicef section"
             }
@@ -70,8 +106,8 @@
         "code": {
           "coding": [
             {
-              "system": "http://smartregister.org/donor",
-              "code": "45647484",
+              "system": "http://smartregister.org/codes",
+              "code": "45981276",
               "display": "Donor"
             }
           ]
@@ -79,26 +115,12 @@
         "valueCodeableConcept": {
           "coding": [
             {
-              "system": "http://smartregister.org/donor",
-              "code": "45647484-1",
+              "system": "http://smartregister.org/codes",
+              "code": "45981276-1",
               "display": "Value entered on the donor"
             }
           ],
           "text": "$donor"
-        }
-      },
-      {
-        "code": {
-          "coding": [
-            {
-              "system": "http://smartregister.org/product-reference",
-              "code": "33467722",
-              "display": "Product reference"
-            }
-          ]
-        },
-        "valueReference": {
-          "reference": "Group/$product_id"
         }
       }
     ]

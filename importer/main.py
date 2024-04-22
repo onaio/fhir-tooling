@@ -475,126 +475,113 @@ def care_team_extras(
     return payload_string
 
 
-# This function takes in a payload_obj, a position and a tracker
-# It deletes the object at the given position in the resource->characteristic
-# It then returns the updated payload_obj and a new tracker for the remaining objects
-def delete_missing_obj_from_payload(payload_obj, position, tracker):
-    del payload_obj["resource"]["characteristic"][position]
-    return payload_obj, tracker-1
-
-
 # custom extras for product import
 def group_extras(resource, payload_string, group_type):
     payload_obj = json.loads(payload_string)
     item_name = resource[0]
-    tracker = 0
+    del_indexes = []
 
     if group_type == "product":
-        try:
-            (_, active, *_, previous_id, is_attractive_item, availability, condition, appropriate_usage,
-             accountability_period, image_source_url) = resource
-        except ValueError:
-            logging.error("Skipping: " + item_name + " : Because of missing columns ")
-            active = previous_id = is_attractive_item = availability = condition = appropriate_usage = \
-                accountability_period = image_source_url = "missing_column"
+        (_, active, *_, previous_id, is_attractive_item, availability, condition, appropriate_usage,
+         accountability_period, image_source_url) = resource
 
-        if active and active != "missing_column":
+        if active:
             payload_obj["resource"]["active"] = active
         else:
             del payload_obj["resource"]["active"]
 
-        if previous_id and previous_id != "missing_column":
+        if previous_id:
             payload_obj["resource"]["identifier"][1]["value"] = previous_id
         else:
             del payload_obj["resource"]["identifier"][1]
 
-        if is_attractive_item and is_attractive_item != "missing_column":
-            payload_obj["resource"]["characteristic"][0+tracker]["valueBoolean"] = is_attractive_item
+        if is_attractive_item:
+            payload_obj["resource"]["characteristic"][0]["valueBoolean"] = is_attractive_item
         else:
-            payload_obj, tracker = delete_missing_obj_from_payload(payload_obj, 0+tracker, tracker)
+            del_indexes.append(0)
 
-        if availability and availability != "missing_column":
-            payload_obj["resource"]["characteristic"][1+tracker]["valueCodeableConcept"]["text"] = availability
+        if availability:
+            payload_obj["resource"]["characteristic"][1]["valueCodeableConcept"]["text"] = availability
         else:
-            payload_obj, tracker = delete_missing_obj_from_payload(payload_obj, 1+tracker, tracker)
+            del_indexes.append(1)
 
-        if condition and condition != "missing_column":
-            payload_obj["resource"]["characteristic"][2+tracker]["valueCodeableConcept"]["text"] = condition
+        if condition:
+            payload_obj["resource"]["characteristic"][2]["valueCodeableConcept"]["text"] = condition
         else:
-            payload_obj, tracker = delete_missing_obj_from_payload(payload_obj, 2+tracker, tracker)
+            del_indexes.append(0)
 
-        if appropriate_usage and appropriate_usage != "missing_column":
-            payload_obj["resource"]["characteristic"][3+tracker]["valueCodeableConcept"]["text"] = appropriate_usage
+        if appropriate_usage:
+            payload_obj["resource"]["characteristic"][3]["valueCodeableConcept"]["text"] = appropriate_usage
         else:
-            payload_obj, tracker = delete_missing_obj_from_payload(payload_obj, 3+tracker, tracker)
+            del_indexes.append(3)
 
-        if accountability_period and accountability_period != "missing_column":
-            payload_obj["resource"]["characteristic"][4+tracker]["valueQuantity"]["value"] = accountability_period
+        if accountability_period:
+            payload_obj["resource"]["characteristic"][4]["valueQuantity"]["value"] = accountability_period
         else:
-            payload_obj, tracker = delete_missing_obj_from_payload(payload_obj, 4+tracker, tracker)
+            del_indexes.append(4)
 
-        if image_source_url and image_source_url != "missing_column":
+        if image_source_url:
             image_binary = save_image(image_source_url)
             if image_binary != 0:
-                payload_obj["resource"]["characteristic"][5+tracker]["valueReference"]["reference"] = "Binary/" + image_binary
+                payload_obj["resource"]["characteristic"][5]["valueReference"]["reference"] = "Binary/" + image_binary
             else:
                 logging.error("Unable to link the image Binary resource for product " + item_name)
-                payload_obj, tracker = delete_missing_obj_from_payload(payload_obj, 5+tracker, tracker)
+                del_indexes.append(5)
         else:
-            payload_obj, tracker = delete_missing_obj_from_payload(payload_obj, 5+tracker, tracker)
+            del_indexes.append(5)
+
+        for x in reversed(del_indexes):
+            del payload_obj["resource"]["characteristic"][x]
 
     elif group_type == "inventory":
-        try:
-            (_, active, *_, previous_id, product_id, inventory_type, delivery_date, accountability_end_date,
-             unicef_section, donor) = resource
-        except ValueError:
-            logging.error("Skipping: " + item_name + " : Because of missing columns ")
-            active = previous_id = product_id = inventory_type = delivery_date = accountability_end_date = \
-                unicef_section = donor = "missing_column"
+        (_, active, *_, previous_id, product_id, inventory_type, delivery_date, accountability_end_date,
+         unicef_section, donor) = resource
 
-        if active and active != "missing_column":
+        if active:
             payload_obj["resource"]["active"] = active
         else:
             del payload_obj["resource"]["active"]
 
-        if previous_id and previous_id != "missing_column":
+        if previous_id:
             payload_obj["resource"]["identifier"][1]["value"] = previous_id
         else:
             del payload_obj["resource"]["identifier"][1]
 
-        if inventory_type and inventory_type != "missing_column":
+        if inventory_type:
             payload_obj["resource"]["type"] = inventory_type
         else:
             del payload_obj["resource"]["type"]
 
-        if delivery_date and delivery_date != "missing_column":
-            payload_obj["resource"]["characteristic"][0+tracker]["valuePeriod"]["start"] = delivery_date
+        if delivery_date:
+            payload_obj["resource"]["characteristic"][0]["valuePeriod"]["start"] = delivery_date
         else:
-            payload_obj["resource"]["characteristic"][0+tracker]["valuePeriod"]["start"] = ""
+            payload_obj["resource"]["characteristic"][0]["valuePeriod"]["start"] = ""
 
-        if accountability_end_date and accountability_end_date != "missing_column":
-            payload_obj["resource"]["characteristic"][0+tracker]["valuePeriod"]["end"] = accountability_end_date
+        if accountability_end_date:
+            payload_obj["resource"]["characteristic"][0]["valuePeriod"]["end"] = accountability_end_date
         else:
-            payload_obj["resource"]["characteristic"][0+tracker]["valuePeriod"]["end"] = ""
+            payload_obj["resource"]["characteristic"][0]["valuePeriod"]["end"] = ""
 
-        if (not delivery_date and not accountability_end_date) or (
-                delivery_date == "missing_column" and accountability_end_date == "missing_column"):
-            payload_obj, tracker = delete_missing_obj_from_payload(payload_obj, 0+tracker, tracker)
+        if not delivery_date and not accountability_end_date:
+            del_indexes.append(0)
 
-        if unicef_section and unicef_section != "missing_column":
-            payload_obj["resource"]["characteristic"][1+tracker]["valueCodeableConcept"]["text"] = unicef_section
+        if unicef_section:
+            payload_obj["resource"]["characteristic"][1]["valueCodeableConcept"]["text"] = unicef_section
         else:
-            payload_obj, tracker = delete_missing_obj_from_payload(payload_obj, 1+tracker, tracker)
+            del_indexes.append(1)
 
-        if donor and donor != "missing_column":
-            payload_obj["resource"]["characteristic"][2+tracker]["valueCodeableConcept"]["text"] = donor
+        if donor:
+            payload_obj["resource"]["characteristic"][2]["valueCodeableConcept"]["text"] = donor
         else:
-            payload_obj, tracker = delete_missing_obj_from_payload(payload_obj, 2+tracker, tracker)
+            del_indexes.append(2)
 
-        if product_id and product_id != "missing_column":
-            payload_obj["resource"]["characteristic"][3+tracker]["valueReference"]["reference"] = "Group/" + product_id
+        if product_id:
+            payload_obj["resource"]["characteristic"][3]["valueReference"]["reference"] = "Group/" + product_id
         else:
-            payload_obj, tracker = delete_missing_obj_from_payload(payload_obj, 3+tracker, tracker)
+            del_indexes.append(3)
+
+        for x in reversed(del_indexes):
+            del payload_obj["resource"]["characteristic"][x]
 
     else:
         logging.info("Group type not defined")
@@ -752,6 +739,15 @@ def get_resource(resource_id, resource_type):
     return json.loads(response[0])["meta"]["versionId"] if response[1] == 200 else "0"
 
 
+def check_for_nulls(resource: list) -> list:
+    for index, value in enumerate(resource):
+        if len(value.strip()) < 1:
+            resource[index] = None
+        else:
+            resource[index] = value.strip()
+    return resource
+
+
 # This function builds a json payload
 # which is posted to the api to create resources
 def build_payload(resource_type, resources, resource_payload_file):
@@ -765,6 +761,8 @@ def build_payload(resource_type, resources, resource_payload_file):
         for resource in build_payload_progress:
             logging.info("\t")
 
+            resource = check_for_nulls(resource)
+
             try:
                 name, status, method, id, *_ = resource
             except ValueError:
@@ -773,39 +771,24 @@ def build_payload(resource_type, resources, resource_payload_file):
                 method = "create"
                 id = str(uuid.uuid5(uuid.NAMESPACE_DNS, name))
 
-            try:
-                if method == "create":
-                    version = "1"
-                    if len(id.strip()) > 0:
-                        # use the provided id
-                        unique_uuid = id.strip()
-                        identifier_uuid = id.strip()
-                    else:
-                        # generate a new uuid
-                        unique_uuid = str(uuid.uuid5(uuid.NAMESPACE_DNS, name))
-                        identifier_uuid = unique_uuid
-            except IndexError:
-                # default if method is not provided
-                unique_uuid = str(uuid.uuid5(uuid.NAMESPACE_DNS, name))
-                identifier_uuid = unique_uuid
+            if method == "create":
                 version = "1"
+                if id:
+                    unique_uuid = identifier_uuid = id
+                else:
+                    unique_uuid = identifier_uuid = str(uuid.uuid5(uuid.NAMESPACE_DNS, name))
 
-            try:
-                if method == "update":
-                    if len(id.strip()) > 0:
-                        version = get_resource(id, resource_type)
-                        if version != "0":
-                            # use the provided id
-                            unique_uuid = id.strip()
-                            identifier_uuid = id.strip()
-                        else:
-                            logging.info("Failed to get resource!")
-                            raise ValueError("Trying to update a Non-existent resource")
+            if method == "update":
+                if id:
+                    version = get_resource(id, resource_type)
+                    if version != "0":
+                        unique_uuid = identifier_uuid = id
                     else:
-                        logging.info("The id is required!")
-                        raise ValueError("The id is required to update a resource")
-            except IndexError:
-                raise ValueError("The id is required to update a resource")
+                        logging.info("Failed to get resource!")
+                        raise ValueError("Trying to update a Non-existent resource")
+                else:
+                    logging.info("The id is required!")
+                    raise ValueError("The id is required to update a resource")
 
             # ps = payload_string
             ps = (
@@ -1455,7 +1438,6 @@ def main(
                 "Group", resource_list, "json_payloads/inventory_group_payload.json"
             )
             final_response = handle_request("POST", json_payload, config.fhir_base_url)
-            logging.info(final_response)
             logging.info("Inventory importing process complete")
         else:
             logging.error("Unsupported request!")
@@ -1468,6 +1450,7 @@ def main(
     logging.info("End time: " + end_time.strftime("%H:%M:%S"))
     total_time = end_time - start_time
     logging.info("Total time: " + str(total_time.total_seconds()) + " seconds")
+
 
 if __name__ == "__main__":
     main()
