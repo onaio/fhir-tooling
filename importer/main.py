@@ -534,35 +534,52 @@ def group_extras(resource, payload_string, group_type):
             del payload_obj["resource"]["characteristic"][x]
 
     elif group_type == "inventory":
-        (_, active, *_, previous_id, product_id, inventory_type, delivery_date, accountability_end_date,
-         unicef_section, donor) = resource
+        (_, active, *_, po_number, serial_number, usual_id, actual, product_id, delivery_date,
+         accountability_date, quantity, unicef_section, donor) = resource
 
         if active:
-            payload_obj["resource"]["active"] = active
+            payload_obj["resource"]["active"] = bool(active)
         else:
             del payload_obj["resource"]["active"]
 
-        if previous_id:
-            payload_obj["resource"]["identifier"][1]["value"] = previous_id
+        if serial_number:
+            payload_obj["resource"]["identifier"][0]["value"] = serial_number
+        else:
+            del payload_obj["resource"]["identifier"][0]
+
+        if po_number:
+            payload_obj["resource"]["identifier"][1]["value"] = po_number
         else:
             del payload_obj["resource"]["identifier"][1]
 
-        if inventory_type:
-            payload_obj["resource"]["type"] = inventory_type
+        if usual_id:
+            payload_obj["resource"]["identifier"][2]["value"] = usual_id
         else:
-            del payload_obj["resource"]["type"]
+            del payload_obj["resource"]["identifier"][2]
+
+        if actual:
+            payload_obj["resource"]["actual"] = bool(actual)
+        else:
+            del payload_obj["resource"]["actual"]
+
+        if product_id:
+            payload_obj["resource"]["member"][0]["entity"]["reference"] = "Group/" + product_id
+        else:
+            payload_obj["resource"]["member"][0]["entity"]["reference"] = "Group/"
 
         if delivery_date:
-            payload_obj["resource"]["characteristic"][0]["valuePeriod"]["start"] = delivery_date
+            payload_obj["resource"]["member"][0]["period"]["start"] = delivery_date
         else:
-            payload_obj["resource"]["characteristic"][0]["valuePeriod"]["start"] = ""
+            payload_obj["resource"]["member"][0]["period"]["start"] = ""
 
-        if accountability_end_date:
-            payload_obj["resource"]["characteristic"][0]["valuePeriod"]["end"] = accountability_end_date
+        if accountability_date:
+            payload_obj["resource"]["member"][0]["period"]["end"] = accountability_date
         else:
-            payload_obj["resource"]["characteristic"][0]["valuePeriod"]["end"] = ""
+            payload_obj["resource"]["member"][0]["period"]["end"] = ""
 
-        if not delivery_date and not accountability_end_date:
+        if quantity:
+            payload_obj["resource"]["characteristic"][0]["valueQuantity"]["value"] = int(quantity)
+        else:
             del_indexes.append(0)
 
         if unicef_section:
@@ -574,11 +591,6 @@ def group_extras(resource, payload_string, group_type):
             payload_obj["resource"]["characteristic"][2]["valueCodeableConcept"]["text"] = donor
         else:
             del_indexes.append(2)
-
-        if product_id:
-            payload_obj["resource"]["characteristic"][3]["valueReference"]["reference"] = "Group/" + product_id
-        else:
-            del_indexes.append(3)
 
         for x in reversed(del_indexes):
             del payload_obj["resource"]["characteristic"][x]
@@ -733,7 +745,8 @@ def get_valid_resource_type(resource_type):
 
 # This function gets the current resource version from the API
 def get_resource(resource_id, resource_type):
-    resource_type = get_valid_resource_type(resource_type)
+    if resource_type != "Group":
+        resource_type = get_valid_resource_type(resource_type)
     resource_url = "/".join([config.fhir_base_url, resource_type, resource_id])
     response = handle_request("GET", "", resource_url)
     return json.loads(response[0])["meta"]["versionId"] if response[1] == 200 else "0"
@@ -781,6 +794,7 @@ def build_payload(resource_type, resources, resource_payload_file):
             if method == "update":
                 if id:
                     version = get_resource(id, resource_type)
+
                     if version != "0":
                         unique_uuid = identifier_uuid = id
                     else:
@@ -1431,14 +1445,12 @@ def main(
             json_payload = build_payload(
                 "Group", resource_list, "json_payloads/product_group_payload.json")
             final_response = handle_request("POST", json_payload, config.fhir_base_url)
-            logging.info("Product importing process complete")
         elif setup == "inventories":
             logging.info("Importing inventories as FHIR Group resources")
             json_payload = build_payload(
                 "Group", resource_list, "json_payloads/inventory_group_payload.json"
             )
             final_response = handle_request("POST", json_payload, config.fhir_base_url)
-            logging.info("Inventory importing process complete")
         else:
             logging.error("Unsupported request!")
     else:
