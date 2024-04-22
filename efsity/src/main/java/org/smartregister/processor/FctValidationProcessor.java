@@ -366,7 +366,7 @@ public class FctValidationProcessor {
 
       Map<String, String> fileIndexMap = configDirIndexMap.get(entry.getKey());
 
-      for (Map.Entry<String,String> nestedEntry : fileIndexMap.entrySet()) {
+      for (Map.Entry<String, String> nestedEntry : fileIndexMap.entrySet()) {
 
         if (nestedEntry.getKey().endsWith(".properties")) {
 
