@@ -481,6 +481,23 @@ def group_extras(resource, payload_string, group_type):
     item_name = resource[0]
     del_indexes = []
 
+    GROUP_INDEX_MAPPING = {
+        "product_secondary_id_index": 1,
+        "product_is_attractive_index": 0,
+        "product_is_available_index": 1,
+        "product_condition_index": 2,
+        "product_appropriate_usage_index": 3,
+        "product_accountability_period_index": 4,
+        "product_image_index": 5,
+        "inventory_official_id_index": 0,
+        "inventory_secondary_id_index": 1,
+        "inventory_usual_id_index": 2,
+        "inventory_member_index": 0,
+        "inventory_quantity_index": 0,
+        "inventory_unicef_section_index": 1,
+        "inventory_donor_index": 2
+    }
+
     if group_type == "product":
         (_, active, *_, previous_id, is_attractive_item, availability, condition, appropriate_usage,
          accountability_period, image_source_url) = resource
@@ -491,44 +508,44 @@ def group_extras(resource, payload_string, group_type):
             del payload_obj["resource"]["active"]
 
         if previous_id:
-            payload_obj["resource"]["identifier"][1]["value"] = previous_id
+            payload_obj["resource"]["identifier"][GROUP_INDEX_MAPPING["product_secondary_id_index"]]["value"] = previous_id
         else:
-            del payload_obj["resource"]["identifier"][1]
+            del payload_obj["resource"]["identifier"][GROUP_INDEX_MAPPING["product_secondary_id_index"]]
 
         if is_attractive_item:
-            payload_obj["resource"]["characteristic"][0]["valueBoolean"] = is_attractive_item
+            payload_obj["resource"]["characteristic"][GROUP_INDEX_MAPPING["product_is_attractive_index"]]["valueBoolean"] = is_attractive_item
         else:
-            del_indexes.append(0)
+            del_indexes.append(GROUP_INDEX_MAPPING["product_is_attractive_index"])
 
         if availability:
-            payload_obj["resource"]["characteristic"][1]["valueCodeableConcept"]["text"] = availability
+            payload_obj["resource"]["characteristic"][GROUP_INDEX_MAPPING["product_is_available_index"]]["valueCodeableConcept"]["text"] = availability
         else:
-            del_indexes.append(1)
+            del_indexes.append(GROUP_INDEX_MAPPING["product_is_available_index"])
 
         if condition:
-            payload_obj["resource"]["characteristic"][2]["valueCodeableConcept"]["text"] = condition
+            payload_obj["resource"]["characteristic"][GROUP_INDEX_MAPPING["product_condition_index"]]["valueCodeableConcept"]["text"] = condition
         else:
-            del_indexes.append(0)
+            del_indexes.append(GROUP_INDEX_MAPPING["product_condition_index"])
 
         if appropriate_usage:
-            payload_obj["resource"]["characteristic"][3]["valueCodeableConcept"]["text"] = appropriate_usage
+            payload_obj["resource"]["characteristic"][GROUP_INDEX_MAPPING["product_appropriate_usage_index"]]["valueCodeableConcept"]["text"] = appropriate_usage
         else:
-            del_indexes.append(3)
+            del_indexes.append(GROUP_INDEX_MAPPING["product_appropriate_usage_index"])
 
         if accountability_period:
-            payload_obj["resource"]["characteristic"][4]["valueQuantity"]["value"] = accountability_period
+            payload_obj["resource"]["characteristic"][GROUP_INDEX_MAPPING["product_accountability_period_index"]]["valueQuantity"]["value"] = accountability_period
         else:
-            del_indexes.append(4)
+            del_indexes.append(GROUP_INDEX_MAPPING["product_accountability_period_index"])
 
         if image_source_url:
             image_binary = save_image(image_source_url)
             if image_binary != 0:
-                payload_obj["resource"]["characteristic"][5]["valueReference"]["reference"] = "Binary/" + image_binary
+                payload_obj["resource"]["characteristic"][GROUP_INDEX_MAPPING["product_image_index"]]["valueReference"]["reference"] = "Binary/" + image_binary
             else:
                 logging.error("Unable to link the image Binary resource for product " + item_name)
-                del_indexes.append(5)
+                del_indexes.append(GROUP_INDEX_MAPPING["product_image_index"])
         else:
-            del_indexes.append(5)
+            del_indexes.append(GROUP_INDEX_MAPPING["product_image_index"])
 
         for x in reversed(del_indexes):
             del payload_obj["resource"]["characteristic"][x]
@@ -543,19 +560,19 @@ def group_extras(resource, payload_string, group_type):
             del payload_obj["resource"]["active"]
 
         if serial_number:
-            payload_obj["resource"]["identifier"][0]["value"] = serial_number
+            payload_obj["resource"]["identifier"][GROUP_INDEX_MAPPING["inventory_official_id_index"]]["value"] = serial_number
         else:
-            del payload_obj["resource"]["identifier"][0]
+            del payload_obj["resource"]["identifier"][GROUP_INDEX_MAPPING["inventory_official_id_index"]]
 
         if po_number:
-            payload_obj["resource"]["identifier"][1]["value"] = po_number
+            payload_obj["resource"]["identifier"][GROUP_INDEX_MAPPING["inventory_secondary_id_index"]]["value"] = po_number
         else:
-            del payload_obj["resource"]["identifier"][1]
+            del payload_obj["resource"]["identifier"][GROUP_INDEX_MAPPING["inventory_secondary_id_index"]]
 
         if usual_id:
-            payload_obj["resource"]["identifier"][2]["value"] = usual_id
+            payload_obj["resource"]["identifier"][GROUP_INDEX_MAPPING["inventory_usual_id_index"]]["value"] = usual_id
         else:
-            del payload_obj["resource"]["identifier"][2]
+            del payload_obj["resource"]["identifier"][GROUP_INDEX_MAPPING["inventory_usual_id_index"]]
 
         if actual:
             payload_obj["resource"]["actual"] = bool(actual)
@@ -563,34 +580,34 @@ def group_extras(resource, payload_string, group_type):
             del payload_obj["resource"]["actual"]
 
         if product_id:
-            payload_obj["resource"]["member"][0]["entity"]["reference"] = "Group/" + product_id
+            payload_obj["resource"]["member"][GROUP_INDEX_MAPPING["inventory_member_index"]]["entity"]["reference"] = "Group/" + product_id
         else:
-            payload_obj["resource"]["member"][0]["entity"]["reference"] = "Group/"
+            payload_obj["resource"]["member"][GROUP_INDEX_MAPPING["inventory_member_index"]]["entity"]["reference"] = "Group/"
 
         if delivery_date:
-            payload_obj["resource"]["member"][0]["period"]["start"] = delivery_date
+            payload_obj["resource"]["member"][GROUP_INDEX_MAPPING["inventory_member_index"]]["period"]["start"] = delivery_date
         else:
-            payload_obj["resource"]["member"][0]["period"]["start"] = ""
+            payload_obj["resource"]["member"][GROUP_INDEX_MAPPING["inventory_member_index"]]["period"]["start"] = ""
 
         if accountability_date:
-            payload_obj["resource"]["member"][0]["period"]["end"] = accountability_date
+            payload_obj["resource"]["member"][GROUP_INDEX_MAPPING["inventory_member_index"]]["period"]["end"] = accountability_date
         else:
-            payload_obj["resource"]["member"][0]["period"]["end"] = ""
+            payload_obj["resource"]["member"][GROUP_INDEX_MAPPING["inventory_member_index"]]["period"]["end"] = ""
 
         if quantity:
-            payload_obj["resource"]["characteristic"][0]["valueQuantity"]["value"] = int(quantity)
+            payload_obj["resource"]["characteristic"][GROUP_INDEX_MAPPING["inventory_quantity_index"]]["valueQuantity"]["value"] = int(quantity)
         else:
-            del_indexes.append(0)
+            del_indexes.append(GROUP_INDEX_MAPPING["inventory_quantity_index"])
 
         if unicef_section:
-            payload_obj["resource"]["characteristic"][1]["valueCodeableConcept"]["text"] = unicef_section
+            payload_obj["resource"]["characteristic"][GROUP_INDEX_MAPPING["inventory_unicef_section_index"]]["valueCodeableConcept"]["text"] = unicef_section
         else:
-            del_indexes.append(1)
+            del_indexes.append(GROUP_INDEX_MAPPING["inventory_unicef_section_index"])
 
         if donor:
             payload_obj["resource"]["characteristic"][2]["valueCodeableConcept"]["text"] = donor
         else:
-            del_indexes.append(2)
+            del_indexes.append(GROUP_INDEX_MAPPING["inventory_donor_index"])
 
         for x in reversed(del_indexes):
             del payload_obj["resource"]["characteristic"][x]
