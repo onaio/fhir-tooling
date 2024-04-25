@@ -627,9 +627,6 @@ def group_extras(resource, payload_string, group_type):
         else:
             del_indexes.append(GROUP_INDEX_MAPPING["product_image_index"])
 
-        for x in reversed(del_indexes):
-            del payload_obj["resource"]["characteristic"][x]
-
     elif group_type == "inventory":
         (
             _,
@@ -732,11 +729,11 @@ def group_extras(resource, payload_string, group_type):
         else:
             del_indexes.append(GROUP_INDEX_MAPPING["inventory_donor_index"])
 
-        for x in reversed(del_indexes):
-            del payload_obj["resource"]["characteristic"][x]
-
     else:
         logging.info("Group type not defined")
+
+    for x in reversed(del_indexes):
+        del payload_obj["resource"]["characteristic"][x]
 
     payload_string = json.dumps(payload_obj, indent=4)
     return payload_string
