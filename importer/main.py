@@ -1301,6 +1301,13 @@ def main(
             click.confirm("Do you want to continue?", abort=True)
             clean_duplicates(resource_list, cascade_delete)
             logging.info("Processing complete!")
+        elif setup == "multifactor_authenticaton":
+            logging.info("=========================================")
+            logging.info(
+                "You are about to add multifactor authentication to keycloak"
+            )
+            click.confirm("Do you want to continue?", abort=True)
+            logging.info("Processing complete!")
         else:
             logging.error("Unsupported request!")
     else:
