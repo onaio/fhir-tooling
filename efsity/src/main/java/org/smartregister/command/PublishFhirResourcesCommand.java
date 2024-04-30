@@ -282,7 +282,7 @@ public class PublishFhirResourcesCommand implements Runnable {
 
     if (resource.has("meta")) {
       JSONObject resource_meta = (JSONObject) resource.get("meta");
-      if (resource_meta.has("tag")){
+      if (resource_meta.has("tag")) {
         JSONArray resource_tags = resource_meta.getJSONArray("tag");
         resource_tags.put(version);
       }
