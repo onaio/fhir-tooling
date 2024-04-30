@@ -29,6 +29,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.smartregister.domain.FctFile;
 import org.smartregister.fhircore_tooling.BuildConfig;
@@ -275,15 +276,24 @@ public class PublishFhirResourcesCommand implements Runnable {
     request.put("method", "PUT");
     request.put("url", resourceType + "/" + resourceID);
 
-    ArrayList<JSONObject> tags = new ArrayList<>();
     JSONObject version = new JSONObject();
     version.put("system", "https://smartregister.org/fct-release-version");
     version.put("code", BuildConfig.RELEASE_VERSION);
-    tags.add(version);
 
-    JSONObject meta = new JSONObject();
-    meta.put("tag", tags);
-    resource.put("meta", meta);
+    if (resource.has("meta")) {
+      JSONObject resource_meta = (JSONObject) resource.get("meta");
+      if (resource_meta.has("tag")){
+        JSONArray resource_tags = resource_meta.getJSONArray("tag");
+        resource_tags.put(version);
+      }
+    } else {
+      ArrayList<JSONObject> tags = new ArrayList<>();
+      tags.add(version);
+
+      JSONObject meta = new JSONObject();
+      meta.put("tag", tags);
+      resource.put("meta", meta);
+    }
 
     JSONObject object = new JSONObject();
     object.put("resource", resource);
