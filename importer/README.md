@@ -134,3 +134,16 @@ The coverage report `coverage.html` will be at the working directory
 - The `limit` is the number of resources exported at a time. The set default value is '1000'
 - Specify the `resource_type` you want to export, different resource_types are exported to different csv_files
 - The csv_file containing the exported resources is labelled using the current time, to know when the resources were exported for example, csv/exports/2024-02-21-12-21-export_Location.csv
+
+### 10. Import products from openSRP 1
+- Run `python3 main.py --csv_file csv/import/product.csv --setup products --log_level info`
+- See example csv [here](/importer/csv/import/product.csv)
+- This creates a Group resource for each product imported
+- The first two columns __name__ and __active__ is the minimum required
+- The last column __imageSourceUrl__ contains a url to the product image. If this source requires authentication, then you need to provide the `product_access_token` in the config file. The image is added as a binary resource and referenced in the product's Group resource
+
+### 11. Import inventories from openSRP 1
+- Run `python3 main.py --csv_file csv/import/inventory.csv --setup inventories --log_level info`
+- See example csv [here](/importer/csv/import/inventory.csv)
+- This creates a Group resource for each inventory imported
+- The first two columns __name__ and __active__ is the minimum required

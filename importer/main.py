@@ -21,6 +21,7 @@ except ModuleNotFoundError:
 
 global_access_token = ""
 
+
 # This function takes in a csv file
 # reads it and returns a list of strings/lines
 # It ignores the first line (assumes headers)
@@ -32,7 +33,9 @@ def read_csv(csv_file):
             next(records)
             all_records = []
 
-            with click.progressbar(records, label='Progress::Reading csv ') as read_csv_progress:
+            with click.progressbar(
+                records, label="Progress::Reading csv "
+            ) as read_csv_progress:
                 for record in read_csv_progress:
                     all_records.append(record)
 
@@ -117,13 +120,25 @@ def handle_request(request_type, payload, url):
 def get_keycloak_url():
     return config.keycloak_url
 
+
 # This function builds the user payload and posts it to
 # the keycloak api to create a new user
 # it also adds the user to the provided keycloak group
 # and sets the user password
 def create_user(user):
-    (firstName, lastName, username, email, userId, userType, _, keycloakGroupId,
-     keycloakGroupName, appId, password) = user
+    (
+        firstName,
+        lastName,
+        username,
+        email,
+        userId,
+        userType,
+        _,
+        keycloakGroupId,
+        keycloakGroupName,
+        appId,
+        password,
+    ) = user
 
     with open("json_payloads/keycloak_user_payload.json") as json_file:
         payload_string = json_file.read()
@@ -145,7 +160,9 @@ def create_user(user):
         user_id = (new_user_location.split("/"))[-1]
 
         # add user to group
-        payload = '{"id": "' + keycloakGroupId + '", "name": "' + keycloakGroupName + '"}'
+        payload = (
+            '{"id": "' + keycloakGroupId + '", "name": "' + keycloakGroupName + '"}'
+        )
         group_endpoint = user_id + "/groups/" + keycloakGroupId
         url = keycloak_url + "/users/" + group_endpoint
         logging.info("Adding user to Keycloak group: " + keycloakGroupName)
@@ -167,8 +184,19 @@ def create_user(user):
 # new user and posts them to the FHIR api for creation
 def create_user_resources(user_id, user):
     logging.info("Creating user resources")
-    (firstName, lastName, username, email, id, userType,
-     enableUser, keycloakGroupId, keycloakGroupName, _, password) = user
+    (
+        firstName,
+        lastName,
+        username,
+        email,
+        id,
+        userType,
+        enableUser,
+        keycloakGroupId,
+        keycloakGroupName,
+        _,
+        password,
+    ) = user
 
     # generate uuids
     if len(str(id).strip()) == 0:
@@ -280,8 +308,19 @@ def check_parent_admin_level(locationParentId):
 # custom extras for locations
 def location_extras(resource, payload_string):
     try:
-        (locationName, *_, locationParentName, locationParentId, locationType, locationTypeCode,
-         locationAdminLevel, locationPhysicalType, locationPhysicalTypeCode, longitude, latitude) = resource
+        (
+            locationName,
+            *_,
+            locationParentName,
+            locationParentId,
+            locationType,
+            locationTypeCode,
+            locationAdminLevel,
+            locationPhysicalType,
+            locationPhysicalTypeCode,
+            longitude,
+            latitude,
+        ) = resource
     except ValueError:
         locationParentName = "parentName"
         locationParentId = "ParentId"
@@ -294,9 +333,9 @@ def location_extras(resource, payload_string):
 
     try:
         if locationParentName and locationParentName != "parentName":
-            payload_string = payload_string.replace("$parentName", locationParentName).replace(
-                "$parentID", locationParentId
-            )
+            payload_string = payload_string.replace(
+                "$parentName", locationParentName
+            ).replace("$parentID", locationParentId)
         else:
             obj = json.loads(payload_string)
             del obj["resource"]["partOf"]
@@ -330,12 +369,16 @@ def location_extras(resource, payload_string):
 
     try:
         if len(locationAdminLevel.strip()) > 0 and locationAdminLevel != "adminLevel":
-            payload_string = payload_string.replace("$adminLevelCode", locationAdminLevel)
+            payload_string = payload_string.replace(
+                "$adminLevelCode", locationAdminLevel
+            )
         else:
             if locationAdminLevel in resource:
                 admin_level = check_parent_admin_level(locationParentId)
                 if admin_level:
-                    payload_string = payload_string.replace("$adminLevelCode", admin_level)
+                    payload_string = payload_string.replace(
+                        "$adminLevelCode", admin_level
+                    )
                 else:
                     obj = json.loads(payload_string)
                     obj_type = obj["resource"]["type"]
@@ -371,10 +414,18 @@ def location_extras(resource, payload_string):
             payload_string = json.dumps(obj, indent=4)
 
     try:
-        if len(locationPhysicalType.strip()) > 0 and locationPhysicalType != "physicalType":
+        if (
+            len(locationPhysicalType.strip()) > 0
+            and locationPhysicalType != "physicalType"
+        ):
             payload_string = payload_string.replace("$pt_display", locationPhysicalType)
-        if len(locationPhysicalTypeCode.strip()) > 0 and locationPhysicalTypeCode != "physicalTypeCode":
-            payload_string = payload_string.replace("$pt_code", locationPhysicalTypeCode)
+        if (
+            len(locationPhysicalTypeCode.strip()) > 0
+            and locationPhysicalTypeCode != "physicalTypeCode"
+        ):
+            payload_string = payload_string.replace(
+                "$pt_code", locationPhysicalTypeCode
+            )
         else:
             obj = json.loads(payload_string)
             del obj["resource"]["physicalType"]
@@ -387,7 +438,8 @@ def location_extras(resource, payload_string):
     try:
         if longitude and longitude != "longitude":
             payload_string = payload_string.replace('"$longitude"', longitude).replace(
-                '"$latitude"', latitude)
+                '"$latitude"', latitude
+            )
         else:
             obj = json.loads(payload_string)
             del obj["resource"]["position"]
@@ -401,9 +453,7 @@ def location_extras(resource, payload_string):
 
 
 # custom extras for careTeams
-def care_team_extras(
-        resource, payload_string, ftype
-):
+def care_team_extras(resource, payload_string, ftype):
     orgs_list = []
     participant_list = []
     elements = []
@@ -475,9 +525,225 @@ def care_team_extras(
     return payload_string
 
 
+# custom extras for product import
+def group_extras(resource, payload_string, group_type):
+    payload_obj = json.loads(payload_string)
+    item_name = resource[0]
+    del_indexes = []
+
+    GROUP_INDEX_MAPPING = {
+        "product_secondary_id_index": 1,
+        "product_is_attractive_index": 0,
+        "product_is_available_index": 1,
+        "product_condition_index": 2,
+        "product_appropriate_usage_index": 3,
+        "product_accountability_period_index": 4,
+        "product_image_index": 5,
+        "inventory_official_id_index": 0,
+        "inventory_secondary_id_index": 1,
+        "inventory_usual_id_index": 2,
+        "inventory_member_index": 0,
+        "inventory_quantity_index": 0,
+        "inventory_unicef_section_index": 1,
+        "inventory_donor_index": 2,
+    }
+
+    if group_type == "product":
+        (
+            _,
+            active,
+            *_,
+            previous_id,
+            is_attractive_item,
+            availability,
+            condition,
+            appropriate_usage,
+            accountability_period,
+            image_source_url,
+        ) = resource
+
+        if active:
+            payload_obj["resource"]["active"] = active
+        else:
+            del payload_obj["resource"]["active"]
+
+        if previous_id:
+            payload_obj["resource"]["identifier"][
+                GROUP_INDEX_MAPPING["product_secondary_id_index"]
+            ]["value"] = previous_id
+        else:
+            del payload_obj["resource"]["identifier"][
+                GROUP_INDEX_MAPPING["product_secondary_id_index"]
+            ]
+
+        if is_attractive_item:
+            payload_obj["resource"]["characteristic"][
+                GROUP_INDEX_MAPPING["product_is_attractive_index"]
+            ]["valueBoolean"] = is_attractive_item
+        else:
+            del_indexes.append(GROUP_INDEX_MAPPING["product_is_attractive_index"])
+
+        if availability:
+            payload_obj["resource"]["characteristic"][
+                GROUP_INDEX_MAPPING["product_is_available_index"]
+            ]["valueCodeableConcept"]["text"] = availability
+        else:
+            del_indexes.append(GROUP_INDEX_MAPPING["product_is_available_index"])
+
+        if condition:
+            payload_obj["resource"]["characteristic"][
+                GROUP_INDEX_MAPPING["product_condition_index"]
+            ]["valueCodeableConcept"]["text"] = condition
+        else:
+            del_indexes.append(GROUP_INDEX_MAPPING["product_condition_index"])
+
+        if appropriate_usage:
+            payload_obj["resource"]["characteristic"][
+                GROUP_INDEX_MAPPING["product_appropriate_usage_index"]
+            ]["valueCodeableConcept"]["text"] = appropriate_usage
+        else:
+            del_indexes.append(GROUP_INDEX_MAPPING["product_appropriate_usage_index"])
+
+        if accountability_period:
+            payload_obj["resource"]["characteristic"][
+                GROUP_INDEX_MAPPING["product_accountability_period_index"]
+            ]["valueQuantity"]["value"] = accountability_period
+        else:
+            del_indexes.append(
+                GROUP_INDEX_MAPPING["product_accountability_period_index"]
+            )
+
+        if image_source_url:
+            image_binary = save_image(image_source_url)
+            if image_binary != 0:
+                payload_obj["resource"]["characteristic"][
+                    GROUP_INDEX_MAPPING["product_image_index"]
+                ]["valueReference"]["reference"] = ("Binary/" + image_binary)
+            else:
+                logging.error(
+                    "Unable to link the image Binary resource for product " + item_name
+                )
+                del_indexes.append(GROUP_INDEX_MAPPING["product_image_index"])
+        else:
+            del_indexes.append(GROUP_INDEX_MAPPING["product_image_index"])
+
+    elif group_type == "inventory":
+        (
+            _,
+            active,
+            *_,
+            po_number,
+            serial_number,
+            usual_id,
+            actual,
+            product_id,
+            delivery_date,
+            accountability_date,
+            quantity,
+            unicef_section,
+            donor,
+        ) = resource
+
+        if active:
+            payload_obj["resource"]["active"] = bool(active)
+        else:
+            del payload_obj["resource"]["active"]
+
+        if serial_number:
+            payload_obj["resource"]["identifier"][
+                GROUP_INDEX_MAPPING["inventory_official_id_index"]
+            ]["value"] = serial_number
+        else:
+            del payload_obj["resource"]["identifier"][
+                GROUP_INDEX_MAPPING["inventory_official_id_index"]
+            ]
+
+        if po_number:
+            payload_obj["resource"]["identifier"][
+                GROUP_INDEX_MAPPING["inventory_secondary_id_index"]
+            ]["value"] = po_number
+        else:
+            del payload_obj["resource"]["identifier"][
+                GROUP_INDEX_MAPPING["inventory_secondary_id_index"]
+            ]
+
+        if usual_id:
+            payload_obj["resource"]["identifier"][
+                GROUP_INDEX_MAPPING["inventory_usual_id_index"]
+            ]["value"] = usual_id
+        else:
+            del payload_obj["resource"]["identifier"][
+                GROUP_INDEX_MAPPING["inventory_usual_id_index"]
+            ]
+
+        if actual:
+            payload_obj["resource"]["actual"] = bool(actual)
+        else:
+            del payload_obj["resource"]["actual"]
+
+        if product_id:
+            payload_obj["resource"]["member"][
+                GROUP_INDEX_MAPPING["inventory_member_index"]
+            ]["entity"]["reference"] = ("Group/" + product_id)
+        else:
+            payload_obj["resource"]["member"][
+                GROUP_INDEX_MAPPING["inventory_member_index"]
+            ]["entity"]["reference"] = "Group/"
+
+        if delivery_date:
+            payload_obj["resource"]["member"][
+                GROUP_INDEX_MAPPING["inventory_member_index"]
+            ]["period"]["start"] = delivery_date
+        else:
+            payload_obj["resource"]["member"][
+                GROUP_INDEX_MAPPING["inventory_member_index"]
+            ]["period"]["start"] = ""
+
+        if accountability_date:
+            payload_obj["resource"]["member"][
+                GROUP_INDEX_MAPPING["inventory_member_index"]
+            ]["period"]["end"] = accountability_date
+        else:
+            payload_obj["resource"]["member"][
+                GROUP_INDEX_MAPPING["inventory_member_index"]
+            ]["period"]["end"] = ""
+
+        if quantity:
+            payload_obj["resource"]["characteristic"][
+                GROUP_INDEX_MAPPING["inventory_quantity_index"]
+            ]["valueQuantity"]["value"] = int(quantity)
+        else:
+            del_indexes.append(GROUP_INDEX_MAPPING["inventory_quantity_index"])
+
+        if unicef_section:
+            payload_obj["resource"]["characteristic"][
+                GROUP_INDEX_MAPPING["inventory_unicef_section_index"]
+            ]["valueCodeableConcept"]["text"] = unicef_section
+        else:
+            del_indexes.append(GROUP_INDEX_MAPPING["inventory_unicef_section_index"])
+
+        if donor:
+            payload_obj["resource"]["characteristic"][2]["valueCodeableConcept"][
+                "text"
+            ] = donor
+        else:
+            del_indexes.append(GROUP_INDEX_MAPPING["inventory_donor_index"])
+
+    else:
+        logging.info("Group type not defined")
+
+    for x in reversed(del_indexes):
+        del payload_obj["resource"]["characteristic"][x]
+
+    payload_string = json.dumps(payload_obj, indent=4)
+    return payload_string
+
+
 def extract_matches(resource_list):
     teamMap = {}
-    with click.progressbar(resource_list, label='Progress::Extract matches ') as extract_progress:
+    with click.progressbar(
+        resource_list, label="Progress::Extract matches "
+    ) as extract_progress:
         for resource in extract_progress:
             group_name, group_id, item_name, item_id = resource
             if group_id.strip() and item_id.strip():
@@ -498,8 +764,13 @@ def build_assign_payload(rows, resource_type):
 
         # check if already exists
         base_url = get_base_url()
-        check_url = (base_url + "/" + resource_type + "/_search?_count=1&practitioner=Practitioner/"
-                     + practitioner_id)
+        check_url = (
+            base_url
+            + "/"
+            + resource_type
+            + "/_search?_count=1&practitioner=Practitioner/"
+            + practitioner_id
+        )
         response = handle_request("GET", "", check_url)
         json_response = json.loads(response[0])
 
@@ -508,13 +779,15 @@ def build_assign_payload(rows, resource_type):
             resource = json_response["entry"][0]["resource"]
 
             try:
-                resource["organization"]["reference"] = "Organization/" + organization_id
+                resource["organization"]["reference"] = (
+                    "Organization/" + organization_id
+                )
                 resource["organization"]["display"] = organization_name
             except KeyError:
                 org = {
                     "organization": {
                         "reference": "Organization/" + organization_id,
-                        "display": organization_name
+                        "display": organization_name,
                     }
                 }
                 resource.update(org)
@@ -527,9 +800,13 @@ def build_assign_payload(rows, resource_type):
             logging.info("Creating a new resource")
 
             # generate a new id
-            new_id = str(uuid.uuid5(uuid.NAMESPACE_DNS, practitioner_id + organization_id))
+            new_id = str(
+                uuid.uuid5(uuid.NAMESPACE_DNS, practitioner_id + organization_id)
+            )
 
-            with open("json_payloads/practitioner_organization_payload.json") as json_file:
+            with open(
+                "json_payloads/practitioner_organization_payload.json"
+            ) as json_file:
                 payload_string = json_file.read()
 
             # replace the variables in payload
@@ -545,15 +822,17 @@ def build_assign_payload(rows, resource_type):
             resource = json.loads(payload_string)
 
         else:
-            raise ValueError ("The number of practitioner references should only be 0 or 1")
+            raise ValueError(
+                "The number of practitioner references should only be 0 or 1"
+            )
 
         payload = {
             "request": {
                 "method": "PUT",
                 "url": resource_type + "/" + practitioner_role_id,
-                "ifMatch": version
+                "ifMatch": version,
             },
-            "resource": resource
+            "resource": resource,
         }
         full_string = json.dumps(payload, indent=4)
         final_string = final_string + full_string + ","
@@ -576,7 +855,9 @@ def build_org_affiliation(resources, resource_list):
     with open("json_payloads/organization_affiliation_payload.json") as json_file:
         payload_string = json_file.read()
 
-    with click.progressbar(resources, label='Progress::Build payload ') as build_progress:
+    with click.progressbar(
+        resources, label="Progress::Build payload "
+    ) as build_progress:
         for key in build_progress:
             rp = ""
             unique_uuid = str(uuid.uuid5(uuid.NAMESPACE_DNS, key))
@@ -618,10 +899,20 @@ def get_valid_resource_type(resource_type):
 
 # This function gets the current resource version from the API
 def get_resource(resource_id, resource_type):
-    resource_type = get_valid_resource_type(resource_type)
+    if resource_type != "Group":
+        resource_type = get_valid_resource_type(resource_type)
     resource_url = "/".join([config.fhir_base_url, resource_type, resource_id])
     response = handle_request("GET", "", resource_url)
     return json.loads(response[0])["meta"]["versionId"] if response[1] == 200 else "0"
+
+
+def check_for_nulls(resource: list) -> list:
+    for index, value in enumerate(resource):
+        if len(value.strip()) < 1:
+            resource[index] = None
+        else:
+            resource[index] = value.strip()
+    return resource
 
 
 # This function builds a json payload
@@ -633,9 +924,13 @@ def build_payload(resource_type, resources, resource_payload_file):
     with open(resource_payload_file) as json_file:
         payload_string = json_file.read()
 
-    with click.progressbar(resources, label='Progress::Building payload ') as build_payload_progress:
+    with click.progressbar(
+        resources, label="Progress::Building payload "
+    ) as build_payload_progress:
         for resource in build_payload_progress:
             logging.info("\t")
+
+            resource = check_for_nulls(resource)
 
             try:
                 name, status, method, id, *_ = resource
@@ -645,39 +940,27 @@ def build_payload(resource_type, resources, resource_payload_file):
                 method = "create"
                 id = str(uuid.uuid5(uuid.NAMESPACE_DNS, name))
 
-            try:
-                if method == "create":
-                    version = "1"
-                    if len(id.strip()) > 0:
-                        # use the provided id
-                        unique_uuid = id.strip()
-                        identifier_uuid = id.strip()
-                    else:
-                        # generate a new uuid
-                        unique_uuid = str(uuid.uuid5(uuid.NAMESPACE_DNS, name))
-                        identifier_uuid = unique_uuid
-            except IndexError:
-                # default if method is not provided
-                unique_uuid = str(uuid.uuid5(uuid.NAMESPACE_DNS, name))
-                identifier_uuid = unique_uuid
+            if method == "create":
                 version = "1"
+                if id:
+                    unique_uuid = identifier_uuid = id
+                else:
+                    unique_uuid = identifier_uuid = str(
+                        uuid.uuid5(uuid.NAMESPACE_DNS, name)
+                    )
 
-            try:
-                if method == "update":
-                    if len(id.strip()) > 0:
-                        version = get_resource(id, resource_type)
-                        if version != "0":
-                            # use the provided id
-                            unique_uuid = id.strip()
-                            identifier_uuid = id.strip()
-                        else:
-                            logging.info("Failed to get resource!")
-                            raise ValueError("Trying to update a Non-existent resource")
+            if method == "update":
+                if id:
+                    version = get_resource(id, resource_type)
+
+                    if version != "0":
+                        unique_uuid = identifier_uuid = id
                     else:
-                        logging.info("The id is required!")
-                        raise ValueError("The id is required to update a resource")
-            except IndexError:
-                raise ValueError("The id is required to update a resource")
+                        logging.info("Failed to get resource!")
+                        raise ValueError("Trying to update a Non-existent resource")
+                else:
+                    logging.info("The id is required!")
+                    raise ValueError("The id is required to update a resource")
 
             # ps = payload_string
             ps = (
@@ -698,6 +981,14 @@ def build_payload(resource_type, resources, resource_payload_file):
                 ps = location_extras(resource, ps)
             elif resource_type == "careTeams":
                 ps = care_team_extras(resource, ps, "orgs & users")
+            elif resource_type == "Group":
+                if "inventory" in resource_payload_file:
+                    group_type = "inventory"
+                elif "product" in resource_payload_file:
+                    group_type = "product"
+                else:
+                    logging.error("Undefined group type")
+                ps = group_extras(resource, ps, group_type)
 
             final_string = final_string + ps + ","
 
@@ -746,9 +1037,7 @@ def confirm_practitioner(user, user_id):
     base_url = get_base_url()
     if not practitioner_uuid:
         # If practitioner uuid not provided in csv, check if any practitioners exist linked to the keycloak user_id
-        r = handle_request(
-            "GET", "", base_url + "/Practitioner?identifier=" + user_id
-        )
+        r = handle_request("GET", "", base_url + "/Practitioner?identifier=" + user_id)
         json_r = json.loads(r[0])
         counter = json_r["total"]
         if counter > 0:
@@ -759,9 +1048,7 @@ def confirm_practitioner(user, user_id):
         else:
             return False
 
-    r = handle_request(
-        "GET", "", base_url + "/Practitioner/" + practitioner_uuid
-    )
+    r = handle_request("GET", "", base_url + "/Practitioner/" + practitioner_uuid)
 
     if r[1] == 404:
         logging.info("Practitioner does not exist, proceed to creation")
@@ -994,16 +1281,18 @@ def clean_duplicates(users, cascade_delete):
 # Create a csv file and initialize the CSV writer
 def write_csv(data, resource_type, fieldnames):
     logging.info("Writing to csv file")
-    path = 'csv/exports'
+    path = "csv/exports"
     if not os.path.exists(path):
         os.makedirs(path)
 
     current_time = datetime.now().strftime("%Y-%m-%d-%H-%M")
     csv_file = f"{path}/{current_time}-export_{resource_type}.csv"
-    with open(csv_file, 'w', newline='') as file:
+    with open(csv_file, "w", newline="") as file:
         csv_writer = csv.writer(file)
         csv_writer.writerow(fieldnames)
-        with click.progressbar(data, label='Progress:: Writing csv') as write_csv_progress:
+        with click.progressbar(
+            data, label="Progress:: Writing csv"
+        ) as write_csv_progress:
             for row in write_csv_progress:
                 csv_writer.writerow(row)
     return csv_file
@@ -1019,7 +1308,7 @@ def export_resources_to_csv(resource_type, parameter, value, limit):
     resource_url = "/".join([str(base_url), resource_type])
     if len(parameter) > 0:
         resource_url = (
-                resource_url + "?" + parameter + "=" + value + "&_count=" + str(limit)
+            resource_url + "?" + parameter + "=" + value + "&_count=" + str(limit)
         )
     response = handle_request("GET", "", resource_url)
     if response[1] == 200:
@@ -1028,17 +1317,36 @@ def export_resources_to_csv(resource_type, parameter, value, limit):
         try:
             if resources["entry"]:
                 if resource_type == "Location":
-                    elements = ["name", "status", "method", "id", "identifier", "parentName", "parentID", "type",
-                                "typeCode",
-                                "physicalType", "physicalTypeCode"]
+                    elements = [
+                        "name",
+                        "status",
+                        "method",
+                        "id",
+                        "identifier",
+                        "parentName",
+                        "parentID",
+                        "type",
+                        "typeCode",
+                        "physicalType",
+                        "physicalTypeCode",
+                    ]
                 elif resource_type == "Organization":
                     elements = ["name", "active", "method", "id", "identifier"]
                 elif resource_type == "CareTeam":
-                    elements = ["name", "status", "method", "id", "identifier", "organizations", "participants"]
+                    elements = [
+                        "name",
+                        "status",
+                        "method",
+                        "id",
+                        "identifier",
+                        "organizations",
+                        "participants",
+                    ]
                 else:
                     elements = []
-                with click.progressbar(resources["entry"],
-                                       label='Progress:: Extracting resource') as extract_resources_progress:
+                with click.progressbar(
+                    resources["entry"], label="Progress:: Extracting resource"
+                ) as extract_resources_progress:
                     for x in extract_resources_progress:
                         rl = []
                         orgs_list = []
@@ -1052,21 +1360,33 @@ def export_resources_to_csv(resource_type, parameter, value, limit):
                                 elif element == "identifier":
                                     value = x["resource"]["identifier"][0]["value"]
                                 elif element == "organizations":
-                                    organizations = x["resource"]["managingOrganization"]
+                                    organizations = x["resource"][
+                                        "managingOrganization"
+                                    ]
                                     for index, value in enumerate(organizations):
-                                        reference = x["resource"]["managingOrganization"][index]["reference"]
+                                        reference = x["resource"][
+                                            "managingOrganization"
+                                        ][index]["reference"]
                                         new_reference = reference.split("/", 1)[1]
-                                        display = x["resource"]["managingOrganization"][index]["display"]
-                                        organization = ":".join([new_reference, display])
+                                        display = x["resource"]["managingOrganization"][
+                                            index
+                                        ]["display"]
+                                        organization = ":".join(
+                                            [new_reference, display]
+                                        )
                                         orgs_list.append(organization)
                                     string = "|".join(map(str, orgs_list))
                                     value = string
                                 elif element == "participants":
                                     participants = x["resource"]["participant"]
                                     for index, value in enumerate(participants):
-                                        reference = x["resource"]["participant"][index]["member"]["reference"]
+                                        reference = x["resource"]["participant"][index][
+                                            "member"
+                                        ]["reference"]
                                         new_reference = reference.split("/", 1)[1]
-                                        display = x["resource"]["participant"][index]["member"]["display"]
+                                        display = x["resource"]["participant"][index][
+                                            "member"
+                                        ]["display"]
                                         participant = ":".join([new_reference, display])
                                         participants_list.append(participant)
                                     string = "|".join(map(str, participants_list))
@@ -1077,13 +1397,21 @@ def export_resources_to_csv(resource_type, parameter, value, limit):
                                     reference = x["resource"]["partOf"]["reference"]
                                     value = reference.split("/", 1)[1]
                                 elif element == "type":
-                                    value = x["resource"]["type"][0]["coding"][0]["display"]
+                                    value = x["resource"]["type"][0]["coding"][0][
+                                        "display"
+                                    ]
                                 elif element == "typeCode":
-                                    value = x["resource"]["type"][0]["coding"][0]["code"]
+                                    value = x["resource"]["type"][0]["coding"][0][
+                                        "code"
+                                    ]
                                 elif element == "physicalType":
-                                    value = x["resource"]["physicalType"]["coding"][0]["display"]
+                                    value = x["resource"]["physicalType"]["coding"][0][
+                                        "display"
+                                    ]
                                 elif element == "physicalTypeCode":
-                                    value = x["resource"]["physicalType"]["coding"][0]["code"]
+                                    value = x["resource"]["physicalType"]["coding"][0][
+                                        "code"
+                                    ]
                                 else:
                                     value = x["resource"][element]
                             except KeyError:
@@ -1097,11 +1425,13 @@ def export_resources_to_csv(resource_type, parameter, value, limit):
         except KeyError:
             logging.info("No Resources Found")
     else:
-        logging.error(f"Failed to retrieve resource. Status code: {response[1]} response: {response[0]}")
+        logging.error(
+            f"Failed to retrieve resource. Status code: {response[1]} response: {response[0]}"
+        )
 
 
 def encode_image(image_file):
-    with open(image_file, 'rb') as image:
+    with open(image_file, "rb") as image:
         image_b64_data = base64.b64encode(image.read())
     return image_b64_data
 
@@ -1110,34 +1440,43 @@ def encode_image(image_file):
 # and saves it as a Binary resource. It returns the id of the Binary resource if
 # successful and 0 if failed
 def save_image(image_source_url):
-    headers = {"Authorization": "Bearer " + config.product_access_token}
+    try:
+        headers = {"Authorization": "Bearer " + config.product_access_token}
+    except AttributeError:
+        headers = {}
+
     data = requests.get(url=image_source_url, headers=headers)
+    if not os.path.exists("images"):
+        os.makedirs("images")
+
     if data.status_code == 200:
-        with open('images/image_file', 'wb') as image_file:
+        with open("images/image_file", "wb") as image_file:
             image_file.write(data.content)
 
         # get file type
         mime = magic.Magic(mime=True)
-        file_type = mime.from_file('images/image_file')
+        file_type = mime.from_file("images/image_file")
 
-        encoded_image = encode_image('images/image_file')
+        encoded_image = encode_image("images/image_file")
         resource_id = str(uuid.uuid5(uuid.NAMESPACE_DNS, image_source_url))
         payload = {
             "resourceType": "Bundle",
             "type": "transaction",
-            "entry": [{
-                "request": {
-                    "method": "PUT",
-                    "url": "Binary/" + resource_id,
-                    "ifMatch": "1"
-                },
-                "resource": {
-                    "resourceType": "Binary",
-                    "id": resource_id,
-                    "contentType": file_type,
-                    "data": str(encoded_image)
+            "entry": [
+                {
+                    "request": {
+                        "method": "PUT",
+                        "url": "Binary/" + resource_id,
+                        "ifMatch": "1",
+                    },
+                    "resource": {
+                        "resourceType": "Binary",
+                        "id": resource_id,
+                        "contentType": file_type,
+                        "data": str(encoded_image),
+                    },
                 }
-            }]
+            ],
         }
         payload_string = json.dumps(payload, indent=4)
         response = handle_request("POST", payload_string, get_base_url())
@@ -1168,23 +1507,17 @@ class ResponseFilter(logging.Filter):
 
 
 LOGGING = {
-    'version': 1,
-    'filters': {
-        'custom-filter': {
-            '()': ResponseFilter,
-            'param': 'final-response',
+    "version": 1,
+    "filters": {
+        "custom-filter": {
+            "()": ResponseFilter,
+            "param": "final-response",
         }
     },
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-            'filters': ['custom-filter']
-        }
+    "handlers": {
+        "console": {"class": "logging.StreamHandler", "filters": ["custom-filter"]}
     },
-    'root': {
-        'level': 'INFO',
-        'handlers': ['console']
-    },
+    "root": {"level": "INFO", "handlers": ["console"]},
 }
 
 
@@ -1198,21 +1531,41 @@ LOGGING = {
 @click.option("--roles_max", required=False, default=500)
 @click.option("--cascade_delete", required=False, default=False)
 @click.option("--only_response", required=False)
-@click.option("--log_level", type=click.Choice(["DEBUG", "INFO", "ERROR"], case_sensitive=False))
+@click.option(
+    "--log_level", type=click.Choice(["DEBUG", "INFO", "ERROR"], case_sensitive=False)
+)
 @click.option("--export_resources", required=False)
 @click.option("--parameter", required=False, default="_lastUpdated")
 @click.option("--value", required=False, default="gt2023-01-01")
 @click.option("--limit", required=False, default=1000)
 def main(
-    csv_file, access_token, resource_type, assign, setup, group, roles_max, cascade_delete, only_response, log_level,
-    export_resources, parameter, value, limit
+    csv_file,
+    access_token,
+    resource_type,
+    assign,
+    setup,
+    group,
+    roles_max,
+    cascade_delete,
+    only_response,
+    log_level,
+    export_resources,
+    parameter,
+    value,
+    limit,
 ):
     if log_level == "DEBUG":
-        logging.basicConfig(filename='importer.log', encoding='utf-8', level=logging.DEBUG)
+        logging.basicConfig(
+            filename="importer.log", encoding="utf-8", level=logging.DEBUG
+        )
     elif log_level == "INFO":
-        logging.basicConfig(filename='importer.log', encoding='utf-8', level=logging.INFO)
+        logging.basicConfig(
+            filename="importer.log", encoding="utf-8", level=logging.INFO
+        )
     elif log_level == "ERROR":
-        logging.basicConfig(filename='importer.log', encoding='utf-8', level=logging.ERROR)
+        logging.basicConfig(
+            filename="importer.log", encoding="utf-8", level=logging.ERROR
+        )
     logging.getLogger().addHandler(logging.StreamHandler())
 
     if only_response:
@@ -1239,7 +1592,9 @@ def main(
     if resource_list:
         if resource_type == "users":
             logging.info("Processing users")
-            with click.progressbar(resource_list, label="Progress:Processing users ") as process_user_progress:
+            with click.progressbar(
+                resource_list, label="Progress:Processing users "
+            ) as process_user_progress:
                 for user in process_user_progress:
                     user_id = create_user(user)
                     if user_id == 0:
@@ -1251,7 +1606,9 @@ def main(
                         practitioner_exists = confirm_practitioner(user, user_id)
                         if not practitioner_exists:
                             payload = create_user_resources(user_id, user)
-                            final_response = handle_request("POST", payload, config.fhir_base_url)
+                            final_response = handle_request(
+                                "POST", payload, config.fhir_base_url
+                            )
                     logging.info("Processing complete!")
         elif resource_type == "locations":
             logging.info("Processing locations")
@@ -1294,24 +1651,36 @@ def main(
                 assign_group_roles(resource_list, group, roles_max)
             logging.info("Processing complete")
         elif setup == "clean_duplicates":
-            logging.info("=========================================")
             logging.info(
                 "You are about to clean/delete Practitioner resources on the HAPI server"
             )
             click.confirm("Do you want to continue?", abort=True)
             clean_duplicates(resource_list, cascade_delete)
             logging.info("Processing complete!")
+        elif setup == "products":
+            logging.info("Importing products as FHIR Group resources")
+            json_payload = build_payload(
+                "Group", resource_list, "json_payloads/product_group_payload.json"
+            )
+            final_response = handle_request("POST", json_payload, config.fhir_base_url)
+        elif setup == "inventories":
+            logging.info("Importing inventories as FHIR Group resources")
+            json_payload = build_payload(
+                "Group", resource_list, "json_payloads/inventory_group_payload.json"
+            )
+            final_response = handle_request("POST", json_payload, config.fhir_base_url)
         else:
             logging.error("Unsupported request!")
     else:
         logging.error("Empty csv file!")
 
-    logging.info("{ \"final-response\": " + final_response.text + "}")
+    logging.info('{ "final-response": ' + final_response.text + "}")
 
     end_time = datetime.now()
     logging.info("End time: " + end_time.strftime("%H:%M:%S"))
     total_time = end_time - start_time
     logging.info("Total time: " + str(total_time.total_seconds()) + " seconds")
+
 
 if __name__ == "__main__":
     main()

@@ -382,6 +382,68 @@ class TestMain(unittest.TestCase):
         }
         validate(payload_obj["entry"][0]["request"], request_schema)
 
+    @patch("main.save_image")
+    @patch("main.get_resource")
+    def test_build_payload_group(self, mock_get_resource, mock_save_image):
+        mock_get_resource.return_value = "1"
+        mock_save_image.return_value = "f374a23a-3c6a-4167-9970-b10c16a91bbd"
+
+        csv_file = "csv/import/product.csv"
+        resource_list = read_csv(csv_file)
+        payload = build_payload(
+            "Group", resource_list, "json_payloads/product_group_payload.json")
+        payload_obj = json.loads(payload)
+
+        self.assertIsInstance(payload_obj, dict)
+        self.assertEqual(payload_obj["resourceType"], "Bundle")
+        self.assertEqual(len(payload_obj["entry"]), 2)
+
+        resource_schema_0 = {
+            "type": "object",
+            "properties": {
+                "resourceType": {"const": "Group"},
+                "id": {"const": "1d86d0e2-bac8-4424-90ae-e2298900ac3c"},
+                "identifier": {"type": "array", "items": {"type": "object"}},
+                "active": {"const": "true"},
+                "name": {"const": "thermometer"},
+                "characteristic": {
+                    "type": "array",
+                    "minItems": 6,
+                    "maxItems": 6
+                }
+            },
+            "required": ["resourceType", "id", "identifier", "active", "name"]
+        }
+        validate(payload_obj["entry"][0]["resource"], resource_schema_0)
+
+        resource_schema_1 = {
+            "type": "object",
+            "properties": {
+                "resourceType": {"const": "Group"},
+                "id": {"const": "334ec316-b44b-5678-b110-4d7ad6b1972f"},
+                "identifier": {"type": "array", "items": {"type": "object"}},
+                "active": {"const": "true"},
+                "name": {"const": "sterilizer"},
+                "characteristic": {
+                    "type": "array",
+                    "minItems": 2,
+                    "maxItems": 2
+                }
+            },
+            "required": ["resourceType", "id", "identifier", "active", "name"]
+        }
+        validate(payload_obj["entry"][1]["resource"], resource_schema_1)
+
+        request_schema = {
+            "type": "object",
+            "properties": {
+                "method": {"const": "PUT"},
+                "url": {"const": "Group/1d86d0e2-bac8-4424-90ae-e2298900ac3c"},
+                "ifMatch": {"const": "1"},
+            },
+        }
+        validate(payload_obj["entry"][0]["request"], request_schema)
+
     def test_extract_matches(self):
         csv_file = "csv/organizations/organizations_locations.csv"
         resource_list = read_csv(csv_file)
