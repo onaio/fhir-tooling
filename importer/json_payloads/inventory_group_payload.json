@@ -1,0 +1,128 @@
+{
+  "request": {
+    "method": "PUT",
+    "url": "Group/$unique_uuid",
+    "ifMatch": "$version"
+  },
+  "resource": {
+    "resourceType": "Group",
+    "id": "$unique_uuid",
+    "identifier": [
+      {
+        "type": {
+          "coding": [
+            {
+              "system": "http://smartregister.org/codes",
+              "code": "SERNUM",
+              "display": "Serial Number"
+            }
+          ],
+          "text": "Serial Number"
+        },
+        "use": "official",
+        "value": "$serial_number"
+      },
+      {
+        "type": {
+          "coding": [
+            {
+              "system": "http://smartregister.org/codes",
+              "code": "PONUM",
+              "display": "PO Number"
+            }
+          ],
+          "text": "PO Number"
+        },
+        "use": "secondary",
+        "value": "$po_number"
+      },
+      {
+        "use": "usual",
+        "value": "$usual_id"
+      }
+    ],
+    "active": "$active",
+    "type": "substance",
+    "actual": "$actual",
+    "code": {
+      "coding": [
+        {
+          "system": "http://smartregister.org/codes",
+          "code": "78991122",
+          "display": "Supply Inventory"
+        }
+      ]
+    },
+    "name": "$name",
+    "member": [
+      {
+        "entity": {
+          "reference": "Group/$product_id"
+        },
+        "period": {
+          "start": "$delivery_date",
+          "end": "$accountability_date"
+        },
+        "inactive": false
+      }
+    ],
+    "characteristic": [
+      {
+        "code": {
+          "coding": [
+            {
+              "system": "http://smartregister.org/codes",
+              "code": "33467722",
+              "display": "Quantity"
+            }
+          ]
+        },
+        "valueQuantity": {
+          "value": "$quantity"
+        }
+      },
+      {
+        "code": {
+          "coding": [
+            {
+              "system": "http://smartregister.org/codes",
+              "code": "98734231",
+              "display": "Unicef Section"
+            }
+          ]
+        },
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "system": "http://smartregister.org/codes",
+              "code": "98734231-1",
+              "display": "Value entered on the unicef section"
+            }
+          ],
+          "text": "$unicef_section"
+        }
+      },
+      {
+        "code": {
+          "coding": [
+            {
+              "system": "http://smartregister.org/codes",
+              "code": "45981276",
+              "display": "Donor"
+            }
+          ]
+        },
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "system": "http://smartregister.org/codes",
+              "code": "45981276-1",
+              "display": "Value entered on the donor"
+            }
+          ],
+          "text": "$donor"
+        }
+      }
+    ]
+  }
+}
