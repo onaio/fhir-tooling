@@ -1494,11 +1494,18 @@ def save_image(image_source_url):
         return 0
 
 
-def process_chunk(objs: str):
-    resources_array = json.loads(objs)
+def process_chunk(objs: str = None, json_list: list = None, resource_type: str = None):
+    # TODO handle very long json_lists
+    resources_array = []
+    if objs:
+        resources_array = json.loads(objs)
+    if json_list:
+        resources_array = json_list
+
     new_arr = []
     for resource in resources_array:
-        resource_type = resource["resourceType"]
+        if not resource_type:
+            resource_type = resource["resourceType"]
         try:
             resource_id = resource["id"]
         except KeyError:
@@ -1521,9 +1528,33 @@ def process_chunk(objs: str):
 
     r = handle_request("POST", "", config.fhir_base_url, json_payload)
     logging.info(r.text)
+    # TODO handle failures
 
 
-def split_chunk(chunk: str, left_over_chunk: str, size: int):
+def build_mapped_payloads(resource_mapping, json_file):
+    with open(json_file, "r") as file:
+        data_dict = json.load(file)
+
+        for resource_type in resource_mapping:
+            index_positions = resource_mapping[resource_type]
+            resource_list = [data_dict[i] for i in index_positions]
+            process_chunk(None, resource_list, resource_type)
+
+
+def build_resource_type_map(resources: str, mapping: dict, index_tracker: int):
+    resource_list = json.loads(resources)
+    for index, resource in enumerate(resource_list):
+        resource_type = resource["resourceType"]
+        if resource_type in mapping.keys():
+            mapping[resource_type].append(index + index_tracker)
+        else:
+            mapping[resource_type] = [index + index_tracker]
+
+    global import_counter
+    import_counter = len(resource_list) + import_counter
+
+
+def split_chunk(chunk: str, left_over_chunk: str, size: int, mapping: dict = None, sync: str = None):
     if len(chunk)+len(left_over_chunk) < int(size):
         # load can fit in one chunk, so remove closing bracket
         last_bracket = chunk.rfind("}")
@@ -1542,18 +1573,26 @@ def split_chunk(chunk: str, left_over_chunk: str, size: int):
         current_chunk = current_chunk[1:]
 
     chunk_list = "[" + left_over_chunk + current_chunk + "}]"
-    process_chunk(chunk_list)
+
+    if sync.lower() == "direct":
+        process_chunk(chunk_list)
+    if sync.lower() == "sort":
+        build_resource_type_map(chunk_list, mapping, import_counter)
     return next_left_over_chunk
 
 
-def bulk_import_json_resources(json_file: str, chunk_size: int):
+def read_file_in_chunks(json_file: str, chunk_size: int, sync: str):
     incomplete_load = ""
+    mapping = {}
+    global import_counter
+    import_counter = 0
     with open(json_file, "r") as file:
         while True:
             chunk = file.read(chunk_size)
             if not chunk:
                 break
-            incomplete_load = split_chunk(chunk, incomplete_load, chunk_size)
+            incomplete_load = split_chunk(chunk, incomplete_load, chunk_size, mapping, sync)
+    return mapping
 
 
 class ResponseFilter(logging.Filter):
@@ -1603,6 +1642,7 @@ LOGGING = {
 @click.option("--limit", required=False, default=1000)
 @click.option("--bulk_import", required=False, default=False)
 @click.option("--chunk_size", required=False, default=1000000)
+@click.option("--sync", type=click.Choice(["DIRECT", "SORT"], case_sensitive=False), required=False, default="DIRECT")
 def main(
     csv_file,
     json_file,
@@ -1620,7 +1660,8 @@ def main(
     value,
     limit,
     bulk_import,
-    chunk_size
+    chunk_size,
+    sync
 ):
     if log_level == "DEBUG":
         logging.basicConfig(
@@ -1650,7 +1691,9 @@ def main(
 
     if bulk_import:
         logging.info("Starting bulk import...")
-        bulk_import_json_resources(json_file, chunk_size)
+        resource_mapping = read_file_in_chunks(json_file, chunk_size, sync)
+        if sync.lower() == "sort":
+            build_mapped_payloads(resource_mapping, json_file)
         end_time = datetime.now()
         logging.info("End time: " + end_time.strftime("%H:%M:%S"))
         total_time = end_time - start_time
