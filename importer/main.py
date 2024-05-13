@@ -1494,14 +1494,7 @@ def save_image(image_source_url):
         return 0
 
 
-def process_chunk(objs: str = None, json_list: list = None, resource_type: str = None):
-    # TODO handle very long json_lists
-    resources_array = []
-    if objs:
-        resources_array = json.loads(objs)
-    if json_list:
-        resources_array = json_list
-
+def process_chunk(resources_array: list, resource_type: str):
     new_arr = []
     for resource in resources_array:
         if not resource_type:
@@ -1531,6 +1524,20 @@ def process_chunk(objs: str = None, json_list: list = None, resource_type: str =
     # TODO handle failures
 
 
+def set_resource_list(objs: str = None, json_list: list = None, resource_type: str = None):
+    if objs:
+        resources_array = json.loads(objs)
+        process_chunk(resources_array, resource_type)
+    if json_list:
+        number_of_resources = 100  # Number of resources per payload
+        if len(json_list) > number_of_resources:
+            for i in range(0, len(json_list), number_of_resources):
+                sub_list = json_list[i:i + number_of_resources]
+                process_chunk(sub_list, resource_type)
+        else:
+            process_chunk(json_list, resource_type)
+
+
 def build_mapped_payloads(resource_mapping, json_file):
     with open(json_file, "r") as file:
         data_dict = json.load(file)
@@ -1538,7 +1545,7 @@ def build_mapped_payloads(resource_mapping, json_file):
         for resource_type in resource_mapping:
             index_positions = resource_mapping[resource_type]
             resource_list = [data_dict[i] for i in index_positions]
-            process_chunk(None, resource_list, resource_type)
+            set_resource_list(None, resource_list, resource_type)
 
 
 def build_resource_type_map(resources: str, mapping: dict, index_tracker: int):
@@ -1575,7 +1582,7 @@ def split_chunk(chunk: str, left_over_chunk: str, size: int, mapping: dict = Non
     chunk_list = "[" + left_over_chunk + current_chunk + "}]"
 
     if sync.lower() == "direct":
-        process_chunk(chunk_list)
+        set_resource_list(chunk_list)
     if sync.lower() == "sort":
         build_resource_type_map(chunk_list, mapping, import_counter)
     return next_left_over_chunk
