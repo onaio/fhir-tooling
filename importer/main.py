@@ -1565,11 +1565,11 @@ def split_chunk(chunk: str, left_over_chunk: str, size: int, mapping: dict = Non
     if len(chunk)+len(left_over_chunk) < int(size):
         # load can fit in one chunk, so remove closing bracket
         last_bracket = chunk.rfind("}")
-        current_chunk = chunk[:int(last_bracket)-1]
+        current_chunk = chunk[:int(last_bracket)]
         next_left_over_chunk = "-"
     else:
         # load can't fit, so split on last full resource
-        split_index = chunk.rfind("},\n  {")  # Assumption that this string will find the last full resource
+        split_index = chunk.rfind("},{\"id\"")   # Assumption that this string will find the last full resource
         current_chunk = chunk[:split_index]
         next_left_over_chunk = chunk[int(split_index)+2:]
         if len(chunk.strip()) == 0:
