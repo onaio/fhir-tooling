@@ -1496,17 +1496,20 @@ def save_image(image_source_url):
 
 def process_chunk(resources_array: list, resource_type: str):
     new_arr = []
-    for resource in resources_array:
-        if not resource_type:
-            resource_type = resource["resourceType"]
-        try:
-            resource_id = resource["id"]
-        except KeyError:
-            if 'identifier' in resource:
-                resource_identifier = resource['identifier'][0]["value"]
-                resource_id = str(uuid.uuid5(uuid.NAMESPACE_DNS, resource_identifier))
-            else:
-                resource_id = str(uuid.uuid4())
+    with click.progressbar(
+            resources_array, label="Progress::Processing chunks ... "
+    ) as resources_array_progress:
+        for resource in resources_array_progress:
+            if not resource_type:
+                resource_type = resource["resourceType"]
+            try:
+                resource_id = resource["id"]
+            except KeyError:
+                if 'identifier' in resource:
+                    resource_identifier = resource['identifier'][0]["value"]
+                    resource_id = str(uuid.uuid5(uuid.NAMESPACE_DNS, resource_identifier))
+                else:
+                    resource_id = str(uuid.uuid4())
 
         item = {"resource": resource, "request": {}}
         item["request"]["method"] = "PUT"
@@ -1541,11 +1544,13 @@ def set_resource_list(objs: str = None, json_list: list = None, resource_type: s
 def build_mapped_payloads(resource_mapping, json_file):
     with open(json_file, "r") as file:
         data_dict = json.load(file)
-
-        for resource_type in resource_mapping:
-            index_positions = resource_mapping[resource_type]
-            resource_list = [data_dict[i] for i in index_positions]
-            set_resource_list(None, resource_list, resource_type)
+        with click.progressbar(
+                resource_mapping, label="Progress::Setting up ... "
+        ) as resource_mapping_progress:
+            for resource_type in resource_mapping_progress:
+                index_positions = resource_mapping[resource_type]
+                resource_list = [data_dict[i] for i in index_positions]
+                set_resource_list(None, resource_list, resource_type)
 
 
 def build_resource_type_map(resources: str, mapping: dict, index_tracker: int):
@@ -1589,6 +1594,7 @@ def split_chunk(chunk: str, left_over_chunk: str, size: int, mapping: dict = Non
 
 
 def read_file_in_chunks(json_file: str, chunk_size: int, sync: str):
+    logging.info("Reading file in chunks ...")
     incomplete_load = ""
     mapping = {}
     global import_counter
