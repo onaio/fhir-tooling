@@ -15,6 +15,8 @@ from main import (
     confirm_keycloak_user,
     confirm_practitioner,
     check_parent_admin_level,
+    split_chunk,
+    read_file_in_chunks
 )
 
 
@@ -1124,6 +1126,73 @@ class TestMain(unittest.TestCase):
             },
         }
         validate(payload_obj["entry"][2]["request"], request_schema)
+
+    @patch('main.set_resource_list')
+    def test_split_chunk_direct_sync_first_chunk_less_than_size(self, mock_set_resource_list):
+        chunk = '[{"id": "10", "resourceType": "Patient"}'
+        next_left_over = split_chunk(chunk, "", 50, {}, "direct")
+        chunk_list = '[{"id": "10", "resourceType": "Patient"}]'
+        self.assertEqual(next_left_over, "-")
+        mock_set_resource_list.assert_called_once_with(chunk_list)
+
+    @patch('main.set_resource_list')
+    def test_split_chunk_direct_sync_middle_chunk_less_than_size(self, mock_set_resource_list):
+        chunk = ' "resourceType": "Patient"}'
+        left_over_chunk = '{"id": "10",'
+        next_left_over = split_chunk(chunk, left_over_chunk, 50, {}, "direct")
+        chunk_list = '[{"id": "10", "resourceType": "Patient"}]'
+        self.assertEqual(next_left_over, "-")
+        mock_set_resource_list.assert_called_once_with(chunk_list)
+
+    @patch('main.set_resource_list')
+    def test_split_chunk_direct_sync_last_chunk_less_than_size(self, mock_set_resource_list):
+        left_over_chunk = '{"id": "10", "resourceType": "Patient"}]'
+        next_left_over = split_chunk("", left_over_chunk, 50, {}, "direct")
+        chunk_list = '[{"id": "10", "resourceType": "Patient"}]'
+        self.assertEqual(next_left_over, "-")
+        mock_set_resource_list.assert_called_once_with(chunk_list)
+
+    @patch('main.set_resource_list')
+    def test_split_chunk_direct_sync_first_chunk_greater_than_size(self, mock_set_resource_list):
+        chunk = '[{"id": "10", "resourceType": "Patient"},{"id": "11", "resourceType":'
+        next_left_over = split_chunk(chunk, "", 40, {}, "direct")
+        chunk_list = '[{"id": "10", "resourceType": "Patient"}]'
+        self.assertEqual(next_left_over, '{"id": "11", "resourceType":')
+        mock_set_resource_list.assert_called_once_with(chunk_list)
+
+    @patch('main.set_resource_list')
+    def test_split_chunk_direct_sync_middle_chunk_greater_than_size(self, mock_set_resource_list):
+        chunk = ': "Task"},{"id": "10", "resourceType": "Patient"},{"id": "11", "resourceType":'
+        left_over_chunk = '{"id": "09", "resourceType"'
+        next_left_over = split_chunk(chunk, left_over_chunk, 80, {}, "direct")
+        chunk_list = '[{"id": "09", "resourceType": "Task"},{"id": "10", "resourceType": "Patient"}]'
+        self.assertEqual(next_left_over, '{"id": "11", "resourceType":')
+        mock_set_resource_list.assert_called_once_with(chunk_list)
+
+    @patch('main.set_resource_list')
+    def test_split_chunk_direct_sync_last_chunk_greater_than_size(self, mock_set_resource_list):
+        left_over_chunk = '{"id": "10", "resourceType": "Patient"},{"id": "11", "resourceType": "Task"}]'
+        next_left_over = split_chunk("", left_over_chunk, 43, {}, "direct")
+        chunk_list = '[{"id": "10", "resourceType": "Patient"},{"id": "11", "resourceType": "Task"}]'
+        self.assertEqual(next_left_over, '')
+        mock_set_resource_list.assert_called_once_with(chunk_list)
+
+    @patch('main.set_resource_list')
+    @patch('main.build_resource_type_map')
+    def test_split_chunk_sort_sync_first_chunk_less_than_size(self, mock_build_resource_type_map, mock_set_resource_list):
+        chunk = '[{"id": "10", "resourceType": "Patient"},{"id": "11"'
+        next_left_over = split_chunk(chunk, "", 50, {}, "sort")
+        chunk_list = '[{"id": "10", "resourceType": "Patient"}]'
+        self.assertEqual(next_left_over, '{"id": "11"')
+        mock_set_resource_list.assert_not_called()
+        mock_build_resource_type_map.assert_called_once_with(chunk_list, {}, 0)
+
+    def test_build_resource_type_map(self):
+        json_file = "tests/json/sample.json"
+        mapping = read_file_in_chunks(json_file, 300, "sort")
+        mapped_resources = {'Patient': [0], 'Practitioner': [1, 5], 'Location': [2, 4], 'Observation': [3]}
+        self.assertIsInstance(mapping, dict)
+        self.assertEqual(mapping, mapped_resources)
 
 
 if __name__ == "__main__":
