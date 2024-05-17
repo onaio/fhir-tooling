@@ -1553,7 +1553,7 @@ def build_mapped_payloads(resource_mapping, json_file, resources_count):
                 set_resource_list(None, resource_list, resource_type, resources_count)
 
 
-def build_resource_type_map(resources: str, mapping: dict, index_tracker: int):
+def build_resource_type_map(resources: str, mapping: dict, index_tracker: int = 0):
     resource_list = json.loads(resources)
     for index, resource in enumerate(resource_list):
         resource_type = resource["resourceType"]
@@ -1566,12 +1566,15 @@ def build_resource_type_map(resources: str, mapping: dict, index_tracker: int):
     import_counter = len(resource_list) + import_counter
 
 
-def split_chunk(chunk: str, left_over_chunk: str, size: int, mapping: dict = None, sync: str = None):
+def split_chunk(chunk: str, left_over_chunk: str, size: int, mapping: dict = None, sync: str = None, import_counter: int = 0):
     if len(chunk)+len(left_over_chunk) < int(size):
         # load can fit in one chunk, so remove closing bracket
         last_bracket = chunk.rfind("}")
         current_chunk = chunk[:int(last_bracket)]
         next_left_over_chunk = "-"
+        if len(chunk.strip()) == 0:
+            last_bracket = left_over_chunk.rfind("}")
+            left_over_chunk = left_over_chunk[:int(last_bracket)]
     else:
         # load can't fit, so split on last full resource
         split_index = chunk.rfind("},{\"id\"")   # Assumption that this string will find the last full resource
@@ -1579,7 +1582,7 @@ def split_chunk(chunk: str, left_over_chunk: str, size: int, mapping: dict = Non
         next_left_over_chunk = chunk[int(split_index)+2:]
         if len(chunk.strip()) == 0:
             last_bracket = left_over_chunk.rfind("}")
-            left_over_chunk = left_over_chunk[:int(last_bracket)-1]
+            left_over_chunk = left_over_chunk[:int(last_bracket)]
 
     if len(left_over_chunk.strip()) == 0:
         current_chunk = current_chunk[1:]
@@ -1604,7 +1607,7 @@ def read_file_in_chunks(json_file: str, chunk_size: int, sync: str):
             chunk = file.read(chunk_size)
             if not chunk:
                 break
-            incomplete_load = split_chunk(chunk, incomplete_load, chunk_size, mapping, sync)
+            incomplete_load = split_chunk(chunk, incomplete_load, chunk_size, mapping, sync, import_counter)
     return mapping
 
 
