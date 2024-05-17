@@ -1497,7 +1497,7 @@ def save_image(image_source_url):
 def process_chunk(resources_array: list, resource_type: str):
     new_arr = []
     with click.progressbar(
-            resources_array, label="Progress::Processing chunks ... "
+        resources_array, label="Progress::Processing chunks ... "
     ) as resources_array_progress:
         for resource in resources_array_progress:
             if not resource_type:
@@ -1505,9 +1505,11 @@ def process_chunk(resources_array: list, resource_type: str):
             try:
                 resource_id = resource["id"]
             except KeyError:
-                if 'identifier' in resource:
-                    resource_identifier = resource['identifier'][0]["value"]
-                    resource_id = str(uuid.uuid5(uuid.NAMESPACE_DNS, resource_identifier))
+                if "identifier" in resource:
+                    resource_identifier = resource["identifier"][0]["value"]
+                    resource_id = str(
+                        uuid.uuid5(uuid.NAMESPACE_DNS, resource_identifier)
+                    )
                 else:
                     resource_id = str(uuid.uuid4())
 
@@ -1516,26 +1518,26 @@ def process_chunk(resources_array: list, resource_type: str):
         item["request"]["url"] = "/".join([resource_type, resource_id])
         new_arr.append(item)
 
-    json_payload = {
-        "resourceType": "Bundle",
-        "type": "transaction",
-        "entry": new_arr
-    }
+    json_payload = {"resourceType": "Bundle", "type": "transaction", "entry": new_arr}
 
     r = handle_request("POST", "", config.fhir_base_url, json_payload)
     logging.info(r.text)
     # TODO handle failures
 
 
-def set_resource_list(objs: str = None, json_list: list = None, resource_type: str = None,
-                      number_of_resources: int = 100):
+def set_resource_list(
+    objs: str = None,
+    json_list: list = None,
+    resource_type: str = None,
+    number_of_resources: int = 100,
+):
     if objs:
         resources_array = json.loads(objs)
         process_chunk(resources_array, resource_type)
     if json_list:
         if len(json_list) > number_of_resources:
             for i in range(0, len(json_list), number_of_resources):
-                sub_list = json_list[i:i + number_of_resources]
+                sub_list = json_list[i : i + number_of_resources]
                 process_chunk(sub_list, resource_type)
         else:
             process_chunk(json_list, resource_type)
@@ -1545,7 +1547,7 @@ def build_mapped_payloads(resource_mapping, json_file, resources_count):
     with open(json_file, "r") as file:
         data_dict = json.load(file)
         with click.progressbar(
-                resource_mapping, label="Progress::Setting up ... "
+            resource_mapping, label="Progress::Setting up ... "
         ) as resource_mapping_progress:
             for resource_type in resource_mapping_progress:
                 index_positions = resource_mapping[resource_type]
@@ -1566,23 +1568,32 @@ def build_resource_type_map(resources: str, mapping: dict, index_tracker: int = 
     import_counter = len(resource_list) + import_counter
 
 
-def split_chunk(chunk: str, left_over_chunk: str, size: int, mapping: dict = None, sync: str = None, import_counter: int = 0):
-    if len(chunk)+len(left_over_chunk) < int(size):
+def split_chunk(
+    chunk: str,
+    left_over_chunk: str,
+    size: int,
+    mapping: dict = None,
+    sync: str = None,
+    import_counter: int = 0,
+):
+    if len(chunk) + len(left_over_chunk) < int(size):
         # load can fit in one chunk, so remove closing bracket
         last_bracket = chunk.rfind("}")
-        current_chunk = chunk[:int(last_bracket)]
+        current_chunk = chunk[: int(last_bracket)]
         next_left_over_chunk = "-"
         if len(chunk.strip()) == 0:
             last_bracket = left_over_chunk.rfind("}")
-            left_over_chunk = left_over_chunk[:int(last_bracket)]
+            left_over_chunk = left_over_chunk[: int(last_bracket)]
     else:
         # load can't fit, so split on last full resource
-        split_index = chunk.rfind("},{\"id\"")   # Assumption that this string will find the last full resource
+        split_index = chunk.rfind(
+            '},{"id"'
+        )  # Assumption that this string will find the last full resource
         current_chunk = chunk[:split_index]
-        next_left_over_chunk = chunk[int(split_index)+2:]
+        next_left_over_chunk = chunk[int(split_index) + 2 :]
         if len(chunk.strip()) == 0:
             last_bracket = left_over_chunk.rfind("}")
-            left_over_chunk = left_over_chunk[:int(last_bracket)]
+            left_over_chunk = left_over_chunk[: int(last_bracket)]
 
     if len(left_over_chunk.strip()) == 0:
         current_chunk = current_chunk[1:]
@@ -1607,7 +1618,9 @@ def read_file_in_chunks(json_file: str, chunk_size: int, sync: str):
             chunk = file.read(chunk_size)
             if not chunk:
                 break
-            incomplete_load = split_chunk(chunk, incomplete_load, chunk_size, mapping, sync, import_counter)
+            incomplete_load = split_chunk(
+                chunk, incomplete_load, chunk_size, mapping, sync, import_counter
+            )
     return mapping
 
 
@@ -1659,7 +1672,12 @@ LOGGING = {
 @click.option("--bulk_import", required=False, default=False)
 @click.option("--chunk_size", required=False, default=1000000)
 @click.option("--resources_count", required=False, default=100)
-@click.option("--sync", type=click.Choice(["DIRECT", "SORT"], case_sensitive=False), required=False, default="DIRECT")
+@click.option(
+    "--sync",
+    type=click.Choice(["DIRECT", "SORT"], case_sensitive=False),
+    required=False,
+    default="DIRECT",
+)
 def main(
     csv_file,
     json_file,
@@ -1679,7 +1697,7 @@ def main(
     bulk_import,
     chunk_size,
     resources_count,
-    sync
+    sync,
 ):
     if log_level == "DEBUG":
         logging.basicConfig(

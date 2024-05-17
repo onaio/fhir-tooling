@@ -16,7 +16,7 @@ from main import (
     confirm_practitioner,
     check_parent_admin_level,
     split_chunk,
-    read_file_in_chunks
+    read_file_in_chunks,
 )
 
 
@@ -46,7 +46,9 @@ class TestMain(unittest.TestCase):
         ]
         self.test_resource_type = "test_organization"
         self.test_fieldnames = ["name", "active", "method", "id", "identifier"]
-        csv_file = write_csv(self.test_data, self.test_resource_type, self.test_fieldnames)
+        csv_file = write_csv(
+            self.test_data, self.test_resource_type, self.test_fieldnames
+        )
         csv_content = read_csv(csv_file)
         self.assertEqual(csv_content, self.test_data)
 
@@ -105,14 +107,9 @@ class TestMain(unittest.TestCase):
                 "id": {"const": "3da051e0-d743-5574-8f0e-6cb8798551f5"},
                 "identifier": {"type": "array", "items": {"type": "object"}},
                 "active": {"const": "true"},
-                "name": {"const": "Min Organization"}
+                "name": {"const": "Min Organization"},
             },
-            "required": [
-                "id",
-                "identifier",
-                "active",
-                "name"
-            ],
+            "required": ["id", "identifier", "active", "name"],
         }
         validate(payload_obj["entry"][0]["resource"], resource_schema)
 
@@ -128,7 +125,9 @@ class TestMain(unittest.TestCase):
 
     @patch("main.check_parent_admin_level")
     @patch("main.get_resource")
-    def test_build_payload_locations(self, mock_get_resource, mock_check_parent_admin_level):
+    def test_build_payload_locations(
+        self, mock_get_resource, mock_check_parent_admin_level
+    ):
         mock_get_resource.return_value = "1"
         mock_check_parent_admin_level.return_value = "3"
 
@@ -192,9 +191,9 @@ class TestMain(unittest.TestCase):
                     "type": "object",
                     "properties": {
                         "longitude": {"const": 36.81},
-                        "latitude": {"const": -1.28}
-                    }
-                }
+                        "latitude": {"const": -1.28},
+                    },
+                },
             },
             "required": [
                 "resourceType",
@@ -238,14 +237,9 @@ class TestMain(unittest.TestCase):
                 "id": {"const": "c4336f73-4450-566b-b381-d07a6e857d72"},
                 "identifier": {"type": "array", "items": {"type": "object"}},
                 "status": {"const": "active"},
-                "name": {"const": "City1"}
+                "name": {"const": "City1"},
             },
-            "required": [
-                "id",
-                "identifier",
-                "status",
-                "name"
-            ],
+            "required": ["id", "identifier", "status", "name"],
         }
         validate(payload_obj["entry"][0]["resource"], resource_schema)
 
@@ -267,10 +261,7 @@ class TestMain(unittest.TestCase):
             "resourceType": "Location",
             "id": "18fcbc2e-4240-4a84-a270-7a444523d7b6",
             "identifier": [
-                {
-                    "use": "official",
-                    "value": "18fcbc2e-4240-4a84-a270-7a444523d7b6"
-                }
+                {"use": "official", "value": "18fcbc2e-4240-4a84-a270-7a444523d7b6"}
             ],
             "status": "active",
             "name": "test location-1",
@@ -280,11 +271,11 @@ class TestMain(unittest.TestCase):
                         {
                             "system": "https://smartregister.org/codes/administrative-level",
                             "code": "2",
-                            "display": "Level 2"
+                            "display": "Level 2",
                         }
                     ]
                 }
-            ]
+            ],
         }
         string_mocked_response_text = json.dumps(mocked_response_text)
         mock_handle_request.return_value = (string_mocked_response_text, 200)
@@ -329,28 +320,32 @@ class TestMain(unittest.TestCase):
                                             "items": {
                                                 "type": "object",
                                                 "properties": {
-                                                    "system": {"const": "http://snomed.info/sct"},
+                                                    "system": {
+                                                        "const": "http://snomed.info/sct"
+                                                    },
                                                     "code": {"const": "394730007"},
-                                                    "display": {"const": "Healthcare related organization"}
-                                                }
-                                            }
+                                                    "display": {
+                                                        "const": "Healthcare related organization"
+                                                    },
+                                                },
+                                            },
                                         }
-                                    }
-                                }
+                                    },
+                                },
                             },
                             "member": {
                                 "type": "object",
                                 "properties": {
                                     "reference": {"type": "string"},
-                                    "display": {"type": "string"}
-                                }
-                            }
+                                    "display": {"type": "string"},
+                                },
+                            },
                         },
                         "anyOf": [
                             {"required": ["role", "member"]},
-                            {"required": ["member"]}
-                        ]
-                    }
+                            {"required": ["member"]},
+                        ],
+                    },
                 },
                 "managingOrganization": {
                     "type": "array",
@@ -358,19 +353,20 @@ class TestMain(unittest.TestCase):
                         "type": "object",
                         "properties": {
                             "reference": {"type": "string"},
-                            "display": {"type": "string"}
-                        }
-                    }
-                }
+                            "display": {"type": "string"},
+                        },
+                    },
+                },
             },
-            "required": ["resourceType",
-                         "id",
-                         "identifier",
-                         "status",
-                         "name",
-                         "participant",
-                         "managingOrganization"
-                         ],
+            "required": [
+                "resourceType",
+                "id",
+                "identifier",
+                "status",
+                "name",
+                "participant",
+                "managingOrganization",
+            ],
         }
         validate(payload_obj["entry"][0]["resource"], resource_schema)
 
@@ -393,7 +389,8 @@ class TestMain(unittest.TestCase):
         csv_file = "csv/import/product.csv"
         resource_list = read_csv(csv_file)
         payload = build_payload(
-            "Group", resource_list, "json_payloads/product_group_payload.json")
+            "Group", resource_list, "json_payloads/product_group_payload.json"
+        )
         payload_obj = json.loads(payload)
 
         self.assertIsInstance(payload_obj, dict)
@@ -408,13 +405,9 @@ class TestMain(unittest.TestCase):
                 "identifier": {"type": "array", "items": {"type": "object"}},
                 "active": {"const": "true"},
                 "name": {"const": "thermometer"},
-                "characteristic": {
-                    "type": "array",
-                    "minItems": 6,
-                    "maxItems": 6
-                }
+                "characteristic": {"type": "array", "minItems": 6, "maxItems": 6},
             },
-            "required": ["resourceType", "id", "identifier", "active", "name"]
+            "required": ["resourceType", "id", "identifier", "active", "name"],
         }
         validate(payload_obj["entry"][0]["resource"], resource_schema_0)
 
@@ -426,13 +419,9 @@ class TestMain(unittest.TestCase):
                 "identifier": {"type": "array", "items": {"type": "object"}},
                 "active": {"const": "true"},
                 "name": {"const": "sterilizer"},
-                "characteristic": {
-                    "type": "array",
-                    "minItems": 2,
-                    "maxItems": 2
-                }
+                "characteristic": {"type": "array", "minItems": 2, "maxItems": 2},
             },
-            "required": ["resourceType", "id", "identifier", "active", "name"]
+            "required": ["resourceType", "id", "identifier", "active", "name"],
         }
         validate(payload_obj["entry"][1]["resource"], resource_schema_1)
 
@@ -740,7 +729,9 @@ class TestMain(unittest.TestCase):
 
     @patch("main.handle_request")
     @patch("main.get_base_url")
-    def test_build_assign_payload_update_assigned_org(self, mock_get_base_url, mock_handle_request):
+    def test_build_assign_payload_update_assigned_org(
+        self, mock_get_base_url, mock_handle_request
+    ):
         mock_get_base_url.return_value = "https://example.smartregister.org/fhir"
         mock_response_data = {
             "resourceType": "Bundle",
@@ -753,22 +744,27 @@ class TestMain(unittest.TestCase):
                         "meta": {"versionId": "2"},
                         "practitioner": {
                             "reference": "Practitioner/f5d49ba0-50d7-4491-bd6c-62e429707a03",
-                            "display": "Jenn"
+                            "display": "Jenn",
                         },
                         "organization": {
                             "reference": "Organization/8342dd77-aecd-48ab-826b-75c7c33039ed",
-                            "display": "Health Organization"
-                        }
+                            "display": "Health Organization",
+                        },
                     }
                 }
-            ]
+            ],
         }
         string_response = json.dumps(mock_response_data)
         mock_response = (string_response, 200)
         mock_handle_request.return_value = mock_response
 
         resource_list = [
-            ["Jenn", "f5d49ba0-50d7-4491-bd6c-62e429707a03", "New Org", "98199caa-4455-4b2f-a5cf-cb9c89b6bbdc"]
+            [
+                "Jenn",
+                "f5d49ba0-50d7-4491-bd6c-62e429707a03",
+                "New Org",
+                "98199caa-4455-4b2f-a5cf-cb9c89b6bbdc",
+            ]
         ]
         payload = build_assign_payload(resource_list, "PractitionerRole")
         payload_obj = json.loads(payload)
@@ -779,18 +775,25 @@ class TestMain(unittest.TestCase):
 
         self.assertEqual(
             payload_obj["entry"][0]["resource"]["practitioner"],
-            mock_response_data["entry"][0]["resource"]["practitioner"])
+            mock_response_data["entry"][0]["resource"]["practitioner"],
+        )
         self.assertNotEqual(
             payload_obj["entry"][0]["resource"]["organization"],
-            mock_response_data["entry"][0]["resource"]["organization"])
+            mock_response_data["entry"][0]["resource"]["organization"],
+        )
         self.assertEqual(
             payload_obj["entry"][0]["resource"]["organization"]["reference"],
-            "Organization/98199caa-4455-4b2f-a5cf-cb9c89b6bbdc")
-        self.assertEqual(payload_obj["entry"][0]["resource"]["organization"]["display"], "New Org")
+            "Organization/98199caa-4455-4b2f-a5cf-cb9c89b6bbdc",
+        )
+        self.assertEqual(
+            payload_obj["entry"][0]["resource"]["organization"]["display"], "New Org"
+        )
 
     @patch("main.handle_request")
     @patch("main.get_base_url")
-    def test_build_assign_payload_create_org_assignment(self, mock_get_base_url, mock_handle_request):
+    def test_build_assign_payload_create_org_assignment(
+        self, mock_get_base_url, mock_handle_request
+    ):
         mock_get_base_url.return_value = "https://example.smartregister.org/fhir"
         mock_response_data = {
             "resourceType": "Bundle",
@@ -803,18 +806,23 @@ class TestMain(unittest.TestCase):
                         "meta": {"versionId": "2"},
                         "practitioner": {
                             "reference": "Practitioner/f5d49ba0-50d7-4491-bd6c-62e429707a03",
-                            "display": "Jenn"
-                        }
+                            "display": "Jenn",
+                        },
                     }
                 }
-            ]
+            ],
         }
         string_response = json.dumps(mock_response_data)
         mock_response = (string_response, 200)
         mock_handle_request.return_value = mock_response
 
         resource_list = [
-            ["Jenn", "f5d49ba0-50d7-4491-bd6c-62e429707a03", "New Org", "98199caa-4455-4b2f-a5cf-cb9c89b6bbdc"]
+            [
+                "Jenn",
+                "f5d49ba0-50d7-4491-bd6c-62e429707a03",
+                "New Org",
+                "98199caa-4455-4b2f-a5cf-cb9c89b6bbdc",
+            ]
         ]
         payload = build_assign_payload(resource_list, "PractitionerRole")
         payload_obj = json.loads(payload)
@@ -825,26 +833,34 @@ class TestMain(unittest.TestCase):
 
         self.assertEqual(
             payload_obj["entry"][0]["resource"]["practitioner"],
-            mock_response_data["entry"][0]["resource"]["practitioner"])
+            mock_response_data["entry"][0]["resource"]["practitioner"],
+        )
         self.assertEqual(
             payload_obj["entry"][0]["resource"]["organization"]["reference"],
-            "Organization/98199caa-4455-4b2f-a5cf-cb9c89b6bbdc")
-        self.assertEqual(payload_obj["entry"][0]["resource"]["organization"]["display"], "New Org")
+            "Organization/98199caa-4455-4b2f-a5cf-cb9c89b6bbdc",
+        )
+        self.assertEqual(
+            payload_obj["entry"][0]["resource"]["organization"]["display"], "New Org"
+        )
 
     @patch("main.handle_request")
     @patch("main.get_base_url")
-    def test_build_assign_payload_create_new_practitioner_role(self, mock_get_base_url, mock_handle_request):
+    def test_build_assign_payload_create_new_practitioner_role(
+        self, mock_get_base_url, mock_handle_request
+    ):
         mock_get_base_url.return_value = "https://example.smartregister.org/fhir"
-        mock_response_data = {
-            "resourceType": "Bundle",
-            "total": 0
-        }
+        mock_response_data = {"resourceType": "Bundle", "total": 0}
         string_response = json.dumps(mock_response_data)
         mock_response = (string_response, 200)
         mock_handle_request.return_value = mock_response
 
         resource_list = [
-            ["Jenn", "f5d49ba0-50d7-4491-bd6c-62e429707a03", "New Org", "98199caa-4455-4b2f-a5cf-cb9c89b6bbdc"]
+            [
+                "Jenn",
+                "f5d49ba0-50d7-4491-bd6c-62e429707a03",
+                "New Org",
+                "98199caa-4455-4b2f-a5cf-cb9c89b6bbdc",
+            ]
         ]
         payload = build_assign_payload(resource_list, "PractitionerRole")
         payload_obj = json.loads(payload)
@@ -855,63 +871,112 @@ class TestMain(unittest.TestCase):
 
         self.assertEqual(
             payload_obj["entry"][0]["resource"]["practitioner"]["reference"],
-            "Practitioner/f5d49ba0-50d7-4491-bd6c-62e429707a03")
+            "Practitioner/f5d49ba0-50d7-4491-bd6c-62e429707a03",
+        )
         self.assertEqual(
-            payload_obj["entry"][0]["resource"]["practitioner"]["display"], "Jenn")
+            payload_obj["entry"][0]["resource"]["practitioner"]["display"], "Jenn"
+        )
         self.assertEqual(
             payload_obj["entry"][0]["resource"]["organization"]["reference"],
-            "Organization/98199caa-4455-4b2f-a5cf-cb9c89b6bbdc")
-        self.assertEqual(payload_obj["entry"][0]["resource"]["organization"]["display"], "New Org")
+            "Organization/98199caa-4455-4b2f-a5cf-cb9c89b6bbdc",
+        )
+        self.assertEqual(
+            payload_obj["entry"][0]["resource"]["organization"]["display"], "New Org"
+        )
 
-    @patch('main.logging')
-    @patch('main.handle_request')
-    @patch('main.get_keycloak_url')
-    def test_create_user(self, mock_get_keycloak_url, mock_handle_request, mock_logging):
-        mock_get_keycloak_url.return_value = "https://keycloak.smartregister.org/auth/admin/realms/example-realm"
+    @patch("main.logging")
+    @patch("main.handle_request")
+    @patch("main.get_keycloak_url")
+    def test_create_user(
+        self, mock_get_keycloak_url, mock_handle_request, mock_logging
+    ):
+        mock_get_keycloak_url.return_value = (
+            "https://keycloak.smartregister.org/auth/admin/realms/example-realm"
+        )
         mock_handle_request.return_value.status_code = 201
-        mock_handle_request.return_value.headers = {"Location": "https://keycloak.smartregister.org/auth/admin/realms"
-                                                                "/example-realm/users/6cd50351-3ddb-4296-b1db"
-                                                                "-aac2273e35f3"}
+        mock_handle_request.return_value.headers = {
+            "Location": "https://keycloak.smartregister.org/auth/admin/realms"
+            "/example-realm/users/6cd50351-3ddb-4296-b1db"
+            "-aac2273e35f3"
+        }
         mocked_user_data = (
-            'Jenn', 'Doe', 'Jenny', 'jeendoe@example.com', '431cb523-253f-4c44-9ded-af42c55c0bbb', 'Supervisor', 'TRUE',
-            'a715b562-27f2-432a-b1ba-e57db35e0f93', 'test', 'demo', 'pa$$word'
+            "Jenn",
+            "Doe",
+            "Jenny",
+            "jeendoe@example.com",
+            "431cb523-253f-4c44-9ded-af42c55c0bbb",
+            "Supervisor",
+            "TRUE",
+            "a715b562-27f2-432a-b1ba-e57db35e0f93",
+            "test",
+            "demo",
+            "pa$$word",
         )
         user_id = create_user(mocked_user_data)
 
         self.assertEqual(user_id, "6cd50351-3ddb-4296-b1db-aac2273e35f3")
-        mock_logging.info.assert_called_with('Setting user password')
+        mock_logging.info.assert_called_with("Setting user password")
 
-    @patch('main.handle_request')
-    @patch('main.get_keycloak_url')
-    def test_create_user_already_exists(self, mock_get_keycloak_url, mock_handle_request):
-        mock_get_keycloak_url.return_value = "https://keycloak.smartregister.org/auth/admin/realms/example-realm"
+    @patch("main.handle_request")
+    @patch("main.get_keycloak_url")
+    def test_create_user_already_exists(
+        self, mock_get_keycloak_url, mock_handle_request
+    ):
+        mock_get_keycloak_url.return_value = (
+            "https://keycloak.smartregister.org/auth/admin/realms/example-realm"
+        )
         mock_handle_request.return_value.status_code = 409
         mocked_user_data = (
-            'Jenn', 'Doe', 'Jenn', 'jendoe@example.com', ' 99d54e3c-c26f-4500-a7f9-3f4cb788673f', 'Supervisor', 'false',
-            'a715b562-27f2-432a-b1ba-e57db35e0f93', 'test', 'demo', 'pa$$word'
+            "Jenn",
+            "Doe",
+            "Jenn",
+            "jendoe@example.com",
+            " 99d54e3c-c26f-4500-a7f9-3f4cb788673f",
+            "Supervisor",
+            "false",
+            "a715b562-27f2-432a-b1ba-e57db35e0f93",
+            "test",
+            "demo",
+            "pa$$word",
         )
         user_id = create_user(mocked_user_data)
         self.assertEqual(user_id, 0)
 
     # Test the confirm_keycloak function
-    @patch('main.logging')
-    @patch('main.handle_request')
-    @patch('main.get_keycloak_url')
-    def test_confirm_keycloak_user(self, mock_get_keycloak_url, mock_handle_request, mock_logging):
-        mock_get_keycloak_url.return_value = "https://keycloak.smartregister.org/auth/admin/realms/example-realm"
+    @patch("main.logging")
+    @patch("main.handle_request")
+    @patch("main.get_keycloak_url")
+    def test_confirm_keycloak_user(
+        self, mock_get_keycloak_url, mock_handle_request, mock_logging
+    ):
+        mock_get_keycloak_url.return_value = (
+            "https://keycloak.smartregister.org/auth/admin/realms/example-realm"
+        )
         mocked_user_data = (
-            'Jenn', 'Doe', 'Jenny', 'jeendoe@example.com', '431cb523-253f-4c44-9ded-af42c55c0bbb', 'Supervisor', 'TRUE',
-            'a715b562-27f2-432a-b1ba-e57db35e0f93', 'test', 'demo', 'pa$$word'
+            "Jenn",
+            "Doe",
+            "Jenny",
+            "jeendoe@example.com",
+            "431cb523-253f-4c44-9ded-af42c55c0bbb",
+            "Supervisor",
+            "TRUE",
+            "a715b562-27f2-432a-b1ba-e57db35e0f93",
+            "test",
+            "demo",
+            "pa$$word",
         )
         user_id = create_user(mocked_user_data)
         self.assertEqual(user_id, 0)
 
-        mock_response = ('[{"id":"6cd50351-3ddb-4296-b1db-aac2273e35f3","createdTimestamp":1710151827166,'
-                         '"username":"Jenny","enabled":true,"totp":false,"emailVerified":false,"firstName":"Jenn",'
-                         '"lastName":"Doe","email":"jeendoe@example.com","attributes":{"fhir_core_app_id":["demo"]},'
-                         '"disableableCredentialTypes":[],"requiredActions":[],"notBefore":0,"access":{'
-                         '"manageGroupMembership":true,"view":true,"mapRoles":true,"impersonate":true,'
-                         '"manage":true}}]', 200)
+        mock_response = (
+            '[{"id":"6cd50351-3ddb-4296-b1db-aac2273e35f3","createdTimestamp":1710151827166,'
+            '"username":"Jenny","enabled":true,"totp":false,"emailVerified":false,"firstName":"Jenn",'
+            '"lastName":"Doe","email":"jeendoe@example.com","attributes":{"fhir_core_app_id":["demo"]},'
+            '"disableableCredentialTypes":[],"requiredActions":[],"notBefore":0,"access":{'
+            '"manageGroupMembership":true,"view":true,"mapRoles":true,"impersonate":true,'
+            '"manage":true}}]',
+            200,
+        )
         mock_handle_request.return_value = mock_response
         mock_json_response = json.loads(mock_response[0])
         keycloak_id = confirm_keycloak_user(mocked_user_data)
@@ -921,13 +986,24 @@ class TestMain(unittest.TestCase):
         mock_logging.info.assert_called_with("User confirmed with id: " + keycloak_id)
 
     # Test confirm_practitioner function
-    @patch('main.handle_request')
-    @patch('main.get_base_url')
-    def test_confirm_practitioner_if_practitioner_uuid_not_provided(self, mock_get_base_url, mock_handle_request):
-        mock_get_base_url.return_value = 'https://example.smartregister.org/fhir'
+    @patch("main.handle_request")
+    @patch("main.get_base_url")
+    def test_confirm_practitioner_if_practitioner_uuid_not_provided(
+        self, mock_get_base_url, mock_handle_request
+    ):
+        mock_get_base_url.return_value = "https://example.smartregister.org/fhir"
         mocked_user = (
-            'Jenn', 'Doe', 'Jenny', 'jeendoe@example.com', '', 'Supervisor', 'TRUE',
-            'a715b562-27f2-432a-b1ba-e57db35e0f93', 'test', 'demo', 'pa$$word'
+            "Jenn",
+            "Doe",
+            "Jenny",
+            "jeendoe@example.com",
+            "",
+            "Supervisor",
+            "TRUE",
+            "a715b562-27f2-432a-b1ba-e57db35e0f93",
+            "test",
+            "demo",
+            "pa$$word",
         )
         mocked_response_data = {
             "resourceType": "Bundle",
@@ -937,44 +1013,70 @@ class TestMain(unittest.TestCase):
         string_response = json.dumps(mocked_response_data)
         mock_response = (string_response, 200)
         mock_handle_request.return_value = mock_response
-        practitioner_exists = confirm_practitioner(mocked_user, "431cb523-253f-4c44-9ded-af42c55c0bbb")
-        self.assertTrue(practitioner_exists, "Practitioner exist, linked to the provided user")
+        practitioner_exists = confirm_practitioner(
+            mocked_user, "431cb523-253f-4c44-9ded-af42c55c0bbb"
+        )
+        self.assertTrue(
+            practitioner_exists, "Practitioner exist, linked to the provided user"
+        )
 
-    @patch('main.logging')
-    @patch('main.handle_request')
-    @patch('main.get_base_url')
-    def test_confirm_practitioner_linked_keycloak_user_and_practitioner(self, mock_get_base_url, mock_handle_request,
-                                                                        mock_logging):
-        mock_get_base_url.return_value = 'https://example.smartregister.org/fhir'
+    @patch("main.logging")
+    @patch("main.handle_request")
+    @patch("main.get_base_url")
+    def test_confirm_practitioner_linked_keycloak_user_and_practitioner(
+        self, mock_get_base_url, mock_handle_request, mock_logging
+    ):
+        mock_get_base_url.return_value = "https://example.smartregister.org/fhir"
         mocked_user = (
-            'Jenn', 'Doe', 'Jenny', 'jeendoe@example.com', '6cd50351-3ddb-4296-b1db-aac2273e35f3', 'Supervisor', 'TRUE',
-            'a715b562-27f2-432a-b1ba-e57db35e0f93', 'test', 'demo', 'pa$$word'
+            "Jenn",
+            "Doe",
+            "Jenny",
+            "jeendoe@example.com",
+            "6cd50351-3ddb-4296-b1db-aac2273e35f3",
+            "Supervisor",
+            "TRUE",
+            "a715b562-27f2-432a-b1ba-e57db35e0f93",
+            "test",
+            "demo",
+            "pa$$word",
         )
         mocked_response_data = {
             "resourceType": "Practitioner",
             "identifier": [
-                {
-                    "use": "official",
-                    "value": "431cb523-253f-4c44-9ded-af42c55c0bbb"
-                },
-                {
-                    "use": "secondary",
-                    "value": "6cd50351-3ddb-4296-b1db-aac2273e35f3"
-                }
+                {"use": "official", "value": "431cb523-253f-4c44-9ded-af42c55c0bbb"},
+                {"use": "secondary", "value": "6cd50351-3ddb-4296-b1db-aac2273e35f3"},
             ],
         }
         string_response = json.dumps(mocked_response_data)
         mock_response = (string_response, 200)
         mock_handle_request.return_value = mock_response
-        practitioner_exists = confirm_practitioner(mocked_user, "6cd50351-3ddb-4296-b1db-aac2273e35f3")
+        practitioner_exists = confirm_practitioner(
+            mocked_user, "6cd50351-3ddb-4296-b1db-aac2273e35f3"
+        )
         self.assertTrue(practitioner_exists)
-        self.assertEqual(mocked_response_data["identifier"][1]["value"], "6cd50351-3ddb-4296-b1db-aac2273e35f3")
-        mock_logging.info.assert_called_with("The Keycloak user and Practitioner are linked as expected")
+        self.assertEqual(
+            mocked_response_data["identifier"][1]["value"],
+            "6cd50351-3ddb-4296-b1db-aac2273e35f3",
+        )
+        mock_logging.info.assert_called_with(
+            "The Keycloak user and Practitioner are linked as expected"
+        )
 
     # Test create_user_resources function
     def test_create_user_resources(self):
-        user = ('Jenn', 'Doe', 'Jenn', 'jendoe@example.com', '99d54e3c-c26f-4500-a7f9-3f4cb788673f', 'Supervisor',
-                'false', 'a715b562-27f2-432a-b1ba-e57db35e0f93', 'test', 'demo', 'pa$$word')
+        user = (
+            "Jenn",
+            "Doe",
+            "Jenn",
+            "jendoe@example.com",
+            "99d54e3c-c26f-4500-a7f9-3f4cb788673f",
+            "Supervisor",
+            "false",
+            "a715b562-27f2-432a-b1ba-e57db35e0f93",
+            "test",
+            "demo",
+            "pa$$word",
+        )
         user_id = "99d54e3c-c26f-4500-a7f9-3f4cb788673f"
         payload = create_user_resources(user_id, user)
         payload_obj = json.loads(payload)
@@ -994,7 +1096,7 @@ class TestMain(unittest.TestCase):
                         "properties": {
                             "use": {
                                 "type": "string",
-                                "enum": ["official", "secondary"]
+                                "enum": ["official", "secondary"],
                             },
                             "type": {
                                 "type": "object",
@@ -1004,18 +1106,22 @@ class TestMain(unittest.TestCase):
                                         "items": {
                                             "type": "object",
                                             "properties": {
-                                                "system": {"const": "http://hl7.org/fhir/identifier-type"},
+                                                "system": {
+                                                    "const": "http://hl7.org/fhir/identifier-type"
+                                                },
                                                 "code": {"const": "KUID"},
-                                                "display": {"const": "Keycloak user ID"}
-                                            }
-                                        }
+                                                "display": {
+                                                    "const": "Keycloak user ID"
+                                                },
+                                            },
+                                        },
                                     },
-                                    "text": {"const": "Keycloak user ID"}
-                                }
+                                    "text": {"const": "Keycloak user ID"},
+                                },
                             },
-                            "value": {"const": "99d54e3c-c26f-4500-a7f9-3f4cb788673f"}
-                        }
-                    }
+                            "value": {"const": "99d54e3c-c26f-4500-a7f9-3f4cb788673f"},
+                        },
+                    },
                 },
                 "name": {
                     "type": "array",
@@ -1024,14 +1130,10 @@ class TestMain(unittest.TestCase):
                         "properties": {
                             "use": {"const": "official"},
                             "family": {"const": "Doe"},
-                            "given": {
-                                "type": "array",
-                                "items": {
-                                    "type": "string"
-                                }
-                            }
-                        }
-                    }},
+                            "given": {"type": "array", "items": {"type": "string"}},
+                        },
+                    },
+                },
             },
             "required": ["resourceType", "id", "identifier", "name"],
         }
@@ -1062,12 +1164,14 @@ class TestMain(unittest.TestCase):
                             "entity": {
                                 "type": "object",
                                 "properties": {
-                                    "reference": {"const": "Practitioner/99d54e3c-c26f-4500-a7f9-3f4cb788673f"}
-                                }
+                                    "reference": {
+                                        "const": "Practitioner/99d54e3c-c26f-4500-a7f9-3f4cb788673f"
+                                    }
+                                },
                             }
-                        }
-                    }
-                }
+                        },
+                    },
+                },
             },
             "required": ["resourceType", "id", "identifier", "name", "member"],
         }
@@ -1092,9 +1196,11 @@ class TestMain(unittest.TestCase):
                 "practitioner": {
                     "type": "object",
                     "properties": {
-                        "reference": {"const": "Practitioner/99d54e3c-c26f-4500-a7f9-3f4cb788673f"},
-                        "display": {"const": "Jenn Doe"}
-                    }
+                        "reference": {
+                            "const": "Practitioner/99d54e3c-c26f-4500-a7f9-3f4cb788673f"
+                        },
+                        "display": {"const": "Jenn Doe"},
+                    },
                 },
                 "code": {
                     "type": "object",
@@ -1106,12 +1212,12 @@ class TestMain(unittest.TestCase):
                                 "properties": {
                                     "system": {"const": "http://snomed.info/sct"},
                                     "code": {"const": "236321002"},
-                                    "display": {"const": "Supervisor (occupation)"}
+                                    "display": {"const": "Supervisor (occupation)"},
                                 },
-                            }
+                            },
                         }
-                    }
-                }
+                    },
+                },
             },
             "required": ["resourceType", "id", "identifier", "practitioner", "code"],
         }
@@ -1121,22 +1227,28 @@ class TestMain(unittest.TestCase):
             "type": "object",
             "properties": {
                 "method": {"const": "PUT"},
-                "url": {"const": "PractitionerRole/f08e0373-932e-5bcb-bdf2-0c28a3c8fdd3"},
+                "url": {
+                    "const": "PractitionerRole/f08e0373-932e-5bcb-bdf2-0c28a3c8fdd3"
+                },
                 "ifMatch": {"const": "1"},
             },
         }
         validate(payload_obj["entry"][2]["request"], request_schema)
 
-    @patch('main.set_resource_list')
-    def test_split_chunk_direct_sync_first_chunk_less_than_size(self, mock_set_resource_list):
+    @patch("main.set_resource_list")
+    def test_split_chunk_direct_sync_first_chunk_less_than_size(
+        self, mock_set_resource_list
+    ):
         chunk = '[{"id": "10", "resourceType": "Patient"}'
         next_left_over = split_chunk(chunk, "", 50, {}, "direct")
         chunk_list = '[{"id": "10", "resourceType": "Patient"}]'
         self.assertEqual(next_left_over, "-")
         mock_set_resource_list.assert_called_once_with(chunk_list)
 
-    @patch('main.set_resource_list')
-    def test_split_chunk_direct_sync_middle_chunk_less_than_size(self, mock_set_resource_list):
+    @patch("main.set_resource_list")
+    def test_split_chunk_direct_sync_middle_chunk_less_than_size(
+        self, mock_set_resource_list
+    ):
         chunk = ' "resourceType": "Patient"}'
         left_over_chunk = '{"id": "10",'
         next_left_over = split_chunk(chunk, left_over_chunk, 50, {}, "direct")
@@ -1144,24 +1256,30 @@ class TestMain(unittest.TestCase):
         self.assertEqual(next_left_over, "-")
         mock_set_resource_list.assert_called_once_with(chunk_list)
 
-    @patch('main.set_resource_list')
-    def test_split_chunk_direct_sync_last_chunk_less_than_size(self, mock_set_resource_list):
+    @patch("main.set_resource_list")
+    def test_split_chunk_direct_sync_last_chunk_less_than_size(
+        self, mock_set_resource_list
+    ):
         left_over_chunk = '{"id": "10", "resourceType": "Patient"}]'
         next_left_over = split_chunk("", left_over_chunk, 50, {}, "direct")
         chunk_list = '[{"id": "10", "resourceType": "Patient"}]'
         self.assertEqual(next_left_over, "-")
         mock_set_resource_list.assert_called_once_with(chunk_list)
 
-    @patch('main.set_resource_list')
-    def test_split_chunk_direct_sync_first_chunk_greater_than_size(self, mock_set_resource_list):
+    @patch("main.set_resource_list")
+    def test_split_chunk_direct_sync_first_chunk_greater_than_size(
+        self, mock_set_resource_list
+    ):
         chunk = '[{"id": "10", "resourceType": "Patient"},{"id": "11", "resourceType":'
         next_left_over = split_chunk(chunk, "", 40, {}, "direct")
         chunk_list = '[{"id": "10", "resourceType": "Patient"}]'
         self.assertEqual(next_left_over, '{"id": "11", "resourceType":')
         mock_set_resource_list.assert_called_once_with(chunk_list)
 
-    @patch('main.set_resource_list')
-    def test_split_chunk_direct_sync_middle_chunk_greater_than_size(self, mock_set_resource_list):
+    @patch("main.set_resource_list")
+    def test_split_chunk_direct_sync_middle_chunk_greater_than_size(
+        self, mock_set_resource_list
+    ):
         chunk = ': "Task"},{"id": "10", "resourceType": "Patient"},{"id": "11", "resourceType":'
         left_over_chunk = '{"id": "09", "resourceType"'
         next_left_over = split_chunk(chunk, left_over_chunk, 80, {}, "direct")
@@ -1169,17 +1287,21 @@ class TestMain(unittest.TestCase):
         self.assertEqual(next_left_over, '{"id": "11", "resourceType":')
         mock_set_resource_list.assert_called_once_with(chunk_list)
 
-    @patch('main.set_resource_list')
-    def test_split_chunk_direct_sync_last_chunk_greater_than_size(self, mock_set_resource_list):
+    @patch("main.set_resource_list")
+    def test_split_chunk_direct_sync_last_chunk_greater_than_size(
+        self, mock_set_resource_list
+    ):
         left_over_chunk = '{"id": "10", "resourceType": "Patient"},{"id": "11", "resourceType": "Task"}]'
         next_left_over = split_chunk("", left_over_chunk, 43, {}, "direct")
         chunk_list = '[{"id": "10", "resourceType": "Patient"},{"id": "11", "resourceType": "Task"}]'
-        self.assertEqual(next_left_over, '')
+        self.assertEqual(next_left_over, "")
         mock_set_resource_list.assert_called_once_with(chunk_list)
 
-    @patch('main.set_resource_list')
-    @patch('main.build_resource_type_map')
-    def test_split_chunk_sort_sync_first_chunk_less_than_size(self, mock_build_resource_type_map, mock_set_resource_list):
+    @patch("main.set_resource_list")
+    @patch("main.build_resource_type_map")
+    def test_split_chunk_sort_sync_first_chunk_less_than_size(
+        self, mock_build_resource_type_map, mock_set_resource_list
+    ):
         chunk = '[{"id": "10", "resourceType": "Patient"},{"id": "11"'
         next_left_over = split_chunk(chunk, "", 50, {}, "sort")
         chunk_list = '[{"id": "10", "resourceType": "Patient"}]'
@@ -1190,7 +1312,12 @@ class TestMain(unittest.TestCase):
     def test_build_resource_type_map(self):
         json_file = "tests/json/sample.json"
         mapping = read_file_in_chunks(json_file, 300, "sort")
-        mapped_resources = {'Patient': [0], 'Practitioner': [1, 5], 'Location': [2, 4], 'Observation': [3]}
+        mapped_resources = {
+            "Patient": [0],
+            "Practitioner": [1, 5],
+            "Location": [2, 4],
+            "Observation": [3],
+        }
         self.assertIsInstance(mapping, dict)
         self.assertEqual(mapping, mapped_resources)
 
