@@ -101,6 +101,7 @@ $ fct publish -e /path/to/env.properties
 ```
  -i or --input : Path to the project folder with the resources to be published
 -bu or --fhir-base-url : The base url of the FHIR server to post resources to
+ -c or --composition-file : The path to the composition file
 -at or --access-token : Access token to grant access to the FHIR server
 -ci or --client-id : The client identifier for authentication
 -cs or --client-secret :The client secret for authentication
@@ -116,6 +117,10 @@ take precedence over anything in the properties file.
 
 You can either pass the actual accessToken as a variable or pass in the client credentials which will be used 
 to get an accessToken from the accessToken url provided
+
+You must pass the path to your composition file if you want to publish any binary resources. 
+The binary resources listed in the composition files are the ones that will be published.
+For the publishing of binary resources to work correctly, ensure that you are using the correct/recommended file/folder structure and that the file names in the composition file are in camel case.
 
 ### Validating your app configurations
 The tool supports some validations for the FHIRCore app configurations. To validate you can run the command:
