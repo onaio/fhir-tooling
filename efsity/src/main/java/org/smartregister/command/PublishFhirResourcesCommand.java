@@ -177,18 +177,29 @@ public class PublishFhirResourcesCommand implements Runnable {
     }
   }
 
-  String getFileName(String name) {
-    if ((name.endsWith("Register")) || (name.endsWith("Profile"))) {
+  /**
+   * This function takes in the name of a binary component/resource, converts it from camel case to
+   * separated by underscores. It then appends a string depending on the name, to return the actual
+   * file name of the binary file. For example the binaryName 'ancRegister' will be converted to
+   * 'anc_register_config.json'
+   *
+   * @param binaryName This is the name of a binary component/resource as it appears in the
+   *     composition resource. Usually in camel case and matches the start of the actual file name
+   * @return filename This is the actual file name of the binary resource in the project folder
+   */
+  String getFileName(String binaryName) {
+    String filename;
+    if ((binaryName.endsWith("Register")) || (binaryName.endsWith("Profile"))) {
       String regex = "([a-z])([A-Z]+)";
       String replacer = "$1_$2";
-      name = name.replaceAll(regex, replacer).toLowerCase();
+      binaryName = binaryName.replaceAll(regex, replacer).toLowerCase();
     }
-    if (name.startsWith("strings")) {
-      name = name + "_config.properties";
+    if (binaryName.startsWith("strings")) {
+      filename = binaryName + "_config.properties";
     } else {
-      name = name + "_config.json";
+      filename = binaryName + "_config.json";
     }
-    return name;
+    return filename;
   }
 
   HashMap<String, String> getDetails(JSONObject jsonObject) {
@@ -203,6 +214,16 @@ public class PublishFhirResourcesCommand implements Runnable {
     return map;
   }
 
+  /**
+   * This function takes in a binary file name and project folder, it then opens the filename in the
+   * folder ( assuming the recommended folder structure ), reads the content and returns a base64
+   * encoded version of the content
+   *
+   * @param fileName This is the name of the json binary file
+   * @param projectFolder This is the folder with all the config files
+   * @return base64 encoded version of the content in the binary json file
+   * @throws IOException
+   */
   String getBinaryContent(String fileName, String projectFolder) throws IOException {
     String pathToFile;
     if (fileName.contains("register")) {
