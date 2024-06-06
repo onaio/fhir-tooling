@@ -147,6 +147,7 @@ The coverage report `coverage.html` will be at the working directory
 - See example csv [here](/importer/csv/import/inventory.csv)
 - This creates a Group resource for each inventory imported
 - The first two columns __name__ and __active__ is the minimum required
+- Adding a value to the Location column will create a separate List resource (or update) that links the inventory to the provided location resource
 
 ### 12. Import JSON resources from file
 - Run `python3 main.py --bulk_import True --json_file tests/fhir_sample.json --chunk_size 500000 --sync sort --resources_count 100 --log_level info`
