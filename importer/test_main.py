@@ -766,7 +766,9 @@ class TestMain(unittest.TestCase):
                 "98199caa-4455-4b2f-a5cf-cb9c89b6bbdc",
             ]
         ]
-        payload = build_assign_payload(resource_list, "PractitionerRole", "practitioner=Practitioner/")
+        payload = build_assign_payload(
+            resource_list, "PractitionerRole", "practitioner=Practitioner/"
+        )
         payload_obj = json.loads(payload)
 
         self.assertIsInstance(payload_obj, dict)
@@ -824,7 +826,9 @@ class TestMain(unittest.TestCase):
                 "98199caa-4455-4b2f-a5cf-cb9c89b6bbdc",
             ]
         ]
-        payload = build_assign_payload(resource_list, "PractitionerRole", "practitioner=Practitioner/")
+        payload = build_assign_payload(
+            resource_list, "PractitionerRole", "practitioner=Practitioner/"
+        )
         payload_obj = json.loads(payload)
 
         self.assertIsInstance(payload_obj, dict)
@@ -862,7 +866,9 @@ class TestMain(unittest.TestCase):
                 "98199caa-4455-4b2f-a5cf-cb9c89b6bbdc",
             ]
         ]
-        payload = build_assign_payload(resource_list, "PractitionerRole", "practitioner=Practitioner/")
+        payload = build_assign_payload(
+            resource_list, "PractitionerRole", "practitioner=Practitioner/"
+        )
         payload_obj = json.loads(payload)
 
         self.assertIsInstance(payload_obj, dict)
@@ -887,7 +893,8 @@ class TestMain(unittest.TestCase):
     @patch("main.handle_request")
     @patch("main.get_base_url")
     def test_build_assign_payload_create_new_link_location_to_inventory_list(
-            self, mock_get_base_url, mock_handle_request):
+        self, mock_get_base_url, mock_handle_request
+    ):
         mock_get_base_url.return_value = "https://example.smartregister.org/fhir"
         mock_response_data = {"resourceType": "Bundle", "total": 0}
         string_response = json.dumps(mock_response_data)
@@ -910,26 +917,26 @@ class TestMain(unittest.TestCase):
         self.assertEqual(len(payload_obj["entry"]), 1)
 
         self.assertEqual(
-            payload_obj["entry"][0]["resource"]["title"],
-            "Nairobi Inventory Items"
+            payload_obj["entry"][0]["resource"]["title"], "Nairobi Inventory Items"
         )
         self.assertEqual(
             payload_obj["entry"][0]["resource"]["entry"][0]["item"]["reference"],
-            "Group/e62a049f-8d48-456c-a387-f52e72c39c74"
+            "Group/e62a049f-8d48-456c-a387-f52e72c39c74",
         )
         self.assertEqual(
             payload_obj["entry"][0]["resource"]["entry"][0]["date"],
-            "2024-06-01T10:40:10.111Z"
+            "2024-06-01T10:40:10.111Z",
         )
         self.assertEqual(
             payload_obj["entry"][0]["resource"]["subject"]["reference"],
-            "Location/3af23539-850a-44ed-8fb1-d4999e2145ff"
+            "Location/3af23539-850a-44ed-8fb1-d4999e2145ff",
         )
 
     @patch("main.handle_request")
     @patch("main.get_base_url")
     def test_build_assign_payload_update_location_with_new_inventory(
-            self, mock_get_base_url, mock_handle_request):
+        self, mock_get_base_url, mock_handle_request
+    ):
         mock_get_base_url.return_value = "https://example.smartregister.org/fhir"
         mock_response_data = {
             "resourceType": "Bundle",
@@ -944,8 +951,12 @@ class TestMain(unittest.TestCase):
                             "reference": "Location/46bb8a3f-cf50-4cc2-b421-fe4f77c3e75d"
                         },
                         "entry": [
-                            {"item": {"reference": "Group/f2734756-a6bb-4e90-bbc6-1c34f51d3d5c"}}
-                        ]
+                            {
+                                "item": {
+                                    "reference": "Group/f2734756-a6bb-4e90-bbc6-1c34f51d3d5c"
+                                }
+                            }
+                        ],
                     }
                 }
             ],
@@ -972,17 +983,18 @@ class TestMain(unittest.TestCase):
 
         self.assertEqual(
             payload_obj["entry"][0]["resource"]["entry"][0]["item"]["reference"],
-            "Group/f2734756-a6bb-4e90-bbc6-1c34f51d3d5c"
+            "Group/f2734756-a6bb-4e90-bbc6-1c34f51d3d5c",
         )
         self.assertEqual(
             payload_obj["entry"][0]["resource"]["entry"][1]["item"]["reference"],
-            "Group/e62a049f-8d48-456c-a387-f52e72c39c74"
+            "Group/e62a049f-8d48-456c-a387-f52e72c39c74",
         )
 
     @patch("main.handle_request")
     @patch("main.get_base_url")
     def test_build_assign_payload_create_new_link_location_to_inventory_list_with_multiples(
-            self, mock_get_base_url, mock_handle_request):
+        self, mock_get_base_url, mock_handle_request
+    ):
         mock_get_base_url.return_value = "https://example.smartregister.org/fhir"
         mock_response_data = {"resourceType": "Bundle", "total": 0}
         string_response = json.dumps(mock_response_data)
@@ -1007,7 +1019,7 @@ class TestMain(unittest.TestCase):
                 "c0666a5a-00f6-488c-9001-8630560b5810",
                 "2024-06-06T55:23:19.492Z",
                 "3cd687a4-a169-45b3-a939-0418470c29db",
-            ]
+            ],
         ]
         payload = build_assign_payload(resource_list, "List", "subject=List/")
         payload_obj = json.loads(payload)
@@ -1019,24 +1031,22 @@ class TestMain(unittest.TestCase):
         self.assertEqual(len(payload_obj["entry"][1]["resource"]["entry"]), 1)
 
         self.assertEqual(
-            payload_obj["entry"][0]["resource"]["title"],
-            "Nairobi Inventory Items"
+            payload_obj["entry"][0]["resource"]["title"], "Nairobi Inventory Items"
         )
         self.assertEqual(
-            payload_obj["entry"][1]["resource"]["title"],
-            "Mombasa Inventory Items"
+            payload_obj["entry"][1]["resource"]["title"], "Mombasa Inventory Items"
         )
         self.assertEqual(
             payload_obj["entry"][0]["resource"]["entry"][0]["item"]["reference"],
-            "Group/e62a049f-8d48-456c-a387-f52e72c39c74"
+            "Group/e62a049f-8d48-456c-a387-f52e72c39c74",
         )
         self.assertEqual(
             payload_obj["entry"][0]["resource"]["entry"][1]["item"]["reference"],
-            "Group/a36b595c-68a7-4244-91d5-c64be23b1ebd"
+            "Group/a36b595c-68a7-4244-91d5-c64be23b1ebd",
         )
         self.assertEqual(
             payload_obj["entry"][1]["resource"]["entry"][0]["item"]["reference"],
-            "Group/c0666a5a-00f6-488c-9001-8630560b5810"
+            "Group/c0666a5a-00f6-488c-9001-8630560b5810",
         )
 
     @patch("main.logging")

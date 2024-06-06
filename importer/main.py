@@ -642,7 +642,7 @@ def group_extras(resource, payload_string, group_type):
             quantity,
             unicef_section,
             donor,
-            location
+            location,
         ) = resource
 
         if active:
@@ -759,7 +759,7 @@ def extract_matches(resource_list):
 
 def update_practitioner_role(resource, organization_id, organization_name):
     try:
-        resource["organization"]["reference"] = ("Organization/" + organization_id)
+        resource["organization"]["reference"] = "Organization/" + organization_id
         resource["organization"]["display"] = organization_name
     except KeyError:
         org = {
@@ -782,41 +782,43 @@ def update_list(resource, inventory_id, supply_date):
                         {
                             "system": "http://smartregister.org/codes",
                             "code": "22138876",
-                            "display": "Supply Inventory List"
+                            "display": "Supply Inventory List",
                         }
                     ],
-                    "text": "Supply Inventory List"
+                    "text": "Supply Inventory List",
                 },
                 "date": supply_date,
-                "item": {"reference": "Group/" + inventory_id}
+                "item": {"reference": "Group/" + inventory_id},
             }
             entries.append(entry)
 
     except KeyError:
-        entry = {"entry": [
-            {
-                "flag": {
-                    "coding": [
-                        {
-                            "system": "http://smartregister.org/codes",
-                            "code": "22138876",
-                            "display": "Supply Inventory List"
-                        }
-                    ],
-                    "text": "Supply Inventory List"
-                },
-                "date": supply_date,
-                "item": {"reference": "Group/" + inventory_id}
-            }
-        ]}
+        entry = {
+            "entry": [
+                {
+                    "flag": {
+                        "coding": [
+                            {
+                                "system": "http://smartregister.org/codes",
+                                "code": "22138876",
+                                "display": "Supply Inventory List",
+                            }
+                        ],
+                        "text": "Supply Inventory List",
+                    },
+                    "date": supply_date,
+                    "item": {"reference": "Group/" + inventory_id},
+                }
+            ]
+        }
         resource.update(entry)
     return resource
 
 
-def create_new_practitioner_role(new_id, practitioner_name, practitioner_id, organization_name, organization_id):
-    with open(
-            "json_payloads/practitioner_organization_payload.json"
-    ) as json_file:
+def create_new_practitioner_role(
+    new_id, practitioner_name, practitioner_id, organization_name, organization_id
+):
+    with open("json_payloads/practitioner_organization_payload.json") as json_file:
         payload_string = json_file.read()
 
     payload_string = (
@@ -831,9 +833,7 @@ def create_new_practitioner_role(new_id, practitioner_name, practitioner_id, org
 
 
 def create_new_list(new_id, location_id, inventory_id, title, supply_date):
-    with open(
-            "json_payloads/inventory_location_list_payload.json"
-    ) as json_file:
+    with open("json_payloads/inventory_location_list_payload.json") as json_file:
         payload_string = json_file.read()
 
     payload_string = (
@@ -851,11 +851,7 @@ def check_resource(subject, entries, resource_type, url_filter):
     if subject not in entries.keys():
         base_url = get_base_url()
         check_url = (
-                base_url
-                + "/"
-                + resource_type
-                + "/_search?_count=1&" + url_filter
-                + subject
+            base_url + "/" + resource_type + "/_search?_count=1&" + url_filter + subject
         )
         response = handle_request("GET", "", check_url)
         json_response = json.loads(response[0])
@@ -866,14 +862,11 @@ def check_resource(subject, entries, resource_type, url_filter):
 
 
 def build_assign_payload(rows, resource_type, url_filter):
-    bundle = {
-        "resourceType": "Bundle",
-        "type": "transaction",
-        "entry": []
-    }
+    bundle = {"resourceType": "Bundle", "type": "transaction", "entry": []}
 
-    subject_id = item_id = organization_name = practitioner_name = inventory_name = \
-        supply_date = resource_id = version = ""
+    subject_id = item_id = organization_name = practitioner_name = inventory_name = (
+        supply_date
+    ) = resource_id = version = ""
     entries = {}
     resource = {}
     results = {}
@@ -894,7 +887,9 @@ def build_assign_payload(rows, resource_type, url_filter):
             resource = json_response["entry"][0]["resource"]
 
             if resource_type == "PractitionerRole":
-                resource = update_practitioner_role(resource, item_id, organization_name)
+                resource = update_practitioner_role(
+                    resource, item_id, organization_name
+                )
             if resource_type == "List":
                 resource = update_list(resource, item_id, supply_date)
 
@@ -909,20 +904,28 @@ def build_assign_payload(rows, resource_type, url_filter):
 
             if resource_type == "PractitionerRole":
                 resource = create_new_practitioner_role(
-                    resource_id, practitioner_name, subject_id, organization_name, item_id)
+                    resource_id,
+                    practitioner_name,
+                    subject_id,
+                    organization_name,
+                    item_id,
+                )
             if resource_type == "List":
-                resource = create_new_list(resource_id, subject_id, item_id, inventory_name, supply_date)
+                resource = create_new_list(
+                    resource_id, subject_id, item_id, inventory_name, supply_date
+                )
             version = "1"
 
             try:
-                resource["entry"] = entries[subject_id]["resource"]["resource"]["entry"] + resource["entry"]
+                resource["entry"] = (
+                    entries[subject_id]["resource"]["resource"]["entry"]
+                    + resource["entry"]
+                )
             except KeyError:
                 logging.debug("No existing entries")
 
         else:
-            raise ValueError(
-                "The number of references should only be 0 or 1"
-            )
+            raise ValueError("The number of references should only be 0 or 1")
 
         payload = {
             "request": {
@@ -1101,13 +1104,18 @@ def build_payload(resource_type, resources, resource_payload_file):
 def link_to_location(resource_list):
     arr = []
     with click.progressbar(
-            resource_list, label="Progress::Linking inventory to location"
+        resource_list, label="Progress::Linking inventory to location"
     ) as link_locations_progress:
         for resource in link_locations_progress:
             try:
                 if resource[14]:
                     # name, inventory_id, supply_date, location_id
-                    resource_link = [resource[0], resource[3], resource[9], resource[14]]
+                    resource_link = [
+                        resource[0],
+                        resource[3],
+                        resource[9],
+                        resource[14],
+                    ]
                     arr.append(resource_link)
             except IndexError:
                 logging.info("No location provided for " + resource[0])
@@ -1919,7 +1927,9 @@ def main(
             logging.info("Processing complete!")
         elif assign == "users-organizations":
             logging.info("Assigning practitioner to Organization")
-            json_payload = build_assign_payload(resource_list, "PractitionerRole", "practitioner=Practitioner/")
+            json_payload = build_assign_payload(
+                resource_list, "PractitionerRole", "practitioner=Practitioner/"
+            )
             final_response = handle_request("POST", json_payload, config.fhir_base_url)
             logging.info("Processing complete!")
         elif setup == "roles":
@@ -1949,7 +1959,9 @@ def main(
             final_response = handle_request("POST", json_payload, config.fhir_base_url)
             link_payload = link_to_location(resource_list)
             if len(link_payload) > 0:
-                link_response = handle_request("POST", link_payload, config.fhir_base_url)
+                link_response = handle_request(
+                    "POST", link_payload, config.fhir_base_url
+                )
                 logging.info(link_response.text)
         else:
             logging.error("Unsupported request!")
