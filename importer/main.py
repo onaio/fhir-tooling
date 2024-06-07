@@ -773,45 +773,22 @@ def update_practitioner_role(resource, organization_id, organization_name):
 
 
 def update_list(resource, inventory_id, supply_date):
-    try:
-        entries = resource["entry"]
-        if inventory_id not in str(entries):
-            entry = {
-                "flag": {
-                    "coding": [
-                        {
-                            "system": "http://smartregister.org/codes",
-                            "code": "22138876",
-                            "display": "Supply Inventory List",
-                        }
-                    ],
-                    "text": "Supply Inventory List",
-                },
-                "date": supply_date,
-                "item": {"reference": "Group/" + inventory_id},
-            }
-            entries.append(entry)
+    with open("json_payloads/inventory_location_list_payload.json") as json_file:
+        payload_string = json_file.read()
 
-    except KeyError:
-        entry = {
-            "entry": [
-                {
-                    "flag": {
-                        "coding": [
-                            {
-                                "system": "http://smartregister.org/codes",
-                                "code": "22138876",
-                                "display": "Supply Inventory List",
-                            }
-                        ],
-                        "text": "Supply Inventory List",
-                    },
-                    "date": supply_date,
-                    "item": {"reference": "Group/" + inventory_id},
-                }
-            ]
-        }
-        resource.update(entry)
+        payload_string = (payload_string.replace("$supply_date", supply_date)
+                          .replace("$inventory_id", inventory_id))
+        json_payload = json.loads(payload_string)
+
+        try:
+            entries = resource["entry"]
+            if inventory_id not in str(entries):
+                entry = json_payload["entry"][0]
+                entries.append(entry)
+
+        except KeyError:
+            entry = {"entry": json_payload["entry"]}
+            resource.update(entry)
     return resource
 
 
