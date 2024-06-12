@@ -10,15 +10,11 @@ import ca.uhn.fhir.validation.FhirValidator;
 import ca.uhn.fhir.validation.ResultSeverityEnum;
 import ca.uhn.fhir.validation.SingleValidationMessage;
 import ca.uhn.fhir.validation.ValidationResult;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
-
 import net.jimblackler.jsonschemafriend.*;
 import org.hl7.fhir.common.hapi.validation.support.CommonCodeSystemsTerminologyService;
 import org.hl7.fhir.common.hapi.validation.support.InMemoryTerminologyServerValidationSupport;
@@ -40,8 +36,7 @@ public class ValidateFhirResourcesCommand implements Runnable {
 
   @CommandLine.Option(
       names = {"-s", "--schema"},
-      description = "configs schema"
-  )
+      description = "configs schema")
   static String configSchema;
 
   @Override
@@ -55,7 +50,8 @@ public class ValidateFhirResourcesCommand implements Runnable {
     }
   }
 
-  public static void validateFhirResources(String inputFilePath) throws IOException, ValidationException, GenerationException {
+  public static void validateFhirResources(String inputFilePath)
+      throws IOException, ValidationException, GenerationException {
 
     long start = System.currentTimeMillis();
 
@@ -81,7 +77,7 @@ public class ValidateFhirResourcesCommand implements Runnable {
     if (!Files.isDirectory(Paths.get(inputFilePath))) {
       FctUtils.printInfo(String.format("\u001b[35m%s\u001b[0m", inputFilePath));
       inputFile = FctUtils.readFile(inputFilePath);
-      if(isConfigFile(inputFile)){
+      if (isConfigFile(inputFile)) {
         failCheck = validateConfig(inputFile);
       } else {
         IBaseResource resource = iParser.parseResource(inputFile.getContent());
@@ -94,17 +90,17 @@ public class ValidateFhirResourcesCommand implements Runnable {
       for (Map.Entry<String, Map<String, String>> entry : folderTofilesIndexMap.entrySet()) {
         Map<String, String> fileIndexMap = folderTofilesIndexMap.get(entry.getKey());
 
-        for (Map.Entry<String,String> nestedEntry : fileIndexMap.entrySet()) {
+        for (Map.Entry<String, String> nestedEntry : fileIndexMap.entrySet()) {
           if (nestedEntry.getKey().startsWith(".")) continue;
           FctUtils.printInfo(String.format("\u001b[35m%s\u001b[0m", nestedEntry.getValue()));
           inputFile = FctUtils.readFile(nestedEntry.getValue());
 
           try {
-            if(isConfigFile(inputFile)){
-              failCheck = ( validateConfig(inputFile) == -1) ? -1 : failCheck;
+            if (isConfigFile(inputFile)) {
+              failCheck = (validateConfig(inputFile) == -1) ? -1 : failCheck;
             } else {
               IBaseResource resource = iParser.parseResource(inputFile.getContent());
-              failCheck = ( validateResource(validator, resource) == -1) ? -1 : failCheck;
+              failCheck = (validateResource(validator, resource) == -1) ? -1 : failCheck;
             }
           } catch (DataFormatException | NoSuchMethodError e) {
             FctUtils.printError(e.toString());
@@ -114,7 +110,7 @@ public class ValidateFhirResourcesCommand implements Runnable {
     }
     FctUtils.printCompletedInDuration(start);
 
-    if (failCheck < 0){
+    if (failCheck < 0) {
       throw new RuntimeException("Found Invalid file(s)");
     }
   }
@@ -146,7 +142,7 @@ public class ValidateFhirResourcesCommand implements Runnable {
     }
   }
 
-  static boolean isConfigFile(FctFile inputFile){
+  static boolean isConfigFile(FctFile inputFile) {
     JSONObject resource = new JSONObject(inputFile.getContent());
     return resource.has("configType");
   }
@@ -165,7 +161,7 @@ public class ValidateFhirResourcesCommand implements Runnable {
       FctUtils.printError(e.toString());
     }
 
-    if (valid){
+    if (valid) {
       return 0;
     } else {
       return -1;

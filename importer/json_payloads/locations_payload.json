@@ -28,6 +28,15 @@
                         "display": "$t_display"
                     }
                 ]
+            },
+            {
+                "coding": [
+                    {
+                        "system": "https://smartregister.org/codes/administrative-level",
+                        "code": "$adminLevelCode",
+                        "display": "Level $adminLevelCode"
+                    }
+                ]
             }
         ],
         "physicalType": {
@@ -38,6 +47,10 @@
                     "display": "$pt_display"
                 }
             ]
+        },
+        "position": {
+            "longitude": "$longitude",
+            "latitude": "$latitude"
         }
     }
 }

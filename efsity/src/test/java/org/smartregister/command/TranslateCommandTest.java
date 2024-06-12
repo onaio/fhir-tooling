@@ -1,10 +1,9 @@
 package org.smartregister.command;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,8 +13,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.Properties;
-
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class TranslateCommandTest {
 
@@ -61,7 +60,8 @@ public class TranslateCommandTest {
     existingProperties.load(defaultPropertiesInput);
 
     Properties newProperties = new Properties();
-    InputStream tempDefaultPropertiesInput = new FileInputStream(tempDefaultPropertiesPath.toFile());
+    InputStream tempDefaultPropertiesInput =
+        new FileInputStream(tempDefaultPropertiesPath.toFile());
     newProperties.load(tempDefaultPropertiesInput);
 
     // Compare the contents of the two files
@@ -89,10 +89,12 @@ public class TranslateCommandTest {
     assertDoesNotThrow(() -> translateCommand.run());
 
     ObjectMapper objectMapper = new ObjectMapper();
-    JsonNode rawQuestionnaire = objectMapper.readTree(
-      Files.newBufferedReader(tempRawQuestionnaire, StandardCharsets.UTF_8));
-    JsonNode mergedQuestionnaire = objectMapper.readTree(
-      Files.newBufferedReader(mergedQuestionnairePath, StandardCharsets.UTF_8));
+    JsonNode rawQuestionnaire =
+        objectMapper.readTree(
+            Files.newBufferedReader(tempRawQuestionnaire, StandardCharsets.UTF_8));
+    JsonNode mergedQuestionnaire =
+        objectMapper.readTree(
+            Files.newBufferedReader(mergedQuestionnairePath, StandardCharsets.UTF_8));
 
     // Compare the contents of the two nodes
     assertEquals(rawQuestionnaire, mergedQuestionnaire, "File merged as expected");

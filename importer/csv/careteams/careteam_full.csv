@@ -1,2 +1,2 @@
-name,status,method,id,identifier,organizations,participants
+careTeamName,careTeamStatus,method,careTeamId,identifier,organizations,participants
 Knee care,active,update,b323df51-b515-46a0-b4e6-dd29d515ae5e,,1767:test|1766:test 2,2210:Jane Doe|2204:Jane Doe

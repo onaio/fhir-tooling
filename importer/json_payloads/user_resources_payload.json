@@ -15,10 +15,20 @@
                 },
                 {
                 "use": "secondary",
+                "type" : {
+                    "coding": [
+                        {
+                            "system": "http://hl7.org/fhir/identifier-type",
+                            "code": "KUID",
+                            "display": "Keycloak user ID"
+                        }
+                    ],
+                    "text" : "Keycloak user ID"
+                },
                 "value": "$keycloak_user_uuid"
                 }
             ],
-            "active": true,
+            "active": "$enable_user",
             "name": [
                 {
                 "use": "official",
@@ -56,7 +66,7 @@
                 "value": "$keycloak_user_uuid"
                 }
             ],
-            "active": true,
+            "active": "$enable_user",
             "type": "practitioner",
             "actual": true,
             "name": "$firstName $lastName",
@@ -88,7 +98,7 @@
                 "value": "$keycloak_user_uuid"
                 }
             ],
-            "active": true,
+            "active": "$enable_user",
             "practitioner": {
                 "reference": "Practitioner/$practitioner_uuid",
                 "display": "$firstName $lastName"

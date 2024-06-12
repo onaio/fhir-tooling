@@ -18,7 +18,7 @@ repositories {
 
 group = "org.smartregister"
 
-version = "2.3.3-SNAPSHOT"
+version = "2.3.4-SNAPSHOT"
 
 description = "fhircore-tooling (efsity)"
 
@@ -57,6 +57,12 @@ allprojects {
       target("*.gradle.kts")
       ktlint()
       ktfmt().googleStyle()
+    }
+    java {
+      importOrder()
+      removeUnusedImports()
+      googleJavaFormat()
+      formatAnnotations()
     }
   }
 }

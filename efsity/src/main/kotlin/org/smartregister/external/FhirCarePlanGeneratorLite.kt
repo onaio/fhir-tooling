@@ -32,7 +32,7 @@ import org.smartregister.util.FctStructureMapUtilities
 import org.smartregister.util.FctUtils
 
 /**
- * This class (loosely) borrows from
+ * 3RD PARTY CODE: This class (loosely) borrows from
  * https://github.com/opensrp/fhircore/blob/main/android/engine/src/main/java/org/smartregister/fhircore/engine/task/FhirCarePlanGenerator.kt
  * Note: It cherry-picks parts of the class that are required to generate the Careplan resource and
  * extract the raw Tasks. Its application on efsity is to confirm the correct types of resources are

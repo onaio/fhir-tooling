@@ -1,0 +1,30 @@
+{
+  "resourceType": "PractitionerRole",
+  "id": "$id",
+  "identifier": [
+    {
+      "use": "official",
+      "value": "$id"
+    }
+  ],
+  "active": true,
+  "practitioner": {
+    "reference": "Practitioner/$practitioner_id",
+    "display": "$practitioner_name"
+  },
+  "organization": {
+    "reference": "Organization/$organization_id",
+    "display": "$organization_name"
+  },
+  "code": [
+    {
+      "coding": [
+        {
+          "system": "http://smartregister.org/assigned-practitioner",
+          "code": "405623001",
+          "display": "Assigned practitioner"
+        }
+      ]
+    }
+  ]
+}
