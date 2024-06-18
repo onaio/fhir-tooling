@@ -224,8 +224,10 @@ public class TranslateCommand implements Runnable {
 
     // Load the translation properties
     Properties translationProperties = new Properties();
-    try (InputStream input = new FileInputStream(translationFile)) {
-      translationProperties.load(input);
+    try (FileInputStream fileInputStream = new FileInputStream(translationFile);
+        InputStreamReader reader = new InputStreamReader(fileInputStream, StandardCharsets.UTF_8)) {
+
+      translationProperties.load(reader);
     }
 
     // Traverse and update the JSON structure
@@ -409,7 +411,10 @@ public class TranslateCommand implements Runnable {
     Properties existingProperties = new Properties();
 
     if (Files.exists(propertiesFilePath)) {
-      try (InputStream input = new FileInputStream(propertiesFilePath.toFile())) {
+
+      try (FileInputStream fileInputStream = new FileInputStream(propertiesFilePath.toFile());
+          InputStreamReader input =
+              new InputStreamReader(fileInputStream, StandardCharsets.UTF_8)) {
         existingProperties.load(input);
       }
     }
