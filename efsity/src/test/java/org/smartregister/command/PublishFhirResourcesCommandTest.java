@@ -276,6 +276,6 @@ public class PublishFhirResourcesCommandTest {
             .getJSONArray("tag")
             .getJSONObject(0)
             .getString("code"),
-        "2.3.4-SNAPSHOT");
+        "2.3.5-SNAPSHOT");
   }
 }
