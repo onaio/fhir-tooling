@@ -21,7 +21,8 @@ import picocli.CommandLine.Command;
       TranslateCommand.class,
       QuestionnaireResponseGeneratorCommand.class,
       ValidateFileStructureCommand.class,
-      PublishFhirResourcesCommand.class
+      PublishFhirResourcesCommand.class,
+      GenerateStructureMapCommand.class
     })
 public class Main implements Runnable {
   public static void main(String[] args) {
