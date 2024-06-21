@@ -110,7 +110,7 @@ To initiate the process run the command
       "text": "Location",
       "answer": [
         {
-          "valueString": "Westlands"
+          "valueString": "b9a40da5-5402-4cae-8d9b-38431040da06"
         }
       ]
     }
@@ -146,7 +146,7 @@ group LinkEntity(source src : QuestionnaireResponse, target bundle : Bundle) {
 group ExtractList(source src : QuestionnaireResponse, target list : List){
     src -> list.id = uuid() "r_list_id";
     src -> list.status = 'current' "r_list_status";
-    src -> list.title = evaluate(src, $this.item.where(linkId = 'name').answer.value) "r_list_title";
+    src -> list.title = evaluate(src, $this.item.where(linkId = 'questionnaire-field-name').answer.value) "r_list_title";
     
     src -> list.code = create('CodeableConcept') as list_code then {
             src -> list_code.coding = create('Coding') as coding then {
@@ -158,8 +158,8 @@ group ExtractList(source src : QuestionnaireResponse, target list : List){
         } "r_list_code";
         
     src -> list.subject = create("Reference") as ref then {
-                src ->ref.reference = evaluate(src, "Location/"+ $this.item.where(linkId="location-id").answer.value) "r_enc_subject_ref";
-            }  "r_enc_subject";
+            src ->ref.reference = evaluate(src, "Location/"+ $this.item.where(linkId="questionnaire-field-location").answer.value) "r_ref_subject_value";
+        }  "r_ref_subject";
             
     src -> list.entry = create("List_Entry") as entry then {
             src -> entry.flag = create('CodeableConcept') as flag then {
