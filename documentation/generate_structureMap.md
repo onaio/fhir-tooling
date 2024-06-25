@@ -121,12 +121,18 @@ To initiate the process run the command
 
 ### Example Excel Configs
 
-| Questionnaire Response Field Id | Resource | Field path | Conversion | FHIR Path/StructureMap functions |
-|---------------------------------| --- | --- | --- | --- |
-| questionnaire-field-name        | List |
-| questionnaire-field-quantity    | List |
-| questionnaire-field-date        | List |
-| questionnaire-field-location    | List |
+| Questionnaire Response Field Id | Constant/Fixed        | Resource | Field path             | Conversion | FHIR Path/StructureMap functions                                    |
+|---------------------------------|-----------------------|----------|------------------------|------------|---------------------------------------------------------------------|
+|                                 |                       | List     | id                     |            | // check if exists & generate new if it doesn't                     |
+|                                 | current               | List     | status                 |            |                                                                     |
+| questionnaire-field-name        |                       | List     | title                  |            |                                                                     |
+|                                 |                       | List     | code.coding            |            | c(“http://smartregister.org/”, “22138876”, “Supply Inventory List") |
+|                                 | Supply Inventory List | List     | code.text              |            |                                                                     |
+| questionnaire-field-location    |                       | List     | subject.reference      | $Location  |                                                                     |
+|                                 |                       | List     | entry.0.flag.coding    |            | c(“http://smartregister.org/”, “22138876”, “Supply Inventory List") |
+|                                 | Supply Inventory List | List     | entry.0.flag.text      |            |                                                                     |
+| questionnaire-field-date        |                       | List     | entry.0.date           |            |                                                                     |
+| questionnaire-field-product-id  |                       | List     | entry.0.item.reference | $Group     |                                                                     |
 
 
 
