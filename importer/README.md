@@ -134,3 +134,28 @@ The coverage report `coverage.html` will be at the working directory
 - The `limit` is the number of resources exported at a time. The set default value is '1000'
 - Specify the `resource_type` you want to export, different resource_types are exported to different csv_files
 - The csv_file containing the exported resources is labelled using the current time, to know when the resources were exported for example, csv/exports/2024-02-21-12-21-export_Location.csv
+
+### 10. Import products from openSRP 1
+- Run `python3 main.py --csv_file csv/import/product.csv --setup products --log_level info`
+- See example csv [here](/importer/csv/import/product.csv)
+- This creates a Group resource for each product imported
+- The first two columns __name__ and __active__ is the minimum required
+- The last column __imageSourceUrl__ contains a url to the product image. If this source requires authentication, then you need to provide the `product_access_token` in the config file. The image is added as a binary resource and referenced in the product's Group resource
+
+### 11. Import inventories from openSRP 1
+- Run `python3 main.py --csv_file csv/import/inventory.csv --setup inventories --log_level info`
+- See example csv [here](/importer/csv/import/inventory.csv)
+- This creates a Group resource for each inventory imported
+- The first two columns __name__ and __active__ is the minimum required
+- Adding a value to the Location column will create a separate List resource (or update) that links the inventory to the provided location resource
+
+### 12. Import JSON resources from file
+- Run `python3 main.py --bulk_import True --json_file tests/fhir_sample.json --chunk_size 500000 --sync sort --resources_count 100 --log_level info`
+- This takes in a file with a JSON array, reads the resources from the array in the file and posts them to the FHIR server
+- `bulk_import` (Required) must be set to True
+- `json_file` (Required) points to the file with the json array. The resources in the array need to be separated by a single comma (no spaces) and the **"id"** must always be the first attribute in the resource object. This is what the code uses to identify the beginning and end of resources
+- `chunk_size` (Not required) is the number of characters to read from the JSON file at a time. The size of this file can potentially be very large, so we do not want to read it all at once, we read it in chunks. This number **MUST** be at least the size of the largest single resource in the array. The default is set to 1,000,000
+- `sync` (Not required) defines the sync strategy. This can be either **direct** (which is the default) or **sort**
+  - **Direct** will read the resources one chunk at a time, while building a payload and posting to the server before reading the next chunk. This works if you have referential integrity turned off in the FHIR server
+  - **Sort** will read all the resources in the file first and sort them into different resource types. It will then build separate payloads for the different resource types and try to post them to the FHIR server in the order that the resources first appear in the JSON file. For example, if you want Patients to be synced first, then make sure that the first resource is a Patient resource
+- `resources_count` (Not required) is the number of resources put in a bundle when posting the resources to the FHIR server. The default is set to 100

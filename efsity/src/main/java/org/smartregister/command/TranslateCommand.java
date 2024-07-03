@@ -223,10 +223,7 @@ public class TranslateCommand implements Runnable {
         objectMapper.readTree(Files.newBufferedReader(inputFilePath, StandardCharsets.UTF_8));
 
     // Load the translation properties
-    Properties translationProperties = new Properties();
-    try (InputStream input = new FileInputStream(translationFile)) {
-      translationProperties.load(input);
-    }
+    Properties translationProperties = getPropertiesFile(translationFile);
 
     // Traverse and update the JSON structure
     JsonNode updatedJson = updateJson(rootNode, translationProperties, locale, targetFields);
@@ -236,6 +233,20 @@ public class TranslateCommand implements Runnable {
     objectMapper.writeValue(inputFilePath.toFile(), updatedJson);
     FctUtils.printInfo(
         String.format("Merged JSON saved to \u001b[36m%s\u001b[0m", inputFilePath.toString()));
+  }
+
+  public static Properties getPropertiesFile(String propertiesFilePath) throws IOException {
+    Properties properties = new Properties();
+    // Read existing properties file, if it exists
+    if (Files.exists(Paths.get(propertiesFilePath))) {
+      try (FileInputStream fileInputStream = new FileInputStream(propertiesFilePath);
+          InputStreamReader reader =
+              new InputStreamReader(fileInputStream, StandardCharsets.UTF_8)) {
+
+        properties.load(reader);
+      }
+    }
+    return properties;
   }
 
   private static JsonNode updateJson(
@@ -405,14 +416,8 @@ public class TranslateCommand implements Runnable {
       throw new RuntimeException("Provide a valid `resourceFile` directory or file.");
     }
 
-    // Read existing properties file, if it exists
-    Properties existingProperties = new Properties();
+    Properties existingProperties = getPropertiesFile(propertiesFilePath.toString());
 
-    if (Files.exists(propertiesFilePath)) {
-      try (InputStream input = new FileInputStream(propertiesFilePath.toFile())) {
-        existingProperties.load(input);
-      }
-    }
     // Merge existing properties with new properties
     existingProperties.putAll(textToHash);
     writePropertiesFile(existingProperties, translationFile);
