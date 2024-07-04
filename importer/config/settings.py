@@ -31,7 +31,7 @@ if username is not None and password is not None:
 elif access_token is not None and refresh_token is not None:
     authentication_options = ExternalAuthenticationOptions(client_id=client_id, client_secret=client_secret, keycloak_base_uri=keycloak_url, realm=realm, access_token=access_token, refresh_token=refresh_token)
 else:
-    sys.exit(1)
+    raise ValueError("Unable to get authentication parameters!")
 
 api_service_options = FhirKeycloakApiOptions(fhir_base_uri=fhir_base_url, authentication_options=authentication_options)
 api_service = FhirKeycloakApi(api_service_options)
