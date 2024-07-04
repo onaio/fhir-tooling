@@ -19,7 +19,7 @@ from utils.location_process import process_locations
 #     logging.error("The config.py file is missing!")
 #     exit()
 
-global_access_token = ""
+# global_access_token = ""
 
 
 # This function takes in a csv file

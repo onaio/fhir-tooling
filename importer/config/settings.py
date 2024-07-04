@@ -1,15 +1,19 @@
+import importlib
+import sys
+import logging.config
+
 from services.fhir_keycloak_api import FhirKeycloakApi, FhirKeycloakApiOptions, ExternalAuthenticationOptions, \
     InternalAuthenticationOptions
 from config.config import client_id, client_secret, fhir_base_url, keycloak_url, realm
-import importlib
-import sys
+
 
 def dynamic_import(variable_name):
     try:
-        config_module = importlib.import_module("temporal.config")
+        config_module = importlib.import_module("config.config")
         value = getattr(config_module, variable_name, None)
         return value
-    except ModuleNotFoundError:
+    except:
+        logging.error("Unable to import the configuration!")
         sys.exit(1)
 
 
