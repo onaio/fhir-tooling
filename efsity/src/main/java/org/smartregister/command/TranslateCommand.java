@@ -76,6 +76,13 @@ public class TranslateCommand implements Runnable {
       FctUtils.printInfo(String.format("Input file \u001b[35m%s\u001b[0m", resourceFile));
 
       try {
+        Path translationsDirectoryPath = inputFilePath.getParent().resolve("translations");
+
+        if (!Files.exists(translationsDirectoryPath))
+          Files.createDirectories(translationsDirectoryPath);
+        if (translationFile == null) {
+          translationFile = translationsDirectoryPath + "/strings_default.properties";
+        }
         // Check if the input path is a directory or a JSON file
         if (Files.isDirectory(inputFilePath)) {
 
@@ -83,20 +90,12 @@ public class TranslateCommand implements Runnable {
             extractionType = "configs";
             Set<String> targetFields = FCTConstants.configTranslatables;
 
-            if (translationFile == null) {
-              translationFile =
-                  inputFilePath.resolve("translations/strings_config.properties").toString();
-            }
             extractContent(translationFile, inputFilePath, targetFields, extractionType);
           } else if (Objects.equals(extractionType, "fhirContent")
               || inputFilePath.endsWith("fhir_content")) {
             extractionType = "fhirContent";
             Set<String> targetFields = FCTConstants.questionnaireTranslatables;
 
-            if (translationFile == null) {
-              translationFile =
-                  inputFilePath.resolve("translations/strings_default.properties").toString();
-            }
             if (!inputFilePath.endsWith("questionnaires")) {
               inputFilePath = inputFilePath.resolve("questionnaires");
             }
@@ -109,13 +108,7 @@ public class TranslateCommand implements Runnable {
             if (Files.exists(configsPath) && Files.isDirectory(configsPath)) {
               extractionType = "configs";
               Set<String> targetFields = FCTConstants.configTranslatables;
-              String configsTranslationFile = null;
-              configsTranslationFile =
-                  Objects.requireNonNullElseGet(
-                      translationFile,
-                      () ->
-                          configsPath.resolve("translations/strings_config.properties").toString());
-              extractContent(configsTranslationFile, configsPath, targetFields, extractionType);
+              extractContent(translationFile, configsPath, targetFields, extractionType);
             } else {
               FctUtils.printWarning("`configs` directory not found in directory");
             }
@@ -125,16 +118,8 @@ public class TranslateCommand implements Runnable {
                 && Files.isDirectory(questionnairePath)) {
               extractionType = "fhirContent";
               Set<String> targetFields = FCTConstants.questionnaireTranslatables;
-              String contentTranslationFile = null;
-              contentTranslationFile =
-                  Objects.requireNonNullElseGet(
-                      translationFile,
-                      () ->
-                          fhirContentPath
-                              .resolve("translations/strings_default.properties")
-                              .toString());
-              extractContent(
-                  contentTranslationFile, questionnairePath, targetFields, extractionType);
+
+              extractContent(translationFile, questionnairePath, targetFields, extractionType);
             } else {
               FctUtils.printWarning(
                   "`fhir_content` or `fhir_content/questionnaires` directory not found in directory");
