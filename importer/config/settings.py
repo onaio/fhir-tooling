@@ -19,6 +19,7 @@ password = dynamic_import("password")
 # TODO - retrieving at and rt as args via the command line as well.
 access_token = dynamic_import("access_token")
 refresh_token = dynamic_import("refresh_token")
+product_access_token = dynamic_import("product_access_token")
 
 authentication_options = None
 if username is not None and password is not None:
