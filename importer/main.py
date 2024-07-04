@@ -6,18 +6,18 @@ import click
 import requests
 import logging
 import logging.config
-import backoff
 import base64
 import magic
 from datetime import datetime
-from oauthlib.oauth2 import LegacyApplicationClient
-from requests_oauthlib import OAuth2Session
 
-try:
-    import config
-except ModuleNotFoundError:
-    logging.error("The config.py file is missing!")
-    exit()
+from config.settings import api_service, keycloak_url, fhir_base_url, product_access_token
+from utils.location_process import process_locations
+
+# try:
+#     import config
+# except ModuleNotFoundError:
+#     logging.error("The config.py file is missing!")
+#     exit()
 
 global_access_token = ""
 
@@ -46,62 +46,47 @@ def read_csv(csv_file):
             logging.error("Stop iteration on empty file")
 
 
-def get_access_token():
-    access_token = ""
-    if global_access_token:
-        return global_access_token
+# def get_access_token():
+#     access_token = ""
+#     if global_access_token:
+#         return global_access_token
+#
+#     try:
+#         if config.access_token:
+#             # get access token from config file
+#             access_token = config.access_token
+#     except AttributeError:
+#         logging.debug("No access token provided, trying to use client credentials")
+#
+#     if not access_token:
+#         # get client credentials from config file
+#         client_id = config.client_id
+#         client_secret = config.client_secret
+#         username = config.username
+#         password = config.password
+#         access_token_url = config.access_token_url
+#
+#         oauth = OAuth2Session(client=LegacyApplicationClient(client_id=client_id))
+#         token = oauth.fetch_token(
+#             token_url=access_token_url,
+#             username=username,
+#             password=password,
+#             client_id=client_id,
+#             client_secret=client_secret,
+#         )
+#         access_token = token["access_token"]
+#
+#     return access_token
 
-    try:
-        if config.access_token:
-            # get access token from config file
-            access_token = config.access_token
-    except AttributeError:
-        logging.debug("No access token provided, trying to use client credentials")
-
-    if not access_token:
-        # get client credentials from config file
-        client_id = config.client_id
-        client_secret = config.client_secret
-        username = config.username
-        password = config.password
-        access_token_url = config.access_token_url
-
-        oauth = OAuth2Session(client=LegacyApplicationClient(client_id=client_id))
-        token = oauth.fetch_token(
-            token_url=access_token_url,
-            username=username,
-            password=password,
-            client_id=client_id,
-            client_secret=client_secret,
-        )
-        access_token = token["access_token"]
-
-    return access_token
 
 
-# This function makes the request to the provided url
-# to create resources
-@backoff.on_exception(backoff.expo, requests.exceptions.RequestException, max_time=180)
 def post_request(request_type, payload, url, json_payload):
     logging.info("Posting request")
     logging.info("Request type: " + request_type)
     logging.info("Url: " + url)
     logging.debug("Payload: " + payload)
-
-    access_token = "Bearer " + get_access_token()
-    headers = {"Content-type": "application/json", "Authorization": access_token}
-
-    if request_type == "POST":
-        return requests.post(url, data=payload, json=json_payload, headers=headers)
-    elif request_type == "PUT":
-        return requests.put(url, data=payload, json=json_payload, headers=headers)
-    elif request_type == "GET":
-        return requests.get(url, headers=headers)
-    elif request_type == "DELETE":
-        return requests.delete(url, headers=headers)
-    else:
-        logging.error("Unsupported request type!")
-
+    return api_service.request(method=request_type, url=url,
+                                   data=payload, json=json_payload)
 
 def handle_request(request_type, payload, url, json_payload=None):
     try:
@@ -118,7 +103,7 @@ def handle_request(request_type, payload, url, json_payload=None):
 
 
 def get_keycloak_url():
-    return config.keycloak_url
+    return api_service.auth_options.keycloak_realm_uri
 
 
 # This function builds the user payload and posts it to
@@ -140,6 +125,7 @@ def create_user(user):
         password,
     ) = user
 
+    # TODO - move this out so that its not recreated for every user.
     with open("json_payloads/keycloak_user_payload.json") as json_file:
         payload_string = json_file.read()
 
@@ -983,7 +969,7 @@ def get_valid_resource_type(resource_type):
 def get_resource(resource_id, resource_type):
     if resource_type != "Group":
         resource_type = get_valid_resource_type(resource_type)
-    resource_url = "/".join([config.fhir_base_url, resource_type, resource_id])
+    resource_url = "/".join([fhir_base_url, resource_type, resource_id])
     response = handle_request("GET", "", resource_url)
     return json.loads(response[0])["meta"]["versionId"] if response[1] == 200 else "0"
 
@@ -1074,33 +1060,8 @@ def build_payload(resource_type, resources, resource_payload_file):
 
             final_string = final_string + ps + ","
 
-    final_string = initial_string + final_string[:-1] + " ] } "
+    final_string = json.dumps(json.loads(initial_string + final_string[:-1] + " ] } "))
     return final_string
-
-
-def link_to_location(resource_list):
-    arr = []
-    with click.progressbar(
-        resource_list, label="Progress::Linking inventory to location"
-    ) as link_locations_progress:
-        for resource in link_locations_progress:
-            try:
-                if resource[14]:
-                    # name, inventory_id, supply_date, location_id
-                    resource_link = [
-                        resource[0],
-                        resource[3],
-                        resource[9],
-                        resource[14],
-                    ]
-                    arr.append(resource_link)
-            except IndexError:
-                logging.info("No location provided for " + resource[0])
-
-        if len(arr) > 0:
-            return build_assign_payload(arr, "List", "subject=Location/")
-        else:
-            return ""
 
 
 def confirm_keycloak_user(user):
@@ -1109,13 +1070,15 @@ def confirm_keycloak_user(user):
     user_email = str(user[3]).strip()
     keycloak_url = get_keycloak_url()
     response = handle_request(
-        "GET", "", keycloak_url + "/users?exact=true&username=" + user_username
+        "GET", "", api_service.auth_options.keycloak_realm_uri + "/users?exact=true&username=" + user_username
     )
     logging.debug(response)
     json_response = json.loads(response[0])
 
     try:
-        response_email = json_response[0]["email"]
+        # TODO - apparently not all user uploads will have an email
+        print("============>", json_response)
+        response_email = json_response[0].get("email", "")
     except IndexError:
         response_email = ""
 
@@ -1181,7 +1144,7 @@ def confirm_practitioner(user, user_id):
                 return True
 
         except Exception as err:
-            logging.error("Error occured trying to find Practitioner: " + str(err))
+            logging.error("Error occurred trying to find Practitioner: " + str(err))
             return True
 
 
@@ -1192,7 +1155,7 @@ def create_roles(role_list, roles_max):
 
         # check if role already exists
         role_response = handle_request(
-            "GET", "", config.keycloak_url + "/roles/" + current_role
+            "GET", "", keycloak_url + "/roles/" + current_role
         )
         logging.debug(role_response)
         if current_role in role_response[0]:
@@ -1200,7 +1163,7 @@ def create_roles(role_list, roles_max):
         else:
             role_payload = '{"name": "' + current_role + '"}'
             create_role = handle_request(
-                "POST", role_payload, config.keycloak_url + "/roles"
+                "POST", role_payload, keycloak_url + "/roles"
             )
             if create_role.status_code == 201:
                 logging.info("Successfully created role: " + current_role)
@@ -1211,7 +1174,7 @@ def create_roles(role_list, roles_max):
                 logging.debug("Role has composite roles")
                 # get roled id
                 full_role = handle_request(
-                    "GET", "", config.keycloak_url + "/roles/" + current_role
+                    "GET", "", keycloak_url + "/roles/" + current_role
                 )
                 json_resp = json.loads(full_role[0])
                 role_id = json_resp["id"]
@@ -1221,7 +1184,7 @@ def create_roles(role_list, roles_max):
                 available_roles = handle_request(
                     "GET",
                     "",
-                    config.keycloak_url
+                    keycloak_url
                     + "/admin-ui-available-roles/roles/"
                     + role_id
                     + "?first=0&max="
@@ -1256,7 +1219,7 @@ def create_roles(role_list, roles_max):
                 handle_request(
                     "POST",
                     payload_arr,
-                    config.keycloak_url + "/roles-by-id/" + role_id + "/composites",
+                    keycloak_url + "/roles-by-id/" + role_id + "/composites",
                 )
 
         except IndexError:
@@ -1265,7 +1228,7 @@ def create_roles(role_list, roles_max):
 
 def get_group_id(group):
     # check if group exists
-    all_groups = handle_request("GET", "", config.keycloak_url + "/groups")
+    all_groups = handle_request("GET", "", keycloak_url + "/groups")
     json_groups = json.loads(all_groups[0])
     group_obj = {}
 
@@ -1281,7 +1244,7 @@ def get_group_id(group):
         logging.info("Group does not exists, lets create it")
         # create the group
         create_group_payload = '{"name":"' + group + '"}'
-        handle_request("POST", create_group_payload, config.keycloak_url + "/groups")
+        handle_request("POST", create_group_payload, keycloak_url + "/groups")
         return get_group_id(group)
 
 
@@ -1293,7 +1256,7 @@ def assign_group_roles(role_list, group, roles_max):
     available_roles_for_group = handle_request(
         "GET",
         "",
-        config.keycloak_url
+        keycloak_url
         + "/groups/"
         + group_id
         + "/role-mappings/realm/available?first=0&max="
@@ -1314,7 +1277,7 @@ def assign_group_roles(role_list, group, roles_max):
     handle_request(
         "POST",
         json_assign_payload,
-        config.keycloak_url + "/groups/" + group_id + "/role-mappings/realm",
+        keycloak_url + "/groups/" + group_id + "/role-mappings/realm",
     )
 
 
@@ -1325,7 +1288,7 @@ def delete_resource(resource_type, resource_id, cascade):
         cascade = ""
 
     resource_url = "/".join(
-        [config.fhir_base_url, resource_type, resource_id + cascade]
+        [fhir_base_url, resource_type, resource_id + cascade]
     )
     r = handle_request("DELETE", "", resource_url)
     logging.info(r.text)
@@ -1336,7 +1299,7 @@ def clean_duplicates(users, cascade_delete):
         # get keycloak user uuid
         username = str(user[2].strip())
         user_details = handle_request(
-            "GET", "", config.keycloak_url + "/users?exact=true&username=" + username
+            "GET", "", keycloak_url + "/users?exact=true&username=" + username
         )
         obj = json.loads(user_details[0])
         keycloak_uuid = obj[0]["id"]
@@ -1345,7 +1308,7 @@ def clean_duplicates(users, cascade_delete):
         r = handle_request(
             "GET",
             "",
-            config.fhir_base_url + "/Practitioner?identifier=" + keycloak_uuid,
+            fhir_base_url + "/Practitioner?identifier=" + keycloak_uuid,
         )
         practitioner_details = json.loads(r[0])
         count = practitioner_details["total"]
@@ -1406,7 +1369,7 @@ def write_csv(data, resource_type, fieldnames):
 
 
 def get_base_url():
-    return config.fhir_base_url
+    return api_service.fhir_base_uri
 
 
 # This function exports resources from the API to a csv file
@@ -1547,8 +1510,9 @@ def encode_image(image_file):
 # and saves it as a Binary resource. It returns the id of the Binary resource if
 # successful and 0 if failed
 def save_image(image_source_url):
+
     try:
-        headers = {"Authorization": "Bearer " + config.product_access_token}
+        headers = {"Authorization": "Bearer " + product_access_token}
     except AttributeError:
         headers = {}
 
@@ -1627,7 +1591,7 @@ def process_chunk(resources_array: list, resource_type: str):
 
     json_payload = {"resourceType": "Bundle", "type": "transaction", "entry": new_arr}
 
-    r = handle_request("POST", "", config.fhir_base_url, json_payload)
+    r = handle_request("POST", "", fhir_base_url, json_payload)
     logging.info(r.text)
     # TODO handle failures
 
@@ -1820,6 +1784,7 @@ def main(
         )
     logging.getLogger().addHandler(logging.StreamHandler())
 
+    # TODO - should be an empty flag that does not need a value.
     if only_response:
         logging.config.dictConfig(LOGGING)
 
@@ -1870,15 +1835,20 @@ def main(
                         if not practitioner_exists:
                             payload = create_user_resources(user_id, user)
                             final_response = handle_request(
-                                "POST", payload, config.fhir_base_url
+                                "POST", payload, fhir_base_url
                             )
                     logging.info("Processing complete!")
         elif resource_type == "locations":
             logging.info("Processing locations")
-            json_payload = build_payload(
-                "locations", resource_list, "json_payloads/locations_payload.json"
-            )
-            final_response = handle_request("POST", json_payload, config.fhir_base_url)
+            batch_generator = process_locations(resource_list)
+            final_response = []
+            for batch in batch_generator:
+                json_payload = build_payload(
+                    "locations", batch, "json_payloads/locations_payload.json"
+                )
+                response = handle_request("POST", json_payload, fhir_base_url)
+                final_response.append(response.text)
+            final_response = ",\n".join(final_response)
             logging.info("Processing complete!")
         elif resource_type == "organizations":
             logging.info("Processing organizations")
@@ -1887,27 +1857,25 @@ def main(
                 resource_list,
                 "json_payloads/organizations_payload.json",
             )
-            final_response = handle_request("POST", json_payload, config.fhir_base_url)
+            final_response = handle_request("POST", json_payload, fhir_base_url)
             logging.info("Processing complete!")
         elif resource_type == "careTeams":
             logging.info("Processing CareTeams")
             json_payload = build_payload(
                 "careTeams", resource_list, "json_payloads/careteams_payload.json"
             )
-            final_response = handle_request("POST", json_payload, config.fhir_base_url)
+            final_response = handle_request("POST", json_payload, fhir_base_url)
             logging.info("Processing complete!")
         elif assign == "organizations-Locations":
             logging.info("Assigning Organizations to Locations")
             matches = extract_matches(resource_list)
             json_payload = build_org_affiliation(matches, resource_list)
-            final_response = handle_request("POST", json_payload, config.fhir_base_url)
+            final_response = handle_request("POST", json_payload, fhir_base_url)
             logging.info("Processing complete!")
         elif assign == "users-organizations":
             logging.info("Assigning practitioner to Organization")
-            json_payload = build_assign_payload(
-                resource_list, "PractitionerRole", "practitioner=Practitioner/"
-            )
-            final_response = handle_request("POST", json_payload, config.fhir_base_url)
+            json_payload = build_assign_payload(resource_list, "PractitionerRole")
+            final_response = handle_request("POST", json_payload, fhir_base_url)
             logging.info("Processing complete!")
         elif setup == "roles":
             logging.info("Setting up keycloak roles")
@@ -1927,25 +1895,25 @@ def main(
             json_payload = build_payload(
                 "Group", resource_list, "json_payloads/product_group_payload.json"
             )
-            final_response = handle_request("POST", json_payload, config.fhir_base_url)
+            final_response = handle_request("POST", json_payload, fhir_base_url)
         elif setup == "inventories":
             logging.info("Importing inventories as FHIR Group resources")
             json_payload = build_payload(
                 "Group", resource_list, "json_payloads/inventory_group_payload.json"
             )
-            final_response = handle_request("POST", json_payload, config.fhir_base_url)
-            link_payload = link_to_location(resource_list)
-            if len(link_payload) > 0:
-                link_response = handle_request(
-                    "POST", link_payload, config.fhir_base_url
-                )
-                logging.info(link_response.text)
+            final_response = handle_request("POST", json_payload, fhir_base_url)
         else:
             logging.error("Unsupported request!")
     else:
         logging.error("Empty csv file!")
 
-    logging.info('{ "final-response": ' + final_response.text + "}")
+
+    # TODO - final_response does not have text - trial uploading users that have already been uploaded
+    try:
+        final_response = final_response.text
+    except:
+        pass
+    logging.info('{ "final-response": ' + final_response + "}")
 
     end_time = datetime.now()
     logging.info("End time: " + end_time.strftime("%H:%M:%S"))
