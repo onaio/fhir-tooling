@@ -37,6 +37,11 @@
                         "display": "Level $adminLevelCode"
                     }
                 ]
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/location-physical-type",
+                "code": "$pt_code",
+                "display": "$pt_display"
             }
         ],
         "physicalType": {
