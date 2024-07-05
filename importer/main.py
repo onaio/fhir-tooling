@@ -1064,6 +1064,30 @@ def build_payload(resource_type, resources, resource_payload_file):
     return final_string
 
 
+def link_to_location(resource_list):
+    arr = []
+    with click.progressbar(
+        resource_list, label="Progress::Linking inventory to location"
+    ) as link_locations_progress:
+        for resource in link_locations_progress:
+            try:
+                if resource[14]:
+                    # name, inventory_id, supply_date, location_id
+                    resource_link = [
+                        resource[0],
+                        resource[3],
+                        resource[9],
+                        resource[14],
+                    ]
+                    arr.append(resource_link)
+            except IndexError:
+                logging.info("No location provided for " + resource[0])
+
+        if len(arr) > 0:
+            return build_assign_payload(arr, "List", "subject=Location/")
+        else:
+            return ""
+
 def confirm_keycloak_user(user):
     # Confirm that the keycloak user details are as expected
     user_username = str(user[2]).strip()
@@ -1902,6 +1926,12 @@ def main(
                 "Group", resource_list, "json_payloads/inventory_group_payload.json"
             )
             final_response = handle_request("POST", json_payload, fhir_base_url)
+            link_payload = link_to_location(resource_list)
+            if len(link_payload) > 0:
+                link_response = handle_request(
+                    "POST", link_payload, fhir_base_url
+                )
+                logging.info(link_response.text)
         else:
             logging.error("Unsupported request!")
     else:

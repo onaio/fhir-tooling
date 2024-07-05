@@ -2,22 +2,22 @@
 Class that provides utility to:
     1. get access and refresh tokens from keycloak
     2. Update the tokens when expired.
-    3. upload/update keycloak resources
-    4. upload/update fhir resources
+    # 3. upload/update keycloak resources
+    # 4. upload/update fhir resources
 """
 
+import time
 from dataclasses import dataclass, fields, field
 from typing import Union
 
-import requests
-# from keycloak import KeycloakOpenID, KeycloakOpenIDConnection
-from requests_oauthlib import OAuth2Session
-from oauthlib.oauth2 import BackendApplicationClient, LegacyApplicationClient
-from urllib.parse import urljoin
-import time
-import jwt
 import backoff
-from functools import wraps
+import jwt
+import requests
+from oauthlib.oauth2 import LegacyApplicationClient
+from requests_oauthlib import OAuth2Session
+
+from config import config
+
 
 def is_readable_string(s):
     """
@@ -104,7 +104,7 @@ class InternalAuthenticationService:
 
     def get_token(self):
         """
-        Oauth 2 does not work without an ssl layer to test this locally see https://stackoverflow.com/a/27785830/14564571
+        Oauth 2 does not work without a ssl layer to test this locally see https://stackoverflow.com/a/27785830/14564571
         :return:
         """
 
@@ -126,13 +126,16 @@ class InternalAuthenticationService:
         # return json.loads(full_jwt.token.payload.decode("utf-8"))
         pass
 
+
 class ExternalAuthenticationService:
 
     def __init__(self, option: ExternalAuthenticationOptions):
         self.options = option
         client = LegacyApplicationClient(client_id=self.options.client_id)
         oauth = OAuth2Session(client=client,
-                              token={"access_token": self.options.access_token, "refresh_token": self.options.refresh_token, 'token_type': "Bearer", "expires_in": 18000},
+                              token={"access_token": self.options.access_token,
+                                     "refresh_token": self.options.refresh_token,
+                                     'token_type': "Bearer", "expires_in": 18000},
                               auto_refresh_url=self.options.token_uri,
                               )
         self.client = client
@@ -143,10 +146,11 @@ class ExternalAuthenticationService:
         Oauth 2 does not work without an ssl layer to test this locally see https://stackoverflow.com/a/27785830/14564571
         :return:
         """
-        # return the current token, not if its expired or invalid raise an irrecoverable show stopper error.
+        # return the current token, not if its expired or invalid raise an irrecoverable showstopper error.
         if self._is_refresh_required():
             # if expired
-            self.oauth.refresh_token(token_url=self.options.token_uri, client_id=self.options.client_id, client_secret=self.options.client_secret)
+            self.oauth.refresh_token(token_url=self.options.token_uri, client_id=self.options.client_id,
+                                     client_secret=self.options.client_secret)
 
             token = self.oauth.fetch_token(token_url=self.options.token_uri, client_id=self.options.client_id,
                                            client_secret=self.options.client_secret)
@@ -156,7 +160,6 @@ class ExternalAuthenticationService:
 
     def refresh_token(self,):
         return self.oauth.refresh_token(self.options.token_uri, client_id=self.options.client_id, client_secret=self.options.client_secret)
-
 
     def _is_refresh_required(self):
         # TODO some defensive programming would be nice.
@@ -171,7 +174,7 @@ class ExternalAuthenticationService:
         # TODO - verify JWT
         _algorithms = "HS256"
         _do_verify=False
-        cert_uri = "http://localhost:8080/auth/realms/fhir/protocol/openid-connect/certs"
+        cert_uri = f"{config.keycloak_url}/realms/fhir/protocol/openid-connect/certs"
         res = self.oauth.get(cert_uri).json().get("keys")
         # tired
         first_key = res[0]
@@ -179,8 +182,3 @@ class ExternalAuthenticationService:
         _algorithms = first_key.get("alg")
         instance = jwt.JWT()
         return instance.decode(token, algorithms=_algorithms, key=jwk, do_verify=True, do_time_check=True)
-
-    def handleRequest(self, **kwargs):
-        # self.oauth.
-        pass
-
