@@ -2,6 +2,7 @@ package org.smartregister.command;
 
 import static org.smartregister.util.authentication.OAuthAuthentication.getAccessToken;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import java.io.BufferedReader;
@@ -508,5 +509,10 @@ public class PublishFhirResourcesCommand implements Runnable {
       return getProjectFolder(parentFolder.toString());
     }
     return parentFolder.toString();
+  }
+
+  @VisibleForTesting
+  public static final String getFCTReleaseVersion() {
+    return BuildConfig.RELEASE_VERSION;
   }
 }
