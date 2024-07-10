@@ -522,6 +522,7 @@ def group_extras(resource, payload_string, group_type):
     payload_obj = json.loads(payload_string)
     item_name = resource[0]
     del_indexes = []
+    del_identifier_indexes = []
 
     GROUP_INDEX_MAPPING = {
         "product_secondary_id_index": 1,
@@ -647,27 +648,27 @@ def group_extras(resource, payload_string, group_type):
                 GROUP_INDEX_MAPPING["inventory_official_id_index"]
             ]["value"] = serial_number
         else:
-            del payload_obj["resource"]["identifier"][
-                GROUP_INDEX_MAPPING["inventory_official_id_index"]
-            ]
+            del_identifier_indexes.append(
+                GROUP_INDEX_MAPPING["inventory_official_id_index"])
 
         if po_number:
             payload_obj["resource"]["identifier"][
                 GROUP_INDEX_MAPPING["inventory_secondary_id_index"]
             ]["value"] = po_number
         else:
-            del payload_obj["resource"]["identifier"][
-                GROUP_INDEX_MAPPING["inventory_secondary_id_index"]
-            ]
+            del_identifier_indexes.append(
+                GROUP_INDEX_MAPPING["inventory_secondary_id_index"])
 
         if usual_id:
             payload_obj["resource"]["identifier"][
                 GROUP_INDEX_MAPPING["inventory_usual_id_index"]
             ]["value"] = usual_id
         else:
-            del payload_obj["resource"]["identifier"][
-                GROUP_INDEX_MAPPING["inventory_usual_id_index"]
-            ]
+            del_identifier_indexes.append(
+                GROUP_INDEX_MAPPING["inventory_usual_id_index"])
+
+        for x in reversed(del_identifier_indexes):
+            del payload_obj["resource"]["identifier"][x]
 
         if actual:
             payload_obj["resource"]["actual"] = bool(actual)
