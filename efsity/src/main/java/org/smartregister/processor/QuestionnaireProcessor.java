@@ -43,7 +43,7 @@ public class QuestionnaireProcessor {
 
         Map<String, String> fileIndexMap = folderTofilesIndexMap.get(entry.getKey());
 
-        for (Map.Entry<String,String> nestedEntry : fileIndexMap.entrySet()) {
+        for (Map.Entry<String, String> nestedEntry : fileIndexMap.entrySet()) {
 
           currentFile = nestedEntry.getValue();
 

@@ -2,18 +2,16 @@ package org.smartregister.command;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import ca.uhn.fhir.parser.DataFormatException;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
 import net.jimblackler.jsonschemafriend.GenerationException;
 import net.jimblackler.jsonschemafriend.ValidationException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.smartregister.domain.FctFile;
 import org.smartregister.util.FctUtils;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.PrintStream;
-
-import ca.uhn.fhir.parser.DataFormatException;
 
 public class ValidateFhirResourcesCommandTest {
 
@@ -23,6 +21,7 @@ public class ValidateFhirResourcesCommandTest {
   void setUp() {
     validateFhirResourcesCommand = new ValidateFhirResourcesCommand();
   }
+
   @Test
   void testValidateResource() throws IOException, ValidationException, GenerationException {
     // valid resource
@@ -30,7 +29,9 @@ public class ValidateFhirResourcesCommandTest {
     assertDoesNotThrow(() -> validateFhirResourcesCommand.validateFhirResources(input));
     // invalid resource
     String invalidInput = "src/test/resources/fhirConfigsJsonSchema.json";
-    assertThrows(DataFormatException.class, () -> validateFhirResourcesCommand.validateFhirResources(invalidInput));
+    assertThrows(
+        DataFormatException.class,
+        () -> validateFhirResourcesCommand.validateFhirResources(invalidInput));
   }
 
   @Test
