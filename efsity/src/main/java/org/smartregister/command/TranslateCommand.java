@@ -354,7 +354,13 @@ public class TranslateCommand implements Runnable {
       throws IOException, NoSuchAlgorithmException {
     Map<String, String> textToHash = new HashMap<>();
     Path propertiesFilePath = Paths.get(translationFile);
-
+    Path tempConfigsDir;
+    if (Objects.equals(extractionType, "configs")) {
+      tempConfigsDir = Files.createTempDirectory("configs");
+      copyDirectoryContent(inputFilePath, tempConfigsDir);
+    } else {
+      tempConfigsDir = null;
+    }
     if (Files.isRegularFile(inputFilePath)
         && inputFilePath.toString().toLowerCase(Locale.ENGLISH).endsWith(".json")) {
 
@@ -366,7 +372,6 @@ public class TranslateCommand implements Runnable {
         FctUtils.printInfo(
             String.format(
                 "Extracting config file \u001b[35m%s\u001b[0m", inputFilePath.toString()));
-        Path tempConfigsDir = Files.createTempDirectory("configs");
         replaceTargetFieldsWithHashedValues(rootNode, targetFields, textToHash, inputFilePath, tempConfigsDir);
       } else {
         // For other types (content/questionnaire), extract as usual
@@ -375,13 +380,8 @@ public class TranslateCommand implements Runnable {
     } else if (Files.isDirectory(inputFilePath)) {
       // Handle the case where inputFilePath is a directory (folders may contain multiple JSON
       // files)
-      Path tempConfigsDir;
-      if (Objects.equals(extractionType, "configs")) {
-        tempConfigsDir = Files.createTempDirectory("configs");
-        copyDirectoryContent(inputFilePath, tempConfigsDir);
-      } else {
-          tempConfigsDir = null;
-      }
+
+  
 
         Files.walk(inputFilePath)
           .filter(Files::isRegularFile)
@@ -405,11 +405,17 @@ public class TranslateCommand implements Runnable {
                     processJsonFile(file, textToHash, targetFields);
                   }
                 } catch (IOException | NoSuchAlgorithmException e) {
-                  throw new RuntimeException(e);
+                  throw new RuntimeException("Error while reading file "+file.getFileName()+" "+e);
                 }
               });
     } else {
       throw new RuntimeException("Provide a valid `resourceFile` directory or file.");
+    }
+
+    // Copy over translations from temp
+    if(extractionType.equals("configs")){
+      if(Files.isDirectory(inputFilePath)) copyDirectoryContent(tempConfigsDir, inputFilePath);
+
     }
 
     Properties existingProperties = getPropertiesFile(propertiesFilePath.toString());
