@@ -355,20 +355,18 @@ public class TranslateCommand implements Runnable {
     Map<String, String> textToHash = new HashMap<>();
     Path propertiesFilePath = Paths.get(translationFile);
     Path tempsConfig;
-
+    Path tempFilePath = null;
     if (Files.isRegularFile(inputFilePath)
         && inputFilePath.toString().toLowerCase(Locale.ENGLISH).endsWith(".json")) {
-
       if (Objects.equals(extractionType, "configs")) {
         tempsConfig = Files.createTempDirectory("configs");
         String configFileSubDirectory =
             inputFilePath.subpath(2, inputFilePath.getNameCount() - 1).toString();
-
         try {
           Path temConfigSubDirectory = tempsConfig.resolve(configFileSubDirectory);
           if (!Files.exists(temConfigSubDirectory)) {
             Files.createDirectories(temConfigSubDirectory);
-            Path tempFilePath = temConfigSubDirectory.resolve(inputFilePath.getFileName());
+            tempFilePath = temConfigSubDirectory.resolve(inputFilePath.getFileName());
             // copy over content
             Files.copy(inputFilePath, tempFilePath, StandardCopyOption.REPLACE_EXISTING);
           }
@@ -436,6 +434,10 @@ public class TranslateCommand implements Runnable {
     // Copy over translations from temp
     if (extractionType.equals("configs")) {
       if (Files.isDirectory(inputFilePath)) copyDirectoryContent(tempsConfig, inputFilePath);
+      else {
+        assert tempFilePath != null;
+        Files.copy(tempFilePath, inputFilePath, StandardCopyOption.REPLACE_EXISTING);
+      }
     }
 
     Properties existingProperties = getPropertiesFile(propertiesFilePath.toString());
@@ -444,6 +446,8 @@ public class TranslateCommand implements Runnable {
     existingProperties.putAll(textToHash);
     writePropertiesFile(existingProperties, translationFile);
     FctUtils.printInfo(String.format("Translation file\u001b[36m %s \u001b[0m", translationFile));
+    assert tempsConfig != null;
+    deleteDirectoryRecursively(tempsConfig);
   }
 
   private static void processJsonFile(
@@ -509,7 +513,7 @@ public class TranslateCommand implements Runnable {
       objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
       objectMapper.writeValue(writer, node);
     } catch (IOException e) {
-      // tempConfigsDir.toFile().delete();
+      deleteDirectoryRecursively(tempConfigsDir);
       throw new RuntimeException("Failed to write the updated JSON to file " + tempFilePath, e);
     }
   }
@@ -597,7 +601,35 @@ public class TranslateCommand implements Runnable {
             }
           });
     } catch (IOException e) {
-      e.printStackTrace();
+      throw new RuntimeException(e);
+    }
+  }
+
+  private static void deleteDirectoryRecursively(Path dirPath) {
+
+    try {
+      // Delete the directory and its contents recursively
+      Files.walkFileTree(
+          dirPath,
+          new SimpleFileVisitor<Path>() {
+            @Override
+            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs)
+                throws IOException {
+              Files.delete(file);
+              return FileVisitResult.CONTINUE;
+            }
+
+            @Override
+            public FileVisitResult postVisitDirectory(Path dir, IOException exc)
+                throws IOException {
+              Files.delete(dir);
+              return FileVisitResult.CONTINUE;
+            }
+          });
+
+      System.out.println("Directory and its contents deleted successfully: " + dirPath);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
     }
   }
 }
