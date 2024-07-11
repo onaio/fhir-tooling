@@ -354,17 +354,28 @@ public class TranslateCommand implements Runnable {
       throws IOException, NoSuchAlgorithmException {
     Map<String, String> textToHash = new HashMap<>();
     Path propertiesFilePath = Paths.get(translationFile);
-    Path tempConfigsDir;
-    if (Objects.equals(extractionType, "configs")) {
-      tempConfigsDir = Files.createTempDirectory("configs");
-      copyDirectoryContent(inputFilePath, tempConfigsDir);
-    } else {
-      tempConfigsDir = null;
-    }
+    Path tempsConfig;
+
     if (Files.isRegularFile(inputFilePath)
         && inputFilePath.toString().toLowerCase(Locale.ENGLISH).endsWith(".json")) {
 
       if (Objects.equals(extractionType, "configs")) {
+        tempsConfig = Files.createTempDirectory("configs");
+        String configFileSubDirectory =
+            inputFilePath.subpath(2, inputFilePath.getNameCount() - 1).toString();
+
+        try {
+          Path temConfigSubDirectory = tempsConfig.resolve(configFileSubDirectory);
+          if (!Files.exists(temConfigSubDirectory)) {
+            Files.createDirectories(temConfigSubDirectory);
+            Path tempFilePath = temConfigSubDirectory.resolve(inputFilePath.getFileName());
+            // copy over content
+            Files.copy(inputFilePath, tempFilePath, StandardCopyOption.REPLACE_EXISTING);
+          }
+
+        } catch (IOException e) {
+          throw new RuntimeException("Error creating temp file " + e);
+        }
         // Extract and replace target fields with hashed values
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode rootNode =
@@ -372,8 +383,11 @@ public class TranslateCommand implements Runnable {
         FctUtils.printInfo(
             String.format(
                 "Extracting config file \u001b[35m%s\u001b[0m", inputFilePath.toString()));
-        replaceTargetFieldsWithHashedValues(rootNode, targetFields, textToHash, inputFilePath, tempConfigsDir);
+
+        replaceTargetFieldsWithHashedValues(
+            rootNode, targetFields, textToHash, inputFilePath, tempsConfig);
       } else {
+        tempsConfig = null;
         // For other types (content/questionnaire), extract as usual
         processJsonFile(inputFilePath, textToHash, targetFields);
       }
@@ -381,9 +395,13 @@ public class TranslateCommand implements Runnable {
       // Handle the case where inputFilePath is a directory (folders may contain multiple JSON
       // files)
 
-  
-
-        Files.walk(inputFilePath)
+      if (Objects.equals(extractionType, "configs")) {
+        tempsConfig = Files.createTempDirectory("configs");
+        copyDirectoryContent(inputFilePath, tempsConfig);
+      } else {
+        tempsConfig = null;
+      }
+      Files.walk(inputFilePath)
           .filter(Files::isRegularFile)
           .filter(file -> file.toString().endsWith(".json"))
           .forEach(
@@ -399,23 +417,25 @@ public class TranslateCommand implements Runnable {
                         String.format(
                             "Extracting config file \u001b[35m%s\u001b[0m", file.toString()));
 
-                    replaceTargetFieldsWithHashedValues(rootNode, targetFields, textToHash, file, tempConfigsDir);
+                    replaceTargetFieldsWithHashedValues(
+                        rootNode, targetFields, textToHash, file, tempsConfig);
                   } else {
                     // For other types (content/questionnaire), extract as usual
                     processJsonFile(file, textToHash, targetFields);
                   }
                 } catch (IOException | NoSuchAlgorithmException e) {
-                  throw new RuntimeException("Error while reading file "+file.getFileName()+" "+e);
+                  throw new RuntimeException(
+                      "Error while reading file " + file.getFileName() + " " + e);
                 }
               });
     } else {
+      tempsConfig = null;
       throw new RuntimeException("Provide a valid `resourceFile` directory or file.");
     }
 
     // Copy over translations from temp
-    if(extractionType.equals("configs")){
-      if(Files.isDirectory(inputFilePath)) copyDirectoryContent(tempConfigsDir, inputFilePath);
-
+    if (extractionType.equals("configs")) {
+      if (Files.isDirectory(inputFilePath)) copyDirectoryContent(tempsConfig, inputFilePath);
     }
 
     Properties existingProperties = getPropertiesFile(propertiesFilePath.toString());
@@ -437,7 +457,11 @@ public class TranslateCommand implements Runnable {
   }
 
   private static void replaceTargetFieldsWithHashedValues(
-          JsonNode node, Set<String> targetFields, Map<String, String> textToHash, Path filePath, Path tempConfigsDir)
+      JsonNode node,
+      Set<String> targetFields,
+      Map<String, String> textToHash,
+      Path filePath,
+      Path tempConfigsDir)
       throws NoSuchAlgorithmException {
 
     if (node.isObject()) {
@@ -460,7 +484,8 @@ public class TranslateCommand implements Runnable {
         JsonNode fieldValue = field.getValue();
         if (fieldValue.isObject() || fieldValue.isArray()) {
           // Recursively update nested objects or arrays
-          replaceTargetFieldsWithHashedValues(fieldValue, targetFields, textToHash, filePath, tempConfigsDir);
+          replaceTargetFieldsWithHashedValues(
+              fieldValue, targetFields, textToHash, filePath, tempConfigsDir);
         }
       }
     } else if (node.isArray()) {
@@ -469,24 +494,23 @@ public class TranslateCommand implements Runnable {
         JsonNode arrayElement = arrayNode.get(i);
         if (arrayElement.isObject() || arrayElement.isArray()) {
           // Recursively update nested objects or arrays
-          replaceTargetFieldsWithHashedValues(arrayElement, targetFields, textToHash, filePath, tempConfigsDir);
+          replaceTargetFieldsWithHashedValues(
+              arrayElement, targetFields, textToHash, filePath, tempConfigsDir);
         }
       }
     }
 
+    String configFileSubDirectory = filePath.subpath(2, filePath.getNameCount()).toString();
 
-    String subPathOfFile = filePath.subpath(2, filePath.getNameCount()).toString();
-
-    Path tempFilePath = tempConfigsDir.resolve(subPathOfFile);
-
-    // Write the updated JSON back to the file
+    Path tempFilePath = tempConfigsDir.resolve(configFileSubDirectory);
+    // Write the updated JSON to temp file
     try (BufferedWriter writer = Files.newBufferedWriter(tempFilePath, StandardCharsets.UTF_8)) {
       ObjectMapper objectMapper = new ObjectMapper();
       objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
       objectMapper.writeValue(writer, node);
     } catch (IOException e) {
-      tempConfigsDir.toFile().delete();
-      throw new RuntimeException("Failed to write the updated JSON to file.", e);
+      // tempConfigsDir.toFile().delete();
+      throw new RuntimeException("Failed to write the updated JSON to file " + tempFilePath, e);
     }
   }
 
@@ -547,27 +571,33 @@ public class TranslateCommand implements Runnable {
     }
   }
 
-  public static void copyDirectoryContent(Path sourceDir, Path destinationDir){
+  public static void copyDirectoryContent(Path sourceDir, Path destinationDir) {
     try {
-      Files.walkFileTree(sourceDir, new SimpleFileVisitor<Path>() {
-        @Override
-        public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
-          Path targetDir = destinationDir.resolve(sourceDir.relativize(dir));
-          if (!Files.exists(targetDir)) {
-            Files.createDirectory(targetDir);
-          }
-          return FileVisitResult.CONTINUE;
-        }
+      Files.walkFileTree(
+          sourceDir,
+          new SimpleFileVisitor<Path>() {
+            @Override
+            public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs)
+                throws IOException {
+              Path targetDir = destinationDir.resolve(sourceDir.relativize(dir));
+              if (!Files.exists(targetDir)) {
+                Files.createDirectory(targetDir);
+              }
+              return FileVisitResult.CONTINUE;
+            }
 
-        @Override
-        public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-          Files.copy(file, destinationDir.resolve(sourceDir.relativize(file)), StandardCopyOption.REPLACE_EXISTING);
-          return FileVisitResult.CONTINUE;
-        }
-      });
+            @Override
+            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs)
+                throws IOException {
+              Files.copy(
+                  file,
+                  destinationDir.resolve(sourceDir.relativize(file)),
+                  StandardCopyOption.REPLACE_EXISTING);
+              return FileVisitResult.CONTINUE;
+            }
+          });
     } catch (IOException e) {
       e.printStackTrace();
     }
-
   }
 }
