@@ -533,6 +533,7 @@ def group_extras(resource, payload_string, group_type):
     del_identifier_indexes = []
 
     GROUP_INDEX_MAPPING = {
+        "product_official_id_index": 0,
         "product_secondary_id_index": 1,
         "product_is_attractive_index": 0,
         "product_is_available_index": 1,
@@ -554,6 +555,7 @@ def group_extras(resource, payload_string, group_type):
             _,
             active,
             *_,
+            material_number,
             previous_id,
             is_attractive_item,
             availability,
@@ -568,14 +570,19 @@ def group_extras(resource, payload_string, group_type):
         else:
             del payload_obj["resource"]["active"]
 
+        if material_number:
+            payload_obj["resource"]["identifier"][
+                GROUP_INDEX_MAPPING["product_official_id_index"]
+            ]["value"] = material_number
+        else:
+            del_identifier_indexes.append(GROUP_INDEX_MAPPING["product_official_id_index"])
+
         if previous_id:
             payload_obj["resource"]["identifier"][
                 GROUP_INDEX_MAPPING["product_secondary_id_index"]
             ]["value"] = previous_id
         else:
-            del payload_obj["resource"]["identifier"][
-                GROUP_INDEX_MAPPING["product_secondary_id_index"]
-            ]
+            del_identifier_indexes.append(GROUP_INDEX_MAPPING["product_secondary_id_index"])
 
         if is_attractive_item:
             payload_obj["resource"]["characteristic"][
@@ -675,9 +682,6 @@ def group_extras(resource, payload_string, group_type):
             del_identifier_indexes.append(
                 GROUP_INDEX_MAPPING["inventory_usual_id_index"])
 
-        for x in reversed(del_identifier_indexes):
-            del payload_obj["resource"]["identifier"][x]
-
         if actual:
             payload_obj["resource"]["actual"] = bool(actual)
         else:
@@ -736,6 +740,8 @@ def group_extras(resource, payload_string, group_type):
 
     for x in reversed(del_indexes):
         del payload_obj["resource"]["characteristic"][x]
+    for x in reversed(del_identifier_indexes):
+        del payload_obj["resource"]["identifier"][x]
 
     payload_string = json.dumps(payload_obj, indent=4)
     return payload_string
