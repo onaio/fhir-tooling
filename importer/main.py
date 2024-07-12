@@ -526,7 +526,7 @@ def care_team_extras(resource, payload_string, ftype):
 
 
 # custom extras for product import
-def group_extras(resource, payload_string, group_type):
+def group_extras(resource, payload_string, group_type, created_resources):
     payload_obj = json.loads(payload_string)
     item_name = resource[0]
     del_indexes = []
@@ -627,6 +627,7 @@ def group_extras(resource, payload_string, group_type):
                 payload_obj["resource"]["characteristic"][
                     GROUP_INDEX_MAPPING["product_image_index"]
                 ]["valueReference"]["reference"] = ("Binary/" + image_binary)
+                created_resources.append("Binary/" + image_binary)
             else:
                 logging.error(
                     "Unable to link the image Binary resource for product " + item_name
@@ -744,7 +745,7 @@ def group_extras(resource, payload_string, group_type):
         del payload_obj["resource"]["identifier"][x]
 
     payload_string = json.dumps(payload_obj, indent=4)
-    return payload_string
+    return payload_string, created_resources
 
 
 def extract_matches(resource_list):
@@ -988,7 +989,7 @@ def get_valid_resource_type(resource_type):
 
 # This function gets the current resource version from the API
 def get_resource(resource_id, resource_type):
-    if resource_type != "Group":
+    if resource_type not in ["List", "Group"]:
         resource_type = get_valid_resource_type(resource_type)
     resource_url = "/".join([config.fhir_base_url, resource_type, resource_id])
     response = handle_request("GET", "", resource_url)
@@ -1006,10 +1007,11 @@ def check_for_nulls(resource: list) -> list:
 
 # This function builds a json payload
 # which is posted to the api to create resources
-def build_payload(resource_type, resources, resource_payload_file):
+def build_payload(resource_type, resources, resource_payload_file, created_resources=None):
     logging.info("Building request payload")
     initial_string = """{"resourceType": "Bundle","type": "transaction","entry": [ """
-    final_string = " "
+    final_string = group_type = " "
+
     with open(resource_payload_file) as json_file:
         payload_string = json_file.read()
 
@@ -1077,12 +1079,41 @@ def build_payload(resource_type, resources, resource_payload_file):
                     group_type = "product"
                 else:
                     logging.error("Undefined group type")
-                ps = group_extras(resource, ps, group_type)
+                ps, created_resources = group_extras(resource, ps, group_type, created_resources)
 
             final_string = final_string + ps + ","
 
     final_string = initial_string + final_string[:-1] + " ] } "
+    if group_type == "product":
+        return final_string, created_resources
     return final_string
+
+
+# This function takes a 'created_resources' array and a response string
+# It converts the response string to a json object, then loops through the entry array
+# extracting all the referenced resources and adds them to the created_resources array
+# then returns it
+def extract_resources(created_resources, response_string):
+    json_response = json.loads(response_string)
+    entry = json_response["entry"]
+    for item in entry:
+        resource = item["response"]["location"]
+        created_resources.append(resource[0:42])
+    return created_resources
+
+
+# This function takes a List resource payload and a list of resources
+# It adds the resources into the List resource's entry array
+# then returns the full resource payload
+def process_resources_list(payload, resources_list):
+    entry = []
+    for resource in resources_list:
+        item = {"item": {"reference": resource}}
+        entry.append(item)
+
+    payload = json.loads(payload)
+    payload["entry"][0]["resource"]["entry"] = entry
+    return payload
 
 
 def link_to_location(resource_list):
@@ -1595,7 +1626,6 @@ def save_image(image_source_url):
         payload_string = json.dumps(payload, indent=4)
         response = handle_request("POST", payload_string, get_base_url())
         if response.status_code == 200:
-            logging.info("Binary resource created successfully")
             logging.info(response.text)
             return resource_id
         else:
@@ -1786,6 +1816,7 @@ LOGGING = {
 @click.option("--bulk_import", required=False, default=False)
 @click.option("--chunk_size", required=False, default=1000000)
 @click.option("--resources_count", required=False, default=100)
+@click.option("--list_resource_id", required=False)
 @click.option(
     "--sync",
     type=click.Choice(["DIRECT", "SORT"], case_sensitive=False),
@@ -1811,6 +1842,7 @@ def main(
     bulk_import,
     chunk_size,
     resources_count,
+    list_resource_id,
     sync,
 ):
     if log_level == "DEBUG":
@@ -1931,10 +1963,25 @@ def main(
             logging.info("Processing complete!")
         elif setup == "products":
             logging.info("Importing products as FHIR Group resources")
-            json_payload = build_payload(
-                "Group", resource_list, "json_payloads/product_group_payload.json"
+            json_payload, created_resources = build_payload(
+                "Group", resource_list, "json_payloads/product_group_payload.json", []
             )
-            final_response = handle_request("POST", json_payload, config.fhir_base_url)
+            product_creation_response = handle_request("POST", json_payload, config.fhir_base_url)
+
+            if product_creation_response.status_code == 200:
+                full_list_created_resources = extract_resources(created_resources, product_creation_response.text)
+                if not list_resource_id:
+                    list_resource_id = str(uuid.uuid5(uuid.NAMESPACE_DNS, csv_file))
+
+                resource = [["Supply Inventory List", "current", "create", list_resource_id]]
+                result_payload = build_payload(
+                    "List", resource, "json_payloads/product_list_payload.json")
+
+                list_payload = process_resources_list(result_payload, full_list_created_resources)
+                final_response = handle_request("POST", "", config.fhir_base_url, list_payload)
+                logging.info("Processing complete!")
+            else:
+                logging.error(product_creation_response.text)
         elif setup == "inventories":
             logging.info("Importing inventories as FHIR Group resources")
             json_payload = build_payload(

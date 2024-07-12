@@ -17,6 +17,8 @@ from main import (
     check_parent_admin_level,
     split_chunk,
     read_file_in_chunks,
+    extract_resources,
+    process_resources_list,
 )
 
 
@@ -388,10 +390,11 @@ class TestMain(unittest.TestCase):
 
         csv_file = "csv/import/product.csv"
         resource_list = read_csv(csv_file)
-        payload = build_payload(
-            "Group", resource_list, "json_payloads/product_group_payload.json"
+        payload, list_resource = build_payload(
+            "Group", resource_list, "json_payloads/product_group_payload.json", []
         )
         payload_obj = json.loads(payload)
+        self.assertEqual(list_resource, ['Binary/f374a23a-3c6a-4167-9970-b10c16a91bbd'])
 
         self.assertIsInstance(payload_obj, dict)
         self.assertEqual(payload_obj["resourceType"], "Bundle")
@@ -434,6 +437,38 @@ class TestMain(unittest.TestCase):
             },
         }
         validate(payload_obj["entry"][0]["request"], request_schema)
+
+    def test_build_payload_group_reference_list(self):
+        binary_resources = ['Binary/df620fe8-eeaa-47c6-809c-84252e22980a']
+        response_string = ('{"entry": [{"response": {"location": '
+                           '"Group/ce64e19d-6d8a-4ef0-8fc6-1da83783aea8/_history/1"}}, {"response": '
+                           '{"location": "Group/aedd3c1a-5de8-45d5-8b35-5c288ccbb761/_history/1"}}]}')
+        expected_resource_list = ['Binary/df620fe8-eeaa-47c6-809c-84252e22980a',
+                                  'Group/ce64e19d-6d8a-4ef0-8fc6-1da83783aea8',
+                                  'Group/aedd3c1a-5de8-45d5-8b35-5c288ccbb761']
+
+        created_resources = extract_resources(binary_resources, response_string)
+        self.assertEqual(created_resources, expected_resource_list)
+
+        resource = [["Supply Inventory List", "current", "create", "77dae131-fd5d-4585-95db-2dd2b569d7a1"]]
+        result_payload = build_payload(
+            "List", resource, "json_payloads/product_list_payload.json")
+        full_list_payload = process_resources_list(result_payload, created_resources)
+
+        resource_schema = {
+            "type": "object",
+            "properties": {
+                "resourceType": {"const": "List"},
+                "id": {"const": "77dae131-fd5d-4585-95db-2dd2b569d7a1"},
+                "identifier": {"type": "array", "items": {"type": "object"}},
+                "status": {"const": "current"},
+                "mode": {"const": "working"},
+                "title": {"const": "Supply Inventory List"},
+                "entry": {"type": "array", "minItems": 3, "maxItems": 3},
+            },
+            "required": ["resourceType", "id", "identifier", "status", "mode", "title", "entry"],
+        }
+        validate(full_list_payload["entry"][0]["resource"], resource_schema)
 
     def test_extract_matches(self):
         csv_file = "csv/organizations/organizations_locations.csv"
