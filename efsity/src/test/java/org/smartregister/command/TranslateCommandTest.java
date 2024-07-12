@@ -4,9 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -16,6 +14,7 @@ import java.util.Properties;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import org.smartregister.util.FctUtils;
 
 public class TranslateCommandTest {
 
@@ -56,14 +55,11 @@ public class TranslateCommandTest {
 
     assertDoesNotThrow(() -> translateCommand.run());
 
-    Properties existingProperties = new Properties();
-    InputStream defaultPropertiesInput = new FileInputStream(defaultPropertiesPath.toFile());
-    existingProperties.load(defaultPropertiesInput);
+    Properties existingProperties =
+        FctUtils.readPropertiesFile(defaultPropertiesPath.toFile().getAbsolutePath());
 
-    Properties newProperties = new Properties();
-    InputStream tempDefaultPropertiesInput =
-        new FileInputStream(tempDefaultPropertiesPath.toFile());
-    newProperties.load(tempDefaultPropertiesInput);
+    Properties newProperties =
+        FctUtils.readPropertiesFile(tempDefaultPropertiesPath.toFile().getAbsolutePath());
 
     // Compare the contents of the two files
     assertEquals(existingProperties, newProperties, "File contents are similar.");
