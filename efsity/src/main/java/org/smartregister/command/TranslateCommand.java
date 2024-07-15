@@ -446,8 +446,7 @@ public class TranslateCommand implements Runnable {
     existingProperties.putAll(textToHash);
     writePropertiesFile(existingProperties, translationFile);
     FctUtils.printInfo(String.format("Translation file\u001b[36m %s \u001b[0m", translationFile));
-    assert tempsConfig != null;
-    deleteDirectoryRecursively(tempsConfig);
+    if(tempsConfig!=null) deleteDirectoryRecursively(tempsConfig);
   }
 
   private static void processJsonFile(
