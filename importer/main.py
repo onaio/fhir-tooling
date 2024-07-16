@@ -13,17 +13,15 @@ from datetime import datetime
 from oauthlib.oauth2 import LegacyApplicationClient
 from requests_oauthlib import OAuth2Session
 
-try:
-    import config
-except ModuleNotFoundError:
-    logging.error("The config.py file is missing!")
-    exit()
+from config.settings import (fhir_base_url, keycloak_url, accessToken, client_id, client_secret,
+                             username, password, access_token_url, product_access_token)
 
 global_access_token = ""
 DEFAULT_GROUPS = {
     "ANDROID_PRACTITIONER" : ["ANDROID_CLIENT"],
     "WEB_PRACTITIONER": ["WEB_CLIENT"]
 }
+
 
 # This function takes in a csv file
 # reads it and returns a list of strings/lines
@@ -55,20 +53,14 @@ def get_access_token():
         return global_access_token
 
     try:
-        if config.access_token:
+        if accessToken:
             # get access token from config file
-            access_token = config.access_token
+            access_token = accessToken
     except AttributeError:
         logging.debug("No access token provided, trying to use client credentials")
 
     if not access_token:
         # get client credentials from config file
-        client_id = config.client_id
-        client_secret = config.client_secret
-        username = config.username
-        password = config.password
-        access_token_url = config.access_token_url
-
         oauth = OAuth2Session(client=LegacyApplicationClient(client_id=client_id))
         token = oauth.fetch_token(
             token_url=access_token_url,
@@ -121,7 +113,7 @@ def handle_request(request_type, payload, url, json_payload=None):
 
 
 def get_keycloak_url():
-    return config.keycloak_url
+    return keycloak_url
 
 
 # This function builds the user payload and posts it to
@@ -1015,7 +1007,7 @@ def get_valid_resource_type(resource_type):
 def get_resource(resource_id, resource_type):
     if resource_type not in ["List", "Group"]:
         resource_type = get_valid_resource_type(resource_type)
-    resource_url = "/".join([config.fhir_base_url, resource_type, resource_id])
+    resource_url = "/".join([fhir_base_url, resource_type, resource_id])
     response = handle_request("GET", "", resource_url)
     return json.loads(response[0])["meta"]["versionId"] if response[1] == 200 else "0"
 
@@ -1266,7 +1258,7 @@ def create_roles(role_list, roles_max):
 
         # check if role already exists
         role_response = handle_request(
-            "GET", "", config.keycloak_url + "/roles/" + current_role
+            "GET", "", keycloak_url + "/roles/" + current_role
         )
         logging.debug(role_response)
         if current_role in role_response[0]:
@@ -1274,7 +1266,7 @@ def create_roles(role_list, roles_max):
         else:
             role_payload = '{"name": "' + current_role + '"}'
             create_role = handle_request(
-                "POST", role_payload, config.keycloak_url + "/roles"
+                "POST", role_payload, keycloak_url + "/roles"
             )
             if create_role.status_code == 201:
                 logging.info("Successfully created role: " + current_role)
@@ -1285,7 +1277,7 @@ def create_roles(role_list, roles_max):
                 logging.debug("Role has composite roles")
                 # get roled id
                 full_role = handle_request(
-                    "GET", "", config.keycloak_url + "/roles/" + current_role
+                    "GET", "", keycloak_url + "/roles/" + current_role
                 )
                 json_resp = json.loads(full_role[0])
                 role_id = json_resp["id"]
@@ -1295,7 +1287,7 @@ def create_roles(role_list, roles_max):
                 available_roles = handle_request(
                     "GET",
                     "",
-                    config.keycloak_url
+                    keycloak_url
                     + "/admin-ui-available-roles/roles/"
                     + role_id
                     + "?first=0&max="
@@ -1330,7 +1322,7 @@ def create_roles(role_list, roles_max):
                 handle_request(
                     "POST",
                     payload_arr,
-                    config.keycloak_url + "/roles-by-id/" + role_id + "/composites",
+                    keycloak_url + "/roles-by-id/" + role_id + "/composites",
                 )
 
         except IndexError:
@@ -1339,7 +1331,7 @@ def create_roles(role_list, roles_max):
 
 def get_group_id(group):
     # check if group exists
-    all_groups = handle_request("GET", "", config.keycloak_url + "/groups")
+    all_groups = handle_request("GET", "", keycloak_url + "/groups")
     json_groups = json.loads(all_groups[0])
     group_obj = {}
 
@@ -1355,7 +1347,7 @@ def get_group_id(group):
         logging.info("Group does not exists, lets create it")
         # create the group
         create_group_payload = '{"name":"' + group + '"}'
-        handle_request("POST", create_group_payload, config.keycloak_url + "/groups")
+        handle_request("POST", create_group_payload, keycloak_url + "/groups")
         return get_group_id(group)
 
 
@@ -1367,7 +1359,7 @@ def assign_group_roles(role_list, group, roles_max):
     available_roles_for_group = handle_request(
         "GET",
         "",
-        config.keycloak_url
+        keycloak_url
         + "/groups/"
         + group_id
         + "/role-mappings/realm/available?first=0&max="
@@ -1388,7 +1380,7 @@ def assign_group_roles(role_list, group, roles_max):
     handle_request(
         "POST",
         json_assign_payload,
-        config.keycloak_url + "/groups/" + group_id + "/role-mappings/realm",
+        keycloak_url + "/groups/" + group_id + "/role-mappings/realm",
     )
 
 
@@ -1404,7 +1396,7 @@ def delete_resource(resource_type, resource_id, cascade):
         cascade = ""
 
     resource_url = "/".join(
-        [config.fhir_base_url, resource_type, resource_id + cascade]
+        [fhir_base_url, resource_type, resource_id + cascade]
     )
     r = handle_request("DELETE", "", resource_url)
     logging.info(r.text)
@@ -1415,7 +1407,7 @@ def clean_duplicates(users, cascade_delete):
         # get keycloak user uuid
         username = str(user[2].strip())
         user_details = handle_request(
-            "GET", "", config.keycloak_url + "/users?exact=true&username=" + username
+            "GET", "", keycloak_url + "/users?exact=true&username=" + username
         )
         obj = json.loads(user_details[0])
         keycloak_uuid = obj[0]["id"]
@@ -1424,7 +1416,7 @@ def clean_duplicates(users, cascade_delete):
         r = handle_request(
             "GET",
             "",
-            config.fhir_base_url + "/Practitioner?identifier=" + keycloak_uuid,
+            fhir_base_url + "/Practitioner?identifier=" + keycloak_uuid,
         )
         practitioner_details = json.loads(r[0])
         count = practitioner_details["total"]
@@ -1485,7 +1477,7 @@ def write_csv(data, resource_type, fieldnames):
 
 
 def get_base_url():
-    return config.fhir_base_url
+    return fhir_base_url
 
 
 # This function exports resources from the API to a csv file
@@ -1627,7 +1619,7 @@ def encode_image(image_file):
 # successful and 0 if failed
 def save_image(image_source_url):
     try:
-        headers = {"Authorization": "Bearer " + config.product_access_token}
+        headers = {"Authorization": "Bearer " + product_access_token}
     except AttributeError:
         headers = {}
 
@@ -1705,7 +1697,7 @@ def process_chunk(resources_array: list, resource_type: str):
 
     json_payload = {"resourceType": "Bundle", "type": "transaction", "entry": new_arr}
 
-    r = handle_request("POST", "", config.fhir_base_url, json_payload)
+    r = handle_request("POST", "", fhir_base_url, json_payload)
     logging.info(r.text)
     # TODO handle failures
 
@@ -1957,7 +1949,7 @@ def main(
                         if not practitioner_exists:
                             payload = create_user_resources(user_id, user)
                             final_response = handle_request(
-                                "POST", payload, config.fhir_base_url
+                                "POST", payload, fhir_base_url
                             )
                     logging.info("Processing complete!")
         elif resource_type == "locations":
@@ -1966,7 +1958,7 @@ def main(
                 "locations", resource_list, "json_payloads/locations_payload.json", None,
                 location_type_coding_system
             )
-            final_response = handle_request("POST", json_payload, config.fhir_base_url)
+            final_response = handle_request("POST", json_payload, fhir_base_url)
             logging.info("Processing complete!")
         elif resource_type == "organizations":
             logging.info("Processing organizations")
@@ -1975,27 +1967,27 @@ def main(
                 resource_list,
                 "json_payloads/organizations_payload.json",
             )
-            final_response = handle_request("POST", json_payload, config.fhir_base_url)
+            final_response = handle_request("POST", json_payload, fhir_base_url)
             logging.info("Processing complete!")
         elif resource_type == "careTeams":
             logging.info("Processing CareTeams")
             json_payload = build_payload(
                 "careTeams", resource_list, "json_payloads/careteams_payload.json"
             )
-            final_response = handle_request("POST", json_payload, config.fhir_base_url)
+            final_response = handle_request("POST", json_payload, fhir_base_url)
             logging.info("Processing complete!")
         elif assign == "organizations-Locations":
             logging.info("Assigning Organizations to Locations")
             matches = extract_matches(resource_list)
             json_payload = build_org_affiliation(matches, resource_list)
-            final_response = handle_request("POST", json_payload, config.fhir_base_url)
+            final_response = handle_request("POST", json_payload, fhir_base_url)
             logging.info("Processing complete!")
         elif assign == "users-organizations":
             logging.info("Assigning practitioner to Organization")
             json_payload = build_assign_payload(
                 resource_list, "PractitionerRole", "practitioner=Practitioner/"
             )
-            final_response = handle_request("POST", json_payload, config.fhir_base_url)
+            final_response = handle_request("POST", json_payload, fhir_base_url)
             logging.info("Processing complete!")
         elif setup == "roles":
             logging.info("Setting up keycloak roles")
@@ -2017,7 +2009,7 @@ def main(
             json_payload, created_resources = build_payload(
                 "Group", resource_list, "json_payloads/product_group_payload.json", []
             )
-            product_creation_response = handle_request("POST", json_payload, config.fhir_base_url)
+            product_creation_response = handle_request("POST", json_payload, fhir_base_url)
 
             if product_creation_response.status_code == 200:
                 full_list_created_resources = extract_resources(created_resources, product_creation_response.text)
@@ -2041,7 +2033,7 @@ def main(
             link_payload = link_to_location(resource_list)
             if len(link_payload) > 0:
                 link_response = handle_request(
-                    "POST", link_payload, config.fhir_base_url
+                    "POST", link_payload, fhir_base_url
                 )
                 if link_response.status_code == 200:
                     lists_created = extract_resources(lists_created, link_response.text)
