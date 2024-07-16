@@ -18,7 +18,7 @@ This script is used to setup keycloak roles and groups. It takes in a csv file w
 ### To run script
 1. Create virtualenv
 2. Install requirements.txt - `pip install -r requirements.txt`
-3. Set up your .env file, see sample below. Populate it with the right credentials, you can either provide an access token or client credentials. Ensure that the user whose details you provide in this config file has the necessary permissions/privilleges.
+3. Set up your .env file, see sample below. Populate it with the right credentials, you can either provide an access token or client credentials. Ensure that the user whose details you provide in this config file has the necessary permissions/privileges.
 4. Run script - `python3 main.py --setup roles --csv_file csv/setup/roles.csv --group Supervisor`
 5. If you are running the script without `https` setup e.g locally or a server without https setup, you will need to set the `OAUTHLIB_INSECURE_TRANSPORT` environment variable to 1. For example `export OAUTHLIB_INSECURE_TRANSPORT=1 && python3 main.py --setup roles --csv_file csv/setup/roles.csv --group OpenSRP_Provider --log_level debug`
 6. You can turn on logging by passing a `--log_level` to the command line as `info`, `debug` or `error`. For example `python3 main.py --setup roles --csv_file csv/setup/roles.csv --group Supervisor --log_level debug`

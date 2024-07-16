@@ -1961,9 +1961,17 @@ def main(
 
             if product_creation_response.status_code == 200:
                 full_list_created_resources = extract_resources(created_resources, product_creation_response.text)
-                list_payload = build_group_list_resource(
-                    list_resource_id, csv_file, full_list_created_resources, "Supply Inventory List")
-                final_response = handle_request("POST", "", config.fhir_base_url, list_payload)
+                if not list_resource_id:
+                    list_resource_id = str(uuid.uuid5(uuid.NAMESPACE_DNS, csv_file))
+
+                current_version = get_resource(list_resource_id, "List")
+                method = "create" if current_version == str(0) else "update"
+                resource = [["Supply Inventory List", "current", method, list_resource_id]]
+                result_payload = build_payload(
+                    "List", resource, "json_payloads/product_list_payload.json")
+
+                list_payload = process_resources_list(result_payload, full_list_created_resources)
+                final_response = handle_request("POST", "", fhir_base_url, list_payload)
                 logging.info("Processing complete!")
             else:
                 logging.error(product_creation_response.text)
@@ -1972,6 +1980,7 @@ def main(
             json_payload = build_payload(
                 "Group", resource_list, "json_payloads/inventory_group_payload.json"
             )
+            final_response = handle_request("POST", json_payload, fhir_base_url)
             inventory_creation_response = handle_request("POST", json_payload, config.fhir_base_url)
             groups_created = []
             if inventory_creation_response.status_code == 200:

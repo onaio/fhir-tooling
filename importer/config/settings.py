@@ -1,5 +1,4 @@
 import os
-import sys
 
 from services.fhir_keycloak_api import (FhirKeycloakApi, FhirKeycloakApiOptions, ExternalAuthenticationOptions,
                                         InternalAuthenticationOptions)
