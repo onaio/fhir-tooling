@@ -2,15 +2,14 @@ package org.smartregister.command;
 
 import static org.smartregister.util.authentication.OAuthAuthentication.getAccessToken;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -104,13 +103,9 @@ public class PublishFhirResourcesCommand implements Runnable {
   public void run() {
     long start = System.currentTimeMillis();
     if (propertiesFile != null && !propertiesFile.isBlank()) {
-      try (InputStream inputProperties = new FileInputStream(propertiesFile)) {
-        Properties properties = new Properties();
-        properties.load(inputProperties);
-        setProperties(properties);
-      } catch (IOException e) {
-        throw new RuntimeException(e);
-      }
+
+      Properties properties = FctUtils.readPropertiesFile(propertiesFile);
+      setProperties(properties);
     }
     try {
       if (compositionFilePath != null) {
@@ -508,5 +503,10 @@ public class PublishFhirResourcesCommand implements Runnable {
       return getProjectFolder(parentFolder.toString());
     }
     return parentFolder.toString();
+  }
+
+  @VisibleForTesting
+  public static final String getFCTReleaseVersion() {
+    return BuildConfig.RELEASE_VERSION;
   }
 }
