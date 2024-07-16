@@ -73,7 +73,7 @@ public class TranslateCommandTest {
   }
 
   @Test
-  public void testRunExtractConfigWithCleanConfigsFolder() throws IOException {
+  public void testRunExtractConfigWithCleanConfigsFolderRunsSuccessfully() throws IOException {
     Path cleanConfigsFolder = Paths.get("src/test/resources/clean_configs_folder");
     TranslateCommand translateCommandForCopyingTemp = new TranslateCommand();
     Path backupFolder = Files.createTempDirectory("temp_back_up_dir");
@@ -85,8 +85,26 @@ public class TranslateCommandTest {
     translateCommandSpy.run();
     Mockito.verify(translateCommandSpy, Mockito.atLeast(2))
         .copyDirectoryContent(Mockito.any(), Mockito.any());
+    Mockito.verify(translateCommandSpy, Mockito.atLeast(1))
+        .deleteDirectoryRecursively(Mockito.any());
     // restore clean_configs_folder
     translateCommandForCopyingTemp.copyDirectoryContent(backupFolder, cleanConfigsFolder);
+  }
+
+  @Test
+  public void testRunExtractConfigWithDirtyConfigsFolderDeletesTempFileOnFailure()
+      throws RuntimeException {
+    Path cleanConfigsFolder = Paths.get("src/test/resources/dirty_configs_folder");
+    TranslateCommand translateCommandSpy = Mockito.spy(translateCommand);
+    translateCommandSpy.mode = "extract";
+    translateCommandSpy.extractionType = "configs";
+    translateCommandSpy.resourceFile = cleanConfigsFolder.toString();
+
+    assertThrows(RuntimeException.class, translateCommandSpy::run);
+    Mockito.verify(translateCommandSpy, Mockito.atLeast(1))
+        .copyDirectoryContent(Mockito.any(), Mockito.any());
+    Mockito.verify(translateCommandSpy, Mockito.atLeast(1))
+        .deleteDirectoryRecursively(Mockito.any());
   }
 
   @Test
