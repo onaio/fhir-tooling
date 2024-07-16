@@ -59,6 +59,9 @@ public class TranslateCommand implements Runnable {
 
   private static String url = "http://hl7.org/fhir/StructureDefinition/translation";
 
+  Path tempsConfig = null;
+  Path tempFilePath = null;
+
   @Override
   public void run() {
     if (!Arrays.asList(modes).contains(mode)) {
@@ -79,6 +82,9 @@ public class TranslateCommand implements Runnable {
       try {
         Path translationsDirectoryPath = inputFilePath.getParent().resolve("translations");
 
+        if (Objects.equals(extractionType, "configs")) {
+          tempsConfig = Files.createTempDirectory("configs");
+        } else tempsConfig = null;
         if (!Files.exists(translationsDirectoryPath))
           Files.createDirectories(translationsDirectoryPath);
         if (translationFile == null) {
@@ -86,11 +92,9 @@ public class TranslateCommand implements Runnable {
         }
         // Check if the input path is a directory or a JSON file
         if (Files.isDirectory(inputFilePath)) {
-
           if (Objects.equals(extractionType, "configs") || inputFilePath.endsWith("configs")) {
-            extractionType = "configs";
             Set<String> targetFields = FCTConstants.configTranslatables;
-
+            copyDirectoryContent(inputFilePath, tempsConfig);
             extractContent(translationFile, inputFilePath, targetFields, extractionType);
           } else if (Objects.equals(extractionType, "fhirContent")
               || inputFilePath.endsWith("fhir_content")) {
@@ -349,24 +353,21 @@ public class TranslateCommand implements Runnable {
     return extensionArray;
   }
 
-  private static void extractContent(
+  private void extractContent(
       String translationFile, Path inputFilePath, Set<String> targetFields, String extractionType)
       throws IOException, NoSuchAlgorithmException {
     Map<String, String> textToHash = new HashMap<>();
     Path propertiesFilePath = Paths.get(translationFile);
-    Path tempsConfig;
-    Path tempFilePath = null;
     if (Files.isRegularFile(inputFilePath)
         && inputFilePath.toString().toLowerCase(Locale.ENGLISH).endsWith(".json")) {
       if (Objects.equals(extractionType, "configs")) {
-        tempsConfig = Files.createTempDirectory("configs");
         String configFileSubDirectory =
             inputFilePath.subpath(2, inputFilePath.getNameCount() - 1).toString();
         try {
-          Path temConfigSubDirectory = tempsConfig.resolve(configFileSubDirectory);
-          if (!Files.exists(temConfigSubDirectory)) {
-            Files.createDirectories(temConfigSubDirectory);
-            tempFilePath = temConfigSubDirectory.resolve(inputFilePath.getFileName());
+          Path tempConfigSubDirectory = tempsConfig.resolve(configFileSubDirectory);
+          if (!Files.exists(tempConfigSubDirectory)) {
+            Files.createDirectories(tempConfigSubDirectory);
+            tempFilePath = tempConfigSubDirectory.resolve(inputFilePath.getFileName());
             // copy over content
             Files.copy(inputFilePath, tempFilePath, StandardCopyOption.REPLACE_EXISTING);
           }
@@ -385,7 +386,6 @@ public class TranslateCommand implements Runnable {
         replaceTargetFieldsWithHashedValues(
             rootNode, targetFields, textToHash, inputFilePath, tempsConfig);
       } else {
-        tempsConfig = null;
         // For other types (content/questionnaire), extract as usual
         processJsonFile(inputFilePath, textToHash, targetFields);
       }
@@ -393,13 +393,7 @@ public class TranslateCommand implements Runnable {
       // Handle the case where inputFilePath is a directory (folders may contain multiple JSON
       // files)
 
-      if (Objects.equals(extractionType, "configs")) {
-        tempsConfig = Files.createTempDirectory("configs");
-        copyDirectoryContent(inputFilePath, tempsConfig);
-      } else {
-        tempsConfig = null;
-      }
-      Files.walk(inputFilePath)
+      Files.walk(tempsConfig)
           .filter(Files::isRegularFile)
           .filter(file -> file.toString().endsWith(".json"))
           .forEach(
@@ -422,12 +416,12 @@ public class TranslateCommand implements Runnable {
                     processJsonFile(file, textToHash, targetFields);
                   }
                 } catch (IOException | NoSuchAlgorithmException e) {
+                  deleteDirectoryRecursively(tempsConfig);
                   throw new RuntimeException(
                       "Error while reading file " + file.getFileName() + " " + e);
                 }
               });
     } else {
-      tempsConfig = null;
       throw new RuntimeException("Provide a valid `resourceFile` directory or file.");
     }
 
@@ -446,7 +440,7 @@ public class TranslateCommand implements Runnable {
     existingProperties.putAll(textToHash);
     writePropertiesFile(existingProperties, translationFile);
     FctUtils.printInfo(String.format("Translation file\u001b[36m %s \u001b[0m", translationFile));
-    if(tempsConfig!=null) deleteDirectoryRecursively(tempsConfig);
+    if (tempsConfig != null) deleteDirectoryRecursively(tempsConfig);
   }
 
   private static void processJsonFile(
@@ -465,7 +459,7 @@ public class TranslateCommand implements Runnable {
       Map<String, String> textToHash,
       Path filePath,
       Path tempConfigsDir)
-      throws NoSuchAlgorithmException {
+      throws NoSuchAlgorithmException, IOException {
 
     if (node.isObject()) {
       ObjectNode objectNode = (ObjectNode) node;
@@ -511,9 +505,6 @@ public class TranslateCommand implements Runnable {
       ObjectMapper objectMapper = new ObjectMapper();
       objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
       objectMapper.writeValue(writer, node);
-    } catch (IOException e) {
-      deleteDirectoryRecursively(tempConfigsDir);
-      throw new RuntimeException("Failed to write the updated JSON to file " + tempFilePath, e);
     }
   }
 
@@ -574,7 +565,7 @@ public class TranslateCommand implements Runnable {
     }
   }
 
-  public static void copyDirectoryContent(Path sourceDir, Path destinationDir) {
+  public void copyDirectoryContent(Path sourceDir, Path destinationDir) {
     try {
       Files.walkFileTree(
           sourceDir,
@@ -592,6 +583,7 @@ public class TranslateCommand implements Runnable {
             @Override
             public FileVisitResult visitFile(Path file, BasicFileAttributes attrs)
                 throws IOException {
+
               Files.copy(
                   file,
                   destinationDir.resolve(sourceDir.relativize(file)),
@@ -604,7 +596,7 @@ public class TranslateCommand implements Runnable {
     }
   }
 
-  private static void deleteDirectoryRecursively(Path dirPath) {
+  public void deleteDirectoryRecursively(Path dirPath) {
 
     try {
       // Delete the directory and its contents recursively

@@ -15,6 +15,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.Properties;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 public class TranslateCommandTest {
 
@@ -69,6 +70,23 @@ public class TranslateCommandTest {
     // Clean up temporary resources
     tempRawQuestionnaire.toFile().delete();
     tempDefaultPropertiesPath.toFile().delete();
+  }
+
+  @Test
+  public void testRunExtractConfigWithCleanConfigsFolder() throws IOException {
+    Path cleanConfigsFolder = Paths.get("src/test/resources/clean_configs_folder");
+    TranslateCommand translateCommandForCopyingTemp = new TranslateCommand();
+    Path backupFolder = Files.createTempDirectory("temp_back_up_dir");
+    translateCommandForCopyingTemp.copyDirectoryContent(cleanConfigsFolder, backupFolder);
+    TranslateCommand translateCommandSpy = Mockito.spy(translateCommand);
+    translateCommandSpy.mode = "extract";
+    translateCommandSpy.extractionType = "configs";
+    translateCommandSpy.resourceFile = cleanConfigsFolder.toString();
+    translateCommandSpy.run();
+    Mockito.verify(translateCommandSpy, Mockito.atLeast(2))
+        .copyDirectoryContent(Mockito.any(), Mockito.any());
+    // restore clean_configs_folder
+    translateCommandForCopyingTemp.copyDirectoryContent(backupFolder, cleanConfigsFolder);
   }
 
   @Test
