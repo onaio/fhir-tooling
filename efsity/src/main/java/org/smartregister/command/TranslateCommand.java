@@ -423,6 +423,7 @@ public class TranslateCommand implements Runnable {
 
     Properties existingProperties = FctUtils.readPropertiesFile(propertiesFilePath.toString());
 
+
     // Merge existing properties with new properties
     existingProperties.putAll(textToHash);
     writePropertiesFile(existingProperties, translationFile);
