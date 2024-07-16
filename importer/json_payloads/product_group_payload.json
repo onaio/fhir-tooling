@@ -17,7 +17,7 @@
           }
         },
         "use": "official",
-        "value": "$unique_uuid"
+        "value": "$material_number"
       },
       {
         "use": "secondary",
