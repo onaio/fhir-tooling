@@ -1,3 +1,3 @@
-name,active,method,id,previousId,isAttractiveItem,availability,condition,appropriateUsage,accountabilityPeriod,imageSourceUrl
-thermometer,true,create,1d86d0e2-bac8-4424-90ae-e2298900ac3c,10,true,yes,good,ok,12,https://ona.io/home/wp-content//uploads/2022/06/spotlight-fhir.png
-sterilizer,true,create,,53209452,true,no,,,,
+name,active,method,id,materialNumber,previousId,isAttractiveItem,availability,condition,appropriateUsage,accountabilityPeriod,imageSourceUrl
+thermometer,true,create,1d86d0e2-bac8-4424-90ae-e2298900ac3c,56dtdhdh,10,true,yes,good,ok,12,https://ona.io/home/wp-content//uploads/2022/06/spotlight-fhir.png
+sterilizer,true,create,,6786kaiw,,true,no,,,,

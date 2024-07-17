@@ -4,9 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -15,6 +13,8 @@ import java.nio.file.StandardCopyOption;
 import java.util.Properties;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+import org.smartregister.util.FctUtils;
 
 public class TranslateCommandTest {
 
@@ -55,20 +55,52 @@ public class TranslateCommandTest {
 
     assertDoesNotThrow(() -> translateCommand.run());
 
-    Properties existingProperties = new Properties();
-    InputStream defaultPropertiesInput = new FileInputStream(defaultPropertiesPath.toFile());
-    existingProperties.load(defaultPropertiesInput);
+    Properties existingProperties =
+        FctUtils.readPropertiesFile(defaultPropertiesPath.toFile().getAbsolutePath());
 
-    Properties newProperties = new Properties();
-    InputStream tempDefaultPropertiesInput =
-        new FileInputStream(tempDefaultPropertiesPath.toFile());
-    newProperties.load(tempDefaultPropertiesInput);
+    Properties newProperties =
+        FctUtils.readPropertiesFile(tempDefaultPropertiesPath.toFile().getAbsolutePath());
 
     // Compare the contents of the two files
     assertEquals(existingProperties, newProperties, "File contents are similar.");
     // Clean up temporary resources
     tempRawQuestionnaire.toFile().delete();
     tempDefaultPropertiesPath.toFile().delete();
+  }
+
+  @Test
+  public void testRunExtractConfigWithCleanConfigsFolderRunsSuccessfully() throws IOException {
+    Path cleanConfigsFolder = Paths.get("src/test/resources/clean_configs_folder");
+    TranslateCommand translateCommandForCopyingTemp = new TranslateCommand();
+    Path backupFolder = Files.createTempDirectory("temp_back_up_dir");
+    translateCommandForCopyingTemp.copyDirectoryContent(cleanConfigsFolder, backupFolder);
+    TranslateCommand translateCommandSpy = Mockito.spy(translateCommand);
+    translateCommandSpy.mode = "extract";
+    translateCommandSpy.extractionType = "configs";
+    translateCommandSpy.resourceFile = cleanConfigsFolder.toString();
+    translateCommandSpy.run();
+    Mockito.verify(translateCommandSpy, Mockito.atLeast(2))
+        .copyDirectoryContent(Mockito.any(), Mockito.any());
+    Mockito.verify(translateCommandSpy, Mockito.atLeast(1))
+        .deleteDirectoryRecursively(Mockito.any());
+    // restore clean_configs_folder
+    translateCommandForCopyingTemp.copyDirectoryContent(backupFolder, cleanConfigsFolder);
+  }
+
+  @Test
+  public void testRunExtractConfigWithDirtyConfigsFolderDeletesTempFileOnFailure()
+      throws RuntimeException {
+    Path cleanConfigsFolder = Paths.get("src/test/resources/dirty_configs_folder");
+    TranslateCommand translateCommandSpy = Mockito.spy(translateCommand);
+    translateCommandSpy.mode = "extract";
+    translateCommandSpy.extractionType = "configs";
+    translateCommandSpy.resourceFile = cleanConfigsFolder.toString();
+
+    assertThrows(RuntimeException.class, translateCommandSpy::run);
+    Mockito.verify(translateCommandSpy, Mockito.atLeast(1))
+        .copyDirectoryContent(Mockito.any(), Mockito.any());
+    Mockito.verify(translateCommandSpy, Mockito.atLeast(1))
+        .deleteDirectoryRecursively(Mockito.any());
   }
 
   @Test
