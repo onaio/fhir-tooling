@@ -12,7 +12,6 @@ from datetime import datetime
 
 from config.settings import (api_service, fhir_base_url, keycloak_url, product_access_token)
 
-global_access_token = ""
 DEFAULT_GROUPS = {
     "ANDROID_PRACTITIONER" : ["ANDROID_CLIENT"],
     "WEB_PRACTITIONER": ["WEB_CLIENT"]
