@@ -1,5 +1,4 @@
 import csv
-import uuid
 from faker import Faker
 
 # Initialize Faker
@@ -12,13 +11,14 @@ header = [
     "appId", "password"
 ]
 
+
 # Function to generate random row data
 def generate_random_row():
     f_name = fake.first_name()
     l_name = fake.last_name()
     u_name = fake.user_name()
     email = fake.email()
-    user_id = ""
+    user_id = fake.uuid4()
     user_type = fake.random_element(["Practitioner", "Supervisor", ""])
     enable_user = fake.random_element(["true", "false", ""])
     group_ids = ""
@@ -26,6 +26,7 @@ def generate_random_row():
     app_id = "quest"
     password = fake.password()
     return [f_name, l_name, u_name, email, user_id, user_type, enable_user, group_ids, group_names, app_id, password]
+
 
 # Generate 100 rows of data
 rows = []
