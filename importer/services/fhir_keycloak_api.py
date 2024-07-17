@@ -19,6 +19,7 @@ import jwt
 import backoff
 from functools import wraps
 
+
 def is_readable_string(s):
     """
     Check if a variable is not an empty string.
@@ -42,8 +43,8 @@ class IamUri:
     token_uri: str = field(init=False)
 
     def __post_init__(self):
-        for field in fields(self):
-            if field.init and not is_readable_string(getattr(self, field.name)):
+        for _field in fields(self):
+            if _field.init and not is_readable_string(getattr(self, _field.name)):
                 raise ValueError(f"{self.__class__.__name__} can only be initialized with str values")
         self.token_uri = self.keycloak_base_uri + "/realms/" + self.realm + "/protocol/openid-connect/token"
         self.keycloak_realm_uri = self.keycloak_base_uri + "/admin/realms/" + self.realm
@@ -54,6 +55,7 @@ class InternalAuthenticationOptions(IamUri):
     """Describes config options for authentication that we have to handle ourselves"""
     user_username: str
     user_password: str
+
 
 @dataclass
 class ExternalAuthenticationOptions(IamUri):
@@ -67,7 +69,8 @@ class FhirKeycloakApiOptions:
     authentication_options: Union[InternalAuthenticationOptions, ExternalAuthenticationOptions]
     fhir_base_uri: str
 
-class FhirKeycloakApi():
+
+class FhirKeycloakApi:
     def __init__(self, options: FhirKeycloakApiOptions):
         auth_options = options.authentication_options
         if isinstance(auth_options, ExternalAuthenticationOptions):
@@ -109,12 +112,12 @@ class InternalAuthenticationService:
         """
 
         token = self.oauth.fetch_token(token_url=self.options.token_uri, client_id=self.options.client_id,
-                                       client_secret=self.options.client_secret, username=self.options.user_username, password=self.options.user_password)
+                                       client_secret=self.options.client_secret, username=self.options.user_username,
+                                       password=self.options.user_password)
         return token
 
     def refresh_token(self,):
         return self.get_token()
-
 
     def _is_refresh_required(self):
         # TODO some defensive programming would be nice.
@@ -125,6 +128,7 @@ class InternalAuthenticationService:
         # full_jwt.token.objects["valid"] = True
         # return json.loads(full_jwt.token.payload.decode("utf-8"))
         pass
+
 
 class ExternalAuthenticationService:
 
@@ -156,7 +160,6 @@ class ExternalAuthenticationService:
 
     def refresh_token(self,):
         return self.oauth.refresh_token(self.options.token_uri, client_id=self.options.client_id, client_secret=self.options.client_secret)
-
 
     def _is_refresh_required(self):
         # TODO some defensive programming would be nice.

@@ -6,21 +6,11 @@ import click
 import requests
 import logging
 import logging.config
-import backoff
 import base64
 import magic
 from datetime import datetime
-from oauthlib.oauth2 import LegacyApplicationClient
-from requests_oauthlib import OAuth2Session
 
-from config.settings import (fhir_base_url, keycloak_url, accessToken, client_id, client_secret,
-                             username, password, access_token_url, product_access_token)
-
-global_access_token = ""
-DEFAULT_GROUPS = {
-    "ANDROID_PRACTITIONER" : ["ANDROID_CLIENT"],
-    "WEB_PRACTITIONER": ["WEB_CLIENT"]
-}
+from config.settings import (api_service, fhir_base_url, keycloak_url, product_access_token)
 
 
 # This function takes in a csv file
@@ -47,55 +37,15 @@ def read_csv(csv_file):
             logging.error("Stop iteration on empty file")
 
 
-def get_access_token():
-    access_token = ""
-    if global_access_token:
-        return global_access_token
-
-    try:
-        if accessToken:
-            # get access token from config file
-            access_token = accessToken
-    except AttributeError:
-        logging.debug("No access token provided, trying to use client credentials")
-
-    if not access_token:
-        # get client credentials from config file
-        oauth = OAuth2Session(client=LegacyApplicationClient(client_id=client_id))
-        token = oauth.fetch_token(
-            token_url=access_token_url,
-            username=username,
-            password=password,
-            client_id=client_id,
-            client_secret=client_secret,
-        )
-        access_token = token["access_token"]
-
-    return access_token
-
-
 # This function makes the request to the provided url
 # to create resources
-@backoff.on_exception(backoff.expo, requests.exceptions.RequestException, max_time=180)
 def post_request(request_type, payload, url, json_payload):
     logging.info("Posting request")
     logging.info("Request type: " + request_type)
     logging.info("Url: " + url)
     logging.debug("Payload: " + payload)
 
-    access_token = "Bearer " + get_access_token()
-    headers = {"Content-type": "application/json", "Authorization": access_token}
-
-    if request_type == "POST":
-        return requests.post(url, data=payload, json=json_payload, headers=headers)
-    elif request_type == "PUT":
-        return requests.put(url, data=payload, json=json_payload, headers=headers)
-    elif request_type == "GET":
-        return requests.get(url, headers=headers)
-    elif request_type == "DELETE":
-        return requests.delete(url, headers=headers)
-    else:
-        logging.error("Unsupported request type!")
+    return api_service.request(method=request_type, url=url, data=payload, json=json_payload)
 
 
 def handle_request(request_type, payload, url, json_payload=None):
@@ -113,7 +63,7 @@ def handle_request(request_type, payload, url, json_payload=None):
 
 
 def get_keycloak_url():
-    return keycloak_url
+    return api_service.auth_options.keycloak_realm_uri
 
 
 # This function builds the user payload and posts it to
@@ -147,8 +97,8 @@ def create_user(user):
 
     final_string = json.dumps(obj)
     logging.info("Creating user: " + username)
-    keycloak_url = get_keycloak_url()
-    r = handle_request("POST", final_string, keycloak_url + "/users")
+    _keycloak_url = get_keycloak_url()
+    r = handle_request("POST", final_string, _keycloak_url + "/users")
     if r.status_code == 201:
         logging.info("User created successfully")
         new_user_location = r.headers["Location"]
@@ -159,14 +109,14 @@ def create_user(user):
             '{"id": "' + keycloakGroupId + '", "name": "' + keycloakGroupName + '"}'
         )
         group_endpoint = user_id + "/groups/" + keycloakGroupId
-        url = keycloak_url + "/users/" + group_endpoint
+        url = _keycloak_url + "/users/" + group_endpoint
         logging.info("Adding user to Keycloak group: " + keycloakGroupName)
         r = handle_request("PUT", payload, url)
 
         # set password
         payload = '{"temporary":false,"type":"password","value":"' + password + '"}'
         password_endpoint = user_id + "/reset-password"
-        url = keycloak_url + "/users/" + password_endpoint
+        url = _keycloak_url + "/users/" + password_endpoint
         logging.info("Setting user password")
         r = handle_request("PUT", payload, url)
 
@@ -1173,9 +1123,9 @@ def confirm_keycloak_user(user):
     # Confirm that the keycloak user details are as expected
     user_username = str(user[2]).strip()
     user_email = str(user[3]).strip()
-    keycloak_url = get_keycloak_url()
+    _keycloak_url = get_keycloak_url()
     response = handle_request(
-        "GET", "", keycloak_url + "/users?exact=true&username=" + user_username
+        "GET", "", _keycloak_url + "/users?exact=true&username=" + user_username
     )
     logging.debug(response)
     json_response = json.loads(response[0])
@@ -1477,7 +1427,7 @@ def write_csv(data, resource_type, fieldnames):
 
 
 def get_base_url():
-    return fhir_base_url
+    return api_service.fhir_base_uri
 
 
 # This function exports resources from the API to a csv file
@@ -1831,7 +1781,6 @@ LOGGING = {
 @click.command()
 @click.option("--csv_file", required=False)
 @click.option("--json_file", required=False)
-@click.option("--access_token", required=False)
 @click.option("--resource_type", required=False)
 @click.option("--assign", required=False)
 @click.option("--setup", required=False)
@@ -1864,7 +1813,6 @@ LOGGING = {
 def main(
     csv_file,
     json_file,
-    access_token,
     resource_type,
     assign,
     setup,
@@ -1921,11 +1869,6 @@ def main(
         total_time = end_time - start_time
         logging.info("Total time: " + str(total_time.total_seconds()) + " seconds")
         exit()
-
-    # set access token
-    if access_token:
-        global global_access_token
-        global_access_token = access_token
 
     final_response = ""
 
