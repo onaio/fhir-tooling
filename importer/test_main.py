@@ -2,6 +2,20 @@ import json
 import unittest
 from jsonschema import validate
 from mock import patch
+
+import os
+# TODO - Implement pytest-env or something cleaner than this for env vars
+os.environ["username"] = "username"
+os.environ["password"] = "password"
+os.environ["client_id"] = "client_id"
+os.environ["client_secret"] = "client_secret"
+os.environ["fhir_base_url"] = 'https://example.smartregister.org/fhir'
+os.environ["keycloak_url"] = 'https://keycloak.smartregister.org/auth'
+os.environ["product_access_token"] = 'example-product-access-token'
+os.environ["access_token"] = "access_token"
+os.environ["refresh_token"] = "refresh_token"
+os.environ["realm"] = "realm"
+
 from main import (
     read_csv,
     write_csv,
