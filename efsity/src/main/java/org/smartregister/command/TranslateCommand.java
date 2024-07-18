@@ -81,10 +81,7 @@ public class TranslateCommand implements Runnable {
 
       try {
         Path translationsDirectoryPath = inputFilePath.getParent().resolve("translations");
-
-        if (Objects.equals(extractionType, "configs")) {
-          tempsConfig = Files.createTempDirectory("configs");
-        } else tempsConfig = null;
+        tempsConfig = Files.createTempDirectory("configs");
         if (!Files.exists(translationsDirectoryPath))
           Files.createDirectories(translationsDirectoryPath);
         if (translationFile == null) {
@@ -93,6 +90,9 @@ public class TranslateCommand implements Runnable {
         // Check if the input path is a directory or a JSON file
         if (Files.isDirectory(inputFilePath)) {
           if (Objects.equals(extractionType, "configs") || inputFilePath.endsWith("configs")) {
+            // handle case where extractionType has not been given and inputFilePath ends with
+            // configs
+            if (Objects.equals(extractionType, null)) extractionType = "configs";
             Set<String> targetFields = FCTConstants.configTranslatables;
             copyDirectoryContent(inputFilePath, tempsConfig);
             extractContent(translationFile, inputFilePath, targetFields, extractionType);
@@ -379,7 +379,12 @@ public class TranslateCommand implements Runnable {
       // Handle the case where inputFilePath is a directory (folders may contain multiple JSON
       // files)
 
-      Files.walk(tempsConfig)
+      Path inputDir;
+      if (extractionType.equals("configs")) {
+        inputDir = tempsConfig;
+      } else inputDir = inputFilePath;
+
+      Files.walk(inputDir)
           .filter(Files::isRegularFile)
           .filter(file -> file.toString().endsWith(".json"))
           .forEach(
@@ -402,7 +407,8 @@ public class TranslateCommand implements Runnable {
                     processJsonFile(file, textToHash, targetFields);
                   }
                 } catch (IOException | NoSuchAlgorithmException e) {
-                  deleteDirectoryRecursively(tempsConfig);
+                  if (tempsConfig != null && Files.exists(tempsConfig))
+                    deleteDirectoryRecursively(tempsConfig);
                   throw new RuntimeException(
                       "Error while reading file " + file.getFileName() + " " + e);
                 }
@@ -426,7 +432,7 @@ public class TranslateCommand implements Runnable {
     existingProperties.putAll(textToHash);
     writePropertiesFile(existingProperties, translationFile);
     FctUtils.printInfo(String.format("Translation file\u001b[36m %s \u001b[0m", translationFile));
-    if (tempsConfig != null) deleteDirectoryRecursively(tempsConfig);
+    if (tempsConfig != null && Files.exists(tempsConfig)) deleteDirectoryRecursively(tempsConfig);
   }
 
   private static void processJsonFile(
