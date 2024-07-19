@@ -110,7 +110,7 @@ public class FctUtils {
 
   public static Properties readPropertiesFile(String filePath) {
     Properties properties = new Properties();
-    try (InputStream input = new FileInputStream(filePath)) {
+    try (FileInputStream input = new FileInputStream(filePath)) {
 
       properties.load(input);
       return properties;
