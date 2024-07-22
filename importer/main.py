@@ -20,7 +20,10 @@ except ModuleNotFoundError:
     exit()
 
 global_access_token = ""
-
+DEFAULT_GROUPS = {
+    "ANDROID_PRACTITIONER" : ["ANDROID_CLIENT"],
+    "WEB_PRACTITIONER": ["WEB_CLIENT"]
+}
 
 # This function takes in a csv file
 # reads it and returns a list of strings/lines
@@ -1356,6 +1359,11 @@ def assign_group_roles(role_list, group, roles_max):
     )
 
 
+def assign_default_groups_roles(roles_max):
+    for group_name, roles in DEFAULT_GROUPS.items():
+        assign_group_roles(roles, group_name, roles_max)
+
+
 def delete_resource(resource_type, resource_id, cascade):
     if cascade:
         cascade = "?_cascade=delete"
@@ -1804,6 +1812,7 @@ LOGGING = {
 @click.option("--setup", required=False)
 @click.option("--group", required=False)
 @click.option("--roles_max", required=False, default=500)
+@click.option("--defaultgroups", required=False, default=False)
 @click.option("--cascade_delete", required=False, default=False)
 @click.option("--only_response", required=False)
 @click.option(
@@ -1832,6 +1841,7 @@ def main(
     setup,
     group,
     roles_max,
+    default_groups,
     cascade_delete,
     only_response,
     log_level,
@@ -1954,6 +1964,8 @@ def main(
             if group:
                 assign_group_roles(resource_list, group, roles_max)
             logging.info("Processing complete")
+            if default_groups:
+                assign_default_groups_roles(roles_max)
         elif setup == "clean_duplicates":
             logging.info(
                 "You are about to clean/delete Practitioner resources on the HAPI server"
