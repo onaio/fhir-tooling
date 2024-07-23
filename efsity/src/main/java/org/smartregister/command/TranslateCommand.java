@@ -80,18 +80,17 @@ public class TranslateCommand implements Runnable {
       FctUtils.printInfo(String.format("Input file \u001b[35m%s\u001b[0m", resourceFile));
 
       try {
-
-        Path translationsDirectoryPath = getTranslationDirectoryPath(inputFilePath);
-        String defaultTranslationFile = translationsDirectoryPath + "/strings_default.properties";
-        if (!Files.exists(translationsDirectoryPath)) {
-          Files.createDirectories(translationsDirectoryPath);
-          Files.createFile(Paths.get(defaultTranslationFile));
+        if (Objects.equals(translationFile, null)) {
+          Path translationsDirectoryPath = getTranslationDirectoryPath(inputFilePath);
+          String defaultTranslationFile = translationsDirectoryPath + "/strings_default.properties";
+          if (!Files.exists(translationsDirectoryPath)) {
+            Files.createDirectories(translationsDirectoryPath);
+            Files.createFile(Paths.get(defaultTranslationFile));
+          }
+          translationFile = defaultTranslationFile;
         }
         tempsConfig = Files.createTempDirectory("configs");
 
-        if (translationFile == null) {
-          translationFile = defaultTranslationFile;
-        }
         // Check if the input path is a directory or a JSON file
         if (Files.isDirectory(inputFilePath)) {
           if ("configs".equals(extractionType) || inputFilePath.endsWith("configs")) {
