@@ -1818,7 +1818,7 @@ LOGGING = {
 @click.option("--setup", required=False)
 @click.option("--group", required=False)
 @click.option("--roles_max", required=False, default=500)
-@click.option("--defaultgroups", required=False, default=False)
+@click.option("--default_groups", required=False, default=False)
 @click.option("--cascade_delete", required=False, default=False)
 @click.option("--only_response", required=False)
 @click.option(
