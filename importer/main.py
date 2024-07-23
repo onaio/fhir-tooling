@@ -335,10 +335,16 @@ def location_extras(resource, payload_string):
         longitude = "longitude"
 
     try:
-        if locationParentName and locationParentName != "parentName":
-            payload_string = payload_string.replace(
-                "$parentName", locationParentName
-            ).replace("$parentID", locationParentId)
+        if locationParentId and locationParentId != "parentId":
+            payload_string = payload_string.replace("$parentID", locationParentId)
+            if not locationParentName or locationParentName == "parentName":
+                obj = json.loads(payload_string)
+                del obj["resource"]["partOf"]['display']
+                payload_string = json.dumps(obj, indent=4)
+            else:
+                payload_string = payload_string.replace(
+                    "$parentName", locationParentName
+                )
         else:
             obj = json.loads(payload_string)
             del obj["resource"]["partOf"]
