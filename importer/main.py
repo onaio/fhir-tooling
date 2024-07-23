@@ -1992,7 +1992,7 @@ def main(
                     list_resource_id = str(uuid.uuid5(uuid.NAMESPACE_DNS, csv_file))
 
                 current_version = get_resource(list_resource_id, "List")
-                method = "create" if current_version == 0 else "update"
+                method = "create" if current_version == str(0) else "update"
                 resource = [["Supply Inventory List", "current", method, list_resource_id]]
                 result_payload = build_payload(
                     "List", resource, "json_payloads/product_list_payload.json")
