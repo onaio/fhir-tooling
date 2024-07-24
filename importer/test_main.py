@@ -136,7 +136,8 @@ class TestMain(unittest.TestCase):
         csv_file = "csv/locations/locations_full.csv"
         resource_list = read_csv(csv_file)
         payload = build_payload(
-            "locations", resource_list, "json_payloads/locations_payload.json"
+            "locations", resource_list, "json_payloads/locations_payload.json",
+            None, "http://terminology.hl7.org/CodeSystem/location-type"
         )
         payload_obj = json.loads(payload)
         self.assertIsInstance(payload_obj, dict)
@@ -225,7 +226,8 @@ class TestMain(unittest.TestCase):
         csv_file = "csv/locations/locations_min.csv"
         resource_list = read_csv(csv_file)
         payload = build_payload(
-            "locations", resource_list, "json_payloads/locations_payload.json"
+            "locations", resource_list, "json_payloads/locations_payload.json",
+            None, "http://terminology.hl7.org/CodeSystem/location-type"
         )
         payload_obj = json.loads(payload)
         self.assertIsInstance(payload_obj, dict)
@@ -612,7 +614,8 @@ class TestMain(unittest.TestCase):
         ]
 
         payload = build_payload(
-            "locations", resources, "json_payloads/locations_payload.json"
+            "locations", resources, "json_payloads/locations_payload.json",
+            None, "http://terminology.hl7.org/CodeSystem/location-type"
         )
         payload_obj = json.loads(payload)
         location1 = payload_obj["entry"][0]["resource"]["id"]
@@ -1520,6 +1523,22 @@ class TestMain(unittest.TestCase):
         }
         self.assertIsInstance(mapping, dict)
         self.assertEqual(mapping, mapped_resources)
+
+    @patch("main.check_parent_admin_level")
+    @patch("main.get_resource")
+    def test_define_own_location_type_coding_system_url(self, mock_get_resource, mock_check_parent_admin_level):
+        mock_get_resource.return_value = "1"
+        mock_check_parent_admin_level.return_value = "3"
+        test_system_code = "http://terminology.hl7.org/CodeSystem/test_location-type"
+
+        csv_file = "csv/locations/locations_full.csv"
+        resource_list = read_csv(csv_file)
+        payload = build_payload(
+            "locations", resource_list, "json_payloads/locations_payload.json",
+            None, test_system_code
+        )
+        payload_obj = json.loads(payload)
+        self.assertEqual(payload_obj["entry"][0]["resource"]["type"][0]["coding"][0]["system"], test_system_code)
 
 
 if __name__ == "__main__":
