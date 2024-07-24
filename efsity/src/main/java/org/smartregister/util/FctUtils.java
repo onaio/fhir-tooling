@@ -166,6 +166,8 @@ public class FctUtils {
         : resourcePath;
   }
 
+  public static Translatables fetchTranslatables(String translatablesFile) {}
+
   public static <T extends IBaseResource> T getFhirResource(Class<T> t, String contentAsString) {
     IParser iParser = FhirContext.forCached(FhirVersionEnum.R4).newJsonParser();
     return iParser.parseResource(t, contentAsString);

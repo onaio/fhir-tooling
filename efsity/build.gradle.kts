@@ -82,7 +82,7 @@ dependencies {
   implementation(deps.jsonschemafriend)
   implementation(deps.picocli)
   implementation(deps.xstream)
-
+  implementation(deps.snakeyaml)
   testImplementation(kotlin("test"))
   testImplementation("junit:junit:4.13.2")
   testImplementation("org.mockito:mockito-inline:3.12.4")

@@ -1,0 +1,13 @@
+---
+questionnaireTranslatables:
+  - text
+  - display
+
+configTranslatables:
+  - saveButtonText
+  - title
+  - display
+  - actionButtonText
+  - message
+  - primaryText
+  - secondaryText
