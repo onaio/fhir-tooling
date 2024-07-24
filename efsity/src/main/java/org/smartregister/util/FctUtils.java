@@ -4,12 +4,14 @@ package org.smartregister.util;
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.context.FhirVersionEnum;
 import ca.uhn.fhir.parser.IParser;
+import com.ibm.icu.text.CharsetDetector;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileInputStream;
+import java.io.ByteArrayInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
@@ -108,14 +110,19 @@ public class FctUtils {
     }
   }
 
-  public static Properties readPropertiesFile(String propertiesFilePath) {
+  public static Properties readPropertiesFile(String propertiesFilePath) throws IOException {
+
+    CharsetDetector detector = new CharsetDetector();
+    byte[] fileBytes = Files.readAllBytes(Path.of(propertiesFilePath));
+    detector.setText(fileBytes);
+
     Properties properties = new Properties();
-    try (FileInputStream fileInputStream = new FileInputStream(propertiesFilePath);
-        InputStreamReader reader = new InputStreamReader(fileInputStream, StandardCharsets.UTF_8)) {
+    try (InputStreamReader reader =
+        new InputStreamReader(
+            new ByteArrayInputStream(fileBytes), Charset.forName(detector.detect().getName()))) {
       properties.load(reader);
-    } catch (IOException ex) {
-      ex.printStackTrace();
     }
+
     return properties;
   }
 
@@ -136,7 +143,7 @@ public class FctUtils {
           @Override
           public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
             if (!Files.isDirectory(file)
-                && (fileExtensions.length == 1 && fileExtensions[0] == "*"
+                && (fileExtensions.length == 1 && "*".equals(fileExtensions[0])
                     || Arrays.asList(fileExtensions)
                         .contains(FilenameUtils.getExtension(file.getFileName().toString())))) {
 

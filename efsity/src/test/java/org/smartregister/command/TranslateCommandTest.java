@@ -109,7 +109,8 @@ public class TranslateCommandTest {
     Path tempRawQuestionnaire = Files.createTempFile("temp_raw_questionnaire", ".json");
     Files.copy(rawQuestionnairePath, tempRawQuestionnaire, StandardCopyOption.REPLACE_EXISTING);
 
-    Path mergedQuestionnairePath = Paths.get("src/test/resources/merged_questionnaire.json");
+    Path expectedMergedQuestionnairePath =
+        Paths.get("src/test/resources/merged_questionnaire.json");
 
     Path frPropertiesPath = Paths.get("src/test/resources/strings_fr.properties");
 
@@ -121,15 +122,15 @@ public class TranslateCommandTest {
     assertDoesNotThrow(() -> translateCommand.run());
 
     ObjectMapper objectMapper = new ObjectMapper();
-    JsonNode rawQuestionnaire =
+    JsonNode processedRawQuestionnaire =
         objectMapper.readTree(
             Files.newBufferedReader(tempRawQuestionnaire, StandardCharsets.UTF_8));
     JsonNode mergedQuestionnaire =
         objectMapper.readTree(
-            Files.newBufferedReader(mergedQuestionnairePath, StandardCharsets.UTF_8));
+            Files.newBufferedReader(expectedMergedQuestionnairePath, StandardCharsets.UTF_8));
 
     // Compare the contents of the two nodes
-    assertEquals(rawQuestionnaire, mergedQuestionnaire, "File merged as expected");
+    assertEquals(mergedQuestionnaire, processedRawQuestionnaire, "File merged as expected");
     tempRawQuestionnaire.toFile().delete();
   }
 }
