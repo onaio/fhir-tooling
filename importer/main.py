@@ -20,7 +20,10 @@ except ModuleNotFoundError:
     exit()
 
 global_access_token = ""
-
+DEFAULT_GROUPS = {
+    "ANDROID_PRACTITIONER" : ["ANDROID_CLIENT"],
+    "WEB_PRACTITIONER": ["WEB_CLIENT"]
+}
 
 # This function takes in a csv file
 # reads it and returns a list of strings/lines
@@ -332,10 +335,16 @@ def location_extras(resource, payload_string):
         longitude = "longitude"
 
     try:
-        if locationParentName and locationParentName != "parentName":
-            payload_string = payload_string.replace(
-                "$parentName", locationParentName
-            ).replace("$parentID", locationParentId)
+        if locationParentId and locationParentId != "parentId":
+            payload_string = payload_string.replace("$parentID", locationParentId)
+            if not locationParentName or locationParentName == "parentName":
+                obj = json.loads(payload_string)
+                del obj["resource"]["partOf"]['display']
+                payload_string = json.dumps(obj, indent=4)
+            else:
+                payload_string = payload_string.replace(
+                    "$parentName", locationParentName
+                )
         else:
             obj = json.loads(payload_string)
             del obj["resource"]["partOf"]
@@ -1356,6 +1365,11 @@ def assign_group_roles(role_list, group, roles_max):
     )
 
 
+def assign_default_groups_roles(roles_max):
+    for group_name, roles in DEFAULT_GROUPS.items():
+        assign_group_roles(roles, group_name, roles_max)
+
+
 def delete_resource(resource_type, resource_id, cascade):
     if cascade:
         cascade = "?_cascade=delete"
@@ -1804,6 +1818,7 @@ LOGGING = {
 @click.option("--setup", required=False)
 @click.option("--group", required=False)
 @click.option("--roles_max", required=False, default=500)
+@click.option("--default_groups", required=False, default=False)
 @click.option("--cascade_delete", required=False, default=False)
 @click.option("--only_response", required=False)
 @click.option(
@@ -1832,6 +1847,7 @@ def main(
     setup,
     group,
     roles_max,
+    default_groups,
     cascade_delete,
     only_response,
     log_level,
@@ -1954,6 +1970,8 @@ def main(
             if group:
                 assign_group_roles(resource_list, group, roles_max)
             logging.info("Processing complete")
+            if default_groups:
+                assign_default_groups_roles(roles_max)
         elif setup == "clean_duplicates":
             logging.info(
                 "You are about to clean/delete Practitioner resources on the HAPI server"
@@ -1974,7 +1992,7 @@ def main(
                     list_resource_id = str(uuid.uuid5(uuid.NAMESPACE_DNS, csv_file))
 
                 current_version = get_resource(list_resource_id, "List")
-                method = "create" if current_version == 0 else "update"
+                method = "create" if current_version == str(0) else "update"
                 resource = [["Supply Inventory List", "current", method, list_resource_id]]
                 result_payload = build_payload(
                     "List", resource, "json_payloads/product_list_payload.json")
