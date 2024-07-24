@@ -9,7 +9,7 @@ import java.io.BufferedWriter;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
@@ -108,13 +108,11 @@ public class FctUtils {
     }
   }
 
-  public static Properties readPropertiesFile(String filePath) {
+  public static Properties readPropertiesFile(String propertiesFilePath) {
     Properties properties = new Properties();
-    try (FileInputStream input = new FileInputStream(filePath)) {
-
-      properties.load(input);
-      return properties;
-
+    try (FileInputStream fileInputStream = new FileInputStream(propertiesFilePath);
+        InputStreamReader reader = new InputStreamReader(fileInputStream, StandardCharsets.UTF_8)) {
+      properties.load(reader);
     } catch (IOException ex) {
       ex.printStackTrace();
     }
