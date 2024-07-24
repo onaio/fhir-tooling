@@ -360,7 +360,7 @@ def location_extras(resource, payload_string, location_coding_system):
         payload_string = payload_string.replace("$t_system", location_coding_system)
         if len(locationType.strip()) > 0 and locationType != "type":
             payload_string = payload_string.replace("$t_display", locationType)
-        if len(locationTypeCode.strip()) > 0 and locationTypeCode != "typeCode":
+        if locationTypeCode and locationTypeCode != "typeCode":
             payload_string = payload_string.replace("$t_code", locationTypeCode)
         else:
             obj = json.loads(payload_string)
@@ -380,7 +380,7 @@ def location_extras(resource, payload_string, location_coding_system):
             payload_string = json.dumps(obj, indent=4)
 
     try:
-        if len(locationAdminLevel.strip()) > 0 and locationAdminLevel != "adminLevel":
+        if locationAdminLevel and locationAdminLevel != "adminLevel":
             payload_string = payload_string.replace(
                 "$adminLevelCode", locationAdminLevel
             )
@@ -426,25 +426,37 @@ def location_extras(resource, payload_string, location_coding_system):
             payload_string = json.dumps(obj, indent=4)
 
     try:
-        if (
-            len(locationPhysicalType.strip()) > 0
-            and locationPhysicalType != "physicalType"
-        ):
+        if locationPhysicalType and locationPhysicalType != "physicalType":
             payload_string = payload_string.replace("$pt_display", locationPhysicalType)
-        if (
-            len(locationPhysicalTypeCode.strip()) > 0
-            and locationPhysicalTypeCode != "physicalTypeCode"
-        ):
+        if locationPhysicalTypeCode and locationPhysicalTypeCode != "physicalTypeCode":
             payload_string = payload_string.replace(
                 "$pt_code", locationPhysicalTypeCode
             )
         else:
             obj = json.loads(payload_string)
             del obj["resource"]["physicalType"]
+            # also remove from type[]
+            payload_type = obj["resource"]["type"]
+            current_system = "location-physical-type"
+            index = identify_coding_object_index(payload_type, current_system)
+            if index >= 0:
+                del obj["resource"]["type"][index]
             payload_string = json.dumps(obj, indent=4)
     except IndexError:
         obj = json.loads(payload_string)
         del obj["resource"]["physicalType"]
+        payload_type = obj["resource"]["type"]
+        current_system = "location-physical-type"
+        index = identify_coding_object_index(payload_type, current_system)
+        if index >= 0:
+            del obj["resource"]["type"][index]
+        payload_string = json.dumps(obj, indent=4)
+
+    # check if type is empty
+    obj = json.loads(payload_string)
+    _type = obj["resource"]["type"]
+    if not _type:
+        del obj["resource"]["type"]
         payload_string = json.dumps(obj, indent=4)
 
     try:
