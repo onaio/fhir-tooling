@@ -2007,7 +2007,7 @@ def main(
                 method = "create" if current_version == str(0) else "update"
                 resource = [["Supply Inventory List", "current", method, list_resource_id]]
                 result_payload = build_payload(
-                    "List", resource, "json_payloads/product_list_payload.json")
+                    "List", resource, "json_payloads/group_list_payload.json")
 
                 list_payload = process_resources_list(result_payload, full_list_created_resources)
                 final_response = handle_request("POST", "", config.fhir_base_url, list_payload)
