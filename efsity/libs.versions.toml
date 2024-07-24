@@ -16,6 +16,7 @@ opencds-cql-version="2.4.0"
 project-build-sourceEncoding="UTF-8"
 spotless-version ="6.20.0"
 xstream="1.4.20"
+snakeyaml="2.2"
 
 [libraries]
 caffeine = { module = "com.github.ben-manes.caffeine:caffeine", version.ref = "caffeine-version" }
@@ -44,6 +45,7 @@ jackson-core = { module = "com.fasterxml.jackson.core:jackson-core", version.ref
 jackson-databind = { module = "com.fasterxml.jackson.core:jackson-databind", version.ref = "jackson-version" }
 picocli = { module = "info.picocli:picocli", version.ref = "info-picocli-version" }
 xstream = { module = "com.thoughtworks.xstream:xstream", version.ref = "xstream" }
+snakeyaml = {module = "org.yaml:snakeyaml", version.ref = "snakeyaml"}
 
 [bundles]
 cqf-cql = ["cql-to-elm","elm","elm-jackson","model","model-jackson"]
