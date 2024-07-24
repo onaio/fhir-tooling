@@ -438,10 +438,28 @@ def location_extras(resource, payload_string):
         else:
             obj = json.loads(payload_string)
             del obj["resource"]["physicalType"]
+            # also remove from type[]
+            payload_type = obj["resource"]["type"]
+            current_system = "location-physical-type"
+            index = identify_coding_object_index(payload_type, current_system)
+            if index >= 0:
+                del obj["resource"]["type"][index]
             payload_string = json.dumps(obj, indent=4)
     except IndexError:
         obj = json.loads(payload_string)
         del obj["resource"]["physicalType"]
+        payload_type = obj["resource"]["type"]
+        current_system = "location-physical-type"
+        index = identify_coding_object_index(payload_type, current_system)
+        if index >= 0:
+            del obj["resource"]["type"][index]
+        payload_string = json.dumps(obj, indent=4)
+
+    # check if type is empty
+    obj = json.loads(payload_string)
+    _type = obj["resource"]["type"]
+    if not _type:
+        del obj["resource"]["type"]
         payload_string = json.dumps(obj, indent=4)
 
     try:
