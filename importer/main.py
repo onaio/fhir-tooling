@@ -355,9 +355,9 @@ def location_extras(resource, payload_string):
         payload_string = json.dumps(obj, indent=4)
 
     try:
-        if len(locationType.strip()) > 0 and locationType != "type":
+        if locationType and locationType != "type":
             payload_string = payload_string.replace("$t_display", locationType)
-        if len(locationTypeCode.strip()) > 0 and locationTypeCode != "typeCode":
+        if locationTypeCode and locationTypeCode != "typeCode":
             payload_string = payload_string.replace("$t_code", locationTypeCode)
         else:
             obj = json.loads(payload_string)
@@ -377,7 +377,7 @@ def location_extras(resource, payload_string):
             payload_string = json.dumps(obj, indent=4)
 
     try:
-        if len(locationAdminLevel.strip()) > 0 and locationAdminLevel != "adminLevel":
+        if locationAdminLevel and locationAdminLevel != "adminLevel":
             payload_string = payload_string.replace(
                 "$adminLevelCode", locationAdminLevel
             )
@@ -423,15 +423,9 @@ def location_extras(resource, payload_string):
             payload_string = json.dumps(obj, indent=4)
 
     try:
-        if (
-            len(locationPhysicalType.strip()) > 0
-            and locationPhysicalType != "physicalType"
-        ):
+        if locationPhysicalType and locationPhysicalType != "physicalType":
             payload_string = payload_string.replace("$pt_display", locationPhysicalType)
-        if (
-            len(locationPhysicalTypeCode.strip()) > 0
-            and locationPhysicalTypeCode != "physicalTypeCode"
-        ):
+        if locationPhysicalTypeCode and locationPhysicalTypeCode != "physicalTypeCode":
             payload_string = payload_string.replace(
                 "$pt_code", locationPhysicalTypeCode
             )
