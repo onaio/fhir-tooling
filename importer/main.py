@@ -1113,6 +1113,17 @@ def build_payload(resource_type, resources, resource_payload_file, created_resou
     return final_string
 
 
+def build_group_list_resource(list_resource_id: str, csv_file: str, full_list_created_resources: list, title: str):
+    if not list_resource_id:
+        list_resource_id = str(uuid.uuid5(uuid.NAMESPACE_DNS, csv_file))
+    current_version = get_resource(list_resource_id, "List")
+    method = "create" if current_version == str(0) else "update"
+    resource = [[title, "current", method, list_resource_id]]
+    result_payload = build_payload(
+        "List", resource, "json_payloads/group_list_payload.json")
+    return process_resources_list(result_payload, full_list_created_resources)
+
+
 # This function takes a 'created_resources' array and a response string
 # It converts the response string to a json object, then loops through the entry array
 # extracting all the referenced resources and adds them to the created_resources array
@@ -1122,7 +1133,8 @@ def extract_resources(created_resources, response_string):
     entry = json_response["entry"]
     for item in entry:
         resource = item["response"]["location"]
-        created_resources.append(resource[0:42])
+        index = resource.find("/", resource.find("/") + 1)
+        created_resources.append(resource[0:index])
     return created_resources
 
 
@@ -2009,16 +2021,8 @@ def main(
 
             if product_creation_response.status_code == 200:
                 full_list_created_resources = extract_resources(created_resources, product_creation_response.text)
-                if not list_resource_id:
-                    list_resource_id = str(uuid.uuid5(uuid.NAMESPACE_DNS, csv_file))
-
-                current_version = get_resource(list_resource_id, "List")
-                method = "create" if current_version == str(0) else "update"
-                resource = [["Supply Inventory List", "current", method, list_resource_id]]
-                result_payload = build_payload(
-                    "List", resource, "json_payloads/product_list_payload.json")
-
-                list_payload = process_resources_list(result_payload, full_list_created_resources)
+                list_payload = build_group_list_resource(
+                    list_resource_id, csv_file, full_list_created_resources, "Supply Inventory List")
                 final_response = handle_request("POST", "", config.fhir_base_url, list_payload)
                 logging.info("Processing complete!")
             else:
@@ -2028,13 +2032,27 @@ def main(
             json_payload = build_payload(
                 "Group", resource_list, "json_payloads/inventory_group_payload.json"
             )
-            final_response = handle_request("POST", json_payload, config.fhir_base_url)
+            inventory_creation_response = handle_request("POST", json_payload, config.fhir_base_url)
+            groups_created = []
+            if inventory_creation_response.status_code == 200:
+                groups_created = extract_resources(groups_created, inventory_creation_response.text)
+
+            lists_created = []
             link_payload = link_to_location(resource_list)
             if len(link_payload) > 0:
                 link_response = handle_request(
                     "POST", link_payload, config.fhir_base_url
                 )
+                if link_response.status_code == 200:
+                    lists_created = extract_resources(lists_created, link_response.text)
                 logging.info(link_response.text)
+
+            full_list_created_resources = groups_created + lists_created
+            if len(full_list_created_resources) > 0:
+                list_payload = build_group_list_resource(
+                    list_resource_id, csv_file, full_list_created_resources, "Supply Chain commodities")
+                final_response = handle_request("POST", "", config.fhir_base_url, list_payload)
+                logging.info("Processing complete!")
         else:
             logging.error("Unsupported request!")
     else:
