@@ -69,7 +69,7 @@ public class TranslateCommand implements Runnable {
     }
     if (extractionType != null && !Arrays.asList(extractionTypes).contains(extractionType)) {
       throw new RuntimeException(
-          "extractionTypes should either be `all`, `configs`, `fhir_content`");
+          "extractionTypes should either be `all`, `configs`, `fhirContent`");
     }
 
     if (Objects.equals(mode, "extract")) {
