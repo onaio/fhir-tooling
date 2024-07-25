@@ -72,6 +72,7 @@ The coverage report `coverage.html` will be at the working directory
 - The seventh and eighth columns are the location's type and typeCode, respectively
 - The ninth column is the administrative level, that shows the hierarchical level of the location. Root location would have a `level 0` and all child locations will have a level `parent_admin_level + 1`
 - The tenth and eleventh columns are the location's physicalType and physicalTypeCode, respectively
+- You can pass in `--location_type_coding_system` to define your own location type coding system url (not required)
 
 ### 2. Create users in bulk
 - Run `python3 main.py --csv_file csv/users.csv --resource_type users --log_level info`
