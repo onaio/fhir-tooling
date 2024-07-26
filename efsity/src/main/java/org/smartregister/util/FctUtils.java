@@ -13,11 +13,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.FileVisitResult;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.SimpleFileVisitor;
+import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -174,6 +170,65 @@ public class FctUtils {
   public static <T extends IBaseResource> T getFhirResource(Class<T> t, String contentAsString) {
     IParser iParser = FhirContext.forCached(FhirVersionEnum.R4).newJsonParser();
     return iParser.parseResource(t, contentAsString);
+  }
+
+  public static void copyDirectoryContent(Path sourceDir, Path destinationDir) {
+    try {
+      Files.walkFileTree(
+          sourceDir,
+          new SimpleFileVisitor<Path>() {
+            @Override
+            public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs)
+                throws IOException {
+              Path targetDir = destinationDir.resolve(sourceDir.relativize(dir));
+              if (!Files.exists(targetDir)) {
+                Files.createDirectory(targetDir);
+              }
+              return FileVisitResult.CONTINUE;
+            }
+
+            @Override
+            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs)
+                throws IOException {
+
+              Files.copy(
+                  file,
+                  destinationDir.resolve(sourceDir.relativize(file)),
+                  StandardCopyOption.REPLACE_EXISTING);
+              return FileVisitResult.CONTINUE;
+            }
+          });
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  public static void deleteDirectoryRecursively(Path dirPath) {
+
+    try {
+      // Delete the directory and its contents recursively
+      Files.walkFileTree(
+          dirPath,
+          new SimpleFileVisitor<Path>() {
+            @Override
+            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs)
+                throws IOException {
+              Files.delete(file);
+              return FileVisitResult.CONTINUE;
+            }
+
+            @Override
+            public FileVisitResult postVisitDirectory(Path dir, IOException exc)
+                throws IOException {
+              Files.delete(dir);
+              return FileVisitResult.CONTINUE;
+            }
+          });
+
+      System.out.println("Directory and its contents deleted successfully: " + dirPath);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   public static final class Constants {
