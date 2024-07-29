@@ -8,7 +8,7 @@ Class that provides utility to:
 
 import os
 import time
-from dataclasses import dataclass, fields, field
+from dataclasses import dataclass, field, fields
 from typing import Union
 
 import backoff
