@@ -81,41 +81,41 @@ def organization_extras(resource, payload_string):
 
 
 # custom extras for locations
-def location_extras(resource, payload_string):
+def location_extras(resource, payload_string, location_coding_system):
     try:
         (
             locationName,
             *_,
-            locationParentName,
-            locationParentId,
-            locationType,
-            locationTypeCode,
-            locationAdminLevel,
-            locationPhysicalType,
-            locationPhysicalTypeCode,
+            location_parent_name,
+            location_parent_id,
+            location_type,
+            location_type_code,
+            location_admin_level,
+            location_physical_type,
+            location_physical_type_code,
             longitude,
             latitude,
         ) = resource
     except ValueError:
-        locationParentName = "parentName"
-        locationParentId = "ParentId"
-        locationType = "type"
-        locationTypeCode = "typeCode"
-        locationAdminLevel = "adminLevel"
-        locationPhysicalType = "physicalType"
-        locationPhysicalTypeCode = "physicalTypeCode"
+        location_parent_name = "parentName"
+        location_parent_id = "ParentId"
+        location_type = "type"
+        location_type_code = "typeCode"
+        location_admin_level = "adminLevel"
+        location_physical_type = "physicalType"
+        location_physical_type_code = "physicalTypeCode"
         longitude = "longitude"
 
     try:
-        if locationParentId and locationParentId != "parentId":
-            payload_string = payload_string.replace("$parentID", locationParentId)
-            if not locationParentName or locationParentName == "parentName":
+        if location_parent_id and location_parent_id != "parentId":
+            payload_string = payload_string.replace("$parentID", location_parent_id)
+            if not location_parent_name or location_parent_name == "parentName":
                 obj = json.loads(payload_string)
-                del obj["resource"]["partOf"]["display"]
+                del obj["resource"]["partOf"]['display']
                 payload_string = json.dumps(obj, indent=4)
             else:
                 payload_string = payload_string.replace(
-                    "$parentName", locationParentName
+                    "$parentName", location_parent_name
                 )
         else:
             obj = json.loads(payload_string)
@@ -127,10 +127,11 @@ def location_extras(resource, payload_string):
         payload_string = json.dumps(obj, indent=4)
 
     try:
-        if locationType and locationType != "type":
-            payload_string = payload_string.replace("$t_display", locationType)
-        if locationTypeCode and locationTypeCode != "typeCode":
-            payload_string = payload_string.replace("$t_code", locationTypeCode)
+        payload_string = payload_string.replace("$t_system", location_coding_system)
+        if len(location_type.strip()) > 0 and location_type != "type":
+            payload_string = payload_string.replace("$t_display", location_type)
+        if location_type_code and location_type_code != "typeCode":
+            payload_string = payload_string.replace("$t_code", location_type_code)
         else:
             obj = json.loads(payload_string)
             payload_type = obj["resource"]["type"]
@@ -149,13 +150,13 @@ def location_extras(resource, payload_string):
             payload_string = json.dumps(obj, indent=4)
 
     try:
-        if locationAdminLevel and locationAdminLevel != "adminLevel":
+        if location_admin_level and location_admin_level != "adminLevel":
             payload_string = payload_string.replace(
-                "$adminLevelCode", locationAdminLevel
+                "$adminLevelCode", location_admin_level
             )
         else:
-            if locationAdminLevel in resource:
-                admin_level = check_parent_admin_level(locationParentId)
+            if location_admin_level in resource:
+                admin_level = check_parent_admin_level(location_parent_id)
                 if admin_level:
                     payload_string = payload_string.replace(
                         "$adminLevelCode", admin_level
@@ -175,8 +176,8 @@ def location_extras(resource, payload_string):
                 del obj["resource"]["type"][index]
                 payload_string = json.dumps(obj, indent=4)
     except IndexError:
-        if locationAdminLevel in resource:
-            admin_level = check_parent_admin_level(locationParentId)
+        if location_admin_level in resource:
+            admin_level = check_parent_admin_level(location_parent_id)
             if admin_level:
                 payload_string = payload_string.replace("$adminLevelCode", admin_level)
             else:
@@ -195,11 +196,11 @@ def location_extras(resource, payload_string):
             payload_string = json.dumps(obj, indent=4)
 
     try:
-        if locationPhysicalType and locationPhysicalType != "physicalType":
-            payload_string = payload_string.replace("$pt_display", locationPhysicalType)
-        if locationPhysicalTypeCode and locationPhysicalTypeCode != "physicalTypeCode":
+        if location_physical_type and location_physical_type != "physicalType":
+            payload_string = payload_string.replace("$pt_display", location_physical_type)
+        if location_physical_type_code and location_physical_type_code != "physicalTypeCode":
             payload_string = payload_string.replace(
-                "$pt_code", locationPhysicalTypeCode
+                "$pt_code", location_physical_type_code
             )
         else:
             obj = json.loads(payload_string)
@@ -243,7 +244,6 @@ def location_extras(resource, payload_string):
         payload_string = json.dumps(obj, indent=4)
 
     return payload_string
-
 
 # custom extras for careTeams
 def care_team_extras(resource, payload_string, f_type):
@@ -640,7 +640,7 @@ def check_for_nulls(resource: list) -> list:
 # This function builds a json payload
 # which is posted to the api to create resources
 def build_payload(
-    resource_type, resources, resource_payload_file, created_resources=None
+    resource_type, resources, resource_payload_file, created_resources=None, location_coding_system=None
 ):
     logging.info("Building request payload")
     initial_string = """{"resourceType": "Bundle","type": "transaction","entry": [ """
@@ -703,7 +703,7 @@ def build_payload(
             if resource_type == "organizations":
                 ps = organization_extras(resource, ps)
             elif resource_type == "locations":
-                ps = location_extras(resource, ps)
+                ps = location_extras(resource, ps, location_coding_system)
             elif resource_type == "careTeams":
                 ps = care_team_extras(resource, ps, "orgs & users")
             elif resource_type == "Group":

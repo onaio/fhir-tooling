@@ -414,7 +414,7 @@ class TestBuilder(unittest.TestCase):
 
         resource = [["Supply Inventory List", "current", "create", "77dae131-fd5d-4585-95db-2dd2b569d7a1"]]
         result_payload = build_payload(
-            "List", resource, json_path + "product_list_payload.json")
+            "List", resource, json_path + "group_list_payload.json")
         full_list_payload = process_resources_list(result_payload, created_resources)
 
         resource_schema = {
