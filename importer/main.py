@@ -260,7 +260,7 @@ def main(
                 "Group", resource_list, json_path + "inventory_group_payload.json"
             )
             final_response = handle_request("POST", json_payload, fhir_base_url)
-            inventory_creation_response = handle_request("POST", json_payload, config.fhir_base_url)
+            inventory_creation_response = handle_request("POST", json_payload, fhir_base_url)
             groups_created = []
             if inventory_creation_response.status_code == 200:
                 groups_created = extract_resources(groups_created, inventory_creation_response.text)
@@ -279,7 +279,7 @@ def main(
             if len(full_list_created_resources) > 0:
                 list_payload = build_group_list_resource(
                     list_resource_id, csv_file, full_list_created_resources, "Supply Chain commodities")
-                final_response = handle_request("POST", "", config.fhir_base_url, list_payload)
+                final_response = handle_request("POST", "", fhir_base_url, list_payload)
                 logging.info("Processing complete!")
         else:
             logging.error("Unsupported request!")
