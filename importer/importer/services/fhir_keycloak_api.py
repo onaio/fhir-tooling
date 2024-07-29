@@ -20,7 +20,6 @@ from requests_oauthlib import OAuth2Session
 keycloak_url = os.getenv("keycloak_url")
 
 
-
 def is_readable_string(s):
     """
     Check if a variable is not an empty string.

@@ -1,9 +1,11 @@
-import unittest
 import json
-from mock import patch
-from jsonschema import validate
+import unittest
 
-from importer.users import create_user, create_user_resources, confirm_keycloak_user, confirm_practitioner
+from jsonschema import validate
+from mock import patch
+
+from importer.users import (confirm_keycloak_user, confirm_practitioner,
+                            create_user, create_user_resources)
 
 
 class TestUsers(unittest.TestCase):

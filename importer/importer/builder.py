@@ -22,6 +22,8 @@ def identify_coding_object_index(array, current_system):
         list_of_systems = value["coding"][0]["system"]
         if current_system in list_of_systems:
             return index
+        else:
+            return -1
 
 
 def get_base_url():
@@ -111,7 +113,7 @@ def location_extras(resource, payload_string, location_coding_system):
             payload_string = payload_string.replace("$parentID", location_parent_id)
             if not location_parent_name or location_parent_name == "parentName":
                 obj = json.loads(payload_string)
-                del obj["resource"]["partOf"]['display']
+                del obj["resource"]["partOf"]["display"]
                 payload_string = json.dumps(obj, indent=4)
             else:
                 payload_string = payload_string.replace(
@@ -128,7 +130,7 @@ def location_extras(resource, payload_string, location_coding_system):
 
     try:
         payload_string = payload_string.replace("$t_system", location_coding_system)
-        if len(location_type.strip()) > 0 and location_type != "type":
+        if location_type and location_type != "type":
             payload_string = payload_string.replace("$t_display", location_type)
         if location_type_code and location_type_code != "typeCode":
             payload_string = payload_string.replace("$t_code", location_type_code)
@@ -197,8 +199,13 @@ def location_extras(resource, payload_string, location_coding_system):
 
     try:
         if location_physical_type and location_physical_type != "physicalType":
-            payload_string = payload_string.replace("$pt_display", location_physical_type)
-        if location_physical_type_code and location_physical_type_code != "physicalTypeCode":
+            payload_string = payload_string.replace(
+                "$pt_display", location_physical_type
+            )
+        if (
+            location_physical_type_code
+            and location_physical_type_code != "physicalTypeCode"
+        ):
             payload_string = payload_string.replace(
                 "$pt_code", location_physical_type_code
             )
@@ -244,6 +251,7 @@ def location_extras(resource, payload_string, location_coding_system):
         payload_string = json.dumps(obj, indent=4)
 
     return payload_string
+
 
 # custom extras for careTeams
 def care_team_extras(resource, payload_string, f_type):
@@ -640,7 +648,11 @@ def check_for_nulls(resource: list) -> list:
 # This function builds a json payload
 # which is posted to the api to create resources
 def build_payload(
-    resource_type, resources, resource_payload_file, created_resources=None, location_coding_system=None
+    resource_type,
+    resources,
+    resource_payload_file,
+    created_resources=None,
+    location_coding_system=None,
 ):
     logging.info("Building request payload")
     initial_string = """{"resourceType": "Bundle","type": "transaction","entry": [ """
@@ -939,14 +951,17 @@ def build_assign_payload(rows, resource_type, url_filter):
     return json.dumps(bundle, indent=4)
 
 
-def build_group_list_resource(list_resource_id: str, csv_file: str, full_list_created_resources: list, title: str):
+def build_group_list_resource(
+    list_resource_id: str, csv_file: str, full_list_created_resources: list, title: str
+):
     if not list_resource_id:
         list_resource_id = str(uuid.uuid5(uuid.NAMESPACE_DNS, csv_file))
     current_version = get_resource(list_resource_id, "List")
     method = "create" if current_version == str(0) else "update"
     resource = [[title, "current", method, list_resource_id]]
     result_payload = build_payload(
-        "List", resource, "json_payloads/group_list_payload.json")
+        "List", resource, "json_payloads/group_list_payload.json"
+    )
     return process_resources_list(result_payload, full_list_created_resources)
 
 
@@ -959,7 +974,8 @@ def extract_resources(created_resources, response_string):
     entry = json_response["entry"]
     for item in entry:
         resource = item["response"]["location"]
-        created_resources.append(resource[0:42])
+        index = resource.find("/", resource.find("/") + 1)
+        created_resources.append(resource[0:index])
     return created_resources
 
 

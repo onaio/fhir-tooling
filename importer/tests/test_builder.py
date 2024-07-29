@@ -1,11 +1,14 @@
-import unittest
 import json
 import pathlib
-from mock import patch
-from jsonschema import validate
+import unittest
 
-from importer.builder import (build_payload, extract_resources, process_resources_list, extract_matches,
-                                   build_org_affiliation, check_parent_admin_level, build_assign_payload)
+from jsonschema import validate
+from mock import patch
+
+from importer.builder import (build_assign_payload, build_org_affiliation,
+                              build_payload, check_parent_admin_level,
+                              extract_matches, extract_resources,
+                              process_resources_list)
 from importer.utils import read_csv
 
 dir_path = str(pathlib.Path(__file__).parent.resolve())
@@ -21,9 +24,7 @@ class TestBuilder(unittest.TestCase):
         csv_file = csv_path + "organizations/organizations_full.csv"
         resource_list = read_csv(csv_file)
         json_file = json_path + "organizations_payload.json"
-        payload = build_payload(
-            "organizations", resource_list, json_file
-        )
+        payload = build_payload("organizations", resource_list, json_file)
         payload_obj = json.loads(payload)
         self.assertIsInstance(payload_obj, dict)
         self.assertEqual(payload_obj["resourceType"], "Bundle")
@@ -55,9 +56,7 @@ class TestBuilder(unittest.TestCase):
         #  TestCase organizations_min.csv
         csv_file = csv_path + "organizations/organizations_min.csv"
         resource_list = read_csv(csv_file)
-        payload = build_payload(
-            "organizations", resource_list, json_file
-        )
+        payload = build_payload("organizations", resource_list, json_file)
         payload_obj = json.loads(payload)
         self.assertIsInstance(payload_obj, dict)
         self.assertEqual(payload_obj["resourceType"], "Bundle")
@@ -98,7 +97,11 @@ class TestBuilder(unittest.TestCase):
         resource_list = read_csv(csv_file)
         json_file = json_path + "locations_payload.json"
         payload = build_payload(
-            "locations", resource_list, json_file, None, "http://terminology.hl7.org/CodeSystem/location-type"
+            "locations",
+            resource_list,
+            json_file,
+            None,
+            "http://terminology.hl7.org/CodeSystem/location-type",
         )
         payload_obj = json.loads(payload)
         self.assertIsInstance(payload_obj, dict)
@@ -187,7 +190,11 @@ class TestBuilder(unittest.TestCase):
         csv_file = csv_path + "locations/locations_min.csv"
         resource_list = read_csv(csv_file)
         payload = build_payload(
-            "locations", resource_list, json_file, None, "http://terminology.hl7.org/CodeSystem/location-type"
+            "locations",
+            resource_list,
+            json_file,
+            None,
+            "http://terminology.hl7.org/CodeSystem/location-type",
         )
         payload_obj = json.loads(payload)
         self.assertIsInstance(payload_obj, dict)
@@ -356,7 +363,7 @@ class TestBuilder(unittest.TestCase):
             "Group", resource_list, json_path + "product_group_payload.json", []
         )
         payload_obj = json.loads(payload)
-        self.assertEqual(list_resource, ['Binary/f374a23a-3c6a-4167-9970-b10c16a91bbd'])
+        self.assertEqual(list_resource, ["Binary/f374a23a-3c6a-4167-9970-b10c16a91bbd"])
 
         self.assertIsInstance(payload_obj, dict)
         self.assertEqual(payload_obj["resourceType"], "Bundle")
@@ -401,20 +408,32 @@ class TestBuilder(unittest.TestCase):
         validate(payload_obj["entry"][0]["request"], request_schema)
 
     def test_build_payload_group_reference_list(self):
-        binary_resources = ['Binary/df620fe8-eeaa-47c6-809c-84252e22980a']
-        response_string = ('{"entry": [{"response": {"location": '
-                           '"Group/ce64e19d-6d8a-4ef0-8fc6-1da83783aea8/_history/1"}}, {"response": '
-                           '{"location": "Group/aedd3c1a-5de8-45d5-8b35-5c288ccbb761/_history/1"}}]}')
-        expected_resource_list = ['Binary/df620fe8-eeaa-47c6-809c-84252e22980a',
-                                  'Group/ce64e19d-6d8a-4ef0-8fc6-1da83783aea8',
-                                  'Group/aedd3c1a-5de8-45d5-8b35-5c288ccbb761']
+        binary_resources = ["Binary/df620fe8-eeaa-47c6-809c-84252e22980a"]
+        response_string = (
+            '{"entry": [{"response": {"location": '
+            '"Group/ce64e19d-6d8a-4ef0-8fc6-1da83783aea8/_history/1"}}, {"response": '
+            '{"location": "Group/aedd3c1a-5de8-45d5-8b35-5c288ccbb761/_history/1"}}]}'
+        )
+        expected_resource_list = [
+            "Binary/df620fe8-eeaa-47c6-809c-84252e22980a",
+            "Group/ce64e19d-6d8a-4ef0-8fc6-1da83783aea8",
+            "Group/aedd3c1a-5de8-45d5-8b35-5c288ccbb761",
+        ]
 
         created_resources = extract_resources(binary_resources, response_string)
         self.assertEqual(created_resources, expected_resource_list)
 
-        resource = [["Supply Inventory List", "current", "create", "77dae131-fd5d-4585-95db-2dd2b569d7a1"]]
+        resource = [
+            [
+                "Supply Inventory List",
+                "current",
+                "create",
+                "77dae131-fd5d-4585-95db-2dd2b569d7a1",
+            ]
+        ]
         result_payload = build_payload(
-            "List", resource, json_path + "group_list_payload.json")
+            "List", resource, json_path + "group_list_payload.json"
+        )
         full_list_payload = process_resources_list(result_payload, created_resources)
 
         resource_schema = {
@@ -428,7 +447,15 @@ class TestBuilder(unittest.TestCase):
                 "title": {"const": "Supply Inventory List"},
                 "entry": {"type": "array", "minItems": 3, "maxItems": 3},
             },
-            "required": ["resourceType", "id", "identifier", "status", "mode", "title", "entry"],
+            "required": [
+                "resourceType",
+                "id",
+                "identifier",
+                "status",
+                "mode",
+                "title",
+                "entry",
+            ],
         }
         validate(full_list_payload["entry"][0]["resource"], resource_schema)
 
@@ -506,8 +533,11 @@ class TestBuilder(unittest.TestCase):
         ]
 
         payload = build_payload(
-            "locations", resources, json_path + "locations_payload.json", None,
-            "http://terminology.hl7.org/CodeSystem/location-type"
+            "locations",
+            resources,
+            json_path + "locations_payload.json",
+            None,
+            "http://terminology.hl7.org/CodeSystem/location-type",
         )
         payload_obj = json.loads(payload)
         location1 = payload_obj["entry"][0]["resource"]["id"]
@@ -557,9 +587,7 @@ class TestBuilder(unittest.TestCase):
             ]
         ]
         with self.assertRaises(ValueError) as raised_error:
-            build_payload(
-                "locations", resources, json_path + "locations_payload.json"
-            )
+            build_payload("locations", resources, json_path + "locations_payload.json")
         self.assertEqual(
             "The id is required to update a resource", str(raised_error.exception)
         )
@@ -583,9 +611,7 @@ class TestBuilder(unittest.TestCase):
             ]
         ]
         with self.assertRaises(ValueError) as raised_error:
-            build_payload(
-                "locations", resources, json_path + "locations_payload.json"
-            )
+            build_payload("locations", resources, json_path + "locations_payload.json")
         self.assertEqual(
             "Trying to update a Non-existent resource", str(raised_error.exception)
         )
@@ -910,4 +936,28 @@ class TestBuilder(unittest.TestCase):
         self.assertEqual(
             payload_obj["entry"][1]["resource"]["entry"][0]["item"]["reference"],
             "Group/c0666a5a-00f6-488c-9001-8630560b5810",
+        )
+
+    @patch("importer.builder.check_parent_admin_level")
+    @patch("importer.builder.get_resource")
+    def test_define_own_location_type_coding_system_url(
+        self, mock_get_resource, mock_check_parent_admin_level
+    ):
+        mock_get_resource.return_value = "1"
+        mock_check_parent_admin_level.return_value = "3"
+        test_system_code = "http://terminology.hl7.org/CodeSystem/test_location-type"
+
+        csv_file = csv_path + "locations/locations_full.csv"
+        resource_list = read_csv(csv_file)
+        payload = build_payload(
+            "locations",
+            resource_list,
+            json_path + "locations_payload.json",
+            None,
+            test_system_code,
+        )
+        payload_obj = json.loads(payload)
+        self.assertEqual(
+            payload_obj["entry"][0]["resource"]["type"][0]["coding"][0]["system"],
+            test_system_code,
         )

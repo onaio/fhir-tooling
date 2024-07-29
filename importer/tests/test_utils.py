@@ -1,9 +1,11 @@
 import json
 import pathlib
 import unittest
+
 from mock import patch
 
-from importer.utils import read_csv, write_csv, export_resources_to_csv, split_chunk, read_file_in_chunks
+from importer.utils import (export_resources_to_csv, read_csv,
+                            read_file_in_chunks, split_chunk, write_csv)
 
 dir_path = str(pathlib.Path(__file__).parent.resolve())
 
@@ -192,4 +194,3 @@ class TestUtils(unittest.TestCase):
         }
         self.assertIsInstance(mapping, dict)
         self.assertEqual(mapping, mapped_resources)
-

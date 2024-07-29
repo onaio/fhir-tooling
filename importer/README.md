@@ -12,7 +12,7 @@ This script is used to setup keycloak roles and groups. It takes in a csv file w
 - `csv_file` : (Required) The csv file with the list of roles
 - `group` : (Not required) This is the actual group name. If not passed then the roles will just be created but not assigned to any group
 - `roles_max` : (Not required) This is the maximum number of roles to pull from the api. The default is set to 500. If the number of roles in your setup is more than this you will need to change this value
-- `defaultgroups` : (Not Required)
+- `default_groups` : (Not Required) This is a boolean value to turn on and off the assignment of default roles. The default value is `true`
 
 
 ### To run script
@@ -174,7 +174,7 @@ The coverage report `coverage.html` will be at the working directory
 - You can pass in a `list_resource_id` to be used as the identifier for the (reference) List resource, or you can leave it empty and a random uuid will be generated
 
 ### 12. Import JSON resources from file
-- Run `python3 main.py --bulk_import True --json_file tests/fhir_sample.json --chunk_size 500000 --sync sort --resources_count 100 --log_level info`
+- Run `python3 main.py --bulk_import True --json_file tests/json/sample.json --chunk_size 500000 --sync sort --resources_count 100 --log_level info`
 - This takes in a file with a JSON array, reads the resources from the array in the file and posts them to the FHIR server
 - `bulk_import` (Required) must be set to True
 - `json_file` (Required) points to the file with the json array. The resources in the array need to be separated by a single comma (no spaces) and the **"id"** must always be the first attribute in the resource object. This is what the code uses to identify the beginning and end of resources
