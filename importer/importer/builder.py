@@ -939,6 +939,17 @@ def build_assign_payload(rows, resource_type, url_filter):
     return json.dumps(bundle, indent=4)
 
 
+def build_group_list_resource(list_resource_id: str, csv_file: str, full_list_created_resources: list, title: str):
+    if not list_resource_id:
+        list_resource_id = str(uuid.uuid5(uuid.NAMESPACE_DNS, csv_file))
+    current_version = get_resource(list_resource_id, "List")
+    method = "create" if current_version == str(0) else "update"
+    resource = [[title, "current", method, list_resource_id]]
+    result_payload = build_payload(
+        "List", resource, "json_payloads/group_list_payload.json")
+    return process_resources_list(result_payload, full_list_created_resources)
+
+
 # This function takes a 'created_resources' array and a response string
 # It converts the response string to a json object, then loops through the entry array
 # extracting all the referenced resources and adds them to the created_resources array

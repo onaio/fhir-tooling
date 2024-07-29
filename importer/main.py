@@ -8,7 +8,7 @@ import click
 
 from importer.builder import (build_assign_payload, build_org_affiliation,
                               build_payload, extract_matches,
-                              extract_resources, get_resource,
+                              extract_resources, build_group_list_resource, get_resource,
                               link_to_location, process_resources_list)
 from importer.config.settings import fhir_base_url
 from importer.request import handle_request
