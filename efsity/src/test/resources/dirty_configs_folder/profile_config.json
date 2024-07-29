@@ -1,0 +1,62 @@
+{
+  "DO NOT REMOVE _ MALFORMED JSON CONTENT FOR TESTING",
+  "appId": "app_id_name",
+  "configType": "profile",
+  "id": "config_id",
+  "fhirResource": {
+    "baseResource": {
+      "resource": "Patient"
+    },
+    "relatedResources": [
+      {
+        "resource": "Condition",
+        "searchParameter": "subject"
+      }
+      ]},
+  "rules": [
+    {
+      "name": "patientFirstName",
+      "condition": "true",
+      "actions": [
+        "data.put('patientFirstName', fhirPath.extractValue(Patient, \"Patient.name[0].select(given)\"))"
+      ]
+    },
+    {
+      "name": "patientMiddleName",
+      "condition": "true",
+      "actions": [
+        "data.put('patientMiddleName', fhirPath.extractValue(Patient, \"Patient.name[0].select(text[0])\"))"
+      ]
+    },
+    {
+      "name": "patientLastName",
+      "condition": "true",
+      "actions": [
+        "data.put('patientLastName', fhirPath.extractValue(Patient, \"Patient.name[0].select(family)\"))"
+      ]
+    }
+  ],
+  "views": [
+    {
+      "viewType": "COLUMN",
+      "children": [
+        {
+          "viewType": "CARD",
+          "padding": 0
+        }
+      ]
+    }
+  ],
+  "overFlowMenuItems": [
+    {
+      "title": "Edit Client Info",
+      "titleColor": "@{patientTextColor}",
+      "visible": "true",
+      "enabled": "@{patientActive}",
+      "icon": {
+        "type": "local",
+        "reference": "ic_user"
+      }
+    }
+  ]
+}
