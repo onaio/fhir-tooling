@@ -1,8 +1,10 @@
 package org.smartregister.command;
 
+import com.github.javafaker.Faker;
 import com.google.gson.Gson;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDate;
@@ -52,6 +54,12 @@ public class QuestionnaireResponseGeneratorCommand implements Runnable {
   private String fhir_base_url;
 
   @CommandLine.Option(
+      names = {"-e", "--extras"},
+      description = "path to extra definitions to use Faker for value generation",
+      required = false)
+  private String extrasPath;
+
+  @CommandLine.Option(
       names = {"-k", "--apiKey"},
       description = "api key",
       required = false)
@@ -76,32 +84,36 @@ public class QuestionnaireResponseGeneratorCommand implements Runnable {
   private String outputFilePath;
 
   private static Random random = new Random();
+  private static final Faker faker = new Faker();
 
   @Override
   public void run() {
-    if (Objects.equals(mode, "populate")) {
-      if (fhir_base_url == null) {
-        throw new IllegalArgumentException(
-            "The FHIR server url is required when using the 'populate' mode");
-      }
-    } else if (Objects.equals(mode, "ai")) {
-      if (apiKey == null) {
-        throw new IllegalArgumentException("The API key is required when using the 'ai' mode");
-      }
-    } else {
-      throw new IllegalArgumentException("Invalid generation mode");
-    }
+    validateOptions();
     if (inputFilePath != null) {
       try {
-        generateResponse(inputFilePath, mode, fhir_base_url, apiKey);
+        generateResponse(inputFilePath, mode, extrasPath, fhir_base_url, apiKey);
       } catch (IOException e) {
         throw new RuntimeException(e);
       }
     }
   }
 
+  private void validateOptions() {
+    if (Objects.equals(mode, "populate") && fhir_base_url == null) {
+      throw new IllegalArgumentException(
+          "The FHIR server url is required when using the 'populate' mode");
+    }
+    if (Objects.equals(mode, "ai") && apiKey == null) {
+      throw new IllegalArgumentException("The API key is required when using the 'ai' mode");
+    }
+    if (!Objects.equals(mode, "populate") && !Objects.equals(mode, "ai")) {
+      throw new IllegalArgumentException("Invalid generation mode");
+    }
+  }
+
   private void generateResponse(
-      String inputFilePath, String mode, String fhir_base_url, String apiKey) throws IOException {
+      String inputFilePath, String mode, String extrasPath, String fhir_base_url, String apiKey)
+      throws IOException {
     long start = System.currentTimeMillis();
 
     FctUtils.printInfo("Starting FHIR questionnaireResponse generation");
@@ -111,13 +123,11 @@ public class QuestionnaireResponseGeneratorCommand implements Runnable {
     FctUtils.printInfo("Reading your questionnaire");
     FctFile inputFile = FctUtils.readFile(inputFilePath);
     String questionnaireData = inputFile.getContent();
-    String questionnaireResponseString;
 
-    if (Objects.equals(mode, "populate")) {
-      questionnaireResponseString = populateMode(questionnaireData, fhir_base_url);
-    } else {
-      questionnaireResponseString = aiMode(questionnaireData, apiKey);
-    }
+    String questionnaireResponseString =
+        (Objects.equals(mode, "populate"))
+            ? populateMode(questionnaireData, fhir_base_url, extrasPath)
+            : aiMode(questionnaireData, apiKey);
 
     // Write response to file
     FctUtils.printInfo("Writing response to file");
@@ -164,7 +174,7 @@ public class QuestionnaireResponseGeneratorCommand implements Runnable {
     LocalDate startDate = LocalDate.of(1960, 1, 1);
     LocalDate endDate = LocalDate.of(2023, 12, 31);
     long daysBetween = ChronoUnit.DAYS.between(startDate, endDate);
-    long randomDays = new Random().nextLong(daysBetween + 1);
+    long randomDays = random.nextLong(daysBetween + 1);
     return startDate.plusDays(randomDays);
   }
 
@@ -172,100 +182,148 @@ public class QuestionnaireResponseGeneratorCommand implements Runnable {
     LocalDateTime startDateTime = LocalDateTime.of(2000, 1, 1, 0, 0);
     LocalDateTime endDateTime = LocalDateTime.of(2024, 12, 31, 23, 59);
     long secondsBetween = ChronoUnit.SECONDS.between(startDateTime, endDateTime);
-    long randomSeconds = new Random().nextLong(secondsBetween + 1);
+    long randomSeconds = random.nextLong(secondsBetween + 1);
     return startDateTime.plusSeconds(randomSeconds);
   }
 
-  private static JSONObject generateAnswer(String type, JSONArray questions, String link_id) {
+  public static JSONObject generateChoiceValue(JSONArray questions, String link_id) {
+    for (int i = 0; i < questions.length(); i++) {
+      JSONObject current_object = questions.getJSONObject(i);
+      String current_id = current_object.getString("linkId");
+      if (Objects.equals(current_id, link_id)) {
+        if (current_object.has("answerOption")) {
+          JSONArray answer_options = current_object.getJSONArray("answerOption");
+          int random_index = random.nextInt(answer_options.length());
+          return answer_options.getJSONObject(random_index).getJSONObject("valueCoding");
+        }
+      }
+    }
+    return null;
+  }
+
+  public static JSONObject generateQuantityValue(JSONArray questions, String link_id) {
+    int minValue = 0;
+    int maxValue = 1000;
+    String unit = "cm";
+    for (int i = 0; i < questions.length(); i++) {
+      JSONObject current_object = questions.getJSONObject(i);
+      String current_id = current_object.getString("linkId");
+      if (Objects.equals(current_id, link_id)) {
+        if (current_object.has("extension")) {
+          JSONArray extension = current_object.getJSONArray("extension");
+          for (int j = 0; j < extension.length(); j++) {
+            JSONObject curr = extension.getJSONObject(j);
+            String url = curr.getString("url");
+            if (url.contains("minValue")) {
+              minValue = curr.getInt("valueInteger");
+            } else if (url.contains("maxValue")) {
+              maxValue = curr.getInt("valueInteger");
+            } else if (url.contains("unit")) {
+              unit = curr.getJSONObject("valueCoding").getString("display");
+            }
+          }
+        }
+      }
+    }
+    JSONObject quantityAnswer = new JSONObject();
+    quantityAnswer.put("value", random.nextInt(minValue, maxValue));
+    quantityAnswer.put("unit", unit);
+    quantityAnswer.put("system", "http://unitsofmeasure.org");
+    quantityAnswer.put("code", unit);
+    return quantityAnswer;
+  }
+
+  public static JSONObject generateReferenceValue() {
+    List<String> exampleResourceTypes =
+        Arrays.asList("Patient", "Practitioner", "Location", "Immunization");
+    int randomPick = random.nextInt(0, exampleResourceTypes.size());
+    JSONObject reference = new JSONObject();
+    reference.put(
+        "reference",
+        String.join("/", exampleResourceTypes.get(randomPick), UUID.randomUUID().toString()));
+    return reference;
+  }
+
+  static Object generateWithFaker(String category, String method) {
+    try {
+      Class<?> fakerClass = Faker.class;
+      Method categoryMethod = fakerClass.getMethod(category);
+      Object categoryInstance = categoryMethod.invoke(faker);
+      Method fakerMethod = categoryInstance.getClass().getMethod(method);
+      return fakerMethod.invoke(categoryInstance);
+    } catch (Exception e) {
+      e.printStackTrace();
+      throw new RuntimeException("Failed to generate fake data", e);
+    }
+  }
+
+  private static JSONObject generateAnswer(
+      String type, JSONArray questions, String link_id, JSONObject extras) {
+    Object result = null;
+    if (extras.has(link_id)) {
+      JSONObject curr = extras.getJSONObject(link_id);
+      result = generateWithFaker(curr.getString("category"), curr.getString("method"));
+    }
+
     JSONObject answer = new JSONObject();
     switch (type.toLowerCase()) {
       case "string":
-        return answer.put("valueString", "FakeString" + random.nextInt(100));
+        return answer.put(
+            "valueString", result != null ? result.toString() : "FakeString" + random.nextInt(100));
       case "integer":
-        return answer.put("valueInteger", random.nextInt(100));
+        return answer.put(
+            "valueInteger", result instanceof Integer ? (Integer) result : random.nextInt(100));
       case "boolean":
-        return answer.put("valueBoolean", random.nextBoolean());
+        return answer.put(
+            "valueBoolean", result instanceof Boolean ? (Boolean) result : random.nextBoolean());
       case "decimal":
-        return answer.put("valueDecimal", random.nextDouble());
+        return answer.put(
+            "valueDecimal", result instanceof Double ? (Double) result : random.nextDouble());
       case "date":
-        return answer.put("valueDate", String.valueOf(generateRandomDate()));
+        return answer.put(
+            "valueDate",
+            result instanceof String ? result.toString() : String.valueOf(generateRandomDate()));
       case "choice":
-        for (int i = 0; i < questions.length(); i++) {
-          JSONObject current_object = questions.getJSONObject(i);
-          String current_id = current_object.getString("linkId");
-          if (Objects.equals(current_id, link_id)) {
-            if (current_object.has("answerOption")) {
-              JSONArray answer_options = current_object.getJSONArray("answerOption");
-              int random_index = random.nextInt(answer_options.length());
-              JSONObject random_value =
-                  answer_options.getJSONObject(random_index).getJSONObject("valueCoding");
-              return answer.put("valueCoding", random_value);
-            }
-          }
-        }
+        return answer.put(
+            "valueCoding",
+            result instanceof JSONObject ? result : generateChoiceValue(questions, link_id));
       case "quantity":
-        int minValue = 0;
-        int maxValue = 1000;
-        String unit = "cm";
-        for (int i = 0; i < questions.length(); i++) {
-          JSONObject current_object = questions.getJSONObject(i);
-          String current_id = current_object.getString("linkId");
-          if (Objects.equals(current_id, link_id)) {
-            if (current_object.has("extension")) {
-              JSONArray extension = current_object.getJSONArray("extension");
-              for (int j = 0; j < extension.length(); j++) {
-                JSONObject curr = extension.getJSONObject(j);
-                String url = curr.getString("url");
-                if (url.contains("minValue")) {
-                  minValue = curr.getInt("valueInteger");
-                } else if (url.contains("maxValue")) {
-                  maxValue = curr.getInt("valueInteger");
-                } else if (url.contains("unit")) {
-                  unit = curr.getJSONObject("valueCoding").getString("display");
-                }
-              }
-            }
-          }
-        }
-        JSONObject quantityAnswer = new JSONObject();
-        quantityAnswer.put("value", random.nextInt(minValue, maxValue));
-        quantityAnswer.put("unit", unit);
-        quantityAnswer.put("system", "http://unitsofmeasure.org");
-        quantityAnswer.put("code", unit);
-        return answer.put("valueQuantity", quantityAnswer);
+        return answer.put(
+            "valueQuantity",
+            result instanceof JSONObject ? result : generateQuantityValue(questions, link_id));
       case "datetime":
-        return answer.put("valueDateTime", String.valueOf(generateRandomDateTime()));
+        return answer.put(
+            "valueDateTime",
+            result instanceof String
+                ? result.toString()
+                : String.valueOf(generateRandomDateTime()));
       case "text":
-        return answer.put("valueString", "This is a fake text" + random.nextInt(100));
+        return answer.put(
+            "valueString",
+            result != null ? result.toString() : "This is a fake text" + random.nextInt(100));
       case "reference":
-        List<String> exampleResourceTypes =
-            Arrays.asList("Patient", "Practitioner", "Location", "Immunization");
-        int randomPick = random.nextInt(0, exampleResourceTypes.size());
-        JSONObject reference = new JSONObject();
-        reference.put(
-            "reference",
-            String.join("/", exampleResourceTypes.get(randomPick), UUID.randomUUID().toString()));
-        return answer.put("valueReference", reference);
+        return answer.put(
+            "valueReference", result instanceof JSONObject ? result : generateReferenceValue());
       default:
         return answer;
     }
   }
 
-  JSONArray getAnswers(JSONArray questions, JSONArray responses) {
+  JSONArray getAnswers(JSONArray questions, JSONArray responses, JSONObject extras) {
     for (int i = 0; i < questions.length(); i++) {
       JSONObject current_question = questions.getJSONObject(i);
       String question_type = current_question.getString("type");
       String link_id = current_question.getString("linkId");
 
       JSONArray answer_arr = new JSONArray();
-      JSONObject answer = generateAnswer(question_type, questions, link_id);
+      JSONObject answer = generateAnswer(question_type, questions, link_id, extras);
       answer_arr.put(answer);
 
       if (question_type.equals("group")) {
         if (current_question.has("item")) {
           JSONArray group_questions = current_question.getJSONArray("item");
           JSONArray group_responses = responses.getJSONObject(i).getJSONArray("item");
-          getAnswers(group_questions, group_responses);
+          getAnswers(group_questions, group_responses, extras);
         }
       }
       responses.getJSONObject(i).put("answer", answer_arr);
@@ -273,10 +331,17 @@ public class QuestionnaireResponseGeneratorCommand implements Runnable {
     return responses;
   }
 
-  String populateMode(String questionnaireData, String fhir_base_url) throws IOException {
+  String populateMode(String questionnaireData, String fhir_base_url, String extrasPath)
+      throws IOException {
     JSONObject resource = new JSONObject(questionnaireData);
     String questionnaire_id = resource.getString("id");
     String resourceType = resource.getString("resourceType");
+
+    JSONObject extras = null;
+    if (extrasPath != null && !extrasPath.isBlank()) {
+      String extrasContent = FctUtils.readFile(extrasPath).getContent();
+      extras = new JSONObject(extrasContent);
+    }
 
     Boolean exists = checkResource(questionnaire_id, resourceType, resource, fhir_base_url);
     if (!exists) {
@@ -300,7 +365,7 @@ public class QuestionnaireResponseGeneratorCommand implements Runnable {
     JSONArray response = (JSONArray) questionnaire_response.get("item");
     JSONArray questions = resource.getJSONArray("item");
 
-    JSONArray response_with_answers = getAnswers(questions, response);
+    JSONArray response_with_answers = getAnswers(questions, response, extras);
     questionnaire_response.put("item", response_with_answers);
     return String.valueOf(questionnaire_response);
   }
