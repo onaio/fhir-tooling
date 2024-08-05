@@ -65,12 +65,14 @@ The tool supports generation of a QuestionnaireResponse via [openai api](https:/
 Optionally, you can also provide the [model](https://platform.openai.com/docs/models) you would like to use, the number of [max-token](https://platform.openai.com/docs/api-reference/completions/create#completions/create-max_tokens) and an output file path
 
 ```console
-$ fct generateResponse -i /path/to/questionnaire.json -k your_api_key
+$ fct generateResponse -i /path/to/questionnaire.json -fs https://example.smartregister.org/fhir
 ```
 
 **Options**
 ```
 -i or --input - file path to the questionnaire
+-gm or --generation-mode - the generation mode to be used. Default is set to 'populate', but can also be set 'ai'
+-fs or --fhir-server - the FHIR server used to generate the questionnaire response
 -k or --apiKey - api key to authenticate
 -m or --model - (Optional) model you want to use. The default is `gpt-3.5-turbo-16k`
 -t or --tokens - (Optional) max number of tokens to be used for the request. The default is 9000
