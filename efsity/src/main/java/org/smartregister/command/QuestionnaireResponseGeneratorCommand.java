@@ -284,13 +284,9 @@ public class QuestionnaireResponseGeneratorCommand implements Runnable {
             "valueDate",
             result instanceof String ? result.toString() : String.valueOf(generateRandomDate()));
       case "choice":
-        return answer.put(
-            "valueCoding",
-            result instanceof JSONObject ? result : generateChoiceValue(questions, link_id));
+        return answer.put("valueCoding", generateChoiceValue(questions, link_id));
       case "quantity":
-        return answer.put(
-            "valueQuantity",
-            result instanceof JSONObject ? result : generateQuantityValue(questions, link_id));
+        return answer.put("valueQuantity", generateQuantityValue(questions, link_id));
       case "datetime":
         return answer.put(
             "valueDateTime",
@@ -302,8 +298,7 @@ public class QuestionnaireResponseGeneratorCommand implements Runnable {
             "valueString",
             result != null ? result.toString() : "This is a fake text" + random.nextInt(100));
       case "reference":
-        return answer.put(
-            "valueReference", result instanceof JSONObject ? result : generateReferenceValue());
+        return answer.put("valueReference", generateReferenceValue());
       default:
         return answer;
     }
