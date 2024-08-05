@@ -9,6 +9,7 @@ hapi-fhir-utilities-version="3.8.0"
 hapi-fhir-version="6.0.1"
 info-picocli-version="4.7.4"
 jackson-version="2.15.2"
+javafaker-version="1.0.2"
 json-version="20230618"
 jsonschemafriend-version="0.12.2"
 kotlin-stdlib="1.8.22"
@@ -43,6 +44,7 @@ jsonschemafriend = { module = "net.jimblackler.jsonschemafriend:core", version.r
 jackson-annotations = { module = "com.fasterxml.jackson.core:jackson-annotations", version.ref = "jackson-version" }
 jackson-core = { module = "com.fasterxml.jackson.core:jackson-core", version.ref = "jackson-version" }
 jackson-databind = { module = "com.fasterxml.jackson.core:jackson-databind", version.ref = "jackson-version" }
+javafaker = { module = "com.github.javafaker:javafaker", version.ref = "javafaker-version"}
 picocli = { module = "info.picocli:picocli", version.ref = "info-picocli-version" }
 xstream = { module = "com.thoughtworks.xstream:xstream", version.ref = "xstream" }
 icu4j = { module="com.ibm.icu:icu4j", version.ref = "icu4j-version" }
