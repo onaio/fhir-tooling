@@ -257,7 +257,7 @@ public class QuestionnaireResponseGeneratorCommand implements Runnable {
     }
   }
 
-  private static JSONObject generateAnswer(
+  static JSONObject generateAnswer(
       String type, JSONArray questions, String link_id, JSONObject extras) {
     Object result = null;
     if (extras.has(link_id)) {
