@@ -49,3 +49,7 @@ Example extras.json file
 
 You can see a full list of options from Faker [here](https://dius.github.io/java-faker/apidocs/index.html)
 
+## AI Mode
+The tool supports generation of a QuestionnaireResponse via [openai api](https://platform.openai.com/docs/api-reference/introduction) using the [chat completions endpoint](https://platform.openai.com/docs/api-reference/chat/create). You will need to provide a [token](https://platform.openai.com/docs/api-reference/authentication) for authentication and a path to the _Questionnaire_
+
+Optionally, you can also provide the [model](https://platform.openai.com/docs/models) you would like to use, the number of [max-token](https://platform.openai.com/docs/api-reference/completions/create#completions/create-max_tokens) and an output file path
