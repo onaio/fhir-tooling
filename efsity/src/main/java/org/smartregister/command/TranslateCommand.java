@@ -5,10 +5,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.common.annotations.VisibleForTesting;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
-import java.nio.file.attribute.BasicFileAttributes;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
+import org.apache.commons.lang3.StringUtils;
 import org.smartregister.util.FCTConstants;
 import org.smartregister.util.FctUtils;
 import picocli.CommandLine;
@@ -69,7 +70,7 @@ public class TranslateCommand implements Runnable {
     }
     if (extractionType != null && !Arrays.asList(extractionTypes).contains(extractionType)) {
       throw new RuntimeException(
-          "extractionTypes should either be `all`, `configs`, `fhirContent`");
+          "extractionTypes should either be " + StringUtils.join(extractionTypes, ", "));
     }
 
     if (Objects.equals(mode, "extract")) {
@@ -80,16 +81,11 @@ public class TranslateCommand implements Runnable {
       FctUtils.printInfo(String.format("Input file \u001b[35m%s\u001b[0m", resourceFile));
 
       try {
-        Path translationsDirectoryPath = inputFilePath.getParent().resolve("translations");
 
         if (Objects.equals(extractionType, "configs")) {
           tempsConfig = Files.createTempDirectory("configs");
         } else tempsConfig = null;
-        if (!Files.exists(translationsDirectoryPath))
-          Files.createDirectories(translationsDirectoryPath);
-        if (translationFile == null) {
-          translationFile = translationsDirectoryPath + "/strings_default.properties";
-        }
+
         // Check if the input path is a directory or a JSON file
         if (Files.isDirectory(inputFilePath)) {
           if (Objects.equals(extractionType, "configs") || inputFilePath.endsWith("configs")) {
@@ -443,7 +439,7 @@ public class TranslateCommand implements Runnable {
       JsonNode node,
       Set<String> targetFields,
       Map<String, String> textToHash,
-      Path filePath,
+      Path tempFilePath,
       Path tempConfigsDir)
       throws NoSuchAlgorithmException, IOException {
 
@@ -468,7 +464,7 @@ public class TranslateCommand implements Runnable {
         if (fieldValue.isObject() || fieldValue.isArray()) {
           // Recursively update nested objects or arrays
           replaceTargetFieldsWithHashedValues(
-              fieldValue, targetFields, textToHash, filePath, tempConfigsDir);
+              fieldValue, targetFields, textToHash, tempFilePath, tempConfigsDir);
         }
       }
     } else if (node.isArray()) {
@@ -478,14 +474,11 @@ public class TranslateCommand implements Runnable {
         if (arrayElement.isObject() || arrayElement.isArray()) {
           // Recursively update nested objects or arrays
           replaceTargetFieldsWithHashedValues(
-              arrayElement, targetFields, textToHash, filePath, tempConfigsDir);
+              arrayElement, targetFields, textToHash, tempFilePath, tempConfigsDir);
         }
       }
     }
 
-    String configFileSubDirectory = filePath.subpath(2, filePath.getNameCount()).toString();
-
-    Path tempFilePath = tempConfigsDir.resolve(configFileSubDirectory);
     // Write the updated JSON to temp file
     try (BufferedWriter writer = Files.newBufferedWriter(tempFilePath, StandardCharsets.UTF_8)) {
       ObjectMapper objectMapper = new ObjectMapper();
@@ -551,62 +544,13 @@ public class TranslateCommand implements Runnable {
     }
   }
 
-  public void copyDirectoryContent(Path sourceDir, Path destinationDir) {
-    try {
-      Files.walkFileTree(
-          sourceDir,
-          new SimpleFileVisitor<Path>() {
-            @Override
-            public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs)
-                throws IOException {
-              Path targetDir = destinationDir.resolve(sourceDir.relativize(dir));
-              if (!Files.exists(targetDir)) {
-                Files.createDirectory(targetDir);
-              }
-              return FileVisitResult.CONTINUE;
-            }
-
-            @Override
-            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs)
-                throws IOException {
-
-              Files.copy(
-                  file,
-                  destinationDir.resolve(sourceDir.relativize(file)),
-                  StandardCopyOption.REPLACE_EXISTING);
-              return FileVisitResult.CONTINUE;
-            }
-          });
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
+  @VisibleForTesting
+  protected void copyDirectoryContent(Path sourceDir, Path destinationDir) {
+    FctUtils.copyDirectoryContent(sourceDir, destinationDir);
   }
 
-  public void deleteDirectoryRecursively(Path dirPath) {
-
-    try {
-      // Delete the directory and its contents recursively
-      Files.walkFileTree(
-          dirPath,
-          new SimpleFileVisitor<Path>() {
-            @Override
-            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs)
-                throws IOException {
-              Files.delete(file);
-              return FileVisitResult.CONTINUE;
-            }
-
-            @Override
-            public FileVisitResult postVisitDirectory(Path dir, IOException exc)
-                throws IOException {
-              Files.delete(dir);
-              return FileVisitResult.CONTINUE;
-            }
-          });
-
-      System.out.println("Directory and its contents deleted successfully: " + dirPath);
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
+  @VisibleForTesting
+  protected void deleteDirectoryRecursively(Path dirPath) {
+    FctUtils.deleteDirectoryRecursively(dirPath);
   }
 }

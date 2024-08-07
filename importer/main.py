@@ -286,6 +286,8 @@ def identify_coding_object_index(array, current_system):
         list_of_systems = value["coding"][0]["system"]
         if current_system in list_of_systems:
             return index
+        else:
+            return -1
 
 
 def check_parent_admin_level(locationParentId):
@@ -309,7 +311,7 @@ def check_parent_admin_level(locationParentId):
 
 
 # custom extras for locations
-def location_extras(resource, payload_string):
+def location_extras(resource, payload_string, location_coding_system):
     try:
         (
             locationName,
@@ -355,7 +357,8 @@ def location_extras(resource, payload_string):
         payload_string = json.dumps(obj, indent=4)
 
     try:
-        if locationType and locationType != "type":
+        payload_string = payload_string.replace("$t_system", location_coding_system)
+        if len(locationType.strip()) > 0 and locationType != "type":
             payload_string = payload_string.replace("$t_display", locationType)
         if locationTypeCode and locationTypeCode != "typeCode":
             payload_string = payload_string.replace("$t_code", locationTypeCode)
@@ -1028,7 +1031,7 @@ def check_for_nulls(resource: list) -> list:
 
 # This function builds a json payload
 # which is posted to the api to create resources
-def build_payload(resource_type, resources, resource_payload_file, created_resources=None):
+def build_payload(resource_type, resources, resource_payload_file, created_resources=None, location_coding_system=None):
     logging.info("Building request payload")
     initial_string = """{"resourceType": "Bundle","type": "transaction","entry": [ """
     final_string = group_type = " "
@@ -1090,7 +1093,7 @@ def build_payload(resource_type, resources, resource_payload_file, created_resou
             if resource_type == "organizations":
                 ps = organization_extras(resource, ps)
             elif resource_type == "locations":
-                ps = location_extras(resource, ps)
+                ps = location_extras(resource, ps, location_coding_system)
             elif resource_type == "careTeams":
                 ps = care_team_extras(resource, ps, "orgs & users")
             elif resource_type == "Group":
@@ -1695,10 +1698,10 @@ def process_chunk(resources_array: list, resource_type: str):
                 else:
                     resource_id = str(uuid.uuid4())
 
-        item = {"resource": resource, "request": {}}
-        item["request"]["method"] = "PUT"
-        item["request"]["url"] = "/".join([resource_type, resource_id])
-        new_arr.append(item)
+            item = {"resource": resource, "request": {}}
+            item["request"]["method"] = "PUT"
+            item["request"]["url"] = "/".join([resource_type, resource_id])
+            new_arr.append(item)
 
     json_payload = {"resourceType": "Bundle", "type": "transaction", "entry": new_arr}
 
@@ -1862,6 +1865,10 @@ LOGGING = {
     required=False,
     default="DIRECT",
 )
+@click.option(
+    "--location_type_coding_system",
+    required=False,
+    default="http://terminology.hl7.org/CodeSystem/location-type")
 def main(
     csv_file,
     json_file,
@@ -1884,6 +1891,7 @@ def main(
     resources_count,
     list_resource_id,
     sync,
+    location_type_coding_system,
 ):
     if log_level == "DEBUG":
         logging.basicConfig(
@@ -1955,7 +1963,8 @@ def main(
         elif resource_type == "locations":
             logging.info("Processing locations")
             json_payload = build_payload(
-                "locations", resource_list, "json_payloads/locations_payload.json"
+                "locations", resource_list, "json_payloads/locations_payload.json", None,
+                location_type_coding_system
             )
             final_response = handle_request("POST", json_payload, config.fhir_base_url)
             logging.info("Processing complete!")
