@@ -1,15 +1,13 @@
 import logging
 import logging.config
 import pathlib
-import uuid
 from datetime import datetime
 
 import click
 
 from importer.builder import (build_assign_payload, build_group_list_resource,
                               build_org_affiliation, build_payload,
-                              extract_matches, extract_resources, get_resource,
-                              link_to_location, process_resources_list)
+                              extract_matches, extract_resources, link_to_location)
 from importer.config.settings import fhir_base_url
 from importer.request import handle_request
 from importer.users import (assign_default_groups_roles, assign_group_roles,
@@ -145,9 +143,8 @@ def main(
     final_response = ""
 
     logging.info("Starting csv import...")
-    csv_path = "/".join([dir_path, csv_file])
     json_path = "/".join([dir_path, "json_payloads/"])
-    resource_list = read_csv(csv_path)
+    resource_list = read_csv(csv_file)
 
     if resource_list:
         if resource_type == "users":
