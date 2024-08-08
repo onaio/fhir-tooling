@@ -316,10 +316,10 @@ def process_chunk(resources_array: list, resource_type: str):
                 else:
                     resource_id = str(uuid.uuid4())
 
-        item = {"resource": resource, "request": {}}
-        item["request"]["method"] = "PUT"
-        item["request"]["url"] = "/".join([resource_type, resource_id])
-        new_arr.append(item)
+            item = {"resource": resource, "request": {}}
+            item["request"]["method"] = "PUT"
+            item["request"]["url"] = "/".join([resource_type, resource_id])
+            new_arr.append(item)
 
     json_payload = {"resourceType": "Bundle", "type": "transaction", "entry": new_arr}
 
