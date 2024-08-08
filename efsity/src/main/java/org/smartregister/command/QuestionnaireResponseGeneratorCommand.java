@@ -83,7 +83,7 @@ public class QuestionnaireResponseGeneratorCommand implements Runnable {
       defaultValue = ".")
   private String outputFilePath;
 
-  private static Random random = new Random();
+  private static final Random random = new Random();
   private static final Faker faker = new Faker();
 
   @Override
