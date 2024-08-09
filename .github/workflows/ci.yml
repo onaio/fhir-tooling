@@ -13,10 +13,10 @@ jobs:
   run-efsity-unit-tests:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Set up JDK 11
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: 11
@@ -28,13 +28,13 @@ jobs:
   run-spotless-check:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - name: Set up JDK 11
-        uses: actions/setup-java@v3
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
-          java-version: 11
+          java-version: 21
 
       - name: Run spotless check
         run: ./gradlew spotlessCheck
@@ -43,7 +43,7 @@ jobs:
   run-importer-unit-tests:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Generate Importer Report
         run: |
@@ -52,15 +52,13 @@ jobs:
           python3 -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install pytest-cov
-          pytest --doctest-modules --junitxml=coverage.xml --cov=. --cov-report=xml --cov-report=html
-          coverage xml
-          ls -al
+          pytest --doctest-modules --cov=.
         working-directory: importer
 
   run-cleaner-unit-tests:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Generate Cleaner Report
         run: |
@@ -69,7 +67,5 @@ jobs:
           python3 -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install pytest-cov
-          pytest --doctest-modules --junitxml=coverage.xml --cov=. --cov-report=xml --cov-report=html
-          coverage xml
-          ls -al
+          pytest --doctest-modules --cov=.
         working-directory: cleaner
