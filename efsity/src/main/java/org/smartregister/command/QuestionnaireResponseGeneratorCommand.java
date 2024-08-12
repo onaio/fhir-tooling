@@ -260,7 +260,7 @@ public class QuestionnaireResponseGeneratorCommand implements Runnable {
   static JSONObject generateAnswer(
       String type, JSONArray questions, String link_id, JSONObject extras) {
     Object result = null;
-    if (extras.has(link_id)) {
+    if (extras != null && extras.has(link_id)) {
       JSONObject curr = extras.getJSONObject(link_id);
       result = generateWithFaker(curr.getString("category"), curr.getString("method"));
     }
