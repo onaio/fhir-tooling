@@ -21,13 +21,20 @@ The QuestionnaireResponseGeneratorCommand is designed to generate FHIR Questionn
 ### Example Usage
 Generate a QuestionnaireResponse using populate mode:
 ```shell
-fct generateResponse -i /path/to/questionnaire.json -fs http://fhir-server.example.com -e /path/to/extras.json
+fct generateResponse -i /path/to/questionnaire.json -fs http://fhir-server.example.com/fhir -e /path/to/extras.json
 ```
 Generate a QuestionnaireResponse using AI mode:
 
 ```shell
 fct generateResponse -i /path/to/questionnaire.json -gm ai -k YOUR_API_KEY
 ```
+
+#### FHIR Server
+You can quickly spin up the latest HAPI FHIR server to try this out by:
+- Cloning the repo https://github.com/hapifhir/hapi-fhir-jpaserver-starter
+- Open your `application.yaml` file in `src/main/resources` and update `cr-enabled` to `true`. This will enable the Clinical Reasoning module
+- Run the server: `mvn spring-boot:run`
+- _extra tip_: Ensure that the questionnaire you are using has a uuid as the identifier. Sometimes the resource creation fails if the id is all numbers
 
 ### Answer generation
 Using the populate mode, once the QuestionnaireResponse is generated, we also need to generate answers to populate it. The tool by default uses Java's `Random` mainly for this. Generating integers, decimals, booleans and strings that are basically a concatenation of "FakeString" with a random integer.
@@ -50,6 +57,4 @@ Example extras.json file
 You can see a full list of options from Faker [here](https://dius.github.io/java-faker/apidocs/index.html)
 
 ## AI Mode
-The tool supports generation of a QuestionnaireResponse via [openai api](https://platform.openai.com/docs/api-reference/introduction) using the [chat completions endpoint](https://platform.openai.com/docs/api-reference/chat/create). You will need to provide a [token](https://platform.openai.com/docs/api-reference/authentication) for authentication and a path to the _Questionnaire_
-
-Optionally, you can also provide the [model](https://platform.openai.com/docs/models) you would like to use, the number of [max-token](https://platform.openai.com/docs/api-reference/completions/create#completions/create-max_tokens) and an output file path
+NOTE: Temporarily unsupported at the moment

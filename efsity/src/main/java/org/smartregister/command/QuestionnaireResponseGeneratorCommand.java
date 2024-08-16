@@ -369,6 +369,9 @@ public class QuestionnaireResponseGeneratorCommand implements Runnable {
   }
 
   String aiMode(String questionnaireData, String apiKey) throws IOException {
+    if (true) {
+      throw new IllegalStateException("Sorry, the AI mode is temporarily unsupported");
+    }
     Gson gson = new Gson();
     String questionnaireJsonString = gson.toJson(questionnaireData);
     // remove extra white spaces
