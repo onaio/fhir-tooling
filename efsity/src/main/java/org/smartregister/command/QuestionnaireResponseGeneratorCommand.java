@@ -357,7 +357,7 @@ public class QuestionnaireResponseGeneratorCommand implements Runnable {
     List<String> result = HttpClient.postRequest(params.toString(), populate_endpoint, null);
 
     JSONObject questionnaire_response = new JSONObject(result.get(1));
-    if(questionnaire_response.has("contained")){
+    if (questionnaire_response.has("contained")) {
       questionnaire_response.remove("contained");
     }
     JSONArray response = (JSONArray) questionnaire_response.get("item");
