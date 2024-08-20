@@ -43,7 +43,7 @@ internal object FHIRPathEngineHostServices : FHIRPathEngine.IEvaluationContext {
     }
 
     override fun resolveFunction(functionName: String?): FHIRPathEngine.IEvaluationContext.FunctionDetails {
-        logger.info("Resolving function: $functionName")
+        logger.info("Resolving function: ${functionName ?: "Unknown"}")
         return functionCache.getOrPut(functionName ?: "") {
             throw UnsupportedOperationException("Function $functionName is not yet implemented.")
         }
