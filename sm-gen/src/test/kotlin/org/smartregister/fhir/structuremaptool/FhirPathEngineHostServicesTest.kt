@@ -17,15 +17,20 @@ class FHIRPathEngineHostServicesTest {
 
     @Test
     fun testResolveConstant_cache() {
+        // Set up the application context with a constant value
         val appContext = mapOf("test" to StringType("Test Value"))
+
+        // First call: Resolves and caches the constant value
         FHIRPathEngineHostServices.resolveConstant(appContext, "test", false)
 
-        // The second call should retrieve the value from the cache
+        // Second call: Should retrieve the value from the cache
         val result = FHIRPathEngineHostServices.resolveConstant(appContext, "test", false)
 
-        assertNotNull(result)
-        assertEquals("Test Value", (result as StringType).value)
+        // Verify that the result is not null and matches the expected value
+        assertNotNull(result, "The resolved constant should not be null")
+        assertEquals("Test Value", (result as StringType).value, "The resolved constant should match the expected value")
     }
+
 
     @Test
     fun testLog() {

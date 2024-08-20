@@ -32,10 +32,18 @@ internal object FHIRPathEngineHostServices : FHIRPathEngine.IEvaluationContext {
     }
 
     override fun resolveConstantType(appContext: Any?, name: String?): TypeDetails {
-        // Assuming TypeDetails needs to be retrieved from some context or cache
-        logger.info("Resolving constant type for: $name")
+        // Improved logging with null check
+        logger.info("Resolving constant type for: ${name ?: "null"}")
+
+        if (name.isNullOrEmpty()) {
+            logger.warn("Cannot resolve constant type for a null or empty string.")
+            throw IllegalArgumentException("Constant name cannot be null or empty.")
+        }
+
+        // Placeholder for actual implementation
         throw UnsupportedOperationException("resolveConstantType is not yet implemented.")
     }
+
 
     override fun log(argument: String?, focus: MutableList<Base>?): Boolean {
         logger.info("Logging argument: $argument with focus: $focus")
