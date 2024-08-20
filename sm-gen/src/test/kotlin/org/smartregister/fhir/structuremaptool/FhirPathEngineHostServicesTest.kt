@@ -58,7 +58,7 @@ class FHIRPathEngineHostServicesTest {
     }
 
     @Test
-    fun testCheckFunction_unsupported() {
+    fun testCheckFunctionThrowsUnsupportedOperationException() {
         val exception = assertThrows(UnsupportedOperationException::class.java) {
             FHIRPathEngineHostServices.checkFunction(null, "testFunction", mutableListOf())
         }
