@@ -18,7 +18,7 @@ repositories {
 
 group = "org.smartregister"
 
-version = "2.3.7-SNAPSHOT"
+version = "2.3.8-SNAPSHOT"
 
 description = "fhircore-tooling (efsity)"
 
@@ -82,6 +82,7 @@ dependencies {
   implementation(deps.jsonschemafriend)
   implementation(deps.picocli)
   implementation(deps.xstream)
+  implementation(deps.icu4j)
 
   testImplementation(kotlin("test"))
   testImplementation("junit:junit:4.13.2")
