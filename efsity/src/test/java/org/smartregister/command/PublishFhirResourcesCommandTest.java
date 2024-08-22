@@ -11,6 +11,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.HashMap;
 import net.jimblackler.jsonschemafriend.GenerationException;
 import net.jimblackler.jsonschemafriend.ValidationException;
 import org.json.JSONObject;
@@ -89,7 +90,8 @@ public class PublishFhirResourcesCommandTest {
     writer.close();
 
     FctFile testFile = FctUtils.readFile(resourceFile.toString());
-    JSONObject resourceObject = publishFhirResourcesCommand.buildResourceObject(testFile);
+    JSONObject resourceObject =
+        publishFhirResourcesCommand.buildResourceObject(testFile.getContent());
 
     // assert that object has request
     assertEquals(
@@ -127,8 +129,8 @@ public class PublishFhirResourcesCommandTest {
       doNothing()
           .when(mockPublishFhirResourcesCommand)
           .postRequest(Mockito.anyString(), Mockito.anyString());
-      doCallRealMethod().when(mockPublishFhirResourcesCommand).publishResources();
-      mockPublishFhirResourcesCommand.publishResources();
+      doCallRealMethod().when(mockPublishFhirResourcesCommand).buildResources();
+      mockPublishFhirResourcesCommand.buildResources();
     }
     System.setOut(System.out);
     String printedOutput = outputStream.toString().trim();
@@ -156,11 +158,124 @@ public class PublishFhirResourcesCommandTest {
       doNothing()
           .when(mockPublishFhirResourcesCommand)
           .postRequest(Mockito.anyString(), Mockito.anyString());
-      doCallRealMethod().when(mockPublishFhirResourcesCommand).publishResources();
-      mockPublishFhirResourcesCommand.publishResources();
+      doCallRealMethod().when(mockPublishFhirResourcesCommand).buildResources();
+      mockPublishFhirResourcesCommand.buildResources();
     }
     System.setOut(System.out);
     String printedOutput = outputStream.toString().trim();
     assertTrue(printedOutput.contains("Validating file"));
+  }
+
+  @Test
+  void testGetFileName() {
+    String profileFile = "householdProfile";
+    assertEquals(
+        publishFhirResourcesCommand.getFileName(profileFile), "household_profile_config.json");
+
+    String registerFile = "sickChildRegister";
+    assertEquals(
+        publishFhirResourcesCommand.getFileName(registerFile), "sick_child_register_config.json");
+
+    String translationFile = "strings_fr";
+    assertEquals(
+        publishFhirResourcesCommand.getFileName(translationFile), "strings_fr_config.properties");
+
+    String basicFile = "navigation";
+    assertEquals(publishFhirResourcesCommand.getFileName(basicFile), "navigation_config.json");
+  }
+
+  @Test
+  void testGetDetails() {
+    String obj =
+        "{"
+            + "\n       \"title\": \"PNC register configuration\","
+            + "\n       \"focus\": {"
+            + "\n            \"reference\": \"Binary/9aa6bbb6-df76-42a4-bdbe-72dc197378ca\","
+            + "\n            \"identifier\": {"
+            + "\n               \"value\": \"pncRegister\""
+            + "\n        }}}";
+    JSONObject testObject = new JSONObject(obj);
+
+    HashMap<String, String> result = new HashMap<>();
+    result.put("reference", "Binary/9aa6bbb6-df76-42a4-bdbe-72dc197378ca");
+    result.put("name", "pnc_register_config.json");
+    assertEquals(publishFhirResourcesCommand.getDetails(testObject), result);
+  }
+
+  @Test
+  void testGetBinaryContent() throws IOException {
+    String filename = "sample.json";
+    Path testFolder = Files.createDirectory(tempDirectory.resolve("testBinaryFolder"));
+    Path resourceFile = Files.createFile(testFolder.resolve(filename));
+    String sampleResource =
+        "{\"appId\":\"testApp\",\"configType\":\"application\",\"theme\":\"DEFAULT\",\"appTitle\":\"TestApp\"}";
+    FileWriter writer = new FileWriter(String.valueOf(resourceFile));
+    writer.write(sampleResource);
+    writer.flush();
+    writer.close();
+
+    String actualResult =
+        publishFhirResourcesCommand.getBinaryContent(filename, String.valueOf(testFolder));
+    String expectedResult =
+        "eyJhcHBJZCI6InRlc3RBcHAiLCJjb25maWdUeXBlIjoiYXBwbGljYXRpb24iLCJ0aGVtZSI6IkRFRkFVTFQiLCJhcHBUaXRsZSI6IlRlc3RBcHAifQo=";
+    assertEquals(expectedResult, actualResult);
+  }
+
+  @Test
+  void testPublishBinaries() throws IOException {
+    Path testFolder = Files.createDirectory(tempDirectory.resolve("testPublishBinaryFolder"));
+    Path compositionFile = Files.createFile(testFolder.resolve("composition_config.json"));
+    Path applicationFile = Files.createFile(testFolder.resolve("application_config.json"));
+    Path profilesFolder = Files.createDirectory(testFolder.resolve("profiles"));
+    Path householdProfile =
+        Files.createFile(profilesFolder.resolve("household_profile_config.json"));
+    Path registersFolder = Files.createDirectory(testFolder.resolve("registers"));
+    Path ancRegister = Files.createFile(registersFolder.resolve("anc_register_config.json"));
+
+    String compositionString =
+        "{\"resourceType\":\"Composition\",\"id\":\"bf131f26-5c94-4bd2-9c88-bfc673dcd27d\",\"section\":[{\"title\":\"Application configuration\",\"focus\":{\"reference\":\"Binary/98cc3379-454c-4820-bec3-06c1e0aee45e\",\"identifier\":{\"value\":\"application\"}}},{\"title\":\"Register configurations\",\"section\":[{\"title\":\"ANC register configuration\",\"focus\":{\"reference\":\"Binary/5321c50d-fd84-45ba-a1a9-7424c8f9e1fc\",\"identifier\":{\"value\":\"ancRegister\"}}}]},{\"title\":\"Profile configurations\",\"section\":[{\"title\":\"Household profile configuration\",\"focus\":{\"reference\":\"Binary/64c10d9b-ac39-4b85-8d00-f82e8f9f2211\",\"identifier\":{\"value\":\"householdProfile\"}}}]}]}";
+    String applicationString =
+        "{\"appId\":\"test\",\"configType\":\"application\",\"theme\":\"DEFAULT\",\"appTitle\":\"TestApp\",\"useDarkTheme\":false}";
+    String householdProfileString =
+        "{\"appId\":\"test\",\"configType\":\"profile\",\"id\":\"householdProfile\",\"fhirResource\":{\"baseResource\":{\"resource\":\"Group\"}}}";
+    String ancRegisterString =
+        "{\"appId\":\"test\",\"configType\":\"register\",\"id\":\"ancRegister\",\"fhirResource\":{\"baseResource\":{\"resource\":\"Patient\"}}}";
+
+    FileWriter writer = new FileWriter(String.valueOf(compositionFile));
+    writer.write(compositionString);
+    writer.flush();
+    writer = new FileWriter(String.valueOf(applicationFile));
+    writer.write(applicationString);
+    writer.flush();
+    writer = new FileWriter(String.valueOf(householdProfile));
+    writer.write(householdProfileString);
+    writer.flush();
+    writer = new FileWriter(String.valueOf(ancRegister));
+    writer.write(ancRegisterString);
+    writer.flush();
+    writer.close();
+
+    ArrayList<JSONObject> resources =
+        publishFhirResourcesCommand.buildBinaries(
+            String.valueOf(compositionFile), String.valueOf(testFolder));
+    assertEquals(3, resources.size());
+    assertEquals(
+        resources.get(0).getJSONObject("request").getString("url"),
+        "Binary/98cc3379-454c-4820-bec3-06c1e0aee45e");
+    assertTrue(
+        resources
+            .get(1)
+            .getJSONObject("resource")
+            .getString("data")
+            .startsWith("eyJhcHBJZCI6InRlc3Qi"));
+    assertEquals(
+        publishFhirResourcesCommand.getFCTReleaseVersion(),
+        resources
+            .get(2)
+            .getJSONObject("resource")
+            .getJSONObject("meta")
+            .getJSONArray("tag")
+            .getJSONObject(0)
+            .getString("code"));
   }
 }

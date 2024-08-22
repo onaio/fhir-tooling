@@ -2,26 +2,21 @@ package org.smartregister.command;
 
 import static org.smartregister.util.authentication.OAuthAuthentication.getAccessToken;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Properties;
-import java.util.TimeZone;
-import java.util.UUID;
+import java.util.*;
 import net.jimblackler.jsonschemafriend.GenerationException;
 import net.jimblackler.jsonschemafriend.ValidationException;
 import org.apache.http.HttpResponse;
@@ -29,6 +24,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.smartregister.domain.FctFile;
 import org.smartregister.fhircore_tooling.BuildConfig;
@@ -97,20 +93,26 @@ public class PublishFhirResourcesCommand implements Runnable {
       required = false)
   String validateResource = "true";
 
+  @CommandLine.Option(
+      names = {"-c", "--composition"},
+      description = "path of the composition configuration file",
+      required = false)
+  String compositionFilePath;
+
   @Override
   public void run() {
     long start = System.currentTimeMillis();
     if (propertiesFile != null && !propertiesFile.isBlank()) {
-      try (InputStream inputProperties = new FileInputStream(propertiesFile)) {
-        Properties properties = new Properties();
-        properties.load(inputProperties);
-        setProperties(properties);
-      } catch (IOException e) {
-        throw new RuntimeException(e);
-      }
+
+      Properties properties = FctUtils.readPropertiesFile(propertiesFile);
+      setProperties(properties);
     }
     try {
-      publishResources();
+      if (compositionFilePath != null) {
+        ArrayList<JSONObject> resourceObjects = buildBinaries(compositionFilePath, projectFolder);
+        buildBundle(resourceObjects);
+      }
+      buildResources();
       stateManagement();
     } catch (IOException | ValidationException | GenerationException e) {
       throw new RuntimeException(e);
@@ -170,32 +172,119 @@ public class PublishFhirResourcesCommand implements Runnable {
     }
   }
 
-  void publishResources() throws IOException, ValidationException, GenerationException {
-    ArrayList<String> resourceFiles = getResourceFiles(projectFolder);
-    ArrayList<JSONObject> resourceObjects = new ArrayList<>();
-    boolean validateResourceBoolean = Boolean.parseBoolean(validateResource);
+  /**
+   * This function takes in the name of a binary component/resource, converts it from camel case to
+   * separated by underscores. It then appends a string depending on the name, to return the actual
+   * file name of the binary file. For example the binaryName 'ancRegister' will be converted to
+   * 'anc_register_config.json'
+   *
+   * @param binaryName This is the name of a binary component/resource as it appears in the
+   *     composition resource. Usually in camel case and matches the start of the actual file name
+   * @return filename This is the actual file name of the binary resource in the project folder
+   */
+  String getFileName(String binaryName) {
+    String filename;
+    if ((binaryName.endsWith("Register")) || (binaryName.endsWith("Profile"))) {
+      String regex = "([a-z])([A-Z]+)";
+      String replacer = "$1_$2";
+      binaryName = binaryName.replaceAll(regex, replacer).toLowerCase();
+    }
+    if (binaryName.startsWith("strings")) {
+      filename = binaryName + "_config.properties";
+    } else {
+      filename = binaryName + "_config.json";
+    }
+    return filename;
+  }
 
-    for (String f : resourceFiles) {
-      if (validateResourceBoolean) {
-        FctUtils.printInfo(String.format("Validating file \u001b[35m%s\u001b[0m", f));
-        ValidateFhirResourcesCommand.validateFhirResources(f);
-      } else {
-        FctUtils.printInfo(String.format("Publishing \u001b[35m%s\u001b[0m Without Validation", f));
-      }
+  HashMap<String, String> getDetails(JSONObject jsonObject) {
+    JSONObject focus = jsonObject.getJSONObject("focus");
+    String reference = focus.getString("reference");
+    JSONObject identifier = focus.getJSONObject("identifier");
+    String name = identifier.getString("value");
 
-      FctFile inputFile = FctUtils.readFile(f);
-      JSONObject resourceObject = buildResourceObject(inputFile);
-      resourceObjects.add(resourceObject);
+    HashMap<String, String> map = new HashMap<>();
+    map.put("reference", reference);
+    map.put("name", getFileName(name));
+    return map;
+  }
+
+  /**
+   * This function takes in a binary file name and project folder, it then opens the filename in the
+   * folder ( assuming the recommended folder structure ), reads the content and returns a base64
+   * encoded version of the content
+   *
+   * @param fileName This is the name of the json binary file
+   * @param projectFolder This is the folder with all the config files
+   * @return base64 encoded version of the content in the binary json file
+   * @throws IOException
+   */
+  String getBinaryContent(String fileName, String projectFolder) throws IOException {
+    String pathToFile;
+    if (fileName.contains("register")) {
+      pathToFile = projectFolder + "/registers/" + fileName;
+    } else if (fileName.contains("profile")) {
+      pathToFile = projectFolder + "/profiles/" + fileName;
+    } else if (fileName.startsWith("strings_")) {
+      pathToFile = projectFolder + "/translations/" + fileName;
+    } else {
+      pathToFile = projectFolder + "/" + fileName;
     }
 
-    // build the bundle
-    JSONObject bundle = new JSONObject();
-    bundle.put("resourceType", "Bundle");
-    bundle.put("type", "transaction");
-    bundle.put("entry", resourceObjects);
-    FctUtils.printToConsole("Full Payload to POST: ");
-    FctUtils.printToConsole(bundle.toString());
+    String fileContent = FctUtils.readFile(pathToFile).getContent();
+    return Base64.getEncoder().encodeToString(fileContent.getBytes(StandardCharsets.UTF_8));
+  }
 
+  ArrayList<JSONObject> buildBinaries(String compositionFilePath, String projectFolder)
+      throws IOException {
+    FctFile compositionFile = FctUtils.readFile(compositionFilePath);
+    JSONObject compositionResource = new JSONObject(compositionFile.getContent());
+    List<Map<String, String>> mapList = new ArrayList<>();
+    Map<String, String> detailsMap = new HashMap<>();
+    ArrayList<JSONObject> resourceObjects = new ArrayList<>();
+
+    if (compositionResource.has("section")) {
+      JSONArray compositionObjects = compositionResource.getJSONArray("section");
+
+      for (Object obj : compositionObjects) {
+        JSONObject jsonObject = new JSONObject(obj.toString());
+        if (jsonObject.has("section")) {
+          JSONArray section = jsonObject.getJSONArray("section");
+          for (Object subObj : section) {
+            JSONObject jo = new JSONObject(subObj.toString());
+            detailsMap = getDetails(jo);
+          }
+        } else {
+          detailsMap = getDetails(jsonObject);
+        }
+        mapList.add(detailsMap);
+      }
+
+      for (Map<String, String> e : mapList) {
+        String filename = e.get("name");
+        String binaryContent = getBinaryContent(filename, projectFolder);
+        String contentType;
+
+        if (filename.startsWith("strings_")) {
+          contentType = "text/plain";
+        } else {
+          contentType = "application/json";
+        }
+
+        JSONObject binaryResourceObject = new JSONObject();
+        binaryResourceObject.put("resourceType", "Binary");
+        binaryResourceObject.put("id", e.get("reference").substring(7));
+        binaryResourceObject.put("contentType", contentType);
+        binaryResourceObject.put("data", binaryContent);
+
+        JSONObject finalResourceObject = buildResourceObject(binaryResourceObject.toString());
+        resourceObjects.add(finalResourceObject);
+      }
+    }
+    return resourceObjects;
+  }
+
+  String getToken() {
     if (accessToken == null || accessToken.isBlank()) {
       if (clientId == null || clientId.isBlank()) {
         throw new IllegalArgumentException(
@@ -216,7 +305,38 @@ public class PublishFhirResourcesCommand implements Runnable {
       accessToken =
           getAccessToken(clientId, clientSecret, accessTokenUrl, grantType, username, password);
     }
-    postRequest(bundle.toString(), accessToken);
+    return accessToken;
+  }
+
+  void buildBundle(ArrayList<JSONObject> resourceObjects) throws IOException {
+    JSONObject bundle = new JSONObject();
+    bundle.put("resourceType", "Bundle");
+    bundle.put("type", "transaction");
+    bundle.put("entry", resourceObjects);
+    FctUtils.printToConsole("Full Payload to POST: ");
+    FctUtils.printToConsole(bundle.toString());
+
+    postRequest(bundle.toString(), getToken());
+  }
+
+  void buildResources() throws IOException, ValidationException, GenerationException {
+    ArrayList<String> resourceFiles = getResourceFiles(projectFolder);
+    ArrayList<JSONObject> resourceObjects = new ArrayList<>();
+    boolean validateResourceBoolean = Boolean.parseBoolean(validateResource);
+
+    for (String f : resourceFiles) {
+      if (validateResourceBoolean) {
+        FctUtils.printInfo(String.format("Validating file \u001b[35m%s\u001b[0m", f));
+        ValidateFhirResourcesCommand.validateFhirResources(f);
+      } else {
+        FctUtils.printInfo(String.format("Publishing \u001b[35m%s\u001b[0m Without Validation", f));
+      }
+
+      FctFile inputFile = FctUtils.readFile(f);
+      JSONObject resourceObject = buildResourceObject(inputFile.getContent());
+      resourceObjects.add(resourceObject);
+    }
+    buildBundle(resourceObjects);
   }
 
   static ArrayList<String> getResourceFiles(String pathToFolder) throws IOException {
@@ -258,8 +378,8 @@ public class PublishFhirResourcesCommand implements Runnable {
     }
   }
 
-  JSONObject buildResourceObject(FctFile inputFile) {
-    JSONObject resource = new JSONObject(inputFile.getContent());
+  JSONObject buildResourceObject(String fileContent) {
+    JSONObject resource = new JSONObject(fileContent);
     String resourceType = null;
     String resourceID;
     if (resource.has("resourceType")) {
@@ -275,15 +395,24 @@ public class PublishFhirResourcesCommand implements Runnable {
     request.put("method", "PUT");
     request.put("url", resourceType + "/" + resourceID);
 
-    ArrayList<JSONObject> tags = new ArrayList<>();
     JSONObject version = new JSONObject();
     version.put("system", "https://smartregister.org/fct-release-version");
     version.put("code", BuildConfig.RELEASE_VERSION);
-    tags.add(version);
 
-    JSONObject meta = new JSONObject();
-    meta.put("tag", tags);
-    resource.put("meta", meta);
+    if (resource.has("meta")) {
+      JSONObject resource_meta = (JSONObject) resource.get("meta");
+      if (resource_meta.has("tag")) {
+        JSONArray resource_tags = resource_meta.getJSONArray("tag");
+        resource_tags.put(version);
+      }
+    } else {
+      ArrayList<JSONObject> tags = new ArrayList<>();
+      tags.add(version);
+
+      JSONObject meta = new JSONObject();
+      meta.put("tag", tags);
+      resource.put("meta", meta);
+    }
 
     JSONObject object = new JSONObject();
     object.put("resource", resource);
@@ -374,5 +503,10 @@ public class PublishFhirResourcesCommand implements Runnable {
       return getProjectFolder(parentFolder.toString());
     }
     return parentFolder.toString();
+  }
+
+  @VisibleForTesting
+  public static final String getFCTReleaseVersion() {
+    return BuildConfig.RELEASE_VERSION;
   }
 }
