@@ -394,28 +394,28 @@ def save_image(image_source_url):
 def get_product_accountability_period(product_id: str) -> int:
     product_endpoint = "/".join([fhir_base_url, "Group", product_id])
     response = handle_request("GET", "", product_endpoint)
-    if response[1] == 200:
-        json_product = json.loads(response[0])
-        product_characteristics = json_product["characteristic"]
-        for character in product_characteristics:
-            if (
-                character["code"]["coding"][0]["display"]
-                == "Accountability period (in months)"
-            ):
-                accountability_period = character["valueQuantity"]["value"]
-                return accountability_period
-        logging.error(
-            "Accountability period was not found in the product characteristics : "
-            + product_id
-        )
-        return -1
-    else:
+    if response[1] != 200:
         logging.error(
             "Error while attempting to get the accountability period from product : "
             + product_id
         )
         logging.error(response[0])
         return -1
+
+    json_product = json.loads(response[0])
+    product_characteristics = json_product["characteristic"]
+    for character in product_characteristics:
+        if (
+            character["code"]["coding"][0]["display"]
+            == "Accountability period (in months)"
+        ):
+            accountability_period = character["valueQuantity"]["value"]
+            return accountability_period
+    logging.error(
+        "Accountability period was not found in the product characteristics : "
+        + product_id
+    )
+    return -1
 
 
 def calculate_date(delivery_date: str, product_accountability_period: int) -> str:
