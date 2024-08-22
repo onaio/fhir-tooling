@@ -4,10 +4,12 @@ import logging
 import os
 import pathlib
 import uuid
+from datetime import datetime
 
 import click
 import magic
 import requests
+from dateutil.relativedelta import relativedelta
 
 from importer.config.settings import (api_service, fhir_base_url,
                                       product_access_token)
@@ -389,6 +391,42 @@ def save_image(image_source_url):
         return 0
 
 
+def get_product_accountability_period(product_id: str) -> int:
+    product_endpoint = "/".join([fhir_base_url, "Group", product_id])
+    response = handle_request("GET", "", product_endpoint)
+    if response[1] == 200:
+        json_product = json.loads(response[0])
+        product_characteristics = json_product["characteristic"]
+        for character in product_characteristics:
+            if (
+                character["code"]["coding"][0]["display"]
+                == "Accountability period (in months)"
+            ):
+                accountability_period = character["valueQuantity"]["value"]
+                return accountability_period
+        logging.error(
+            "Accountability period was not found in the product characteristics : "
+            + product_id
+        )
+        return -1
+    else:
+        logging.error(
+            "Error while attempting to get the accountability period from product : "
+            + product_id
+        )
+        logging.error(response[0])
+        return -1
+
+
+def calculate_date(delivery_date: str, product_accountability_period: int) -> str:
+    delivery_datetime = datetime.strptime(delivery_date, "%Y-%m-%dT%H:%M:%S.%fZ")
+    end_date = delivery_datetime + relativedelta(months=product_accountability_period)
+    end_date_str = end_date.strftime("%Y-%m-%dT%H:%M:%S.")
+    milliseconds = end_date.microsecond // 1000
+    end_date_str += f"{milliseconds:03d}Z"
+    return end_date_str
+
+
 # custom extras for product import
 def group_extras(resource, payload_string, group_type, created_resources):
     payload_obj = json.loads(payload_string)
@@ -582,9 +620,20 @@ def group_extras(resource, payload_string, group_type, created_resources):
                 GROUP_INDEX_MAPPING["inventory_member_index"]
             ]["period"]["end"] = accountability_date
         else:
-            payload_obj["resource"]["member"][
-                GROUP_INDEX_MAPPING["inventory_member_index"]
-            ]["period"]["end"] = ""
+            product_accountability_period = get_product_accountability_period(
+                product_id
+            )
+            if product_accountability_period != -1:
+                accountability_date = calculate_date(
+                    delivery_date, product_accountability_period
+                )
+                payload_obj["resource"]["member"][
+                    GROUP_INDEX_MAPPING["inventory_member_index"]
+                ]["period"]["end"] = accountability_date
+            else:
+                payload_obj["resource"]["member"][
+                    GROUP_INDEX_MAPPING["inventory_member_index"]
+                ]["period"]["end"] = ""
 
         if quantity:
             payload_obj["resource"]["characteristic"][
