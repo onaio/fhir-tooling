@@ -1,4 +1,5 @@
 {
+  "DO NOT REMOVE _ MALFORMED JSON CONTENT FOR TESTING",
   "appId": "app_id_name",
   "configType": "profile",
   "id": "config_id",
@@ -48,7 +49,7 @@
   ],
   "overFlowMenuItems": [
     {
-      "title": "Edit Client Info",u
+      "title": "Edit Client Info",
       "titleColor": "@{patientTextColor}",
       "visible": "true",
       "enabled": "@{patientActive}",
