@@ -406,8 +406,8 @@ def get_product_accountability_period(product_id: str) -> int:
     product_characteristics = json_product["characteristic"]
     for character in product_characteristics:
         if (
-            character["code"]["coding"][0]["display"]
-            == "Accountability period (in months)"
+            character["code"]["coding"][0]["system"] == "http://smartregister.org/codes"
+            and character["code"]["coding"][0]["code"] == "67869606"
         ):
             accountability_period = character["valueQuantity"]["value"]
             return accountability_period
