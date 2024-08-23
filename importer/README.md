@@ -36,7 +36,7 @@ product_access_token = 'example-product-access-token'
 
 # if using resource owner credentials (i.e importer handles getting authentication by itself)
 # This has greater precedence over the access and refresh tokens if supplied
-username = 'example-username'
+user_name = 'example-user_name'
 password = 'example-password'
 
 # if embedding importer into a service that already does the authentication
