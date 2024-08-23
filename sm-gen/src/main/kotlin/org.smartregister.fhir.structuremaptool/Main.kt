@@ -9,6 +9,7 @@ import com.github.ajalt.clikt.parameters.options.prompt
 import org.apache.commons.io.FileUtils
 import org.apache.poi.ss.usermodel.CellType
 import org.apache.poi.ss.usermodel.Row
+import org.apache.poi.ss.usermodel.Workbook
 import org.apache.poi.ss.usermodel.WorkbookFactory
 import org.hl7.fhir.r4.context.SimpleWorkerContext
 import org.hl7.fhir.r4.model.Resource
@@ -70,7 +71,11 @@ class Application : CliktCommand() {
         val xlsFile = FileInputStream(xlsfile)
         val xlWb = WorkbookFactory.create(xlsFile)
 
+        // Validate resources and paths in the XLS sheet
+        validateResourcesAndPaths(xlWb)
 
+        // Fix groups calling sequence
+        fixGroupCallingSequence(xlWb)
         // TODO: Check that all the Resource(s) ub the Resource column are the correct name and type eg. RiskFlag in the previous XLSX was not valid
         // TODO: Check that all the path's and other entries in the excel sheet are valid
         // TODO: Add instructions for adding embedded classes like `RiskAssessment$RiskAssessmentPredictionComponent` to the TransformSupportServices
@@ -220,6 +225,63 @@ class Application : CliktCommand() {
             writeStructureMapOutput(sb.toString().addIdentation())
         }
 
+    }
+    private fun validateResourcesAndPaths(workbook: Workbook) {
+        val fieldMappingsSheet = workbook.getSheet("Field Mappings")
+        fieldMappingsSheet.forEachIndexed { index, row ->
+            if (index == 0) return@forEachIndexed
+
+            val resourceName = row.getCellAsString(2)
+            val fieldPath = row.getCellAsString(4)
+
+            if (!isValidResource(resourceName)) {
+                throw IllegalArgumentException("Invalid resource name: $resourceName")
+            }
+
+            if (!isValidPath(fieldPath)) {
+                throw IllegalArgumentException("Invalid field path: $fieldPath")
+            }
+        }
+    }
+    private fun isValidResource(resourceName: String?): Boolean {
+        // Implement logic to validate resource names
+        // This can be a list of known valid resource names, or a more complex validation
+        return resourceName != null && resourceName.isNotEmpty()
+    }
+
+    private fun isValidPath(path: String?): Boolean {
+        // Implement logic to validate paths
+        // This can involve checking against known paths or ensuring the format is correct
+        return path != null && path.isNotEmpty()
+    }
+
+    private fun fixGroupCallingSequence(workbook: Workbook) {
+        // Implement logic to fix group calling sequences
+        // Detect and handle cyclic dependencies, using topological sorting or other methods
+        // You can throw an exception if a cyclic dependency is detected
+    }
+
+    private fun groupRulesByResource(workbook: Workbook, questionnaireResponseItemIds: List<String>): Map<String, MutableList<Instruction>> {
+        val fieldMappingsSheet = workbook.getSheet("Field Mappings")
+        val resourceConversionInstructions = hashMapOf<String, MutableList<Instruction>>()
+
+        fieldMappingsSheet.forEachIndexed { index, row ->
+            if (index == 0) return@forEachIndexed
+
+            if (row.isEmpty()) {
+                return@forEachIndexed
+            }
+
+            val instruction = row.getInstruction()
+            val xlsId = instruction.responseFieldId
+            val comparedResponseAndXlsId = questionnaireResponseItemIds.contains(xlsId)
+            if (instruction.resource.isNotEmpty() && comparedResponseAndXlsId) {
+                resourceConversionInstructions.computeIfAbsent(instruction.searchKey(), { key -> mutableListOf() })
+                    .add(instruction)
+            }
+        }
+
+        return resourceConversionInstructions
     }
 
     fun Row.getInstruction() : Instruction {

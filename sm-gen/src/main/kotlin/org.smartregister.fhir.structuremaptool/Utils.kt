@@ -13,6 +13,7 @@ import org.hl7.fhir.r4.model.Type
 import org.hl7.fhir.r4.utils.FHIRPathEngine
 import java.lang.reflect.Field
 import java.lang.reflect.ParameterizedType
+import kotlin.reflect.KClass
 
 // Get the hl7 resources
 val contextR4 = FhirContext.forR4()
@@ -320,49 +321,132 @@ fun generateStructureMapLine(
     resource: Resource,
     extractionResources: HashMap<String, Resource>
 ) {
-    row.forEachIndexed { index, cell ->
-        val cellValue = cell.stringCellValue
-        val fieldPath = row.getCell(4).stringCellValue
-        val targetDataType = determineFhirDataType(cellValue)
-        structureMapBody.append("src -> entity.${fieldPath}=")
+    val fieldPath = row.getCell(4)?.stringCellValue ?: ""
+    val cellValue = row.getCell(0)?.stringCellValue ?: ""
 
-        when (targetDataType) {
-            "string" -> {
-                structureMapBody.append("create('string').value ='$cellValue'")
-            }
+    // Determine the target FHIR data type
+    val targetDataType = determineFhirDataType(cellValue)
 
-            "integer" -> {
-                structureMapBody.append("create('integer').value = $cellValue")
-            }
+    // Generate the mapping line for the StructureMap
+    structureMapBody.append("src -> entity.$fieldPath = ")
 
-            "boolean" -> {
-                val booleanValue =
-                    if (cellValue.equals("true", ignoreCase = true)) "true" else "false"
-                structureMapBody.append("create('boolean').value = $booleanValue")
-            }
-
-            else -> {
-                structureMapBody.append("create('unsupportedDataType').value = '$cellValue'")
-            }
+    // Handle different data types
+    when (targetDataType) {
+        "string" -> {
+            structureMapBody.append("create('string').value = '${cellValue.escapeQuotes()}'")
         }
-        structureMapBody.appendNewLine()
-    }
-}
 
-fun determineFhirDataType(cellValue: String): String {
-    val cleanedValue = cellValue.trim().toLowerCase()
+        "integer" -> {
+            structureMapBody.append("create('integer').value = ${cellValue.toIntOrNull() ?: 0}")
+        }
 
-    when {
-        cleanedValue == "true" || cleanedValue == "false" -> return "boolean"
-        cleanedValue.matches(Regex("-?\\d+")) -> return "boolean"
-        cleanedValue.matches(Regex("-?\\d*\\.\\d+")) -> return "decimal"
-        cleanedValue.matches(Regex("\\d{4}-\\d{2}-\\d{2}")) -> return "date"
-        cleanedValue.matches(Regex("\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}")) -> return "dateTime"
+        "boolean" -> {
+            val booleanValue = if (cellValue.equals("true", ignoreCase = true)) "true" else "false"
+            structureMapBody.append("create('boolean').value = $booleanValue")
+        }
+
+        "date" -> {
+            // Handle date type
+            structureMapBody.append("create('date').value = '${cellValue.escapeQuotes()}'")
+        }
+
+        "decimal" -> {
+            // Handle decimal type
+            structureMapBody.append("create('decimal').value = ${cellValue.toDoubleOrNull() ?: 0.0}")
+        }
+
+        "code" -> {
+            // Handle code type
+            structureMapBody.append("create('code').value = '${cellValue.escapeQuotes()}'")
+        }
+
         else -> {
-            return "string"
+            structureMapBody.append("create('unsupportedDataType').value = '${cellValue.escapeQuotes()}'")
         }
     }
+    structureMapBody.appendNewLine()
 }
+
+fun String.escapeQuotes(): String {
+    return this.replace("'", "\\'")
+}
+
+fun determineFhirDataType(input: String?): String {
+    if (input.isNullOrEmpty()) {
+        return "Invalid Input: Null or Empty String"
+    }
+
+    // Clean and prepare the input for matching
+    val cleanedValue = input.trim().toLowerCase()
+
+    // Regular Expressions for FHIR Data Types
+    val booleanRegex = "^(true|false)\$".toRegex(RegexOption.IGNORE_CASE)
+    val integerRegex = "^-?\\d+\$".toRegex()
+    val decimalRegex = "^-?\\d*\\.\\d+\$".toRegex()
+    val dateRegex = "^\\d{4}-\\d{2}-\\d{2}\$".toRegex() // YYYY-MM-DD
+    val dateTimeRegex = "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(Z|[+-]\\d{2}:\\d{2})?\$".toRegex() // YYYY-MM-DDThh:mm:ssZ
+    val stringRegex = "^[\\w\\s]+\$".toRegex()
+    val quantityRegex = "^\\d+\\s?[a-zA-Z]+\$".toRegex() // e.g., "70 kg"
+    val codeableConceptRegex = "^[\\w\\s]+\$".toRegex() // Simplified for now
+    val codingRegex = "^\\w+\\|\$".toRegex() // Simplified for now
+    val referenceRegex = "^\\w+/\\w+\$".toRegex() // e.g., "Patient/123"
+    val periodRegex = "^\\d{4}-\\d{2}-\\d{2}\\/\\d{4}-\\d{2}-\\d{2}\$".toRegex() // e.g., "2023-01-01/2023-12-31"
+    val timingRegex = "^\\d+[a-zA-Z]+\$".toRegex() // Simplified for now
+    val rangeRegex = "^\\d+-\\d+\$".toRegex() // e.g., "10-20"
+    val annotationRegex = """^.*\s+\S+""".toRegex() // A basic regex for general text or comments
+    val attachmentRegex = """^[A-Za-z0-9+/=]+$""".toRegex() // Base64 encoded string (could be more complex)
+    val base64BinaryRegex = """^[A-Za-z0-9+/=]+$""".toRegex() // Similar to attachment, but could have specific markers
+    val contactPointRegex = """^\+?[1-9]\d{1,14}$""".toRegex() // Regex for phone numbers (E.164 format)
+    val humanNameRegex = """^[A-Za-z\s'-]+$""".toRegex() // Simple regex for names
+    val addressRegex = """^\d+\s[A-Za-z]+\s[A-Za-z]+""".toRegex() // Basic address pattern
+    val durationRegex = """^\d+\s(hour|minute|second|day)$""".toRegex() // Duration like "1 hour"
+    val moneyRegex = """^\d+(\.\d{2})?\s[A-Z]{3}$""".toRegex() // Money format like "100.00 USD"
+    val ratioRegex = """^\d+:\d+$""".toRegex() // Simple ratio like "1:1000"
+    val signatureRegex = """^[A-Za-z0-9+/=]+$""".toRegex() // Base64 signature
+    val identifierRegex = """^[A-Za-z0-9-]+$""".toRegex() // Identifier format
+    val uriRegex = """^https?://[^\s/$.?#].[^\s]*$""".toRegex() // Simple URI format
+    val uuidRegex = """^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$""".toRegex() // UUID format
+    val instantRegex = """^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?Z$""".toRegex() // ISO 8601 instant format
+    val narrativeRegex = """<div\s+xmlns="http://www.w3.org/1999/xhtml">.*<\/div>""".toRegex() // Narrative XHTML content
+    val sampledDataRegex = """^.*\s+\S+""".toRegex() // Placeholder regex for complex observation data
+    val backboneElementRegex = """^.*$""".toRegex() // Catch-all for complex structures (requires specific context)
+    // Detect and Return FHIR Data Type
+    return when {
+        booleanRegex.matches(cleanedValue) -> "Boolean"
+        integerRegex.matches(cleanedValue) -> "Integer"
+        decimalRegex.matches(cleanedValue) -> "Decimal"
+        dateRegex.matches(cleanedValue) -> "Date"
+        dateTimeRegex.matches(cleanedValue) -> "DateTime"
+        quantityRegex.matches(input) -> "Quantity"
+        codeableConceptRegex.matches(input) -> "CodeableConcept"
+        codingRegex.matches(input) -> "Coding"
+        identifierRegex.matches(input) -> "Identifier"
+        referenceRegex.matches(input) -> "Reference"
+        periodRegex.matches(input) -> "Period"
+        timingRegex.matches(input) -> "Timing"
+        rangeRegex.matches(input) -> "Range"
+        stringRegex.matches(input) -> "String"
+        annotationRegex.matches(input) -> "Annotation"
+        attachmentRegex.matches(input) -> "Attachment"
+        base64BinaryRegex.matches(input) -> "Base64Binary"
+        contactPointRegex.matches(input) -> "ContactPoint"
+        humanNameRegex.matches(input) -> "HumanName"
+        addressRegex.matches(input) -> "Address"
+        durationRegex.matches(input) -> "Duration"
+        moneyRegex.matches(input) -> "Money"
+        ratioRegex.matches(input) -> "Ratio"
+        signatureRegex.matches(input) -> "Signature"
+        identifierRegex.matches(input) -> "Identifier"
+        uriRegex.matches(input) -> "Uri"
+        uuidRegex.matches(input) -> "Uuid"
+        instantRegex.matches(input) -> "Instant"
+        narrativeRegex.matches(input) -> "Narrative"
+        sampledDataRegex.matches(input) -> "SampledData"
+        backboneElementRegex.matches(input) -> "BackboneElement"
+        else -> "String"
+    }
+}
+
 
 fun StringBuilder.appendNewLine(): StringBuilder {
     append(System.lineSeparator())
@@ -475,26 +559,58 @@ fun inferType(parentClass: Class<*>?, parts: List<String>, index: Int): String? 
 
 fun String.isMultipleTypes(): Boolean = this == "Type"
 
-// TODO: Finish this. Use the annotation @Chid.type
+// Assuming a mock annotation to simulate the @Child.type annotation in FHIR
+annotation class Child(val type: KClass<out Type>)
 fun String.getPossibleTypes(): List<Type> {
-    return listOf()
+    val clazz = Class.forName("org.hl7.fhir.r4.model.$this")
+    val possibleTypes = mutableListOf<Type>()
+
+    clazz.declaredFields.forEach { field ->
+        val annotation = field.annotations.find { it is Child } as? Child
+        annotation?.let {
+            val typeInstance = it.type.java.getDeclaredConstructor().newInstance()
+            possibleTypes.add(typeInstance)
+        }
+    }
+
+    return possibleTypes
 }
 
 
 fun String.canHandleConversion(sourceType: String): Boolean {
     val propertyClass = Class.forName("org.hl7.fhir.r4.model.$this")
-    val targetType2 =
-        if (sourceType == "StringType") String::class.java else Class.forName("org.hl7.fhir.r4.model.$sourceType")
+    val targetType2 = if (sourceType == "StringType") String::class.java else Class.forName("org.hl7.fhir.r4.model.$sourceType")
 
     val possibleConversions = listOf(
         "BooleanType" to "StringType",
         "DateType" to "StringType",
         "DecimalType" to "IntegerType",
-        "AdministrativeGender" to "CodeType"
+        "AdministrativeGender" to "CodeType",
+        "DateTimeType" to "StringType",
+        "TimeType" to "StringType",
+        "InstantType" to "DateTimeType",
+        "UriType" to "StringType",
+        "UuidType" to "StringType",
+        "CodeType" to "StringType",
+        "MarkdownType" to "StringType",
+        "Base64BinaryType" to "StringType",
+        "OidType" to "StringType",
+        "PositiveIntType" to "IntegerType",
+        "UnsignedIntType" to "IntegerType",
+        "IdType" to "StringType",
+        "CanonicalType" to "StringType"
     )
 
     possibleConversions.forEach {
         if (this.contains(it.first) && sourceType == it.second) {
+            return true
+        }
+    }
+
+    // Check if the source type can be converted to any of the possible types for this target type
+    val possibleTypes = this.getPossibleTypes()
+    possibleTypes.forEach { possibleType ->
+        if (possibleType::class.simpleName == sourceType) {
             return true
         }
     }
@@ -507,6 +623,7 @@ fun String.canHandleConversion(sourceType: String): Boolean {
 
     return true
 }
+
 
 fun String.getParentResource(): String? {
     return substring(0, lastIndexOf('.'))
