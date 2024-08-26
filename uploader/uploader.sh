@@ -20,7 +20,17 @@ main() {
     . config.txt
 
     # Get access_token
-    RESPONSE=$(curl -X POST -d "grant_type=password&client_id=$CLIENT_ID&client_secret=$CLIENT_SECRET&username=$USERNAME&password=$PASSWORD" $ACCESS_TOKEN_URL)
+    echo "Requesting access token..."
+
+    if [ "$GRANT_TYPE" = "password" ]; then
+        RESPONSE=$(curl -X POST -d "grant_type=password&client_id=$CLIENT_ID&client_secret=$CLIENT_SECRET&username=$USERNAME&password=$PASSWORD" $ACCESS_TOKEN_URL)
+    elif [ "$GRANT_TYPE" = "client_credentials" ]; then
+        RESPONSE=$(curl -X POST -d "grant_type=client_credentials&client_id=$CLIENT_ID&client_secret=$CLIENT_SECRET" $ACCESS_TOKEN_URL)
+    else
+        echo "Error: Unsupported grant type: $GRANT_TYPE"
+        exit 1
+    fi
+
     if echo "$RESPONSE" | jq -e 'has("error")' >/dev/null; then
         echo "Error: Failed to obtain an access token."
         echo "Response: $RESPONSE"
@@ -31,6 +41,9 @@ main() {
     ACCESS_TOKEN=$(jq -r '.access_token' <<< $RESPONSE)
     export ACCESS_TOKEN
     export SERVER_URL
+
+    echo "Access token obtained successfully."
+
     # Get the files in the resource folder and push to server
     find $RESOURCE_FOLDER -type f -exec bash -c 'push_to_server "$@"' bash {} \;
 }
