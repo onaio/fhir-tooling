@@ -1,6 +1,10 @@
 # uploader script
 A bash script to help with uploading content
 
+## Dependency
+Install these dependency in-order to use the uploader tool:
+- [jq](https://formulae.brew.sh/formula/jq), it's a lightweight command-line JSON processor
+
 ## How to use it
 - Make sure the script is executable. Use `ls -l` to check for permissions and `chmod +x <file-name>` to make it executable.
 
