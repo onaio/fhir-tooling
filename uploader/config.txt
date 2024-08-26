@@ -1,3 +1,4 @@
+GRANT_TYPE="client_credentials"
 CLIENT_ID=
 CLIENT_SECRET=
 USERNAME=
