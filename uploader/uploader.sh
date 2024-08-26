@@ -14,6 +14,9 @@ push_to_server() {
 }
 
 main() {
+    # Check if jq is installed
+    command -v jq >/dev/null 2>&1 || { echo >&2 "Error: 'jq' is required but it's not installed. Aborting."; exit 1; }
+
     # Import configs
     . config.txt
 
