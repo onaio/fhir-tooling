@@ -83,6 +83,7 @@ dependencies {
   implementation(deps.picocli)
   implementation(deps.xstream)
   implementation(deps.icu4j)
+  implementation(deps.javafaker)
 
   testImplementation(kotlin("test"))
   testImplementation("junit:junit:4.13.2")

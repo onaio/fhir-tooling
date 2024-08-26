@@ -36,7 +36,7 @@ product_access_token = 'example-product-access-token'
 
 # if using resource owner credentials (i.e importer handles getting authentication by itself)
 # This has greater precedence over the access and refresh tokens if supplied
-username = 'example-username'
+user_name = 'example-user_name'
 password = 'example-password'
 
 # if embedding importer into a service that already does the authentication
@@ -107,7 +107,7 @@ The coverage report `coverage.html` will be at the working directory
 - Run `python3 main.py --csv_file csv/organizations/organizations_min.csv --resource_type organizations --log_level info`
 - See example csv [here](/importer/csv/organizations/organizations_min.csv)
 - The first  column __name__ is the only one required
-- If the csv file has only the required column, (e.g. [organizations_min.csv](/importer/csv/organizations/organizations_min.csv)) the __id__ , __active__, and __method__ are set to __generating a new unique_uuid__ and the default values __create__ and  __true__ respectively
+- If the csv file has only the required column, (e.g. [organizations_min.csv](/importer/csv/organizations/organizations_min.csv)) the __id__ , __active__, and __method__ are set to __generating a new unique_uuid__ and the default values __true__ and __create__ respectively
 - [organizations_full](/importer/csv/organizations/organizations_full.csv) shows more options available
 - The third column is the request method, can be either create or update. Default is set to create
 - The fourth column is the id, which is required when updating
@@ -169,6 +169,7 @@ The coverage report `coverage.html` will be at the working directory
 - See example csv [here](/importer/csv/import/inventory.csv)
 - This creates a Group resource for each inventory imported
 - The first two columns __name__ and __active__ is the minimum required
+- The `accountabilityDate` is an optional column. If left empty, the date will be automatically calculated using the product's accountability period
 - Adding a value to the Location column will create a separate List resource (or update) that links the inventory to the provided location resource
 - A separate List resource with references to all the Group and List resources generated is also created
 - You can pass in a `list_resource_id` to be used as the identifier for the (reference) List resource, or you can leave it empty and a random uuid will be generated
