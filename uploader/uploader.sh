@@ -2,8 +2,7 @@
 
 push_to_server() {
     # Get the resource type
-    RESOURCE_TYPE=$(cat "$@" | jq '.resourceType')
-    RESOURCE_TYPE="${RESOURCE_TYPE:1:-1}"
+    RESOURCE_TYPE=$(cat "$@" | jq -r '.resourceType')
 
     # Post to server
     SERVER_URL="$SERVER_URL/${RESOURCE_TYPE}"
