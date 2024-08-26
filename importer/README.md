@@ -169,6 +169,7 @@ The coverage report `coverage.html` will be at the working directory
 - See example csv [here](/importer/csv/import/inventory.csv)
 - This creates a Group resource for each inventory imported
 - The first two columns __name__ and __active__ is the minimum required
+- The `accountabilityDate` is an optional column. If left empty, the date will be automatically calculated using the product's accountability period
 - Adding a value to the Location column will create a separate List resource (or update) that links the inventory to the provided location resource
 - A separate List resource with references to all the Group and List resources generated is also created
 - You can pass in a `list_resource_id` to be used as the identifier for the (reference) List resource, or you can leave it empty and a random uuid will be generated
