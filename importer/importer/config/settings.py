@@ -17,7 +17,7 @@ realm = os.getenv("realm")
 
 product_access_token = os.getenv("product_access_token")
 
-username = os.getenv("username")
+username = os.getenv("user_name")
 password = os.getenv("password")
 
 access_token = os.getenv("access_token")

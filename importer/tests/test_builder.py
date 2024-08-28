@@ -6,8 +6,10 @@ from jsonschema import validate
 from mock import patch
 
 from importer.builder import (build_assign_payload, build_org_affiliation,
-                              build_payload, check_parent_admin_level,
-                              extract_matches, extract_resources,
+                              build_payload, calculate_date,
+                              check_parent_admin_level, extract_matches,
+                              extract_resources,
+                              get_product_accountability_period,
                               process_resources_list)
 from importer.utils import read_csv
 
@@ -960,4 +962,117 @@ class TestBuilder(unittest.TestCase):
         self.assertEqual(
             payload_obj["entry"][0]["resource"]["type"][0]["coding"][0]["system"],
             test_system_code,
+        )
+
+    def test_calculate_date(self):
+        delivery_date = "2024-06-01T10:40:10.111Z"
+        product_accountability_period = 12
+        end_date = calculate_date(delivery_date, product_accountability_period)
+        self.assertEqual("2025-06-01T10:40:10.111Z", end_date)
+
+    @patch("importer.builder.handle_request")
+    @patch("importer.builder.get_base_url")
+    def test_import_inventory_and_calculate_end_date_from_product(
+        self, mock_get_base_url, mock_handle_request
+    ):
+        mock_get_base_url.return_value = "https://example.smartregister.org/fhir"
+        mock_response_data = {
+            "resourceType": "Group",
+            "id": "1d86d0e2-bac8-4424-90ae-e2298900ac3c",
+            "name": "thermometer",
+            "characteristic": [
+                {
+                    "code": {
+                        "coding": [
+                            {
+                                "system": "http://smartregister.org/codes",
+                                "code": "23435363",
+                                "display": "Attractive Item code",
+                            }
+                        ]
+                    },
+                    "valueBoolean": True,
+                },
+                {
+                    "code": {
+                        "coding": [
+                            {
+                                "system": "http://smartregister.org/codes",
+                                "code": "67869606",
+                                "display": "Accountability period (in months)",
+                            }
+                        ]
+                    },
+                    "valueQuantity": {"value": 12},
+                },
+            ],
+        }
+        string_response = json.dumps(mock_response_data)
+        mock_response = (string_response, 200)
+        mock_handle_request.return_value = mock_response
+
+        resource_list = [
+            [
+                "Nairobi Inventory Items",
+                "true",
+                "create",
+                "e62a049f-8d48-456c-a387-f52e72c39c74",
+                "123523",
+                "989682",
+                "a065c211-cf3e-4b5b-972f-fdac0e45fef7",
+                "false",
+                "1d86d0e2-bac8-4424-90ae-e2298900ac3c",
+                "2024-06-01T10:40:10.111Z",
+                "",
+                "34",
+                "Health",
+                "Sample",
+                "8f06f052-c08f-4490-84d8-f50399081434",
+            ]
+        ]
+
+        json_payload = build_payload(
+            "Group", resource_list, json_path + "inventory_group_payload.json"
+        )
+        payload_obj = json.loads(json_payload)
+        self.assertEqual(
+            "2025-06-01T10:40:10.111Z",
+            payload_obj["entry"][0]["resource"]["member"][0]["period"]["end"],
+        )
+
+    @patch("importer.builder.logging")
+    @patch("importer.builder.handle_request")
+    @patch("importer.builder.get_base_url")
+    def test_missing_product_accountability_period_characteristic(
+        self, mock_get_base_url, mock_handle_request, mock_logging
+    ):
+        mock_get_base_url.return_value = "https://example.smartregister.org/fhir"
+        mock_response_data = {
+            "resourceType": "Group",
+            "id": "1d86d0e2-bac8-4424-90ae-e2298900ac3c",
+            "name": "thermometer",
+            "characteristic": [
+                {
+                    "code": {
+                        "coding": [
+                            {
+                                "system": "http://smartregister.org/codes",
+                                "code": "23435363",
+                                "display": "Attractive Item code",
+                            }
+                        ]
+                    },
+                    "valueBoolean": True,
+                },
+            ],
+        }
+        string_response = json.dumps(mock_response_data)
+        mock_response = (string_response, 200)
+        mock_handle_request.return_value = mock_response
+
+        product_id = "0b907a28-40de-4fff-a26a-f8bace0b8652"
+        period = get_product_accountability_period(product_id)
+        self.assertEqual(-1, period)
+        mock_logging.error.assert_called_with(
+            "Accountability period was not found in the product characteristics : 0b907a28-40de-4fff-a26a-f8bace0b8652"
         )

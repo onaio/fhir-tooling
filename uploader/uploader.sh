@@ -2,8 +2,7 @@
 
 push_to_server() {
     # Get the resource type
-    RESOURCE_TYPE=$(cat "$@" | jq '.resourceType')
-    RESOURCE_TYPE="${RESOURCE_TYPE:1:-1}"
+    RESOURCE_TYPE=$(cat "$@" | jq -r '.resourceType')
 
     # Post to server
     SERVER_URL="$SERVER_URL/${RESOURCE_TYPE}"
@@ -14,6 +13,9 @@ push_to_server() {
 }
 
 main() {
+    # Check if jq is installed
+    command -v jq >/dev/null 2>&1 || { echo >&2 "Error: 'jq' is required but it's not installed. Aborting."; exit 1; }
+
     # Import configs
     . config.txt
 
