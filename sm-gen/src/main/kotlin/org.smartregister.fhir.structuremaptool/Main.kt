@@ -157,11 +157,11 @@ class Application : CliktCommand() {
             }
             //val resource =  ?: Class.forName("org.hl7.fhir.r4.model.$resourceName").newInstance() as Resource
 
-
-            // Perform the extraction for the row
-            /*generateStructureMapLine(structureMapBody, row, resource, extractionResources)
-
-            extractionResources[resourceName + resourceIndex] = resource*/
+//
+//            // Perform the extraction for the row
+//            /*generateStructureMapLine(structureMapBody, row, resource, extractionResources)
+//
+//            extractionResources[resourceName + resourceIndex] = resource*/
 
             sb.append(structureMapHeader)
             sb.appendNewLine().appendNewLine().appendNewLine()
@@ -175,22 +175,17 @@ class Application : CliktCommand() {
             var len = resourceConversionInstructions.size
             var resourceName = ""
             resourceConversionInstructions.forEach { entry ->
-                resourceName = entry.key.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
+                val resourceName = entry.key.replaceFirstChar { it.titlecase(Locale.getDefault()) }
                 if (index++ != 0) sb.append(",")
-                if(resourceName.isNotEmpty()) sb.append("Extract$resourceName(src, bundle)")
+                sb.append("Extract$resourceName(src, bundle)")
             }
             sb.append(""" "rule_a";""".trimMargin())
-            sb.appendNewLine()
-            sb.append("}")
-
-            // Add the embedded instructions
-            val groupNames = mutableListOf<String>()
+            sb.appendNewLine().append("}")
 
             sb.appendNewLine().appendNewLine().appendNewLine()
 
             resourceConversionInstructions.forEach {
-                Group(it, sb, questionsPath)
-                    .generateGroup(questionnaireResponse)
+                Group(it, sb, questionsPath).generateGroup(questionnaireResponse)
             }
 
             val structureMapString = sb.toString()
