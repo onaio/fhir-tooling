@@ -104,7 +104,12 @@ public class PublishFhirResourcesCommand implements Runnable {
     long start = System.currentTimeMillis();
     if (propertiesFile != null && !propertiesFile.isBlank()) {
 
-      Properties properties = FctUtils.readPropertiesFile(propertiesFile);
+      Properties properties = null;
+      try {
+        properties = FctUtils.readPropertiesFile(propertiesFile);
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
       setProperties(properties);
     }
     try {
@@ -121,18 +126,21 @@ public class PublishFhirResourcesCommand implements Runnable {
   }
 
   void setProperties(Properties properties) {
+    if (properties == null)
+      throw new IllegalStateException("Properties file is missing or could not be parsed");
+
     if (projectFolder == null || projectFolder.isBlank()) {
       if (properties.getProperty("projectFolder") != null) {
         projectFolder = properties.getProperty("projectFolder");
       } else {
-        throw new NullPointerException("The projectFolder is missing");
+        throw new IllegalStateException("The projectFolder is missing");
       }
     }
     if (fhirBaseUrl == null || fhirBaseUrl.isBlank()) {
       if (properties.getProperty("fhirBaseUrl") != null) {
         fhirBaseUrl = properties.getProperty("fhirBaseUrl");
       } else {
-        throw new NullPointerException("The fhirBaseUrl is missing");
+        throw new IllegalStateException("The fhirBaseUrl is missing");
       }
     }
     if (accessToken == null || accessToken.isBlank()) {

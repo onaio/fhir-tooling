@@ -1,4 +1,4 @@
 firstName,lastName,username,email,userId,userType,enableUser,keycloakGroupId,keycloakGroupName,appId,password
-Jane,Doe,Janey,jdoe@example.com,,Practitioner,true,a715b562-27f2-432a-b1ba-e57db35e0f93,test,demo,pa$$word
-John,Doe,Johny,jodoe@example.com,,Practitioner,true,a715b562-27f2-432a-b1ba-e57db35e0f93,test,demo,pa$$word
-Jenn,Doe,Jenn,jendoe@example.com,99d54e3c-c26f-4500-a7f9-3f4cb788673f,Supervisor,false,a715b562-27f2-432a-b1ba-e57db35e0f93,test,demo,pa$$word
+Jane,Doe,janey,jdoe@example.com,,Practitioner,true,a715b562-27f2-432a-b1ba-e57db35e0f93,test,demo,pa$$word
+John,Doe,johny,jodoe@example.com,,Practitioner,true,a715b562-27f2-432a-b1ba-e57db35e0f93,test,demo,pa$$word
+Jenn,Doe,jenn,jendoe@example.com,99d54e3c-c26f-4500-a7f9-3f4cb788673f,Supervisor,false,a715b562-27f2-432a-b1ba-e57db35e0f93,test,demo,pa$$word
