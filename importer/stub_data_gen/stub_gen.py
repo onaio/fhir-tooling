@@ -207,8 +207,8 @@ def generate_inventory(locations, products, count: int):
         delivery_date = ""
         product_id = product_record[3]
         quantity = math.ceil(fake.random.random() * 50)
-        unicef_section = fake.random_element(unicef_sections)
-        donor = fake.random_element(inventory_donors).get("")
+        unicef_section = fake.random_element(unicef_sections).get("code")
+        donor = fake.random_element(inventory_donors).get("code")
         location = location_record[3]
 
         to_append = [product_name, status, "create", inventory_id, po_umber, serial_number, "true", product_id, delivery_date, "", quantity, unicef_section, donor, location]
@@ -230,6 +230,6 @@ def generate_users_orgs(users, organizations, count: int):
         return [user_name, user_id, org_name, org_id, ]
 
     rows = []
-    for cursor in range(100):
+    for cursor in range(1, count + 1):
         rows.append(generate_row())
     return [header, rows]

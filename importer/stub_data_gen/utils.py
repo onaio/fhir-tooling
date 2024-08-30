@@ -17,7 +17,7 @@ def read_full_csv(csv_path):
         reader = csv.reader(file)
         header = reader.__next__()
         rows = [row for row in reader]
-        return [rows, header]
+        return [header, rows]
 
 ResourceTypes = Literal["users", "careteams", "locations", "orgs_locs", "users_orgs", "products", "inventories", "organizations"]
 def write_resource(resource_type: ResourceTypes, out_dir, data):
