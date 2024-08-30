@@ -48,7 +48,7 @@ def generate(ctx, out_dir, count):
         orgs_locs_data = generate_org_to_locations(organization_data[1], location_data[1], count)
         write_resource("orgs_locs", out_dir, orgs_locs_data)
 
-    click.echo(f"All data types generated and saved in {out_dir}")
+        click.echo(f"All data types generated and saved in {out_dir}")
 
 
 @click.command()
