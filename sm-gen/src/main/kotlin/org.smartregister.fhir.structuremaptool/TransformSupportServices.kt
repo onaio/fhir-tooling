@@ -33,7 +33,7 @@ class TransformSupportServices constructor(val simpleWorkerContext: SimpleWorker
         return when (name) {
             "RiskAssessment_Prediction" -> RiskAssessmentPredictionComponent()
             "RiskAssessment\$RiskAssessmentPredictionComponent" -> RiskAssessmentPredictionComponent()
-            "Immunization_VaccinationProtocol" -> Immunization.ImmunizationProtocolAppliedComponent()
+            "Immunization_AppliedProtocol" -> Immunization.ImmunizationProtocolAppliedComponent()
             "Immunization_Reaction" -> Immunization.ImmunizationReactionComponent()
             "EpisodeOfCare_Diagnosis" -> EpisodeOfCare.DiagnosisComponent()
             "Encounter_Diagnosis" -> Encounter.DiagnosisComponent()
