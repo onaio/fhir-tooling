@@ -71,6 +71,7 @@ def create_user(user):
 
         return user_id
     else:
+        logging.info(r.text)
         return 0
 
 
