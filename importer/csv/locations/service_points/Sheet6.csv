@@ -1,0 +1,1001 @@
+locationname,locationstatus,method,locationid,locationparentname,locationparentid,locationtype,locationtypecode,locationadminlevel,locationphysicaltype,locationphysicaltypecode,longitude,latitude
+CSB Ostie Akanjo Ambatomaro,active,create,480b3d15-039c-4ef8-8765-35ea3410f51e,,87073296-0c8f-4c3d-be03-657969c6517a,CSB2,csb2,5,Building,bu,47.564,-18.907
+CSB Ostie Ampasamadinika,active,create,3739f0fd-f61e-4eae-a8ba-0930655833b8,,87073296-0c8f-4c3d-be03-657969c6517a,CSB2,csb2,5,Building,bu,47.52,-18.903
+CSB Ostie Anjeva Gare,active,create,3c0650e2-df86-4903-9f4e-5bb6a924e5d5,,b410d757-4164-40f6-af32-3d635b6ac48b,CSB2,csb2,5,Building,bu,47.658,-18.83
+CSB Ostie Anosibe,active,create,929b2ee5-a2ee-4e1d-bc73-6e98095f7211,,e70844ea-2707-4622-8105-8046abf81235,CSB2,csb2,5,Building,bu,47.519,-18.921
+CSB Ostie Behoririka,active,create,447ca802-4f9b-45ae-95ca-d4dd95e672c8,,e70844ea-2707-4622-8105-8046abf81235,CSB2,csb2,5,Building,bu,47.529,-18.92
+CSB Ostie Ilafy,active,create,1e4cd31f-e669-4034-a6d6-11a792dbd5df,,b410d757-4164-40f6-af32-3d635b6ac48b,CSB2,csb2,5,Building,bu,,
+CSB Ostie Mahalavolona,active,create,8240b496-b9a8-4df8-bba1-a20509895fa5,,71f414a9-c504-452a-bc57-1368ae11f3c9,CSB2,csb2,5,Building,bu,47.53,-19.002
+CSB Ostie Somacou Ilafy,active,create,c4e2329e-c037-425d-b799-c091a6d64be0,,4a97633c-dc97-478d-a717-b37c3de1385f,CSB2,csb2,5,Building,bu,,
+CSB Ostie Tanjombato,active,create,d14fc173-d3fe-4b8c-b2d0-2aae5fa1a668,,b822118e-223a-49b4-b7e5-72adbda546b4,CSB2,csb2,5,Building,bu,47.527,-18.911
+CSB Ouest Sucre Antsohimbondrona,active,create,ca0e0628-bc61-4d70-8fd0-bb036bfd8022,,9c4abdd5-023b-49aa-b006-4c8d7171bd19,CSB2,csb2,5,Building,bu,48.923,-13.681
+CSB Pentekotista Mitambatra Andohalo,active,create,a456295f-2d81-4524-9f85-3bc05957130f,,e70844ea-2707-4622-8105-8046abf81235,CSB2,csb2,5,Building,bu,47.534,-18.926
+CSB Pilakibe,active,create,dce2e112-9f38-4db1-8e6e-9e121514251c,,9c4abdd5-023b-49aa-b006-4c8d7171bd19,CSB2,csb2,5,Building,bu,48.963,-13.68
+CSB Pont Sofia,active,create,8698a494-8711-477c-81eb-db897888367c,,4aa20f8e-c942-4f46-85c3-cd91a9d6bc34,CSB2,csb2,5,Building,bu,48.648,-15.387
+CSB Poste Et Télécommunication Analakely,active,create,2e8a46d3-c19b-40f4-9e1a-0ccd0a20443a,,8f127dd1-8e58-4d53-b273-bf8945e3e43a,CSB2,csb2,5,Building,bu,,
+CSB Privé Allelouia Ambohitsara,active,create,47fd0be9-038c-488d-a26f-b69d6a467b86,,03ab4c53-0115-4a5f-be5d-963108a4f38d,CSB2,csb2,5,Building,bu,,
+CSB Privé Brieville,active,create,267b60dd-1535-4b90-ac4e-085a72229b8e,,51c0a24f-cf89-4d33-ab9a-91c2801aa34c,CSB2,csb2,5,Building,bu,47.634,-16.699
+CSB Rainisoalambo,active,create,d626d9a0-ca90-4146-842b-dcd4451632ba,,627d2d57-a002-428c-b845-66ecf0afae48,CSB2,csb2,5,Building,bu,46.921,-21.466
+CSB Ral,active,create,3c2e2599-e10b-4400-8c72-122222b0eeb2,,a580ee00-578a-4d52-8224-6d0338ea8937,CSB1,csb1,5,Building,bu,,
+CSB Ramainandro,active,create,10bc9d06-643e-4d89-a489-754343311b52,,52d4a1c9-1b97-492c-896e-69fa93cee69b,CSB2,csb2,5,Building,bu,47.002,-19.831
+CSB Ramena,active,create,7edc5cdd-f244-490e-be4f-2ed70b8326ce,,85de4cb1-78f0-4aa8-bbde-3a1299b66b2c,CSB2,csb2,5,Building,bu,,
+CSB Ramena,active,create,c769f43d-20ad-47b5-b3ea-9a4a605fe088,,3b3f5833-ecc5-4534-be1a-7ccdd19923e8,CSB1,csb1,5,Building,bu,49.348,-13.818
+CSB Rangodona,active,create,847095f7-a128-4f55-9405-d31ced4b2034,,f94ce37b-e582-4825-9a6d-b83bbdf9dfc3,CSB1,csb1,5,Building,bu,48.35,-14.478
+CSB Ranofolo,active,create,0d78c2c4-6065-4c75-86b1-b874a3160013,,6fce8ae5-afe4-47e2-b7cc-d2a13d7fe508,CSB1,csb1,5,Building,bu,,
+CSB Ranohira,active,create,409ab5bf-fda6-4b36-ad08-83104ad8f603,,13e9bd89-81f6-47f8-96c1-8a083ae475f2,CSB2,csb2,5,Building,bu,45.413,-21.444
+CSB Ranomainty,active,create,dff0697a-2c79-466f-a05a-de8fb27b3194,,813f5815-b2fa-4024-bbfe-ad852e0fba81,CSB2,csb2,5,Building,bu,48.157,-17.83
+CSB Ranomainty Vohibe,active,create,75803704-ad05-4d2e-9923-200b08e2d098,,d78a96e7-5fb9-4f6e-a627-d0977be8c1d1,CSB1,csb1,5,Building,bu,47.301,-20.073
+CSB Ranovao,active,create,465eed80-7f62-4899-89b5-ec351c8119cc,,78c2e632-087b-4952-b9d1-38af17a0b1f4,CSB2,csb2,5,Building,bu,47.815,-18.907
+CSB Rantabe Ambanizana,active,create,2bf5a49e-75d5-4405-8f5f-2009d4e4a44f,,d3bf37ac-c3d9-4826-922f-1fc5f7308b45,CSB2,csb2,5,Building,bu,,
+CSB Rncfm Fce Manakara,active,create,af72998c-d333-47aa-b642-21b0da4942dd,,562311dc-98e1-4b27-85a2-946382c22e7a,CSB2,csb2,5,Building,bu,48.013,-21.503
+CSB Rncfm Fianarantsoa I,active,create,3ae7d3a9-2bfe-4e04-9457-d7c9ed05988d,,35f78db6-2235-4540-85f0-6ce8c075608d,CSB1,csb1,5,Building,bu,47.09,-21.84
+CSB Rova,active,create,d955c6e5-a76e-44ce-8f38-8c74dc81d3d2,,67d4bd9c-86bb-448a-95df-67a61d277a3e,CSB1,csb1,5,Building,bu,47.076,-22.039
+CSB Sabotsy Manjakavahoaka,active,create,a7f22283-6a26-4d83-80c3-8966fba535aa,,be4251e1-4d60-4a07-91c1-78a6b104f463,CSB2,csb2,5,Building,bu,,
+CSB Sabotsy Namatoana,active,create,93e11b7b-2c65-4aa5-bc74-e0297fd340a6,,5a7434fd-e437-4d16-9784-fe0526927268,CSB1,csb1,5,Building,bu,47.371,-16.21794
+CSB Sabotsy Namehana,active,create,969fedc5-c990-4ac0-8480-99d4ab97f4fa,,a9cece5d-2bba-4db7-bc98-e6b4afba6dfa,CSB2,csb2,5,Building,bu,47.558,-18.961
+CSB Sacré Cœur Ambohitompoina,active,create,13307c56-ffc4-470e-b606-ec97cc87f442,,192971ce-ccb0-440c-882f-4e477b5c574a,CSB2,csb2,5,Building,bu,47.664,-15.909
+CSB Sadabe,active,create,32582df6-3178-4350-aa58-2677bacd8978,,d66d97d5-3a92-4f60-9c34-7074e812ad75,CSB2,csb2,5,Building,bu,47.71,-18.921
+CSB Sadifi Ambano,active,create,ffb54bb8-8fdf-42e6-988b-66f07195603b,,919d123a-dbc8-4a9a-9774-973bb5e46883,CSB2,csb2,5,Building,bu,47.033,-19.419
+CSB Sadifi Ambolotara,active,create,90b5f9f5-316a-4f40-9a1f-7e4e21ed0adf,,05245ca6-c079-46d8-a804-1fd3ea8af0ef,CSB2,csb2,5,Building,bu,46.948,-19.862
+CSB Sadifi Antanivao,active,create,8da98226-eedb-46e7-bc2b-e1e97edba979,,324c72be-0931-4afb-9249-65af9deb257c,CSB1,csb1,5,Building,bu,47.038,-19.291
+CSB Sadifi Mandoto,active,create,5f59ce74-818b-44fd-9484-2ac570ca29ca,,88f1b2c4-5a31-41c5-9eaa-b4b82369f8bb,CSB2,csb2,5,Building,bu,46.285,-19.994
+CSB Sadjoavato,active,create,583b228a-fa27-4961-af18-9cbbc882a84b,,95b5bc07-9f47-4fd4-8815-75d747ddfb44,CSB2,csb2,5,Building,bu,49.348,-13.179
+CSB Safata Akamasoa,active,create,de2e273a-8c3c-4f24-8484-502f3f808094,,627d2d57-a002-428c-b845-66ecf0afae48,CSB2,csb2,5,Building,bu,47.148,-21.441
+CSB Saf Fjkm Ambanidia,active,create,386d36ff-be2b-409e-8828-784d64d7c13f,,a5e56324-dfbe-4373-827e-772232cfc7e0,CSB2,csb2,5,Building,bu,47.538,-18.91
+CSB Saf Fjkm Ambatolampy,active,create,69d74390-0be9-430e-92b0-aa2e6ebeee20,,c18afceb-6632-4257-8c35-f47f3ed58b9c,CSB2,csb2,5,Building,bu,47.43,-15.793
+CSB Saf Fjkm Ambatomainty,active,create,45827c9e-73b6-4a6a-9c83-9c5e5628a8c2,,97b23abc-c59b-4ab2-a208-00cb1c2937f6,CSB2,csb2,5,Building,bu,45.666,-18.704
+CSB Saf Fjkm Ambatondrazaka,active,create,7d957e52-d17d-4cb8-8c0a-c01198d71658,,460c2bec-03b1-4c85-a28e-cb38f4cbadfc,CSB2,csb2,5,Building,bu,48.423,-17.831
+CSB Saf Fjkm Ambatovola,active,create,28e3b953-f142-47ec-b9d5-1cadad12ab8b,,6bfb6f1b-ba2f-4c8b-91d8-2e7cb5a3c4c6,CSB1,csb1,5,Building,bu,48.514,-18.948
+CSB Saf Fjkm Ambodifiakarana,active,create,bdf7d815-333d-4544-8bfc-3c2a55bb788f,,87073296-0c8f-4c3d-be03-657969c6517a,CSB2,csb2,5,Building,bu,47.526,-18.9
+CSB Saf Fjkm Ambodimita,active,create,f6ce6d5a-4700-48ba-8f75-cb109940c8b8,,a5e56324-dfbe-4373-827e-772232cfc7e0,CSB2,csb2,5,Building,bu,,
+CSB Saf Fjkm Ambohimahasoa,active,create,947410f1-bf96-4727-bcf2-2071d62e74fd,,9ba2942d-0a1d-4d2b-af7e-746d84613a39,CSB1,csb1,5,Building,bu,,
+CSB Saf Fjkm Ambohimamory,active,create,916684b7-fea3-480b-a0e4-91da0d9dda52,,b822118e-223a-49b4-b7e5-72adbda546b4,CSB2,csb2,5,Building,bu,47.481,-18.917
+CSB Saf Fjkm Ambohimangakely,active,create,d2d195cc-b74e-4549-bb2b-e308f0090e55,,b410d757-4164-40f6-af32-3d635b6ac48b,CSB2,csb2,5,Building,bu,,
+CSB Saf Fjkm Ambohitrarahaba,active,create,0ed14639-9dfd-464f-88eb-db438111bf6f,,b410d757-4164-40f6-af32-3d635b6ac48b,CSB2,csb2,5,Building,bu,47.55,-18.83
+CSB Saf Fjkm Ambondromamy,active,create,27065917-7808-413f-bd42-e0decae4c2f8,,4210fe26-7cf0-40ad-96c0-4b64e9c590b7,CSB1,csb1,5,Building,bu,,
+CSB Saf Fjkm Ambondromisotra,active,create,d887d582-46b1-4bd2-99f7-17de333e764c,,9fa3d656-1b8d-4342-b43d-a6de5f0491b7,CSB2,csb2,5,Building,bu,46.906,-20.324
+CSB Saf Fjkm Ambositra,active,create,0678d970-b8d2-4616-b6f8-3a3cf5720883,,8983f82e-d270-48c6-8f60-904737dd50a4,CSB2,csb2,5,Building,bu,47.243,-20.549
+CSB Saf Fjkm Ambovombe Centre,active,create,04f9cafe-adb1-458e-ab6f-cdef1a56fce9,,1987469b-e697-4441-a514-1c99e7d1fa08,CSB2,csb2,5,Building,bu,47.076,-20.702
+CSB Saf Fjkm Ampitatafika,active,create,9c4aa038-ac06-407b-a2aa-dfd65d5354f4,,d02509a7-7bbd-46f6-aa68-206ea872b74b,CSB2,csb2,5,Building,bu,,
+CSB Saf Fjkm Analakely,active,create,01d2ef05-bcce-4644-88e8-3ca865546523,,cfcdfdc5-3a52-4528-ba1f-753d8eed8aea,CSB2,csb2,5,Building,bu,47.526,-18.914
+CSB Saf Fjkm Analamahitsy,active,create,28be3984-92c2-4242-a35f-f85ee20dd7e0,,e70844ea-2707-4622-8105-8046abf81235,CSB2,csb2,5,Building,bu,47.549,-18.924
+CSB Saf Fjkm Andolofotsy,active,create,67337fc4-c1b1-4760-9ade-f9023677695c,,62a2864a-ab97-4f07-9225-4ed6393ef8b0,CSB2,csb2,5,Building,bu,46.628,-19.133
+CSB Saf Fjkm Andranofasika,active,create,3996db4a-373a-44f4-a19b-6317df648ffd,,4210fe26-7cf0-40ad-96c0-4b64e9c590b7,CSB1,csb1,5,Building,bu,46.846,-17.835
+CSB Saf Fjkm Ankadimbahoaka,active,create,ebc251a3-6c22-4397-aa41-13c7b449d4e2,,a5e56324-dfbe-4373-827e-772232cfc7e0,CSB2,csb2,5,Building,bu,47.524,-18.904
+CSB Saf Fjkm Ankavandra,active,create,f404b263-97c8-4b2a-b2c4-9e569e1109fc,,9143467f-f83c-401d-aa04-d4fdcc40e9f5,CSB2,csb2,5,Building,bu,45.297,-17.818
+CSB Saf Fjkm Ankisabe,active,create,89a1b0c1-488d-4efc-9526-dc996f13ca2b,,f7eea768-16d1-4fea-b53b-8548cae08258,CSB1,csb1,5,Building,bu,46.481,-18.892
+CSB Saf Fjkm Antarandolo,active,create,453a23c8-fc0d-439e-a70f-d355b1ef2765,,7911b2b3-36e6-4171-a185-c6fc6293880e,CSB2,csb2,5,Building,bu,47.092,-20.97
+CSB Saf Fjkm Antsampandrano,active,create,34232db2-c22c-4e4c-a1ec-b35d6d075aa7,,6325a166-f117-46a6-aabc-d1cee393b5ef,CSB2,csb2,5,Building,bu,47.567,-18.84
+CSB Saf Fjkm Antsiranana I,active,create,a8cc8731-7d7f-419c-904c-7948a8bd1e28,,7c9fd4f2-3ea7-42a0-97fa-c2a003cb5e20,CSB1,csb1,5,Building,bu,49.295,-13.53
+CSB Saf Fjkm Antsohihy,active,create,e56e59db-12f1-48ca-91e2-171f6a4acb0f,,8ef31067-3223-4784-9355-e642ef1875f8,CSB2,csb2,5,Building,bu,,
+CSB Saf Fjkm Avaratr'Andohalo,active,create,7011d976-54bb-45a3-99c8-2d094533d3f8,,87073296-0c8f-4c3d-be03-657969c6517a,CSB2,csb2,5,Building,bu,47.532,-18.883
+CSB Saf Fjkm Bealanana,active,create,6304dd97-32b1-4548-93a7-868a219038a7,,b63e5ef9-20a9-46a0-aa86-23a87f91ed22,CSB1,csb1,5,Building,bu,,
+CSB Saf Fjkm Behenjy,active,create,d16caf62-4f18-4632-8141-8a926b40a343,,102f119a-77e8-4a9a-a330-84acb32ae931,CSB2,csb2,5,Building,bu,,
+CSB Saf Fjkm Belanitra,active,create,eab1834e-12ea-446c-9ad2-087e5339ac1c,,f4167f23-decb-4494-9c6f-975f1a3a9876,CSB2,csb2,5,Building,bu,,
+CSB Saf Fjkm Fib Ankadikely,active,create,68a14220-f7cc-4b58-88e2-78d60e62ded9,,ab4e40a5-3556-4cf2-977c-d04a00c9848b,CSB1,csb1,5,Building,bu,47.557,-19.086
+CSB Saf Fjkm Imerimandroso,active,create,9132ff99-19c6-40a2-a6f3-eb57f3bc55a7,,778843d7-ab61-42a3-af0c-aa1e9e2b85aa,CSB2,csb2,5,Building,bu,48.593,-17.43
+CSB Saf Fjkm Isotry Fitiavana Isoraka,active,create,9d08dfc5-8ae3-4200-9e8b-8820240d1320,,fd2f9598-c615-4599-b203-c706e44971a1,CSB2,csb2,5,Building,bu,47.52,-18.876
+CSB Saf Fjkm Mahalavolona,active,create,38d596c7-bf70-4d1f-b045-1181a13121c4,,aa63293d-2c8c-4fd0-9966-292db2df900b,CSB2,csb2,5,Building,bu,47.53,-18.944
+CSB Saf Fjkm Mahasolo,active,create,5b6a9d17-3271-4ac9-a090-6f6e703652a8,,a50c299a-6f6d-4aa3-8ee3-cd159a70f70a,CSB2,csb2,5,Building,bu,,
+CSB Saf Fjkm Moramanga,active,create,145ab3d5-630a-4907-96d1-b68b0d45e786,,0f8f5ecf-2476-45ba-b232-14f851a9c1da,CSB2,csb2,5,Building,bu,48.214,-18.941
+CSB Saf Fjkm Rafaralahy Andriamazoto Anjanahary,active,create,958d0c02-10c4-4b1a-ba0b-a2620d1dfd60,,a5e56324-dfbe-4373-827e-772232cfc7e0,CSB2,csb2,5,Building,bu,47.536,-18.91
+CSB Saf Fjkm Samaritana Ambatobe,active,create,3d25c319-91d7-4c0a-bdd6-3de747b76aec,,e70844ea-2707-4622-8105-8046abf81235,CSB2,csb2,5,Building,bu,,
+CSB Saf Fjkm Sanganoro,active,create,91e1fee4-36a9-4d84-ae59-5a2c1deb539f,,82686a84-8a84-430b-8b72-1a932ce1b635,CSB2,csb2,5,Building,bu,46.768,-18.976
+CSB Saf Fjkm Tanjombato,active,create,b523b789-938e-43c0-8101-edd0e71fe84c,,611d8b2e-ace3-40a7-bf5e-3a5edfaf39c7,CSB2,csb2,5,Building,bu,,
+CSB Saf Fjkm Tsinjoaina Analakely,active,create,d292a3bc-cafa-4e89-b268-ce9a19e33eea,,87073296-0c8f-4c3d-be03-657969c6517a,CSB2,csb2,5,Building,bu,47.527,-18.903
+CSB Saf Fjkm Tsiroanomandidy,active,create,037f21ac-eb27-430e-b33f-21b92c651863,,10655219-32de-4f05-ba3d-2b74a6ae3ff3,CSB2,csb2,5,Building,bu,46.05,-19.004
+CSB Sahamamy,active,create,73d64620-caf6-47e8-9f33-6cf658db1ebc,,12d5bf43-1d48-49ae-8fb5-a6f4730a5ebc,CSB2,csb2,5,Building,bu,48.3,-17.516
+CSB Sahamandresy,active,create,2e03b86d-650a-467e-a578-6c2859c2d9f1,,fa31c7f9-0406-4080-9385-598dbffe794a,CSB2,csb2,5,Building,bu,46.988,-20.508
+CSB Sahambano,active,create,cc365b69-2362-41f6-8f5d-2a84e6e87d6a,,e4af8d96-571f-40ad-84cb-68b4aa448a04,CSB2,csb2,5,Building,bu,46.281,-21.628
+CSB Sahambavy,active,create,4b12c4b0-0ad7-410b-94fb-958ca7cefccb,,7d21d7e0-3b42-4a18-9a49-157e27ae54ed,CSB2,csb2,5,Building,bu,47.257,-21.465
+CSB Sahamena,active,create,f802e4a9-9798-4e42-9050-a728f2ed5e72,,627d2d57-a002-428c-b845-66ecf0afae48,CSB1,csb1,5,Building,bu,47.139,-21.437
+CSB Sahanidingana,active,create,9f39e6f3-0ce6-43ff-8216-5d4edb91c0d1,,439548d0-f10c-4ac6-961e-209a0bb459c0,CSB1,csb1,5,Building,bu,,
+CSB Sahanivotry Atsimo,active,create,4d5fd075-3893-4458-a4d6-511d8b7e6104,,93018353-d128-485a-82a1-9fe05547b161,CSB2,csb2,5,Building,bu,47.059,-19.726
+CSB Sahanivotry Atsinanana,active,create,5b0fcf92-2b61-4197-a59b-07f6523ce8a0,,4c9a531c-9d88-4d5f-b582-f74dea6e0a20,CSB2,csb2,5,Building,bu,47.269,-19.864
+CSB Saharevo,active,create,0b48247b-c959-4421-9da2-104cf8972f0d,,a90ddcd0-a29d-41d5-9f4d-b85b0785fe7c,CSB1,csb1,5,Building,bu,48.189,-18.924
+CSB Sahatona,active,create,9fa72136-ef6c-49d8-b3a5-fe9924d8c162,,86f42256-d6a0-4879-ab23-a142e880897f,CSB2,csb2,5,Building,bu,47.102,-21.83
+CSB Sahave,active,create,87b936c2-5de2-4286-8ea4-41ece5f7049a,,86f42256-d6a0-4879-ab23-a142e880897f,CSB2,csb2,5,Building,bu,47.116,-21.826
+CSB Sahavolo,active,create,dc1ad7d5-f1e5-44b9-8f98-0d960d71215a,,5761b2f3-1199-4fca-880a-73af2319edec,CSB1,csb1,5,Building,bu,48.648,-17.045
+CSB Sainte Anne,active,create,ad2a114f-5948-48cc-9c3e-9f0891706f13,,e2cb4d42-5fe7-4733-95a9-90877a1f3f37,CSB2,csb2,5,Building,bu,47.471,-20.474
+CSB Sainte Anne Antsiranana I,active,create,58db13e1-d33a-4788-b307-b36b5ea2c63e,,a973d9be-89f5-477b-b59d-ba337e645dcc,CSB1,csb1,5,Building,bu,49.309,-13.991
+CSB Sainte Trinité Ihosy,active,create,3cb418c0-6040-4868-946b-ade5d302d83e,,b70550d6-2ce0-4833-b0af-f6943b3f1e41,CSB2,csb2,5,Building,bu,46.088,-21.441
+CSB Saint Fidel Antsakabary,active,create,22160af8-23e8-49e3-b079-e7dc516034ff,,74b95dd2-e560-4a0c-9c82-05ec4b8856a5,CSB1,csb1,5,Building,bu,,
+CSB Saint Gabriel Mahajanga,active,create,e6009464-1df1-4995-9048-fa09aca537fd,,fe7ec12f-51a4-41f6-9e29-262df5c89b66,CSB1,csb1,5,Building,bu,46.316,-16.543
+CSB Saint Ignace De Loyola Ambohimangakely,active,create,17ed0ca1-d783-4ee5-9287-51b3ba0c60ef,,7f551908-5e7e-4e9d-a91a-500fb48a786b,CSB2,csb2,5,Building,bu,47.591,-18.942
+CSB Saintsoa,active,create,660b4c9b-6ca7-4ceb-88a5-f1439882e813,,7d21d7e0-3b42-4a18-9a49-157e27ae54ed,CSB2,csb2,5,Building,bu,,
+CSB Saint Sylvestre Et Cathérine Belobaka,active,create,158bc106-7b6f-4141-a436-b3059060e611,,3c1737e9-bcba-4e4f-87e9-fb618d99b6c9,CSB1,csb1,5,Building,bu,,
+CSB Saint Vincent De Paul Soavina,active,create,786b7358-dc35-4538-8cb5-e918e1f57104,,c6677845-2fbe-4619-b7d3-aa6577c8975f,CSB2,csb2,5,Building,bu,46.784,-19.676
+CSB Sakalalina,active,create,0b335048-b3ad-4949-a15a-df26772efc25,,e4af8d96-571f-40ad-84cb-68b4aa448a04,CSB1,csb1,5,Building,bu,,
+Csb Sakamasay,active,create,a91454cc-9f53-4ed8-afe1-f203b4fa49a1,,09b3b46f-71a1-45f7-9ab4-b93e449e2205,CSB2,csb2,5,Building,bu,,
+CSB Sakaramy,active,create,61e4a462-1b71-40fd-8845-9db9f8072f5f,,6b99bb4b-46c6-4013-90d0-a130f96653bd,CSB2,csb2,5,Building,bu,49.261,-13.086
+Csb Sakatihina,active,create,3dcdd8b9-e9d1-4457-b2ef-99af0f649c38,,a620857b-f0ee-4a4f-a743-4cf1731d9a9c,CSB2,csb2,5,Building,bu,,
+CSB Sakay,active,create,cb06b103-07cc-42ac-af90-b4f4f9784520,,627d2d57-a002-428c-b845-66ecf0afae48,CSB2,csb2,5,Building,bu,46.603,-21.438
+CSB Sakoagna,active,create,3d6b6f0f-b204-4bed-b898-85bb147daaa0,,8ec83c3f-8e5f-4e4c-88dc-3e54ace5b98f,CSB2,csb2,5,Building,bu,47.813,-21.923
+CSB Sakoamadinika,active,create,5691f9da-46db-48ae-93cd-e0a647ac3c50,,0bfdefb5-199d-4524-9711-8bccf1d28e0d,CSB2,csb2,5,Building,bu,48.036,-16.901
+CSB Salama Fitiavana,active,create,f2a3f4c9-4e75-4a9a-9a14-b6c9a6e374ff,,728559f2-bead-4286-83b8-630617f340e1,CSB2,csb2,5,Building,bu,,
+CSB Salangaina,active,create,067a0f58-9c2a-4bc9-8918-266eac334a75,,05298366-d8c0-4f72-9f10-9669e8f06b0b,CSB2,csb2,5,Building,bu,48.916,-16.689898
+CSB Salfa 67ha,active,create,fac54fb7-139b-46ae-8d1c-20c66c7c7535,,cfcdfdc5-3a52-4528-ba1f-753d8eed8aea,CSB2,csb2,5,Building,bu,47.507,-18.926
+CSB Salfa Ambilobe,active,create,447aed9e-d868-4434-9940-fde7670fe277,,85de4cb1-78f0-4aa8-bbde-3a1299b66b2c,CSB2,csb2,5,Building,bu,49.048,-18.771
+CSB Salfa Ambohibary,active,create,252025ea-e29d-478d-9ad7-49c643abbc8d,,658cafdc-b25b-4bc8-b00e-7b78d6b50aff,CSB2,csb2,5,Building,bu,47.137,-19.582
+CSB Salfa Andohanilakaka,active,create,c6873a7e-8723-470f-a771-a159afb5e14b,,8aa6f5b3-49c6-4cd7-bafa-6d42272773d3,CSB2,csb2,5,Building,bu,45.219,-21.639
+CSB Salfa Andranomadio,active,create,fbddbc0e-829a-4fb4-8409-1b382239c6d7,,8bc27433-6642-4574-9be6-8bba723780e4,CSB1,csb1,5,Building,bu,47.032,-15.795
+CSB Salfa Anosibe Ifanja,active,create,eac21691-83ad-4050-8518-e4d76e11e184,,a0717d58-7fab-4cca-a777-df78d9bd0ad2,CSB2,csb2,5,Building,bu,46.749,-18.86
+CSB Salfa Antanikatsaka,active,create,15e91bd0-7824-4ed7-933c-5d8a2cb156e4,,4c9a531c-9d88-4d5f-b582-f74dea6e0a20,CSB2,csb2,5,Building,bu,,
+CSB Salfa Antanimalandy,active,create,0111d0aa-5bd5-4f21-a1c9-3de7bc861652,,75a2bcd7-15c5-4f04-90b5-4f4f255a614a,CSB2,csb2,5,Building,bu,,
+CSB Salfa Antehiroka,active,create,5e38a601-5e16-4315-8015-01e15955537a,,71460e59-d36b-4d57-96fb-3e78b2bb5a5a,CSB2,csb2,5,Building,bu,47.476,-18.79
+CSB Salfa Antsalova,active,create,943ea63c-1bfe-452c-930e-752eee028e52,,55e9e28b-8152-4b4c-af3f-0acc9d1688e8,CSB2,csb2,5,Building,bu,44.625,-19.077
+CSB Salfa Antsiranana I,active,create,e5c363ef-9025-4eac-8f66-0395ff8ca91a,,01f3c22d-f8f0-4e1d-95f0-d354430d8f94,CSB1,csb1,5,Building,bu,49.289,-13.669
+CSB Salfa Dispensaire,active,create,397d6c54-536c-4c36-9c07-0e2c87b05747,,4210fe26-7cf0-40ad-96c0-4b64e9c590b7,CSB2,csb2,5,Building,bu,,
+CSB Salfa Fandriana,active,create,2ef17a9e-63cd-4439-9234-de975b33b077,,af537fd8-1d1e-4c4e-90bc-8029791ae3ae,CSB1,csb1,5,Building,bu,47.375,-20.299
+CSB Salfa Farihimena,active,create,bad5c6a7-c6a2-49bf-a339-9baed17fbb93,,05245ca6-c079-46d8-a804-1fd3ea8af0ef,CSB2,csb2,5,Building,bu,,
+CSB Salfa Ivory,active,create,da255485-bda4-4ecd-a9f3-73aa27f9eb1b,,35f78db6-2235-4540-85f0-6ce8c075608d,CSB1,csb1,5,Building,bu,47.094,-21.889
+CSB Salfa Manerinerina,active,create,061406b0-a9c1-4689-936d-9c0bb4f059de,,0f95ce60-c201-42f7-8d77-f7f75b294c1e,CSB1,csb1,5,Building,bu,47.302,-17.595
+CSB Salfa Mitsinjo,active,create,d121dcb0-8998-4298-91a5-f0c7489e9c52,,dbcee054-66f3-4c05-abdc-24d79eb50263,CSB2,csb2,5,Building,bu,,
+CSB Salfa Morondava,active,create,bfccb9cc-1b62-4b38-9025-7432fda66d50,,d9e536b4-ffc6-487c-b6a2-a418e770db26,CSB2,csb2,5,Building,bu,44.292,-21.279
+CSB Salfa Tsiroanomandidy,active,create,3c32ea52-0034-4970-a5ed-35418cd7550f,,10655219-32de-4f05-ba3d-2b74a6ae3ff3,CSB2,csb2,5,Building,bu,,
+CSB Salve Regina Antsirabe I,active,create,b4f9c898-99af-461f-91aa-82758dbe720a,,aae35aa3-de43-4211-9259-19e18392457f,CSB2,csb2,5,Building,bu,47.02,-19.427
+CSB Samaritain Antsiranana,active,create,3dca0e3c-d955-4e1b-8ca4-b6c26afc385b,,106cb2b5-5e15-429e-96f9-7490c9f86bf3,CSB2,csb2,5,Building,bu,,
+CSB Sambaina,active,create,40d06204-b5db-4df1-a5ba-4ac46da33c89,,d66d97d5-3a92-4f60-9c34-7074e812ad75,CSB2,csb2,5,Building,bu,47.783,-18.921
+CSB Sambatra Izay Salama (Sisal) 67 Ha,active,create,8d50e6d7-2767-4b4d-8a61-78c3b7b48425,,a5e56324-dfbe-4373-827e-772232cfc7e0,CSB2,csb2,5,Building,bu,47.509,-18.907
+CSB Sambava Du,active,create,4949c3ed-93b3-4f23-aef8-2d8837b4bc65,,a926f4d0-5fe3-4e1f-a3ea-8527259aab05,CSB2,csb2,5,Building,bu,50.16,-14.896
+CSB Sandrandahy,active,create,7a5b423c-4b2c-4bd8-a979-a6018d3485ab,,990ce31e-0f01-49c7-a52b-0d1df8cbadbd,CSB2,csb2,5,Building,bu,47.295,-20.298
+CSB Sankoany,active,create,b8f21e4f-7115-470c-829e-18c664e804a7,,39168f45-1212-49cc-9b96-b9f11116b07c,CSB1,csb1,5,Building,bu,,
+CSB Sante Plus Antsirabe,active,create,a28c623a-7913-4bce-b29f-e550bf8ba966,,19f98036-ab15-4150-9f6d-a7311875b9a0,CSB1,csb1,5,Building,bu,47.03,-19.527
+CSB Santé Scolaire Saint Louis,active,create,8c60b1a4-3829-403c-a3f1-228a2b19328c,,3e74a64b-e674-44dd-a94f-61114382118e,CSB2,csb2,5,Building,bu,,
+CSB Santé Sud Ambatofotsy,active,create,1cc3eb9d-ce6e-4453-a976-e6af5b2b5b3b,,ee42da55-0901-4ec7-b1ce-8ef1d5d835cf,CSB1,csb1,5,Building,bu,,
+CSB Santé Sud Ambatolampy,active,create,52b1649b-036f-4f72-b113-cd40a4147228,,f7eea768-16d1-4fea-b53b-8548cae08258,CSB1,csb1,5,Building,bu,46.482,-18.891
+CSB Santé Sud Ambatonilaifotsy,active,create,bcb55927-d7c4-4fcb-9812-220fc10fd46f,,fab9cbc3-82b9-46b4-a919-fff642d24b87,CSB2,csb2,5,Building,bu,,
+CSB Santé Sud Ambatonilaifotsy,active,create,dee45a03-c854-4e7a-b391-6457ba801b13,,fdc991f5-a8ca-4e4a-a9b0-ff211d8efd2b,CSB2,csb2,5,Building,bu,,
+CSB Santé Sud Ambohibary,active,create,c76e1c9b-6b96-46cc-a29b-2a36e9485e70,,eff6c90c-3ad8-4c1a-bb88-89cbcc3463c8,CSB2,csb2,5,Building,bu,,
+CSB Santé Sud Ambohidanerana,active,create,afa39a54-7005-4670-9037-5333e516b491,,ffcd6f07-ef28-4a46-8445-b67f9ef2908e,CSB2,csb2,5,Building,bu,46.78,-18.965
+CSB Santé Sud Ambohidehibe,active,create,c995bf37-9ecc-4427-a673-4479a4a530bd,,03377c52-2738-4580-93fc-676b12f2a74e,CSB2,csb2,5,Building,bu,,
+CSB Santé Sud Ambohijanamasoandro,active,create,90362784-06ad-45d7-bbcc-b42256cc4a74,,82177de3-6b83-4a41-8aa7-b7c5061b9832,CSB2,csb2,5,Building,bu,47.171,-22.614
+CSB Santé Sud Ambonierana,active,create,7774a525-57ce-4ee2-90ca-81b2a799eea0,,540dd66f-5c14-4583-9b14-4144369c7f3a,CSB1,csb1,5,Building,bu,47.256,-18.319
+CSB Santé Sud Ampamaho,active,create,e0c176ec-f9a4-4d82-8ef8-4a6fd145d2f5,,82686a84-8a84-430b-8b72-1a932ce1b635,CSB2,csb2,5,Building,bu,,
+CSB Santé Sud Ampararano,active,create,726f9d26-0c4d-44c8-a691-16969177da6b,,82686a84-8a84-430b-8b72-1a932ce1b635,CSB2,csb2,5,Building,bu,,
+CSB Santé Sud Andrakodavaka,active,create,99ed91af-bd16-4e95-b26a-d4665523da75,,13ccda55-588f-433f-8632-b286328b37b0,CSB2,csb2,5,Building,bu,47.014,-19.635
+CSB Santé Sud Androakavato,active,create,a397ed08-b732-49f7-8c61-75b9b825d82c,,7cb976d6-d588-43e0-b34e-4d06a2b6aad5,CSB2,csb2,5,Building,bu,,
+CSB Santé Sud Androfia,active,create,2f5368f7-a8eb-4603-bc15-7056456199f6,,2b66f4c1-4c70-4279-8c68-fa2d27073ca4,CSB2,csb2,5,Building,bu,,
+CSB Santé Sud Angela,active,create,7b959657-816d-456f-b6a0-577e180395fc,,c72dc9dd-438b-40f1-9a96-6f0a5fdd3094,CSB2,csb2,5,Building,bu,46.663,-18.833
+CSB Santé Sud Angoaka Sud,active,create,378908ef-c9f5-43b8-a0e4-30031ccedb34,,7e397f53-8392-4fd8-932d-618c24135843,CSB2,csb2,5,Building,bu,,
+CSB Santé Sud Ankonabe,active,create,f43f1164-eefe-433d-bc71-e0489a452c33,,3d4cba19-058a-41e5-b434-41fdf02c578f,CSB2,csb2,5,Building,bu,,
+CSB Santé Sud Bejofo,active,create,dc4366dd-a5f2-4e78-a116-17d703481fdf,,82686a84-8a84-430b-8b72-1a932ce1b635,CSB2,csb2,5,Building,bu,,
+CSB Santé Sud Mamoeramanjaka,active,create,2ee043ef-9f92-4801-8ce1-55ace808f3d2,,11d8d42a-2ca1-487b-b039-1231e04522cf,CSB2,csb2,5,Building,bu,47.124,-22.311
+CSB Santé Sud Mamoeramanjaka,active,create,6ee1bd06-942c-40fd-ba21-8c7a583a71aa,,3151e4e9-3d07-4152-9a8f-c39bcd2b86a7,CSB2,csb2,5,Building,bu,47.124,-22.311
+CSB Santé Sud Mangatany,active,create,b1c8ca8d-df53-4e71-8d48-847352271965,,9904c5e6-5222-47fa-8f24-9e739862d13d,CSB2,csb2,5,Building,bu,,
+CSB Santé Sud Marovoalavo,active,create,05eebda1-4e9c-440f-8ca4-6e97b69c3615,,0a1939b3-b45a-4422-94cb-0b2bca6bd89e,CSB1,csb1,5,Building,bu,,
+CSB Santé Sud Marovoalavo,active,create,44a869b4-7de5-4dbb-9951-050ae48db71b,,2dae8d07-9695-4b72-ab25-71937f4068d2,CSB1,csb1,5,Building,bu,,
+CSB Santé Sud Morarivo,active,create,a880af15-4f82-4be5-bf2e-3cd7f347ed6c,,ffcd6f07-ef28-4a46-8445-b67f9ef2908e,CSB1,csb1,5,Building,bu,,
+CSB Santé Sud Soaronono,active,create,d667511c-dc4e-4bb1-b7d0-63d537132f2d,,3d4cba19-058a-41e5-b434-41fdf02c578f,CSB1,csb1,5,Building,bu,,
+CSB Santé Sud Talata Maromena,active,create,04a4ebdf-f197-421e-b708-8f5bbb914d6c,,e4f110aa-817a-4eb1-95c4-037e41a3e902,CSB2,csb2,5,Building,bu,47.332,-22.333
+CSB Santé Sud Tsarafiraisana,active,create,105d9060-3fe8-454b-b426-89ccf7c4e2d4,,d23df2a3-7793-4c2c-bbbf-cfa1e464e029,CSB2,csb2,5,Building,bu,47.065,-19.311
+CSB Sante Sud Tsarazaza,active,create,5e467f0f-0f61-4e4d-be3c-5a852c3b9964,,fc99cf99-bbd6-4803-a80b-7e35a75a30a4,CSB2,csb2,5,Building,bu,,
+CSB Sarahandrano,active,create,b98a77f3-e85b-4775-913b-ea80a56dead9,,116410b6-2843-441b-b44b-71b8ac291da2,CSB2,csb2,5,Building,bu,49.968,-15.035
+CSB Sarahandrano,active,create,f0b72c5e-e08c-4ed6-8985-eb5e2f458708,,e89be8e9-afd8-46f8-9336-cb2b759b6c94,CSB2,csb2,5,Building,bu,50.022,-14.529
+CSB Sarobaratra,active,create,b08bf7b7-c44a-4b95-97a4-348ae859b361,,6cc697a8-e23d-41ce-a06a-c19173b84251,CSB2,csb2,5,Building,bu,,
+CSB Sarodrano,active,create,3ef15f7f-0b5d-40e1-b57d-d8bef642acd1,,17964066-ca4b-4167-a422-30bc67ff7b47,CSB2,csb2,5,Building,bu,47.62702,-15.47
+CSB Sarodrano,active,create,d9c988f5-3408-4029-a42f-712bcca4e6e8,,55e9e28b-8152-4b4c-af3f-0acc9d1688e8,CSB2,csb2,5,Building,bu,45.645,-19.049
+CSB Satrokala,active,create,e435e6c2-e648-4349-bd4a-267660d3a0d4,,f2f64ddb-9bbb-4dce-beee-091c82a335cc,CSB2,csb2,5,Building,bu,,
+CSB Secren Antsiranana I,active,create,514d2746-4444-4979-a59d-fde89ba5ae6b,,8e6e31d9-e5d2-4fdc-bb5d-1797183ad9ee,CSB1,csb1,5,Building,bu,49.288,-13.863
+CSB Semipi Fianarantsoa I,active,create,698cab27-72a1-4b16-a1b6-5cef1dd7ac7b,,4b3259f1-10ca-47c6-9d14-e87c64097997,CSB2,csb2,5,Building,bu,47.427,-22.066
+CSB Sems Ampasika,active,create,55f74337-a321-48f7-9a0c-9a0af99e7faa,,1a546a5e-573f-45df-b5e5-4fa11616d2a2,CSB2,csb2,5,Building,bu,46.312,-16.336
+CSB Service Médical Autonome Nbm Ambatolampy,active,create,fd7a6666-a03d-4a35-a191-3ac7483bae18,,e6f4d9fd-0511-4a75-be7d-5172f7b29e78,CSB2,csb2,5,Building,bu,,
+CSB Shabbir Antohomadinika,active,create,dae8c52a-674b-42aa-af4f-28e296333112,,cfcdfdc5-3a52-4528-ba1f-753d8eed8aea,CSB2,csb2,5,Building,bu,,
+CSB Siloama Ambatondrazaka,active,create,190e6af2-076b-4fc0-a122-9b715c02638a,,460c2bec-03b1-4c85-a28e-cb38f4cbadfc,CSB2,csb2,5,Building,bu,48.429,-17.829
+CSB Siloe Ambositra,active,create,840444a9-155b-47cf-8358-26e6b59ba2ac,,8983f82e-d270-48c6-8f60-904737dd50a4,CSB2,csb2,5,Building,bu,47.25,-20.53
+CSB Siranana,active,create,704ab033-1e43-4088-aa14-2b9eb904c97d,,13b69347-5c2c-4ecf-bac2-cf188d632bfa,CSB2,csb2,5,Building,bu,48.698,-13.915
+CSB Sitampiky,active,create,c0bb3cba-bb3a-4440-85ee-71613657f75c,,0f95ce60-c201-42f7-8d77-f7f75b294c1e,CSB1,csb1,5,Building,bu,46.108,-17.35
+CSB Smae Grove,active,create,2d9c6bf2-9a9b-4b44-b113-29347dd8be66,,611d8b2e-ace3-40a7-bf5e-3a5edfaf39c7,CSB2,csb2,5,Building,bu,47.533,-18.968
+CSB Smia Ambanja,active,create,83e736b7-ea0b-4b1f-aeaf-bb0f4d4e4406,,c7c410c5-a3d8-42a7-8133-2d4d50ef093d,CSB2,csb2,5,Building,bu,,
+CSB Smia Ambatondrazaka,active,create,b518294a-dca2-4e09-a36c-b7da7c36454a,,460c2bec-03b1-4c85-a28e-cb38f4cbadfc,CSB2,csb2,5,Building,bu,48.429,-17.824
+CSB Smia Antsirabe I,active,create,fe7e90f7-6708-4c24-9f82-e1a6b0ef55ba,,36da4b3e-1359-44ac-95be-436b85af1ecf,CSB2,csb2,5,Building,bu,47.043,-19.404
+CSB Smids Antsiranana I,active,create,35971935-142d-4fba-89e7-7f04a9e96ca6,,7c9fd4f2-3ea7-42a0-97fa-c2a003cb5e20,CSB2,csb2,5,Building,bu,49.297,-13.525
+CSB Smisa Sambava,active,create,e0c66453-cdcd-4a32-b56b-0b96cd1bada8,,a926f4d0-5fe3-4e1f-a3ea-8527259aab05,CSB2,csb2,5,Building,bu,50.182,-14.907
+CSB Smmo Moramanga,active,create,1b2f6bb3-2c4a-4f95-987d-1c11122c61c2,,0f8f5ecf-2476-45ba-b232-14f851a9c1da,CSB2,csb2,5,Building,bu,48.231,-18.948
+CSB Sms Lycée Moderne Ampefiloha,active,create,41f916d9-aa11-40a4-bc79-0a9a4c14a578,,cfcdfdc5-3a52-4528-ba1f-753d8eed8aea,CSB2,csb2,5,Building,bu,,
+CSB Soafierenana,active,create,a7c2f30c-5898-4453-84ff-528bd776f669,,6de408e9-f310-4001-9972-3a1eadd3665d,CSB2,csb2,5,Building,bu,,
+CSB Soaindrana,active,create,e7161cdf-e42b-42ed-b96e-a0d210145524,,e4265dd4-3368-4bed-af27-843029cb7592,CSB1,csb1,5,Building,bu,47.041,-21.152
+CSB Soa Iombonana Iiig Hangar,active,create,d6333ba2-4d90-4094-9c1c-8f52af254412,,e70844ea-2707-4622-8105-8046abf81235,CSB2,csb2,5,Building,bu,47.515,-18.938
+CSB Soalala,active,create,6059ec04-3ee5-4c3c-ac35-c2a57b9f8067,,df16044d-7511-4334-9728-e8735eab9935,CSB2,csb2,5,Building,bu,45.327,-16.189
+CSB Soalazaina,active,create,e1fee39c-1280-4c96-b127-d0620d29a1d1,,de4334c0-2bcf-4bfd-a21c-84716d440224,CSB2,csb2,5,Building,bu,48.071,-17.98
+CSB Soalengo,active,create,ec7cf166-7379-4e57-9977-cf177f0f0e0e,,bdd4a2b6-b880-4416-8494-64ec118305af,CSB2,csb2,5,Building,bu,44.306,-17.511
+CSB Soaloka,active,create,200979c6-cbc5-4717-b3ca-34f8bb17d2b3,,da4965db-9a2d-4b78-8c05-99ac167b3035,CSB1,csb1,5,Building,bu,45.255,-19.768
+CSB Soamahamanina,active,create,57bdc5e4-4c39-4ea2-86d4-ba0ba02ada18,,82686a84-8a84-430b-8b72-1a932ce1b635,CSB1,csb1,5,Building,bu,,
+CSB Soamanandrariny,active,create,84c4dad7-8c6d-4a5a-b9a9-00525a2ae5e7,,045a2e79-267a-4599-aaba-6f33e05d7cbd,CSB2,csb2,5,Building,bu,47.294,-15.846
+CSB Soamatasy,active,create,8dff0557-dbb9-4f1e-b125-2b15fae0f147,,e870e559-bf89-4bfc-8d0d-7b7ffce66653,CSB1,csb1,5,Building,bu,46.002,-21.575
+CSB Soamiakatra,active,create,973923a6-54eb-4e28-957c-35a7513a3d0c,,a305025f-5b3d-443b-8bb2-99eba758e195,CSB1,csb1,5,Building,bu,47.401,-19.806
+CSB Soamihary,active,create,0b088aff-06a3-451d-9746-9c2be2161f0a,,2cffa3f2-651d-4522-9324-3a1b8b7a3ac6,CSB1,csb1,5,Building,bu,,
+CSB Soanambinina Alarobia,active,create,534f9590-3b2c-4f26-9673-c3189f32cc58,,151b76fb-7b51-4b06-9e36-ef8a9f5d579f,CSB2,csb2,5,Building,bu,47.72,-18.764
+CSB Soanenga,active,create,39310466-7c2e-436b-a89a-8e65c5021f38,,2accff97-09f2-4f3d-9e0b-ec3dc0ba270c,CSB2,csb2,5,Building,bu,44.613,-19.24
+CSB Soanierana,active,create,55c2f617-c2ef-47ee-b19e-c98cdf54505e,,a48d460d-9343-49af-81ae-769c47c52a58,CSB2,csb2,5,Building,bu,47.585,-20.68
+CSB Soanierana,active,create,aa3066f6-9ff6-4c87-9bf1-a5dd6c6d51ef,,f613ea40-71c2-4d05-abd2-99198d004c6c,CSB2,csb2,5,Building,bu,,
+CSB Soanindrariny,active,create,37805e83-f1d1-4bfd-968e-6b7086cdbb7b,,4c9a531c-9d88-4d5f-b582-f74dea6e0a20,CSB2,csb2,5,Building,bu,47.236,-19.872
+CSB Soa Ny Aina Andrefan'Ambohijanahary,active,create,2e5027e5-c6e0-47f1-b502-6d32fdae79be,,fd2f9598-c615-4599-b203-c706e44971a1,CSB2,csb2,5,Building,bu,,
+CSB Soaserana,active,create,170f25e8-5a5d-4e52-a936-8214a63be7ba,,35d91349-ce44-4d67-8e9d-081f3c143d94,CSB2,csb2,5,Building,bu,44.223,-17.479
+CSB Soaserana,active,create,5eafb6a2-c725-4294-bc1e-420ccfedcdf4,,9e425374-dcfa-4509-b11e-5dd61f5d6cd4,CSB1,csb1,5,Building,bu,45.523,-18.021
+CSB Soatanà,active,create,cc2ef9a3-16af-4956-ba8d-43ffc6efda8d,,55f45dc5-0ffc-46e0-acda-a272c0a32abb,CSB1,csb1,5,Building,bu,,
+CSB Soatanana,active,create,6b551aee-5aba-472d-8a9e-0cbe05d3ac3a,,c6fd5ace-94aa-4b1d-a80d-75f9a2939f20,CSB1,csb1,5,Building,bu,49.117,-14.035
+CSB Soatanana,active,create,db77a036-6406-4436-85e1-8ce14a6cabb6,,627d2d57-a002-428c-b845-66ecf0afae48,CSB2,csb2,5,Building,bu,46.921,-21.464
+CSB Soatanimbary,active,create,a88d986c-c0ff-4b82-9d00-d9c7f1e1cf60,,e4c40f13-927b-4335-8560-2807686f0a80,CSB2,csb2,5,Building,bu,45.487,-19.729
+CSB Soavimbazaha,active,create,9fac29fd-4f16-4073-b36d-f256f97cbbd4,,82686a84-8a84-430b-8b72-1a932ce1b635,CSB1,csb1,5,Building,bu,47.038,-19.056
+CSB Soavinandriana,active,create,63333f4c-1104-4c1e-b6fa-07bf40e420db,,4b39d9e5-90e4-451d-a940-a47115c96667,CSB1,csb1,5,Building,bu,46.738,-18.879
+CSB Soavinarivo,active,create,faccf95c-80eb-442d-9332-e06d278a470d,,bdecb1b9-3fe6-4d33-8a0d-158cb126f355,CSB2,csb2,5,Building,bu,,
+CSB Soavinimerina,active,create,7af76019-8e97-49c3-863a-7c8e6b6647b2,,a9292ed2-1d4e-4c26-a13b-b1ff88ff8cc6,CSB1,csb1,5,Building,bu,47.348,-18.753
+CSB Soavinitompo,active,create,a01f09cc-29e8-4940-a021-f759b16ba3db,,a197908b-0c93-43dc-90ef-eb87dbc9eee6,CSB1,csb1,5,Building,bu,,
+CSB Soavoanio,active,create,f04a76c3-5d31-459a-a936-57ad16c50a2a,,a926f4d0-5fe3-4e1f-a3ea-8527259aab05,CSB2,csb2,5,Building,bu,50.171,-14.898
+CSB Soctam Ambesika,active,create,dfeaab87-dee4-4ab0-b5ca-a1dc6b623201,,0fd5daed-e13b-4b61-9d2e-d0143bfb1914,CSB2,csb2,5,Building,bu,46.71903,-17.436
+CSB Soeur Ambiatibe,active,create,b8519f78-9dce-42ce-8d84-5d7a29515f85,,19500863-ce77-4afb-adbe-d6e37e50ca23,CSB2,csb2,5,Building,bu,47.761,-18.973
+CSB Soeurs Trinitaires Antanifotsy,active,create,86e8d128-a45f-4acf-ba19-d0ea21948fd4,,7f14fd91-3349-4174-a9b3-d5ed5169e4db,CSB2,csb2,5,Building,bu,0,0
+CSB Sofaba Mitsinjo,active,create,9187f5c6-90d4-4dd4-bd83-51f47a657f68,,dbcee054-66f3-4c05-abdc-24d79eb50263,CSB2,csb2,5,Building,bu,,
+CSB Sofia Medical,active,create,f67c7b9b-e339-4189-bc74-e31347c2e4d2,,b63e5ef9-20a9-46a0-aa86-23a87f91ed22,CSB1,csb1,5,Building,bu,48.746,-14.438
+CSB Solidago Marogoaika Ankazomiriotra,active,create,84572f87-78ae-4538-a28a-eaf487eceb1c,,27e0d189-b1ee-44c5-b765-196e806d3e62,CSB1,csb1,5,Building,bu,46.44,-20.106
+CSB Solila,active,create,8c5a63e3-82cc-4c28-972d-1fcd5bded6c7,,627d2d57-a002-428c-b845-66ecf0afae48,CSB2,csb2,5,Building,bu,46.617,-21.456
+CSB Somisika,active,create,7b8a9c9b-a1ba-42dc-ac13-fa5f196a5474,,69191346-9a9a-4dc1-8152-bfd50185cf12,CSB2,csb2,5,Building,bu,,
+CSB Sos Ankiambebas,active,create,5a94546a-06e9-4be0-9508-44cfd9708c3e,,4fb47e4d-3f47-4e08-bc7a-63a6e1dbf9e0,CSB2,csb2,5,Building,bu,43.674,-22.75
+CSB Sos Médicin Mahajanga,active,create,d7c66a9a-17ef-48bc-a14e-7d6b8546ea34,,fe7ec12f-51a4-41f6-9e29-262df5c89b66,CSB2,csb2,5,Building,bu,46.32,-16.538
+CSB Sos V Betioky Sud,active,create,fa249d8c-bc4c-4da5-91f0-0d920f3c63b1,,b0b75bc3-3d2d-4024-9c82-e6a48874899c,CSB2,csb2,5,Building,bu,,
+CSB Sos Village D'Enfants,active,create,832053ad-5e8e-45f6-bf99-28b59ef53983,,8df9e268-0054-4aa7-a3da-1c271653174c,CSB2,csb2,5,Building,bu,,
+CSB Sos Villages D'Enfants,active,create,1b60a9df-f187-4c2e-81e4-f396c72696de,,3f9a4d6c-ec41-43cc-983e-87211280c482,CSB2,csb2,5,Building,bu,,
+CSB Sos Vontovorona,active,create,efbd4e7a-6407-4841-87db-9746bd66add5,,aa63293d-2c8c-4fd0-9966-292db2df900b,CSB2,csb2,5,Building,bu,47.423,-18.949
+CSB Spsm Amboasary Sud,active,create,d1fa9ca5-0501-4c42-9c82-2e81d79b01c1,,124696f9-87ed-4178-ba7c-d100268dddba,CSB1,csb1,5,Building,bu,46.375,-25.0412
+CSB Ssmi Ekar Tsarahonenana,active,create,ecadeeb0-60ac-4929-8e93-38ce3d049ef8,,d54c390d-d884-402b-9658-e05fd43e703f,CSB2,csb2,5,Building,bu,,
+CSB Sucoma Analaiva,active,create,5e7c0242-7bef-4d23-bbae-df190d285e78,,fc082603-a0d0-4eea-9cd3-cb4ea73969f1,CSB1,csb1,5,Building,bu,44.502,-19.747
+CSB Taindambo,active,create,cc834fd1-7e43-443b-9715-7a21f6fc6469,,7d21d7e0-3b42-4a18-9a49-157e27ae54ed,CSB2,csb2,5,Building,bu,47.182,-21.452
+CSB Talata Ampano,active,create,74ddee6b-8fb0-4a9f-b9ae-e73e0f8e174d,,2c43b734-04c9-4c93-b51e-10cffb5ebd03,CSB2,csb2,5,Building,bu,47.038,-21.254
+CSB Talata Iary,active,create,5afc2773-e6d1-4e21-9941-55d80eb23212,,990ce31e-0f01-49c7-a52b-0d1df8cbadbd,CSB1,csb1,5,Building,bu,47.272,-20.28
+CSB Talatamaty,active,create,90a3ee37-b640-4a53-bed4-2e3cc08462f8,,b15bb8ad-b060-44e3-8081-e81f8efed5c0,CSB2,csb2,5,Building,bu,47.461,-18.695
+CSB Talata Miandrandra,active,create,e9b02eb3-8793-41b0-8e9a-2261fd8c2037,,521be9ba-24b9-4799-a600-609e7b45bcd9,CSB1,csb1,5,Building,bu,47.27,-22.058
+CSB Talatan'Ambatofolaka,active,create,4e6a2b39-eab8-411c-a5cd-32cc847066b4,,77ac3879-0969-434b-8b53-97e7fd724ca7,CSB2,csb2,5,Building,bu,46.708,-18.825
+CSB Talatan'Angavo,active,create,3d29f98c-b14d-49ae-b261-bf67fab9f11f,,0e73e615-b301-4352-9bc3-4449282a67d0,CSB2,csb2,5,Building,bu,47.099,-17.971
+CSB Talatan'Antoby,active,create,b6502a20-bdf4-47d3-92b5-63d1b9461e57,,7919cbbb-8017-4cd3-809f-be2ab34aafb3,CSB2,csb2,5,Building,bu,,
+CSB Talata Tsimadilo,active,create,12114808-5a1a-491f-8c9a-7b0b46901f13,,0a1939b3-b45a-4422-94cb-0b2bca6bd89e,CSB1,csb1,5,Building,bu,47.158,-22.48
+CSB Talata Tsimadilo,active,create,a652d87d-f2de-4857-815c-c32a87e74565,,2dae8d07-9695-4b72-ab25-71937f4068d2,CSB1,csb1,5,Building,bu,47.158,-22.48
+CSB Talatavolonondry,active,create,8a3cc0fe-05a7-4969-bad6-6438f334bf7d,,7f551908-5e7e-4e9d-a91a-500fb48a786b,CSB2,csb2,5,Building,bu,,
+CSB Tambohobe,active,create,9df59bc8-bd37-4427-97e0-052c67a648b1,,be99b7c3-f365-4983-a522-7cdea6fa82c3,CSB2,csb2,5,Building,bu,47.085,-21.205
+CSB Tamponala,active,create,30b2bc92-3960-4415-bc73-81cddf2f8e2e,,ffcd6f07-ef28-4a46-8445-b67f9ef2908e,CSB1,csb1,5,Building,bu,46.405,-18.899
+CSB Tanakidy,active,create,0b7cbccf-07fd-4cc1-be5f-bf9b77a51a16,,ee302c32-ac4e-435e-95ed-84d645787456,CSB2,csb2,5,Building,bu,48.018,-20.837
+CSB Tanamarina,active,create,6a31f58c-fbe3-495e-b52e-c6ad9037207a,,15e3dc94-d0c9-43f1-bbc5-4f3b19883f0f,CSB2,csb2,5,Building,bu,,
+CSB Tanamarina Bekisopa,active,create,0b1c90f5-ac61-4638-ae1a-bcc9fbf16370,,627d2d57-a002-428c-b845-66ecf0afae48,CSB2,csb2,5,Building,bu,45.886,-21.429
+CSB Tanambe,active,create,bb9e994d-f523-4329-8d40-46122d317314,,9c327240-b6ab-4ad7-b691-7631374d1848,CSB2,csb2,5,Building,bu,48.452,-17.387
+CSB Tanananifololahy,active,create,af895d38-9dd9-45fb-9d9c-59d7c4b573d1,,258e4770-d97f-4868-83a3-17e7c96ff56e,CSB2,csb2,5,Building,bu,48.327,-16.737
+CSB Tanjombato Andafiatsimo,active,create,060efbf9-3b38-48e0-8f3e-4a1df81a5c0d,,d02509a7-7bbd-46f6-aa68-206ea872b74b,CSB2,csb2,5,Building,bu,47.528,-18.937
+CSB Tankafatra,active,create,c66050a7-0e5b-40a5-9b81-9f9f69a6e856,,dae7d13c-0fe6-401d-ae6c-aa46e0a5ec53,CSB2,csb2,5,Building,bu,47.817,-19.248
+CSB Tatamalaza Antendronambero,active,create,da24cc01-cd68-4099-a8a3-d8062e4dd7d3,,7f07355e-f5b1-4a5d-9c25-dc5ec8dd5d6a,CSB1,csb1,5,Building,bu,47.445,-20.315
+CSB Tealongo Vohipotsy,active,create,9770dc54-d2fa-46c9-9a91-182eb363b209,,c6affba3-0fd2-4b52-84c5-c412049d1baa,CSB2,csb2,5,Building,bu,44.79,-23.559
+CSB Teza Ambohipo,active,create,28387c42-20c4-46e9-8284-75e984e74af8,,a5e56324-dfbe-4373-827e-772232cfc7e0,CSB2,csb2,5,Building,bu,47.56,-18.909
+CSB Tianarivo,active,create,2d1d3fd3-55e7-4d1c-93b4-b558160a3a66,,26010ac6-117c-47bd-b9a6-a1c017841fd6,CSB2,csb2,5,Building,bu,,
+CSB Titta Guarneri Manazary,active,create,d8b55e4d-7a94-4367-bfb3-980719104b9c,,e110d76e-fc48-4718-8051-0f037981338a,CSB2,csb2,5,Building,bu,46.87,-19.226
+CSB Toby Fitsaboana Tambatra Ambatolampy,active,create,79f1873b-8e92-4509-8ec5-1678afa7e3d4,,1e3fa081-e07c-45fd-ada7-aec21db72ff1,CSB1,csb1,5,Building,bu,47.43,-15.498
+CSB Toby Nenilava,active,create,8241663d-bb84-4907-812c-59fbdb13602e,,e4514208-4e7e-4a50-97f4-da0f72fbe0af,CSB2,csb2,5,Building,bu,46.975,-24.281
+CSB Tody Soa,active,create,90bbd403-c356-4765-aff0-f5e774f42ff3,,7ae00720-2aa0-481a-9f76-b726c25d39c8,CSB2,csb2,5,Building,bu,,
+CSB Tolohomiady,active,create,5e206ddc-061d-4c95-9944-719e61b8ac44,,9a48530d-9fed-49eb-a089-9df18c576009,CSB2,csb2,5,Building,bu,46.136,-21.768
+CSB Top Réseau,active,create,bb33b989-239a-4d10-a5dd-0001a5febd72,,0ae094df-a0b3-4022-8a12-de36199e0875,CSB2,csb2,5,Building,bu,,
+CSB Top Réseau Ampahimanga,active,create,7ad8831a-ffd0-4636-b00e-c07f7581ff64,,e20aba71-265d-4c00-9dc3-18205a9f379b,CSB2,csb2,5,Building,bu,,
+CSB Top Réseau Dr Lalatiana Sabotsy Namehana,active,create,8c24a012-9f30-42f1-bc40-90ce08506b5c,,0d054e10-3929-49d9-a70a-a61da1bb85f2,CSB2,csb2,5,Building,bu,47.556,-18.943
+CSB Tozzi Green,active,create,19cf3ac4-f5d8-49c8-8a7f-242c4d9a817c,,e870e559-bf89-4bfc-8d0d-7b7ffce66653,CSB2,csb2,5,Building,bu,,
+CSB Trangahy,active,create,f360b52e-0619-459e-ac09-7fb8a95abc36,,55f45dc5-0ffc-46e0-acda-a272c0a32abb,CSB2,csb2,5,Building,bu,44.56,-18.958
+CSB TRANOROA,active,create,1a9b2c5f-c273-4410-8b79-4df50752e6d6,,8746b844-7ee5-4c7c-9cc1-60fc3c529b15,Water Point,water_point,5,Building,bu,45.053,-24.615
+CSB Tratramarina,active,create,667fdcc1-1edd-4b2f-b3c2-292306b4c4ac,,36296f25-d33a-4562-bc7d-f14db0cf65bc,CSB2,csb2,5,Building,bu,48.305,-19.491
+CSB Tritriva,active,create,9309bc85-2514-4d19-a602-e598a3d95947,,ae5eebfe-5847-4562-b1a9-e42e1ea40520,CSB2,csb2,5,Building,bu,,
+CSB Tritriva,active,create,d7c0b251-aff2-4e16-92f5-056eb908fc87,,4a30bf2a-addf-4971-b212-a8d98683694b,CSB1,csb1,5,Building,bu,46.926,-19.792
+CSB Tsangandrano,active,create,f7d3e673-0314-4731-98a9-4aa88d1b345a,,1c601632-baea-46ef-bf31-e7af518b28a0,CSB1,csb1,5,Building,bu,46.729,-20.28
+CSB Tsarabaria,active,create,57d75152-d64d-443d-b50a-b85172e56485,,d9ace11e-d919-4b5b-b901-e14d47cd2fa8,CSB1,csb1,5,Building,bu,49.949,-14.264
+CSB Tsarafara,active,create,a2618759-983d-481c-96f7-8c18d28f2a56,,7919cbbb-8017-4cd3-809f-be2ab34aafb3,CSB2,csb2,5,Building,bu,46.921,-19.876
+CSB Tsarahonenana,active,create,3fe55691-a7bd-4f19-9309-f9b2cfc03e0a,,4c9a531c-9d88-4d5f-b582-f74dea6e0a20,CSB2,csb2,5,Building,bu,,
+CSB Tsarahonenana,active,create,43e6a5c9-7998-44ec-bd1d-35a102c07b55,,f7ca5b34-9bdc-4dae-ae24-8fcc6247effe,CSB1,csb1,5,Building,bu,47.009,-18.274
+CSB Tsarahonenana,active,create,49b13a37-b3e4-4a92-81e6-7a8108303db2,,eef2bda8-eefb-4e47-af2e-18cfb614782e,CSB2,csb2,5,Building,bu,,
+CSB Tsarahonenana,active,create,97d1ba89-2fd0-423c-b854-061d29825bec,,a9292ed2-1d4e-4c26-a13b-b1ff88ff8cc6,CSB2,csb2,5,Building,bu,47.487,-18.755
+CSB Tsarahotana,active,create,0976dbe4-81ed-456d-8e4f-b72ffcb2f98a,,201e0eb9-eae2-422a-ae06-90ff7b2e3d63,CSB1,csb1,5,Building,bu,44.842,-18.558
+CSB Tsaralalàna Csmi,active,create,7ddf0b4d-f218-4d75-99d0-0780b5a935ee,,e70844ea-2707-4622-8105-8046abf81235,CSB2,csb2,5,Building,bu,47.523,-18.941
+CSB Tsaralalàna Css,active,create,1f9b61a9-a1da-4dcd-ba2b-256147caeb0f,,cfcdfdc5-3a52-4528-ba1f-753d8eed8aea,CSB2,csb2,5,Building,bu,47.521,-18.916
+CSB Tsaramandroso,active,create,62ed0212-7ea1-4ddb-b6b5-8d72a0d105d5,,b23225d6-67f4-4bb8-91aa-f7aca42f7327,CSB2,csb2,5,Building,bu,47.047,-17.268
+CSB Tsaramandroso,active,create,e67cec05-0320-4b72-92fd-6b7c4c6c3aa7,,9b606a8a-d316-4943-88d9-020a4a3d0bf7,Water Point,water_point,5,Building,bu,47.034442,-16.383307
+CSB Tsaramasoandro,active,create,077572da-5196-4dc7-ab3f-696abb3bd1b3,,8209d646-2b61-4f8e-8b6b-a5de664a9e84,CSB2,csb2,5,Building,bu,46.374,-19.906
+CSB Tsaramasoandro,active,create,87f7c834-1743-40dd-9490-c7e499f3ba25,,9d01b32d-c239-4146-b063-21ef4113e92f,CSB2,csb2,5,Building,bu,47.217,-18.514
+CSB Tsaramiakatra,active,create,bb77ecd4-f0b5-46fe-a67f-976bc764c436,,a3a086ce-c852-43d8-87a1-6e1acb57703b,CSB2,csb2,5,Building,bu,46.061,-19.585
+CSB Tsararova,active,create,f966ee7a-5849-41e2-969c-5f2c21e2e270,,0e054c9e-7a30-47be-b170-0c5d1ff59b99,CSB2,csb2,5,Building,bu,47.652,-16.962
+CSB Tsarasaotra,active,create,f4ac1e5d-ade1-4665-851f-08c160e1ca31,,5d21df87-8b80-4067-b1eb-3b5eb75cb7e3,CSB2,csb2,5,Building,bu,47.212,-20.201
+CSB Tsarazaza,active,create,d67882ae-2fb6-4eb1-b7c5-00d4e13c23f9,,7f07355e-f5b1-4a5d-9c25-dc5ec8dd5d6a,CSB1,csb1,5,Building,bu,47.308,-20.315
+CSB Tsarazazamandimby,active,create,3fef7f4c-2cf1-4480-93de-46181a0000fa,,a80de6c1-9347-4555-b53b-aa8141499f52,CSB2,csb2,5,Building,bu,,
+CSB Tsiafajavona Ankaratra,active,create,601e2b1f-e68c-4b2e-b5d2-cfa6abd12288,,67a623fa-d252-4f23-9f65-6a83909fb92f,CSB1,csb1,5,Building,bu,47.333,-15.78043
+CSB Tsiamalao,active,create,0147e637-71dd-4fc7-a367-666ace7fc17f,,59006873-3247-4272-8583-3f49d0f9cd72,CSB1,csb1,5,Building,bu,,
+CSB Tsiamboho,active,create,4678a62e-630c-49ae-b114-f7db5a65da9d,,3830f987-da5e-46cd-a5ef-df977bf47599,CSB2,csb2,5,Building,bu,,
+CSB Tsiandro,active,create,b19f15e8-ec83-4792-8695-daa62a80706a,,6711dc2b-a899-4dd0-ac9e-0d069bbac479,CSB2,csb2,5,Building,bu,44.904,-19.084
+CSB Tsianofàna,active,create,fc7089bc-d53b-4b0f-aa84-2ca5efa8fd94,,b37d36f8-a1a9-4185-a882-85e096aefc0e,CSB2,csb2,5,Building,bu,47.544,-23.801
+CSB Tsifenokataka,active,create,c4f408ee-d0ba-43c4-8c12-2ca465cf0d59,,e20fad2e-c286-4f4f-a427-16925a3d7ffa,CSB1,csb1,5,Building,bu,,
+CSB Tsimafana,active,create,b67069d4-b214-4668-b2ba-979f72252aa3,,b12b888d-207a-4eda-ae28-80d69be396e6,CSB1,csb1,5,Building,bu,,
+CSB Tsimahasenga,active,create,010f1272-d272-4f28-bec6-f9edee11c3e0,,cf655c4a-06ba-4df3-b9cf-4b7c48fc9b70,CSB1,csb1,5,Building,bu,47.733,-14.506
+CSB Tsimaitohasoa,active,create,3005b800-4613-4fec-b6ce-30427c30d919,,8e701a64-7bd0-4cf0-8ff0-ee6668978ec3,CSB1,csb1,5,Building,bu,47.069,-20.914
+CSB Tsimazava,active,create,9656dc77-b143-4058-a073-dd89e608cb63,,dc851888-11bd-4470-9749-01daced3bcab,CSB2,csb2,5,Building,bu,45.702,-17.434
+CSB Tsiningia,active,create,7a0f41ef-cd6d-456e-ac71-470a35b0a752,,8f6afc3c-3201-47a6-acab-a8ebf900ef44,CSB1,csb1,5,Building,bu,,
+CSB Tsinjoarivo,active,create,6a3552ff-8e8f-4d3f-a7ac-6c13cbee8935,,b885171f-3bfd-4cdd-b0ed-e1f8cc8551fb,CSB2,csb2,5,Building,bu,47.421,-22.804
+CSB Tsinjoarivo,active,create,78fce6c0-ac04-41fe-bb29-9aaaa6705748,,96b867d2-165e-4d25-84dc-428e35880da7,CSB2,csb2,5,Building,bu,47.686,-15.793
+CSB Tsinjoarivo,active,create,c8b17342-0176-439b-b632-bc0a142b5034,,741617e9-e092-4977-b047-97cd41010d04,CSB1,csb1,5,Building,bu,48.224,-17.89
+CSB Tsinjoarivo 22,active,create,90c02c43-ee15-4647-9c0f-6458dc2d4faf,,ce482abc-bcaf-4bdd-b4d3-a11e95b5693f,CSB1,csb1,5,Building,bu,45.852,-16.106
+CSB Tsinjoarivo Imanga,active,create,f10d859c-a1dc-474a-8cc4-d4b34915da41,,293af907-064e-452f-ac97-a069cde48285,CSB2,csb2,5,Building,bu,46.32,-18.938
+CSB Tsinjony,active,create,0233864d-e146-4d0e-b868-4972fffb94b1,,3f36fa1f-e560-4c92-add1-8085b4acc785,CSB2,csb2,5,Building,bu,47.517,-16.19915
+CSB Tsinjorano Ii,active,create,bf0638e3-44cc-48db-950c-470cab4a0609,,39a84b94-db54-4580-ba08-18f1a9ed0438,CSB1,csb1,5,Building,bu,45.081,-16.099
+CSB Tsiroanomandidy Ville,active,create,7d64b693-e913-4859-99c2-4a5529811661,,e9ab9884-d25d-4cc3-9492-0511f5809619,CSB2,csb2,5,Building,bu,46.049,-18.821
+CSB Tsitondroina,active,create,6200777f-f995-473f-ba3d-7c98145e96cb,,627d2d57-a002-428c-b845-66ecf0afae48,CSB2,csb2,5,Building,bu,46.245,-21.459
+CSB Tsivatrinikamo,active,create,38b41c3d-fd4c-4557-a28f-e2c9f3077cee,,aae35aa3-de43-4211-9259-19e18392457f,CSB2,csb2,5,Building,bu,47.005,-19.428
+CSB Union Méd Priv Analamahitsy,active,create,cfb0885e-04ef-4940-9cdf-236c09a8e9f1,,fd2f9598-c615-4599-b203-c706e44971a1,CSB2,csb2,5,Building,bu,47.546,-18.872
+CSB Urbaine  Maevatanana,active,create,85e76016-9aff-48c5-be09-293f2519207c,,2762b783-b5fd-4f02-86e7-682a713b9b7f,CSB2,csb2,5,Building,bu,46.831425,-16.942297
+CSB Urgence Soamanandrariny,active,create,e2feec0f-69f9-46b7-8b9b-ead2e59c4077,,4a97633c-dc97-478d-a717-b37c3de1385f,CSB2,csb2,5,Building,bu,47.566,-18.859
+CSB Usine Militaire Sahafitana,active,create,9f00f93c-05e3-471f-bf6c-06875eac03d1,,a90ddcd0-a29d-41d5-9f4d-b85b0785fe7c,CSB2,csb2,5,Building,bu,48.23,-19.046
+CSB Valabetokana,active,create,a46dbeba-207c-407b-ad7f-a61f19b4fb5b,,9f215fce-848f-43a0-8ede-e0d1b39dccef,CSB2,csb2,5,Building,bu,46.756,-19.618
+CSB Vangaindrano,active,create,76f8f85e-e1a4-489f-8e03-e51a1fbf5de0,,bda9e461-9f0c-4bd2-b60f-9d50a9c86a77,CSB2,csb2,5,Building,bu,,
+CSB Vasiana,active,create,13744923-6672-445f-9221-b91d331d5d6d,,3e74a64b-e674-44dd-a94f-61114382118e,CSB1,csb1,5,Building,bu,46.234,-20.057
+CSB Vatana,active,create,6e987c87-6b20-401d-9bdc-32fa3cadf245,,bbbfc03a-3dda-4657-8e5f-ca1d8d641b0f,CSB1,csb1,5,Building,bu,47.746,-22.111
+CSB Vatomitsangana,active,create,c965d4e6-3381-4103-8435-dfc7d10c563a,,ffbc9afa-d874-4c1a-99c7-16c399e8ac98,CSB1,csb1,5,Building,bu,47.567,-20.434
+CSB Vatovory,active,create,75c0dad6-ac42-4ac5-9ba8-78c97ee34421,,8983f82e-d270-48c6-8f60-904737dd50a4,CSB2,csb2,5,Building,bu,47.249,-20.517
+CSB Vazahazahana,active,create,517e2611-906a-4779-9be5-9c58b6b1322a,,3c9bdc0f-03b9-4ddc-9252-d034e185915b,CSB1,csb1,5,Building,bu,49.245,-16.541
+CSB Viliahazo,active,create,d05e476e-ffc5-4c7a-9ece-09da7a1ed598,,7f551908-5e7e-4e9d-a91a-500fb48a786b,CSB2,csb2,5,Building,bu,47.667,-18.939
+CSB Vinanimasina,active,create,207dd2d0-902e-4aa6-a7c4-41afd736fe1d,,60d50a91-092e-4151-8521-4490edfa970e,CSB1,csb1,5,Building,bu,,
+CSB Vinaninkarena,active,create,44c51d9b-e02a-4992-9d77-3d812818dda8,,4c9a531c-9d88-4d5f-b582-f74dea6e0a20,CSB2,csb2,5,Building,bu,47.042,-19.874
+CSB Vinaninony Atsimo,active,create,1f9b8775-cca6-49e4-b954-143b35150055,,b844f83d-d98b-4a39-b8cd-caf25a220dfe,CSB2,csb2,5,Building,bu,47.033,-19.893
+CSB Vinaninoro,active,create,ed1ac296-3666-424f-96d9-05ff2b46e834,,9c886bdf-244d-4c19-9090-046d83e3ee2d,CSB2,csb2,5,Building,bu,47.269,-20.518
+CSB Vinanintelo,active,create,40bb109a-f86e-47ba-b515-f4ff8388ca14,,e7acd6b0-3935-4798-9a8e-ce5aa2cdfc1a,CSB1,csb1,5,Building,bu,47.738,-22.144
+CSB Vinany,active,create,cb7a27b1-ee85-4a9f-831f-ccb1bf37bb02,,2114fcad-f157-4017-909b-5e59dfb94833,CSB2,csb2,5,Building,bu,46.486,-20.1
+CSB Vinany Andakatanikely,active,create,716ad59d-8a66-473d-9dd2-5a702595e280,,304ee001-143e-4049-a4db-cb1b9d184980,CSB2,csb2,5,Building,bu,47.064,-20.655
+CSB Vita Perte,active,create,08ced872-c204-4cad-904c-52be27a08197,,ae787182-b923-4e35-bc6e-acaa16425f5c,CSB2,csb2,5,Building,bu,,
+CSB Vodiriana,active,create,7d69dca7-465b-4793-90ad-12431ea69c3b,,9b806451-537d-4a22-bf0a-28bbadfa7999,CSB2,csb2,5,Building,bu,48.041,-18.981
+CSB Voenana,active,create,693e4567-f83c-4070-b4fb-41e8b02ad43f,,6765d345-fb5b-4812-ad5c-380dc5428524,CSB1,csb1,5,Building,bu,46.963,-20.552
+CSB Vohémar,active,create,3e365941-f4bc-4b24-a394-e21aff79549b,,0b62a436-5ff3-4cb5-baab-5e08019194e4,CSB2,csb2,5,Building,bu,49.992,-14.315
+CSB Vohibato Ouest,active,create,718de05f-b85e-484f-b7ab-f639bfeb7194,,2a234ded-08e4-4bc0-9ad2-3769acb30c12,CSB2,csb2,5,Building,bu,47.124,-21.417
+CSB Vohibola,active,create,04db5528-cf30-4eeb-80bc-7530f3641ab0,,50fe43fa-ac5b-45fe-8362-d61dfa502f31,CSB1,csb1,5,Building,bu,48.125,-19.752
+CSB Vohidahy,active,create,928e7db9-5e4b-4c89-9a18-a58ef9679dee,,98e1ad5b-ce78-4999-9ba6-44dc9cec9351,CSB1,csb1,5,Building,bu,47.553,-20.416
+CSB Vohilava,active,create,1e116e24-6916-4f5c-8517-d98feb5cea01,,f2a37521-c368-436c-a4fa-ff04c200248e,Water Point,water_point,5,Building,bu,47.72624722,-22.73839167
+CSB Vohimarina,active,create,9ac9eb94-be5a-4747-a8cf-0ee2f95a7655,,0c750c9b-48ad-47d7-af25-118b6705e114,CSB2,csb2,5,Building,bu,46.906,-21.645
+CSB Vohimarina,active,create,fe89f5b3-8773-4b7d-854f-6131bf61dbb7,,82686a84-8a84-430b-8b72-1a932ce1b635,CSB2,csb2,5,Building,bu,46.384,-18.978
+CSB Vohimena,active,create,07a949d2-6b30-4478-87f3-51b20b8f941b,,64b62f1e-4a14-40b3-b101-c76fb6b5e7c1,CSB2,csb2,5,Building,bu,48.605,-17.351
+CSB Vohiposa,active,create,37c7b971-258b-4543-b839-f5c34b1c5793,,86f42256-d6a0-4879-ab23-a142e880897f,CSB2,csb2,5,Building,bu,,
+CSB Vohitrafeno,active,create,0ec2d595-5c9d-4c1c-9d63-29e9082521fb,,bf3d1bfd-2811-4b9b-a4a3-d0daec3e52e1,CSB2,csb2,5,Building,bu,,
+CSB Vohitraomby,active,create,67177367-54bd-4228-9044-7eaea482b873,,9ec7eeee-9ba6-4c7d-a93d-5d242d964594,CSB2,csb2,5,Building,bu,47.763,-22.455
+CSB Vohitsara,active,create,ef653f6f-84c1-4cb4-aa6a-7cf40620fe1d,,555dd612-180a-4ad0-be2c-1a992c89d0c3,CSB2,csb2,5,Building,bu,48.498,-17.403
+CSB Volafotsy,active,create,e0b0bca8-b3e9-44f0-b90e-8fa3b6ccf789,,958820db-5183-4c2c-9e8f-46707b104f90,CSB2,csb2,5,Building,bu,47.243,-20.612
+CSB Volambita,active,create,82fc4532-a80a-4cf9-bd19-6b22451a8475,,7b6a3240-a4c5-472d-989f-76bc84c9ccea,CSB2,csb2,5,Building,bu,46.74,-21.22
+CSB Vondrove,active,create,a4411671-623e-4049-8043-60457fa297ee,,31fd5245-50e4-498d-8b20-2a58e1e5b9e7,CSB1,csb1,5,Building,bu,44.142,-17.696
+CSB Zaidava,active,create,2d6a9707-e347-4567-8057-387a6115cd46,,8536b9f6-5e63-4a4c-9c28-e995d5164840,CSB1,csb1,5,Building,bu,,
+CSB Zanabahona,active,create,23bfcdcc-9488-4b10-a35f-8a2b367d9297,,14cc93b8-f3b8-4baf-858b-7dd5c64d3960,CSB2,csb2,5,Building,bu,47.325,-20.34
+CSB Zazafotsy,active,create,be2a586a-d051-40e4-a86e-b0e8c8a6c09a,,9a48530d-9fed-49eb-a089-9df18c576009,CSB1,csb1,5,Building,bu,46.363,-21.779
+CSB Zehra Tsaralalàna,active,create,83db03a9-5e77-43f0-a05f-8644421dd82f,,a5e56324-dfbe-4373-827e-772232cfc7e0,CSB2,csb2,5,Building,bu,47.519,-18.91
+CSB Zomabealoka,active,create,dbabc17a-98b4-4657-836d-87e3b020e812,,82686a84-8a84-430b-8b72-1a932ce1b635,CSB2,csb2,5,Building,bu,,
+CSB Zoma Duz,active,create,49978910-713c-4e51-b015-72a56ac9c410,,e3ba522b-398c-40ba-b4b0-da0502cbd644,CSB2,csb2,5,Building,bu,47.088,-21.108
+DEPSI,active,create,e9cac45c-00f2-40c0-bb75-05f7851abb1d,,a5e56324-dfbe-4373-827e-772232cfc7e0,MSP,msp,5,Building,bu,47.523246,-18.920333
+Devant Dren,active,create,26a29f8c-aae3-4493-b339-7e452b42a2ea,,5ec5a49d-fb6a-4c5b-a2fb-2182671ffa83,Water Point,water_point,5,Building,bu,,
+Devant Gaston,active,create,b15eec28-17a5-427d-bf74-8feb45b8550a,,05298366-d8c0-4f72-9f10-9669e8f06b0b,Water Point,water_point,5,Building,bu,49.74444,-16.69028
+Devant Salle De Fete Commune,active,create,7cef62b5-95b9-4c7e-a7eb-0c01c952bca6,,68f938ca-5f90-44da-9cd5-f786622f1e30,Water Point,water_point,5,Building,bu,49.47607,-17.09044
+Direction régional de l'eau Atsimo Atsinanana,active,create,214e5fae-46fd-443b-92b7-2b00be6c86d0,,69191346-9a9a-4dc1-8152-bfd50185cf12,Warehouse,warehouse,5,Building,bu,47.822498,-22.820519
+Direction Regional Jeunesse et Sports,active,create,ecdd4803-0649-4e93-b598-f5e24a1a9c45,,5ec5a49d-fb6a-4c5b-a2fb-2182671ffa83,DRJS,drjs,5,Building,bu,49.410892,-17.372
+DISPENSAIRE ECAR JEROMINE DE BENENITRA,active,create,6318c557-7c2f-4849-9bd1-a162f066d630,,7d36fdd0-1cbc-4ace-bd4a-d96dd630e6d7,CSB1,csb1,5,Building,bu,45.0768908,-23.449262
+DISPENSAIRE EKAR TSIHOMBE,active,create,5122f3a2-9c9d-4c86-9a5a-255a23f28a24,,edd7bc75-fc97-4748-840c-2fc554322284,CSB2,csb2,5,Building,bu,,
+Doany Komity,active,create,50196f5e-3f0c-4550-8c16-a9640b47ba95,,3a549dea-f588-417b-a658-77f70cc9a9b4,Water Point,water_point,5,Building,bu,,
+DREAH Ambato Boeny,active,create,f6257267-5182-4101-a545-09880a0bb483,,72deaa01-143a-48a8-8a5d-468d47973b97,Warehouse,warehouse,5,Building,bu,46.7151,-16.473519
+DREAH  Ambatondrazaka,active,create,7b0fd8e4-f48c-4572-82b7-e2ea6a0725f7,,460c2bec-03b1-4c85-a28e-cb38f4cbadfc,Warehouse,warehouse,5,Building,bu,48.421,-17.8318
+DREAH  Ambositra,active,create,b1016f72-1f6d-4f63-91d9-fbd4dc6929aa,,8983f82e-d270-48c6-8f60-904737dd50a4,Warehouse,warehouse,5,Building,bu,47.2457,-20.5337
+DREAH Ambovombe,active,create,faf8ba20-460e-4e7d-a2c9-65334838cc12,,f8f6820f-96eb-4999-82ec-8b809cff94de,Warehouse,warehouse,5,Building,bu,46.083915,-25.179143
+DREAH Ampanihy Ouest,active,create,a775b1af-18f9-4491-9452-fdd5438e6546,,86cd5df6-1d27-4762-a604-046137c1db52,Warehouse,warehouse,5,Building,bu,44.748013,-24.694162
+DREAH  Antalaha,active,create,0baf3a75-0c63-4102-bda5-4ac3782b01e2,,98779d59-606c-4f5d-845b-f9f0c9e45c00,Warehouse,warehouse,5,Building,bu,,
+DREAH Antananarivo Renivohitra,active,create,8796845a-9fed-49cc-b21c-03cae436e1f6,,a5e56324-dfbe-4373-827e-772232cfc7e0,Warehouse,warehouse,5,Building,bu,47.559798,-18.964826
+DREAH  Antsirabe,active,create,d800d242-458e-4b66-a1b4-f6b5afb73d7f,,5dc761d0-32a3-42a5-b8fb-bfb0fbf8df15,Warehouse,warehouse,5,Building,bu,,
+DREAH Antsohihy,active,create,d322921b-fe38-425d-8562-0f11999fb796,,77bd3f5a-08dd-41a0-8ce1-290afedde1ac,Warehouse,warehouse,5,Building,bu,,
+DREAH  Antsohihy,active,create,b6b27e26-4ae7-4899-880a-cf32a69b4494,,77bd3f5a-08dd-41a0-8ce1-290afedde1ac,Warehouse,warehouse,5,Building,bu,47.994316,-14.885632
+DREAH Betroka,active,create,baae4416-ef6a-4f1f-82db-46093fbb6175,,cd1ecae6-301d-4964-96d9-c07c80710e5c,Warehouse,warehouse,5,Building,bu,,
+DREAH  Fianarantsoa,active,create,2a9b90bf-40b5-42f8-8659-a223bcd95b79,,7d21d7e0-3b42-4a18-9a49-157e27ae54ed,Warehouse,warehouse,5,Building,bu,47.0818,-20.4548
+DREAH Ihosy,active,create,6aee73f5-6003-4a7f-a191-229545f6db01,,51416e46-1d93-491c-bd5b-fcd20b3aa5ec,Warehouse,warehouse,5,Building,bu,46.13005,-22.404281
+DREAH Mahajanga,active,create,7f775600-e586-43b6-92b3-a7aeb419a983,,a80de6c1-9347-4555-b53b-aa8141499f52,Warehouse,warehouse,5,Building,bu,46.312361,-15.702952
+DREAH  Maintirano,active,create,7b51d95b-f70a-471f-8880-adb45e896eb4,,c21b49b2-c8bb-4d71-a757-b1abced13f65,Warehouse,warehouse,5,Building,bu,44.021125,-18.060281
+DREAH Manakara Sud,active,create,b5555254-3316-47a4-a047-50615572a2a2,,7da9bcd5-9919-42eb-a771-4b02ad9ac48a,Warehouse,warehouse,5,Building,bu,48.01758,-22.154208
+DREAH Mananjary,active,create,f5a826f2-5fda-46a7-a706-e10e3eee52ea,,31344464-306c-4f4a-a70d-43ffbdfa19b2,DREAH,dreah,5,Building,bu,48.330655,-21.241991
+DREAH Maroansetra,active,create,c08923ec-c4b6-45c6-8137-7c2f383d6697,,fd999859-3d7f-4624-8f8d-a099fc7dfebe,Warehouse,warehouse,5,Building,bu,49.7384,-15.4273
+DREAH  Miarinarivo,active,create,d84e96a3-5240-440d-9573-972ad0d180bf,,2b27038f-0f36-4971-b6a2-12599c707e6d,Warehouse,warehouse,5,Building,bu,46.902303,-18.954832
+DREAH Midongy Atsimo,active,create,682a3a69-67e7-459b-9185-b51a713219a6,,fb9692ef-8243-4a10-8bda-2c970fba1f56,Warehouse,warehouse,5,Building,bu,47.017095,-23.591451
+DREAH  Morondava,active,create,c570f319-1b3e-4c42-b2e7-8916897b53dd,,52f92738-11cd-4e1a-8a36-9de25d066498,Warehouse,warehouse,5,Building,bu,,
+DREAH Nosy Varika,active,create,f7c970a3-1301-47e5-b563-b81ef0867f87,,cbba297f-18ae-440d-be70-b598c4b61683,Warehouse,warehouse,5,Building,bu,48.533639,-20.594091
+DREAH Sainte Marie,active,create,b5d7d12b-aa62-4d4d-8e6b-bd814a5161c7,,17dd876d-083a-4489-991a-cd4ccaab3686,Warehouse,warehouse,5,Building,bu,49.877304,-16.932264
+DREAH  Sambava,active,create,1b6d8425-7b88-482d-903a-c70e800463c8,,5a13b10b-2a54-44ef-9c16-9c2122b107a9,Warehouse,warehouse,5,Building,bu,50.15923,-14.25617
+DREAH  Tamatave,active,create,b0ae8862-4f78-482a-962c-d655d7ef29a8,,5639a70e-c3ee-4838-b33c-c2e1d3d57e4b,Warehouse,warehouse,5,Building,bu,49.4121,-18.1388
+DREAH Taolagnaro,active,create,2b652391-d2af-435b-a482-09ce3cfe2b93,,09b3b46f-71a1-45f7-9ab4-b93e449e2205,Warehouse,warehouse,5,Building,bu,46.983924,-25.023895
+DREAH Toamasina,active,create,7b6eda5a-4866-4f8a-8104-fd81ed8bf74c,,5639a70e-c3ee-4838-b33c-c2e1d3d57e4b,Warehouse,warehouse,5,Building,bu,,
+DREAH Toliara,active,create,09b2f577-144f-4c4e-bc9a-85060759d233,,98ca480b-16b5-41e8-940e-0f4a89f79b66,Warehouse,warehouse,5,Building,bu,43.675513,-23.357271
+DREAH  Tsiroanomandidy,active,create,28049fa1-6bf6-443b-8da0-35c43482516a,,8d0e527c-94c2-43ea-91b9-fd959668b083,Warehouse,warehouse,5,Building,bu,46.051478,-18.773949
+DREAH  Vatovavy Fitovinany,active,create,75b18185-0587-48cb-8d93-f75bd7655b61,,7da9bcd5-9919-42eb-a771-4b02ad9ac48a,Warehouse,warehouse,5,Building,bu,48.022286,-22.146683
+DREN Analanjirofo,active,create,70999acd-cd91-4c90-85a6-daafafd5ecea,,5ec5a49d-fb6a-4c5b-a2fb-2182671ffa83,Warehouse,warehouse,5,Building,bu,49.419479,-17.388713
+DREN Androy,active,create,1018ecef-d001-481b-ac95-bed9a5157da0,,f8f6820f-96eb-4999-82ec-8b809cff94de,Warehouse,warehouse,5,Building,bu,46.083725,-25.179212
+DREN Anosy,active,create,f82cf27f-fbb8-455f-a56b-552ac79cb2ff,,09b3b46f-71a1-45f7-9ab4-b93e449e2205,Warehouse,warehouse,5,Building,bu,,
+DREN ATSIMO ANDREFANA,active,create,f7ae9271-7969-48e3-b1c7-fc248f875b80,,98ca480b-16b5-41e8-940e-0f4a89f79b66,Warehouse,warehouse,5,Building,bu,43.672399,-23.356332
+DREN Atsimo Atsinanana,active,create,fe796f99-05c9-43b8-b900-c24b18290011,,69191346-9a9a-4dc1-8152-bfd50185cf12,Warehouse,warehouse,5,Building,bu,47.4,-23.2
+DREN Boeny,active,create,4195739d-f569-48ad-a3e1-15ef381d5f57,,a80de6c1-9347-4555-b53b-aa8141499f52,Warehouse,warehouse,5,Building,bu,46.312099,-15.712026
+DREN Fitovinany,active,create,4264b601-6cba-49d4-9740-1c03ae9542a9,,7da9bcd5-9919-42eb-a771-4b02ad9ac48a,Warehouse,warehouse,5,Building,bu,,
+DREN Tamatave,active,create,97f938f3-5618-4d57-96c2-0a0011a18b58,,5639a70e-c3ee-4838-b33c-c2e1d3d57e4b,Warehouse,warehouse,5,Building,bu,49.4102,-18.151
+DREN VATOVAVY FITOVINANY,active,create,8ef2bf7a-ae6b-4e69-b527-917cd974f6e2,,7da9bcd5-9919-42eb-a771-4b02ad9ac48a,DREN,dren,5,Building,bu,48.0203,-22.1403
+DRPPSPF Ambovombe,active,create,50403427-020b-4fa6-9a40-3aa4ea1cd92a,,f8f6820f-96eb-4999-82ec-8b809cff94de,Warehouse,warehouse,5,Building,bu,,
+DRPPSPF  Antananarivo,active,create,1d4942ae-e8c9-4bc8-80b7-7b7ee65f496c,,a5e56324-dfbe-4373-827e-772232cfc7e0,Warehouse,warehouse,5,Building,bu,,
+DRPPSPF Atsimo Andrefana,active,create,bed96ee5-1ad6-48e9-804a-651b24c8072f,,98ca480b-16b5-41e8-940e-0f4a89f79b66,DRPPSPF,drppspf,5,Building,bu,43.668994,-23.357934
+DRPPSPF Atsimo atsinanana,active,create,447de2ff-4c1c-406c-a7a8-426de375e635,,69191346-9a9a-4dc1-8152-bfd50185cf12,DRPPSPF,drppspf,5,Building,bu,47.8222,-22.8189
+DRPPSPF  Atsinanana,active,create,82ef42ce-fe2b-4b4c-a590-d0c09395190e,,5639a70e-c3ee-4838-b33c-c2e1d3d57e4b,Warehouse,warehouse,5,Building,bu,49.4078,-18.155
+DRPPSPF Fenerive Est,active,create,d71d4122-538b-488c-b87c-d9e6150b1677,,5ec5a49d-fb6a-4c5b-a2fb-2182671ffa83,Warehouse,warehouse,5,Building,bu,49.4064,-17.3716
+DRPPSPF  Mahajanga,active,create,329b9055-d706-42f4-8ef5-ed60c2f53378,,a80de6c1-9347-4555-b53b-aa8141499f52,Warehouse,warehouse,5,Building,bu,46.314774,-15.71439
+DRPPSPF Mananjary,active,create,4009d6ad-665c-4469-83e5-dae38574d05a,,31344464-306c-4f4a-a70d-43ffbdfa19b2,Warehouse,warehouse,5,Building,bu,,
+DRPPSPF Morombe,active,create,d1622bd5-18f7-4e77-90b1-fc71694e9537,,4d0ebcc0-6477-4d25-9e10-183e06a4a091,Warehouse,warehouse,5,Building,bu,,
+DRPPSPF Sambava,active,create,7b20f500-2229-4bbe-9f67-be07514169e2,,5a13b10b-2a54-44ef-9c16-9c2122b107a9,Warehouse,warehouse,5,Building,bu,,
+DRPPSPF  Tamatave (Sos Villages D'Enfants),active,create,91c6a666-9696-4cf5-8004-1033ceb6aa95,,5639a70e-c3ee-4838-b33c-c2e1d3d57e4b,Warehouse,warehouse,5,Building,bu,49.3756,-18.1437
+DRPPSPF Taolagnaro,active,create,9d035351-80c8-457b-85fb-d0cfe245eae7,,09b3b46f-71a1-45f7-9ab4-b93e449e2205,Warehouse,warehouse,5,Building,bu,,
+DRPPSPF Vatovavy Fitovinany,active,create,890de7d2-d662-47b0-822a-92696b5bfc31,,7da9bcd5-9919-42eb-a771-4b02ad9ac48a,DRPPSPF,drppspf,5,Building,bu,,
+DRSP Alaotra Mangoro,active,create,61a66191-dba0-4be5-b1a4-e9dae4a89024,,1108687c-c3c5-4340-8d79-df656cc75ebf,DRSP,drsp,5,Building,bu,,
+DRSP Ambovombe,active,create,104ed2b2-8884-4b5d-a1a7-8817209e3e8b,,f8f6820f-96eb-4999-82ec-8b809cff94de,Warehouse,warehouse,5,Building,bu,,
+DRSP Amoron'I Mania,active,create,b9dd2210-112a-4bcc-a20c-da928f44d331,,730d88ca-409d-4016-8ffa-1393874805eb,DRSP,drsp,5,Building,bu,,
+DRSP Analamanga,active,create,9e5a07ea-9c90-46ee-ae1f-4b540a081253,,a5e56324-dfbe-4373-827e-772232cfc7e0,DRSP,drsp,5,Building,bu,,
+DRSP Analanjirofo,active,create,e980061e-6353-4028-80ed-403e84467750,,5ec5a49d-fb6a-4c5b-a2fb-2182671ffa83,DRSP,drsp,5,Building,bu,,
+DRSP Androy,active,create,b7e7f0ca-51f1-4474-b8b7-3491ddcd1bfd,,f8f6820f-96eb-4999-82ec-8b809cff94de,DRSP,drsp,5,Building,bu,46.08425,-25.178861
+Drsp Anosy,active,create,4a2036ca-deb9-4675-9357-41fdc13880f5,,09b3b46f-71a1-45f7-9ab4-b93e449e2205,DRSP,drsp,5,Building,bu,46.997176,-25.029338
+DRSP Atsimo Andrefana,active,create,438c7834-3dd2-4373-bec6-54a7c4c401ec,,c4d59d0a-7b64-43c0-8df8-8fa1082261ba,DRSP,drsp,5,Building,bu,,
+DRSP Atsimo Atsinanana,active,create,388c133f-20b0-4973-b9d8-4d80076a829b,,69191346-9a9a-4dc1-8152-bfd50185cf12,DRSP,drsp,5,Building,bu,47.831315,-22.822053
+DRSP Atsinanana,active,create,b434154a-7657-4cea-845e-51d63f799eea,,3cd62f91-8030-4138-bb03-c89e64e129a8,DRSP,drsp,5,Building,bu,,
+DRSP Betsiboka,active,create,b5376d7b-b813-47ff-91d4-72e6c29dffc2,,2762b783-b5fd-4f02-86e7-682a713b9b7f,DRSP,drsp,5,Building,bu,46.830482,-16.94427
+DRSP Boeny,active,create,25a8b850-e68f-4e1c-a012-e550f1134e8d,,53b855c9-71de-44fb-a7b8-6dea302d2ccc,DRSP,drsp,5,Building,bu,,
+DRSP Bongolava,active,create,2db79d41-26ea-4b50-8280-e387f711968b,,85de4cb1-78f0-4aa8-bbde-3a1299b66b2c,DRSP,drsp,5,Building,bu,,
+DRSP Diana,active,create,32664c07-a989-4343-ad3a-727656b2c477,,0a497653-d63e-42ac-a134-17c0bd715549,DRSP,drsp,5,Building,bu,,
+DRSP FITOVINANY,active,create,5efdd32f-fe15-4de5-8eca-c1969d3e6e63,,7da9bcd5-9919-42eb-a771-4b02ad9ac48a,Warehouse,warehouse,5,Building,bu,,
+DRSP Haute Matsiatra,active,create,b5ca4dc3-679b-4b0a-a288-7634bf0142ab,,7d21d7e0-3b42-4a18-9a49-157e27ae54ed,DRSP,drsp,5,Building,bu,,
+DRSP Ihorombe,active,create,5ae71d9b-07b5-45bc-8454-c9903ae7c462,,51416e46-1d93-491c-bd5b-fcd20b3aa5ec,DRSP,drsp,5,Building,bu,,
+DRSP Itasy,active,create,f76af225-e22f-40cc-932a-7f30672cefaf,,aba166fc-d2e1-4f21-8c44-581ee1c878c4,DRSP,drsp,5,Building,bu,,
+DRSP Melaky,active,create,0e4a5370-7f1d-4b85-9c2d-e3af1f181bf0,,c21b49b2-c8bb-4d71-a757-b1abced13f65,DRSP,drsp,5,Building,bu,,
+DRSP Menabe,active,create,0015f14b-2463-47b2-92dc-3399891563df,,52f92738-11cd-4e1a-8a36-9de25d066498,DRSP,drsp,5,Building,bu,,
+DRSP Sava,active,create,c07c9b54-4b82-4f8d-b3da-03bf63962c2f,,5a13b10b-2a54-44ef-9c16-9c2122b107a9,DRSP,drsp,5,Building,bu,,
+DRSP Sofia,active,create,127d3752-ae80-4587-b015-75d91fa8e6c3,,77bd3f5a-08dd-41a0-8ce1-290afedde1ac,DRSP,drsp,5,Building,bu,,
+DRSP Vakinankaratra,active,create,3ca4dd2e-42d8-4e37-83d9-2d087bdec497,,5dc761d0-32a3-42a5-b8fb-bfb0fbf8df15,DRSP,drsp,5,Building,bu,,
+DRSP VATOVAVY,active,create,f9ec5c86-4891-4efe-955b-b3e7a0a6a699,,31344464-306c-4f4a-a70d-43ffbdfa19b2,Warehouse,warehouse,5,Building,bu,,
+DRSP VATOVAVY FITOVINANY,active,create,9a44b2c7-438b-4aa1-9e6e-94279e79e720,,7da9bcd5-9919-42eb-a771-4b02ad9ac48a,DRSP,drsp,5,Building,bu,47.7667,-21.3167
+Ebelo,active,create,f0063339-820b-42c7-a663-e073c085fb5d,,79d35231-617d-4a57-83e6-fefe79351454,Water Point,water_point,5,Building,bu,46.02378,-24.553
+Ebelo Centre,active,create,1493406d-a6a1-45ee-8d85-a9ce7c277fbc,,79d35231-617d-4a57-83e6-fefe79351454,Water Point,water_point,5,Building,bu,46.023778,-24.553
+Eboro I,active,create,5b16642d-f5fc-4d54-9815-8db4f7b5bf63,,ecb6bc61-b3b2-441d-b9b0-50c775947226,Water Point,water_point,5,Building,bu,,
+Eboro II,active,create,6d76624e-13df-472d-96f7-a164651c6521,,ecb6bc61-b3b2-441d-b9b0-50c775947226,Water Point,water_point,5,Building,bu,,
+Ec0le Communautaire Ambohitsara Ii,active,create,38149384-4375-4e41-9306-ba89bf4fb758,,f733cd39-0b91-4dae-b51e-3aa94e4eef18,EPP,epp,5,Building,bu,,
+EC AMBALAVATO CENTRE,active,create,2ec2ae79-1855-4bf6-b853-3e02967da143,,41150233-beb5-4fa9-86a0-66a3606bcef6,EPP,epp,5,Building,bu,,
+EC AMBODIRIANA,active,create,b7acfde0-d1dc-4d68-9162-db4839b41833,,e9cf6d50-0bda-4228-ab1a-49be8efb0626,Ecole communautaire,ecole_communautaire,5,Building,bu,,
+EC anjiamavo,active,create,432e5896-793c-4e71-ab75-838096c57d6a,,d852a8b6-c89b-4d27-ace1-543a1a3d6691,Ecole communautaire,ecole_communautaire,5,Building,bu,,
+EC ANKILIMIVORY,active,create,420452c4-51c3-419b-8a6b-0dcff7407022,,76296331-a0c2-4f6e-91bc-cc66dd454798,EPP,epp,5,Building,bu,,
+EC ANTSAMBALAHY,active,create,a746c5e8-3500-43f0-892c-b78fe6da443a,,ea21e7e3-8f84-4d2e-9273-f248a06ab560,Ecole communautaire,ecole_communautaire,5,Building,bu,,
+EC ANTSANOLANANA,active,create,28a93bf1-ba53-468f-aa89-f177d65dfc39,,95b5bc07-9f47-4fd4-8815-75d747ddfb44,Ecole communautaire,ecole_communautaire,5,Building,bu,,
+EC BERIZIKY,active,create,fbb415ed-0efb-493a-8cec-401c75634db1,,95b5bc07-9f47-4fd4-8815-75d747ddfb44,Ecole communautaire,ecole_communautaire,5,Building,bu,,
+Ec Fakialina,active,create,4490dc02-86ae-4ab8-af2c-6b54148a6936,,e4bd5c40-48bb-46ff-8c0d-929406a874a4,EPP,epp,5,Building,bu,,
+EC MANITSIRANO,active,create,73e1cca1-24f3-4b6b-bb99-8eb35e93641a,,e9cf6d50-0bda-4228-ab1a-49be8efb0626,Ecole communautaire,ecole_communautaire,5,Building,bu,,
+EC MAROADABO,active,create,1146f1b2-b57e-45d3-bbff-34352d6dce28,,037573cd-c42b-4f4f-a397-cf8800453990,Ecole communautaire,ecole_communautaire,5,Building,bu,,
+EC MOTONDAVA 2,active,create,8611ca77-f2dd-47f8-aa14-50772990ad49,,86cd5df6-1d27-4762-a604-046137c1db52,EPP,epp,5,Building,bu,,
+ECOLE ADVANTISTE ANTSIRABE NORD,active,create,addbc29c-4432-4455-af38-7ace3baabb2d,,1ac67830-35c5-4161-87cc-29fbc72db366,Ecole privé,ecole_privé,5,Building,bu,,
+ECOLE ANDAKATO,active,create,a8fc7604-9d72-47f9-a577-abe2e381530e,,e9beb16a-fb0b-4aa2-97b5-9668f323af7b,EPP,epp,5,Building,bu,,
+Ecole Cominautaire Ambalakininina,active,create,c2d18d21-48b6-40be-bdf9-f4a99ddaa255,,ed2478df-2164-40bf-8315-69dcc38c962e,EPP,epp,5,Building,bu,,
+Ecole Comminautaire Anaviavy Tanantsoa,active,create,01b1430d-6248-4c0a-ae69-282635800c24,,437a9492-22a6-4e12-9d03-efe8f0fa03b0,EPP,epp,5,Building,bu,,
+Ecole Comminautaire Andoharano,active,create,3e5e9c11-3fbd-47b8-abbd-c2d37cd50b3a,,5e7fb2d0-10c3-47fc-88ec-561122e106c8,EPP,epp,5,Building,bu,,
+Ecole Comminautaire Andranobory,active,create,9d710ff7-2a50-4512-8297-5369725726b9,,badd39e4-9213-453e-b7ff-c26ac1dae9fa,EPP,epp,5,Building,bu,,
+Ecole Comminautaire Andranomasintsoa,active,create,4f10e89b-f22f-4eb5-a37d-df4b2ab1abd3,,437a9492-22a6-4e12-9d03-efe8f0fa03b0,EPP,epp,5,Building,bu,,
+Ecole Comminautaire Anjabotretreke,active,create,802e683d-677d-4f10-986b-3c0f498ec720,,2e0f142a-d4e4-4d49-bb85-d88f3fb60663,EPP,epp,5,Building,bu,,
+Ecole Comminautaire Anjanamakia,active,create,1acace71-5c56-432c-a062-bf951fa0c6f6,,437a9492-22a6-4e12-9d03-efe8f0fa03b0,EPP,epp,5,Building,bu,,
+Ecole Comminautaire Ankamena I,active,create,9efd030e-3686-4965-9ac6-4a9d6b521012,,5e7fb2d0-10c3-47fc-88ec-561122e106c8,EPP,epp,5,Building,bu,,
+Ecole Comminautaire Ankilimaharey,active,create,4b20040b-a925-4d87-854f-a44b64b384ae,,81f3dbad-2d05-426f-90a9-8cfc1680aa2e,EPP,epp,5,Building,bu,,
+Ecole Comminautaire Ankilimasy,active,create,6064d22c-fec4-47d9-88d1-5edcc6858010,,d02f2a46-3b1c-4474-8bf8-a6ad8d680093,EPP,epp,5,Building,bu,,
+Ecole Comminautaire Ankilimionjo,active,create,38f49a9d-9f7d-4950-9fb5-b8f75afadf21,,e67dc645-901f-4fd1-897c-0614b4011b48,EPP,epp,5,Building,bu,,
+Ecole Comminautaire Antsevaseva Centre,active,create,7caa84d0-67fa-432d-b557-cd683ed1f2f1,,84a0d267-b156-44f8-8b14-dccc838762ea,EPP,epp,5,Building,bu,,
+Ecole Comminautaire Betognake Centre,active,create,0d6e8783-2fbe-4388-9a08-6f7d4119ea37,,badd39e4-9213-453e-b7ff-c26ac1dae9fa,EPP,epp,5,Building,bu,,
+Ecole Comminautaire Tanandava Antsoha,active,create,26e091c3-6e0d-4d4e-a298-cdb8240d90fb,,4a4c7fe2-5003-44c2-b405-2d5850b612a3,EPP,epp,5,Building,bu,,
+Ecole Commuanutaire Andrianambo,active,create,c6c35e1d-00ca-4aca-a570-365a31ff308e,,3a549dea-f588-417b-a658-77f70cc9a9b4,EPP,epp,5,Building,bu,,
+Ecole Commuautaire Ambalahady,active,create,49958762-c024-414a-81c0-6108de27b171,,053d4f7a-b383-4faa-b224-8418ecabf446,EPP,epp,5,Building,bu,,
+Ecole Commuautaire Ambalatenina,active,create,11222ad2-1154-4b17-8f47-2721a034f6e5,,309ea2e1-8827-4ab5-962c-f7474094185a,EPP,epp,5,Building,bu,,
+Ecole Commuautaire Ambodihasinkely,active,create,ed78cc75-bf23-4b28-a51e-b3d5b5df0282,,29d95ed8-9713-43d9-a482-60d83bb5a464,EPP,epp,5,Building,bu,,
+Ecole Commuautaire Ambodilaitra,active,create,ee5c94eb-d630-41f0-ad41-1bc09f51ba4c,,29d95ed8-9713-43d9-a482-60d83bb5a464,EPP,epp,5,Building,bu,,
+Ecole Commuautaire Ambohimiarina,active,create,4b30ae51-ae25-4f7b-93ea-5078584c8c6b,,8df9e268-0054-4aa7-a3da-1c271653174c,EPP,epp,5,Building,bu,,
+Ecole Commuautaire Andakandrano,active,create,1dbb7ed7-d9e6-41f2-895c-2a7de91e8f60,,eadf078b-2054-4723-8af1-5d16c18ac240,EPP,epp,5,Building,bu,,
+Ecole Commuautaire Andratambe,active,create,6cfe331d-bae3-4525-b9f9-b865316ea59b,,29d95ed8-9713-43d9-a482-60d83bb5a464,EPP,epp,5,Building,bu,,
+Ecole Commuautaire Anjahamarina,active,create,334ff220-1ac9-4867-8dbe-8a68aeb45284,,053d4f7a-b383-4faa-b224-8418ecabf446,EPP,epp,5,Building,bu,,
+Ecole Commuautaire Anteza,active,create,dc2ede78-02e7-496f-a1c9-e9baea47c7b5,,c2eeee4b-1764-4d08-95f0-c826bcf1fe53,EPP,epp,5,Building,bu,,
+Ecole Commuautaire Betaibitsy,active,create,723e1f04-8507-4c36-beaf-263f457f0013,,e9f7f745-5aa5-4f3b-9204-b97288472ebc,EPP,epp,5,Building,bu,,
+Ecole Commuautaireloe Communautaire Ambatoharanana,active,create,29c4b1ee-52a7-4e7d-ae3b-060884b52a73,,cd0c8f6f-d2ef-4dbd-9712-5ccc36c1e015,EPP,epp,5,Building,bu,,
+Ecole Commuautaire Mahabo,active,create,750d7720-34e2-49e9-a1ef-f581c9416a80,,e9f7f745-5aa5-4f3b-9204-b97288472ebc,EPP,epp,5,Building,bu,,
+Ecole Commuautaire Mahasoa,active,create,b353b939-c423-4b0b-b779-6f0acbab9f81,,e9f7f745-5aa5-4f3b-9204-b97288472ebc,EPP,epp,5,Building,bu,,
+Ecole Commu Autaire Tanamasy,active,create,d8cc9b43-65d9-469d-aa46-4ed1d24f6573,,60d8a1df-67b3-4ee3-a7e3-248b3967198b,EPP,epp,5,Building,bu,,
+Ecole Commuinautaire Ankazoabo,active,create,ad2da377-0f92-4808-b016-13e1c6d9534b,,437a9492-22a6-4e12-9d03-efe8f0fa03b0,EPP,epp,5,Building,bu,,
+Ecole Communataire Ankatrafay,active,create,6ff6449c-cf53-463d-b173-45a609be582b,,d0a79494-c31d-4009-86ca-c1decbc3d6d9,EPP,epp,5,Building,bu,,
+Ecole Communauataire Ambinanitelo,active,create,ab154cdf-89db-4694-8258-8bdcb189395d,,a7cac00e-8f20-4575-813b-55f593bb10bd,EPP,epp,5,Building,bu,,
+Ecole Communauataire Beagy,active,create,55eee876-e4c0-48d3-9920-9fe64c4d9230,,c2eeee4b-1764-4d08-95f0-c826bcf1fe53,EPP,epp,5,Building,bu,,
+Ecole Communauataire Mahasoa Andrefana,active,create,db4604e5-df0d-499b-94ec-22fb322c7153,,c2eeee4b-1764-4d08-95f0-c826bcf1fe53,EPP,epp,5,Building,bu,,
+Ecole Communauataire Vohimandroso,active,create,f8b8e350-66be-41d0-9956-0c61bfd02ac9,,fd6d4d35-d3e6-4c22-b484-6bc71f13ae09,EPP,epp,5,Building,bu,,
+Ecole Communauraire Ambolimadinika,active,create,7a8ad43f-2062-4f77-ab36-d1c5f1cf9a72,,8cd349af-726c-47bf-b41f-38738f2cc2d0,EPP,epp,5,Building,bu,,
+Ecole Communautaire Abolaza,active,create,f596c3e9-cce1-40b1-9257-edf165be87a7,,79b58d2f-f069-41fe-87c5-45f20f3263c9,EPP,epp,5,Building,bu,,
+Ecole Communautaire Aborano,active,create,0a5da294-11ee-4535-a9b1-a9d6d2c613d3,,89a67109-8797-47cd-88c6-847e829ff4ae,EPP,epp,5,Building,bu,,
+Ecole Communautaire Aborano,active,create,c1d7c2cc-d4e2-46cf-8794-d340472ae100,,64f0435f-ee39-47af-be9b-c2cb33618b2d,EPP,epp,5,Building,bu,,
+Ecole Communautaire Adabomandry,active,create,4decb3b6-224b-4711-b8d7-66d89b80ce9c,,03e7aa0c-a775-4413-9ab4-b34e336faa47,EPP,epp,5,Building,bu,,
+Ecole Communautaire Adabomirafy,active,create,3c8fcb0c-bad1-4a98-83f1-2d7fce5bea14,,df16044d-7511-4334-9728-e8735eab9935,EPP,epp,5,Building,bu,,
+Ecole Communautaire Adoany,active,create,caa890b0-a102-49df-bed8-fe9a71913cd0,,6202e81a-d59b-4a72-aa5e-22c2f2096941,EPP,epp,5,Building,bu,,
+ECOLE COMMUNAUTAIRE AGNADABOLAHIMAGNEVA,active,create,bb16690b-9a80-4080-aa02-9a84d0fb94cf,,003dce7d-5c67-4111-a11e-44b7688d03d1,EPP,epp,5,Building,bu,,
+ECOLE COMMUNAUTAIRE AGNAJIBA,active,create,d6bca838-05ca-4c16-a0cc-e0f3a949f846,,81f3dbad-2d05-426f-90a9-8cfc1680aa2e,EPP,epp,5,Building,bu,,
+ECOLE COMMUNAUTAIRE AGNALAZOTSY,active,create,f8a322bd-7b42-4f25-aadf-ca9eedee6649,,81f3dbad-2d05-426f-90a9-8cfc1680aa2e,EPP,epp,5,Building,bu,,
+Ecole Communautaire Agnanabovo - Centre,active,create,163e51fb-c70d-47f2-97c5-9a35b1286b68,,e4917b1e-95b5-405e-ab55-8705a0e4c512,EPP,epp,5,Building,bu,,
+ECOLE COMMUNAUTAIRE AGNANABOVO-CENTRE,active,create,cbc0ba54-acfc-44bd-91a8-3f707a1cf5f4,,76296331-a0c2-4f6e-91bc-cc66dd454798,EPP,epp,5,Building,bu,,
+Ecole Communautaire Agnanakefetse,active,create,4020df93-a537-4592-b6d8-e7105f3e443e,,89a67109-8797-47cd-88c6-847e829ff4ae,EPP,epp,5,Building,bu,,
+Ecole Communautaire Agnanakofandra Ambarotelo,active,create,63edeebe-387b-42f8-bf49-42fbf359c652,,e9e6a1c2-e01c-4698-8e78-c838dbf0013c,EPP,epp,5,Building,bu,,
+Ecole Communautaire Agnara,active,create,4ee4fb49-775d-4aa2-a133-ff2d63a4e051,,4f3d45dd-a573-4e84-875c-87dadf9b45f5,EPP,epp,5,Building,bu,,
+Ecole Communautaire Agnena,active,create,577bde6e-b5ea-4858-b5a2-84815db62890,,a6e0c676-95c9-4d05-a0da-7443bc939e5a,EPP,epp,5,Building,bu,,
+Ecole Communautaire Agnena,active,create,a1483690-676f-40b7-a691-44d3043f9461,,45080bdf-d7cf-4745-b19b-f06c4dac96c0,EPP,epp,5,Building,bu,,
+Ecole Communautaire Agnena Centre,active,create,35a1499f-69c0-4648-879e-ef3530e95a7b,,24d11874-2fdf-4cd6-b1ce-2cc978f7fb24,EPP,epp,5,Building,bu,,
+Ecole Communautaire Agnena Sud,active,create,c8b7f3a5-b179-4dcb-a42f-a3774a168cb3,,24d11874-2fdf-4cd6-b1ce-2cc978f7fb24,EPP,epp,5,Building,bu,,
+Ecole Communautaire Agnorovalala,active,create,f2b7710c-6a51-47ef-9972-2453634dac2b,,84a0d267-b156-44f8-8b14-dccc838762ea,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ahokoahina,active,create,fdd31aed-212c-43fb-8b8d-ecbafb67dd83,,2055c2a0-401c-4c8a-b2a0-d1b23449c3b6,EPP,epp,5,Building,bu,,
+Ecole Communautaire Akilibeharitse,active,create,eb9f3d70-6506-4316-9316-0decc5900577,,24d11874-2fdf-4cd6-b1ce-2cc978f7fb24,EPP,epp,5,Building,bu,,
+Ecole Communautaire Alabatoara,active,create,d2a4aa2f-b700-404e-b66c-6633d831f227,,df16044d-7511-4334-9728-e8735eab9935,EPP,epp,5,Building,bu,,
+Ecole Communautaire Alohavala I,active,create,520d0e5e-7dfb-4fe9-92e8-f3faeab2b72d,,a1c6c3a9-a14d-4211-8a08-e6819cd565fe,EPP,epp,5,Building,bu,,
+Ecole Communautaire Amahafinaritra,active,create,9eda0283-5788-4e17-97e6-6174e00aaae3,,ff4990d5-fbdd-4125-a819-5d9b73cd8175,EPP,epp,5,Building,bu,,
+Ecole Communautaire Amanda,active,create,da5ea9ee-57c1-45a1-ba7f-821b3641bc20,,75b22baf-37a9-4d42-8fd6-7ca7912d2a4a,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambabaky,active,create,964ef934-79ab-4325-82a9-ea360f090c12,,2cffa3f2-651d-4522-9324-3a1b8b7a3ac6,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambahankarabo,active,create,8b25b349-c6ee-47c6-b976-422bec395d32,,27640423-f466-4624-bc50-97e150f0a3e6,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambahevahe,active,create,35429444-4ba5-4bea-a1cd-e48fbb48fa0d,,b717b9f1-85ef-4567-863f-5a5967804a0d,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambahifotsy,active,create,126359e7-129a-40e1-9ace-18bf0a41c6d4,,1a69578e-7282-4bcf-976a-c784339fb67d,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambahona,active,create,9ef20d69-38f2-4e9c-8be6-59d387bd9ace,,3c2fc71a-8d34-4395-9e88-8379a23e109d,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambahotera,active,create,f13ac4d7-5c01-43b8-a394-f388c392a3b4,,81f3dbad-2d05-426f-90a9-8cfc1680aa2e,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambaiboho Ambilany,active,create,b5f8d375-00d9-47cc-983d-c0048eb1e19b,,6614ec43-fa7a-4f08-9a02-9acaf9ceebec,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambakaka,active,create,06b67fe5-57a7-4790-8b26-a096d9656f05,,aad6f6a5-3e77-4449-a216-a46d2e968348,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambakaka,active,create,db9bbab6-b22b-44db-9bb8-16846885857f,,5e2597af-1eb0-43db-a53c-f2e0aa3222a1,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambakirano,active,create,341ef4a6-8025-4e3c-9838-e732126e6498,,9f48cfda-9cea-4f5c-b417-c536524579d9,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambakoana,active,create,dcd042ae-bc6e-40c7-87c8-da88ed71c363,,05d247a1-575a-4a84-9fa2-58416adfda82,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambalabe,active,create,017a95f7-c544-491b-bc45-48fb2fe24e5c,,c54d7bdb-2b22-4d39-ac21-0efe4b03e016,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambalabe,active,create,3815a607-c902-4031-8088-8dda845d576c,,a7cac00e-8f20-4575-813b-55f593bb10bd,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambalabe,active,create,44cdf445-a6ac-4327-a18b-0f87850659a8,,e67dc645-901f-4fd1-897c-0614b4011b48,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambalabe,active,create,de2e87c8-487c-43b4-9b22-33af8ae18785,,d2df7eb3-2f4a-4aa0-a63d-b3c1184a26e7,EPP,epp,5,Building,bu,,
+Ecole Commun Autaire Ambalabe,active,create,a89bb5b9-244f-4618-980c-e0af96d92df3,,a1c6c3a9-a14d-4211-8a08-e6819cd565fe,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambalabe Nord,active,create,88a23c9f-077a-4cb9-80eb-24cc4c9455c0,,5e1ddbbb-a08c-4a05-a225-36788acf6baa,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambalabe Nord Tohabato,active,create,63ad8fe7-c138-483e-922d-336838b8b99b,,e9beb16a-fb0b-4aa2-97b5-9668f323af7b,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambalaboka,active,create,696a1867-4054-4c0f-9c61-b3a5fada13cd,,6202e81a-d59b-4a72-aa5e-22c2f2096941,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambaladinga,active,create,eec00061-dffd-4d6a-9e51-1ac302e7c467,,1e19d760-23c5-4574-a659-ebb3172033aa,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambalafamafa,active,create,0e2d72f7-3bfb-4d12-81a8-8ff3166c4952,,c453fa07-d830-4ce5-b5fd-efb22f9ec0ea,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambalafary,active,create,15e2832a-8fdb-4cf2-9227-0fb984cef571,,2055c2a0-401c-4c8a-b2a0-d1b23449c3b6,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambalafary,active,create,b1d083c1-f025-4f68-bd50-2fa7650e08bb,,80282171-c28c-45d1-93aa-f9967785d2ff,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambalafasina,active,create,9c37771e-c500-4bb5-9b05-d4620f4e03e5,,38f9611c-eed3-4958-bea5-c0071a7ef4fb,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambalafefy,active,create,24142d9d-300d-452e-88da-58fa74335474,,3c9bdc0f-03b9-4ddc-9252-d034e185915b,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambalafombo,active,create,e1938c03-27a0-47db-9b84-803f06d7feaf,,2ac11983-82a5-40a1-81db-f326b996da2e,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambalafontsy,active,create,bc5e69c8-cd9f-42e9-9a91-2b917ad6b5be,,0ecd6a67-6f60-4393-bdea-516e7bab132e,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambalafotaka,active,create,18cf7861-9790-4ce9-b4fd-3b17364fc156,,3c9bdc0f-03b9-4ddc-9252-d034e185915b,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambalahadikely,active,create,c377bb4a-ee42-4b2e-b43d-64c22227e98b,,222ce2c0-687e-4229-aecf-91f34d2597e9,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambalahady,active,create,6c860e49-a97a-4983-a878-34faad26055c,,8a099f9e-14f6-415c-8328-9ab6df6d19a0,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambalahatsaka,active,create,a378244b-fe05-4b1e-8694-364fa8047851,,67549f20-ca9c-4f98-8c68-10dfc69193f9,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambalahindy Ii,active,create,03ca6bb6-8a9a-4ee3-b91d-4eb572cc3bf7,,332b1f10-dfc2-410c-bfda-1f4d927a4b3f,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambalahosy,active,create,3a610fff-50ae-447d-b9e8-593fc57f13dd,,99e461f0-58a0-47c7-8809-0bcf97ebf301,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambalahosy,active,create,a57c0f90-e0c9-4ddf-b03d-41097ffdd19d,,a2ee617a-3630-44ef-b815-e66113d46ae4,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambalaina,active,create,cc716276-8519-46ee-87a6-b9693bc7f3d9,,3c2fc71a-8d34-4395-9e88-8379a23e109d,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambalakafe,active,create,3854c146-297c-4f36-b894-989c7a4aaaab,,009d54cf-4a50-4555-90be-5439638f6cbf,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambalakafe,active,create,3879f3dd-53ee-496a-a2de-2efcd8cab956,,80282171-c28c-45d1-93aa-f9967785d2ff,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambalakazaha,active,create,28d7ea3e-1e8f-4d33-9129-6ba53b7422b2,,2cffa3f2-651d-4522-9324-3a1b8b7a3ac6,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambalakazaha,active,create,cc661a6b-b9fc-43c6-9856-9c94107f5be3,,3a2791ee-8bcd-40fc-8106-e1596d5695cf,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambalakondro,active,create,3a7c5f6f-a7af-4af8-b5d5-514d99384eb6,,67549f20-ca9c-4f98-8c68-10dfc69193f9,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambalamanasa,active,create,7c375307-add7-4421-afcf-27df51d61a3a,,934e3063-45ac-4a16-86ac-53f10c63b0e3,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambalamanasy,active,create,8e79d5d8-bd85-4e1a-8dd7-797e87bcd44d,,31fb102e-06bb-43bd-b8e6-c840d75bafc0,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambalamanga,active,create,100fb02c-4ad9-4c63-bd72-86ac4e46a936,,ce482abc-bcaf-4bdd-b4d3-a11e95b5693f,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambalamanga,active,create,f5be61d5-6410-4583-b645-32b5f232358b,,6614ec43-fa7a-4f08-9a02-9acaf9ceebec,EPP,epp,5,Building,bu,,
+ECOLE COMMUNAUTAIRE AMBALANDAMBO,active,create,4246ca45-dd45-4658-b6ac-84248bca7760,,5e7fb2d0-10c3-47fc-88ec-561122e106c8,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambalanirana,active,create,fe076eb7-70f3-492f-9af6-9defad5f7281,,05298366-d8c0-4f72-9f10-9669e8f06b0b,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambalanomby Ii,active,create,8e511f5a-56ae-4cd5-a858-6aaed1254169,,e7420f45-58df-446d-a584-b303dc69026b,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambalanosy,active,create,2af568e6-0953-4326-8300-19a67b1ee238,,4342c258-a4f9-4f05-8356-42be448ffec7,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambalapaiso I,active,create,5825ef8f-1a54-4a61-aaec-ed584486fcd0,,009d54cf-4a50-4555-90be-5439638f6cbf,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambalarafitra,active,create,3e3199b7-3f8c-4a3e-88d5-2d15f1e175e9,,5314f841-ab8d-439d-977d-3776c6af9ab2,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambalarano,active,create,b8a20181-bd3c-4e6b-bf51-b3699adb5253,,8ec83c3f-8e5f-4e4c-88dc-3e54ace5b98f,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambalasatrana,active,create,8df300f3-e1d4-4cd8-848a-8c7392cca96a,,80bb3042-a674-4fbe-aaae-cc1dda661b74,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambalasoa,active,create,fae7aba6-3baf-45d0-b3c4-3d8b53b027f5,,34c4bebd-d4f5-4c03-85ad-5111659f853b,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambalatany,active,create,3714eb60-5f26-4827-9f7a-d292d6fe6b21,,a6c62c2d-72c0-4f03-ad17-4edefce6e496,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambalatany Beavoha,active,create,4d6b0e64-8bc9-45d5-837a-d16a1d5ddbb8,,4a4c7fe2-5003-44c2-b405-2d5850b612a3,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambalatenina,active,create,672838ee-5b63-46b3-9230-810364e22a4e,,1ccffffe-9976-408a-adb6-98324b5c120c,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambalatenina,active,create,79a62cbf-4e52-4bba-9a8d-4f21ccf495bf,,3a549dea-f588-417b-a658-77f70cc9a9b4,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambalatenina,active,create,c31cb64b-a11e-4da9-b1c6-4c79e318a1a7,,5e8c0686-1e69-475f-bab5-013aac13cf03,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambalateva,active,create,124edff4-35ad-43a8-84f5-4de259c1d78e,,a6c62c2d-72c0-4f03-ad17-4edefce6e496,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambalatsarake,active,create,9d721493-6195-4d12-83a4-fbe920fd6f98,,badd39e4-9213-453e-b7ff-c26ac1dae9fa,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambalatsipaky,active,create,2626671c-dfa2-49c5-8d34-1b5e174bf8dd,,c54d7bdb-2b22-4d39-ac21-0efe4b03e016,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambalavao,active,create,7b056b8c-7061-4248-8d39-34faeb02a275,,2647b2a9-0a5a-4820-b3d5-5a16aa954630,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambalavaokely,active,create,556b1cdb-ece5-4171-90eb-822a9b53a28c,,da56c3c1-ab52-4d5f-a80e-ba80110ca438,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambalavary,active,create,cb4aefe7-9b29-423f-b350-f4611cd8308b,,de72bec6-88a2-4597-abff-7d4e64dd4470,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambalavary Bas,active,create,ce50c010-5d47-44d2-b463-e18c6e4ebe80,,25f4ad2c-767c-45e8-b868-c1a230e7a433,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambalavato,active,create,5442f91f-b123-42aa-98a9-c6dbec17359e,,ff4e8d20-61d9-4503-8cb1-47d867436869,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambalavato - Centre,active,create,ecd9a8f8-07b6-4b2c-9ce6-8e70ff3f9ba7,,86cd5df6-1d27-4762-a604-046137c1db52,EPP,epp,5,Building,bu,44.748243,-24.695976
+ECOLE COMMUNAUTAIRE AMBALAVATO-CENTRE,active,create,639f774a-1efa-410b-9181-98c17ab7717f,,86cd5df6-1d27-4762-a604-046137c1db52,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambalavelona,active,create,b5c9f58a-8215-4fdf-83cb-a79bfef2f93d,,31fb102e-06bb-43bd-b8e6-c840d75bafc0,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambalavero I,active,create,7240ae48-614e-42a0-8638-a67aa8ec84a2,,a53fc23e-85e3-47fd-9d6b-41240da76e28,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambalavoatavo,active,create,935f8729-6e10-4863-991c-e76afc895da2,,0df43d81-80e6-4728-992f-dff89de2d410,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambalavola,active,create,dbb8d42b-3f6f-4534-94a5-5d9cd5ace8ac,,27640423-f466-4624-bc50-97e150f0a3e6,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambalavy,active,create,2f1fd8e0-99a0-4f72-b819-6aef04a412c5,,e4917b1e-95b5-405e-ab55-8705a0e4c512,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambaliandro,active,create,3d871347-00f6-42d0-9260-c348249577ba,,86cd5df6-1d27-4762-a604-046137c1db52,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambaliha,active,create,4568acef-71a7-455e-bb80-2898c129217d,,02931700-6ed5-4c5e-9d9e-7220407d7e7e,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambalovalo,active,create,6462da84-a693-4a44-8c40-dea582a74b93,,da50edff-13f2-4264-ae0f-a21d7fb36dac,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambandrika Ii,active,create,0b2735fd-e322-48fe-bc6c-039ae792be62,,bc72c242-e780-4afe-99a5-81f857b9bced,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambanivalotra,active,create,e8507828-c7f6-45f0-8e62-a60795903b9d,,f7a1db24-e8a7-4732-8b48-a21b05bd5007,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambanjabe,active,create,b3963735-6022-4f31-a760-13467984dbd2,,02931700-6ed5-4c5e-9d9e-7220407d7e7e,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambanjabe Anjanaboro,active,create,24f19728-f5bb-43ba-b8f3-1e3300b529ff,,eb8558f4-8224-4a75-8920-1826d1fb34e6,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambanjabe Ankivonjy,active,create,db799711-9342-4cec-9d29-0c8ff94b4d1e,,de72bec6-88a2-4597-abff-7d4e64dd4470,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambarambamby,active,create,de196f03-202d-47a2-9442-67a57ec0ca7e,,17588bca-da82-458e-8c57-f9ad3b095026,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambararata,active,create,2a04f083-22da-42d3-bf98-60399202f0ef,,fd6d4d35-d3e6-4c22-b484-6bc71f13ae09,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambararata,active,create,8fefbdf8-bc0b-446a-b25b-aa956394a157,,5e2597af-1eb0-43db-a53c-f2e0aa3222a1,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambararata Haut,active,create,2bc93ab6-43f4-42fb-96d3-05aaec76ac7c,,b717b9f1-85ef-4567-863f-5a5967804a0d,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambararata Ii,active,create,3584a338-6a37-4c36-861c-cb021594b1b6,,4863b612-5843-41f8-a1ab-cca2f892fee0,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambararatamavo,active,create,36fb977f-2617-41db-a61d-7b13972dd3c6,,75a2bcd7-15c5-4f04-90b5-4f4f255a614a,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambararata Ouest,active,create,4c9ff8c1-6c70-4dcd-b99e-5ec735a7b67e,,4342c258-a4f9-4f05-8356-42be448ffec7,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambararata-Sakavalany,active,create,2602181b-4e5e-44a4-a267-f4a1eb93697d,,88684eb8-5a7d-4583-9d2c-eaa31f91913b,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambararata Sud,active,create,9d81f4ba-9479-4e2d-bec8-f48c744a406a,,bda952f4-3cdd-450a-a1e4-014273bee168,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambarijeby,active,create,8ca0cdf0-a992-47c0-b638-88d2ddf8eb12,,80bb3042-a674-4fbe-aaae-cc1dda661b74,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambarijeby,active,create,950921a1-7917-40d9-8ce5-fc12c378f477,,2cffa3f2-651d-4522-9324-3a1b8b7a3ac6,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambarinjanahary,active,create,7c7b3177-3776-41ea-9650-73fe13f416f1,,5655f90d-88e3-43a5-98fc-f8c6bcb16d15,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambario,active,create,045b7a37-ebe4-4ded-b8b3-84d6a2c0b5a0,,d02f2a46-3b1c-4474-8bf8-a6ad8d680093,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambaro,active,create,15acb665-f972-43ea-ab82-6b194f49b99c,,3ac50ca3-1246-49da-a97f-11145ec5fce6,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambaro,active,create,502d6f85-078f-4b43-87e7-57fbca1c1afa,,8fc04d79-aa1e-4f30-b7f8-e191e8ef9dff,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambaroabo,active,create,221bc7f2-ca7d-4417-921c-71b40612ef73,,8580a687-cfd7-4ca7-85df-12e585021277,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambaro I,active,create,aa69f50a-cc10-4724-aaeb-4a4d338c89c6,,cbd7ab07-5855-4335-85fb-7514bd0c8bab,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambarolava,active,create,8c8d4a2c-cbf7-4b8f-bf84-95637d38b90f,,17588bca-da82-458e-8c57-f9ad3b095026,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambaromahasoa,active,create,424cacf2-0fc2-4d5a-9153-628904c1e59d,,81fbdd83-3e3b-42a3-92c8-0c8a526a18d2,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambaromionga,active,create,470357f5-b4e4-45fa-a3b1-984ac189766c,,84a0d267-b156-44f8-8b14-dccc838762ea,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambasia,active,create,760cf17b-0507-4c95-8adf-59e1b76457c5,,da50edff-13f2-4264-ae0f-a21d7fb36dac,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambasy,active,create,363ab710-a4a5-483d-8904-d98fd2776b09,,75b22baf-37a9-4d42-8fd6-7ca7912d2a4a,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambato,active,create,7d7c85bd-5cc1-4cb5-9585-ef61d05e9801,,86882426-0907-435e-91b4-54eec60989f7,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambato,active,create,f552ddf1-682a-4095-9a02-d5ce67e07b6b,,8580a687-cfd7-4ca7-85df-12e585021277,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambatoafo,active,create,30d90c2e-3019-4ebc-88a4-8a7d9e86f53b,,ed2478df-2164-40bf-8315-69dcc38c962e,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambatoafo,active,create,b995b22f-fe5e-4abc-8457-daed894e2666,,05d247a1-575a-4a84-9fa2-58416adfda82,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambatobe,active,create,573306bb-e1a8-4b51-8c7e-f92f17d55e7c,,2625ecad-879b-49b7-bdcb-349f6e4e932b,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambatobe,active,create,a9ded9f0-7c20-4c18-a4fa-137875da776e,,28ea6c4b-56c2-4459-af0e-04bea0afbb1d,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambatobe,active,create,c18c67e9-dd4c-40c3-bef9-491084110bd8,,bfc47a53-c417-4b92-b394-f669854729ec,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambatobe,active,create,cb6881ab-5123-413d-9d73-a628beebd2d2,,8d03fa63-211c-49c9-b6ba-cda28184bdf7,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambatobe I,active,create,a7abfac0-f970-4477-94cd-a62f2774b4ec,,15e302e4-3ab6-416c-99b0-1562879f0271,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambatobevomanga,active,create,f74f03f4-61d0-4215-85d1-46efb4180e07,,9cd81608-a6ce-4bc4-802e-195ddf96f2fa,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambatofilao,active,create,6bdd3175-47e5-4934-adae-219f20700439,,99e461f0-58a0-47c7-8809-0bcf97ebf301,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambatofotsy,active,create,9828ca2b-9f68-44fd-97c9-d3de2e852b71,,8580a687-cfd7-4ca7-85df-12e585021277,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambatofotsy,active,create,a10de34b-2670-4f61-907e-4e9b4e27c443,,27c019cc-c90e-4239-ae90-6967404816f2,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambatofotsy Andoharano,active,create,91e4237e-9edf-4d99-838c-233fd6cef62f,,75b22baf-37a9-4d42-8fd6-7ca7912d2a4a,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambatofotsy-Centre,active,create,e1f33ec2-ebc5-4781-a03c-5c94c3908217,,badd39e4-9213-453e-b7ff-c26ac1dae9fa,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambatofotsy Ii,active,create,6d2834a4-e798-47a7-aba2-29c14109f9bc,,badd39e4-9213-453e-b7ff-c26ac1dae9fa,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambatoharana,active,create,17cc3150-0687-4b5e-8600-5b50a8d1a145,,cd1ecae6-301d-4964-96d9-c07c80710e5c,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambatoharanana,active,create,33023795-5e0b-46a4-a28d-7b622853c194,,e4bd5c40-48bb-46ff-8c0d-929406a874a4,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambatoharanana,active,create,4f0d4ac5-8ac4-485d-af65-6e47569dd7b2,,e574f8b0-c6c2-4477-9664-0a15c586b1ee,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambatoharanana,active,create,f5030131-c551-44f0-8901-d5955ab9dfcb,,05d247a1-575a-4a84-9fa2-58416adfda82,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambatohasana,active,create,3ae5fbde-87da-4580-9acc-2771344b52f7,,1a69578e-7282-4bcf-976a-c784339fb67d,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambatokapeke,active,create,0c7dfb00-80c8-4d05-b610-9c23eae38707,,badd39e4-9213-453e-b7ff-c26ac1dae9fa,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambatokapeke,active,create,2cad55fa-69a4-44c9-bdc7-092f3ac664f0,,84a0d267-b156-44f8-8b14-dccc838762ea,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambatokapike Anivorano,active,create,7f5450ff-8ab1-4c8e-b7e8-f6ccb94f893c,,84a0d267-b156-44f8-8b14-dccc838762ea,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambatomainte,active,create,72e41962-a6d3-4c18-889c-dd0e8aa21e60,,badd39e4-9213-453e-b7ff-c26ac1dae9fa,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambatomainty,active,create,1f052eb6-baa2-42df-a970-6528747c0a33,,8fc04d79-aa1e-4f30-b7f8-e191e8ef9dff,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambatomainty,active,create,3ec56c0f-5ca3-4284-94f3-4550b6dafdf1,,24d11874-2fdf-4cd6-b1ce-2cc978f7fb24,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambatomainty,active,create,4ebdceca-e901-4ee4-8b63-698f6f421ca3,,882803ed-5f77-4f96-a53b-65e2fa842430,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambatomainty,active,create,6bcbd52a-fdc9-4170-b5e3-dcf5c6fd089e,,ef1aedf6-e02a-4e79-bf01-9f9b7aab3d09,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambatomainty,active,create,f5238c98-afeb-4714-9004-eda8a15edb95,,cd704253-690d-40a3-a00d-7cd22c2e7a48,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambatomainty,active,create,ffb12fd1-f1b7-41ea-92c6-8694ef499d3d,,335a2c92-476c-4f6e-ac75-e07dc218198a,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambatomainty Anaviavy,active,create,5450684c-2349-447a-80e5-ee88785d67b2,,d02f2a46-3b1c-4474-8bf8-a6ad8d680093,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambatomainty Ii,active,create,fc0bba70-df50-4b68-9d01-4326c84d8f33,,8580a687-cfd7-4ca7-85df-12e585021277,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambatomainty Sakoambelomy,active,create,ed6f0776-8a50-451a-adb8-949f6e0e4157,,e9beb16a-fb0b-4aa2-97b5-9668f323af7b,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambatomainty Tanandava,active,create,7825ec4d-f55c-4ec2-b1ba-43651f3342e1,,e9beb16a-fb0b-4aa2-97b5-9668f323af7b,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambatomanamana,active,create,491a4300-1970-4e82-99f7-55ea8c8189e4,,75b22baf-37a9-4d42-8fd6-7ca7912d2a4a,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambatomanantandroka,active,create,ac793d42-61ef-438b-bb6b-79a2ab42eef6,,d9cb2366-8527-476c-9cab-43a7385feb72,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambatomangidy,active,create,2d616878-d0a5-4571-897e-e1e4fd463e43,,3ac50ca3-1246-49da-a97f-11145ec5fce6,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambatomasina I,active,create,cd328c2e-2334-4405-86df-5e9b7534852d,,15e302e4-3ab6-416c-99b0-1562879f0271,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambatomasina Ii,active,create,aed0528d-b122-4656-9dda-3354b64cbb9f,,a53fc23e-85e3-47fd-9d6b-41240da76e28,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambatomena,active,create,4a24db66-1160-4d4c-8c30-8bbdb4006689,,e9beb16a-fb0b-4aa2-97b5-9668f323af7b,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambatomena,active,create,f4de85ea-3381-4229-bc5c-1925da50a553,,4863b612-5843-41f8-a1ab-cca2f892fee0,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambatomiary,active,create,c78b7a3d-0715-4141-a0f5-8b9ae4d4257e,,28ea6c4b-56c2-4459-af0e-04bea0afbb1d,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambatomihala,active,create,68316755-ea81-462f-b4bf-e0d8ad6f0677,,1e090239-9524-442d-b318-bdf18efe285b,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambatomilovoky,active,create,f942e55a-bd00-48c7-b828-84d66b5c16dc,,63fc3a41-4cf4-471a-88ae-736152a6f158,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambatomitikitse,active,create,617304fb-e6da-4ae4-b678-a589d89a3071,,5640925e-c387-4e5b-99a5-85966df10cdf,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambatomitsangana,active,create,2b6cf396-3959-4cc0-836b-e1992a43b5ce,,9cd81608-a6ce-4bc4-802e-195ddf96f2fa,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambatomizana,active,create,2b607554-cabe-48f0-bd80-6bb0e1c4e50b,,3f6e3695-3757-4e34-ad9e-8be0b6d56177,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambatonakoho,active,create,1313775a-6c79-4e3b-b6a6-be3be30218f4,,497edb4f-f5b5-479e-9be5-f27de382f8a3,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambatonify,active,create,a54ea6a5-e8e4-4030-be46-9f52b54e452b,,309ea2e1-8827-4ab5-962c-f7474094185a,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambatorao,active,create,1c60fda2-66bc-46bc-bda1-ed315e93e845,,cd0c8f6f-d2ef-4dbd-9712-5ccc36c1e015,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambatoroheva,active,create,48d02217-908b-4144-a2b4-fa5a91265621,,ced122ee-d3d8-48e1-bfe3-85799e6f0bb4,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambatoroka,active,create,a770e010-d260-4fec-bf8d-f389d1ea9327,,a53fc23e-85e3-47fd-9d6b-41240da76e28,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambatosahidy,active,create,fec5aca1-609c-4dd5-a11c-87d04e652810,,4eca52b0-cf9f-48f1-8fc5-9ec0c91a5528,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambatosarotsy,active,create,e71a4d6f-376a-40b6-8901-1e1b18d84456,,60d8a1df-67b3-4ee3-a7e3-248b3967198b,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambatosoa Bas,active,create,8fdd62b3-97c8-4868-b612-06c35c22f24e,,624594ab-8385-4855-8d44-3d5279740ab3,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambatotsiafaka,active,create,7ced8f6c-fa3d-40a9-9e6c-1e5328748b5f,,910069e1-998e-42d9-ac7d-6b7c9a34da9a,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambatovaky Ampisopiso,active,create,d1046e7e-a280-4033-b74b-e05469c4e73c,,e4917b1e-95b5-405e-ab55-8705a0e4c512,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambatovaky-Haut,active,create,524fef11-ad7e-4301-be28-1224e3a01a95,,e4917b1e-95b5-405e-ab55-8705a0e4c512,EPP,epp,5,Building,bu,,
+ECOLE COMMUNAUTAIRE AMBATOVAKY TANANTSOA,active,create,2505bd59-005b-4996-a10f-2d98ac3d835a,,84a0d267-b156-44f8-8b14-dccc838762ea,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambatovita,active,create,1d54d947-ab41-4d83-9c55-57726bd93a33,,bda952f4-3cdd-450a-a1e4-014273bee168,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambatovita,active,create,7a70bd60-ec6c-4705-9fb5-a3c993dcbf77,,ff4e8d20-61d9-4503-8cb1-47d867436869,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambavadilana,active,create,3d5fbcf4-7a72-48b8-ad08-c42ca070fd29,,309ea2e1-8827-4ab5-962c-f7474094185a,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambavala,active,create,37f63597-2d02-44d2-9239-60b87fb85ce2,,a0274287-ebce-4f53-9cd3-2d5454903b1b,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambavala,active,create,7309ea37-5e87-497d-8f41-e02d6c867344,,31fb102e-06bb-43bd-b8e6-c840d75bafc0,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambavarano,active,create,c509b177-7bb7-48f0-bfec-3b4125bc5e6e,,5e2597af-1eb0-43db-a53c-f2e0aa3222a1,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambazato,active,create,32e590b2-7ba5-415c-952a-0e6d430854a8,,c453fa07-d830-4ce5-b5fd-efb22f9ec0ea,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambazoamiloloke,active,create,c346c493-51b3-4223-9dee-e736d34a3b6e,,81fbdd83-3e3b-42a3-92c8-0c8a526a18d2,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambendra,active,create,b33e9bc5-5565-4ebe-8055-6d999f691e10,,b717b9f1-85ef-4567-863f-5a5967804a0d,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambendrana,active,create,8a9a6e64-b9a6-4260-81e1-f1769b87ab83,,c38e0c1e-3d72-424b-ac37-29e8d3e82026,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambia,active,create,1707753f-fe1c-43a1-99e8-5b72c7263306,,b03a2f8c-74e4-49a2-a984-4b1b2fea008d,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambia,active,create,a36be4fc-21ab-499a-9971-4c71c212a005,,08a61379-f59c-415b-bc5b-b03d941a9787,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambika,active,create,6b314ed1-03ed-4b0e-ae3c-e300c6a5ad62,,03380fbe-d484-41ee-a8bc-24313e5e3788,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambikakely,active,create,af9ac0a3-67da-4377-98a2-aac74ec60689,,7174ae50-4d3d-4fd1-a906-4fab680bede5,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambila,active,create,0497ec11-6449-4924-b74a-900cae5bfd55,,910069e1-998e-42d9-ac7d-6b7c9a34da9a,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambilany-Haut,active,create,d8471a6d-4d6c-4da8-aee4-16b3c4578da3,,4863b612-5843-41f8-a1ab-cca2f892fee0,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambilaomana,active,create,9889d978-c49c-4994-bc81-98502833b9a5,,c57ca8c1-8a7e-4e4e-a256-966a4bb1fa8d,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambilona,active,create,ab1ac681-73b5-4b47-ba1e-01fcda5b7af3,,2a6dcb74-5f54-4590-9a5a-1b5ad8b8c855,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambinaky Enakala,active,create,1632bae6-de3c-4761-b756-085ac071578a,,b626e249-edcd-43f2-bbd9-b06e3ca374a8,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambinanibiketra,active,create,9345393b-fcb8-43d3-ab24-a2040b859656,,2a6dcb74-5f54-4590-9a5a-1b5ad8b8c855,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambinanimaholy,active,create,c67b7c15-abcb-47dc-9ebe-20e3755f11fd,,1a69578e-7282-4bcf-976a-c784339fb67d,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambinaninankindry,active,create,b5935fd4-d6be-4b9a-a67d-3d0c94fc3d80,,31fb102e-06bb-43bd-b8e6-c840d75bafc0,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambinanindomboka,active,create,ac838aeb-451a-477b-8949-b7f61fe1520b,,309ea2e1-8827-4ab5-962c-f7474094185a,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambinanindrano,active,create,13b7e81b-8a7f-4532-9d02-32fafc242e42,,57a2aa2e-97fc-4e64-b90f-e7a75680456d,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambinanindrano,active,create,26911f56-2acc-46c2-b2db-4eb6598635ae,,23c35721-4ab5-4661-ad50-a1962bb7851d,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambinanindrano,active,create,8c4de32e-f710-4ac1-83ee-d62a4704a288,,9092c259-d0b7-4ae4-9a2a-949923f73c35,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambinaninony,active,create,3e8552e0-efdf-420b-8535-e82412e52b98,,2647b2a9-0a5a-4820-b3d5-5a16aa954630,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambinanisahatsara,active,create,b281a8a3-b851-48a6-a774-74e8772ccf74,,dcb683a8-92bd-4987-ba75-dda5bc8210c6,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambinanisahorihina,active,create,dd12be29-a947-4be1-a471-e689e046c859,,8df9e268-0054-4aa7-a3da-1c271653174c,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambinanisarotra,active,create,26198c69-0a57-456e-9eaa-1ba28a60de85,,8df9e268-0054-4aa7-a3da-1c271653174c,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambinanitelo,active,create,1bbe5ced-b763-4672-b502-7e1e48879131,,2cffa3f2-651d-4522-9324-3a1b8b7a3ac6,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambinanitelo,active,create,f5d9b550-590f-4c58-875a-9e71c51f1a17,,bfe5192a-8cae-4805-954f-30e360922dd7,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambinanitrema,active,create,ba54f282-88e5-4b48-95b9-42830cfa01ed,,bfe5192a-8cae-4805-954f-30e360922dd7,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambinanivelo,active,create,13ed6ceb-6b7d-4302-b1f0-a755bd917912,,fff386bb-d84f-435f-9b88-e25027d06662,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambinany,active,create,024ede2a-20e6-49d2-8114-ad7d2cd51d3e,,a6c62c2d-72c0-4f03-ad17-4edefce6e496,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambinany,active,create,ca9ce52b-bdb5-4080-85eb-b159291bfbe6,,60d8a1df-67b3-4ee3-a7e3-248b3967198b,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambinda,active,create,04cec92c-d717-4748-a75b-52366e60bb83,,899a6c8a-e718-4731-8f50-16c32e47619f,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambinda,active,create,f60081ee-afef-4dc9-8063-1492ec1fa445,,84a0d267-b156-44f8-8b14-dccc838762ea,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambindavato,active,create,9aa89db5-c2e9-4bb5-8fa5-1a9a8f346402,,3ac50ca3-1246-49da-a97f-11145ec5fce6,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambirimena,active,create,17602069-72c3-4c90-b892-7f37f4b67df5,,624594ab-8385-4855-8d44-3d5279740ab3,EPP,epp,5,Building,bu,,
+Ecole Communautaire Amboangy,active,create,a22bef86-a66f-4f74-a38c-a1d0483c3265,,17588bca-da82-458e-8c57-f9ad3b095026,EPP,epp,5,Building,bu,,
+Ecole Communautaire Amboangy,active,create,fbbc603e-8c02-4f4b-8dce-11a941485f16,,e9f7f745-5aa5-4f3b-9204-b97288472ebc,EPP,epp,5,Building,bu,,
+Ecole Communautaire Amboanjo,active,create,59b18f35-cf71-4c77-9b2b-8f9b529a106c,,df16044d-7511-4334-9728-e8735eab9935,EPP,epp,5,Building,bu,,
+Ecole Communautaire Amboasary,active,create,22879abe-388f-42c7-9810-e1c9a9e3cb40,,6b1dcfda-74e1-480b-a9fc-1f706252544f,EPP,epp,5,Building,bu,,
+Ecole Communautaire Amboasary,active,create,5f66a784-4913-4dc1-a306-12d1d6cee584,,8580a687-cfd7-4ca7-85df-12e585021277,EPP,epp,5,Building,bu,,
+Ecole Communautaire Amboavory Dingaina,active,create,f334222e-c524-4836-a6fd-1c11767766b2,,8df9e268-0054-4aa7-a3da-1c271653174c,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodiadabo,active,create,3f545c9b-c3ac-46a9-a591-1bbe27908ea3,,31fb102e-06bb-43bd-b8e6-c840d75bafc0,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodiakatra,active,create,63baa605-1d49-4377-bcd9-7ecc67c11da2,,d2615195-bb19-4a01-bdc3-3cfc37616feb,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodiampaly I,active,create,c9b96823-3abb-4c27-b234-238d8b06aafb,,15e302e4-3ab6-416c-99b0-1562879f0271,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodiapalibe,active,create,769a4774-8cef-43eb-97aa-dfaedc3c12bf,,ed2478df-2164-40bf-8315-69dcc38c962e,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodiara,active,create,1aabea84-ae77-4351-8222-38257899a760,,15e302e4-3ab6-416c-99b0-1562879f0271,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodiara I,active,create,3fe10df3-ebc8-4548-a7af-d924a3cbc13f,,a53fc23e-85e3-47fd-9d6b-41240da76e28,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodiara Ii,active,create,ecda718c-4b31-4ac8-abef-6c0bc4166084,,c453fa07-d830-4ce5-b5fd-efb22f9ec0ea,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodiarakely,active,create,1ee21a5e-b84a-44f6-b3d5-993281f4160f,,778f0e89-e11c-48b4-a761-8fac553ba15e,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodiatafana,active,create,b7ec4137-b412-459c-9e0c-cfb1264ba8c0,,e574f8b0-c6c2-4477-9664-0a15c586b1ee,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodiatafana Ii,active,create,4cef1065-e7ad-49f3-8b81-6122a75e7ee4,,fb4109a8-aee4-4f44-a7a1-962e2cc4a856,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodiatafana/Sakalava,active,create,b1fd3e4a-71bc-4982-8e34-01fa3f8e14ee,,abb972c1-d0a5-42ec-9c60-a55f96f187d8,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodibarika,active,create,5dc1c7f5-d304-4d99-b9e4-05df9221fb19,,a620857b-f0ee-4a4f-a743-4cf1731d9a9c,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodibonara,active,create,60d57bb0-8d00-4d2e-bb55-c430d9546c2e,,934e3063-45ac-4a16-86ac-53f10c63b0e3,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodibonara,active,create,abc0ec03-b932-44f3-8556-8951fa5a504c,,9e0dac3f-285e-48a9-b708-e3b8b2c274e0,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodibonara Ii,active,create,6995d6c2-02f9-4bff-b214-deb965a1447b,,f8a96f70-3460-4957-bb58-146714a1de08,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodibonary,active,create,9e74b79a-cbcf-4a39-8a9f-490008faa798,,e7420f45-58df-446d-a584-b303dc69026b,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodibonary,active,create,f7791330-27e8-46b3-b04a-99c9dcf6b7d3,,e4bd5c40-48bb-46ff-8c0d-929406a874a4,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodibongo,active,create,e9700660-4ba7-424f-a9f5-89800f1cfb6d,,ce482abc-bcaf-4bdd-b4d3-a11e95b5693f,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodifamelona,active,create,96ffd1e7-5e4b-4f77-9453-d9e94b064b7f,,42e8d6f9-8ead-45fd-ba13-90434d07d37d,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodifano,active,create,a0ceaf47-1db1-4e75-8dec-4ee698b55e61,,2cffa3f2-651d-4522-9324-3a1b8b7a3ac6,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodifiakara,active,create,9a2be3cb-cd17-4219-800e-f5be10e7983a,,81ce658e-f241-412e-a680-64e590864e4f,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodifizika,active,create,b66c1666-8a03-4c77-ba02-ef5bfc18776f,,c38e0c1e-3d72-424b-ac37-29e8d3e82026,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodifolera,active,create,9769079a-0412-4afe-9b94-921bea0fc7e7,,8df9e268-0054-4aa7-a3da-1c271653174c,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodiforaha,active,create,26e8e90c-a0d2-4852-8dbf-1923f13f6597,,3f6e3695-3757-4e34-ad9e-8be0b6d56177,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodigavo-Fotsimavo,active,create,26119cd3-9aa9-4adf-a693-7f9753f976ed,,ede05d31-a505-4ab4-ae2c-07f3bbb44d12,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodihamotana,active,create,ae59c793-d641-43e8-9c40-9541bf366a85,,bfe5192a-8cae-4805-954f-30e360922dd7,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodiharamy,active,create,b793d0ab-4dd7-465c-85cf-5eed3dc624d3,,2a6dcb74-5f54-4590-9a5a-1b5ad8b8c855,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodihasina Ii,active,create,6ce7fbd4-3973-481c-9b7b-4962d19f2b43,,2a6dcb74-5f54-4590-9a5a-1b5ad8b8c855,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodihasina Ii,active,create,b5661be4-4edf-4f31-b901-0f778ca29294,,309ea2e1-8827-4ab5-962c-f7474094185a,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodihasina Sahanio,active,create,87df3db4-9f69-4bb0-bf0e-e488cb963c41,,5e8c0686-1e69-475f-bab5-013aac13cf03,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodihazomamy,active,create,40c23513-fd14-4b9a-b1b9-7221791f4e10,,9e0dac3f-285e-48a9-b708-e3b8b2c274e0,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodihazomamy,active,create,7e056dc8-c153-4ce3-b1fa-426c67e4719a,,c38e0c1e-3d72-424b-ac37-29e8d3e82026,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodihazomamy,active,create,9d4a32b6-cf57-4030-9be5-05873910f485,,42e8d6f9-8ead-45fd-ba13-90434d07d37d,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodihazovola,active,create,a8bba32c-4f53-4d1f-849e-3cd6af351fe2,,cd0c8f6f-d2ef-4dbd-9712-5ccc36c1e015,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodihazovola,active,create,c8aa747a-4cf2-4627-8ffc-86bb8411fd91,,2a6dcb74-5f54-4590-9a5a-1b5ad8b8c855,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodihintsina,active,create,20efe9f9-dba4-4aec-bdea-4c2ed6a0ca99,,309ea2e1-8827-4ab5-962c-f7474094185a,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodilafa,active,create,3cea27ac-95a7-426e-8331-37fa3083fe92,,e4bd5c40-48bb-46ff-8c0d-929406a874a4,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodilafakely,active,create,cbd20afb-1109-4328-8b67-cf37b3813bd1,,61714fe1-236b-46cd-9e98-fe653d31dff7,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodilaza,active,create,71c17cf5-efc8-4c57-86b6-4d13bbb10c09,,de8c2caa-43d7-4bd7-921d-2a9be307c143,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodilaza,active,create,759bbc83-bb26-44f8-bd6d-78a23f7b3a90,,0546e4e5-1860-451f-9ba8-e623cc89612f,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodilaza,active,create,bed0eb58-3964-4238-8b60-0a144e54b67a,,fc8ed3c4-6ea3-45e7-bd02-221cf20654c9,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodimandresy Nord,active,create,b5757863-e0de-40a6-b682-a10080210a3d,,29d95ed8-9713-43d9-a482-60d83bb5a464,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodimanga,active,create,00e2bb80-35fa-4b6f-b4f2-67c5793927aa,,05d247a1-575a-4a84-9fa2-58416adfda82,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodimanga,active,create,03e3adf7-dd7f-44eb-be2a-a73f58120775,,7174ae50-4d3d-4fd1-a906-4fab680bede5,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodimanga,active,create,26348435-93fb-443c-9a96-967bac567cbd,,a1c6c3a9-a14d-4211-8a08-e6819cd565fe,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodimanga,active,create,e0103244-9d73-4abc-950b-93d48f25e338,,448d493e-a328-4ce0-ba00-393211b2240c,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodimanga,active,create,f7b546ea-3c60-43a3-befa-725375178cd9,,a1a5f97c-2dcc-431a-bd6b-01186f579b02,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodimanga Est,active,create,c281ab4d-ea6a-4cd6-a98e-bdbd5cf7dd31,,2055c2a0-401c-4c8a-b2a0-d1b23449c3b6,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodimangafotsy,active,create,83c20226-f2e1-444d-ba20-5af9a3dfbc89,,d9cb2366-8527-476c-9cab-43a7385feb72,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodimanga I,active,create,6c0f1afa-a610-4a44-8a91-47e31e8eef32,,ed2478df-2164-40bf-8315-69dcc38c962e,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodimanga I,active,create,d00953ce-d50d-4ff5-a820-83c271c21d80,,8df9e268-0054-4aa7-a3da-1c271653174c,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodimanga Ii,active,create,59b84e3b-1df5-4ae9-84c2-11df8606a948,,15e302e4-3ab6-416c-99b0-1562879f0271,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodimanga Ii,active,create,b46cbabe-d7d2-4f5d-abec-cde38316065d,,61714fe1-236b-46cd-9e98-fe653d31dff7,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodimanga Ii,active,create,c451ad02-cb12-45b3-a792-bf7d08981eda,,a53fc23e-85e3-47fd-9d6b-41240da76e28,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodimanga Ii,active,create,ed197dc1-53c8-46a3-a4ae-c5670c4cbcbe,,58748f98-a17c-44d2-9ebf-dd44deaedb6f,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodimanga Ii,active,create,f8c83d07-d6f5-431a-a637-ed03c51e6fd6,,4eca52b0-cf9f-48f1-8fc5-9ec0c91a5528,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodimanga Iii,active,create,f110e56f-68c1-44d4-b7c9-a640e2e602de,,61714fe1-236b-46cd-9e98-fe653d31dff7,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodimangatelo,active,create,4fb31966-5f7c-4b33-8b19-16eeb6827c8b,,3a549dea-f588-417b-a658-77f70cc9a9b4,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodimizilo,active,create,977ac17c-5a6d-4fe8-9723-082bf918d260,,41911539-44ec-49f8-90fa-a19de1416925,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodimokonazy,active,create,3f160f66-3c22-4190-981a-34724b63c1c2,,6614ec43-fa7a-4f08-9a02-9acaf9ceebec,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodinato,active,create,0d2e1950-f602-4204-8b98-0558c68b7bd3,,e7420f45-58df-446d-a584-b303dc69026b,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodinonoka,active,create,164b0b7c-49fe-4629-a1c1-0a67a29ec5b6,,4c47ff02-6d75-46c7-8b7f-9d39f459facc,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodinonoka,active,create,fd9ea995-b18a-4f6c-be97-29ed9a7f6ba6,,80282171-c28c-45d1-93aa-f9967785d2ff,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodinonoka Ranomainty,active,create,f422855b-63ff-4bd3-96a4-7bd5a1158e24,,e7420f45-58df-446d-a584-b303dc69026b,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodiovotra,active,create,cb4acfb9-5383-4805-8b38-4c6cd68e152c,,8d03fa63-211c-49c9-b6ba-cda28184bdf7,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodipaiso,active,create,4a45e8ee-4f7b-47d2-8dae-246da74f2050,,4eca52b0-cf9f-48f1-8fc5-9ec0c91a5528,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodipaiso,active,create,ea12b18b-66a0-4600-bd3d-ef61a03b018a,,009d54cf-4a50-4555-90be-5439638f6cbf,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodirafia,active,create,0bc44f7a-771d-4950-b58e-73f40486f07e,,4c47ff02-6d75-46c7-8b7f-9d39f459facc,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodirafia,active,create,cd3d9734-c64d-4cbd-990c-9a7df8de76e5,,fb4109a8-aee4-4f44-a7a1-962e2cc4a856,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodirafia,active,create,dbcf96a9-6c92-4140-a876-cdf098f5e69d,,9e0dac3f-285e-48a9-b708-e3b8b2c274e0,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodirano,active,create,016df36f-01ff-41f3-a2e5-b07440b1dd51,,c2eeee4b-1764-4d08-95f0-c826bcf1fe53,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodiroranga,active,create,cf4e7f08-1029-4151-a090-35c824bd2d28,,9092c259-d0b7-4ae4-9a2a-949923f73c35,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodirotra,active,create,03676340-0135-4af0-b7dc-51d2e52fee1a,,15e302e4-3ab6-416c-99b0-1562879f0271,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodirotro,active,create,02bada09-c371-44d5-b23f-5896452aed6f,,bfe5192a-8cae-4805-954f-30e360922dd7,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodirotro,active,create,c3332c70-3883-4090-a96f-eccf41c7b4cd,,27640423-f466-4624-bc50-97e150f0a3e6,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodisaina,active,create,95e14c24-bb2c-48ad-ad25-8d16bd8a1151,,4eca52b0-cf9f-48f1-8fc5-9ec0c91a5528,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodisamba,active,create,070add51-07ac-4f0a-b598-2ba9d8bfdd9d,,30a4dc14-5e5e-4fac-8d7a-aee7e70a9340,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodisary,active,create,3366fe8d-0baf-4035-86d6-c90969942a5a,,2a6dcb74-5f54-4590-9a5a-1b5ad8b8c855,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodisiny,active,create,7c7cccda-2e87-44a8-a47a-2677833c1cff,,d5f57217-1dfb-4c1b-b43c-e926dcdd5ff8,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodisohihy,active,create,4ce2dc26-973e-41b6-9dee-f4268b69f447,,ef8a6a6f-7ac2-46d9-9467-ae88ed2a9ea4,EPP,epp,5,Building,bu,,
+Ecole Communautaire Amboditafonana,active,create,0ace749c-7472-4932-bfca-3edf35966730,,dcb683a8-92bd-4987-ba75-dda5bc8210c6,EPP,epp,5,Building,bu,,
+Ecole Communautaire Amboditavolo,active,create,c0dd6d63-c2fb-4595-a3f8-7a8ef4a74ae0,,ed13b810-0ccc-4ff4-9c19-d42c0880a35a,EPP,epp,5,Building,bu,,
+Ecole Communautaire Amboditsifo,active,create,fc1358f2-6cb0-45a8-bc53-be239c831149,,a620857b-f0ee-4a4f-a743-4cf1731d9a9c,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodivandrika,active,create,79c72984-a871-406e-bed9-e0f8ccfc9101,,e574f8b0-c6c2-4477-9664-0a15c586b1ee,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodivandrika,active,create,a425203c-fb1c-4536-ace2-59ac4aad6e61,,bb812719-8dbb-44e5-a3fe-fa00d79e02bc,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodivandrika Ii,active,create,fad31fef-37d2-4c9e-a418-0f50b91d10ca,,2055c2a0-401c-4c8a-b2a0-d1b23449c3b6,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodivato,active,create,72392a62-a782-4a93-b027-0251f9baf862,,e7420f45-58df-446d-a584-b303dc69026b,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodivato,active,create,b19f66e1-bfc5-4097-bcde-9c7c84d060c7,,1ccffffe-9976-408a-adb6-98324b5c120c,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodivato Andrefana,active,create,0c19c7e2-15b4-4149-b0df-7b7b1b2b618d,,8d03fa63-211c-49c9-b6ba-cda28184bdf7,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodivazano,active,create,d50381ae-ab3c-4b19-9cb7-bf71a900c262,,31fb102e-06bb-43bd-b8e6-c840d75bafc0,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodivero,active,create,db36c774-ce52-48e7-9f57-162a90813e66,,74d6ecda-0ec1-4e0e-b32c-a1550eda16d7,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodivia,active,create,69b77bdc-dd14-42ea-b271-f6ffd40196c2,,8df9e268-0054-4aa7-a3da-1c271653174c,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodivoafaho,active,create,a4b6e005-6bea-493c-a1f8-331c5f67574e,,beb61963-915a-4cbc-af46-3a0372d199d8,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodivoahangy,active,create,ee136e93-63f6-4ef9-8c03-62d9aacc4386,,b81fea09-5cf7-46cd-a84c-35f9760642fb,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodivoamboana,active,create,d4c55a8c-540e-4f3a-9886-e114fec58c23,,0791ade5-7ea2-4216-9e4f-c2e945b7b158,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodivoangimamy,active,create,3250a61a-d0f6-454c-a7d0-cbd5a6914081,,58748f98-a17c-44d2-9ebf-dd44deaedb6f,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodivoangimasina,active,create,e6f63ccc-8964-4b3f-87db-be20ac1f76e3,,ed2478df-2164-40bf-8315-69dcc38c962e,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodivoangy,active,create,04ac83d7-6018-4b80-ae6e-d192e1544520,,e7420f45-58df-446d-a584-b303dc69026b,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodivoangy,active,create,30e26742-ad22-4806-8270-6e778f628bca,,268d4bdb-a317-465f-82ac-616f0ffc7326,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodivoangy,active,create,9255c205-c501-43e8-9f9e-35e2d1cbea8e,,3a549dea-f588-417b-a658-77f70cc9a9b4,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodivoangy,active,create,ab5f79be-6be0-47e7-9530-473d2935dac8,,053d4f7a-b383-4faa-b224-8418ecabf446,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodivoangy,active,create,c9da7174-b002-49dd-8da5-b7c42f433bfb,,3c9bdc0f-03b9-4ddc-9252-d034e185915b,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodivoangy I,active,create,f8cb807e-7920-465f-92fa-5e717805e73a,,a53fc23e-85e3-47fd-9d6b-41240da76e28,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodivoangy Ii,active,create,96ffae08-1d93-453f-b470-0512fc32f72c,,e4bd5c40-48bb-46ff-8c0d-929406a874a4,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodivoanio,active,create,a1b888c8-8953-431d-81c1-6805f0360264,,275565fd-712a-424d-bf78-74e52dfe1854,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodivoapaka,active,create,3bf955d4-c2d2-40ce-b1c9-967d063b760e,,ed2478df-2164-40bf-8315-69dcc38c962e,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodivoapaka,active,create,b2d66e60-ba99-4414-98d6-fcf471b8365d,,3c9bdc0f-03b9-4ddc-9252-d034e185915b,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodivoapaka,active,create,f55b440d-f3ad-4219-83a2-c823eca7632a,,dcb683a8-92bd-4987-ba75-dda5bc8210c6,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodivoara,active,create,1ffff505-1b10-4718-a96c-29dca3bcde8c,,a53fc23e-85e3-47fd-9d6b-41240da76e28,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodivoaseva,active,create,70590ab3-d85d-450b-b63b-974651b30c6d,,1a69578e-7282-4bcf-976a-c784339fb67d,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodivoaseva,active,create,7cd88e49-3c54-47a4-bf99-4bed99dac698,,cd0c8f6f-d2ef-4dbd-9712-5ccc36c1e015,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodivohitra,active,create,444a2713-1088-43a5-99ad-78ac3f4cce38,,309ea2e1-8827-4ab5-962c-f7474094185a,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodivohitra,active,create,59f7e116-218e-4ffe-ac0c-7205755cf38a,,cd704253-690d-40a3-a00d-7cd22c2e7a48,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodivohitra,active,create,f8cce6c2-108a-41db-b5b1-94db2fd55eea,,fb4109a8-aee4-4f44-a7a1-962e2cc4a856,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambodivohitra,active,create,fea84fe2-8493-4e13-a3b6-25e200d1e18a,,dcb683a8-92bd-4987-ba75-dda5bc8210c6,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambofampana,active,create,8ef01ee0-009d-4b91-b301-18932f49b637,,05298366-d8c0-4f72-9f10-9669e8f06b0b,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambohibao,active,create,2ac97190-ba87-4991-a944-7171e471d0f9,,125ca331-18ac-4bdb-86cf-ea6bfd8d78fa,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambohibary,active,create,d7df4850-711c-4e09-b5cf-63fd15d3e1c8,,9d83a546-65b4-486a-b989-9192222167ba,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambohimahasoa,active,create,0aed066f-f1a6-4b36-b0b9-9f74804e7369,,27640423-f466-4624-bc50-97e150f0a3e6,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambohimahasoa,active,create,6c39de16-fab0-4932-bc95-6eec672b4b96,,2e0f142a-d4e4-4d49-bb85-d88f3fb60663,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambohimahasoa,active,create,6ff1fe7d-c740-4c91-9cd2-8c8556319492,,3c9bdc0f-03b9-4ddc-9252-d034e185915b,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambohimahasoa,active,create,920d20de-c5d6-44d0-8d53-f6dae13a2aed,,3ac50ca3-1246-49da-a97f-11145ec5fce6,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambohimahasoa,active,create,95aa739c-bab8-4c4b-8236-de15cf8adcf1,,ed2478df-2164-40bf-8315-69dcc38c962e,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambohimahasoa,active,create,bbe52779-72dc-483c-a569-3b9344b862a6,,01c1baa1-d9ae-4e08-a56a-2f3726d790d2,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambohimahasoa,active,create,c432ca14-eb4b-4829-a790-035315c46dba,,c5e84bc6-956f-4f4c-bd85-e3cadbe43c86,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambohimahasoa,active,create,cec8b015-6664-4ab4-937c-69ebac2f3980,,58748f98-a17c-44d2-9ebf-dd44deaedb6f,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambohimahasoa,active,create,fd9467f5-88f2-4dd7-ac2a-6acb51d8e288,,ec0cf731-4ef0-4b1f-9562-feeed05eec39,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambohimahatsara,active,create,175e8fb4-0a72-409a-89bc-01c935641ea8,,0791ade5-7ea2-4216-9e4f-c2e945b7b158,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambohimahatsara,active,create,56f7b903-edff-4056-bebb-cd6b16599dc1,,40744758-ba7d-41fe-9808-9baa699ff984,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambohimahatsara,active,create,cb1faced-26b0-4f0c-8f39-56b133cfe200,,05738877-4370-4e6d-8a4f-50bc9e33b1fb,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambohimahatsara,active,create,ff571ec0-06e4-4c0b-92a4-21a8a23583d6,,5a3d29c2-aa29-4d91-b7b9-504908c45fc2,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambohimahavanona,active,create,acc53835-8245-457c-9068-962776e8128f,,83e36a7f-8ec4-4d21-922b-56ff029ec78d,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambohimahavelo,active,create,66c255c9-8cff-4ad0-b2cc-9592c246cf32,,d1b02b96-9c79-4a8f-bf17-6438e8357bbc,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambohimahavelo,active,create,eef97c4a-f93a-455b-ae16-6af22b0217d6,,aad6f6a5-3e77-4449-a216-a46d2e968348,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambohimahavelona,active,create,376dd284-9ce3-4d17-85f3-58ac717d33bc,,36ff845c-f898-4f93-837f-0ebc50637e15,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambohimalaza,active,create,722eedfd-b6d7-44b1-b869-e1efb3da3ce5,,e574f8b0-c6c2-4477-9664-0a15c586b1ee,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambohimalaza,active,create,baacfb0c-7e87-4c86-a615-44405665ba00,,15e302e4-3ab6-416c-99b0-1562879f0271,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambohimana,active,create,84a3b9df-e184-413c-aaa3-48337b59a02c,,de8c2caa-43d7-4bd7-921d-2a9be307c143,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambohimana,active,create,b30c82d7-80e4-46cd-ac09-70192f8a9c1d,,f689424f-e121-468a-a1ee-2a43d9dc99e6,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambohimanakana,active,create,c3d77a0d-a054-4a1b-b8fd-726e615a3b0c,,cd0c8f6f-d2ef-4dbd-9712-5ccc36c1e015,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambohimanarina,active,create,047fde68-c454-43a7-8210-039420ccf207,,c453fa07-d830-4ce5-b5fd-efb22f9ec0ea,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambohimanarivo,active,create,2c767581-11bd-483c-b3dc-c8d2c80f7447,,554d185a-2816-4732-b183-9c370db14ea1,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambohimanarivo,active,create,6885fb68-7ebe-495f-b87c-f5824b84d1f1,,335a2c92-476c-4f6e-ac75-e07dc218198a,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambohimanarivo,active,create,c1e7e023-5ce4-4018-9524-7cf5a0325d6e,,7b584f4b-fa90-459c-9c0f-d69ac7035f70,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambohimanarivo,active,create,ff6e3d27-77d3-46a9-a304-b0ef020e1fff,,0df43d81-80e6-4728-992f-dff89de2d410,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambohimandroso,active,create,18747adb-5b92-49c0-96dd-b644adb645ce,,c453fa07-d830-4ce5-b5fd-efb22f9ec0ea,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambohimandroso,active,create,2017714b-b4fb-4abe-8805-f82423caf46d,,f76d39d0-4ab3-4310-bf8e-0487e04998da,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambohimandroso,active,create,53c5fa2a-6f09-47c6-8b8f-f7d81d9c8d9e,,aad6f6a5-3e77-4449-a216-a46d2e968348,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambohimandroso,active,create,5696a6e5-bcfe-4756-9d7d-52dcd121bc55,,93a1f8ec-1e40-4537-9050-9f904101747d,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambohimandroso,active,create,9f70a52a-766f-4c35-b1b6-4d4fe3db06ed,,23c35721-4ab5-4661-ad50-a1962bb7851d,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambohimandroso,active,create,b77ce0bb-119e-42dd-a5ee-41a0f8624879,,44fdd833-7d80-465b-916a-48e47588e441,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambohimandroso,active,create,ddd81d00-4956-47bb-8a33-6e9ca7b0024f,,5a44a8c8-2c78-4fb3-9aaa-09b014f2e832,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambohimandroso,active,create,e537ce14-3fc4-48df-8afc-29a6bc2a67b3,,3c9bdc0f-03b9-4ddc-9252-d034e185915b,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambohimandroso,active,create,f26a9515-2071-4493-a4f5-5fb45f920b40,,0b9df312-da12-491d-8108-affacb0535bf,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambohimandroso,active,create,f362917d-2000-4a2a-a5ea-8e9fac3acc7c,,30a4dc14-5e5e-4fac-8d7a-aee7e70a9340,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambohimangasoa,active,create,9af615dc-7d77-45d1-a036-92b027d836e8,,4a2f9c9d-6a5c-4033-bb77-0d1d43853929,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambohimarina,active,create,f92152a4-6bbe-4590-9881-d6451eed07f9,,1a69578e-7282-4bcf-976a-c784339fb67d,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambohimarina I,active,create,6af232cc-2e97-46ac-8918-4a234e2ed574,,58748f98-a17c-44d2-9ebf-dd44deaedb6f,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambohimary,active,create,7100aba8-3ddc-4e43-ab93-a14cb538df75,,3a2791ee-8bcd-40fc-8106-e1596d5695cf,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambohimiarina,active,create,09716b4e-268f-4f78-a522-0c012b00ecf4,,78bfde49-f756-428d-97f4-2a95ad006abe,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambohimiarina,active,create,0ffa4e94-e514-42d1-ad49-da2d12b6fc6b,,a53fc23e-85e3-47fd-9d6b-41240da76e28,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambohimiarina,active,create,179a1d25-404c-486c-80b0-f4c8e34ff88c,,ede05d31-a505-4ab4-ae2c-07f3bbb44d12,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambohimiarina,active,create,8bf2d452-4d9e-473d-84a9-eef6fd47b634,,d1b02b96-9c79-4a8f-bf17-6438e8357bbc,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambohimiarina,active,create,910fdb9f-0d5e-4074-8c5e-b20f3bca3a2b,,05d247a1-575a-4a84-9fa2-58416adfda82,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambohimiarina,active,create,c5fdb3a5-e51f-4b80-80c5-ba256e0402e2,,2625ecad-879b-49b7-bdcb-349f6e4e932b,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambohimiarina,active,create,c74325af-dd2b-48cd-91fe-ec9af98cd278,,2a6dcb74-5f54-4590-9a5a-1b5ad8b8c855,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambohimiarina,active,create,d2effc5c-4f2d-4b49-9396-a1db0c4f3fb3,,e7420f45-58df-446d-a584-b303dc69026b,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambohimiarina,active,create,e42cfb45-24f4-4a8c-bb99-16d17786401f,,99e461f0-58a0-47c7-8809-0bcf97ebf301,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambohimiarina I,active,create,3e8c742b-1f56-480f-bc84-6583f973254f,,d2615195-bb19-4a01-bdc3-3cfc37616feb,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambohimiarina Ii,active,create,42980aa9-f1fa-4468-9df0-2dc4bd2589cb,,c453fa07-d830-4ce5-b5fd-efb22f9ec0ea,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambohimiary,active,create,33304a5a-4826-4987-ba2b-4bc463c310a0,,0791ade5-7ea2-4216-9e4f-c2e945b7b158,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambohimiary,active,create,431bcaf3-c611-4b2d-905c-35ad0b217c66,,8ec83c3f-8e5f-4e4c-88dc-3e54ace5b98f,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambohimitsinjo,active,create,7d5a9949-33a0-4e79-8920-85b2a5c32592,,27640423-f466-4624-bc50-97e150f0a3e6,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambohimitsinjo,active,create,b15aff5d-9b6f-4ec9-a9a4-6cdc1a5d2117,,3a549dea-f588-417b-a658-77f70cc9a9b4,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambohipeno,active,create,3610d15f-7856-480e-8ac1-43c3770237b7,,c453fa07-d830-4ce5-b5fd-efb22f9ec0ea,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambohipeno,active,create,67986f0b-fb27-4205-8fce-d21f3ef50ccb,,a53fc23e-85e3-47fd-9d6b-41240da76e28,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambohipierenana,active,create,28d35b5a-0b84-4d8c-9cf9-67eb050f0e3c,,20aacb43-e0c9-47ec-b1e3-7416cc5bf316,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambohisoa,active,create,db71a81d-9451-425f-a733-3ecdb66834cb,,34c4bebd-d4f5-4c03-85ad-5111659f853b,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambohitrabo,active,create,8fc70f56-b21f-47b3-8aca-ba86d9e7cac0,,8cd349af-726c-47bf-b41f-38738f2cc2d0,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambohitramba,active,create,d1cda385-74e9-47c6-9d37-24306ee3a1a6,,2625ecad-879b-49b7-bdcb-349f6e4e932b,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambohitranala,active,create,738e35f9-c907-4a59-b491-68673140d8e9,,05d247a1-575a-4a84-9fa2-58416adfda82,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambohitsara,active,create,09228bba-9399-49ed-b1c6-672b7a4eec7f,,a1a5f97c-2dcc-431a-bd6b-01186f579b02,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambohitsara,active,create,169f36ff-8ebf-48a0-9482-a77d1369f7ca,,ae2380b1-744a-4772-9ea4-dff3942ce957,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambohitsara,active,create,2a073d6c-2652-410b-8857-774e87552c70,,83e36a7f-8ec4-4d21-922b-56ff029ec78d,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambohitsara,active,create,b4f1ea35-1f0b-418f-a430-658af120b261,,335a2c92-476c-4f6e-ac75-e07dc218198a,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambohitsara,active,create,b7699ba8-1b90-42fe-a3cb-fddd4e8fced9,,20aacb43-e0c9-47ec-b1e3-7416cc5bf316,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambohitsara,active,create,c54f8117-bec2-4105-9fbc-9595344895cf,,e574f8b0-c6c2-4477-9664-0a15c586b1ee,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambohitsara,active,create,f7ba815a-16c1-4a9e-8271-19a678727535,,1a69578e-7282-4bcf-976a-c784339fb67d,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambohitsara Ii,active,create,12352c6f-13b6-4a29-84f3-d0519da87233,,2055c2a0-401c-4c8a-b2a0-d1b23449c3b6,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambohitsara Ii,active,create,abf8d5f8-6fb7-49c7-b6db-d5b06a520bd2,,009d54cf-4a50-4555-90be-5439638f6cbf,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambohitsaralaza,active,create,7e0f59ae-a77e-44f2-a649-933ae48e0b51,,97a60770-389b-40ff-8677-dcfbdc0fe322,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambohitsara Nord,active,create,1c916464-d188-4737-b648-a4b9c95eba22,,2055c2a0-401c-4c8a-b2a0-d1b23449c3b6,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambohitsaratany,active,create,48194b37-4ec8-4ff4-b12a-5bef7154db5b,,bfe5192a-8cae-4805-954f-30e360922dd7,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambohitse Morafeno,active,create,d4d54988-94d3-48d6-93ae-3c3e0fe3bac8,,624594ab-8385-4855-8d44-3d5279740ab3,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambohitsimanapaka,active,create,22bdd608-8b9c-43c2-be2f-8fcb72ecd2f1,,309ea2e1-8827-4ab5-962c-f7474094185a,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambohosoa,active,create,cd29b4ed-af44-46eb-b966-cb97111edd52,,0ecd6a67-6f60-4393-bdea-516e7bab132e,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambohovato,active,create,8423416b-2ab2-4774-b73a-a11f9f1483fd,,5314f841-ab8d-439d-977d-3776c6af9ab2,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambokotry,active,create,89409253-e58f-4891-b264-3d5470ff5043,,3c2fc71a-8d34-4395-9e88-8379a23e109d,EPP,epp,5,Building,bu,,
+ECOLE COMMUNAUTAIRE AMBOLAMENA BEARA,active,create,5a7056f6-3eff-40dd-8132-b2d6b12a61a2,,84a0d267-b156-44f8-8b14-dccc838762ea,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambolidy,active,create,8feccc58-593e-41c4-82f9-929c4a04fb07,,2cffa3f2-651d-4522-9324-3a1b8b7a3ac6,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambolidy-Be,active,create,35080ed7-3771-432d-beef-957b8d9d5b30,,ec0cf731-4ef0-4b1f-9562-feeed05eec39,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambolisogno,active,create,4630c43a-6c12-4629-98d7-98d5a8db45ff,,5e7fb2d0-10c3-47fc-88ec-561122e106c8,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambolo,active,create,4faa198a-5115-4b78-9c39-6afb39fcb399,,1a69578e-7282-4bcf-976a-c784339fb67d,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambolodia,active,create,6d2ac918-3608-4cc4-aa59-3b4d0fc6d82e,,6614ec43-fa7a-4f08-9a02-9acaf9ceebec,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambolonakanga,active,create,153e9f73-a780-4193-a736-98a4b720b5e8,,89a67109-8797-47cd-88c6-847e829ff4ae,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambolotara,active,create,e6e773ac-16b9-4a64-824b-43c45f1c8f3f,,15e302e4-3ab6-416c-99b0-1562879f0271,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambolovohitsy,active,create,bd57ac4b-0796-444f-9d97-73e02eb3b68a,,60d8a1df-67b3-4ee3-a7e3-248b3967198b,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambomandroso,active,create,f86d7a7c-be86-4dbf-8d0a-1830a175c07f,,c38e0c1e-3d72-424b-ac37-29e8d3e82026,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambonaivo,active,create,618bf0d2-cdec-4d4f-a4c7-ba8f933561e4,,75b22baf-37a9-4d42-8fd6-7ca7912d2a4a,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambonaivo Ouest,active,create,d0272fb5-14da-4286-a816-438f29a8f02a,,e9e6a1c2-e01c-4698-8e78-c838dbf0013c,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambonarabe,active,create,bde9dd5a-d0b1-45db-adfd-fb0d797ca0b5,,2cffa3f2-651d-4522-9324-3a1b8b7a3ac6,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambondro,active,create,23f952d8-9be5-4ec6-ac5b-ea27247af507,,ec0cf731-4ef0-4b1f-9562-feeed05eec39,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambondro,active,create,f2e09bb6-0526-4216-993a-5902614b6991,,4342c258-a4f9-4f05-8356-42be448ffec7,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambondrobe,active,create,5545879e-7276-4190-ad68-70a045085085,,6614ec43-fa7a-4f08-9a02-9acaf9ceebec,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambondrokely,active,create,835bef96-4c04-4142-8e77-ee0d2d075bd9,,4d0ebcc0-6477-4d25-9e10-183e06a4a091,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambondrombe,active,create,9ce6eed4-e9ff-45d4-98fc-d98ea95fab18,,d0a79494-c31d-4009-86ca-c1decbc3d6d9,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambondromena,active,create,73055324-49cd-4667-8d7b-2e3b620ee41f,,5640925e-c387-4e5b-99a5-85966df10cdf,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambondrona,active,create,120b2488-202d-4912-b7e4-409009734243,,39a84b94-db54-4580-ba08-18f1a9ed0438,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambongo,active,create,4ebf1176-1111-4d9b-9b75-cba394480f0f,,1e090239-9524-442d-b318-bdf18efe285b,EPP,epp,5,Building,bu,,
+Ecole Communautaire Amboniarivo,active,create,3142c118-4a51-4ddb-97cc-178c7b4da288,,5640925e-c387-4e5b-99a5-85966df10cdf,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambonihoraka Sahabe,active,create,8627be0b-a5b9-4cd5-abf1-d9e7fc325ff7,,8d03fa63-211c-49c9-b6ba-cda28184bdf7,EPP,epp,5,Building,bu,,
+Ecole Communautaire Amborignabo,active,create,d2554cea-8ec0-4698-9d28-cd35c64106ce,,79b58d2f-f069-41fe-87c5-45f20f3263c9,EPP,epp,5,Building,bu,,
+Ecole Communautaire Amborimahasoa,active,create,f9bda496-ecba-4dad-9afd-e73dd08e52b0,,81fbdd83-3e3b-42a3-92c8-0c8a526a18d2,EPP,epp,5,Building,bu,,
+Ecole Communautaire Amboromaika Ampombibe,active,create,65bd7273-b3c3-4d3b-9a8e-23d9c4901668,,6614ec43-fa7a-4f08-9a02-9acaf9ceebec,EPP,epp,5,Building,bu,,
+Ecole Communautaire Amboromaiky,active,create,4a04b007-cebb-4389-832f-e3bb99166292,,de72bec6-88a2-4597-abff-7d4e64dd4470,EPP,epp,5,Building,bu,,
+Ecole Communautaire Amboropotsy,active,create,46ab6fc7-fd30-42ea-87f3-050d010c705c,,69b0e332-3196-47e1-82f4-948dabdd1160,EPP,epp,5,Building,bu,,
+Ecole Communautaire Amborovoro,active,create,6888dfb4-5683-4b00-b51d-7c5a6b2373c5,,badd39e4-9213-453e-b7ff-c26ac1dae9fa,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambory,active,create,1c4a0119-ea0e-444c-847e-371e8d493bc8,,badd39e4-9213-453e-b7ff-c26ac1dae9fa,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambory Haut,active,create,88eb9b61-735b-461b-90ef-d3eef236b479,,2601ccb0-b1e8-4ee7-ba9a-e9d2f9d48f06,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambovo,active,create,5ade78f8-8725-4953-be9c-9db191b136ee,,437a9492-22a6-4e12-9d03-efe8f0fa03b0,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambovoatango,active,create,631fdc21-1303-44ee-bef3-ccd290f3c151,,ef8a6a6f-7ac2-46d9-9467-ae88ed2a9ea4,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambovo Bas,active,create,4ceacf0a-ed56-48f3-9f37-7462ed3690a7,,86cd5df6-1d27-4762-a604-046137c1db52,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambovokatrakatraka,active,create,1a878782-7bd9-4150-9e9a-af857dd4c477,,eb8558f4-8224-4a75-8920-1826d1fb34e6,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambovomavo,active,create,ebe63568-ccc0-4aa4-894d-55d90b35cec8,,990cd430-5e3a-4a04-8e02-5613911be24c,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambovomboay,active,create,ae95b80b-5726-4137-b54d-9be003c4ac94,,ec0cf731-4ef0-4b1f-9562-feeed05eec39,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambovondredada,active,create,bb8dc26a-d3c2-4440-a9a6-61f72ab66b83,,a6e0c676-95c9-4d05-a0da-7443bc939e5a,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ambovotoka Centre,active,create,5e62eeae-c32b-43c1-bd10-647defc48dfa,,f0ec4526-d5d8-4c7b-b924-bac45cdb54cd,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ampahedroy,active,create,a7d52d6e-8602-49fc-bd87-0d7d09841569,,ced122ee-d3d8-48e1-bfe3-85799e6f0bb4,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ampahitsosy,active,create,1434a52c-da2f-4f68-bc55-7bc49b69913c,,edd7bc75-fc97-4748-840c-2fc554322284,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ampahomanitra,active,create,dd1b3b0c-8ae0-4e1d-ada0-bef47749a47d,,15e302e4-3ab6-416c-99b0-1562879f0271,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ampamanta Mainty,active,create,abef32b6-dcf5-4902-80bf-0e88a0f4a131,,81fbdd83-3e3b-42a3-92c8-0c8a526a18d2,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ampamatamaho,active,create,18c753dd-f027-4110-9483-ca0ffda366b3,,bfc47a53-c417-4b92-b394-f669854729ec,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ampampamena,active,create,e9f17c2c-c24c-49e8-a2e9-423dcf0fe53f,,ce482abc-bcaf-4bdd-b4d3-a11e95b5693f,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ampanagnira I,active,create,ae7678f1-a598-4506-8276-5eca5ecca082,,5640925e-c387-4e5b-99a5-85966df10cdf,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ampananirakely,active,create,6e489717-22e3-4ac2-aa15-4151d4f14670,,7bc16495-9f79-4ac7-aeab-cb6455e07ad5,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ampanapazana,active,create,ad34d81e-757b-4bcc-bef7-a3dd89662ad3,,268d4bdb-a317-465f-82ac-616f0ffc7326,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ampanarivo,active,create,4878f155-c96f-414e-a676-95f74b2c41e8,,a53fc23e-85e3-47fd-9d6b-41240da76e28,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ampandra,active,create,2118a6fa-a2ac-47b2-bf70-971e29a1a591,,8580a687-cfd7-4ca7-85df-12e585021277,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ampandrabe,active,create,f9348ad7-6599-4485-9685-b48571a71f43,,4342c258-a4f9-4f05-8356-42be448ffec7,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ampandramana,active,create,02523f51-ab24-4d9d-b170-0bb9be8c2c1c,,f999e46b-357b-4620-be16-bd57d572b301,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ampandrambe Anadabo,active,create,cc66e730-fab8-4298-88de-7deecc25a4ee,,003dce7d-5c67-4111-a11e-44b7688d03d1,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ampandrambe Centre,active,create,f1081a9d-dfb2-475b-a4f5-12dae01024cd,,5640925e-c387-4e5b-99a5-85966df10cdf,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ampandramiriatsy,active,create,0ea01622-8ca7-430e-bab0-4d358b0554c1,,b801cdfb-1b2d-43e7-8379-e3b7ea854782,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ampandrana,active,create,b2f083e4-ab88-47c3-88ae-4c3153ed17f4,,75a2bcd7-15c5-4f04-90b5-4f4f255a614a,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ampandratolony I,active,create,57e4a019-984b-498d-b529-56d324cbb672,,1e090239-9524-442d-b318-bdf18efe285b,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ampandroatsitry,active,create,64491763-644a-4c44-ae2c-25162282f233,,84a0d267-b156-44f8-8b14-dccc838762ea,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ampangataha,active,create,4f60295d-97d0-49f4-ae1c-9d90bbeb406c,,2cffa3f2-651d-4522-9324-3a1b8b7a3ac6,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ampangidraty Nord,active,create,06bd7dd2-7ee6-4f12-8c24-1f6a021cfa42,,89a67109-8797-47cd-88c6-847e829ff4ae,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ampangorinana,active,create,67fbd1bc-e624-47fd-8590-6e02732e2ab9,,ce482abc-bcaf-4bdd-b4d3-a11e95b5693f,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ampanobe,active,create,194baffa-40ec-4675-a448-06b702fe8845,,f7a1db24-e8a7-4732-8b48-a21b05bd5007,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ampanorita,active,create,a4ba892c-a5d8-4bb7-bf42-54034017217a,,ced122ee-d3d8-48e1-bfe3-85799e6f0bb4,EPP,epp,5,Building,bu,,
+ECOLE COMMUNAUTAIRE AMPANORITA II,active,create,3d31169e-d51b-44be-817a-ff9b23577b10,,ced122ee-d3d8-48e1-bfe3-85799e6f0bb4,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ampantiolotsemaro,active,create,43118079-5eed-44a3-8b70-4562a471c270,,a6e0c676-95c9-4d05-a0da-7443bc939e5a,EPP,epp,5,Building,bu,,
+Ecole Communautaire Ampany Anivorano,active,create,58d1bc29-c172-447f-923d-35a3525e67a1,,749e8f17-0875-423f-a1ec-953edfcd171c,EPP,epp,5,Building,bu,,

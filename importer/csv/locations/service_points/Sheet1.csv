@@ -1,0 +1,1001 @@
+locationname,locationstatus,method,locationid,locationparentname,locationparentid,locationtype,locationtypecode,locationadminlevel,locationphysicaltype,locationphysicaltypecode,longitude,latitude
+CHRD MATERNITE BETIOKY,active,create,f7573816-2154-4582-a02b-9b85756ed57a,,700c68ef-f8dc-4f83-9339-037f8ef0c675,CHRD1,chrd1,5,Building,bu,44.3820057,-23.7171419
+CSB I Anosy Rahidy,active,create,2e3479b4-f728-4506-8e41-1b593ac8b642,,7c085f80-da12-4e79-bb56-6639da793a45,CSB1,csb1,5,Building,bu,47.989392,-20.275587
+CSB I Fenoarivo,active,create,f6723bb3-c770-44da-9cf5-de67e3176187,,b16c87e6-32b5-4eee-8bb0-22daa1ac8a8e,CSB1,csb1,5,Building,bu,48.327671,-19.81804
+CSB II Ambatosola,active,create,2de60bd3-a0e9-4df9-a8fc-ca43db5df43d,,1a29f950-a8ed-439c-9d32-b9c2cc1d9bf4,CSB2,csb2,5,Building,bu,45.397334,-24.050458
+CSB II AMPARIHILAVA,active,create,40a95c60-135b-4347-8cb7-a8d147204dc8,,c2df9c51-6629-4756-ab37-d58d51c02b30,Water Point,water_point,5,Building,bu,46.70072222,-16.08585833
+CSB II Anjampaly,active,create,eec0d7b2-4650-414b-a036-d18337ea0908,,113a292b-209d-4f6d-b7a3-aa7f6eb56186,CSB2,csb2,5,Building,bu,45.6759,-25.4401
+CSB II EBELO,active,create,1671ee97-c572-4d70-a8d3-f746d87572d3,,79d35231-617d-4a57-83e6-fefe79351454,CSB2,csb2,5,Building,bu,46.0238,-24.48
+CSB II Imongy,active,create,a701de67-22c5-47ab-803e-4b5c32c958f9,,8f572186-72b7-414f-bd37-f4b91c431017,CSB2,csb2,5,Building,bu,45.7243,-25.2971
+CSB II Marotsiraka,active,create,fa3e2d45-1cbd-46ed-99ed-bd9ae4bdcf35,,55d60ad9-07f3-42c7-b2c2-64b6840ad748,CSB2,csb2,5,Building,bu,45.9728,-24.2711
+CSB II Tanibe,active,create,8c8e2d07-141c-48a7-85a7-5aed08f9a780,,74d6ecda-0ec1-4e0e-b32c-a1550eda16d7,CSB2,csb2,5,Building,bu,49.498011,-16.404945
+CSB I Lanivolo,active,create,077a4cf2-46e4-45b3-94f6-d69cb272a31c,,65f72159-94f9-4537-92e6-44445b7648a6,CSB1,csb1,5,Building,bu,49.025244,-18.475954
+CSB I Mahaleotse,active,create,ea28ef7f-03e9-4047-ba21-3f521a8ad5af,,42164123-cc7e-4c76-94d0-54cfa470a952,CSB1,csb1,5,Building,bu,43.9566,-23.4526
+DREAH Fenerive Est,active,create,34a90472-7ad3-4910-83aa-e19568990178,,5ec5a49d-fb6a-4c5b-a2fb-2182671ffa83,Warehouse,warehouse,5,Building,bu,49.4084,-17.3828
+EPP Ankorovana,active,create,ccd296a5-1bf7-4c7e-a4db-2113b58e8953,,eadf078b-2054-4723-8af1-5d16c18ac240,EPP,epp,5,Building,bu,49.27633,-17.46438
+315,active,create,2096c0cc-ff04-4ac6-8cbe-307817db252d,,eadf078b-2054-4723-8af1-5d16c18ac240,Water Point,water_point,5,Building,bu,49.26011,-17.43067
+315 Nosibe,active,create,8f8ad83a-713e-4ce7-a9ca-98de9fa211cc,,eadf078b-2054-4723-8af1-5d16c18ac240,Water Point,water_point,5,Building,bu,49.26011,-17.43066
+Action contre la Faim Manakara,active,create,2893937b-0b66-44dd-b90f-52742e796282,,7da9bcd5-9919-42eb-a771-4b02ad9ac48a,Warehouse,warehouse,5,Building,bu,,
+Action contre la Faim Toliara,active,create,1e6e91c9-ece9-46e6-a051-8f8feb41541c,,98ca480b-16b5-41e8-940e-0f4a89f79b66,Warehouse,warehouse,5,Building,bu,,
+Adankato Amborovoro,active,create,376989fb-ad33-49f4-87b2-22d65d87b4bd,,c88c6d52-991b-4d70-b832-158ee527e297,Water Point,water_point,5,Building,bu,,
+Adankato centre,active,create,8c4663b8-cb95-4ffb-bb50-37f2d0067ccb,,c88c6d52-991b-4d70-b832-158ee527e297,Water Point,water_point,5,Building,bu,,
+ADRA Manakara,active,create,ddc028c8-d53a-47fb-a077-006d079f6a11,,7da9bcd5-9919-42eb-a771-4b02ad9ac48a,Warehouse,warehouse,5,Building,bu,,
+ADRA Mananjary,active,create,5f7cec69-54cc-4ef8-8e99-8de2ec354476,,31344464-306c-4f4a-a70d-43ffbdfa19b2,Warehouse,warehouse,5,Building,bu,,
+Afomagnare,active,create,f51ad450-ea12-45e5-bd38-0ed516459aa5,,48e6b0ce-08cb-48b5-8066-254ed2e8ad8f,Water Point,water_point,5,Building,bu,46.39547,-25.10933
+Agnadabo,active,create,db275086-3355-45cc-ab39-5c2f8f0e8fbc,,e9beb16a-fb0b-4aa2-97b5-9668f323af7b,Water Point,water_point,5,Building,bu,45.65527,-24.58685
+Agnadabolava,active,create,6761a7d0-4cc5-4500-91ec-1f7f41d98127,,e66bbb26-5f82-4752-8637-81e79d3b7024,Water Point,water_point,5,Building,bu,,
+Agnala,active,create,4a27c826-2738-49e5-9e32-35fb8c0ffd70,,e9beb16a-fb0b-4aa2-97b5-9668f323af7b,Water Point,water_point,5,Building,bu,45.2534439,-24.0092339
+Agnalalava,active,create,0c5eee1b-fc1b-43b2-b0cc-0cd8f2f99c1b,,81fbdd83-3e3b-42a3-92c8-0c8a526a18d2,Site Communautaire,site_communautaire,5,Building,bu,,
+Agnalamena,active,create,23f16634-ea2d-4d10-b3d6-60465b2d8d77,,700c68ef-f8dc-4f83-9339-037f8ef0c675,EPP,epp,5,Building,bu,,
+Agnarabe Ecole,active,create,c6ab6a2c-c128-4604-907f-867724025432,,fff386bb-d84f-435f-9b88-e25027d06662,Water Point,water_point,5,Building,bu,45.58469,-24.31855
+Agnarabe Ii,active,create,f41e1ae3-decb-4220-a6bb-ee1a27dcc446,,fff386bb-d84f-435f-9b88-e25027d06662,Water Point,water_point,5,Building,bu,45.49661,-24.3178
+Agnena,active,create,578dd3b7-911a-4c51-b7cc-39570928c2c2,,b5b1e61b-f82e-48bb-8077-c5251a677fe2,Water Point,water_point,5,Building,bu,47.09026111,-24.96765
+Agnevorano,active,create,15b845ce-35e1-4d76-965f-0aa33b918430,,03022ae7-30ae-4353-b67e-02e075995999,Water Point,water_point,5,Building,bu,44.88039,-23.85644
+Agnirimihamba,active,create,18e81e00-4ed7-4142-9911-766dbeb2d8bd,,81fbdd83-3e3b-42a3-92c8-0c8a526a18d2,Site Communautaire,site_communautaire,5,Building,bu,,
+Agnivorano,active,create,4a3e3bb0-859c-415b-a38c-abbf233cafc6,,38679362-2eb0-4eb1-87d0-6b78fa7e733d,Water Point,water_point,5,Building,bu,45.60117,-24.4835
+Agnivorano,active,create,c1cc15bd-2d38-4ffb-8e9c-9bfe9003dc1e,,1a29f950-a8ed-439c-9d32-b9c2cc1d9bf4,Water Point,water_point,5,Building,bu,45.64712,-24.76814
+Agnivorano,active,create,d74ecc8d-44e5-48d8-b2c2-de4cee3167c8,,dfef62fd-14cb-41e0-9bbf-321d9a8b9311,Water Point,water_point,5,Building,bu,45.25670194,-24.31876111
+AGNIVORANO,active,create,c4a2d691-0092-4c8b-9afb-bfb2710d9acf,,1a29f950-a8ed-439c-9d32-b9c2cc1d9bf4,Water Point,water_point,5,Building,bu,,
+Agnoloka,active,create,6b8c91e9-43c4-41ae-8ccb-83f981b2028e,,b3b52930-335b-44b5-b2e2-4286bb3d3597,CSB2,csb2,5,Building,bu,,
+Agnorike,active,create,3dfa1113-0651-49b0-a1f2-d91c221d354f,,d2953469-fbf7-4ece-a9df-8c1b00a96ede,Site Communautaire,site_communautaire,5,Building,bu,,
+Agnorike,active,create,fad580c1-1cfe-444e-912b-766e0c7b55e7,,457c79c3-09a5-4967-abe5-9ba010354d1a,Site Communautaire,site_communautaire,5,Building,bu,,
+Ajabihy,active,create,19582eb5-628b-4447-b70b-800c564819af,,2601ccb0-b1e8-4ee7-ba9a-e9d2f9d48f06,Water Point,water_point,5,Building,bu,45.58469,-24.8475
+AJAFARO,active,create,cd7cd9ad-92eb-4c84-856a-cdce96452a36,,2601ccb0-b1e8-4ee7-ba9a-e9d2f9d48f06,Site Communautaire,site_communautaire,5,Building,bu,,
+Akany Fanantenana,active,create,21462124-8de3-4842-9ead-a8e7f03df807,,98ca480b-16b5-41e8-940e-0f4a89f79b66,EPP,epp,5,Building,bu,,
+AKONDRIA,active,create,256e85a8-9a7e-4774-ad49-1a3cfcc79654,,38679362-2eb0-4eb1-87d0-6b78fa7e733d,Site Communautaire,site_communautaire,5,Building,bu,,
+Akondria Ankily,active,create,569cad89-687c-4d32-bb5c-02bab4c78b8a,,38679362-2eb0-4eb1-87d0-6b78fa7e733d,Water Point,water_point,5,Building,bu,,
+Akoronga,active,create,5d557434-48c0-46f8-b16e-fbb5d477eb97,,f125d884-4366-459a-9989-b9dd840687e3,Water Point,water_point,5,Building,bu,43.70999,-23.30314
+Amanda,active,create,7096d51d-ecd5-4579-9a73-b5466be6d9d7,,749e8f17-0875-423f-a1ec-953edfcd171c,Water Point,water_point,5,Building,bu,45.27340444,-24.16791111
+Amanda II,active,create,79edc4b4-cd43-41c0-bf34-2ed872401e63,,f0ec4526-d5d8-4c7b-b924-bac45cdb54cd,Water Point,water_point,5,Building,bu,45.42509,-25.49788
+Amapany Fenoarivo Centre,active,create,0f36734d-98f9-46de-bf5f-4f57de7e3b49,,e9beb16a-fb0b-4aa2-97b5-9668f323af7b,Water Point,water_point,5,Building,bu,45.68737,-24.13243
+Ambadikala,active,create,93d15469-15cf-470a-8241-6bac41cc7019,,4fa8031b-51a6-49a8-ac01-8dce533d58d0,Water Point,water_point,5,Building,bu,47.79379722,-22.92524722
+Ambadikala,active,create,f2de18f6-1973-44a7-9307-d1c0e39052a3,,3597a6fa-bfc9-49c4-b378-6113de33fea5,Water Point,water_point,5,Building,bu,47.68437,-23.18829
+Ambahita  centre,active,create,5bc0361d-03b8-45de-adb1-4ca41a15c9ae,,e9beb16a-fb0b-4aa2-97b5-9668f323af7b,Water Point,water_point,5,Building,bu,,
+Ambahitsara,active,create,c44847e2-42dd-48b5-ba0d-7ce37d38cac3,,69191346-9a9a-4dc1-8152-bfd50185cf12,Water Point,water_point,5,Building,bu,47.81468333,-22.82537222
+Ambahoabe,active,create,45e4bd97-fe11-458b-b481-294b7d7e8270,,c38e0c1e-3d72-424b-ac37-29e8d3e82026,Water Point,water_point,5,Building,bu,49.52125,-16.78147
+Ambahogne,active,create,2463d6ee-8fa7-483a-a301-d96067b19a59,,35079e66-d6ee-4cf2-92e7-06912ef5ce56,Water Point,water_point,5,Building,bu,45.59603,-24.38906
+Ambahy ianakafy,active,create,cc1dfa2d-fcce-4c0b-8a85-d2b566f58cf9,,f154f739-9998-43b3-85ca-33a4dfd4fb68,Site Communautaire,site_communautaire,5,Building,bu,,
+Ambahy Village,active,create,8f9c9482-f542-4b1f-8591-a6d80345dc95,,9f48cfda-9cea-4f5c-b417-c536524579d9,Water Point,water_point,5,Building,bu,48.47968611,-20.77431111
+Ambakaka,active,create,c085a9f4-ef4a-468b-a6ab-57c2dac9d8d8,,9e96eb0a-60f8-4b35-aafe-fcf3cf3f773f,Water Point,water_point,5,Building,bu,45.27249,-24.26844
+Ambalabe Beavoha,active,create,e5595658-3cd9-424e-b2cb-4cddeee74be9,,437a9492-22a6-4e12-9d03-efe8f0fa03b0,Water Point,water_point,5,Building,bu,43.979385,-24.80262
+Ambalabe Ii,active,create,ffcad22b-329f-4c1f-a271-5b675c374565,,2b0f48ab-d7e0-46c3-ac1c-6c51be595b10,Water Point,water_point,5,Building,bu,49.301,-17.35279
+AMBALABE II,active,create,490bd303-3d9e-472f-823c-30b739896185,,2b0f48ab-d7e0-46c3-ac1c-6c51be595b10,Water Point,water_point,5,Building,bu,49.30099778,-17.352788
+Ambalabe Nanasana,active,create,23d31048-71e3-4d78-9d24-fab781e7b03c,,d1b0f9b1-be5d-4ffd-82d4-77ef79e90d5a,Water Point,water_point,5,Building,bu,47.60647,-23.29712
+Ambalabe Nord,active,create,8d1e77c3-9a60-4ea7-ae13-dad6cd548d73,,5e1ddbbb-a08c-4a05-a225-36788acf6baa,Water Point,water_point,5,Building,bu,45.44855,-23.93871
+Ambalabe Sud,active,create,fb8a4d78-6c13-47ee-87a3-f94d37f9fde9,,5e1ddbbb-a08c-4a05-a225-36788acf6baa,Water Point,water_point,5,Building,bu,45.44855,-23.96093
+Ambalafary,active,create,72ac7ff4-368d-4960-b383-96b29ffd0e79,,9e0dac3f-285e-48a9-b708-e3b8b2c274e0,Water Point,water_point,5,Building,bu,49.43985,-17.21062
+Ambalafary,active,create,cd2cf7a0-26ba-4999-8a68-ee3e6592340e,,9e0dac3f-285e-48a9-b708-e3b8b2c274e0,Water Point,water_point,5,Building,bu,,
+Ambalafary Nord,active,create,ce3ac7fd-35f2-4176-9d96-39f0f41477dc,,c2df9c51-6629-4756-ab37-d58d51c02b30,Water Point,water_point,5,Building,bu,46.68361,-16.10033
+Ambalafary Sud,active,create,00ba28d1-0743-4d28-abab-66a31ace5e25,,c2df9c51-6629-4756-ab37-d58d51c02b30,Water Point,water_point,5,Building,bu,46.66851,-16.10036
+Ambalafatsy,active,create,ca980fb1-b811-48e2-a255-f5100a9ddd1b,,a6b2e537-03d2-48d5-965a-c80ac9e49e1b,Water Point,water_point,5,Building,bu,47.60333,-23.29938
+Ambalafatsy,active,create,fd904a93-79a3-4794-aa71-3737e120f524,,3a549dea-f588-417b-a658-77f70cc9a9b4,Water Point,water_point,5,Building,bu,,
+Ambalahera,active,create,e969927c-47ca-4f8f-9b06-d9c498b071ff,,36e3dba2-cdef-499a-be32-a75636fcddc9,Water Point,water_point,5,Building,bu,47.58987,-23.41793
+Ambalahira,active,create,9b229962-23a7-4de5-85ca-30bbfa12fe5f,,e9beb16a-fb0b-4aa2-97b5-9668f323af7b,Water Point,water_point,5,Building,bu,45.65934806,-24.82095306
+Ambalakazaha,active,create,9b18457f-a854-431a-9b99-493dc174167c,,01946d70-2736-44e7-94bd-8e50b3335925,Water Point,water_point,5,Building,bu,46.9575,-16.41444
+Ambalakida,active,create,1a39fb83-ad1c-41b3-974e-b509149f89ce,,d492534f-8d4e-4ffd-92f4-f15098b599dd,Water Point,water_point,5,Building,bu,45.91872778,-15.923275
+AMBALAKIDA,active,create,75c64098-89d0-47e2-bea1-ba634c9d8dc8,,d492534f-8d4e-4ffd-92f4-f15098b599dd,Water Point,water_point,5,Building,bu,,
+Ambalakondro,active,create,5ff62dc6-09c9-439e-810b-fa5659dfecd5,,68f938ca-5f90-44da-9cd5-f786622f1e30,Water Point,water_point,5,Building,bu,49.49012,-17.09657
+AMBALAMAHATSINJO,active,create,b3cfd211-ff8c-4564-855f-ad836b2d2d33,,29ebb17d-d9f4-47f7-ae14-9acec399b358,Water Point,water_point,5,Building,bu,46.517532,-16.234616
+AMBALAMAHOGO,active,create,2bbc443a-3ea6-4a0e-bf13-f63fdf474e9c,,39a84b94-db54-4580-ba08-18f1a9ed0438,Water Point,water_point,5,Building,bu,46.54375,-16.10219444
+AMBALAMANENJANA,active,create,ff455761-7cba-4434-97dd-96866c05ef00,,6614ec43-fa7a-4f08-9a02-9acaf9ceebec,Water Point,water_point,5,Building,bu,,
+Ambalamanga,active,create,6c6f4b3b-408c-4e36-9e45-0830330662c1,,5d7f54c9-bed4-4d0d-98a2-132b024f076e,Water Point,water_point,5,Building,bu,47.6685,-23.21558
+Ambalamasy,active,create,23367c5b-c35c-4a88-922a-ceda76bc4146,,79b58d2f-f069-41fe-87c5-45f20f3263c9,Site Communautaire,site_communautaire,5,Building,bu,,
+Ambalandambo,active,create,962924a3-f61a-468a-b424-7b76ad81d507,,5e7fb2d0-10c3-47fc-88ec-561122e106c8,Water Point,water_point,5,Building,bu,,
+Ambalanosy,active,create,bf907cb1-4b84-4a06-968b-47734354572c,,81fbdd83-3e3b-42a3-92c8-0c8a526a18d2,Water Point,water_point,5,Building,bu,45.09953,-25.48377
+Ambalarano,active,create,0c63d53d-6a0a-4bcf-8a36-140acac74a69,,7174ae50-4d3d-4fd1-a906-4fab680bede5,Water Point,water_point,5,Building,bu,46.81767,-16.19811
+AMBALARANO,active,create,90db9bac-45b3-4fdb-b15d-e500c7afede5,,7174ae50-4d3d-4fd1-a906-4fab680bede5,Water Point,water_point,5,Building,bu,46.765165,-16.176793
+Ambalaromba 1,active,create,40d1c384-8fb4-4ac8-b55d-533caf149c19,,ae2380b1-744a-4772-9ea4-dff3942ce957,Water Point,water_point,5,Building,bu,48.233832,-21.238169
+Ambalaromba 2,active,create,b5e1322d-6b9f-44aa-8bed-f80f75d92a7f,,ae2380b1-744a-4772-9ea4-dff3942ce957,Water Point,water_point,5,Building,bu,48.235135,-21.238416
+Ambalaromba EPP,active,create,62f39cd4-e656-4acb-a838-1356e72987a9,,ae2380b1-744a-4772-9ea4-dff3942ce957,Water Point,water_point,5,Building,bu,48.235755,-21.239117
+Ambalasaraka,active,create,56aff91c-e8d3-414c-a49d-8a4cf6443d24,,d0a79494-c31d-4009-86ca-c1decbc3d6d9,Water Point,water_point,5,Building,bu,45.43515,-24.45103
+Ambalasaraka Nord,active,create,589e4ae5-a55a-43bf-94b8-3a93ff828006,,5e2597af-1eb0-43db-a53c-f2e0aa3222a1,Water Point,water_point,5,Building,bu,45.19914,-24.17148
+Ambalasaraka Sud,active,create,71763f92-27bb-49c3-90c5-b4bf0c1130e1,,5e2597af-1eb0-43db-a53c-f2e0aa3222a1,Water Point,water_point,5,Building,bu,45.1841,-24.11514
+Ambalasaraky,active,create,fa3c2796-d0d5-4697-b506-904b87a24f74,,d0a79494-c31d-4009-86ca-c1decbc3d6d9,Water Point,water_point,5,Building,bu,45.10196222,-24.42941667
+Ambalasaraky2,active,create,6c5cc53d-e388-48e7-b68c-f9dc039d41d1,,d0a79494-c31d-4009-86ca-c1decbc3d6d9,Water Point,water_point,5,Building,bu,45.1017525,-24.44886111
+Ambalasaraky centre,active,create,ee4fb62b-8e40-46a1-a029-9b6bef93484d,,d0a79494-c31d-4009-86ca-c1decbc3d6d9,Water Point,water_point,5,Building,bu,45.72171306,-24.19606
+Ambalasatra Morafeno Nord,active,create,350cc747-aa64-4f7e-97a8-2f2fbaf04121,,b1e7d6a6-1609-4dc8-98d9-58af8e78562d,Water Point,water_point,5,Building,bu,44.13712,-18.18227
+Ambalasatra Morafeno Sud,active,create,ccaa0d1c-8584-451a-89db-b73103442076,,b1e7d6a6-1609-4dc8-98d9-58af8e78562d,Water Point,water_point,5,Building,bu,44.13769,-18.18635
+Ambalasoa,active,create,8304a7e4-4795-4bf0-8e76-3d72a7ae906c,,f68b7052-c16f-4d64-94a7-f316153ee7e8,Water Point,water_point,5,Building,bu,46.00602806,-23.13285611
+Ambalatany,active,create,546bb425-4c82-419f-b925-f2b366d3b645,,22cc7ef7-4aba-4e19-be91-cd1e40e57195,Water Point,water_point,5,Building,bu,47.585858,-22.53615
+Ambalatany,active,create,c416e5aa-c922-4b31-9644-8027785e1391,,4863b612-5843-41f8-a1ab-cca2f892fee0,Water Point,water_point,5,Building,bu,,
+Ambalatany,active,create,e47853e4-66c9-4696-856a-7615f6d6e8a5,,8b79f6e0-d95e-4bf9-bd5c-ecc26834b201,Water Point,water_point,5,Building,bu,45.86951,-24.48931
+Ambalatany Beavoha,active,create,979494a6-9a8b-41dd-8a2e-970ede5845fe,,4a4c7fe2-5003-44c2-b405-2d5850b612a3,Water Point,water_point,5,Building,bu,,
+AMBALATSIMIVIKY (AEPP),active,create,ef1929d0-4e32-4b8b-aff7-bfa2613c5e0f,,5e7fb2d0-10c3-47fc-88ec-561122e106c8,Water Point,water_point,5,Building,bu,,
+AMBALAVATO,active,create,7d6ac282-e7ff-44eb-aa6d-2bb4edfe6bc2,,d31e73a7-c487-44dc-8a32-d70ac572ad81,Water Point,water_point,5,Building,bu,,
+AMBALAVOANJO,active,create,b2d415d3-4efc-4c9f-bdea-45cd490ac0c0,,2ac11983-82a5-40a1-81db-f326b996da2e,Water Point,water_point,5,Building,bu,,
+Ambaliandro,active,create,757f46ed-03a2-4486-b151-75a7b29aa730,,edd7bc75-fc97-4748-840c-2fc554322284,Water Point,water_point,5,Building,bu,45.482344,-25.322109
+Ambaliandro,active,create,e5dd80d9-a498-4e30-83d1-81b075afce67,,38679362-2eb0-4eb1-87d0-6b78fa7e733d,Water Point,water_point,5,Building,bu,,
+AMBALIA OUEST,active,create,456094cd-0025-421a-8634-d2b413f002d5,,5655f90d-88e3-43a5-98fc-f8c6bcb16d15,Water Point,water_point,5,Building,bu,47.27955389,-16.35395833
+Ambaliha 1,active,create,ba654fee-c497-478b-8aa1-cc570cc98c7d,,5655f90d-88e3-43a5-98fc-f8c6bcb16d15,Water Point,water_point,5,Building,bu,47.26778,-16.35511
+Ambaliha 2,active,create,cad4dcad-b8af-4d24-b5f0-c328d44720f3,,5655f90d-88e3-43a5-98fc-f8c6bcb16d15,Water Point,water_point,5,Building,bu,47.25968,-16.33706
+AMBALIHA EST,active,create,b58806aa-fcb3-4543-852c-48542e328b16,,5655f90d-88e3-43a5-98fc-f8c6bcb16d15,Water Point,water_point,5,Building,bu,47.259684,-16.337063
+AMBALIHA OUEST,active,create,f9d625ec-8469-44bf-bb26-585351b89e79,,5655f90d-88e3-43a5-98fc-f8c6bcb16d15,Water Point,water_point,5,Building,bu,47.259684,-16.337063
+Ambalikala,active,create,5be40f9f-d800-4a08-b8b6-6a02de195990,,4a4c7fe2-5003-44c2-b405-2d5850b612a3,Water Point,water_point,5,Building,bu,,
+Ambamampy,active,create,5e0372b1-1768-4a0c-99bb-dc90723a3ac7,,7f7cb8bd-821d-4a37-a082-857c31f043e5,Water Point,water_point,5,Building,bu,47.68962,-23.28825
+AMBANENATO CENTRE,active,create,bfb2172d-1ef1-4399-a4bb-83bfb571675d,,8b79f6e0-d95e-4bf9-bd5c-ecc26834b201,Water Point,water_point,5,Building,bu,45.844575,-24.44188889
+Ambanikaboka,active,create,f8ff86f9-f05a-4bad-b1a7-21ef15d08804,,f0800714-2873-4583-b79f-cb73f24771c3,Water Point,water_point,5,Building,bu,47.56298,-23.33597
+AMBANIKILY VOLAKIRA,active,create,138935f8-281d-44d2-8bde-b92913eb36ef,,cbd7ab07-5855-4335-85fb-7514bd0c8bab,Site Communautaire,site_communautaire,5,Building,bu,,
+Ambaninato,active,create,ebcf48d2-813e-4b82-a1e1-49af855e0d47,,5d25d248-4468-4c96-a566-4a539c7928f8,Water Point,water_point,5,Building,bu,45.27971,-24.09579
+Ambararata,active,create,39a337a5-9147-4b69-90a1-6f319b89fbb2,,037f61e0-6af0-4530-8ce2-63124eba2a9b,Water Point,water_point,5,Building,bu,45.48092,-24.27725
+Ambararata,active,create,ff324744-5eb2-48f6-8c85-64850f900b5a,,4863b612-5843-41f8-a1ab-cca2f892fee0,Water Point,water_point,5,Building,bu,,
+Ambararatafaly,active,create,5306986f-bb99-4a7e-83e0-14e095bd4c28,,df16044d-7511-4334-9728-e8735eab9935,Water Point,water_point,5,Building,bu,46.53082222,-16.16386944
+Ambararata Haut,active,create,16246c47-27b6-4baf-84fe-0ca37b753ecd,,b717b9f1-85ef-4567-863f-5a5967804a0d,Water Point,water_point,5,Building,bu,,
+Ambararata Ouest,active,create,1ab2adb2-60bf-4c47-b6d5-bba7cdd23609,,4342c258-a4f9-4f05-8356-42be448ffec7,Site Communautaire,site_communautaire,5,Building,bu,,
+AMBARINANAHARY CENTRE,active,create,de887f25-c017-4e3e-bed1-3414cae4a461,,da50edff-13f2-4264-ae0f-a21d7fb36dac,Water Point,water_point,5,Building,bu,,
+Ambario,active,create,fbd9610f-9b57-43d6-be4c-c9014d5ffbf0,,e10efd4e-f85a-4d38-9fd9-b88369d3a367,Water Point,water_point,5,Building,bu,46.66824,-25.10438
+AMBARO,active,create,0fd4a77d-2b33-4ce5-9efc-5bd7ab5dcf32,,cbd7ab07-5855-4335-85fb-7514bd0c8bab,Site Communautaire,site_communautaire,5,Building,bu,,
+AMBARO,active,create,86c47f41-548d-47e9-9044-64bdb5fc252f,,8f572186-72b7-414f-bd37-f4b91c431017,Site Communautaire,site_communautaire,5,Building,bu,,
+AMBARO ANTSAGNIRA,active,create,e01047f8-c160-4ff7-8a8d-d46eb1968f95,,d18ae17a-faae-4e40-bb4d-540641d494c0,EPP,epp,5,Building,bu,45.69126,-25.046467
+Ambaro III,active,create,71f933fb-e4fc-4f7a-a3ef-e4252c3aab0b,,457c79c3-09a5-4967-abe5-9ba010354d1a,Site Communautaire,site_communautaire,5,Building,bu,,
+AMBAROMANOY,active,create,4f2f8bfa-98e9-4427-bcca-e8d268719b43,,5f666d29-8b8c-4ebf-a630-e2cad0cb3685,Site Communautaire,site_communautaire,5,Building,bu,,
+Ambarovoahasy,active,create,9b955a62-13bc-4bae-980f-a822328202e2,,8f572186-72b7-414f-bd37-f4b91c431017,Water Point,water_point,5,Building,bu,45.73236306,-25.29768889
+Ambasy,active,create,1ed9052d-406d-41bb-b2be-fb45931ca3ef,,75b22baf-37a9-4d42-8fd6-7ca7912d2a4a,Water Point,water_point,5,Building,bu,,
+Ambasy,active,create,79f2cab1-2149-4d2e-929a-2e4d33404be3,,48e6b0ce-08cb-48b5-8066-254ed2e8ad8f,Water Point,water_point,5,Building,bu,46.39522,-25.12297
+Ambasy,active,create,c77fb332-f012-4725-b20c-b4376ba589cc,,75b22baf-37a9-4d42-8fd6-7ca7912d2a4a,Site Communautaire,site_communautaire,5,Building,bu,,
+Ambato,active,create,58452a9a-0740-4a9d-97fa-0d917a50a3a7,,8580a687-cfd7-4ca7-85df-12e585021277,Water Point,water_point,5,Building,bu,45.16848,-24.56111
+AMBATOABO CENTRE,active,create,4385bbb2-c82a-4b91-a436-63c547c0b088,,09b3b46f-71a1-45f7-9ab4-b93e449e2205,Water Point,water_point,5,Building,bu,,
+AMBATOABO CENTRE,active,create,ce2a792f-857a-4e58-8af3-dd0bfec38fdc,,3b70614a-1355-45d6-9d03-beac91b44b56,Water Point,water_point,5,Building,bu,,
+Ambatoasàna,active,create,aec70315-0b75-4c9d-a5bc-34aa5be51169,,eadf078b-2054-4723-8af1-5d16c18ac240,Water Point,water_point,5,Building,bu,49.26072,-17.39478
+Ambatoasàna,active,create,d94eb1d4-6468-475d-8ee8-7ba278e57d10,,eadf078b-2054-4723-8af1-5d16c18ac240,Water Point,water_point,5,Building,bu,49.26074,-17.39466
+Ambatobe,active,create,6f9fc904-954c-4c8b-952f-e18ab4b386a6,,053d4f7a-b383-4faa-b224-8418ecabf446,Water Point,water_point,5,Building,bu,49.20072,-17.47406
+Ambatobe,active,create,ec57043b-9d48-49c4-b923-1069e10642aa,,053d4f7a-b383-4faa-b224-8418ecabf446,Water Point,water_point,5,Building,bu,49.20072,-17.47411
+Ambatobe Bedrea,active,create,b9ba9d92-98b2-4780-a278-c091f85698a5,,d18ae17a-faae-4e40-bb4d-540641d494c0,Water Point,water_point,5,Building,bu,,
+Ambatobe Vondrake,active,create,b33dd761-15b2-4b71-903b-6b51984eabdc,,4a4c7fe2-5003-44c2-b405-2d5850b612a3,Water Point,water_point,5,Building,bu,,
+Ambatofolaka,active,create,17d985e8-e0a5-40a5-addf-9c349e007d48,,3a549dea-f588-417b-a658-77f70cc9a9b4,Water Point,water_point,5,Building,bu,49.45139,-17.46933
+Ambatofolaka,active,create,480a3fbc-d867-4627-be4c-01cbecbbe7c0,,3a549dea-f588-417b-a658-77f70cc9a9b4,Water Point,water_point,5,Building,bu,49.45154,-17.4694
+Ambatofotsy,active,create,28499488-abc3-4f62-935c-2a60d4193f0e,,38679362-2eb0-4eb1-87d0-6b78fa7e733d,Water Point,water_point,5,Building,bu,45.58884,-24.55054
+Ambatofotsy,active,create,b49b507f-c6c1-476d-a5fc-c43c522fcd07,,3f9a4d6c-ec41-43cc-983e-87211280c482,Water Point,water_point,5,Building,bu,45.39982,-24.05532
+Ambatofotsy,active,create,e31d2109-0f42-4860-a3a0-df74388e5938,,5d25d248-4468-4c96-a566-4a539c7928f8,Water Point,water_point,5,Building,bu,45.596915,-24.24296
+AMBATOFOTSY 1,active,create,3f2b6a83-3f60-45fc-aa9b-3efd9a911ed4,,badd39e4-9213-453e-b7ff-c26ac1dae9fa,Water Point,water_point,5,Building,bu,44.3777,-24.075674
+AMBATOFOTSY (CENTRALE),active,create,9f59b700-110a-4012-a7c1-c4962af9b5d5,,42c86929-005d-42d1-8277-50e374ff3337,Water Point,water_point,5,Building,bu,,
+Ambatofoty,active,create,750cccc3-b85b-4ec4-993e-8b48ba98519f,,89a67109-8797-47cd-88c6-847e829ff4ae,Site Communautaire,site_communautaire,5,Building,bu,,
+Ambatoharanana,active,create,b8a7998c-5df6-49eb-98e6-f0675db71848,,1a69578e-7282-4bcf-976a-c784339fb67d,Water Point,water_point,5,Building,bu,49.58436,-16.433
+Ambatoharanana sy Ambalahady,active,create,eede4d7d-32fc-43ca-974a-d451b973c1d1,,053d4f7a-b383-4faa-b224-8418ecabf446,Water Point,water_point,5,Building,bu,,
+Ambatoharanana Sy Ambalahady,active,create,05da63b5-fe8d-4972-81bc-a1a125b5e7bc,,053d4f7a-b383-4faa-b224-8418ecabf446,Water Point,water_point,5,Building,bu,,
+Ambatokintana,active,create,6ecb2f6d-86cb-49b0-81fa-6cdf0e2bd1c7,,9e0dac3f-285e-48a9-b708-e3b8b2c274e0,Water Point,water_point,5,Building,bu,49.41221,-17.22709
+Ambatokintana n° I,active,create,00f425d2-cabf-4e97-8ae2-fe39b06217c7,,9e0dac3f-285e-48a9-b708-e3b8b2c274e0,Water Point,water_point,5,Building,bu,49.4127,-17.22881
+Ambatokintana N° I,active,create,23cec205-6198-4f26-9557-bd0fefa89e77,,9e0dac3f-285e-48a9-b708-e3b8b2c274e0,Water Point,water_point,5,Building,bu,,
+Ambatokintana N°Ii,active,create,34371696-7ee0-4d2b-a9ff-6ba8446942db,,9e0dac3f-285e-48a9-b708-e3b8b2c274e0,Water Point,water_point,5,Building,bu,,
+Ambatokintana n°III,active,create,0a270310-3fcb-45ae-9b49-6c8bf5855b4a,,9e0dac3f-285e-48a9-b708-e3b8b2c274e0,Water Point,water_point,5,Building,bu,49.41169,-17.22564
+Ambatokintana N°Iii,active,create,dbf7e3fa-7462-4444-b68b-c625e9e4ac93,,9e0dac3f-285e-48a9-b708-e3b8b2c274e0,Water Point,water_point,5,Building,bu,,
+Ambatokintana n°IV,active,create,cece785c-1916-4011-b66d-c6df09bbd228,,9e0dac3f-285e-48a9-b708-e3b8b2c274e0,Water Point,water_point,5,Building,bu,49.41122,-17.22493
+Ambatokintana N°Iv,active,create,090b66ae-1667-4eec-af31-db8ed90b0508,,9e0dac3f-285e-48a9-b708-e3b8b2c274e0,Water Point,water_point,5,Building,bu,,
+Ambatokintana n°V,active,create,fe0848f8-15b4-4a07-8116-69863c109567,,9e0dac3f-285e-48a9-b708-e3b8b2c274e0,Water Point,water_point,5,Building,bu,49.41095,-17.22418
+Ambatokintana N°V,active,create,292ab06e-d2f1-4137-948b-a9969daa3d68,,9e0dac3f-285e-48a9-b708-e3b8b2c274e0,Water Point,water_point,5,Building,bu,,
+Ambatolalaka,active,create,cef16493-22e3-4032-8aaa-7035f697e455,,68f938ca-5f90-44da-9cd5-f786622f1e30,Water Point,water_point,5,Building,bu,49.44087,-17.09855
+Ambatolampy,active,create,284b0e3c-4401-43e3-91e6-36890acfa665,,276e3164-ee1e-460d-bbef-316684c7c6e0,Water Point,water_point,5,Building,bu,46.35703,-15.76442
+AMBATOLAMPY KELY,active,create,06882428-a5f3-464e-a54c-c6f0965aadad,,276e3164-ee1e-460d-bbef-316684c7c6e0,Water Point,water_point,5,Building,bu,46.35692222,-15.76490278
+AMBATOLOAKA,active,create,27f0628a-d652-4ee3-9e78-2f1d6bd3989a,,9b606a8a-d316-4943-88d9-020a4a3d0bf7,Water Point,water_point,5,Building,bu,,
+Ambatomahavavy,active,create,1c82b8ee-34e4-4f4b-8f5a-61323def60e3,,1eeee4cc-73ed-43c3-a75e-c15c9b372c32,Water Point,water_point,5,Building,bu,45.90233,-15.99067
+Ambatomainty,active,create,15e36468-e6d0-4965-bf3a-243bcaf23693,,9672b87b-9c5a-41a9-b9a4-d8caf2967947,Site Communautaire,site_communautaire,5,Building,bu,,
+Ambatomainty,active,create,70256d6d-4877-4b2c-a757-007309c34d21,,8580a687-cfd7-4ca7-85df-12e585021277,Site Communautaire,site_communautaire,5,Building,bu,,
+AMBATOMAINTY,active,create,c0a6a8ba-ce52-4b48-bfb8-aa2da8efc3c0,,4863b612-5843-41f8-a1ab-cca2f892fee0,Water Point,water_point,5,Building,bu,44.55554,-24.066994
+Ambatomainty Haut,active,create,57b28b9c-557a-4746-bd5b-a9f96507d7d8,,e9beb16a-fb0b-4aa2-97b5-9668f323af7b,Water Point,water_point,5,Building,bu,45.705,-24.19058
+Ambatomainty II,active,create,f9c32e30-4db9-4731-9229-3b0cda9f1928,,8580a687-cfd7-4ca7-85df-12e585021277,Water Point,water_point,5,Building,bu,45.3068011,-24.4156639
+Ambatomainty Tsena Andranomasy Vohitany,active,create,c33b2a4e-e5c1-4e4e-99f1-f97c7467fdcf,,fff386bb-d84f-435f-9b88-e25027d06662,Water Point,water_point,5,Building,bu,45.58696,-24.64264
+Ambatomainty Tsena Mikaikiarivo Sud,active,create,3f43e683-24d0-42f2-ae6f-2a03999b9f73,,fff386bb-d84f-435f-9b88-e25027d06662,Water Point,water_point,5,Building,bu,45.58907,-24.42154
+Ambatomanga,active,create,584620db-f3db-4b03-b01e-ca1dbc9dd24b,,d31e73a7-c487-44dc-8a32-d70ac572ad81,Water Point,water_point,5,Building,bu,46.795482,-25.106454
+Ambatomanga,active,create,ae2a389b-9a09-4e29-ae1a-5185d37488fe,,d31e73a7-c487-44dc-8a32-d70ac572ad81,Water Point,water_point,5,Building,bu,45.86055139,-23.27999306
+AMBATOMANGA,active,create,342a34e0-0ec7-4380-8b4b-cc84f2497577,,d31e73a7-c487-44dc-8a32-d70ac572ad81,Water Point,water_point,5,Building,bu,,
+Ambatomasaja Centre,active,create,472bba03-c52d-4076-a9a0-f46334356751,,7174ae50-4d3d-4fd1-a906-4fab680bede5,Water Point,water_point,5,Building,bu,46.75356,-16.17957
+Ambatomasaja Epp,active,create,2296a1d9-0756-411e-9ecd-02c2f0e1e44e,,7174ae50-4d3d-4fd1-a906-4fab680bede5,Water Point,water_point,5,Building,bu,46.75303,-16.18027
+Ambatomasy,active,create,b893e22f-71b1-4d5e-b783-aea214cbc554,,d2df7eb3-2f4a-4aa0-a63d-b3c1184a26e7,Water Point,water_point,5,Building,bu,47.44769444,-22.73366667
+Ambatomena,active,create,5bed71db-f727-438f-abc6-9d4500944258,,23c35721-4ab5-4661-ad50-a1962bb7851d,Site Communautaire,site_communautaire,5,Building,bu,,
+Ambatomena,active,create,ef13f735-27d7-4fb6-8bd2-b5182abbc00b,,6f7933af-a024-435e-a875-a73fbdb69180,Site Communautaire,site_communautaire,5,Building,bu,,
+Ambatomika,active,create,dea9a8bf-e33c-46af-acfc-cc91048c1815,,42c86929-005d-42d1-8277-50e374ff3337,Water Point,water_point,5,Building,bu,46.47056,-24.6625
+AMBATOMILOLOHA,active,create,0d9ebe79-425f-4bec-820f-70d79d8ae8ac,,8b79f6e0-d95e-4bf9-bd5c-ecc26834b201,Water Point,water_point,5,Building,bu,45.79522222,-24.40667778
+Ambatondretratrake,active,create,cc9bfe11-f3fb-4d11-8766-d4052536388e,,4a4c7fe2-5003-44c2-b405-2d5850b612a3,Water Point,water_point,5,Building,bu,44.80900556,-24.2650167
+Ambatonigara,active,create,e89394c9-16ca-472e-94e5-e8e9e957b0a0,,68f938ca-5f90-44da-9cd5-f786622f1e30,Water Point,water_point,5,Building,bu,49.48904,-17.10352
+AMBATORATY,active,create,eb4e9338-daff-4e4b-905a-1564788343ef,,2601ccb0-b1e8-4ee7-ba9a-e9d2f9d48f06,Site Communautaire,site_communautaire,5,Building,bu,,
+Ambatoraty Ouest,active,create,e6050f66-1e87-474c-946c-7dac72a0f9e1,,2601ccb0-b1e8-4ee7-ba9a-e9d2f9d48f06,Water Point,water_point,5,Building,bu,45.56611,-24.87807
+Ambatoreheva,active,create,1adc7e62-0315-4f20-a6c4-f34276ce7fbd,,ced122ee-d3d8-48e1-bfe3-85799e6f0bb4,Water Point,water_point,5,Building,bu,,
+Ambatosarotra,active,create,6e5185a5-63d0-434f-8520-a443c921704b,,72b4a644-c3f9-4bc0-a899-d2718c997697,Water Point,water_point,5,Building,bu,47.35477,-23.94343
+Ambatosarotra Ampitaky,active,create,b1747168-4403-4acc-bb4a-8b89b7490aeb,,72b4a644-c3f9-4bc0-a899-d2718c997697,Water Point,water_point,5,Building,bu,47.55012,-23.83423
+Ambatosoa,active,create,998ffa0f-04e2-4b2f-85fb-9893d21b8274,,037f61e0-6af0-4530-8ce2-63124eba2a9b,Water Point,water_point,5,Building,bu,45.2777,-24.26657
+Ambatosola centre,active,create,a23767ce-2177-4322-abb1-906ef1b0a2b1,,5e1ddbbb-a08c-4a05-a225-36788acf6baa,Water Point,water_point,5,Building,bu,,
+Ambatosola Centre,active,create,bae2b4bb-d152-44a9-876a-9cfb5b28330a,,5e1ddbbb-a08c-4a05-a225-36788acf6baa,Water Point,water_point,5,Building,bu,45.722,-24.19234
+Ambatosola I,active,create,2f0236f9-0931-4981-82a1-441cf324d253,,037f61e0-6af0-4530-8ce2-63124eba2a9b,Water Point,water_point,5,Building,bu,45.47359,-24.2801
+Ambatosolo Centre,active,create,4f7d9179-140a-4f43-83a3-96bebcfd2d3d,,5e1ddbbb-a08c-4a05-a225-36788acf6baa,Site Communautaire,site_communautaire,5,Building,bu,,
+Ambatotsivala,active,create,683c224e-126c-4dc0-b104-02f1a021817a,,529c8318-fa53-4d4e-8cd9-7c0b3a229d06,Site Communautaire,site_communautaire,5,Building,bu,,
+AMBATOTSIVALA,active,create,6364ba30-db2c-4cdf-8d77-0eafcdb05ed9,,529c8318-fa53-4d4e-8cd9-7c0b3a229d06,Water Point,water_point,5,Building,bu,,
+Ambatotsivala centre,active,create,757a3bb9-d161-4e7c-91c4-e241e89174a6,,529c8318-fa53-4d4e-8cd9-7c0b3a229d06,Water Point,water_point,5,Building,bu,,
+Ambatotsondrona 1,active,create,8e2dfb24-9400-4bfd-83ad-11877de9addb,,68f938ca-5f90-44da-9cd5-f786622f1e30,Water Point,water_point,5,Building,bu,49.48153,-17.07078
+Ambatotsondrona 2,active,create,b44ca7e6-e92e-4b3d-ab1d-12b45b7e7f02,,68f938ca-5f90-44da-9cd5-f786622f1e30,Water Point,water_point,5,Building,bu,49.48203,-17.06922
+Ambatsipaky Centre,active,create,7738b59a-3cb2-4094-924f-b273116a2168,,dd817f06-0675-4ded-9eee-9954521e6eda,Water Point,water_point,5,Building,bu,47.54992,-23.50665
+Ambavala,active,create,64965726-5c43-455d-ba25-25f78b466872,,cd0c8f6f-d2ef-4dbd-9712-5ccc36c1e015,Water Point,water_point,5,Building,bu,49.74651,-16.55877
+Ambavarano,active,create,6685fb28-000a-40db-a876-10d190170ea8,,5e2597af-1eb0-43db-a53c-f2e0aa3222a1,Water Point,water_point,5,Building,bu,45.23976,-23.88214
+Ambazoa,active,create,f4970865-316a-4688-808c-7c909e5cd7d7,,81fbdd83-3e3b-42a3-92c8-0c8a526a18d2,Site Communautaire,site_communautaire,5,Building,bu,,
+AMBAZOAMIRAFY,active,create,f61210d7-f160-4ff2-ae40-3ccb96786a30,,f8f6820f-96eb-4999-82ec-8b809cff94de,Site Communautaire,site_communautaire,5,Building,bu,,
+Ambendra,active,create,6bca1c99-dc17-4035-8dbb-f10baf8dda0a,,b717b9f1-85ef-4567-863f-5a5967804a0d,Water Point,water_point,5,Building,bu,,
+Ambia,active,create,7f351220-abd8-43b1-9026-19db0860a566,,a6fe0fd7-79e8-41ed-b5a4-2be45df7f47c,Water Point,water_point,5,Building,bu,46.0686,-24.07228056
+Ambia,active,create,d4503aeb-61cd-4227-a1aa-35ef837d75bc,,fff386bb-d84f-435f-9b88-e25027d06662,Water Point,water_point,5,Building,bu,45.31449389,-24.16555194
+Ambia Ambaniala,active,create,ee1e3a3f-0d96-462f-b931-c1c1f545cba8,,0430dbe5-efe8-4223-ba61-f51003b62088,Water Point,water_point,5,Building,bu,46.96838611,-24.93171667
+Ambia Ankilimamy,active,create,bdd082ff-fd91-41a0-8a6f-d125c9eda771,,a6fe0fd7-79e8-41ed-b5a4-2be45df7f47c,Water Point,water_point,5,Building,bu,46.06636111,-24.07313889
+Ambigovingo centre,active,create,2ed0b334-2352-44b6-991b-864f6b7090d0,,d18ae17a-faae-4e40-bb4d-540641d494c0,Water Point,water_point,5,Building,bu,,
+Ambigovingo I,active,create,1e4eeb82-6f72-412d-b133-7365dbbd9b7d,,d18ae17a-faae-4e40-bb4d-540641d494c0,Water Point,water_point,5,Building,bu,,
+Ambila Atsinanana,active,create,83ba9c30-f3ff-4a15-b29e-265f63a80b2b,,5c4426f6-3612-499a-bf76-56323c7a65b1,Water Point,water_point,5,Building,bu,47.6879,-22.612
+Ambila - Epp,active,create,eb5fec27-d4a1-4cf4-ae06-9573e7dd55b8,,17588bca-da82-458e-8c57-f9ad3b095026,Village,village,5,Building,bu,47.97185,-22.0034
+Ambila - EPP,active,create,adf8977d-e9c9-41ee-9551-8a89c7898ffe,,17588bca-da82-458e-8c57-f9ad3b095026,Water Point,water_point,5,Building,bu,47.97185,-22.0034
+Ambilany bas,active,create,6d678157-b29c-4850-9f2d-0f4ffba9dfb2,,4863b612-5843-41f8-a1ab-cca2f892fee0,Water Point,water_point,5,Building,bu,,
+AMBILANY HAUT,active,create,0848f76d-0215-4b24-baa5-aa5528a6e75f,,4863b612-5843-41f8-a1ab-cca2f892fee0,Water Point,water_point,5,Building,bu,45.015667,-24.118113
+Ambinanivelo,active,create,4cf51a41-6a55-45c2-b10d-0d76f18205ae,,fff386bb-d84f-435f-9b88-e25027d06662,Water Point,water_point,5,Building,bu,45.27979111,-24.03922
+Ambinanivelo,active,create,da03137a-c3de-4a33-99bf-b808033ef575,,fff386bb-d84f-435f-9b88-e25027d06662,Site Communautaire,site_communautaire,5,Building,bu,,
+Ambinany,active,create,15433129-ce5b-4ced-8248-5d0a5df0ad1e,,5d25d248-4468-4c96-a566-4a539c7928f8,Water Point,water_point,5,Building,bu,45.69568,-24.51079
+Ambinany,active,create,b097a312-5ee6-4f55-842c-919f467f67dc,,15e3dc94-d0c9-43f1-bbc5-4f3b19883f0f,Water Point,water_point,5,Building,bu,49.58722,-16.91692
+Ambinany Iazafo I,active,create,ef7ffca0-5c25-48c1-ad4e-12444d897da1,,7171dd6e-6afe-4cc7-8aad-ef3816a7a134,Water Point,water_point,5,Building,bu,49.43467,-17.44103
+Ambinany Iazafo Ii,active,create,3153c43d-f975-45c3-8418-78d09c2a1255,,7171dd6e-6afe-4cc7-8aad-ef3816a7a134,Water Point,water_point,5,Building,bu,49.43392,-17.44025
+Ambinany Iazafo Iii,active,create,d9e7505b-2f77-4f59-8a9f-c9b9dc47c37e,,7171dd6e-6afe-4cc7-8aad-ef3816a7a134,Water Point,water_point,5,Building,bu,49.43303,-17.43906
+Ambinany Ii,active,create,aa1482fc-e334-4279-aa53-f4db3535317c,,15e3dc94-d0c9-43f1-bbc5-4f3b19883f0f,Water Point,water_point,5,Building,bu,,
+Ambinato Ampasimaiky Kininiabo,active,create,a54384d3-28ea-4bb1-8327-15cbe058e3c2,,8b79f6e0-d95e-4bf9-bd5c-ecc26834b201,Water Point,water_point,5,Building,bu,,
+Ambingovingo,active,create,cc61fc13-6d24-4951-9adf-7aad82c26196,,d18ae17a-faae-4e40-bb4d-540641d494c0,Water Point,water_point,5,Building,bu,45.70438,-24.78317
+Ambirimena Atsimondrano,active,create,fb85ea7f-5a00-411f-be83-43d2c7c5eacd,,2e9fe1a0-ef76-4828-8449-945456b7651f,Water Point,water_point,5,Building,bu,46.792633,-25.104735
+Ambirimena Tanandava,active,create,99592152-859a-4034-b072-3936a149fa1f,,037f61e0-6af0-4530-8ce2-63124eba2a9b,Water Point,water_point,5,Building,bu,45.5301,-24.24321
+Amboaikidy/Loagisy,active,create,d8c4c412-7543-4ecd-8d70-c295da909057,,3597a6fa-bfc9-49c4-b378-6113de33fea5,Water Point,water_point,5,Building,bu,47.707325,-23.12305278
+Amboandrika,active,create,163c82c2-fd18-47ee-b1ba-1a9d81248841,,d31e73a7-c487-44dc-8a32-d70ac572ad81,Water Point,water_point,5,Building,bu,45.77467778,-23.29521111
+Amboandriky,active,create,61623dec-e1d4-4fff-81fd-64def0ceae62,,d31e73a7-c487-44dc-8a32-d70ac572ad81,Water Point,water_point,5,Building,bu,,
+Amboandriky,active,create,7fe347a3-83d0-433c-9c0c-0a69abf4b184,,d31e73a7-c487-44dc-8a32-d70ac572ad81,Water Point,water_point,5,Building,bu,45.77522222,-23.29597222
+Amboangy Tanambao5,active,create,2e596872-fef1-4673-ba68-116a5189448e,,702369a4-5a29-4bd5-924b-8b09cad4427d,Water Point,water_point,5,Building,bu,,
+Amboanio,active,create,3b7b61f0-6efa-4c6b-8750-bbe1042079c2,,437a9492-22a6-4e12-9d03-efe8f0fa03b0,Water Point,water_point,5,Building,bu,,
+Amboanio,active,create,3e9b1e38-1617-4381-bf22-5d3cf0c30d16,,577271cc-bb56-43ae-96f3-966db1c2c5ca,Water Point,water_point,5,Building,bu,43.47913,-22.96389
+Amboanio Csb,active,create,9085a5cb-af69-48bc-8dbd-629ce91b56da,,577271cc-bb56-43ae-96f3-966db1c2c5ca,Water Point,water_point,5,Building,bu,43.47816,-22.96172
+AMBOANJO CENTRE,active,create,62225c6c-4295-4ad2-a488-b07f2ef4e2ee,,df16044d-7511-4334-9728-e8735eab9935,Water Point,water_point,5,Building,bu,46.46447222,-16.18394444
+Amboasary,active,create,b7c9219e-1b01-4751-a3b3-eb5d8704c906,,d0a79494-c31d-4009-86ca-c1decbc3d6d9,Water Point,water_point,5,Building,bu,45.63357,-24.06692
+AMBOASARY II,active,create,ad41e659-7eee-4e65-a4ae-8047ebee043d,,f8f6820f-96eb-4999-82ec-8b809cff94de,Site Communautaire,site_communautaire,5,Building,bu,,
+AMBODIADABO AMBODIMANGA,active,create,1953dca4-51a7-46a1-8b22-d29f2d69fe44,,d492534f-8d4e-4ffd-92f4-f15098b599dd,Water Point,water_point,5,Building,bu,,
+Ambodiampaly,active,create,646db544-4dd5-412e-86b4-1165a59fd0c3,,31344464-306c-4f4a-a70d-43ffbdfa19b2,Water Point,water_point,5,Building,bu,48.33359167,-21.23137778
+Ambodifaho 1,active,create,9bf89897-046b-4e82-836f-e687f6002e90,,309ea2e1-8827-4ab5-962c-f7474094185a,Water Point,water_point,5,Building,bu,49.17694,-17.59722
+Ambodifaho 2,active,create,f00001d2-4444-4052-99d1-b0d60a0aaad4,,309ea2e1-8827-4ab5-962c-f7474094185a,Water Point,water_point,5,Building,bu,49.17778,-17.59694
+Ambodigavo,active,create,65f7936d-3384-401c-a0e1-32d3dbe1bb4b,,3a549dea-f588-417b-a658-77f70cc9a9b4,Water Point,water_point,5,Building,bu,49.43908,-17.45421
+AMBODIHARAMY 2,active,create,554f061c-64f1-4135-b967-fecbde1a787f,,9f48cfda-9cea-4f5c-b417-c536524579d9,Water Point,water_point,5,Building,bu,48.51927778,-20.62858333
+AMBODIHARAMY I,active,create,cb90ac8f-1217-4efb-ab82-bc05ca8c9b6b,,9f48cfda-9cea-4f5c-b417-c536524579d9,Water Point,water_point,5,Building,bu,48.48441667,-20.67891667
+Ambodihasina,active,create,396c4c76-e120-40d9-b4e0-c718e5b7c954,,2a6dcb74-5f54-4590-9a5a-1b5ad8b8c855,Water Point,water_point,5,Building,bu,49.20031,-17.24602
+Ambodihasina,active,create,f76ddbdf-4d2c-473a-8624-405aefb9b23e,,2a6dcb74-5f54-4590-9a5a-1b5ad8b8c855,Water Point,water_point,5,Building,bu,49.20031,-17.24602
+Ambodijambarao,active,create,bec7c276-ad9d-47f2-be5b-484226127118,,df16044d-7511-4334-9728-e8735eab9935,Water Point,water_point,5,Building,bu,46.50410833,-16.19104167
+AMBODIJAMBARAO CENTRE,active,create,ff9035b5-1d3b-4ef9-8ef0-2195ff23e2e9,,df16044d-7511-4334-9728-e8735eab9935,Water Point,water_point,5,Building,bu,46.517459,-16.17106
+Ambodikininina,active,create,f79297f4-d3be-400e-8614-ef0fd56c9755,,309ea2e1-8827-4ab5-962c-f7474094185a,Water Point,water_point,5,Building,bu,49.17308,-17.60586
+Ambodilaitra,active,create,27fb353d-5f4f-4a4e-9c3f-7ff520cd0b7e,,2a6dcb74-5f54-4590-9a5a-1b5ad8b8c855,Water Point,water_point,5,Building,bu,49.17101,-17.2573
+Ambodilaitra,active,create,999c1505-f6ca-4f33-9b8c-0519b285ab8b,,2a6dcb74-5f54-4590-9a5a-1b5ad8b8c855,Water Point,water_point,5,Building,bu,49.17101,-17.2573
+Ambodilaza,active,create,19f5ab85-b50d-4d39-82b9-38e946de4ba0,,3a549dea-f588-417b-a658-77f70cc9a9b4,Water Point,water_point,5,Building,bu,49.3358,-17.47423
+Ambodilaza,active,create,fa4b56da-797c-414c-86ae-b0ed6794dbc7,,3a549dea-f588-417b-a658-77f70cc9a9b4,Water Point,water_point,5,Building,bu,49.39583,-17.47421
+Ambodimanara,active,create,bcccf695-3acf-4da8-8dc8-d14095ad2472,,c149b572-ebc8-460b-8709-a7335b536d5f,Water Point,water_point,5,Building,bu,47.68815,-22.55105
+Ambodimanga Centre,active,create,51147bf9-8d02-4a05-9fdf-5bc0f632ac96,,7174ae50-4d3d-4fd1-a906-4fab680bede5,Water Point,water_point,5,Building,bu,46.7498,-16.17985
+Ambodimanga I,active,create,d8de35f5-8c05-4d0d-9a92-73a09321d8b7,,cd0c8f6f-d2ef-4dbd-9712-5ccc36c1e015,Water Point,water_point,5,Building,bu,49.79978,-16.37067
+Ambodimanga II,active,create,6c1aad8c-d9c3-438f-a23f-40f7fc70cd7e,,cd0c8f6f-d2ef-4dbd-9712-5ccc36c1e015,Water Point,water_point,5,Building,bu,49.8017,-16.37041
+Ambodimangaiii-1,active,create,d1535591-2d2d-4681-9508-42f0e2491a91,,3a549dea-f588-417b-a658-77f70cc9a9b4,Water Point,water_point,5,Building,bu,49.37408,-17.48352
+AmbodimangaIII-1,active,create,3aaf71e1-e646-43c8-b742-11d145e4f795,,3a549dea-f588-417b-a658-77f70cc9a9b4,Water Point,water_point,5,Building,bu,49.37411,-17.48353
+Ambodimangaiii-2,active,create,51a2cb9f-8e92-41fc-863a-a12b2a6bed1a,,3a549dea-f588-417b-a658-77f70cc9a9b4,Water Point,water_point,5,Building,bu,49.37408,-17.48591
+AmbodimangaIII-2,active,create,0831f2d0-7611-44a7-bc79-97ee443de628,,3a549dea-f588-417b-a658-77f70cc9a9b4,Water Point,water_point,5,Building,bu,49.37358,-17.48586
+Ambodimanga Sahavaviana,active,create,7a3a8149-f6b0-44a8-8717-2785931b7f8c,,eadf078b-2054-4723-8af1-5d16c18ac240,Water Point,water_point,5,Building,bu,,
+Ambodimanga Sahavaviana,active,create,f601f332-eff4-4450-a37a-700494b8fefb,,eadf078b-2054-4723-8af1-5d16c18ac240,Water Point,water_point,5,Building,bu,,
+Ambodimanga Tranove 1,active,create,2f3a35b4-9e3e-4b1a-8c81-134721a08fb3,,eadf078b-2054-4723-8af1-5d16c18ac240,Water Point,water_point,5,Building,bu,49.28694,-17.43733
+Ambodimanga Tranove 1,active,create,6b03ea4a-100b-4854-a44c-34d1006820f7,,eadf078b-2054-4723-8af1-5d16c18ac240,Water Point,water_point,5,Building,bu,49.30472,-17.44056
+Ambodimanga Tranove 2,active,create,830a17bf-7497-4d61-8cc8-90af1bc2ae5e,,eadf078b-2054-4723-8af1-5d16c18ac240,Water Point,water_point,5,Building,bu,49.29569,-17.44114
+Ambodimanga Tranove 2,active,create,9d6994f4-9d53-4b81-baf3-c546ccf2121e,,eadf078b-2054-4723-8af1-5d16c18ac240,Water Point,water_point,5,Building,bu,49.28694,-17.43733
+Ambodinato,active,create,ebdfbbca-1ff7-4945-b045-14beee4a79c6,,913a85b9-81e9-4a17-9363-8d482a8f8daf,Water Point,water_point,5,Building,bu,47.86277778,-22.14528333
+Ambodinisotry,active,create,53b0f4ff-f251-4f48-9c2f-905d1826b1ed,,e70844ea-2707-4622-8105-8046abf81235,Water Point,water_point,5,Building,bu,47.5115833,-18.907583
+Ambodipont Nord,active,create,f797be4c-c4f6-4eb2-bcc1-ff26e8170448,,15e3dc94-d0c9-43f1-bbc5-4f3b19883f0f,Water Point,water_point,5,Building,bu,49.55028,-17.00139
+Ambodirian'Isahafary,active,create,c0c7fcde-1c03-4c3d-af3f-3b0fe31b8ecb,,2625ecad-879b-49b7-bdcb-349f6e4e932b,CSB2,csb2,5,Building,bu,,
+AMBODISAIN'I SAHAFARY,active,create,fad49a39-977b-40bc-9c45-b3fc82b2f67d,,cbba297f-18ae-440d-be70-b598c4b61683,Water Point,water_point,5,Building,bu,48.49316667,-20.52788889
+Amboditavolonord,active,create,5e79fe45-9d42-4c5e-829e-d0e68b7666fb,,05298366-d8c0-4f72-9f10-9669e8f06b0b,Water Point,water_point,5,Building,bu,49.75028,-16.69128
+Ambodivoahangy,active,create,ef79a540-8ce9-4606-bad0-6306fa8ee698,,66fbdbb7-ab1e-45f0-9b4f-2fe57550b89d,CSB1,csb1,5,Building,bu,,
+Ambodivoanio,active,create,685f9080-a52b-422e-b7cc-a905ec08c90b,,15e3dc94-d0c9-43f1-bbc5-4f3b19883f0f,Water Point,water_point,5,Building,bu,,
+Ambodivohitra,active,create,16953795-8ff1-4e43-bd20-4ee3a1759f39,,d4eb189a-5cb6-46ed-8eac-3653c1852d77,Water Point,water_point,5,Building,bu,0,0
+Ambodivohitra I,active,create,6da0e4ff-3a27-4081-b129-863011050f21,,9e0dac3f-285e-48a9-b708-e3b8b2c274e0,Water Point,water_point,5,Building,bu,,
+Ambodivohitra I,active,create,f293c25b-5aa4-4edf-8513-38d26d44a64e,,9e0dac3f-285e-48a9-b708-e3b8b2c274e0,Water Point,water_point,5,Building,bu,49.405665,-17.215451
+Ambodivohitra Ii,active,create,3eb3eea8-5789-4925-844f-a1f6ba84cedb,,9e0dac3f-285e-48a9-b708-e3b8b2c274e0,Water Point,water_point,5,Building,bu,,
+Ambodivohitra II,active,create,6ee3771f-c1d7-4060-8c10-e672c17e016d,,9e0dac3f-285e-48a9-b708-e3b8b2c274e0,Water Point,water_point,5,Building,bu,49.405619,-17.21483
+Ambohigogo,active,create,c5201df0-930b-42b6-969f-233695c1b386,,892635d0-c138-4e87-8855-908198c91d62,Water Point,water_point,5,Building,bu,47.58653,-22.77577
+Ambohijatovo,active,create,dabea5e8-358b-42b6-a0d0-51d40077f9c7,,cbba297f-18ae-440d-be70-b598c4b61683,Water Point,water_point,5,Building,bu,48.53301194,-20.59064444
+AMBOHIJATOVO,active,create,386ace53-ff97-4a56-881b-be4ff821115a,,cbba297f-18ae-440d-be70-b598c4b61683,Water Point,water_point,5,Building,bu,48.53730556,-20.58286111
+AMBOHIMAHASOA,active,create,89b83948-97e1-4884-a95a-214b9e9ddc23,,bb6c3561-a7b7-474b-a906-a5e4659c0dff,Water Point,water_point,5,Building,bu,48.47569444,-20.60727778
+Ambohimanarina,active,create,34fba564-4062-4b15-95fc-3e6652776542,,8f127dd1-8e58-4d53-b273-bf8945e3e43a,Water Point,water_point,5,Building,bu,47.5011111,-18.874667
+Ambohimandroso,active,create,b366b464-3811-4929-9ec9-294e92c2c747,,4342c258-a4f9-4f05-8356-42be448ffec7,Site Communautaire,site_communautaire,5,Building,bu,,
+Ambohimandroso Centre,active,create,cca18af5-1b82-4be0-8a99-7f53b943a017,,7c684e8e-2548-4792-9b7a-c7d4be3f027a,Water Point,water_point,5,Building,bu,47.6467,-23.171
+Ambohimiarina,active,create,49d0c4bf-23c7-4ba0-82b2-4087807b86c4,,9b606a8a-d316-4943-88d9-020a4a3d0bf7,Water Point,water_point,5,Building,bu,46.99208,-16.36056
+Ambohimiarina,active,create,71f8b16d-b2d6-48df-a7a0-088fa37de311,,053d4f7a-b383-4faa-b224-8418ecabf446,Water Point,water_point,5,Building,bu,49.21111,-17.41128
+Ambohimiarina,active,create,8ff132c8-2866-4273-96d1-0170168e456a,,053d4f7a-b383-4faa-b224-8418ecabf446,Water Point,water_point,5,Building,bu,49.21107,-17.41115
+Ambohimirafy,active,create,a2d418da-b624-477e-b9de-c3c9c5f3d342,,efe2bb66-0cc4-4227-9795-57afd8478ce3,Water Point,water_point,5,Building,bu,47.485589,-22.751178
+Ambohimirafy,active,create,f5e6df91-d3b0-434a-bf87-e3fb056d77b9,,efe2bb66-0cc4-4227-9795-57afd8478ce3,Water Point,water_point,5,Building,bu,47.48558889,-22.75117778
+Ambohitrova,active,create,1b06bdbd-b981-4e8f-8b62-6bc1a9b1c944,,554d185a-2816-4732-b183-9c370db14ea1,Water Point,water_point,5,Building,bu,47.73415,-22.16107
+Ambohitrova,active,create,64482e1b-4061-486b-9fdf-d327586187e1,,554d185a-2816-4732-b183-9c370db14ea1,Village,village,5,Building,bu,47.73415,-22.16107
+Ambohitrova Kely,active,create,7595ec2b-dd46-40b7-a567-1787fc4746f5,,5bcb6825-4d99-49d7-8cbb-405656b405a0,Water Point,water_point,5,Building,bu,47.833,-22.30603
+Ambohitrova Kely,active,create,c78f7666-0338-4fb7-85c3-eb8a0995f40e,,5bcb6825-4d99-49d7-8cbb-405656b405a0,Water Point,water_point,5,Building,bu,47.833,-22.30603
+Ambohitsara,active,create,92403e53-bc0d-4602-ac1c-7a8fd784fee2,,3c9bdc0f-03b9-4ddc-9252-d034e185915b,Water Point,water_point,5,Building,bu,49.2196,-16.58683
+Ambohitsara 1 (Andranomena),active,create,00ddb71b-4835-4dfe-a137-c2b337ec1923,,cbba297f-18ae-440d-be70-b598c4b61683,Water Point,water_point,5,Building,bu,48.50097194,-20.56370611
+Ambohitsara 2 (Ampirana),active,create,7fbf0061-5510-455e-8c58-0a6290b061c0,,cbba297f-18ae-440d-be70-b598c4b61683,Water Point,water_point,5,Building,bu,48.50358306,-20.56441694
+Ambohitsara I,active,create,846d3868-9dec-4d81-9db1-1bdd6bef32a6,,0546e4e5-1860-451f-9ba8-e623cc89612f,Water Point,water_point,5,Building,bu,47.88086667,-22.06276667
+Ambohitsina,active,create,a15bbd5d-b801-4fa8-942d-7cfb5db66da6,,3a549dea-f588-417b-a658-77f70cc9a9b4,Water Point,water_point,5,Building,bu,49.37798,-17.45998
+Ambohitsinato,active,create,0073ff24-e4f2-45b0-929e-67fee3347009,,687f5d8c-5873-4b09-97fd-32af53d86b2f,Water Point,water_point,5,Building,bu,47.69262,-22.5505
+Ambohitsova,active,create,e019557c-1fb8-48c6-b868-05f7632fe660,,222ce2c0-687e-4229-aecf-91f34d2597e9,Water Point,water_point,5,Building,bu,48.22550833,-21.20212222
+Ambohitsy1,active,create,eb43502c-15f7-4de1-8383-aaed0881dbcd,,5d25d248-4468-4c96-a566-4a539c7928f8,Water Point,water_point,5,Building,bu,45.70246944,-24.31755556
+Ambohitsy2,active,create,434450b0-d62a-4ef2-8843-22a81c5159e0,,5d25d248-4468-4c96-a566-4a539c7928f8,Water Point,water_point,5,Building,bu,,
+Ambohitsy 2,active,create,8f65adb0-834e-4069-8d3e-da4a0e1f07d2,,5d25d248-4468-4c96-a566-4a539c7928f8,Water Point,water_point,5,Building,bu,45.75706222,-24.194
+Ambohivola,active,create,9d8c102b-6e69-489c-8b48-a784afe04b4e,,45080bdf-d7cf-4745-b19b-f06c4dac96c0,Site Communautaire,site_communautaire,5,Building,bu,45.041515,-25.192518
+AMBOLIRANO/ANKIBAY,active,create,7c15e365-0c46-43a4-9eca-ea872b3511e3,,113a292b-209d-4f6d-b7a3-aa7f6eb56186,Site Communautaire,site_communautaire,5,Building,bu,,
+Amboloando Andranonankoay,active,create,a1c670e0-fb48-4a52-b6a0-e2c9133ead54,,70599be8-4745-411a-ae7f-655bc5d476c9,Water Point,water_point,5,Building,bu,44.10694,-18.02694
+Amboloando Centre,active,create,090294ea-3d2b-4ca8-a43e-98dc23cca1ec,,70599be8-4745-411a-ae7f-655bc5d476c9,Water Point,water_point,5,Building,bu,44.10694,-18.02694
+Ambolokohy,active,create,e9d48e41-303c-4267-abaf-ceb199f0d462,,42c86929-005d-42d1-8277-50e374ff3337,Water Point,water_point,5,Building,bu,46.2971,-24.52394
+Ambolomailaka Eglise,active,create,abcef947-95e7-4771-bbeb-93471a6bf5ef,,f125d884-4366-459a-9989-b9dd840687e3,Water Point,water_point,5,Building,bu,43.58238,-23.05615
+Ambolomareagne,active,create,c5a9306c-a305-499c-9382-7321ab75fcf1,,f8f6820f-96eb-4999-82ec-8b809cff94de,Site Communautaire,site_communautaire,5,Building,bu,,
+Ambolomena,active,create,41fb4628-8a77-4833-a264-6ae62c477af7,,36e3dba2-cdef-499a-be32-a75636fcddc9,Water Point,water_point,5,Building,bu,47.51953,-23.36423
+Ambolomena Ii,active,create,ac5b8826-e7ee-4406-a717-20ad764f08da,,f0800714-2873-4583-b79f-cb73f24771c3,Water Point,water_point,5,Building,bu,47.50666,-23.35718
+Ambolomoty,active,create,3ba780cd-298c-444a-bb0c-ac8b64acc4f1,,5defac73-3f2b-49c8-8b23-3220835b03c2,Water Point,water_point,5,Building,bu,46.69554,-16.15665
+AMBONAIVO,active,create,98f8c99c-7d28-4665-8990-bf2b1725f17c,,5f666d29-8b8c-4ebf-a630-e2cad0cb3685,Site Communautaire,site_communautaire,5,Building,bu,,
+Ambonarabe Est,active,create,8b8362ba-89d6-417f-a376-147e0b0af95c,,b1e7d6a6-1609-4dc8-98d9-58af8e78562d,Water Point,water_point,5,Building,bu,44.15981,-18.18876
+Ambonarabeouest,active,create,7b03f92d-c34c-4cc2-8ab1-1f46e5ef46b8,,b1e7d6a6-1609-4dc8-98d9-58af8e78562d,Water Point,water_point,5,Building,bu,44.15099,-18.18426
+Ambondro,active,create,981052e6-5bac-4672-bdc1-8280e21d5c1d,,1ca7d983-3fc1-4051-ae7a-79d706bfbf18,Water Point,water_point,5,Building,bu,45.82464,-25.21006
+Ambondro I,active,create,813ca093-c89d-4d1c-8723-92846d720a6e,,1ca7d983-3fc1-4051-ae7a-79d706bfbf18,Site Communautaire,site_communautaire,5,Building,bu,45.8232,-25.2163
+Ambondrokily Centre,active,create,caabe7b4-e7bb-4bb6-bad2-d3400794d505,,4a4c7fe2-5003-44c2-b405-2d5850b612a3,Water Point,water_point,5,Building,bu,,
+AMBONDROMBE,active,create,72a9a99b-1422-4d02-9800-a656b28ed829,,38679362-2eb0-4eb1-87d0-6b78fa7e733d,Site Communautaire,site_communautaire,5,Building,bu,,
+Ambondromena,active,create,53431157-8627-4327-83ac-23704a949ee9,,4863b612-5843-41f8-a1ab-cca2f892fee0,Water Point,water_point,5,Building,bu,,
+Ambondrompaly,active,create,1268276a-8375-4c15-8d4e-4ebe968e5c0f,,45080bdf-d7cf-4745-b19b-f06c4dac96c0,Water Point,water_point,5,Building,bu,,
+Ambonimaro,active,create,0261e3f4-6e8f-4676-8766-782e317e0f08,,64f0435f-ee39-47af-be9b-c2cb33618b2d,Water Point,water_point,5,Building,bu,47.85875,-22.37909722
+Amboro,active,create,9fd8c885-92e2-4ff1-a1db-a3a9d5cdb171,,8a6ef53a-03ec-4e00-a880-75e698c808fe,Site Communautaire,site_communautaire,5,Building,bu,,
+Amboro Bekokako,active,create,76f4f4f6-36ca-4dc2-8108-d8a5ee4c0836,,f8f6820f-96eb-4999-82ec-8b809cff94de,Site Communautaire,site_communautaire,5,Building,bu,,
+Amborodoke,active,create,82430759-a051-4b61-a8c3-25e04252d99d,,95ae107c-590c-4758-8f83-78282b05be16,Water Point,water_point,5,Building,bu,,
+Amborokotsy Est,active,create,d424ff80-865c-423b-93f4-933ef055f88d,,eb301da0-2002-461e-86e5-11d8693212e8,Water Point,water_point,5,Building,bu,44.33969,-17.94389
+Amborokotsy Nord,active,create,b2fc216f-1509-4905-a77a-816e5afd5ff4,,eb301da0-2002-461e-86e5-11d8693212e8,Water Point,water_point,5,Building,bu,44.33858,-17.94264
+Amborokotsy Ouest,active,create,1703069e-3344-4fec-8107-0686f75b283d,,eb301da0-2002-461e-86e5-11d8693212e8,Water Point,water_point,5,Building,bu,44.33833,-17.94369
+AMBOROMALANDIKELY NORD,active,create,717961d0-cb08-465e-af7f-be9e1a0f9517,,6614ec43-fa7a-4f08-9a02-9acaf9ceebec,Water Point,water_point,5,Building,bu,46.777501,-16.132777
+AMBOROMALANDIKELY SUD,active,create,3f1d6e5d-daf7-42cf-8cc4-de2534714422,,6614ec43-fa7a-4f08-9a02-9acaf9ceebec,Water Point,water_point,5,Building,bu,46.777501,-16.132777
+Amboromalandy Kely Est,active,create,4686641b-87bd-4449-b4ef-f923a90e60b3,,6614ec43-fa7a-4f08-9a02-9acaf9ceebec,Water Point,water_point,5,Building,bu,46.74667,-16.13819
+Amboromalandy Kely Ouest,active,create,74aa4bef-e96f-4811-864f-40ceb5529e43,,6614ec43-fa7a-4f08-9a02-9acaf9ceebec,Water Point,water_point,5,Building,bu,46.74528,-16.13814
+Amborompotsy,active,create,6cd14c68-8635-4031-8695-229b87ccb2af,,b717b9f1-85ef-4567-863f-5a5967804a0d,Water Point,water_point,5,Building,bu,,
+Amborompotsy,active,create,ef48634e-9c15-41d3-89ea-d6d959a3365a,,b717b9f1-85ef-4567-863f-5a5967804a0d,Water Point,water_point,5,Building,bu,44.97367,-24.69862
+Amboronabo,active,create,96ca0820-d4ca-4bf3-a46c-049ccbf1c72b,,79b58d2f-f069-41fe-87c5-45f20f3263c9,Water Point,water_point,5,Building,bu,44.67816,-25.08050694
+Amboronabo Ankilimasy,active,create,fc144dc4-f90d-4baf-b1fe-dc58e2dd1e3e,,4a4c7fe2-5003-44c2-b405-2d5850b612a3,Water Point,water_point,5,Building,bu,,
+Amboropotsy,active,create,757146e8-5d90-46cc-8bd4-371987204b4c,,d18ae17a-faae-4e40-bb4d-540641d494c0,Water Point,water_point,5,Building,bu,45.09049,-24.25191
+Amboropotsy,active,create,a283f1c1-bb03-46a7-acdb-28d070068009,,42c86929-005d-42d1-8277-50e374ff3337,Water Point,water_point,5,Building,bu,,
+Amborovoahasina,active,create,6a8ef7c9-1c0f-4bfd-a56a-4f1025287ae0,,8f572186-72b7-414f-bd37-f4b91c431017,Water Point,water_point,5,Building,bu,,
+AMBOROVORO,active,create,f833c84a-146c-48e5-8da6-32ad159c8e06,,badd39e4-9213-453e-b7ff-c26ac1dae9fa,Water Point,water_point,5,Building,bu,44.465313,-24.08954
+Amborovy Centre,active,create,2d19773d-2733-4b7c-8760-50ff78b4a6b0,,a80de6c1-9347-4555-b53b-aa8141499f52,Water Point,water_point,5,Building,bu,46.3441,-15.67
+AMBORY,active,create,636cf0b1-24b3-444a-a659-947bdf3424e4,,f0ec4526-d5d8-4c7b-b924-bac45cdb54cd,Site Communautaire,site_communautaire,5,Building,bu,,
+AMBORY Bas,active,create,3d4c58b9-8fa8-48df-a8cb-ade680348bc1,,2601ccb0-b1e8-4ee7-ba9a-e9d2f9d48f06,Site Communautaire,site_communautaire,5,Building,bu,,
+Ambotaka,active,create,45a541d3-112b-4e72-8e3d-a0df755f518b,,94644df2-a3bf-4fd3-90a3-5d44e7c22ef1,Village,village,5,Building,bu,47.93181,-22.02207
+Ambotaka,active,create,b2e0fc66-e50d-4543-89ac-951fa01c477c,,037f61e0-6af0-4530-8ce2-63124eba2a9b,Water Point,water_point,5,Building,bu,45.37214,-24.61983
+Ambotaka,active,create,f3ffcac8-9c15-4938-841b-de2c70749807,,94644df2-a3bf-4fd3-90a3-5d44e7c22ef1,Water Point,water_point,5,Building,bu,47.93180966,-22.02207
+AMBOTRY,active,create,a6f1546b-c82e-4621-98bc-2e4d56241308,,f0ec4526-d5d8-4c7b-b924-bac45cdb54cd,Site Communautaire,site_communautaire,5,Building,bu,,
+Ambovo,active,create,98e53acf-cef8-4dd7-b994-99706afac483,,d2953469-fbf7-4ece-a9df-8c1b00a96ede,Site Communautaire,site_communautaire,5,Building,bu,,
+AMBOVOTOKA,active,create,f1ff276b-7683-4f43-98c5-bab36624e10c,,409bb851-c200-4643-b590-5f0b2005e8d2,Site Communautaire,site_communautaire,5,Building,bu,,
+Amibasy,active,create,bc958f47-08c8-4b7a-baec-048cc62ea925,,9ec7eeee-9ba6-4c7d-a93d-5d242d964594,Water Point,water_point,5,Building,bu,47.790019,-22.479009
+Amirimena Avaradrano Ankily,active,create,55c3c4be-69d9-4261-91a5-b144b2ab6f7d,,2e9fe1a0-ef76-4828-8449-945456b7651f,Water Point,water_point,5,Building,bu,46.790117,-25.105453
+AM KOLA,active,create,992736df-14e6-4b93-a588-b91ac82df3c7,,8d3b5f20-903b-4175-9b05-18a57fe3d94c,Water Point,water_point,5,Building,bu,47.299277,-16.267102
+Ampabato,active,create,59d71ec3-c9f8-46b2-a346-fe3707d2bda6,,1a29f950-a8ed-439c-9d32-b9c2cc1d9bf4,Water Point,water_point,5,Building,bu,45.61694,-24.46165
+Ampagnarena,active,create,6c8bcbe6-74dc-4e6b-a69a-392530d725cb,,e9bfd037-3c2b-4697-b9d8-a5fed6c85641,Water Point,water_point,5,Building,bu,47.00753,-23.65658
+AMPAHEJOLOKE,active,create,e64301ce-f6dd-423b-b94d-f3f91945f0b7,,38679362-2eb0-4eb1-87d0-6b78fa7e733d,Site Communautaire,site_communautaire,5,Building,bu,,
+Ampahendroy,active,create,a9b0b236-954d-4ddb-97c6-89c2ef79dbbd,,ced122ee-d3d8-48e1-bfe3-85799e6f0bb4,Water Point,water_point,5,Building,bu,,
+Ampamanta (Centre),active,create,14e6494b-58d0-4a91-b8a5-43de260f6c23,,1a29f950-a8ed-439c-9d32-b9c2cc1d9bf4,Water Point,water_point,5,Building,bu,45.63817,-24.47617
+Ampamanta Sud Bis,active,create,83f823d3-f75d-4ca1-be61-2eea6f5fbd4e,,1a29f950-a8ed-439c-9d32-b9c2cc1d9bf4,Water Point,water_point,5,Building,bu,45.68433,-24.56417
+Ampamotilava,active,create,6fb0bfa2-8094-4301-9a9b-54b22433209a,,baf46f85-04db-4d35-a9b5-237a12d20e88,Water Point,water_point,5,Building,bu,45.5018261,-24.0189081
+Ampanagnira,active,create,dd989caa-4953-43b3-bee8-e446d1d2bc2a,,bfc47a53-c417-4b92-b394-f669854729ec,Site Communautaire,site_communautaire,5,Building,bu,,
+Ampanamperandrotsy,active,create,f7979a20-d48b-4a8d-8bcd-cf15cd5af451,,75b22baf-37a9-4d42-8fd6-7ca7912d2a4a,Site Communautaire,site_communautaire,5,Building,bu,,
+Ampanavy Fototsambo,active,create,6c9d6776-ff18-48d2-a7a7-eea265b03ae7,,457c79c3-09a5-4967-abe5-9ba010354d1a,Site Communautaire,site_communautaire,5,Building,bu,,
+Ampandrambe,active,create,33239a74-a0c5-4e48-87d2-5cca29eb2d79,,003dce7d-5c67-4111-a11e-44b7688d03d1,Water Point,water_point,5,Building,bu,,
+Ampanemaro,active,create,a36bbc3d-2e7b-4243-95ba-c6e40ef24d4b,,18cd974a-3520-4e7e-9ee7-824f30264c37,Water Point,water_point,5,Building,bu,,
+Ampanimary,active,create,3d143772-6cdf-466b-bbeb-cc89a1cfc025,,18cd974a-3520-4e7e-9ee7-824f30264c37,Water Point,water_point,5,Building,bu,44.66178,-23.95686
+Ampano,active,create,8308262f-12a9-4325-8152-fde46e53509f,,ef8a6a6f-7ac2-46d9-9467-ae88ed2a9ea4,Water Point,water_point,5,Building,bu,,
+AMPANORITA,active,create,d6e07782-1a59-4c15-83ce-85a6194bb232,,ced122ee-d3d8-48e1-bfe3-85799e6f0bb4,Water Point,water_point,5,Building,bu,,
+Ampany,active,create,03cbfe84-fef7-4817-9503-9cc88dc3a19f,,749e8f17-0875-423f-a1ec-953edfcd171c,Water Point,water_point,5,Building,bu,45.34166667,-24.23780556
+Amparatanana,active,create,125202c1-3b5a-4efc-8897-fc896abe0ca4,,5ec5a49d-fb6a-4c5b-a2fb-2182671ffa83,Water Point,water_point,5,Building,bu,,
+Amparatanana,active,create,69a2f7c8-d7a5-4071-8e18-b4f57fd2bd68,,5ec5a49d-fb6a-4c5b-a2fb-2182671ffa83,Water Point,water_point,5,Building,bu,49.40491,-17.38435
+Amparatanana II,active,create,ad39ec13-4ae9-44e1-a1fe-9eb1d8e09c75,,5ec5a49d-fb6a-4c5b-a2fb-2182671ffa83,Water Point,water_point,5,Building,bu,49.407378,-17.386583
+AMPAREMAHITSY CENTRE,active,create,4f687ac1-e6d7-40d9-a525-034404c3146d,,861d42c7-d41a-4569-ab93-fdaa72203e92,Water Point,water_point,5,Building,bu,,
+Amparihilava,active,create,7115e1ec-0928-49c4-aae9-b07b77652785,,c2df9c51-6629-4756-ab37-d58d51c02b30,Water Point,water_point,5,Building,bu,46.68428,-16.10021
+Amparihilava Epp,active,create,3a2a92a9-a6d7-4abb-af80-a664b977407a,,c2df9c51-6629-4756-ab37-d58d51c02b30,Water Point,water_point,5,Building,bu,46.70373,-16.09767
+AMPARY,active,create,0d0e7aec-f42f-4f04-a6a8-c53fc8d134c0,,113a292b-209d-4f6d-b7a3-aa7f6eb56186,Site Communautaire,site_communautaire,5,Building,bu,,
+AMPASIMAIKY,active,create,6d423262-4b5b-47a9-9e5c-9eb606b88608,,b410c887-50df-4699-ae70-bde33bd4df0e,Water Point,water_point,5,Building,bu,44.425472,-23.514156
+AMPASIMALEMY,active,create,aaf43711-452b-42de-9380-517a699ee9e8,,d492534f-8d4e-4ffd-92f4-f15098b599dd,Water Point,water_point,5,Building,bu,45.924924,-15.905826
+Ampasimaleny,active,create,a2e4182d-d020-4a00-9832-a7ce34c53a0d,,f0800714-2873-4583-b79f-cb73f24771c3,Water Point,water_point,5,Building,bu,47.582361,-23.345639
+Ampasimandrorona,active,create,e9588f63-62b7-4ee5-877a-20c486d75387,,31344464-306c-4f4a-a70d-43ffbdfa19b2,Water Point,water_point,5,Building,bu,,
+Ampasimasay,active,create,6c5ff843-c698-49db-be59-aa17b41d0952,,660c874c-3d13-4f16-9cce-63253f2ecfc6,Water Point,water_point,5,Building,bu,47.872327,-22.364396
+Ampasimbe Parcelle I (Mon Père),active,create,5c29d25b-0ded-4b43-9315-b5c6d399173d,,68f938ca-5f90-44da-9cd5-f786622f1e30,Water Point,water_point,5,Building,bu,49.47945,-17.09335
+Ampasimbola,active,create,10861622-7f27-4a9b-8d51-f59a11f75890,,c5ef6181-8e5b-4bd0-9b78-8a1b88eb44bf,Water Point,water_point,5,Building,bu,,
+Ampasimena centre,active,create,2d91d3e0-0f7d-45af-bc50-fe08a30f7364,,b626e249-edcd-43f2-bbd9-b06e3ca374a8,Water Point,water_point,5,Building,bu,47.157889,-24.375306
+Ampasimpotsy 1,active,create,501f1d06-96b2-4956-9222-5dc7deee8b3b,,053d4f7a-b383-4faa-b224-8418ecabf446,Water Point,water_point,5,Building,bu,49.243,-17.4624
+Ampasimpotsy 1,active,create,9d499b65-bbf1-4fb2-9816-35db64d129a6,,053d4f7a-b383-4faa-b224-8418ecabf446,Water Point,water_point,5,Building,bu,49.24553,-17.46236
+Ampasimpotsy 2,active,create,0fd3598f-83b7-4f24-a7b2-1d2d8b5d0146,,053d4f7a-b383-4faa-b224-8418ecabf446,Water Point,water_point,5,Building,bu,49.2429,-17.4623
+Ampasimpotsy 2,active,create,f3436bba-4c11-4ac1-869c-ef5181cde1e2,,053d4f7a-b383-4faa-b224-8418ecabf446,Water Point,water_point,5,Building,bu,49.243,-17.46236
+Ampasimpotsy/Sahorana Devant  DREN,active,create,f1507ac4-bf36-432b-bfaf-8e7b7ab11a6b,,5ec5a49d-fb6a-4c5b-a2fb-2182671ffa83,Water Point,water_point,5,Building,bu,49.419222,-17.388771
+Ampasina,active,create,eb1a4011-c428-4cc8-a3ec-f7d3dd49ea0a,,cd0c8f6f-d2ef-4dbd-9712-5ccc36c1e015,Water Point,water_point,5,Building,bu,49.76253,-16.41273
+Ampasipolaka Tanantsoa,active,create,330e6f32-b641-4b56-b43c-882a49d99837,,48e6b0ce-08cb-48b5-8066-254ed2e8ad8f,Water Point,water_point,5,Building,bu,46.39503,-25.12261
+Ampataka,active,create,3048990b-b682-466a-a176-b63967c578c5,,cacefb35-c11d-4556-a969-6b7cf3b245aa,Water Point,water_point,5,Building,bu,47.425319,-23.375822
+ampatiolobe,active,create,0c1feb32-dcee-42f9-bb29-e866d17fd0fc,,45080bdf-d7cf-4745-b19b-f06c4dac96c0,Water Point,water_point,5,Building,bu,,
+Ampatiolobe/Tsaniria,active,create,13b34f17-cc4f-4015-b828-b977328be5db,,45080bdf-d7cf-4745-b19b-f06c4dac96c0,Site Communautaire,site_communautaire,5,Building,bu,,
+AMPENGOKE,active,create,ad801090-bf2b-4435-b88a-feb83f59c127,,113a292b-209d-4f6d-b7a3-aa7f6eb56186,Site Communautaire,site_communautaire,5,Building,bu,,
+Amperamperandrotsy Sud,active,create,87ab6920-4513-4bcd-84ee-b0ac0364b4bc,,38679362-2eb0-4eb1-87d0-6b78fa7e733d,Water Point,water_point,5,Building,bu,45.15236,-24.15966
+Ampiampiamena,active,create,57d13e2d-0934-4ec3-a53a-821b92883291,,f8a96f70-3460-4957-bb58-146714a1de08,Water Point,water_point,5,Building,bu,49.62631,-16.86639
+Ampigarasia,active,create,6916d256-b980-4fcb-b72d-1ce40037c383,,affff8ba-86fb-4d6a-b3ba-e2643a7b67b4,Water Point,water_point,5,Building,bu,47.33322,-23.9737
+AMPIHA,active,create,07052029-6d7b-410a-9237-4496fde52fdc,,113a292b-209d-4f6d-b7a3-aa7f6eb56186,Site Communautaire,site_communautaire,5,Building,bu,,
+Ampihaonana,active,create,cab5024a-d02d-47e5-8892-b1d7c56f6eda,,9e0dac3f-285e-48a9-b708-e3b8b2c274e0,Water Point,water_point,5,Building,bu,49.4302,-17.1601
+Ampijoroa,active,create,06b82461-2606-4386-a320-0c3a84ac126b,,1eeee4cc-73ed-43c3-a75e-c15c9b372c32,Water Point,water_point,5,Building,bu,45.76139,-15.92961
+AMPIJOROA,active,create,76e89e79-faf1-4ad2-b03b-aeaf94bdb5a9,,9d83a546-65b4-486a-b989-9192222167ba,Water Point,water_point,5,Building,bu,45.734459,-15.931439
+Ampilira,active,create,396e0f6c-8f8c-4248-a10a-bfb48a268e65,,42c86929-005d-42d1-8277-50e374ff3337,Water Point,water_point,5,Building,bu,46.50212,-24.48489
+AMPILIRA CENTRALE,active,create,14274f29-2735-4ad6-a0ef-47b71acdfab8,,42c86929-005d-42d1-8277-50e374ff3337,Water Point,water_point,5,Building,bu,,
+Ampilira II,active,create,edae992e-ef09-4bf0-a314-55526655ff5e,,42c86929-005d-42d1-8277-50e374ff3337,Water Point,water_point,5,Building,bu,,
+Ampilofilo,active,create,7cbcaff4-1d9a-43fe-be80-e533039fde25,,89a67109-8797-47cd-88c6-847e829ff4ae,Site Communautaire,site_communautaire,5,Building,bu,,
+Ampilofilo,active,create,92b10fab-a602-48ee-ab05-d8f3de541237,,024d01e6-01f4-4860-9780-846cdbec0836,Water Point,water_point,5,Building,bu,45.30598,-24.51129
+Ampilofilo Bas,active,create,5f45594e-f8ab-4c07-aad0-01ec5466ce70,,024d01e6-01f4-4860-9780-846cdbec0836,Water Point,water_point,5,Building,bu,45.28949,-23.90567
+Ampiranga,active,create,70dde82b-9130-4a69-99ae-88e33c8ecc86,,1eeee4cc-73ed-43c3-a75e-c15c9b372c32,Water Point,water_point,5,Building,bu,45.75694,-15.92394
+AMPIRANGA,active,create,a4cbb8f6-c297-4799-975b-9d0cdbf5a31e,,9d83a546-65b4-486a-b989-9192222167ba,Water Point,water_point,5,Building,bu,45.734459,-15.931439
+AMPIRANGA,active,create,c7d728c4-a872-4682-b3a3-f4b082c6e376,,9d83a546-65b4-486a-b989-9192222167ba,Water Point,water_point,5,Building,bu,45.75691,-15.92381
+Ampiriky,active,create,0cbf3883-1516-40b2-a64e-7cdf8c4220d6,,037f61e0-6af0-4530-8ce2-63124eba2a9b,Water Point,water_point,5,Building,bu,45.63156,-24.28466
+Ampisandrata,active,create,dc23dca3-b1c9-492e-969b-ed33f5d0230f,,1ca7d983-3fc1-4051-ae7a-79d706bfbf18,Site Communautaire,site_communautaire,5,Building,bu,,
+AMPITOLOVA,active,create,b17e2e81-724c-4b6d-a88b-d2cb34295079,,df16044d-7511-4334-9728-e8735eab9935,Water Point,water_point,5,Building,bu,46.45736111,-16.19708333
+AMPITOLOVA CENTRE,active,create,a893ede1-966c-49f2-a723-12f9f171e2a1,,861d42c7-d41a-4569-ab93-fdaa72203e92,Water Point,water_point,5,Building,bu,46.3755,-15.65826111
+Ampomadera,active,create,e564e1c3-5fa4-450d-98af-81ff3ce5406e,,7174ae50-4d3d-4fd1-a906-4fab680bede5,Water Point,water_point,5,Building,bu,46.74795278,-16.20528833
+Amporoforo,active,create,2d1aa067-19be-4cc7-876d-5abbea365f63,,9ec7eeee-9ba6-4c7d-a93d-5d242d964594,Water Point,water_point,5,Building,bu,47.788672,-22.491081
+Amporoforo,active,create,48ddbaba-a912-4e70-94e4-a5fa04649598,,9ec7eeee-9ba6-4c7d-a93d-5d242d964594,Water Point,water_point,5,Building,bu,47.78806944,-22.48888889
+Amporoforo Cr Amporoforo,active,create,f9c045dc-f71c-4c16-b7a2-f88e4b9bd117,,9ec7eeee-9ba6-4c7d-a93d-5d242d964594,Water Point,water_point,5,Building,bu,47.59825,-22.789
+Ampotaka,active,create,c7f48739-149e-4d2e-bf0d-3b4ceead359d,,79b58d2f-f069-41fe-87c5-45f20f3263c9,Site Communautaire,site_communautaire,5,Building,bu,,
+AMPOTAKA,active,create,1716a71d-32a6-4002-800c-1927632e0b2b,,77c1915a-d5f5-489e-b786-e211eaa8e98b,Water Point,water_point,5,Building,bu,,
+Ampotoamasy,active,create,ae22c762-80be-49ea-9726-9d83adcc1376,,5e7fb2d0-10c3-47fc-88ec-561122e106c8,Water Point,water_point,5,Building,bu,,
+AMPOTOTSE,active,create,353c2826-f8ba-4033-a351-2c4e2abc4c79,,02a0a124-780a-4d17-9953-13e0ab8640b1,Water Point,water_point,5,Building,bu,,
+Anaborano,active,create,4aac43dc-82e9-47ce-a132-6ca77e720a48,,29ebb17d-d9f4-47f7-ae14-9acec399b358,Water Point,water_point,5,Building,bu,46.54975278,-16.28430556
+Anadabolava,active,create,1d90bf49-ae20-4370-b59b-840a02e1f032,,5e1ddbbb-a08c-4a05-a225-36788acf6baa,Site Communautaire,site_communautaire,5,Building,bu,,
+Anadabolava,active,create,1e02541b-bbc9-45bd-b926-38b71d208d93,,037f61e0-6af0-4530-8ce2-63124eba2a9b,Water Point,water_point,5,Building,bu,45.47268,-24.36583
+Anadabolava Anarabe,active,create,72d8bc05-bafb-40d1-af34-8a8be33d6153,,5e1ddbbb-a08c-4a05-a225-36788acf6baa,Water Point,water_point,5,Building,bu,45.37826,-24.07937
+Anadabolava I,active,create,62a9a34c-b5d8-4fe3-a50d-79058cd51a0b,,037f61e0-6af0-4530-8ce2-63124eba2a9b,Water Point,water_point,5,Building,bu,45.31336,-24.6633
+Anadobo,active,create,4ad7ec50-eb41-411c-b99e-b1f0f65c68b3,,4fa8031b-51a6-49a8-ac01-8dce533d58d0,Water Point,water_point,5,Building,bu,47.80528333,-22.91178333
+Anadobo,active,create,d428eb32-162d-4540-b2f7-068e95e51bbc,,4fa8031b-51a6-49a8-ac01-8dce533d58d0,Water Point,water_point,5,Building,bu,47.805283,-22.911783
+ANADRANTO ANKATRAFAY,active,create,e3d5a738-f576-43c8-bb0d-72f13e416b12,,5640925e-c387-4e5b-99a5-85966df10cdf,Water Point,water_point,5,Building,bu,,
+Analadaro,active,create,92c2a454-15db-4f88-a69b-893b741152f8,,5e1ddbbb-a08c-4a05-a225-36788acf6baa,Water Point,water_point,5,Building,bu,45.43915,-23.99897
+Analadaro,active,create,b2ffb4a9-6ba3-458d-ab81-8d46807b53ec,,d0a79494-c31d-4009-86ca-c1decbc3d6d9,Water Point,water_point,5,Building,bu,45.10253889,-24.24719444
+Analadaro2,active,create,5896ca07-64a6-4c91-a0cc-4ad761afea67,,d0a79494-c31d-4009-86ca-c1decbc3d6d9,Water Point,water_point,5,Building,bu,45.66385861,-24.15409889
+Analafaly,active,create,1326bd26-e245-4b9f-936c-ef2add25a27c,,79b58d2f-f069-41fe-87c5-45f20f3263c9,Water Point,water_point,5,Building,bu,44.66379556,-25.09712889
+Analafia,active,create,184a7e79-f264-40ff-92f4-8bb350234921,,8e46c0f7-3fac-41b9-8307-035998c709c0,Water Point,water_point,5,Building,bu,47.70366111,-22.70723889
+Analafia,active,create,bc50ccb6-0e5c-41d8-8892-055eccc8f932,,8e46c0f7-3fac-41b9-8307-035998c709c0,Water Point,water_point,5,Building,bu,47.69176,-22.70887
+Analahova,active,create,339523d1-c589-4839-aea8-b7b3dd6a871a,,d2953469-fbf7-4ece-a9df-8c1b00a96ede,Site Communautaire,site_communautaire,5,Building,bu,,
+Analaisoke,active,create,13d2df6d-966e-4483-894a-db9a902d1411,,457c79c3-09a5-4967-abe5-9ba010354d1a,Site Communautaire,site_communautaire,5,Building,bu,,
+Analaisoke I,active,create,e6b0d269-95ef-4860-8df5-c342062e83f9,,d2953469-fbf7-4ece-a9df-8c1b00a96ede,Site Communautaire,site_communautaire,5,Building,bu,,
+Analakely BLV3458,active,create,aa5fbf95-288c-435f-889f-3fd6470a8433,,e70844ea-2707-4622-8105-8046abf81235,Water Point,water_point,5,Building,bu,47.5267778,-18.9095
+ANALAKINININA,active,create,3f897aa8-b722-4ad8-bd14-dcfc0d9dc8dc,,df16044d-7511-4334-9728-e8735eab9935,Water Point,water_point,5,Building,bu,46.42477778,-16.18394444
+Analalava Bas,active,create,c1b12623-d5bc-410f-b71e-6915cfc037f5,,9e96eb0a-60f8-4b35-aafe-fcf3cf3f773f,Water Point,water_point,5,Building,bu,45.27649,-24.46942
+Analalava Haut,active,create,a42eb642-257e-4fcf-98a8-5342bfb333fb,,dfef62fd-14cb-41e0-9bbf-321d9a8b9311,Water Point,water_point,5,Building,bu,45.31008,-24.69633
+Analamandro,active,create,6d4a3912-e10a-4e19-a5fd-deb73d3834f7,,38679362-2eb0-4eb1-87d0-6b78fa7e733d,Water Point,water_point,5,Building,bu,45.15033,-24.33534
+Analamary,active,create,886d58d9-440c-41d5-ba84-04d6467606a4,,d31e73a7-c487-44dc-8a32-d70ac572ad81,Site Communautaire,site_communautaire,5,Building,bu,,
+Analamary,active,create,a7a6fd38-1c01-4a0b-90cf-360e0aa34a3f,,56fd9321-48ef-4648-b870-612574abc999,Water Point,water_point,5,Building,bu,44.80876,-24.41774
+Analamary I,active,create,4214e19c-57fa-447a-9364-ad0ee23a7b4c,,2e9fe1a0-ef76-4828-8449-945456b7651f,Water Point,water_point,5,Building,bu,46.782567,-25.101811
+Analamateza haut,active,create,22261508-21a9-4d97-9034-76df5cc40bfa,,ced122ee-d3d8-48e1-bfe3-85799e6f0bb4,Water Point,water_point,5,Building,bu,,
+Analambendrana,active,create,f91f629a-2e45-44c1-a6ec-0f2b5695f9ac,,0430dbe5-efe8-4223-ba61-f51003b62088,Water Point,water_point,5,Building,bu,46.98320389,-24.96724611
+Analamipetraka,active,create,70f9da93-e6da-4fea-9baa-61b13c75790f,,e55e5cf9-93c5-4358-b3da-2ac1e8354aa0,Water Point,water_point,5,Building,bu,,
+Analampangitse,active,create,7ebbf7f3-4395-4cca-ba91-379f2ced77dd,,fff386bb-d84f-435f-9b88-e25027d06662,Water Point,water_point,5,Building,bu,45.26742778,-24.20832778
+Analanapotsy,active,create,cc43c819-83a2-468c-a0ff-e301e4c5f258,,9e0dac3f-285e-48a9-b708-e3b8b2c274e0,Water Point,water_point,5,Building,bu,49.48249,-17.16386
+Analandrafia,active,create,26f3ddc4-0d61-43e1-8320-64820cd13326,,05298366-d8c0-4f72-9f10-9669e8f06b0b,Water Point,water_point,5,Building,bu,49.77142,-16.67628
+Analanjavidy,active,create,994a06c9-9895-48b7-be0d-78c867702f46,,31344464-306c-4f4a-a70d-43ffbdfa19b2,Water Point,water_point,5,Building,bu,48.33758333,-21.22647222
+Analankininina,active,create,6b318192-f5b4-4d3b-b0e0-e95564ea03e5,,15e3dc94-d0c9-43f1-bbc5-4f3b19883f0f,Water Point,water_point,5,Building,bu,,
+Analapagnitsy,active,create,e930cc07-453d-4c71-b81e-cda224668b10,,fff386bb-d84f-435f-9b88-e25027d06662,Water Point,water_point,5,Building,bu,,
+Analavemainte 1,active,create,e233ce06-a93a-4776-be4c-af3ebde31dae,,95ae107c-590c-4758-8f83-78282b05be16,Water Point,water_point,5,Building,bu,,
+Analavemainte 2,active,create,972ad679-32d4-488c-9dc2-680011d379df,,95ae107c-590c-4758-8f83-78282b05be16,Water Point,water_point,5,Building,bu,,
+Analavemainte II,active,create,95a4b8a8-ef67-4865-bf39-026b88221cfe,,95ae107c-590c-4758-8f83-78282b05be16,Water Point,water_point,5,Building,bu,,
+Analoalo,active,create,c375a467-363b-4efd-ba27-d65c37925240,,9672b87b-9c5a-41a9-b9a4-d8caf2967947,Site Communautaire,site_communautaire,5,Building,bu,,
+Anambotaka,active,create,979474ee-971b-410d-80fb-3429a63f53cd,,4e4b1d7c-466a-4ddb-9a25-e7227947404a,Water Point,water_point,5,Building,bu,47.68867222,-22.70723889
+Anambotaka,active,create,bccd2993-4ec3-4252-853b-08631eea0d02,,8e46c0f7-3fac-41b9-8307-035998c709c0,Water Point,water_point,5,Building,bu,0,0
+Anambotaka,active,create,c0910e60-ad28-4639-abd3-b68ac1d9866a,,8e46c0f7-3fac-41b9-8307-035998c709c0,Water Point,water_point,5,Building,bu,0,0
+Anambotaky,active,create,f66c8eaf-c84c-4590-b444-959d3807b4ce,,c149b572-ebc8-460b-8709-a7335b536d5f,Water Point,water_point,5,Building,bu,47.68816,-22.55106
+Ananademby,active,create,04a821a3-0a93-4de5-976f-ba0665dceb2a,,81fbdd83-3e3b-42a3-92c8-0c8a526a18d2,Site Communautaire,site_communautaire,5,Building,bu,44.974983,-25.38952
+Ananaja,active,create,fdd845c5-c9d0-430f-89b1-b529c03657f3,,89a67109-8797-47cd-88c6-847e829ff4ae,Site Communautaire,site_communautaire,5,Building,bu,,
+Anandaza,active,create,a2138457-a9ed-493b-b139-15ca60779848,,4e4b1d7c-466a-4ddb-9a25-e7227947404a,Water Point,water_point,5,Building,bu,47.6709,-22.68295
+ANANDAZA,active,create,51d0d33f-f8ae-419d-a9d7-00eea72a4a3f,,4e4b1d7c-466a-4ddb-9a25-e7227947404a,Water Point,water_point,5,Building,bu,47.6707,-22.682886
+Anandoka,active,create,35873637-52ae-4fda-91b9-5120c8de2fa3,,efe2bb66-0cc4-4227-9795-57afd8478ce3,Water Point,water_point,5,Building,bu,47.48767778,-22.76498056
+Anandoka,active,create,ab71ee05-d141-4646-953c-ead161846c35,,efe2bb66-0cc4-4227-9795-57afd8478ce3,Water Point,water_point,5,Building,bu,47.487678,-22.764981
+Anandrotra,active,create,6588912e-bf4d-4782-90db-564a0f75f8e0,,d2df7eb3-2f4a-4aa0-a63d-b3c1184a26e7,Water Point,water_point,5,Building,bu,47.45933333,-22.74038889
+Ananeza,active,create,3c1149a2-9d9c-493d-8ce3-4128850be122,,26f97dfb-4df5-470b-9aed-4ec0d535d4c0,Water Point,water_point,5,Building,bu,47.56492,-22.86582
+Anantake,active,create,665a0631-9a7e-4ffb-854b-fc15842eebfa,,037f61e0-6af0-4530-8ce2-63124eba2a9b,Water Point,water_point,5,Building,bu,45.44409,-24.18735
+Anantaky,active,create,c0853c15-8664-48db-9901-7cdda0a3b329,,5d25d248-4468-4c96-a566-4a539c7928f8,Water Point,water_point,5,Building,bu,45.44285806,-24.19323806
+Anapao,active,create,1574d318-e8b4-428f-9355-a7136cf000ce,,faa85abb-bd9b-495f-8549-5efba48da916,Water Point,water_point,5,Building,bu,47.69414722,-22.80142778
+Anapemba,active,create,03a5c65d-53ab-45ef-843f-5bc4bf701a46,,c100241f-a892-4bc7-97bf-7ed02ed0d40e,Water Point,water_point,5,Building,bu,46.393387,-24.962383
+Anarabe1,active,create,089413eb-8c95-45b3-b390-d302041231f4,,fff386bb-d84f-435f-9b88-e25027d06662,Water Point,water_point,5,Building,bu,,
+Anarabe 1,active,create,64b6afc4-a6e5-443b-ad87-9f6817e9e2f5,,fff386bb-d84f-435f-9b88-e25027d06662,Water Point,water_point,5,Building,bu,45.20745111,-24.16408
+Anarabe I,active,create,96538e03-6fd6-4486-8097-740699755fee,,fff386bb-d84f-435f-9b88-e25027d06662,Site Communautaire,site_communautaire,5,Building,bu,,
+Anarabevahatse Andranosoa,active,create,30862267-928c-4e10-b8c1-106d3ad8e084,,9e96eb0a-60f8-4b35-aafe-fcf3cf3f773f,Water Point,water_point,5,Building,bu,45.26405,-24.17606
+Anaramalinike,active,create,e38aa6f8-9a1e-4d52-a4d6-a458ea2ae05a,,79d35231-617d-4a57-83e6-fefe79351454,Water Point,water_point,5,Building,bu,,
+Anaratoka,active,create,11afb0d3-1ea9-402b-b6a2-62b0e9967309,,5e2597af-1eb0-43db-a53c-f2e0aa3222a1,Water Point,water_point,5,Building,bu,45.20119,-24.43141
+Anaritsiambala,active,create,0da00a60-524d-4bd9-a7a5-d9af450428ad,,4e2e4b03-3b07-4146-9eb3-5fcecd99e4de,Water Point,water_point,5,Building,bu,47.98972778,-21.74441667
+ANATSOSA CENTRE,active,create,1ecc7926-9a75-4101-9fb5-d1770e818e1a,,409bb851-c200-4643-b590-5f0b2005e8d2,Site Communautaire,site_communautaire,5,Building,bu,,
+Anaviavy,active,create,6b87ca8e-fcfb-44c0-8766-f882fab13e04,,f68b7052-c16f-4d64-94a7-f316153ee7e8,Water Point,water_point,5,Building,bu,,
+Anaviavy,active,create,6fc6bd4f-387b-4dda-806d-927a3e34b4ac,,e9beb16a-fb0b-4aa2-97b5-9668f323af7b,Water Point,water_point,5,Building,bu,45.84174,-24.2708
+Anaviavy,active,create,b78b4e36-4912-43b1-8b79-dfdecaf914d8,,f68b7052-c16f-4d64-94a7-f316153ee7e8,Water Point,water_point,5,Building,bu,46.05201389,-23.13775556
+ANDABOLY,active,create,6f1cd060-c6da-490c-8cb4-504109b21891,,f8f6820f-96eb-4999-82ec-8b809cff94de,Water Point,water_point,5,Building,bu,,
+ANDABOLY,active,create,91cd0976-a15b-4e6c-851c-1e783c9bc61c,,d18ae17a-faae-4e40-bb4d-540641d494c0,Water Point,water_point,5,Building,bu,,
+ANDABOLY,active,create,9cdd3063-9bd8-483f-8669-2820ae6fb07c,,d18ae17a-faae-4e40-bb4d-540641d494c0,Site Communautaire,site_communautaire,5,Building,bu,,
+ANDABOLY,active,create,b5865b7c-b224-4370-a03b-2009999b024f,,f8f6820f-96eb-4999-82ec-8b809cff94de,Site Communautaire,site_communautaire,5,Building,bu,,
+Andaboly Centre,active,create,cdbc3243-3ad9-41db-8425-12e2af03e28c,,d18ae17a-faae-4e40-bb4d-540641d494c0,Water Point,water_point,5,Building,bu,45.64994,-24.82291
+Andabotoka,active,create,5a750e0a-f9ba-4f77-bab4-04b2c276fe7b,,7e26509c-7706-4054-88a5-b98e37841581,Water Point,water_point,5,Building,bu,,
+Andaingo,active,create,d3fe17e2-53dd-49c5-921e-c61f77bb4b21,,7da9bcd5-9919-42eb-a771-4b02ad9ac48a,Water Point,water_point,5,Building,bu,48.01151111,-22.11345278
+Andakato,active,create,ba70a2d1-0911-4b11-9f6c-3f6fa214713d,,3951513c-b05e-451c-af2c-9ccf05ef5910,Water Point,water_point,5,Building,bu,44.98219,-23.71594
+Andakato Ambarazy,active,create,88000a61-9ef8-4f9c-ba67-55c4730c577d,,c88c6d52-991b-4d70-b832-158ee527e297,Water Point,water_point,5,Building,bu,,
+Andalakaolo,active,create,db7dd6dd-7e56-4370-a033-c9b34dbb0fc8,,38679362-2eb0-4eb1-87d0-6b78fa7e733d,Water Point,water_point,5,Building,bu,45.61111,-24.59444
+ANDALAKAOLO,active,create,2db344fb-7753-49b6-bc9e-1c2dfe4a0316,,38679362-2eb0-4eb1-87d0-6b78fa7e733d,Site Communautaire,site_communautaire,5,Building,bu,,
+ANDALAMAHITSY,active,create,2b5a4fed-5df1-472a-8a88-1496b0de5f8d,,1a546a5e-573f-45df-b5e5-4fa11616d2a2,Water Point,water_point,5,Building,bu,46.86338611,-16.34328056
+Andalamby,active,create,f1b6824c-17ee-433e-b95a-a68129231433,,23c35721-4ab5-4661-ad50-a1962bb7851d,Site Communautaire,site_communautaire,5,Building,bu,45.80672,-23.68488
+ANDALATANOSY NORD,active,create,2a28ecfc-d8a2-4395-a05d-58d19c81ca0c,,38679362-2eb0-4eb1-87d0-6b78fa7e733d,Site Communautaire,site_communautaire,5,Building,bu,,
+ANDALATANOSY SUD,active,create,fc601ae0-e6b4-4508-b061-f43acf6a5de3,,38679362-2eb0-4eb1-87d0-6b78fa7e733d,Site Communautaire,site_communautaire,5,Building,bu,,
+Andalimpito,active,create,8505789e-d31b-4b50-a1c0-8f5de01ae727,,1a29f950-a8ed-439c-9d32-b9c2cc1d9bf4,Water Point,water_point,5,Building,bu,,
+Andalipito,active,create,6d73afa8-8c5b-49ee-ada6-d2dfd47e9a1d,,1a29f950-a8ed-439c-9d32-b9c2cc1d9bf4,Water Point,water_point,5,Building,bu,45.62441,-24.52129
+Andamilamy,active,create,24963529-4edd-42d1-84a7-ec611f604920,,fff386bb-d84f-435f-9b88-e25027d06662,Site Communautaire,site_communautaire,5,Building,bu,,
+Andamilamy,active,create,2a25f083-5c9e-415c-b82c-c198635d8c42,,8580a687-cfd7-4ca7-85df-12e585021277,Site Communautaire,site_communautaire,5,Building,bu,,
+Andamilamy,active,create,2bf88a68-2629-4a83-b07e-66214e04e8f5,,8746b844-7ee5-4c7c-9cc1-60fc3c529b15,Site Communautaire,site_communautaire,5,Building,bu,,
+Andamilamy I,active,create,e3658809-5054-49c1-9d08-9def284300a0,,ba97f237-7ff7-4738-b835-00a78ec4bd42,Water Point,water_point,5,Building,bu,,
+Andamotinabo,active,create,52859da1-f664-4265-88e5-ea81eceae391,,5e2597af-1eb0-43db-a53c-f2e0aa3222a1,Water Point,water_point,5,Building,bu,45.22711,-24.32824
+Andapasoa,active,create,015a4b21-8278-409f-b82b-6ebd2cecdf32,,cd0c8f6f-d2ef-4dbd-9712-5ccc36c1e015,Water Point,water_point,5,Building,bu,49.72033,-16.60819
+Andara,active,create,d3f06377-3cc6-4f77-8110-301c59b82641,,6324d417-191d-4698-bd30-34fb47f1ee31,CSB2,csb2,5,Building,bu,,
+Andaro,active,create,ef7c0f7b-104c-4ec2-afa3-900fe61434b3,,08a61379-f59c-415b-bc5b-b03d941a9787,Site Communautaire,site_communautaire,5,Building,bu,,
+ANDASITE,active,create,f8451b55-1710-4aed-b25f-ed60524b67ee,,df16044d-7511-4334-9728-e8735eab9935,Water Point,water_point,5,Building,bu,46.44241667,-16.16386111
+Andatsandrano Carreaux I,active,create,db720e1f-178a-496e-999e-b3b018e0e3e5,,15e3dc94-d0c9-43f1-bbc5-4f3b19883f0f,Water Point,water_point,5,Building,bu,49.5845,-16.92339
+Andatsandrano Sahavolamena,active,create,7bc2455e-183f-472e-bc54-b291b999d2b3,,15e3dc94-d0c9-43f1-bbc5-4f3b19883f0f,Water Point,water_point,5,Building,bu,49.58464,-16.92492
+Andavabaza,active,create,db8d4a80-9e79-4a1e-b045-47e60a679cb1,,c100241f-a892-4bc7-97bf-7ed02ed0d40e,Site Communautaire,site_communautaire,5,Building,bu,,
+Andavaboay marofoty,active,create,40c806f4-bbee-4a6b-96d2-01f87a99e4fe,,48e6b0ce-08cb-48b5-8066-254ed2e8ad8f,Site Communautaire,site_communautaire,5,Building,bu,,
+ANDAY,active,create,538179d9-8945-48db-9210-e236540c920f,,113a292b-209d-4f6d-b7a3-aa7f6eb56186,Site Communautaire,site_communautaire,5,Building,bu,,
+ANDAZA,active,create,e19a15a5-f6c0-4e82-99f7-9ba3beabe33e,,113a292b-209d-4f6d-b7a3-aa7f6eb56186,Water Point,water_point,5,Building,bu,,
+ANDAZA AMPAHEPOTY,active,create,9388e70c-d7ad-40de-932c-41184edaab07,,113a292b-209d-4f6d-b7a3-aa7f6eb56186,Site Communautaire,site_communautaire,5,Building,bu,,
+Andeogne,active,create,161ad6f8-b043-4efa-9a72-6e9c9a64ed79,,2601ccb0-b1e8-4ee7-ba9a-e9d2f9d48f06,Water Point,water_point,5,Building,bu,45.43987,-24.89566
+Andingolingo,active,create,cfb79368-9df5-4d5d-abfd-57e0ee442745,,529c8318-fa53-4d4e-8cd9-7c0b3a229d06,Site Communautaire,site_communautaire,5,Building,bu,,
+ANDIRIBE,active,create,ef4a1bc4-79cf-4c3d-962d-6f52c82997eb,,9d83a546-65b4-486a-b989-9192222167ba,Water Point,water_point,5,Building,bu,45.738744,-15.875516
+ANDOHANDAMBO,active,create,f2c8e204-1090-4db7-b650-e3701969b64f,,6614ec43-fa7a-4f08-9a02-9acaf9ceebec,Water Point,water_point,5,Building,bu,,
+Andoharano,active,create,7c29300a-8bf5-48ff-a88a-69b5f940ea1b,,5e7fb2d0-10c3-47fc-88ec-561122e106c8,Water Point,water_point,5,Building,bu,,
+Andoharano morafeno,active,create,af215e59-f869-4da3-b63f-410cd4991dc7,,ac38946a-ff08-4941-ab55-9f25fb818265,Water Point,water_point,5,Building,bu,,
+Andombiry,active,create,79d15862-9fab-48fd-bc0c-ca05fd15ed84,,bfc47a53-c417-4b92-b394-f669854729ec,Water Point,water_point,5,Building,bu,,
+Andombolomahitso,active,create,ae3d9a90-7717-403b-b61a-d6029dbe93f0,,f8a96f70-3460-4957-bb58-146714a1de08,Water Point,water_point,5,Building,bu,49.68417,-16.85936
+Andonabe,active,create,d7a2c36c-4ed0-47c6-9e41-5448790abfd9,,7c684e8e-2548-4792-9b7a-c7d4be3f027a,Water Point,water_point,5,Building,bu,47.64355,-23.17513
+ANDONAKA,active,create,6d663cdc-9bd7-472c-af01-53987c2cc7e9,,cbba297f-18ae-440d-be70-b598c4b61683,Water Point,water_point,5,Building,bu,48.53063889,-20.59094444
+Andrabarotra I,active,create,be9a8dad-d5eb-4513-986b-f2f2802ac0d8,,38679362-2eb0-4eb1-87d0-6b78fa7e733d,Water Point,water_point,5,Building,bu,,
+Andraborake,active,create,1d22db6e-5e13-46d1-8f91-c09beb7aee5c,,4a4c7fe2-5003-44c2-b405-2d5850b612a3,Water Point,water_point,5,Building,bu,,
+Andragiragy,active,create,074cc66d-60d4-4dd2-b5cf-e885a0b869d1,,08a61379-f59c-415b-bc5b-b03d941a9787,Site Communautaire,site_communautaire,5,Building,bu,,
+Andrakea,active,create,a4396178-cb4a-4d06-928e-e7e939dbb836,,3ac50ca3-1246-49da-a97f-11145ec5fce6,Water Point,water_point,5,Building,bu,,
+ANDRAKETALAHY,active,create,24f1d3eb-af01-48c8-8c1e-69a7a32bc52e,,5f666d29-8b8c-4ebf-a630-e2cad0cb3685,Site Communautaire,site_communautaire,5,Building,bu,,
+Andramanera II,active,create,3600d9b8-44a2-4a09-bd9e-54e01ca6ca59,,457c79c3-09a5-4967-abe5-9ba010354d1a,Site Communautaire,site_communautaire,5,Building,bu,,
+Andrambaly,active,create,3a6ee7aa-3eae-410b-9bd2-cb9692f9e5ff,,3ac50ca3-1246-49da-a97f-11145ec5fce6,Site Communautaire,site_communautaire,5,Building,bu,,
+Andrambita,active,create,e30caa58-7618-4ce3-8210-a74f163dac00,,38679362-2eb0-4eb1-87d0-6b78fa7e733d,Water Point,water_point,5,Building,bu,45.589649,-24.660965
+andramboro,active,create,0ccac16e-15ed-4425-8505-bc77eec5b5b1,,45080bdf-d7cf-4745-b19b-f06c4dac96c0,Water Point,water_point,5,Building,bu,,
+ANDRAMIRAVA,active,create,bd3f09d3-8015-45c4-98be-c61d8a60ecad,,8f572186-72b7-414f-bd37-f4b91c431017,Site Communautaire,site_communautaire,5,Building,bu,,
+Andramy,active,create,6408e714-d4e5-4ec4-a5ce-10f0f51a0d9d,,32a17c2d-9f45-4c91-8fdc-4efa98b0c23e,Water Point,water_point,5,Building,bu,44.3906,-18.45148
+ANDRAMY II,active,create,e4c8cd59-9b48-449a-b53a-9173f02598c8,,32a17c2d-9f45-4c91-8fdc-4efa98b0c23e,Water Point,water_point,5,Building,bu,44.39342,-18.45347
+Andrandambo,active,create,1c120229-3a33-48cd-b476-6326d422c897,,aff4922a-e1fb-418e-83d1-54a3ef16c61f,Water Point,water_point,5,Building,bu,46.58586111,-24.42533056
+Andrangazaha Andranolalina,active,create,920bf3ec-4292-4394-8a9f-af8c5c2dc69e,,f8a96f70-3460-4957-bb58-146714a1de08,Water Point,water_point,5,Building,bu,49.69558,-16.86297
+Andrangazaha Andranolalina Sud,active,create,d2a077b7-ac4b-43ab-846c-f95e29b9af46,,f8a96f70-3460-4957-bb58-146714a1de08,Water Point,water_point,5,Building,bu,49.67794,-16.85028
+Andrangazaha Fjkm,active,create,9f58ee4e-ee35-4a8a-b2d9-35e1b1c3df52,,f8a96f70-3460-4957-bb58-146714a1de08,Water Point,water_point,5,Building,bu,49.68183,-16.864
+Andrangazaha I,active,create,7cfef787-f010-4f1d-b777-b325723302db,,f8a96f70-3460-4957-bb58-146714a1de08,Water Point,water_point,5,Building,bu,,
+Andrangazaha Ii,active,create,f70e01f5-0d6a-4b90-9dc1-a3a6f29454d9,,f8a96f70-3460-4957-bb58-146714a1de08,Water Point,water_point,5,Building,bu,49.68108,-16.86197
+Andrangazaha Iii,active,create,a7833a4c-c9d7-4693-b2aa-66253d432d4e,,f8a96f70-3460-4957-bb58-146714a1de08,Water Point,water_point,5,Building,bu,49.68669,-16.85947
+Andranobe,active,create,60897195-33e2-4e01-84af-ef3f50f3c640,,42c86929-005d-42d1-8277-50e374ff3337,Water Point,water_point,5,Building,bu,,
+Andranoboaky,active,create,44f31dbb-82cd-4ed2-9830-85c0b2592225,,affff8ba-86fb-4d6a-b3ba-e2643a7b67b4,Water Point,water_point,5,Building,bu,47.33322,-23.9736
+Andranofotsy Ii,active,create,b5d2853b-4a9d-4485-ab97-679767b46c26,,42c86929-005d-42d1-8277-50e374ff3337,Water Point,water_point,5,Building,bu,46.41139,-24.56694
+Andranogiso,active,create,080ee4d8-cb49-4266-a8b1-b572471034f4,,d18ae17a-faae-4e40-bb4d-540641d494c0,Water Point,water_point,5,Building,bu,45.65842,-25.0296
+ANDRANOGISO ANKILIMANINTSY (ANTANIMORA CENTRE),active,create,32a6ce2b-cb1a-4e1a-bf0f-a2524f1d83a8,,d18ae17a-faae-4e40-bb4d-540641d494c0,Site Communautaire,site_communautaire,5,Building,bu,,
+Andranoherike,active,create,6edb0bae-1c76-4312-92d9-e17b4c6f554b,,8746b844-7ee5-4c7c-9cc1-60fc3c529b15,Site Communautaire,site_communautaire,5,Building,bu,,
+Andranolava,active,create,7e4ebbde-d532-40be-92dc-f1137c55b7f6,,45080bdf-d7cf-4745-b19b-f06c4dac96c0,Site Communautaire,site_communautaire,5,Building,bu,45.081215,-25.097908
+Andranolava,active,create,b4b94c98-32ac-4492-9249-0d40125a1037,,3e5a2e63-bc73-420c-896b-ab75d06632e8,Water Point,water_point,5,Building,bu,,
+Andranolava,active,create,bd8e25d4-2e7b-4b76-80f4-338d2020741d,,5e2597af-1eb0-43db-a53c-f2e0aa3222a1,Water Point,water_point,5,Building,bu,45.23286,-23.96019
+Andranomamy,active,create,6546593e-2225-4649-966f-7a59cd20bdd5,,4342c258-a4f9-4f05-8356-42be448ffec7,Site Communautaire,site_communautaire,5,Building,bu,,
+ANDRANOMAMY CENTRE,active,create,b8305dfe-2ec7-4f1c-b896-21fd9c71bc5b,,fe7ec12f-51a4-41f6-9e29-262df5c89b66,Water Point,water_point,5,Building,bu,47.12461667,-16.53690556
+Andranomamy Epp,active,create,994cfcf4-d6eb-4220-a9d1-b27bee76d357,,41150233-beb5-4fa9-86a0-66a3606bcef6,Water Point,water_point,5,Building,bu,,
+Andranomamy Epp,active,create,d199a1af-4c70-468c-8b5e-ce615a6f5359,,fe7ec12f-51a4-41f6-9e29-262df5c89b66,Water Point,water_point,5,Building,bu,47.12303,-16.53653
+ANDRANOMANDEVY,active,create,aed3f159-6034-424b-9481-9b98bd48a020,,9b606a8a-d316-4943-88d9-020a4a3d0bf7,Water Point,water_point,5,Building,bu,,
+Andranomanenty,active,create,302b31a6-4e86-4d53-9354-94b3fc42e6e7,,03e7aa0c-a775-4413-9ab4-b34e336faa47,Water Point,water_point,5,Building,bu,45.87078,-16.00053
+ANDRANOMANENTY EST,active,create,21480648-6a05-409b-b857-65d001194c30,,03e7aa0c-a775-4413-9ab4-b34e336faa47,Water Point,water_point,5,Building,bu,45.859861,-16.00807
+ANDRANOMANENTY OUEST,active,create,b6d57807-2bf5-4e35-add5-d0323059ddef,,03e7aa0c-a775-4413-9ab4-b34e336faa47,Water Point,water_point,5,Building,bu,,
+Andranomanitsy,active,create,76c76bc8-517e-46bf-8691-0ec538199227,,fff386bb-d84f-435f-9b88-e25027d06662,Site Communautaire,site_communautaire,5,Building,bu,,
+Andranomatavy,active,create,c8f1f451-ab8c-41bb-830e-630beac48f72,,e9beb16a-fb0b-4aa2-97b5-9668f323af7b,Water Point,water_point,5,Building,bu,45.64083,-24.41528
+Andranomatavy,active,create,b267e6d7-e769-4464-a6fb-dacebeb88019,,749e8f17-0875-423f-a1ec-953edfcd171c,Water Point,water_point,5,Building,bu,,
+Andranomatavy 1,active,create,17c7b6c3-28e7-47fb-ba76-99e3ee4d854e,,749e8f17-0875-423f-a1ec-953edfcd171c,Water Point,water_point,5,Building,bu,45.33563611,-24.22502778
+Andranomatavy 2,active,create,b0bd8efb-4ac1-4c5f-9605-2a399b0a6588,,749e8f17-0875-423f-a1ec-953edfcd171c,Water Point,water_point,5,Building,bu,45.36008333,-24.23083333
+Andranomatavy I,active,create,1d9f647e-8f34-4fd5-9fa3-8e60bc3c213f,,749e8f17-0875-423f-a1ec-953edfcd171c,Water Point,water_point,5,Building,bu,,
+Andranomatavy I,active,create,d68ea405-f8d7-45b7-a4a8-6596d74d5eee,,749e8f17-0875-423f-a1ec-953edfcd171c,Water Point,water_point,5,Building,bu,,
+Andranomavo,active,create,d3acc3ff-d74d-48e9-b615-b6221213d7fb,,577271cc-bb56-43ae-96f3-966db1c2c5ca,Water Point,water_point,5,Building,bu,43.47941,-22.91486
+Andranomavo,active,create,f7ef0aee-bf24-44be-b535-0da9920effb9,,75b22baf-37a9-4d42-8fd6-7ca7912d2a4a,Site Communautaire,site_communautaire,5,Building,bu,,
+Andranomavo 1,active,create,621c4f1d-a671-4da0-8eca-39981696457a,,ae2380b1-744a-4772-9ea4-dff3942ce957,Water Point,water_point,5,Building,bu,48.19430556,-21.24411111
+Andranomavo 2,active,create,67d039be-ef03-4503-8fc6-bd0f0a959584,,ae2380b1-744a-4772-9ea4-dff3942ce957,Water Point,water_point,5,Building,bu,48.19285556,-21.24603333
+Andranomavo Ii,active,create,11c0d0ea-001d-4b1f-a423-747725d1ad21,,75b22baf-37a9-4d42-8fd6-7ca7912d2a4a,Water Point,water_point,5,Building,bu,45.21677,-24.1947
+ANDRANOMAVOKELY CENTRE,active,create,83a3f637-324a-4b92-b4e7-c352338f65b7,,03e7aa0c-a775-4413-9ab4-b34e336faa47,Water Point,water_point,5,Building,bu,,
+ANDRANOMAVOKELY EPP,active,create,2720cb37-9b57-4b79-8a47-ea39646e54bb,,03e7aa0c-a775-4413-9ab4-b34e336faa47,Water Point,water_point,5,Building,bu,,
+Andranombahoaka,active,create,141d1b34-f923-4d8b-b7a3-b3f40d8308f6,,15e3dc94-d0c9-43f1-bbc5-4f3b19883f0f,Water Point,water_point,5,Building,bu,49.58364,-16.92125
+Andranomena,active,create,cf4193c8-7d16-404b-9edf-e2d0b6633408,,6eb5c944-e2c7-4eac-93a9-ad7996924fce,Site Communautaire,site_communautaire,5,Building,bu,,
+Andranomena Nord,active,create,cf1695c5-967b-47a8-93b2-e8e16d5a7a24,,e7521037-19ad-41a9-b25f-dd44b89d453c,Water Point,water_point,5,Building,bu,,
+Andranomiditra,active,create,bea3af95-d361-4a68-9672-2063bf3f97f6,,9b606a8a-d316-4943-88d9-020a4a3d0bf7,Water Point,water_point,5,Building,bu,47.10969,-16.28944
+ANDRANOMIDITRA,active,create,ed23e0a7-d8c4-4fa9-b188-c7c4631cc7ee,,9b606a8a-d316-4943-88d9-020a4a3d0bf7,Water Point,water_point,5,Building,bu,47.034442,-16.383307
+Andranomiteraky,active,create,c88e78b8-6867-442c-a249-90f0feb7f11a,,4342c258-a4f9-4f05-8356-42be448ffec7,Site Communautaire,site_communautaire,5,Building,bu,,
+Andranomiteraky,active,create,ea7a3f88-2519-4b28-8cd1-dd3ef4b631d3,,4342c258-a4f9-4f05-8356-42be448ffec7,Site Communautaire,site_communautaire,5,Building,bu,,
+ANDRANONAGNOMBE,active,create,2a3e24e0-6f73-4411-a019-2d774e225772,,cbd7ab07-5855-4335-85fb-7514bd0c8bab,Site Communautaire,site_communautaire,5,Building,bu,,
+Andranondambo,active,create,eba3cdad-660a-4e74-a609-e0788b99f100,,aff4922a-e1fb-418e-83d1-54a3ef16c61f,Water Point,water_point,5,Building,bu,46.58835,-24.42467
+Andranontantely,active,create,929d2dfa-4630-41cd-8f6c-f10877b0facc,,e66bbb26-5f82-4752-8637-81e79d3b7024,Water Point,water_point,5,Building,bu,44.01591,-23.03132
+Andranosoa,active,create,39c18c9a-f509-4354-9959-4f3b707eb05b,,8580a687-cfd7-4ca7-85df-12e585021277,Water Point,water_point,5,Building,bu,45.12727,-24.50567
+Andranotakatre,active,create,0b9a7d4d-8052-43ba-b14b-14a8760ca0f0,,1a29f950-a8ed-439c-9d32-b9c2cc1d9bf4,Water Point,water_point,5,Building,bu,,
+Andranoterake,active,create,b421de1e-30ba-4314-8913-b495b4c1eae1,,5e1ddbbb-a08c-4a05-a225-36788acf6baa,Water Point,water_point,5,Building,bu,45.38249,-24.00294
+Andranotsikio,active,create,1781711d-47d9-4568-91a2-8faffb82c0ad,,bfc47a53-c417-4b92-b394-f669854729ec,Site Communautaire,site_communautaire,5,Building,bu,,
+Andranotsiriry Nord,active,create,638d2467-aa4f-4b40-bc20-d9bf912b5095,,4863b612-5843-41f8-a1ab-cca2f892fee0,Water Point,water_point,5,Building,bu,,
+Andranovorindregataka,active,create,1c8dcdee-e0fa-4e42-9074-c577cfaf113c,,e7521037-19ad-41a9-b25f-dd44b89d453c,Water Point,water_point,5,Building,bu,,
+Andraseky,active,create,f5d248d1-1147-48ab-aa03-450bd6f8cd89,,81fbdd83-3e3b-42a3-92c8-0c8a526a18d2,Site Communautaire,site_communautaire,5,Building,bu,,
+Andratamahalina,active,create,40479061-22e5-49fc-ac4d-7f47b1aa6afb,,3a549dea-f588-417b-a658-77f70cc9a9b4,Water Point,water_point,5,Building,bu,49.43644,-17.45161
+Andratanimoina,active,create,2f0aaa43-e620-43fd-9e24-816907c4856e,,2b0f48ab-d7e0-46c3-ac1c-6c51be595b10,Water Point,water_point,5,Building,bu,49.31232,-17.37877
+ANDRATANIMOINA,active,create,6680814f-5559-4489-9af4-0c5195cb7c75,,2b0f48ab-d7e0-46c3-ac1c-6c51be595b10,Water Point,water_point,5,Building,bu,49.3125,-17.37889
+Andratomahalina,active,create,3c8fbaa6-c4ab-4fa7-a53d-be13d975a721,,3a549dea-f588-417b-a658-77f70cc9a9b4,Water Point,water_point,5,Building,bu,49.43659,-17.45203
+Andravoahangy 1 BLV3461,active,create,4f984612-0f49-403d-a52f-cf7ce38bceb1,,8f127dd1-8e58-4d53-b273-bf8945e3e43a,Water Point,water_point,5,Building,bu,47.5324722,-18.896667
+Andravoahangy 2 BLV3460,active,create,902c2390-0067-4c8d-b9e5-9cef58383610,,8f127dd1-8e58-4d53-b273-bf8945e3e43a,Water Point,water_point,5,Building,bu,47.53025,-18.897
+Andrea Ambalarano,active,create,cb36a6a5-349e-4cb6-ba4e-79ad3a0a7892,,40e34a5a-f842-4261-998d-e44dd8009675,Water Point,water_point,5,Building,bu,44.10947,-17.90842
+Andrea Centre,active,create,e53c740a-89c9-4037-99fe-dcf906a0c14a,,40e34a5a-f842-4261-998d-e44dd8009675,Water Point,water_point,5,Building,bu,44.12211,-17.89347
+Andrevo Bas,active,create,ec3e033a-3b51-4fcc-9ca7-5b088a07d79a,,577271cc-bb56-43ae-96f3-966db1c2c5ca,Water Point,water_point,5,Building,bu,43.54733,-23.03282
+Andriabe,active,create,517a771a-4045-4bb1-8586-1dfacdd14760,,fff386bb-d84f-435f-9b88-e25027d06662,Site Communautaire,site_communautaire,5,Building,bu,,
+Andriabe,active,create,b6a77623-1981-4b72-9d70-a07db7f5e0fa,,4342c258-a4f9-4f05-8356-42be448ffec7,Water Point,water_point,5,Building,bu,45.26405,-24.17606
+Andriamanaly,active,create,8772bb20-90e0-4ce6-a4c2-6723e17846f0,,8746b844-7ee5-4c7c-9cc1-60fc3c529b15,Water Point,water_point,5,Building,bu,45.1057,-24.53485
+Andrivory (Ankilimitraha),active,create,b6082f32-a034-4b6a-8f05-fc0e4d39e6a3,,bbf51669-1e92-493b-bc33-395378f2943d,Water Point,water_point,5,Building,bu,46.717435,-25.14432222
+Androangabe,active,create,2a155401-2289-4df8-b954-29632d9ce687,,c4f2f76e-2c1c-4292-b7cd-59245c16e3c1,Water Point,water_point,5,Building,bu,,
+Androangabe,active,create,7a5e5f64-5907-4b27-8292-c54c4c281b87,,03022ae7-30ae-4353-b67e-02e075995999,Water Point,water_point,5,Building,bu,44.882,-23.91997
+ANDROHIMPANO,active,create,aeeb99f4-89b5-423f-ba4d-ed01c25367ed,,5e7fb2d0-10c3-47fc-88ec-561122e106c8,Water Point,water_point,5,Building,bu,44.05201,-24.878798
+Androidroy,active,create,53e09a54-2a68-4aed-9750-e4488cfe25fd,,9e96eb0a-60f8-4b35-aafe-fcf3cf3f773f,Water Point,water_point,5,Building,bu,45.27551,-24.82613
+Androimpano,active,create,31e5962a-1ecf-4def-af79-e38f7b4b0a6b,,5e7fb2d0-10c3-47fc-88ec-561122e106c8,Water Point,water_point,5,Building,bu,,
+Androka,active,create,673a5deb-8a71-4140-91b0-70a6ebe8965e,,08a61379-f59c-415b-bc5b-b03d941a9787,Site Communautaire,site_communautaire,5,Building,bu,,
+Andromamy,active,create,331490a3-2089-4d4c-ba22-f8b586bebe97,,8580a687-cfd7-4ca7-85df-12e585021277,Water Point,water_point,5,Building,bu,45.12633,-24.55226
+Andromivongo,active,create,1b2a7f18-9f3d-4823-8f05-67f560d31a3c,,eff7b5fc-4224-4400-9165-0f3f7733a4a1,Water Point,water_point,5,Building,bu,45.85248,-24.33974
+Andromivongo Nord,active,create,6c8fc129-54fd-46f1-967b-7cbe8301826d,,eff7b5fc-4224-4400-9165-0f3f7733a4a1,Water Point,water_point,5,Building,bu,45.8538,-24.6131
+Androtsabo,active,create,9433e49b-5bac-4453-8ed6-eb1cd3b85874,,35079e66-d6ee-4cf2-92e7-06912ef5ce56,Water Point,water_point,5,Building,bu,45.6801,-24.35357
+ANDROVAMARE II,active,create,806b5e8b-c746-401e-a470-3c44167aa9e5,,aaa6f92e-a051-4c93-a259-4e5abcca48d8,EPP,epp,5,Building,bu,,
+Androvasoa,active,create,57394b8c-144c-47b9-81e2-3ec3075d64f3,,8580a687-cfd7-4ca7-85df-12e585021277,Water Point,water_point,5,Building,bu,45.13587,-24.42705
+Androvasoa,active,create,f265fe74-4b5a-40f3-a8d4-f762d0b28c9d,,2601ccb0-b1e8-4ee7-ba9a-e9d2f9d48f06,Water Point,water_point,5,Building,bu,45.60362,-24.7777
+ANDROVASOA,active,create,aefbcc89-98b4-4dd7-a09d-f59b8623c6c8,,38679362-2eb0-4eb1-87d0-6b78fa7e733d,Site Communautaire,site_communautaire,5,Building,bu,,
+Androvontsy,active,create,fb1ade25-864a-46c8-833c-9f4f821dc1d0,,8580a687-cfd7-4ca7-85df-12e585021277,Water Point,water_point,5,Building,bu,45.15083,-24.20362
+ANGARAMAHITSY CENTRE,active,create,2af5330a-9ddd-4174-a529-a4490bbb6524,,df16044d-7511-4334-9728-e8735eab9935,Water Point,water_point,5,Building,bu,46.49272222,-16.18577778
+Angirazato,active,create,b0e435e9-5c7a-4e42-a765-d285d8fd48b2,,81fbdd83-3e3b-42a3-92c8-0c8a526a18d2,Site Communautaire,site_communautaire,5,Building,bu,,
+AngisoI,active,create,8bf67bbc-2ce7-4aa6-a002-8d7b892142bd,,75b22baf-37a9-4d42-8fd6-7ca7912d2a4a,Water Point,water_point,5,Building,bu,45.4536611,-24.4947111
+Angobegobe,active,create,943dd778-adae-4a19-8a24-84a46be6bfd7,,45080bdf-d7cf-4745-b19b-f06c4dac96c0,Site Communautaire,site_communautaire,5,Building,bu,,
+Angodobo I,active,create,9f7f86eb-adc9-450c-975b-977b5db3a057,,d18ae17a-faae-4e40-bb4d-540641d494c0,Water Point,water_point,5,Building,bu,,
+Angodongodona,active,create,befb4edf-b04b-4e16-a628-0ca9248732f3,,f733cd39-0b91-4dae-b51e-3aa94e4eef18,CSB2,csb2,5,Building,bu,,
+Angolobo,active,create,41d0d577-9bb4-43df-acc4-790fcaa594cf,,79d35231-617d-4a57-83e6-fefe79351454,Water Point,water_point,5,Building,bu,,
+Anisira,active,create,c070ec9e-2d88-4ea9-bb62-9c25d8732acf,,c149b572-ebc8-460b-8709-a7335b536d5f,Water Point,water_point,5,Building,bu,47.67475,-22.54265278
+Anivorano,active,create,050231d8-6900-44d8-a5d7-b8d0b08e5ffc,,5d25d248-4468-4c96-a566-4a539c7928f8,Water Point,water_point,5,Building,bu,45.62091,-24.58807
+Anivorano,active,create,2c593727-ec8a-4986-bfea-4bb1dbc7ec79,,749e8f17-0875-423f-a1ec-953edfcd171c,Water Point,water_point,5,Building,bu,,
+Anivorano,active,create,332b2b99-8b03-4dba-952c-5cf3dd0cf4e2,,8580a687-cfd7-4ca7-85df-12e585021277,Water Point,water_point,5,Building,bu,45.20949,-24.13046
+Anivorano,active,create,4e611057-a82a-4cd3-b943-93617297e596,,17588bca-da82-458e-8c57-f9ad3b095026,Water Point,water_point,5,Building,bu,47.9718,-22.00337
+Anivorano,active,create,530901cc-4f78-44ab-b933-ae83f897ea82,,17588bca-da82-458e-8c57-f9ad3b095026,Village,village,5,Building,bu,49.26403,-17.40681
+Anivorano,active,create,5b4a7c1e-4af3-4eec-9ddb-4b5921a683fa,,4fa8031b-51a6-49a8-ac01-8dce533d58d0,Water Point,water_point,5,Building,bu,47.73333333,-22.93333333
+Anivorano,active,create,71cc235f-c40b-4571-b769-6823c6642448,,4863b612-5843-41f8-a1ab-cca2f892fee0,Water Point,water_point,5,Building,bu,,
+Anivorano,active,create,74874897-87b5-47f8-b542-8d2a1d1414ff,,17588bca-da82-458e-8c57-f9ad3b095026,Water Point,water_point,5,Building,bu,47.970677,-22.002564
+Anivorano,active,create,903aaaa2-d6ae-4c4f-8258-92f90538fe37,,053d4f7a-b383-4faa-b224-8418ecabf446,Water Point,water_point,5,Building,bu,49.21301,-17.39654
+Anivorano,active,create,d007844a-1708-455d-afa8-3eeb1340922b,,053d4f7a-b383-4faa-b224-8418ecabf446,Water Point,water_point,5,Building,bu,49.19266,-17.462811
+Anivorano Ambatoasàna,active,create,cbcb4815-8a29-49b4-8fe9-5ceb35d84f78,,eadf078b-2054-4723-8af1-5d16c18ac240,Water Point,water_point,5,Building,bu,49.26652,-17.40496
+Anjabotretriky,active,create,3616715d-928e-45e8-80e8-fdf5e7786820,,3f9a4d6c-ec41-43cc-983e-87211280c482,Water Point,water_point,5,Building,bu,45.40003,-24.68172
+Anjahambe Centre,active,create,45d57d26-1847-4d15-9404-b2a33d28d10e,,68f938ca-5f90-44da-9cd5-f786622f1e30,Water Point,water_point,5,Building,bu,49.49599,-17.11585
+Anjahambe II,active,create,a9216b8d-3409-4713-9d46-be82414cbc50,,68f938ca-5f90-44da-9cd5-f786622f1e30,Water Point,water_point,5,Building,bu,49.49415,-17.11286
+Anjahambe II 2,active,create,58813571-7be5-4255-baeb-ea4ae27741b4,,68f938ca-5f90-44da-9cd5-f786622f1e30,Water Point,water_point,5,Building,bu,49.49599,-17.11585
+Anjahambe Nord,active,create,4defcdea-7faa-4078-b04b-58b7989c14f8,,68f938ca-5f90-44da-9cd5-f786622f1e30,Water Point,water_point,5,Building,bu,49.49415,-17.11286
+Anjahambe Sud,active,create,69a45f8c-9387-4cd8-8c2a-225c98b4d27b,,68f938ca-5f90-44da-9cd5-f786622f1e30,Water Point,water_point,5,Building,bu,49.50076,-17.12034
+ANJA HAUT,active,create,8aad7b76-2beb-46a8-8cce-9bc21fba5a13,,f0ec4526-d5d8-4c7b-b924-bac45cdb54cd,Site Communautaire,site_communautaire,5,Building,bu,,
+ANJAKAMBA,active,create,468a7b66-b53a-4cba-9c5e-41b34c26dc7c,,f8f6820f-96eb-4999-82ec-8b809cff94de,Site Communautaire,site_communautaire,5,Building,bu,,
+ANJAKAMBA HAUT,active,create,8db5a7ec-97fc-477a-a2a0-7071cb4366f5,,2601ccb0-b1e8-4ee7-ba9a-e9d2f9d48f06,Site Communautaire,site_communautaire,5,Building,bu,,
+Anjamahavelo,active,create,919435eb-89b8-4866-b161-5f19b67e95ed,,9672b87b-9c5a-41a9-b9a4-d8caf2967947,Site Communautaire,site_communautaire,5,Building,bu,null,0
+Anjamahavelo,active,create,b240fc78-da86-400c-82df-a0557d94c526,,9672b87b-9c5a-41a9-b9a4-d8caf2967947,Water Point,water_point,5,Building,bu,46.21389,-24.92775
+Anjamangotroko,active,create,e44b0c99-edee-466f-9c5a-2867062c37d6,,8580a687-cfd7-4ca7-85df-12e585021277,Water Point,water_point,5,Building,bu,45.13541,-24.41325
+Anjamarotea,active,create,395b8a9b-5d18-416e-930c-984e255ba96e,,2e0f142a-d4e4-4d49-bb85-d88f3fb60663,Water Point,water_point,5,Building,bu,44.62041,-24.28208
+Anjamasy,active,create,c9e08967-a2bc-4287-b683-5094153f73ed,,f125d884-4366-459a-9989-b9dd840687e3,Water Point,water_point,5,Building,bu,43.73418,-23.31123
+ANJAMPALY I,active,create,bb1bdc46-6869-42be-811f-534a5c967f3d,,113a292b-209d-4f6d-b7a3-aa7f6eb56186,Site Communautaire,site_communautaire,5,Building,bu,,
+ANJAMPALY II,active,create,a45ec480-82b8-45bb-81e1-f44e5673881c,,113a292b-209d-4f6d-b7a3-aa7f6eb56186,Site Communautaire,site_communautaire,5,Building,bu,,
+Anjampito,active,create,832c2217-09bb-451d-b27c-a99d1ca3ca7c,,38679362-2eb0-4eb1-87d0-6b78fa7e733d,Water Point,water_point,5,Building,bu,,
+Anjandavo II,active,create,61339554-671d-46e5-8db7-6c843114cb9e,,89a67109-8797-47cd-88c6-847e829ff4ae,Site Communautaire,site_communautaire,5,Building,bu,,
+Anja Nord I,active,create,ccf2dc5c-8339-4da0-a851-c8355ab0ec22,,dfef62fd-14cb-41e0-9bbf-321d9a8b9311,Water Point,water_point,5,Building,bu,45.41699,-23.99604
+Anja Nord Ii,active,create,81f2ed35-6164-42f3-9202-0aaa21c0afd2,,dfef62fd-14cb-41e0-9bbf-321d9a8b9311,Water Point,water_point,5,Building,bu,45.41457,-23.79308
+ANJANPAGNANIKE,active,create,a0e03f49-ce8f-4f45-8ab6-1b469acd43f1,,8f572186-72b7-414f-bd37-f4b91c431017,Water Point,water_point,5,Building,bu,,
+Anjantelo,active,create,32f1b75a-e245-4789-9bd7-13bae7da2460,,38679362-2eb0-4eb1-87d0-6b78fa7e733d,Water Point,water_point,5,Building,bu,45.1457,-24.19066
+Anjantsoa,active,create,1be4c788-72c1-4092-af35-34b268436bea,,9e96eb0a-60f8-4b35-aafe-fcf3cf3f773f,Water Point,water_point,5,Building,bu,,
+Anjapito Nord,active,create,1b78b0a9-699d-4db1-860e-f3574848a48e,,38679362-2eb0-4eb1-87d0-6b78fa7e733d,Water Point,water_point,5,Building,bu,45.51817,-24.65267
+Anjapoty Nord,active,create,9561967d-eea8-4c0e-b002-8ff2a478a253,,89a67109-8797-47cd-88c6-847e829ff4ae,Site Communautaire,site_communautaire,5,Building,bu,,
+ANJATOKA,active,create,daecb448-4429-4c98-9fb5-af32450df80a,,e9e6a1c2-e01c-4698-8e78-c838dbf0013c,Site Communautaire,site_communautaire,5,Building,bu,,
+ANJATOKA II (TANAMBAO ),active,create,007f065a-9bdc-4e02-8df4-690bea5b0fe7,,f8f6820f-96eb-4999-82ec-8b809cff94de,Site Communautaire,site_communautaire,5,Building,bu,,
+ANJATSAMPA,active,create,e520dd95-e320-4c68-9af9-8d48ff83133e,,edd7bc75-fc97-4748-840c-2fc554322284,Site Communautaire,site_communautaire,5,Building,bu,,
+Anjeba,active,create,37b8b93b-3cfa-4887-9992-101efb77f235,,ced122ee-d3d8-48e1-bfe3-85799e6f0bb4,Water Point,water_point,5,Building,bu,44.74712,-24.44329
+ANJEBA,active,create,5411dc6f-77b8-4c01-8567-6d6fc16f74ed,,2601ccb0-b1e8-4ee7-ba9a-e9d2f9d48f06,Site Communautaire,site_communautaire,5,Building,bu,,
+ANJEBA,active,create,6f32c77d-d212-496a-b689-7a409026911b,,2601ccb0-b1e8-4ee7-ba9a-e9d2f9d48f06,Water Point,water_point,5,Building,bu,,
+Anjiafotsy,active,create,e36c62e1-81c1-4956-a7a1-24bf05887643,,cd0c8f6f-d2ef-4dbd-9712-5ccc36c1e015,Water Point,water_point,5,Building,bu,49.79374,-16.55812
+ANJIAJIA CENTRE,active,create,f1360d61-87ce-43ea-94c5-b7f91d1568a6,,03380fbe-d484-41ee-a8bc-24313e5e3788,Water Point,water_point,5,Building,bu,46.965227,-16.448625
+Anjiajia Gara,active,create,3ad26b90-4c53-463b-abb2-9848caa215fa,,03380fbe-d484-41ee-a8bc-24313e5e3788,Water Point,water_point,5,Building,bu,46.96006,-16.45233
+Anjiakely,active,create,dbe04e7e-19bc-4886-bd5b-feafc28ba5be,,9d83a546-65b4-486a-b989-9192222167ba,Water Point,water_point,5,Building,bu,45.77472,-15.91619
+ANJIAKELY,active,create,1cdbe7b7-bb37-4b70-a965-74ea49321858,,9d83a546-65b4-486a-b989-9192222167ba,Water Point,water_point,5,Building,bu,45.76659,-15.93521
+ANJIAKELY,active,create,8c074b77-a3b1-4993-af70-bcb2105334ff,,9d83a546-65b4-486a-b989-9192222167ba,Water Point,water_point,5,Building,bu,45.738744,-15.875516
+ANJIDAVA,active,create,bfb86b89-7953-4423-9e30-ad3a30443451,,ced122ee-d3d8-48e1-bfe3-85799e6f0bb4,Water Point,water_point,5,Building,bu,,
+Anjijia Centre,active,create,4dc94562-06ed-4ab9-8745-e6a8c4f2be1d,,5bf70899-6782-4600-885d-5ad0a6737824,Water Point,water_point,5,Building,bu,,
+Anjijiakely,active,create,9d99bc05-bda8-4105-8105-4ef814a0b236,,03380fbe-d484-41ee-a8bc-24313e5e3788,Water Point,water_point,5,Building,bu,46.95,-16.45181
+Anjijibe,active,create,3844c1e2-0a32-4cf0-9f3b-402cfe880858,,9e0dac3f-285e-48a9-b708-e3b8b2c274e0,Water Point,water_point,5,Building,bu,49.42156,-17.21342
+Anjijibe,active,create,5e76c1a5-3394-4a11-a7b4-824d1fefd3b0,,9e0dac3f-285e-48a9-b708-e3b8b2c274e0,Water Point,water_point,5,Building,bu,49.42475,-17.21303
+ANJIRA,active,create,89901edf-9c76-4e3b-a083-149261473223,,5f666d29-8b8c-4ebf-a630-e2cad0cb3685,Site Communautaire,site_communautaire,5,Building,bu,,
+Anjiro,active,create,8a6f8104-53fd-40bc-a542-19a6a046f7f0,,3a549dea-f588-417b-a658-77f70cc9a9b4,Water Point,water_point,5,Building,bu,49.32537,-17.44607
+Anjiro,active,create,a2598b13-e037-4b16-9f91-e5c8a4b78968,,3a549dea-f588-417b-a658-77f70cc9a9b4,Water Point,water_point,5,Building,bu,49.3253666,-17.446066
+ANJOBAJOBA,active,create,8473ed24-6ff9-4dca-80cb-37e65aa89ed3,,9cd81608-a6ce-4bc4-802e-195ddf96f2fa,Water Point,water_point,5,Building,bu,,
+Ankaboa,active,create,6fc460ba-2cdc-4a29-ad8e-73bd4f70724d,,8580a687-cfd7-4ca7-85df-12e585021277,Water Point,water_point,5,Building,bu,,
+Ankaboa,active,create,7a913d47-9650-4e2d-b595-9b511d67689e,,8580a687-cfd7-4ca7-85df-12e585021277,Water Point,water_point,5,Building,bu,45.19916,-24.17147
+Ankaboa,active,create,91385f02-e731-46d7-b6d5-771c97263aaa,,8580a687-cfd7-4ca7-85df-12e585021277,Site Communautaire,site_communautaire,5,Building,bu,,
+ANKABOKA CENTRE,active,create,ee20c7d1-112a-4d18-8593-1f633baf0947,,39a84b94-db54-4580-ba08-18f1a9ed0438,Water Point,water_point,5,Building,bu,46.585,-16.10122222
+Ankalimboro Tsiavihandro,active,create,8bf505e6-519d-44d2-9ed4-3ab07ca8ab57,,457c79c3-09a5-4967-abe5-9ba010354d1a,Site Communautaire,site_communautaire,5,Building,bu,,
+Ankalirano Ii,active,create,091324d6-7b8c-4425-b514-1f9fc30a0d7a,,1a29f950-a8ed-439c-9d32-b9c2cc1d9bf4,Water Point,water_point,5,Building,bu,45.70146,-24.54412
+ANKAMISY,active,create,8d0f273d-3ae1-478f-9e41-260749a91883,,2601ccb0-b1e8-4ee7-ba9a-e9d2f9d48f06,Site Communautaire,site_communautaire,5,Building,bu,,
+ANKANKA,active,create,8c4e4848-627c-46c8-b803-fc7186c46c3d,,f8f6820f-96eb-4999-82ec-8b809cff94de,Site Communautaire,site_communautaire,5,Building,bu,,
+Ankapaky,active,create,24bb6203-7380-4007-a028-4913c6f364dc,,c6affba3-0fd2-4b52-84c5-c412049d1baa,Water Point,water_point,5,Building,bu,44.68022,-24.20381
+Ankapaky,active,create,cbd8dd7f-e87e-482d-9d2f-2c7c3ee97f19,,c88c6d52-991b-4d70-b832-158ee527e297,Water Point,water_point,5,Building,bu,,
+Ankara,active,create,705ff959-a8ca-4ed3-bda1-8137331f7225,,8580a687-cfd7-4ca7-85df-12e585021277,Water Point,water_point,5,Building,bu,45.17533,-24.27644
+ANKARA1,active,create,c8b14b41-8e77-4e56-82cf-afc9bf10081a,,113a292b-209d-4f6d-b7a3-aa7f6eb56186,Water Point,water_point,5,Building,bu,,
+ANKARA2,active,create,9c417bdc-6c82-458c-973d-d6ea700bba81,,113a292b-209d-4f6d-b7a3-aa7f6eb56186,Water Point,water_point,5,Building,bu,,
+Ankara Berano 2,active,create,f49dd2d4-96eb-448b-9ad2-40115f81ecc5,,48e6b0ce-08cb-48b5-8066-254ed2e8ad8f,Water Point,water_point,5,Building,bu,,
+Ankara Berano Andranolava,active,create,849779ef-bab1-4d3a-a6b7-8c25fd510fa6,,48e6b0ce-08cb-48b5-8066-254ed2e8ad8f,Water Point,water_point,5,Building,bu,,
+Ankara Berano Andranolava Mivoatse,active,create,1d383211-0d91-44ad-9666-5b4a00134aac,,48e6b0ce-08cb-48b5-8066-254ed2e8ad8f,Water Point,water_point,5,Building,bu,,
+Ankara Berano Tsivanda,active,create,23aa2572-5fe5-4007-b1f8-1340efe93a7d,,48e6b0ce-08cb-48b5-8066-254ed2e8ad8f,Water Point,water_point,5,Building,bu,,
+Ankaragnanivo,active,create,9000b97e-3e69-4aec-814f-d3b0f3022a99,,2601ccb0-b1e8-4ee7-ba9a-e9d2f9d48f06,Water Point,water_point,5,Building,bu,45.4745,-24.7955
+Ankaragnanivo Ii,active,create,49ef3d78-c298-4048-9b24-e358bb90f242,,2601ccb0-b1e8-4ee7-ba9a-e9d2f9d48f06,Water Point,water_point,5,Building,bu,45.12241,-24.35718
+Ankaragnanivo II,active,create,8ed547f2-e916-4d05-87e8-e45d9460ff49,,a6fe0fd7-79e8-41ed-b5a4-2be45df7f47c,Water Point,water_point,5,Building,bu,,
+Ankaramagny,active,create,34ca62f4-7463-45c5-b866-0d3770dfae21,,e4514208-4e7e-4a50-97f4-da0f72fbe0af,Water Point,water_point,5,Building,bu,47.29125,-24.42536
+Ankaramagny Centre,active,create,17226718-a486-41e4-b4a6-dc02da130c3b,,e4514208-4e7e-4a50-97f4-da0f72fbe0af,Water Point,water_point,5,Building,bu,47.29125278,-24.42535833
+Ankaramangotroky,active,create,eddbdc40-4228-4578-a5b2-40a237609ef1,,79d35231-617d-4a57-83e6-fefe79351454,Water Point,water_point,5,Building,bu,,
+Ankaramanoy,active,create,4f92fe3d-1cfe-4f78-acf6-9812afff70b2,,95ae107c-590c-4758-8f83-78282b05be16,Water Point,water_point,5,Building,bu,,
+Ankaramanoy,active,create,56b7d9ee-0fe0-4507-8aff-cc7a03d2919d,,1a29f950-a8ed-439c-9d32-b9c2cc1d9bf4,Water Point,water_point,5,Building,bu,45.69944,-24.51194
+ANKARAMENA,active,create,b552110c-b384-4a75-92f7-285bed8eb310,,f8f6820f-96eb-4999-82ec-8b809cff94de,Site Communautaire,site_communautaire,5,Building,bu,,
+Ankarana,active,create,795ce2d2-5cf6-49d2-b83a-beaeae024c25,,5d25d248-4468-4c96-a566-4a539c7928f8,Water Point,water_point,5,Building,bu,45.6675,-24.26417
+Ankarana andindo,active,create,c7006f26-eb88-4e51-b8fd-ee829816529b,,2601ccb0-b1e8-4ee7-ba9a-e9d2f9d48f06,Water Point,water_point,5,Building,bu,,
+Ankaranabo,active,create,f24bec26-728f-42c9-b12d-17df9ccdd2a4,,faa85abb-bd9b-495f-8549-5efba48da916,Water Point,water_point,5,Building,bu,47.72028889,-22.703325
+ANKARANABO NORD,active,create,d1e37844-97ac-4d36-9491-1ef471656870,,fff386bb-d84f-435f-9b88-e25027d06662,Water Point,water_point,5,Building,bu,45.28666667,-24.19611111
+Ankaranabo Nord Centre,active,create,a2bcd9ba-6291-4434-b6ad-1a605689583b,,fff386bb-d84f-435f-9b88-e25027d06662,Site Communautaire,site_communautaire,5,Building,bu,,
+Ankaranadido,active,create,23a0ade9-d8a6-4a15-acc8-b737e52112d4,,2601ccb0-b1e8-4ee7-ba9a-e9d2f9d48f06,Water Point,water_point,5,Building,bu,45.49814,-24.78575
+Ankarana I,active,create,5f9aa154-b1ce-4b46-96ca-f18a90d261b8,,9d134109-1521-4a0f-857d-29059588718d,Water Point,water_point,5,Building,bu,47.69908333,-22.7166
+Ankarana II,active,create,217d82bf-6e25-42ad-b9d6-3d507c054b1e,,9ec7eeee-9ba6-4c7d-a93d-5d242d964594,Water Point,water_point,5,Building,bu,47.71635,-23.092175
+ANKARANGOTAKE,active,create,32edaa9b-e70b-48aa-a48d-34a88463f6ef,,113a292b-209d-4f6d-b7a3-aa7f6eb56186,Site Communautaire,site_communautaire,5,Building,bu,,
+Ankaraobato,active,create,de2c14e1-b294-4d34-baae-eb97936c6058,,d32b989c-69a4-4e30-9c15-2d4f701150dd,Water Point,water_point,5,Building,bu,44.081472,-22.658757
+Ankaray sud,active,create,0a9b3483-be12-459a-8dd3-4d422c812064,,2a24b934-a536-4f7e-a9a6-0358bdc6cb2d,Water Point,water_point,5,Building,bu,,
+Ankarena,active,create,c216be1b-ff8c-41a9-a48b-fb5b5a8452cc,,5e2597af-1eb0-43db-a53c-f2e0aa3222a1,Water Point,water_point,5,Building,bu,45.28012,-24.53182
+Ankarimalaza,active,create,fadabf88-4ea7-4409-8a0b-6be3267c431d,,0546e4e5-1860-451f-9ba8-e623cc89612f,Water Point,water_point,5,Building,bu,47.87651667,-22.09231111
+Ankarimbary,active,create,a773e25c-c074-4eca-b8d4-918afc545b6e,,813fa1a1-54f7-447d-850f-65b8de8e480d,Water Point,water_point,5,Building,bu,47.9934,-21.7078
+Ankarimbary,active,create,db82495d-8e41-4cb2-8ff0-0545398691e6,,813fa1a1-54f7-447d-850f-65b8de8e480d,Water Point,water_point,5,Building,bu,47.9934,-21.7078
+Ankaroka -Toby,active,create,69732646-5a93-48ca-93fa-2fa8083b2fc0,,28ea6c4b-56c2-4459-af0e-04bea0afbb1d,Site Communautaire,site_communautaire,5,Building,bu,45.994686,-23.400726
+Ankasy,active,create,1abf2991-89f9-480c-b249-35fead44212b,,f125d884-4366-459a-9989-b9dd840687e3,Water Point,water_point,5,Building,bu,43.72291,-23.3143
+Ankatafana carreau 2,active,create,549fe0b8-ede6-4212-abc6-fe2ed151c3d3,,bc72c242-e780-4afe-99a5-81f857b9bced,Water Point,water_point,5,Building,bu,48.14210278,-21.21717222
+Ankatafana carreau 3,active,create,cb46b5c7-cc25-422b-91f1-a279966d4532,,bc72c242-e780-4afe-99a5-81f857b9bced,Water Point,water_point,5,Building,bu,48.34208611,-21.26021111
+Ankatrafay,active,create,cb357267-2d04-4d88-af0f-2a8278d70258,,003dce7d-5c67-4111-a11e-44b7688d03d1,Water Point,water_point,5,Building,bu,,
+Ankatrafay,active,create,f4784e4b-81eb-4f85-89be-71e25bd60d4d,,9672b87b-9c5a-41a9-b9a4-d8caf2967947,Site Communautaire,site_communautaire,5,Building,bu,,
+Ankatrakatraky,active,create,369eb5a8-15fa-48ed-8118-ad93935c8c1e,,ced122ee-d3d8-48e1-bfe3-85799e6f0bb4,Water Point,water_point,5,Building,bu,44.79621,-24.44948
+Ankazoaraka,active,create,131a262a-b5a7-4957-ade3-84b43320ab12,,ce8706c0-b341-4ef0-8098-5217b4b58f5c,Water Point,water_point,5,Building,bu,47.98674,-22.05663
+Ankazoaraka,active,create,56236b68-a139-4e6b-b95a-d72d2e889b12,,c149b572-ebc8-460b-8709-a7335b536d5f,Water Point,water_point,5,Building,bu,47.70236667,-22.58557222
+Ankazoaraka,active,create,6700183f-051c-4991-b69b-660500b62316,,ce8706c0-b341-4ef0-8098-5217b4b58f5c,Village,village,5,Building,bu,47.98674,-22.05663
+Ankazomanga,active,create,96f4ef15-fac8-4eef-ab1f-88ad2ccc1014,,d2953469-fbf7-4ece-a9df-8c1b00a96ede,Site Communautaire,site_communautaire,5,Building,bu,,
+Ankazomanga Est,active,create,11809a9b-e2fe-42a8-95a9-1b40b91867ea,,700c68ef-f8dc-4f83-9339-037f8ef0c675,Water Point,water_point,5,Building,bu,44.556942,-23.961817
+Ankazomasy,active,create,d752770a-35bd-45d6-9cc8-fe5f716505c5,,4fa8031b-51a6-49a8-ac01-8dce533d58d0,Water Point,water_point,5,Building,bu,47.79897222,-22.93452222
+ANKAZOMENAVONY,active,create,bf69852b-2112-484e-8bc7-28277b45fe39,,861d42c7-d41a-4569-ab93-fdaa72203e92,Water Point,water_point,5,Building,bu,,
+ANKAZOMENAVONY SECTEUR 1,active,create,fd7efb61-8c64-49ea-b1a4-8b53fadc73cc,,861d42c7-d41a-4569-ab93-fdaa72203e92,Water Point,water_point,5,Building,bu,46.41835833,-15.64245278
+Ankazomisampa,active,create,c7233e88-a9e8-496a-a8d4-1be9e02d9b96,,7f7cb8bd-821d-4a37-a082-857c31f043e5,Water Point,water_point,5,Building,bu,47.534219,-23.362386
+Ankazovelo,active,create,eeba4e64-b46a-445e-a09a-0c055d3ec673,,7a781fab-5cf6-44df-a9e6-9203b3fb9e2a,Water Point,water_point,5,Building,bu,47.008836,-23.654422
+Ankeniheny,active,create,45ebff94-935d-425e-acc0-79407e751615,,cd1ecae6-301d-4964-96d9-c07c80710e5c,Site Communautaire,site_communautaire,5,Building,bu,,
+Ankeniheny,active,create,464c408f-bb70-4b35-9b5d-f8576ba52c25,,42c86929-005d-42d1-8277-50e374ff3337,Water Point,water_point,5,Building,bu,,
+Ankeniheny,active,create,af3e99b4-0209-439c-a722-23b8cd0aa2f9,,6eb5c944-e2c7-4eac-93a9-ad7996924fce,Site Communautaire,site_communautaire,5,Building,bu,46.12257,-23.592598
+ANKENIHENY,active,create,56d6c7b4-6170-4772-8a86-b6238e2dda34,,6eb5c944-e2c7-4eac-93a9-ad7996924fce,Water Point,water_point,5,Building,bu,,
+Ankeoheo Marolava,active,create,ad647657-4d28-4cd5-b193-4d63b5472977,,8a6ef53a-03ec-4e00-a880-75e698c808fe,Site Communautaire,site_communautaire,5,Building,bu,,
+Ankerakera,active,create,2a4d51eb-3c0c-4526-9f8b-70d0e6b86fd7,,8580a687-cfd7-4ca7-85df-12e585021277,Water Point,water_point,5,Building,bu,45.15293,-24.19771
+Ankevohevo,active,create,1638d2d9-5407-48d5-9f94-9b485842dd29,,eff7b5fc-4224-4400-9165-0f3f7733a4a1,Water Point,water_point,5,Building,bu,45.94435,-24.46226
+Ankevohevo,active,create,c24fede0-ad77-46d6-bf8c-1455fdda1dc7,,eff7b5fc-4224-4400-9165-0f3f7733a4a1,Water Point,water_point,5,Building,bu,,
+Ankijabe Centre,active,create,2f56027e-b8b2-4e4d-963f-0412cc5efc60,,2ac11983-82a5-40a1-81db-f326b996da2e,Water Point,water_point,5,Building,bu,46.7648,-16.41316
+Ankijabe Epp,active,create,4a2195fc-abcf-4b50-a974-9532178a00d6,,2ac11983-82a5-40a1-81db-f326b996da2e,Water Point,water_point,5,Building,bu,46.76499,-16.41356
+Ankijana,active,create,8d8c663c-6558-436f-8772-808a384d047d,,3a549dea-f588-417b-a658-77f70cc9a9b4,Water Point,water_point,5,Building,bu,49.41092,-17.45847
+Ankijana,active,create,d3fa5ad9-3c7f-4a98-be92-c66bed052857,,3a549dea-f588-417b-a658-77f70cc9a9b4,Water Point,water_point,5,Building,bu,49.41082,-17.45987
+ankilbehara,active,create,6b9df815-ab95-4307-9dbc-d36d1d27ca27,,45080bdf-d7cf-4745-b19b-f06c4dac96c0,Water Point,water_point,5,Building,bu,,
+Ankilebey,active,create,4514aa3d-de76-495a-809a-7c692377e8a3,,38679362-2eb0-4eb1-87d0-6b78fa7e733d,Water Point,water_point,5,Building,bu,45.64123,-24.78362
+ANKILEFALY,active,create,5d803421-e70a-4669-ab92-650b3f260517,,f8f6820f-96eb-4999-82ec-8b809cff94de,Site Communautaire,site_communautaire,5,Building,bu,,
+ANKILEFALY,active,create,70f3af29-045e-4727-b53c-5bb10f4b80f2,,8b79f6e0-d95e-4bf9-bd5c-ecc26834b201,Water Point,water_point,5,Building,bu,45.84769444,-24.40116667
+ANKILEFALY,active,create,cd78ee30-0e8c-4332-8bdf-500b315a870c,,d18ae17a-faae-4e40-bb4d-540641d494c0,Site Communautaire,site_communautaire,5,Building,bu,,
+Ankilehogo,active,create,42e567c2-f0c3-4987-8bc8-2005f56719ef,,44757477-a950-4af9-b9cd-a68ea0e5bcc5,Site Communautaire,site_communautaire,5,Building,bu,,
+ANKILEMASY,active,create,fecfd6aa-25fd-497f-a998-c483757b04df,,f8f6820f-96eb-4999-82ec-8b809cff94de,Site Communautaire,site_communautaire,5,Building,bu,,
+Ankilemiary,active,create,64d352cb-a316-4325-8886-f38c4818be54,,8580a687-cfd7-4ca7-85df-12e585021277,Site Communautaire,site_communautaire,5,Building,bu,,
+Ankilemiharatsy,active,create,460276c4-101f-4864-a191-1740eecf914f,,d2953469-fbf7-4ece-a9df-8c1b00a96ede,Site Communautaire,site_communautaire,5,Building,bu,,
+ANKILENAGNO,active,create,31d43314-c760-46ec-abe8-aef266361006,,8746b844-7ee5-4c7c-9cc1-60fc3c529b15,Water Point,water_point,5,Building,bu,,
+Ankilerandro,active,create,7e4f02b4-48dd-46ab-84e8-c4bcc2a9fa32,,8a6ef53a-03ec-4e00-a880-75e698c808fe,Site Communautaire,site_communautaire,5,Building,bu,,
+Ankilesoa,active,create,de515959-5815-4f5e-9512-81dec1e40710,,037f61e0-6af0-4530-8ce2-63124eba2a9b,Water Point,water_point,5,Building,bu,45.4693,-24.22945
+Ankilesoajoro,active,create,ea45347f-3364-41a6-9066-ec84059108af,,38679362-2eb0-4eb1-87d0-6b78fa7e733d,Water Point,water_point,5,Building,bu,45.65517,-24.67933
+Ankiletelo,active,create,55e16b09-e9c9-4958-8943-98634d56cae2,,d2953469-fbf7-4ece-a9df-8c1b00a96ede,Site Communautaire,site_communautaire,5,Building,bu,,
+Ankilevalo/Andovoky,active,create,53199446-bc30-47a4-9f3c-273b1cdade14,,79b58d2f-f069-41fe-87c5-45f20f3263c9,Site Communautaire,site_communautaire,5,Building,bu,,
+Ankilevohitse,active,create,456c1002-bc9e-40cc-860d-eef65712c822,,d18ae17a-faae-4e40-bb4d-540641d494c0,Water Point,water_point,5,Building,bu,45.69367,-24.888
+Ankiliabo,active,create,d2eb95aa-f026-42c4-8cce-44894ba5cc2d,,79b58d2f-f069-41fe-87c5-45f20f3263c9,Water Point,water_point,5,Building,bu,44.67816,-25.08050694
+Ankiliabo Ankarana,active,create,2a1cf7d4-e579-4ade-8b57-8e61da711e44,,d18ae17a-faae-4e40-bb4d-540641d494c0,Water Point,water_point,5,Building,bu,,
+ANKILIABO CENTRE,active,create,4c2ad157-ff58-4c91-a965-c7930086ad01,,d18ae17a-faae-4e40-bb4d-540641d494c0,Water Point,water_point,5,Building,bu,,
+Ankiliabo Sud,active,create,b4b61071-d718-4537-ae34-654ddd64e92f,,d2953469-fbf7-4ece-a9df-8c1b00a96ede,Site Communautaire,site_communautaire,5,Building,bu,,
+Ankiliarivo,active,create,4767d372-ea32-4ba8-842b-a0aa04895d0f,,8580a687-cfd7-4ca7-85df-12e585021277,Site Communautaire,site_communautaire,5,Building,bu,,
+Ankiliarivo,active,create,605bea62-c9a6-40db-a5e6-02a530cb3411,,8580a687-cfd7-4ca7-85df-12e585021277,Water Point,water_point,5,Building,bu,,
+Ankiliarivo,active,create,9f26b128-745a-424e-bc7a-ee846b28517e,,8580a687-cfd7-4ca7-85df-12e585021277,Water Point,water_point,5,Building,bu,45.13767,-24.52759
+Ankiliarivo,active,create,f73eeb56-289e-4d31-992b-fe8537b68e66,,4a4c7fe2-5003-44c2-b405-2d5850b612a3,Water Point,water_point,5,Building,bu,,
+Ankilibe,active,create,2df134c5-3ca8-42f1-ad9b-ecc16a29d002,,d0a79494-c31d-4009-86ca-c1decbc3d6d9,Water Point,water_point,5,Building,bu,45.66778806,-24.26718306
+Ankilibe,active,create,7522e2a6-800a-4c6c-a032-26eddcfd1525,,fff386bb-d84f-435f-9b88-e25027d06662,Water Point,water_point,5,Building,bu,45.25785194,-24.22836
+ANKILIBE,active,create,9f5fe9cd-abfd-45ce-99da-a7bf779f93f5,,ced122ee-d3d8-48e1-bfe3-85799e6f0bb4,Water Point,water_point,5,Building,bu,,
+Ankilibe vahavola,active,create,d8a21ea0-dbab-4e14-a00e-4f2f40aa09ea,,f154f739-9998-43b3-85ca-33a4dfd4fb68,Site Communautaire,site_communautaire,5,Building,bu,,
+ANKILIBORY I,active,create,2850d056-2929-45cf-a4b3-e2df7c634397,,5640925e-c387-4e5b-99a5-85966df10cdf,Water Point,water_point,5,Building,bu,,
+Ankilifaly,active,create,4a3a3d34-bd1d-406e-ba61-e472b6688d43,,d18ae17a-faae-4e40-bb4d-540641d494c0,Water Point,water_point,5,Building,bu,45.67624,-24.81523
+ANKILIMAFAITSE,active,create,ffece185-a049-44dc-995d-9c268e9b7e4b,,f8f6820f-96eb-4999-82ec-8b809cff94de,Site Communautaire,site_communautaire,5,Building,bu,,
+Ankilimalangy,active,create,201e93b0-4c44-4948-9c06-5027da72fbf1,,41150233-beb5-4fa9-86a0-66a3606bcef6,Water Point,water_point,5,Building,bu,,
+Ankilimalangy,active,create,89cabf3e-f982-47cd-8d85-cdc0a053af17,,4863b612-5843-41f8-a1ab-cca2f892fee0,Water Point,water_point,5,Building,bu,,
+Ankilimalangy,active,create,d11e61c9-4281-4593-a273-e81dfc8729c3,,3f9a4d6c-ec41-43cc-983e-87211280c482,Water Point,water_point,5,Building,bu,45.34482,-24.46972
+Ankilimamy,active,create,6aa980b8-43ca-4df9-8c32-7225f0a0f602,,e9beb16a-fb0b-4aa2-97b5-9668f323af7b,Water Point,water_point,5,Building,bu,45.2567431,-24.0075181
+Ankilimanara,active,create,5519d9c7-041b-44e2-a66c-b1cbf4285d0b,,f154f739-9998-43b3-85ca-33a4dfd4fb68,Site Communautaire,site_communautaire,5,Building,bu,,
+Ankilimanarivo,active,create,dbf23a17-a867-49a2-bc98-d158b212e6cd,,b1e7d6a6-1609-4dc8-98d9-58af8e78562d,Water Point,water_point,5,Building,bu,44.17575,-18.19497
+Ankilimanintsy,active,create,a0c43e24-8dcd-497e-a502-fb77a6319756,,9672b87b-9c5a-41a9-b9a4-d8caf2967947,Site Communautaire,site_communautaire,5,Building,bu,,
+Ankilimanjosoa,active,create,d7f69815-4fab-453c-a10b-7d1cad39410c,,9672b87b-9c5a-41a9-b9a4-d8caf2967947,Water Point,water_point,5,Building,bu,46.21786,-24.87169
+Ankilimanondro Nord,active,create,1f9788a2-57f4-448c-9a71-9c76482355c0,,b717b9f1-85ef-4567-863f-5a5967804a0d,Water Point,water_point,5,Building,bu,,
+Ankilimary,active,create,2c98f0b8-5187-499c-b383-9a6a14a1f5a9,,a6fe0fd7-79e8-41ed-b5a4-2be45df7f47c,Water Point,water_point,5,Building,bu,,
+Ankilimasy,active,create,01838c3b-eabf-4fc7-83a9-1e28decea88e,,4a4c7fe2-5003-44c2-b405-2d5850b612a3,Water Point,water_point,5,Building,bu,44.83647,-24.25921
+Ankilimasy,active,create,08468ed8-7d23-4d86-9f55-2822cd710169,,dfef62fd-14cb-41e0-9bbf-321d9a8b9311,Water Point,water_point,5,Building,bu,45.75554889,-24.53116306
+Ankilimasy,active,create,30295b51-1cbf-4d4f-a491-2730b2e519a9,,9672b87b-9c5a-41a9-b9a4-d8caf2967947,Water Point,water_point,5,Building,bu,,
+Ankilimasy,active,create,a99acf5c-57e8-4528-bcaf-8bb3e359772c,,8580a687-cfd7-4ca7-85df-12e585021277,Water Point,water_point,5,Building,bu,45.14532,-24.16866
+Ankilimasy Avaradrano,active,create,c8a44781-7781-4498-aecd-79b3a0f7df29,,fff386bb-d84f-435f-9b88-e25027d06662,Water Point,water_point,5,Building,bu,45.48836,-24.424
+Ankilimasy Bas,active,create,ad0dc18b-e715-4d1b-9409-2cff1ba2db21,,881e02a8-b2c9-4491-b303-27b008587a39,Water Point,water_point,5,Building,bu,45.450002,-24.433389
+Ankilimasy Bas,active,create,515ea33c-ebd6-427d-96bc-84acb548fb8e,,881e02a8-b2c9-4491-b303-27b008587a39,Water Point,water_point,5,Building,bu,,
+Ankilimasy Bas I,active,create,d1f7fa8b-8b49-4a8b-86d1-fbd41243d728,,881e02a8-b2c9-4491-b303-27b008587a39,Water Point,water_point,5,Building,bu,,
+Ankilimasy Bas II,active,create,a1fb0ff0-2689-455c-b15f-c57cef81c789,,881e02a8-b2c9-4491-b303-27b008587a39,Water Point,water_point,5,Building,bu,,
+Ankilimasy Bas III,active,create,b982622e-3c61-4189-9750-cfb170358996,,881e02a8-b2c9-4491-b303-27b008587a39,Water Point,water_point,5,Building,bu,,
+Ankilimasy Centre,active,create,0d81e2ac-a758-4d85-890a-ca170b81e038,,9672b87b-9c5a-41a9-b9a4-d8caf2967947,Water Point,water_point,5,Building,bu,46.13548,-24.80097
+Ankilimasy Haut Sud,active,create,2afc77a9-5605-49c6-93a1-c1641b60c367,,881e02a8-b2c9-4491-b303-27b008587a39,Water Point,water_point,5,Building,bu,45.48349,-24.28443
+Ankilimbazaha,active,create,fca98fa5-c82b-4096-a5ff-9b2f26e99832,,749e8f17-0875-423f-a1ec-953edfcd171c,Water Point,water_point,5,Building,bu,45.23131,-24.16169
+Ankilimiary,active,create,09daf2c4-d319-4ab0-bf47-78eb73d96a94,,35079e66-d6ee-4cf2-92e7-06912ef5ce56,Water Point,water_point,5,Building,bu,45.24855,-24.59489
+ANKILIMIARY,active,create,6db5bc38-47dd-4661-96aa-578ad9d2cadc,,f0ec4526-d5d8-4c7b-b924-bac45cdb54cd,Site Communautaire,site_communautaire,5,Building,bu,,
+ANKILIMIGAHY,active,create,bca335fa-f371-4567-bbe6-2b464a2e9a45,,409bb851-c200-4643-b590-5f0b2005e8d2,Site Communautaire,site_communautaire,5,Building,bu,,
+Ankilimihamy,active,create,ed166967-53fe-4581-bc2b-e92bea3a53eb,,5e2597af-1eb0-43db-a53c-f2e0aa3222a1,Water Point,water_point,5,Building,bu,45.27255,-24.31848
+Ankilimitraha,active,create,3c9500f8-41c5-401a-83ac-292016f432ca,,f154f739-9998-43b3-85ca-33a4dfd4fb68,Site Communautaire,site_communautaire,5,Building,bu,,
+Ankilimivory,active,create,25fb4b2e-baea-4004-a0b9-04e91e8db346,,c88c6d52-991b-4d70-b832-158ee527e297,Water Point,water_point,5,Building,bu,,
+Ankilindrehendry,active,create,6697d62d-58e9-4b14-b6bc-2fc40ef3b109,,4a4c7fe2-5003-44c2-b405-2d5850b612a3,Water Point,water_point,5,Building,bu,,
+Ankilindrehindry,active,create,5f7c5eba-9b72-47d1-b732-105cc0f870d0,,4a4c7fe2-5003-44c2-b405-2d5850b612a3,Water Point,water_point,5,Building,bu,44.74536111,-24.2308889
+Ankilindrehozoke,active,create,65cb0dc7-291e-4085-a9ab-8c0f1e1ae310,,4a4c7fe2-5003-44c2-b405-2d5850b612a3,Water Point,water_point,5,Building,bu,,
+Ankiliroa,active,create,c9e06357-eaa4-402a-a0d0-ce864a39d91c,,8580a687-cfd7-4ca7-85df-12e585021277,Water Point,water_point,5,Building,bu,45.14441,-24.19525
+Ankilisinao,active,create,67f6e107-4ffd-41e0-a0e1-26a4ba4fd6b2,,81fbdd83-3e3b-42a3-92c8-0c8a526a18d2,Site Communautaire,site_communautaire,5,Building,bu,,
+Ankilisoa,active,create,8ba0b9d6-2031-4459-b5f3-70a1de8c9cfd,,79b58d2f-f069-41fe-87c5-45f20f3263c9,Water Point,water_point,5,Building,bu,44.63297,-25.10835
+Ankilisoa,active,create,c04250f9-5548-42c7-a1ed-a2eb7ef6cfbd,,dfef62fd-14cb-41e0-9bbf-321d9a8b9311,Water Point,water_point,5,Building,bu,45.280465,-25.26979
+Ankilitelo,active,create,d3032c61-6495-4b76-98ff-90f319087872,,c88c6d52-991b-4d70-b832-158ee527e297,Water Point,water_point,5,Building,bu,,
+ANKILITELO,active,create,b706449c-a78e-4db4-80f7-269aa6413e41,,f0ec4526-d5d8-4c7b-b924-bac45cdb54cd,Site Communautaire,site_communautaire,5,Building,bu,,
+Ankilivahary,active,create,5fd20c3a-5a69-46a0-887f-c87eaf028ad9,,529c8318-fa53-4d4e-8cd9-7c0b3a229d06,Site Communautaire,site_communautaire,5,Building,bu,,
+Ankilivalo I,active,create,06d3d7d3-449e-468b-ac8b-8d8d7d5eca16,,81fbdd83-3e3b-42a3-92c8-0c8a526a18d2,Site Communautaire,site_communautaire,5,Building,bu,,
+Ankilivalo II,active,create,3900f871-03e7-4e7b-9454-9392e50815a9,,81fbdd83-3e3b-42a3-92c8-0c8a526a18d2,Site Communautaire,site_communautaire,5,Building,bu,,
+ANKILIVALO II,active,create,89e94561-bfa2-41af-88bb-752c63ccf07d,,ec2ae9c9-14fb-49fb-860f-ecc5f82c0a43,Site Communautaire,site_communautaire,5,Building,bu,,
+ANKILIVALO I(NORD),active,create,946c2104-058c-445b-b60b-a107274d81fa,,ec2ae9c9-14fb-49fb-860f-ecc5f82c0a43,Site Communautaire,site_communautaire,5,Building,bu,,
+Ankilivohitse,active,create,4951e85e-e319-4134-bf93-2163990bce36,,d18ae17a-faae-4e40-bb4d-540641d494c0,Water Point,water_point,5,Building,bu,,
+Ankilivohitsy,active,create,b147ac45-faa8-45fc-9070-45bb661892fd,,8b79f6e0-d95e-4bf9-bd5c-ecc26834b201,Water Point,water_point,5,Building,bu,45.97915,-24.4792
+Ankilmasy Bas I,active,create,edad6557-9e09-4dbf-b419-ff5872d8772e,,fff386bb-d84f-435f-9b88-e25027d06662,Water Point,water_point,5,Building,bu,45.48012,-24.43022
+Ankilmasy Bas Ii,active,create,564bbad1-3ad4-4268-ac59-1d605c3c9358,,fff386bb-d84f-435f-9b88-e25027d06662,Water Point,water_point,5,Building,bu,45.48051,-24.27547
+Ankilmasy Bas Iii,active,create,b2fe0061-6a96-4e4b-81e0-ff20d577a612,,fff386bb-d84f-435f-9b88-e25027d06662,Water Point,water_point,5,Building,bu,45.51031,-24.3123
+Ankilmasy Bas Iv,active,create,58f5ee3b-9490-4465-ba3f-173f5330f0f5,,fff386bb-d84f-435f-9b88-e25027d06662,Water Point,water_point,5,Building,bu,45.49112,-24.21373
+Ankilmasy Haut I,active,create,7f88514c-f78b-42b1-92d7-fa614f5f79e4,,fff386bb-d84f-435f-9b88-e25027d06662,Water Point,water_point,5,Building,bu,45.48289,-24.23953
+Ankilmasy Haut Ii,active,create,80efd41e-cee3-4cc9-a38e-e1daa38db6cf,,fff386bb-d84f-435f-9b88-e25027d06662,Water Point,water_point,5,Building,bu,45.5301,-24.24321
+Ankilolo,active,create,5c6b8479-1f5e-4543-a208-b313ab3e0182,,053d4f7a-b383-4faa-b224-8418ecabf446,Water Point,water_point,5,Building,bu,49.1992,-17.45172
+Ankilolo,active,create,67c0d615-ce7b-4c88-8679-eda9802892f7,,053d4f7a-b383-4faa-b224-8418ecabf446,Water Point,water_point,5,Building,bu,49.19917,-17.45171
+Ankilvohitsy,active,create,dbe04c0f-1b47-4cb1-a36b-3950ceb74758,,8b79f6e0-d95e-4bf9-bd5c-ecc26834b201,Water Point,water_point,5,Building,bu,45.97915,-24.4792
+Ankily,active,create,59162046-3c11-45b3-a3b8-59bdd0aa2ed6,,a6fe0fd7-79e8-41ed-b5a4-2be45df7f47c,Water Point,water_point,5,Building,bu,,
+Ankily Centre,active,create,2007f564-7b89-4cbf-83fa-384659ab9751,,749e8f17-0875-423f-a1ec-953edfcd171c,Water Point,water_point,5,Building,bu,45.30029694,-24.16505694
+Ankily Soarano,active,create,b4be2d7f-cfab-4519-b133-64c9f6e4ad15,,e9beb16a-fb0b-4aa2-97b5-9668f323af7b,Water Point,water_point,5,Building,bu,45.56571,-24.32755
+Ankimimivory,active,create,f16928a8-c66d-4694-bedc-c24a7fc2fa72,,8716f270-e924-4c35-8587-440e68237be1,Water Point,water_point,5,Building,bu,,
+Ankininiabo,active,create,1316d44c-f96b-41ce-b689-e8da3c6fdea0,,4a4c7fe2-5003-44c2-b405-2d5850b612a3,Water Point,water_point,5,Building,bu,,
+Ankininiabo,active,create,fcfc29ed-8d23-41aa-a1e7-0ed45ba62f3d,,8b79f6e0-d95e-4bf9-bd5c-ecc26834b201,Water Point,water_point,5,Building,bu,45.27825,-24.32982
+ANKININIKA,active,create,4fa55eff-0d02-462e-b07d-ba556ce52fee,,df16044d-7511-4334-9728-e8735eab9935,Water Point,water_point,5,Building,bu,46.50786111,-16.18916667
+Ankininitoka,active,create,8700df04-b25c-4661-8064-e88a1c186bbf,,81f3dbad-2d05-426f-90a9-8cfc1680aa2e,Water Point,water_point,5,Building,bu,44.02236,-24.01791
+Ankininy,active,create,a1a34fcc-55b8-4b7f-9276-2e408af6a6a2,,75b22baf-37a9-4d42-8fd6-7ca7912d2a4a,Site Communautaire,site_communautaire,5,Building,bu,,
+Ankirikirike,active,create,f6dff422-113b-4025-97ba-7c4627923d4e,,c100241f-a892-4bc7-97bf-7ed02ed0d40e,Site Communautaire,site_communautaire,5,Building,bu,,
+Ankisatra Iii,active,create,7a61d2d9-2e8a-461a-b3ae-49674c409239,,38679362-2eb0-4eb1-87d0-6b78fa7e733d,Water Point,water_point,5,Building,bu,45.65733,-24.66967
+Ankliabo Nord,active,create,b6c6cc59-ff89-4215-9d82-f7aea5bec6e9,,d2953469-fbf7-4ece-a9df-8c1b00a96ede,Site Communautaire,site_communautaire,5,Building,bu,,
+Ankobamiary,active,create,f65aafb4-2c9e-4779-a665-41b903e0018b,,42c86929-005d-42d1-8277-50e374ff3337,Water Point,water_point,5,Building,bu,,
+Ankonatse Centre,active,create,d533da42-00b1-497d-b57a-36dae93bbd1e,,eff7b5fc-4224-4400-9165-0f3f7733a4a1,Water Point,water_point,5,Building,bu,45.94435,-24.46226
+Ankondria Avaratra,active,create,f521f771-3ba0-49c2-8804-3b84b9924815,,38679362-2eb0-4eb1-87d0-6b78fa7e733d,Water Point,water_point,5,Building,bu,45.597535,-24.665785
+Ankorabe I,active,create,0163ec27-f789-4a2f-87c2-f7c5fa877bc4,,3a549dea-f588-417b-a658-77f70cc9a9b4,Water Point,water_point,5,Building,bu,49.3393,-17.45156
+Ankorabe II,active,create,bf7ef4f8-3d15-4b8e-b25f-593533390e12,,3a549dea-f588-417b-a658-77f70cc9a9b4,Water Point,water_point,5,Building,bu,49.3383,-17.44805
+Ankoraka,active,create,02261d5e-7571-4d43-bd10-d8ca4846739a,,68f938ca-5f90-44da-9cd5-f786622f1e30,Water Point,water_point,5,Building,bu,49.47427,-17.09364
+ANKORAKOSY,active,create,d43ac295-0184-485c-8b04-6a88b5fe2acc,,edd7bc75-fc97-4748-840c-2fc554322284,Site Communautaire,site_communautaire,5,Building,bu,,
+Ankoromatoby I,active,create,89067c8f-105c-44d7-ac16-470cd04cb3b6,,38679362-2eb0-4eb1-87d0-6b78fa7e733d,Water Point,water_point,5,Building,bu,45.6695,-24.7015
+Ankororoka,active,create,87d46afc-1558-40e1-85c1-f14c659fe399,,113a292b-209d-4f6d-b7a3-aa7f6eb56186,Water Point,water_point,5,Building,bu,45.17809,-25.51163
+Ankororoke,active,create,a1268b4a-c03c-492c-bc9d-cf904b55683c,,38679362-2eb0-4eb1-87d0-6b78fa7e733d,Water Point,water_point,5,Building,bu,45.15452,-24.1938
+ANKOROROKE,active,create,47144593-55e4-4f42-8b21-89fd12d97a8a,,cbd7ab07-5855-4335-85fb-7514bd0c8bab,Site Communautaire,site_communautaire,5,Building,bu,,
+Ankororoke Mahazosoa,active,create,0728996c-6e91-4f58-875e-95e838f6a29e,,44757477-a950-4af9-b9cd-a68ea0e5bcc5,Site Communautaire,site_communautaire,5,Building,bu,,
+Ankororoke Nord,active,create,2c650721-83c6-4f83-b072-4e98501ddf4b,,38679362-2eb0-4eb1-87d0-6b78fa7e733d,Water Point,water_point,5,Building,bu,45.15597,-24.19218
+ANKOROTSIKE,active,create,9c5fba6e-c440-4c98-8b36-526d0d1ac5b5,,8f572186-72b7-414f-bd37-f4b91c431017,Site Communautaire,site_communautaire,5,Building,bu,,
+Ankotobe,active,create,d645cb4f-4162-4e98-be7a-84ee8b21d850,,749e8f17-0875-423f-a1ec-953edfcd171c,Water Point,water_point,5,Building,bu,45.339265,-24.17059111
+Ankotobey,active,create,ae5c44e1-d494-42f4-931b-437ea97091a7,,881e02a8-b2c9-4491-b303-27b008587a39,Water Point,water_point,5,Building,bu,45.14574,-24.25192
+ANKOTSOBE,active,create,d84fde01-a15d-4c6e-a0c0-f3959c9962fd,,2601ccb0-b1e8-4ee7-ba9a-e9d2f9d48f06,Site Communautaire,site_communautaire,5,Building,bu,,
+ANKOZOHOZO,active,create,ccd46666-6e49-4398-85c3-b63c9c6db619,,84a0d267-b156-44f8-8b14-dccc838762ea,Water Point,water_point,5,Building,bu,44.302196,-24.162169
+Ankozohozo Andakilasy,active,create,a963e3f7-89e0-4cf4-a97c-f6dc55f07a16,,84a0d267-b156-44f8-8b14-dccc838762ea,Water Point,water_point,5,Building,bu,,
+Annie Test,active,create,33dffa7f-bc6c-4171-acf8-164a10b4e336,,94a7525e-68d9-4035-986e-18c7eb796268,Ecole privé,ecole_privé,5,Building,bu,,
+Anolakely (Antsikafoka fkt),active,create,667288f1-7f58-4347-b10d-6dffd5846dd7,,3a549dea-f588-417b-a658-77f70cc9a9b4,Water Point,water_point,5,Building,bu,49.43273,-17.447462
+Anosa Epp,active,create,4be40811-ec8e-40d4-872e-325ce8672f7f,,a6e0c676-95c9-4d05-a0da-7443bc939e5a,Water Point,water_point,5,Building,bu,44.01038,-24.01596
+ANOSI/AMBOHIMENA,active,create,c8569e14-4f1a-416c-87ce-2103ef1c5850,,9cd81608-a6ce-4bc4-802e-195ddf96f2fa,Water Point,water_point,5,Building,bu,,
+Anosibe 1,active,create,51393159-0bcd-47a7-b227-2da3bc493819,,8f127dd1-8e58-4d53-b273-bf8945e3e43a,Water Point,water_point,5,Building,bu,47.5136944,-18.925222
+Anosibe 2,active,create,8fc00b9b-c823-48c0-b714-d1f7da084459,,8f127dd1-8e58-4d53-b273-bf8945e3e43a,Water Point,water_point,5,Building,bu,47.5141944,-18.924778
+Anosibe 3,active,create,268c22ee-747d-4fe4-acdb-073d750af8ec,,8f127dd1-8e58-4d53-b273-bf8945e3e43a,Water Point,water_point,5,Building,bu,47.5130833,-18.925778
+Anosibe 4,active,create,b33e75e3-212b-47ee-9804-eebcae78a580,,8f127dd1-8e58-4d53-b273-bf8945e3e43a,Water Point,water_point,5,Building,bu,47.5134167,-18.924333
+Anosifisaka Epp,active,create,28d1cc8c-bcdf-421e-bf9d-dc55637ec630,,5defac73-3f2b-49c8-8b23-3220835b03c2,Water Point,water_point,5,Building,bu,46.700583,-16.164062
+ANOSIMANDRAVA NORD,active,create,9aaa51dd-27cf-4047-b6b8-324a539d81ba,,9cd81608-a6ce-4bc4-802e-195ddf96f2fa,Water Point,water_point,5,Building,bu,46.61344167,-16.18793611
+Anosivelo,active,create,0b8634d7-a21f-4d4f-be2b-728659f2eda7,,5c4426f6-3612-499a-bf76-56323c7a65b1,Water Point,water_point,5,Building,bu,47.78245833,-22.73641028
+Anovy,active,create,28038898-2011-40ed-8eb4-bce1a9016ecd,,f0ec4526-d5d8-4c7b-b924-bac45cdb54cd,Water Point,water_point,5,Building,bu,45.518795,-25.537231
+Antaboara Haut,active,create,dfde88b7-122a-4330-91bb-029d1adf70ab,,3f9a4d6c-ec41-43cc-983e-87211280c482,Water Point,water_point,5,Building,bu,45.4365,-24.01917
+Antaboara Ouest,active,create,821c01c7-0b5d-4acc-8e87-04cbbfaa0ffe,,3f9a4d6c-ec41-43cc-983e-87211280c482,Water Point,water_point,5,Building,bu,45.45784,-24.54022
+ANTAFIA,active,create,fbe736b6-b367-451e-aca9-eecf768a214e,,39a84b94-db54-4580-ba08-18f1a9ed0438,Water Point,water_point,5,Building,bu,46.58977778,-16.10411111
+Antafianampela Bas,active,create,0a9b98df-7a32-4807-9a24-77929d54451c,,2601ccb0-b1e8-4ee7-ba9a-e9d2f9d48f06,Water Point,water_point,5,Building,bu,45.7645,-24.75817
+Antafianampela I,active,create,3d572f1d-5f92-4ab1-a9ac-ff049cdec77f,,1a29f950-a8ed-439c-9d32-b9c2cc1d9bf4,Water Point,water_point,5,Building,bu,45.6697,-24.54459
+Antafianampela Ii,active,create,5b43d8fb-112c-443f-80f1-e8e915a12a45,,1a29f950-a8ed-439c-9d32-b9c2cc1d9bf4,Water Point,water_point,5,Building,bu,45.6845,-24.5465
+Antafinapela I,active,create,b9e8e490-7e0e-47e0-97be-b10fbc742683,,1a29f950-a8ed-439c-9d32-b9c2cc1d9bf4,Water Point,water_point,5,Building,bu,,
+Antafinapela II,active,create,ce6b4049-af61-41db-9e03-e142393832d7,,1a29f950-a8ed-439c-9d32-b9c2cc1d9bf4,Water Point,water_point,5,Building,bu,,
+Antahalavalala,active,create,bb026f9e-cc80-4ef7-83b0-fd35958a8c87,,cbd7ab07-5855-4335-85fb-7514bd0c8bab,Water Point,water_point,5,Building,bu,45.33157,-25.48939
+Antaikoaky,active,create,63790033-6cf2-4d65-a2e3-ebb547036d80,,f125d884-4366-459a-9989-b9dd840687e3,Water Point,water_point,5,Building,bu,43.76354,-23.29963
+Antakobola,active,create,45aa9a71-b36b-4d5d-bc76-e2988ea23e34,,9e0dac3f-285e-48a9-b708-e3b8b2c274e0,Water Point,water_point,5,Building,bu,,
+Antakobola,active,create,a57b065a-8612-4d2a-8bae-70f62eb3ac35,,9e0dac3f-285e-48a9-b708-e3b8b2c274e0,Water Point,water_point,5,Building,bu,49.449412,-17.21288
+Antaly,active,create,4aeefcf9-8a6f-47da-919f-d07218c92d85,,38679362-2eb0-4eb1-87d0-6b78fa7e733d,Water Point,water_point,5,Building,bu,45.52303,-24.6425
+Antaly/ Agnena,active,create,cf6b165d-be8a-4462-aac8-30e722e3c638,,3ac50ca3-1246-49da-a97f-11145ec5fce6,Site Communautaire,site_communautaire,5,Building,bu,,
+Antanamaeva Epp,active,create,93faacf7-a86f-4e90-89fb-818c90d9b93d,,d02f2a46-3b1c-4474-8bf8-a6ad8d680093,Water Point,water_point,5,Building,bu,44.01689,-24.00554
+Antanamanitsy,active,create,9897d2b7-1868-4636-858a-4c70a7962b6a,,8580a687-cfd7-4ca7-85df-12e585021277,Water Point,water_point,5,Building,bu,45.19043,-24.1928
+ANTANAMANJARY,active,create,5d7b9221-df83-49af-8b0e-38c0e78e7025,,113a292b-209d-4f6d-b7a3-aa7f6eb56186,Site Communautaire,site_communautaire,5,Building,bu,,
+Antanamarina,active,create,d2b5a0eb-d35e-4469-a040-df33ffc60050,,3a549dea-f588-417b-a658-77f70cc9a9b4,Water Point,water_point,5,Building,bu,49.43309,-17.45303
+Antanamary,active,create,8e91ba51-5ee3-4561-a9bc-87228986a695,,5d25d248-4468-4c96-a566-4a539c7928f8,Water Point,water_point,5,Building,bu,45.61531,-24.5933
+Antanambao,active,create,0f97b51b-f23f-4e5e-ac06-726ac1060651,,2ac11983-82a5-40a1-81db-f326b996da2e,Water Point,water_point,5,Building,bu,46.76911667,-16.41218889
+Antanambao,active,create,d6954492-70c5-4a58-9585-4eb94fb12a8f,,eadf078b-2054-4723-8af1-5d16c18ac240,Water Point,water_point,5,Building,bu,49.26828,-17.43256
+Antanambao,active,create,fb75e60a-2520-4d70-bc87-365fcd13bb94,,9d83a546-65b4-486a-b989-9192222167ba,Water Point,water_point,5,Building,bu,45.78189,-15.94011
+Antanambao Ankidona,active,create,b157445e-48ff-4311-9462-ae7fe96c5bea,,55d60ad9-07f3-42c7-b2c2-64b6840ad748,Water Point,water_point,5,Building,bu,,
+Antanambao Nosibe,active,create,3ae6d269-a6d1-48ea-9dde-cca4805acc15,,eadf078b-2054-4723-8af1-5d16c18ac240,Water Point,water_point,5,Building,bu,49.26818,-17.4326
+Antanambao Sud I,active,create,0d1448c0-3ede-4104-b4c5-7d63899dd35e,,ef8a6a6f-7ac2-46d9-9467-ae88ed2a9ea4,Water Point,water_point,5,Building,bu,46.998,-15.828
+Antanambao Sud Ii,active,create,44fdeb43-adf1-49e8-a073-6bc60b09607f,,ef8a6a6f-7ac2-46d9-9467-ae88ed2a9ea4,Water Point,water_point,5,Building,bu,47.019,-15.817
+Antanambao Sud Iii,active,create,4dcc902e-cde8-4b5c-a5af-c9480fcb5969,,ef8a6a6f-7ac2-46d9-9467-ae88ed2a9ea4,Water Point,water_point,5,Building,bu,46.952,-15.845
+ANTANAMBAO V,active,create,1b7c605a-35b3-41a8-90ea-8850628381b4,,9d83a546-65b4-486a-b989-9192222167ba,Water Point,water_point,5,Building,bu,45.789597,-15.935015
+Antanambe,active,create,f7ecbc9c-8ae0-413a-9c2a-21904b1daba3,,529c8318-fa53-4d4e-8cd9-7c0b3a229d06,Water Point,water_point,5,Building,bu,,
+Antanambe Nord,active,create,393f43bd-3ec8-41de-ba42-f6fcc62449db,,5defac73-3f2b-49c8-8b23-3220835b03c2,Water Point,water_point,5,Building,bu,,
+Antanambe Sud,active,create,00d2b721-fbef-46f4-8a92-684c24cbcc4f,,5defac73-3f2b-49c8-8b23-3220835b03c2,Water Point,water_point,5,Building,bu,,
+Antanambiavy,active,create,cfac52d3-aef0-4586-9f4a-73937715e236,,3a549dea-f588-417b-a658-77f70cc9a9b4,Water Point,water_point,5,Building,bu,49.42917,-17.45031
+ANTANAMIARY,active,create,e74d8cf7-0808-4850-9a3f-fccd515f8de7,,409bb851-c200-4643-b590-5f0b2005e8d2,Site Communautaire,site_communautaire,5,Building,bu,,
+Antanamivony,active,create,58d1286f-0918-4274-ac07-45cff371d891,,7174ae50-4d3d-4fd1-a906-4fab680bede5,Water Point,water_point,5,Building,bu,46.72833,-16.15622
+Antananabo,active,create,fab0e721-1573-4bda-934b-91eadd94dbd7,,4e9522bb-e73b-477f-9850-1ca034ec278d,CSB2,csb2,5,Building,bu,,
+Antanandava,active,create,b2c8bf3a-c900-4c55-bf07-f242e86d27d3,,3c9bdc0f-03b9-4ddc-9252-d034e185915b,Water Point,water_point,5,Building,bu,49.37328,-16.50379
+Antanandava Croisement,active,create,918eb20e-b3f1-4a00-b493-d4a9dade87c2,,5bf70899-6782-4600-885d-5ad0a6737824,Water Point,water_point,5,Building,bu,46.95971,-16.38088
+Antananivony Andrefana Afovoany Epp,active,create,e93f7148-64b7-46a1-bf42-afddad0b1880,,1a546a5e-573f-45df-b5e5-4fa11616d2a2,Water Point,water_point,5,Building,bu,46.72961,-16.15567
+Antanantsoa,active,create,0397bed6-096d-4e25-bb1c-ad95f462735d,,4863b612-5843-41f8-a1ab-cca2f892fee0,Water Point,water_point,5,Building,bu,,
+ANTANATANAPOTY,active,create,fa0908d9-59a9-499f-8427-48a9b8cd996b,,f8f6820f-96eb-4999-82ec-8b809cff94de,Site Communautaire,site_communautaire,5,Building,bu,,
+Antanatsoma,active,create,48100df2-05ec-42b4-9dc2-90246ad1f374,,954e466b-bc6a-4d98-9bdb-00a839550a45,Water Point,water_point,5,Building,bu,47.4393,-24.04433
+Antanetiambo,active,create,2d6bc9b2-ff19-402c-a3b4-51bc66380d6a,,3a549dea-f588-417b-a658-77f70cc9a9b4,Water Point,water_point,5,Building,bu,49.42625,-17.45217
+Antanetilava,active,create,167669fc-a992-4a3c-aa3a-b137532e02c7,,cd0c8f6f-d2ef-4dbd-9712-5ccc36c1e015,Water Point,water_point,5,Building,bu,49.78884,-16.56253
+Antanetilava,active,create,e7505115-9db1-404b-8bc9-8ae6df08fc39,,3a549dea-f588-417b-a658-77f70cc9a9b4,Water Point,water_point,5,Building,bu,49.42272,-17.4718
+Antanile,active,create,0258f667-9b32-47f5-86e6-71acda2f569e,,8b79f6e0-d95e-4bf9-bd5c-ecc26834b201,Water Point,water_point,5,Building,bu,45.22399,-24.33417
+Antanile,active,create,9f495cd4-38d1-44fc-8a58-6dfc3aec7f97,,8b79f6e0-d95e-4bf9-bd5c-ecc26834b201,Water Point,water_point,5,Building,bu,45.94779,-24.46263
+Antanimainty,active,create,9f70a8de-5f66-42ed-a5c6-6c0820b77a54,,28ea6c4b-56c2-4459-af0e-04bea0afbb1d,Site Communautaire,site_communautaire,5,Building,bu,,
+ANTANIMAINTY,active,create,83ecee94-8bb8-4df1-8c51-5e21c7cbc5b1,,1ca7d983-3fc1-4051-ae7a-79d706bfbf18,Water Point,water_point,5,Building,bu,,
+Antanimainty II,active,create,22dd400c-dea5-43d3-b972-2f44ae0f7754,,41150233-beb5-4fa9-86a0-66a3606bcef6,Water Point,water_point,5,Building,bu,,
+ANTANIMAITY Imamba,active,create,a99e02c7-ebfb-4523-9527-f66df7d98d2a,,86cd5df6-1d27-4762-a604-046137c1db52,Water Point,water_point,5,Building,bu,,
+Antanimalangy,active,create,be69d664-a2e2-46d9-8024-36eed0b591b4,,409bb851-c200-4643-b590-5f0b2005e8d2,Water Point,water_point,5,Building,bu,45.40517,-25.40013
+Antanimary,active,create,92a1d1ba-4405-4c82-bd6c-a4cc10248023,,95ae107c-590c-4758-8f83-78282b05be16,Water Point,water_point,5,Building,bu,,
+Antanimary,active,create,cf89ed0a-5698-4bb9-9ff8-470e2b38c9dd,,3f9a4d6c-ec41-43cc-983e-87211280c482,Water Point,water_point,5,Building,bu,45.44322,-24.6158
+Antanimavo Ankalirano,active,create,e18974ae-99e9-4cf5-9770-f55d5280b98a,,1a29f950-a8ed-439c-9d32-b9c2cc1d9bf4,Water Point,water_point,5,Building,bu,45.69883,-24.54567
+Antanimavo I,active,create,2a1b7ae0-10c9-4957-885a-69f2396d728c,,d18ae17a-faae-4e40-bb4d-540641d494c0,Water Point,water_point,5,Building,bu,45.69809,-24.60315
+Antanimavo I,active,create,593c7085-6e6d-48aa-8ad7-1cf261cbd2be,,1a29f950-a8ed-439c-9d32-b9c2cc1d9bf4,Water Point,water_point,5,Building,bu,45.70117,-24.60067
+Antanimena,active,create,33ee398d-2faa-4293-8df5-1abb2e6a5764,,64f0435f-ee39-47af-be9b-c2cb33618b2d,Water Point,water_point,5,Building,bu,48.08069444,-21.73793611
+Antanimena,active,create,349766c3-6345-41f6-b4d7-b469a86db843,,ac38946a-ff08-4941-ab55-9f25fb818265,Water Point,water_point,5,Building,bu,,
+Antanimena,active,create,4b955f21-f303-42ee-8c01-cc5134e30b01,,bfc47a53-c417-4b92-b394-f669854729ec,Site Communautaire,site_communautaire,5,Building,bu,,
+Antanimena,active,create,522be56b-74de-4e28-a2c7-1c4a097e93e0,,bfc47a53-c417-4b92-b394-f669854729ec,Site Communautaire,site_communautaire,5,Building,bu,,
+Antanimena,active,create,55bbb78c-fd2b-48f8-9043-47016df1de21,,e9bfd037-3c2b-4697-b9d8-a5fed6c85641,Water Point,water_point,5,Building,bu,47.62414722,-23.36857778
+Antanimena,active,create,ef82cfd0-3af8-463b-b53f-4173ea82d7f1,,1a29f950-a8ed-439c-9d32-b9c2cc1d9bf4,Water Point,water_point,5,Building,bu,45.2559,-24.31533
+ANTANIMENA CENTRE,active,create,a5f5804f-dab6-495e-be64-320eaa6b0308,,ac38946a-ff08-4941-ab55-9f25fb818265,Water Point,water_point,5,Building,bu,,
+Antanimena Sud,active,create,6b15a189-deae-4068-bdc5-3c2d5375d235,,1a29f950-a8ed-439c-9d32-b9c2cc1d9bf4,Water Point,water_point,5,Building,bu,45.63784,-24.40921
+ANTANIMENA SUD,active,create,fd87d844-9582-42f9-95cf-04475e07ac77,,1a29f950-a8ed-439c-9d32-b9c2cc1d9bf4,Water Point,water_point,5,Building,bu,,
+Antanimieva,active,create,9cf7b301-60c4-4c6d-81f5-610080ec1543,,e7521037-19ad-41a9-b25f-dd44b89d453c,Water Point,water_point,5,Building,bu,,
+Antanimieva,active,create,a0718659-7b02-42fd-9cce-2634a170c4f9,,e7521037-19ad-41a9-b25f-dd44b89d453c,Water Point,water_point,5,Building,bu,,
+Antanimora Centre,active,create,4a0eddc4-81a6-4a9b-8304-c8402e6b7303,,d18ae17a-faae-4e40-bb4d-540641d494c0,Water Point,water_point,5,Building,bu,45.65934,-24.82094
+ANTARITARIKE,active,create,3387fb0e-21cb-4ac1-a1bd-13f6da973510,,5f666d29-8b8c-4ebf-a630-e2cad0cb3685,Site Communautaire,site_communautaire,5,Building,bu,,
+Antatabe,active,create,3b591fed-c064-4da8-a835-8ab5f313ce5c,,28ea6c4b-56c2-4459-af0e-04bea0afbb1d,Site Communautaire,site_communautaire,5,Building,bu,,
+Antatatse,active,create,9de1b022-e853-45fb-839d-5d0bb0c9c5a4,,037f61e0-6af0-4530-8ce2-63124eba2a9b,Water Point,water_point,5,Building,bu,45.35645,-24.56159
+ANTATEZA,active,create,170e1b38-9881-4a14-87a3-1bc208ae8c13,,6e32ba8a-c7b8-46fe-99f1-c35c65470705,Water Point,water_point,5,Building,bu,,
+ANTAVY NORD,active,create,d474ebc7-953a-4792-9c70-6b2af43602b1,,f0ec4526-d5d8-4c7b-b924-bac45cdb54cd,Site Communautaire,site_communautaire,5,Building,bu,,
+Antegny,active,create,db146778-d9c9-402b-ac95-46b3ee24652c,,42cbdedf-5db9-4c22-b0c3-58084dfaf401,Water Point,water_point,5,Building,bu,44.954,-23.881
+Antenimbe 1,active,create,e883d53c-8c4f-4966-b5a8-627dbf96b9fa,,309ea2e1-8827-4ab5-962c-f7474094185a,Water Point,water_point,5,Building,bu,49.17506,-17.60194
+Antenimbe 2,active,create,3ac341fe-b2c5-4979-b3b1-de6f1186da7f,,309ea2e1-8827-4ab5-962c-f7474094185a,Water Point,water_point,5,Building,bu,49.17501,-17.6042
+Antenimiary,active,create,157d96fc-897e-4c66-9086-7f1f31e75ffe,,4f3d45dd-a573-4e84-875c-87dadf9b45f5,Water Point,water_point,5,Building,bu,47.40656944,-22.34065556
+Antenne Chirurgicale Ste Croix,active,create,9cc79bbd-2390-414c-9d7c-aa6951e2374f,,08a61379-f59c-415b-bc5b-b03d941a9787,CHRD2,chrd2,5,Building,bu,,
+ANTENY OUEST I,active,create,278e5d5e-2ba7-4d22-a908-65ea8fa02952,,113a292b-209d-4f6d-b7a3-aa7f6eb56186,Site Communautaire,site_communautaire,5,Building,bu,,
+Antohabato Sud,active,create,19422d5d-881b-4bdf-8552-e10acfa305a7,,4863b612-5843-41f8-a1ab-cca2f892fee0,Water Point,water_point,5,Building,bu,,
+ANTONGOMENA BEVARY CHEF LIEU,active,create,ef67fdab-0434-46c8-8aad-7ae24fae8708,,d492534f-8d4e-4ffd-92f4-f15098b599dd,Water Point,water_point,5,Building,bu,,
+ANTRANOLAHATRA,active,create,e45b9f87-b274-450e-9e1b-a386aafe2e72,,6e32ba8a-c7b8-46fe-99f1-c35c65470705,Water Point,water_point,5,Building,bu,,
+Antsahabe,active,create,3e7d33e3-5b30-4f74-9ea4-a3635845bc7b,,38679362-2eb0-4eb1-87d0-6b78fa7e733d,Water Point,water_point,5,Building,bu,45.31883,-24.20933
+Antsakabalala Epp,active,create,97529372-1082-4896-afb6-d3cdf927a87c,,4ffed295-ec56-43aa-9308-71bed6e61efe,Water Point,water_point,5,Building,bu,,
+Antsakabe,active,create,c604f8d9-887d-4555-aaf6-90a7daacd069,,38679362-2eb0-4eb1-87d0-6b78fa7e733d,Water Point,water_point,5,Building,bu,45.65228,-24.78183
+Antsakamba Bas,active,create,201bec5c-a6d5-4ca1-b1a2-3de7faf9953a,,2601ccb0-b1e8-4ee7-ba9a-e9d2f9d48f06,Water Point,water_point,5,Building,bu,45.52475,-24.87669
+Antsakaoamasy,active,create,120c4691-1a11-4984-8387-2cbf50ad61a8,,fff386bb-d84f-435f-9b88-e25027d06662,Water Point,water_point,5,Building,bu,,
+Antsakoamalangy Nord,active,create,d929fd33-df25-43ea-95de-b35bd081eae0,,9e96eb0a-60f8-4b35-aafe-fcf3cf3f773f,Water Point,water_point,5,Building,bu,45.29463,-24.18072
+Antsakoamalangy Sud,active,create,91f7885a-bbb7-457c-a04f-56183bbbb26f,,9e96eb0a-60f8-4b35-aafe-fcf3cf3f773f,Water Point,water_point,5,Building,bu,45.2808,-24.47687
+Antsakoamaro,active,create,46199cc2-d6f9-449d-b4a8-b52b5f81e46a,,3f9a4d6c-ec41-43cc-983e-87211280c482,Water Point,water_point,5,Building,bu,,
+Antsakoamasy,active,create,0bfdfe23-7c41-480d-8892-2007f6b19c43,,024d01e6-01f4-4860-9780-846cdbec0836,Water Point,water_point,5,Building,bu,45.35468,-24.33206
+Antsakoamasy,active,create,a555ae17-7f6d-4e0c-9826-356c45d0e898,,fff386bb-d84f-435f-9b88-e25027d06662,Water Point,water_point,5,Building,bu,45.30050889,-24.16508806
+Antsakoamasy I,active,create,5584a8f1-97aa-4d20-8bb7-803aa2757f6a,,75b22baf-37a9-4d42-8fd6-7ca7912d2a4a,Water Point,water_point,5,Building,bu,45.18211,-24.56604
+Antsakoambey,active,create,abe155db-d8a0-4fff-a6c0-49bb8f9d3b3a,,dfef62fd-14cb-41e0-9bbf-321d9a8b9311,Water Point,water_point,5,Building,bu,45.27761111,-24.26659
+Antsakoambey 2,active,create,95c064b0-0bc3-43ac-ac29-1b294e24fb9b,,dfef62fd-14cb-41e0-9bbf-321d9a8b9311,Water Point,water_point,5,Building,bu,45.27758194,-24.26493111
+Antsakoamiary Antanimary,active,create,e583df64-72f4-46fe-aa41-c15fc17f1397,,95ae107c-590c-4758-8f83-78282b05be16,Water Point,water_point,5,Building,bu,,
+ANTSAKOAMILEKA CHEF LIEU,active,create,ccc7a86c-84bd-421c-8297-862634caee66,,da50edff-13f2-4264-ae0f-a21d7fb36dac,Water Point,water_point,5,Building,bu,,
+Antsakoamizara,active,create,992bd0dc-4c89-421c-bd4b-257f26525fff,,8580a687-cfd7-4ca7-85df-12e585021277,Water Point,water_point,5,Building,bu,45.1617,-24.09668
+Antsakoanabo,active,create,b9ecef7a-bda8-4f1d-987b-ee9d9fa9efed,,003dce7d-5c67-4111-a11e-44b7688d03d1,Water Point,water_point,5,Building,bu,,
+Antsakoandava,active,create,796dd9c2-72c7-4163-a39d-9989c4fe2244,,38679362-2eb0-4eb1-87d0-6b78fa7e733d,Water Point,water_point,5,Building,bu,,
+Antsakoandroa,active,create,7624a222-50aa-4b5e-9cb4-24b2f46309c8,,3f9a4d6c-ec41-43cc-983e-87211280c482,Water Point,water_point,5,Building,bu,45.38687,-24.04632
+ANTSAKOANTSOA,active,create,cee3c762-7ae7-41bf-b7e0-f03dd7a85d6c,,edd7bc75-fc97-4748-840c-2fc554322284,Site Communautaire,site_communautaire,5,Building,bu,,
+Antsakoantsoa Betraka,active,create,3663c4be-1417-4148-86b3-73ec9b197ab6,,fff386bb-d84f-435f-9b88-e25027d06662,Water Point,water_point,5,Building,bu,45.56496,-24.81541

@@ -1,0 +1,269 @@
+name,active,method,id,previousid,isattractiveitem,availability,condition,appropriateusage,accountabilityperiod,imagesourceurl
+Armoire en metal,true,create,20,S0002166,false,Demander aupres du partenaire quelles sont les armoires que l'UNICEF a fournies,L'armoire ne doit pas être cassée ou avoir des pièces manquantes. Il doit être entièrement refermable et verrouillable,Le matériel de bureau est fourni par l'UNICEF pour être utilisé exclusivement pour les travaux soutenus par l'UNICEF. Toute autre utilisation non conforme du matériel fourni par l'UNICEF doit être signalée,24,
+Babyfoot,true,create,41,11111,false,Livre a des Maisons de Jeunesse dans le cadre du projet Life Skills etc,C'est un babyfoot ! Il a besoin d'un ballon bien sur,,24,
+Balance Enfant (Salter),true,create,7,S0145555,false,"Balance mecanique, sur ressorts, avec cadran rond, pese jusq'a 25kg","Testez la balance pour voir si ca marche !
+",Cette balance permet de mesurer le poids d'un bebe en placant l'enfant dedans,24,
+Balance Mere-Enfant (Electrique),true,create,5,S0141021,false,"Balance electrique pour peser adultes et enfants, jusqu'a 250kg",Fourni avec piles (a remplacer par utilisateur si necessaire),Cette balance permet a un adulte de mesurer le  poids d'un enfant en tenant la balance dans sa main,36,
+Banc de salle de classe,true,create,13,11111,false,"Les bancs de l'UNICEF sont fabriqués localement, généralement en bois et en métal, pour accueillir 1 à 3 écoliers",Le banc ne doit pas être cassé ou avoir des pièces manquantes,Les bancs doivent être installés dans des salles de classe usagées au milieu de la pièce où les enfants seront assis,36,
+Bloc Latrines,true,create,12,11111,false,"En général, l'UNICEF construit 1 bloc de 2 latrines avec 1 urinoir par site. Parfois, il peut y avoir 2 blocs de latrines, ou même un bloc de toilettes avec 3 cabines (lorsque l'eau courante est disponible)","Vérifier si les latrines sont séparées (homme et femme), Vérifier si la porte est en place et équipée d'une serrure intérieure, Vérifier si les cabines sont accessibles, vérifier si les latrines génèrent des odeurs et des mouches.",Les latrines ne doivent être fermées ou verrouillées à n'importe quel moment de la journée scolaire. Les latrines doivent etre nettoyés régulièrement. Vérifiez si l'intérieur a été nettoyé récemment,36,
+Bucket with Lid 15-20 lt,true,create,90,1,false,Seau plastique de 15L,,,24,
+"Calcium Hypochlorite (HTH), drum 50kg (PPOS)",true,create,86,1111,false,"Calcium Hypochlorite (HTH), drum 50kg
+Unité : bidon de 45kg",,,24,
+"Chlorine, salt water treatment,",true,create,83,1111,false,"Chlorine, salt water treatment, SurEAU (PPOS)
+Unité : Flacon",Est-ce qu'ils sont en bon état ? Vérifiez si les dates de péremption ne sont pas encore dépassées,,24,
+Conteur,true,create,6,S0845011,false,"Conteur, 60 minutes, mecanique. Facile a lire, 0 a 60 minutes en intervalles de 5 minutes. On fixe le conteur en tournant le cadran",Testez le conteur pour voir si ca marche !,Vous pouvez demander a la sage femme / infirmiere comment elles utilisent ce conteur,24,
+Conteur de Conductivite / Conductimetre,true,create,48,S0005446,false,Conductimètre électrique de poche ayant une plage de 0 à 100 mS. Le compteur est utilisé pour tester instantanément la qualité des échantillons d'eau,"Il est fourni avec:
+1x électrode de conductivité
+1x solution d'étalonnage
+1x batterie supplémentaire",Demandez si le conductimètre a été utilisé ce mois-ci et quels ont été les résultats. Nous nous attendrions à entendre que le partenaire a testé la qualité de l'eau dans des points d'eau nouveaux et établis (pas nécessairement construits par l'UNICEF),60,
+Cup plastic 100 ml,true,create,87,1111,false,"Gobelet, plastique100 ml",,,24,
+Dalle plastiques latrines (PPOS),true,create,,1111,false,Dalle plastiques latrines (PPOS),,,24,
+DLM (PPOS),true,create,72,1111,false,1DLM-Prépositionnement,,,12,
+Electrochlorateur / Generateur de Chlore,true,create,58,SL007008,false,C'est une machine pour la production de solution de désinfection pour l'eau. Plus connu sous le nom de WATA. Ça fonctionne en combinant sel et eau pour produire une solution chlorée. Les modèles que l'UNICEF achète ressemble typiquement a celui dans la photo mais il est important de demander au gérant. L'electrochlorateur est alimente par une alimentation solaire fournie en même temps que l’équipement.,"L'electrochlorateur est concu pour generer du chlore pour les prestataires de services tels que les Centres de Sante ou les Hopitaux. 
+Capacité de production 1 à 2 litres par cycle de production
+Alimentation et équipement solaire kit complet :  Solar Direct Drive (fonctionnant sans batterie)","Il est important d'etablir si le gerant a les connaissances pour faire fonctionner, et pour entretenir, cet equipement. ",36,
+GEWS automatique - enregistreurs de données,true,create,45,1111,false,"Vous devrez demander à l'opérateur privé ou au gestionnaire du point d'eau où se trouve le forage solaire ou motorisé (en gardant à l'esprit qu'il peut y en avoir plusieurs au même endroit, ou qu'il peut être situé quelque part en dehors du centre-ville). Avec l'opérateur, dirigez-vous principalement vers l'emplacement du forage et vérifiez si l'enregistreur de données est en place et bien protégé.","""Demandez si l'enregistreur de données effectue les tâches clés suivantes: collecte de données, traitement, stockage, contrôle  de valeurs limites et transmission en temps réel sur les téléphones portables via le réseau GSM.
+Vérifiez la couverture du réseau téléphonique.
+Demandez-leur s'ils ont une batterie de rechange",Vérifiez si l'enregistreur de données envoie des SMS s'il y a une alarme et si des enregistrements sont conservés,60,
+Indicateur de niveau d’eau / Piezometre,true,create,54,S0005472,false,"L’indicateur est un appareil léger et compact, aussi connu sous le nom piezometre. Il comporte un dévidoir, un ruban gradué (100m), un panneau de commande et une sonde. Des signaux sonore et lumineux sont émis lorsque la sonde entre en contact avec l’eau. Cet outil est pour tester le profondeur de l'eau dans un forage ou un puits","Le ruban ne doit pas etre endommagé, vous pouvez tester la fonctionnalité de l'indicateur en l'allumant et en touchant de l'eau avec la sonde",,36,
+Intrants WASH urgence pour CSB,true,create,43,0,false,"Les intrants WASH urgence pour CSB devraient contenir les articles suivants:
+•	Filtre céramique
+•	Gobelet
+•	Pelle en plastique
+•	Balai rasta
+•	Balai
+•	Bac poubelle
+•	Serpillère
+•	Sac poubelle
+•	Savon en poudre
+•	Masque ffp2
+•	Calot
+•	Gant et latex","Tous les intrants WASH urgence pour CSB devraient etre disponible et en bon etat d'utilisation:
+•	Filtre céramique
+•	Gobelet
+•	Pelle en plastique
+•	Balai rasta
+•	Balai
+•	Bac poubelle
+•	Serpillère
+•	Sac poubelle
+•	Savon en poudre
+•	Masque ffp2
+•	Calot
+•	Gant et latex","Si au moins 2 intrants sont absents, on peut considerer que les intrants ne sont pas correctement utilises",12,
+Kit 1 Eleve 1 Arbre,true,create,53,0000000 (car composite),false,"Le Kit 1 Elève 1 Arbre est un ensemble d’équipements livrés à une école pour mener des actions de jardinage scolaire. Dans un kit, on retrouve pelle, marteau, bidon, seau, peinture, savon, bêche, fourche, râteau, arrosoir, mètre ruban, soubique, brouette, cordelette, pinceau. etc. ",Ce qui nous interesse principalement avec cet item est sa livraison effective et complète à l’école de destination. Vérifiez que la majorité des items ont été effectivement livrés à l’école et sont dans un etat de fonctionnement,"Les outils doivent être utilisés à l’école et le moniteur doit être attentif à une utilisation frauduleuse ou vol/vente de ces matériels. Demandez à les voir et à voir les travaux déjà effectués avec ! Souvent, la mise en place d'un serre par l'ecole fait partie des activites de ce projet. Si tout va bien, vous pouvez noter un « C’est OK ! » pour l’item dans EUSM",6,
+Kit BTS-L,true,create,52,0000000 (car composite),false,"Le Kit BTS-L est composé d’une série d’items consommables pour la rentrée scolaire pour les enseignants, les élèves et les écoles  : 
+des cahiers ; stylos, tailles crayon, gommes ; équerre ; boite de craies, règle ; compas, cahier d’exercices (Primaire) et Livret AA&AC (Collège) et Kit de dignité",Ce qui nous intéresse principalement avec cet item est sa livraison effective et complète au niveau école. Vous allez vérifier que la majorité des items pour les élèves et les écoles ont été effectivement livrée et distribuée aux destinataires (pas fermé à clé dans le bureau du Directeur),"Les kits élèves sont censés être distribués aux élèves. Vérifiez que cela soit le cas. Pour les kit écoles, ils doivent être utilisés par les enseignants. Si tout va bien, vous pouvez noter un « C’est OK ! » pour l’item dans EUSM",6,
+Kit Child Friendly Space / Sahan'ny Ankisy (PPOS),true,create,60,0,false,"Kit urgence pour les enfants deplaces. Contient typiquement des jouets et divertissements pour des enfants, y compris ballons, balancoires, jeux, ainsi que quelques elements pedagogiques. ",Le kit est concu pour etre livre a un endroit final mais pas recupere. Il est attendu que certains elements ne soient pas fonctionnels apres une certaine periode d'utilisation intense.,,24,
+Kit de Test de l'Eau portable,true,create,57,S5006116,false,"Un kit portable et durable pour tester la qualite de l'eau pour une utilisation sur place. 
+Le Kit peut tester l'eau pour des bacteries coliformes, la turbidite, la valeur PH, la conductivite, la temperature et la chlore. Le kit se trouve dans une boite robuste.
+Ces kits sont typiquement envoyes chez les gestionnaires prives","Le kit contient : incubateur pour mesurer coliformes, avec batterie interne (peut etre branche) ; un kit de filtration ; pompe a vide ; 20 boites de petri reutilisables ; contenaires pour methanol ; tube de turbidite ; conducitmetre, etc",Les consommables qui font fonctionner ce kit ne sont pas forcement inclus et doivent etre periodiquement remplacees,36,
+Kit EDD,true,create,15,11111,false,"Le kit contient des clés d’apprentissage (série de cartes plastifiées sur un porte-clés), 2 affiches de classe recto verso et un guide de l’enseignant pour faciliter le traitement des thèmes environnementaux à l’école",Les affiches sont visibles et non endommagées,les clés d'apprentissage sont utilisées et le guide de l'enseignant est facilement accessible par les enseignants,36,
+Kit Peda College,true,create,16,11111,false,Le kit se compose de 2 boîtes: 1 boîte pour les enseignants et 1 boîte pour les étudiants. La boîte des enseignants contient différents plans de cours pour les enseignants et la boîte des élèves contient des activités d'apprentissage pour les étudiants dans chaque matière,Les boîtes des enseignants et des étudiants doivent être facilement accessibles aux enseignants et aux étudiants.,Les enseignants doivent être en mesure d'expliquer comment ils utilisent les plans de cours et les fiches d'apprentissage pour les élèves,36,
+Kit Sage Femme,true,create,2,S9902221,false,"Le kit est compose de +/- 50 pieces a utiliser par les sages femmes. Se trouve dans une boite marquee ""UNICEF"" dans la salle de maternite de la formation sanitaire","Le kit est cense etre utilise pour approx 50 accouchements. Apres, certains elements essentiels seront uses. Il est essentiel de verifier aupres de la sage femme si le kit reste encore utilisable.","Noter dans les commentaires des pieces du kit qui manquent, ainsi que d'autres pieces qui pourraient etre utiles selon la sage femme",12,
+Kits Cuisine,true,create,67,1111,false,"Les composants  de ce kit sont le suivants : Bol alimentaire, Marmite, Louche, Seau , Gobelet , Seau , Couteau , Assiette.",,,24,
+Kit WASH urgence pour CSB,true,create,42,0,false,"Le kit WASH Urgence pour CSB devrait contenir les articles suivants:
+•	Bidon
+•	Sur Eau
+•	Savon 
+•	Gobelet 
+•	Seau 
+","Le kit WASH Urgence pour CSB en plus des articles ci-dessous en bon etat d'utilisation, on devrait trouver de l'eau:
+•	Bidon
+•	Sur Eau
+•	Savon 
+•	Gobelet 
+•	Seau 
+",On peut considerer que le kit est incomplet si l'un des articles est absent ou s'il n'y a pas d'eau dans le CSB,12,
+Malette Scientifique,true,create,14,S5034000,false,Boîte en métal contenant +/- 50 articles individuels destinés à promouvoir la science auprès des écoliers,"Entre autres, le kit contient: microscope, thermomètre, boussole, une variété de kits d'apprentissage",Les enseignants doivent avoir accès au manuel d'utilisation contenu dans la valise et savoir comment utiliser les kits,36,
+Planche Pedagogique,true,create,17,11111,false,"Série de 5 affiches pédagogiques recto-verso sur 10 thèmes tels que l'alphabet, les nombres, le corps humain, la carte du monde, les plantes, les animaux et la carte de Madagascar et du monde",Les affiches doivent être visibles des élèves et non endommagées,Les enseignants devraient être en mesure d'expliquer comment ils utilisent les affiches en classe,36,
+Point d'eau-AEPG,true,create,65,1111,false,"L’Adduction en Eau potable par Gravitaire(AEPG) caractérisée par la ressource en 
+eau en altitude par rapport agglomération ;","L’Adduction en Eau potable par Gravitaire(AEPG) caractérisée par la ressource en 
+eau en altitude par rapport agglomération ;","L’Adduction en Eau potable par Gravitaire(AEPG) caractérisée par la ressource en 
+eau en altitude par rapport agglomération ;",120,
+Point d'eau - Pompe manuel,true,create,24,11111,false,"Vous devrez vous renseigner auprès du gestionnaire du point d'eau / association des utilisateurs du village où se trouve la pompe à main (en gardant à l'esprit qu'il peut y en avoir plusieurs dans un village, ou qu'elle peut être située quelque part en dehors du village)",Testez la pompe afin de vérifier qu'elle produit de l'eau. un seau / jerrycan de 20 litres doit être rempli avec 1 à 3 minutes de pompage. Demandez aux habitants si la pompe produit de l'eau à tout moment lorsque cela est nécessaire et tout au long de l'année.,Demandez aux habitants si la pompe est utilisée par toute la population? Cela fonctionne-t-il jusqu'à 6 heures par jour? Demandez s'il existe une heure d'ouverture convenue et programmée pour les utilisateurs? Et un moyen de paiement fonctionnel? Les populations vulnérables ont-elles accès à la pompe et l'utilisent-elles?,120,
+"Reservoir d'eau, plastique, 10,000L",true,create,44,11111,false,"Lorsqu'il est stocké, le réservoir pliable est plié, emballé dans un sac en polyéthylène robuste et placé dans une boîte en bois solide","Lors de l'utilisation, il ne devrait y avoir aucune fuite","Vérifiez que le réservoir est installé et s'il y a de l'eau à l'intérieur. Le réservoir doit être installé sur une plate-forme, le couvercle supérieur doit être en place. Si équipé d'un robinet, vous pouvez ouvrir le robinet pour vérifier le débit d'eau.",60,
+"Reservoir d'eau, plastique, 10,000L  (PPOS)",true,create,,1111,false,"Reservoir d'eau, plastique, 10,000L  (PPOS)",Est-ce qu'il en bon état ?,,24,
+"Réservoir d'eau, plastique, 5000 l",true,create,46,11111,false,"Lorsqu'il est stocké, le réservoir pliable est plié, emballé dans un sac en polyéthylène robuste et placé dans une boîte en bois solide","Lors de l'utilisation, il ne devrait y avoir aucune fuite","Vérifiez que le réservoir est installé et s'il y a de l'eau à l'intérieur. Le réservoir doit être installé sur une plate-forme, le couvercle supérieur doit être en place. Si équipé d'un robinet, vous pouvez ouvrir le robinet pour vérifier le débit d'eau.",60,
+"Réservoir d'eau, plastique, 5000 l (PPOS)",true,create,82,1111,false,"Réservoir d'eau, plastique, 5000 l (PPOS)",,,24,
+Salle de Classe - Normale,true,create,11,11111,false,Les salles de classe construites par l'UNICEF sont normalement marquées comme telles,La salle de classe doit être utilisée quotidiennement et exempte d'obstacles qui empêchent un apprentissage efficace,Les enfants doivent s'asseoir sur des bancs avec un espace approprié pour jouer et travailler,60,
+Salle de Classe - Polyvalent,true,create,1,11111,false,"Les salles de classe construites par l'UNICEF sont normalement signalées par un pancarte ou un panneau devant l'ecole ou sur le batiment lui-meme. Une salle de classe polyvalente a typiquement des robinets et eviers pour faciliter les cours scientifique, et est equipe souvent avec d'autres equipements.
+Cette salle de classe peut etre utilisee pour les cours primaire ou secondaire selon le contexte. Parfois ca se trouve dans un CRINFP.",La salle de classe doit être utilisée quotidiennement et exempte d'obstacles qui empêchent un apprentissage efficace,Les enfants doivent s'asseoir sur des bancs avec un espace approprié pour écrire,60,
+Sand Dam,true,create,,1111,false,"Un barrage de sable est un mur en béton armé construit en travers d'une rivière sablonneuse saisonnière. Il s'agit d'une technologie simple, peu coûteuse et nécessitant peu d'entretien, qui retient les eaux de pluie et recharge les nappes phréatiques. ","Un barrage de sable est un mur en béton armé construit en travers d'une rivière sablonneuse saisonnière. Il s'agit d'une technologie simple, peu coûteuse et nécessitant peu d'entretien, qui retient les eaux de pluie et recharge les nappes phréatiques. ","Un barrage de sable est un mur en béton armé construit en travers d'une rivière sablonneuse saisonnière. Il s'agit d'une technologie simple, peu coûteuse et nécessitant peu d'entretien, qui retient les eaux de pluie et recharge les nappes phréatiques. ",120,
+Savon (PPOS),true,create,71,1111,false,"DLM pour 50 personnes doivent exister.
+Unité : Carton de 12 barres
+",Les produits doivent être en bon état,,12,
+School in a Box,true,create,59,S9935097,false,Malette avec des produits pour continuer de l'education suite a un alea. Contenu :,,,24,
+School in carton,true,create,,S9935011,false,"Pour 40 élèves et 1 enseignant avec 41 composants emballés dans une boîte en carton. 
+Kit contents:
+Material	Description	Qty
+S2270500	Scissors ,all purpose,sharp,180mm	1
+S2512000	Cubes,wood or plast.,coloured,set of 100	1
+S2555010	Scissors,safety,school,B/B,135mm/BOX-10	4
+S2584000	Crayon,wax,packs of 8 colours/BOX-10x8	4
+S2687003	Tape,adhesive,transp 1,5cm x 10m/BOX-20	2
+S4325497	Marker,flipchart ,colours,tip-5mm/PAC-4	2
+S4416397	Chalk,assorted colours/BOX-100	3
+S4416504	Brush,paint,for chalkboard,50-60mm	1
+S4416506	Duster/wiper for Blackboard	2
+S4416510	Slate,fibreboard,double-sided,A4/BOX-20	2
+S4418400	Compass,plastic, for Blackboard, 45cm	1
+S4419001	Globe (Latest) inflatable, diam.42cm	1
+S4460701	Pencil,HB grade,black lead/Box-10	8
+S4461002	White pencil for slates,BOX-20	2
+S4465700	Paint,chalkboard,black	2
+S4467000	Ruler,plastic,Blackboard,100cm	1
+S4491900	Set Square ,Blackboard,30-60-90 degrees	1
+S4491904	Set Square, Blackboard,45-45-90 degrees	1
+S4520110	Eraser,soft,for pencil/BOX-20	4
+S4552010	Pencil sharpener ,metal/PAC-20	2
+S4570005	Ruler,plastic,c.30cm,set of 10	4
+S4417230	Clock,teaching,wood or plastic	1
+S5001006	Bag, plastic, interlock seal/PAC-20	2
+S0544210	Register,A4,squared,80 pgs/PAC-10	1
+S4410021	Book,exercise,A4 ,ruled-8mm,96 pgs/PAC-10	1
+S4410010	Book,exercise,A5,ruled-8mm,48 pgs/PAC-20	2
+S4410020	Book,exercise,A5,5mm-sqre,48 pgs/PAC-20	2
+S4460005	Pen,ball-point ,blue/BOX-10	8
+S4460007	Pen,ball-point,black/BOX-10	8
+S4416403	Chalk,white/yellow,BOX-100	3
+S4460006	Pen,ball-point ,red/BOX-10	1
+S4420000	Posters,plasticized paper,set of 3	1
+S4462100	Protractor, plastic for blackboard 44cm	1
+S4516510	Student's Geometry sets, Box-20	2
+S8794601	Arm Bands, Education, Cyan blue, cloth	2
+S4410003	Bristol paper, colored, A4, 180 gsm, pac	1
+S2687004	Duct tape, 50mm, silver	1
+S1993550	Users guide School in a Box Kit, English	1
+S1993551	Users guide School in a Box Kit, French	1
+S1993320	Children w/Disabilty Guide Sib	1",,,24,
+Serre 1 Eleve 1 Arbre,true,create,55,00000 (car composite),false,Le serre est installe dans les ecoles ou se trouve le projet 1 Eleve 1 Arbre. Le serre devrait se trouver dans l'enceinte de l'ecole et est utilise pour cultiver des fruits et legumes pour consommation dans l'ecole. Toute utilisation frauduleuse du serre devrait etre signalee,,,6,
+Station de Lavage des Mains,true,create,27,11111,false,"Le modele de station de lavage des mains peut varier. En general, la station de lavage des mains devrait se trouver dans un endroit accessible aux enfants de l'ecole, avec de de place pour qu'un minimum de 10 eleves se lavent les mains en meme temps. Le modele ""goutte a goutte"" par tuyau simple est commun (voir photo)","La station de lavage des mains doit avoir une source de l'eau a tout moment, avec robinet. Lorsque le robinet est ouvert, de l'eau devrait couler pour que l'ensemble des enfants puissent se laver les mains en meme temps. La station doit etre nettoyee regulierement et sans blocages physiques",Du savon doit etre a disposition des eleves qui se lavent les mains.,36,
+Systeme MUS,true,create,28,11111,false,"Le systeme MUS (Utilisations Multiples de l'Eau) complimente un point d'eau existant pour irriguer un potager qui peut etre gere par la communaute autour. Il est compose d'un certain nombre de citernes en eau (generalement 1 a 3, de 200l) qui s'alimentent a partir du point d'eau local ou du chateau d'eau, et des tuyaux permettant une irrigation du potager","Le systeme d'irrigation preferee est le ""goutte a goutte"". L'eau est distribuee en gouttes a travers une ou plusieurs tuyaux. Essayez de verifier le fonctionnement de ce systeme d'irrigation","Un potager MUS doit etre gere par la population locale, avec une organisation documentee qui decrit les roles, responsabilites, et droits de ses utilisateurs",36,
+Table d'Accouchement,true,create,3,S0002174,false,"Une table d'examination et d'accouchement, en 3 pieces. 4 appuis, hauteur modifiable. Chaque piece ont matelas rembourre non-amovible. Devrait se trouver dans la salle d'accouchement","Le hauteur de la table est modifiable, et les matelas devraient etre en bon etat, sans corrosion","La table doit etre regulierement lavee pour un hygiene complet pour les utilisateurs. 
+La table se trouve normalement dans la salle d'accouchement mais peut etre utilise aussi pour des consultations pre-natales",48,
+Table de Bureau,true,create,21,11111,false,Demander aupres du partenaire quels sont les bureaux que l'UNICEF a fournis,Le bureau ne doit pas être cassé ou avoir des pièces manquantes,Le matériel de bureau est fourni par l'UNICEF pour être utilisé exclusivement pour les travaux soutenus par l'UNICEF. Toute autre utilisation non conforme du matériel fourni par l'UNICEF doit être signalée,24,
+Table de reanimation pour nouveau ne,true,create,47,S0002035,false,"Une table pour la reanimation des nouveaux nes, avec chauffage, lumiere, et conteur. Fourni avec matelas. Une base roulante donc peut etre deplacee ailleurs lors de votre visite, sinon ca se trouvera dans la salle de maternite.","La table doit etre propre et regulierement nettoyee. Verifiez que le chauffage marche, ainsi que les differentes alertes.",Une formation est requise pour les utilisateurs de cet equipement. Verifiez que le personnel de la Formation Sanitaire aient recu cette formation et que cela leur a ete utile et compris.,36,
+Table Gynecologique,true,create,4,S0002174,false,"Une table d'examination, en deux pieces. Pour l'examination des patients","Montee sur quatre supports robustes avec pied, hauteur reglable. Les deux pieces ont matelas rembourre non-amovible","La table doit etre regulierement lavee pour un hygiene complet pour les utilisateurs. 
+Resistant a la corrosion en environnement tropical, il devrait se trouver dans la salle de consultation ou de traitement (le cas echeant)",48,
+Tarpaulin (PPOS),true,create,50,S5086014,false,Salle de classe provisoire 25,Tarpulin en bonne état.,Le tarpaulin est/ a été utilisé pour construire une salle de classe temporaire,12,
+Tente,true,create,49,S5088015 et S5088020 selon taille,false,"Tente peut etre en modele 24, 42 ou 72 m2
+Pour Salle de classe provisoire pour 25 ou 50 élèves.
+Attention car, pendant la période de vacance, la tente peut etre rangée.",Tente en bonne état.,Les salles de classes tempoirares sont mise en place.,12,
+"Therapeutic spread,sachet 92g/CAR-150",true,create,29,S0000240,false,"L'aliment therapeutique pret a l'emploi est utilise pour le traitement de la malnutrition aigue severe (MAS) sans complications. Il est connu plus largement sous le nom ""Plumpy Nut"". Le produit est distribue dans des sachets de 92 grammes chacuns dans un carton avec 150 sachets","Stockage correct à l'abri de la lumière directe, à une température ne dépassant pas 30 ° C.
+Il est prêt à manger, directement du sachet; ne nécessite pas de cuisson, de mélange ou de dilution. Utiliser dans les 24 heures après ouverture","Pendant la période de traitement de la MAS, les ATPE sont la seule source de nourriture, à l'exception du lait maternel dans le cas des nourrissons allaités. Donnez toujours du lait maternel avant les ATPE. Il ne devrait jamais être distribué aux membres de la famille. Il est pressé hors du sachet et administré directement au nourrisson ou à l'enfant. Pétrir le sachet avant de l'ouvrir. Assurez-vous que le sachet ouvert n'entre pas en contact avec de l'eau ou un environnement sale. Fournir beaucoup d'eau potable à l'enfant afin d'étancher sa soif à tout moment pendant qu'il prend des ATPE. L'alimentation doit toujours être supervisée par un soignant.",3,
+Tole (Educ),true,create,51,11111,false,Pour Refection TOITURE Salle de classe,Les tôles sont en bon état.,Les tôles sont posées sur la salle de classe.,24,
+Water Maker (PPOS),true,create,84,1111,false,"Water Maker (PPOS)
+Unité : boite",,,24,
+Amod 135mg+Arte 50mg tab/3/PAC-25 (PPOS),true,create,,S1300101,true,"Amodiaquine 150 mg (sous forme de chlorhydrate) + Artésunate 50 mg, association à dose fixe, comprimés bicouches, plaquette thermoformée de 3 comprimés. Emballé dans un paquet de 25 blisters.",Est-ce qu'il est en bon état ?,,24,
+Appareil Photo,true,create,40,Z21501,true,Verifier le marque et le modele ainsi que le numero de serie dans l'appli EUSM,Verifier que l'appareil photo fonctionne. Il devrait avoir un chargeur et une carte memoire.,,36,
+"Bicycle,heavy duty,roadster,ladies",true,create,88,S0004209,true,Auprès des Intervenants Sociaux,Materiel neuf,Pour le deplacement des IS au niveau des fokontany,60,
+Congelateur Ultra Low Temperature DW-86L828J,true,create,8,S0003108,true,"Congelateur alimente par secteur (220-240V/50HZ), borde de glace pour le stockage des vaccins a temperature ultra basse",La temperature du congelateur peut etre regle antre -40 a -86 degres Celsius,Utiliser les gants cryo fournis avec. Le microprocesseur est controle via clavier a l'exterieur. Multiples alarmes si defaut,60,
+Congelateur Vaccin secteur,true,create,9,S0002377,true,"Frigerateur et congelateur combine, alimente par secteur, borde de glace pour le stockage des vaccins","Fourni avec regulateur de tension et mesure de temperaite. 2 cles, paniers de frigo","Temperature ambiente de fonctionnement : Min. +5°C, Max. +43°C",60,
+Disc Dur Externe,true,create,33,Z2140101,true,Verifier le marque et le modele ainsi que le numero de serie dans l'appli EUSM,Verifier si le disc dur fonctionne. Il aura besoin d'un branchement a une source d'electricite pour fonctionner,,24,
+Drone,true,create,39,Z21501,true,"Les drones seront stockés dans le bureau local du BNGRC. Ils doivent être emballés lorsqu'ils ne sont pas utilisés. Vérifiez la marque, le modèle et le numéro de suivi dans l'application EUSM - les drones achetés par l'UNICEF seront INSPIRE ou MAVIC","Demandez à tester le drone pour en établir la fonctionnalité. Chaque drone est fourni avec des accessoires comprenant une télécommande, des hélices de rechange, une batterie rechargeable, une caméra et un kit de parachute. Également fourni avec une carte mémoire SanDisk",Les drones sont utilisés pour surveiller les situations d'urgence et fournir des informations rapides sur les zones touchées qui pourraient autrement être inaccessibles. Demandez à l'utilisateur final comment les drones ont été utilisés et établissez une utilisation récente correcte,36,
+Filtre a eau ceramique,true,create,,1,true,1,,,24,
+Frigo Solaire pour Vaccins,true,create,10,S0005122,true,Frigerateur solaire pour le stockage secure des vaccins,"Fourni avec mesure de temperatue, 10 fusibles de chaque type, couvercle avec serrure, 2 cles, 6 paniers et une boussole","Temperature ambiente de fonctionnement : Min. +5°C, Max. +43°C",60,
+Groupe Electrogene,true,create,35,Z24520,true,Verifier le marque et le modele du groupe ainsi que le numero de serie dans l'appli EUSM,Demandez de voir le groupe et verifiez que ca fonctionne. Le partenaire est charge d'acheter le gasoil pour faire marcher le groupe. Essayez de verifier que des fonds sont disponibles dans ce sens et deployes,"Des groupes electrogenes fournis par l'UNICEF sont souvent destines a une utilisation tres specifique (par exemple, diffuser des videos sur une tele dans un village sans Jirama). Essayez de verifier que le groupe n'est pas utilise a d'autres raisons en dehors de ce qui est prevu",36,
+"IEHK2017, kit, basic unit (PPOS)",true,create,77,S9901024,true," Il s'agit d'une solution sanitaire complète conçue pour répondre aux situations d'urgence et prendre en charge jusqu'à 1 000 personnes sur une période de trois mois. Il comprend des produits pharmaceutiques non injectables essentiels, tels que l'albendazole, l'oméprazole et l'amoxicilline. Le kit fournit également des outils et des dispositifs médicaux essentiels tels que des bassins rénaux, des bols en acier inoxydable et des plateaux à pansements. De plus, il contient des consommables essentiels tels que des bandages élastiques, des compresses de gaze et du coton, ainsi que des articles de papeterie indispensables à la tenue des dossiers. Il s'agit d'un outil parfait pour les professionnels de la santé qui travaillent dans des situations de crise. IL faut la conserver à une température inférieure à 25°C et hors de portée des enfants.",Le KIT devrait être en bon état.,,24,
+"IEHK2017, kit, Suppl.1 Medicines (PPOS)",true,create,78,S9901026,true,Chaque module supplémentaire 1 - médicaments contient des médicaments essentiels pour une population de 10 000 personnes pendant une période de trois (3) mois et ne doit être utilisé que par des professionnels de la santé ou des médecins.,Est-ce que les IEHK sont en bon état ?,,24,
+Imprimante,true,create,19,11111,true,Verifier le marque et le modele ainsi que le numero de serie dans l'appli EUSM,Verifier si l'imprimante fonctionne. L'imprimante aura besoin des cartouches pour fonctionner correctement.,Le nom du produit doit inclure des informations sur la destination exacte de ce smartphone et le travail dont on a besoin.,36,
+Kit adapté éducation inclusive,true,create,,1111,true,"Kit destiné pour les écoles  qui éduquent des enfants handicapés.
+Voici les composants :
+PUZZLES en bois  MM, carte de Madagascar (decoupee en 23 Regions) + dessin (base)
+PUZZLES en bois  GM , carte du Monde decoupee en 05 continents, avec nom de chaque continent. 
+PUZZLES découverte du corps, decoupee selon les elements du corps : la tete, les pieds, les bras, le tronc. 
+Chiffres mobiles en relief et avec transcription en braille: en dé, 5cm de coté, chiffre + transcription en baille, 0-9, +, -, =, x, : couleurs differentes - 2 faces opposées 
+Lettres mobiles en relief et avec transcription en braille:
+En dé, 5cm de coté, lettre + transcription en baille, a-z, couleurs differentes - 02 faces opposées 
+Boulier chinois (voir image a droite)
+Domino en relief, 4cmx8cm, 1cm (epaisseur), les points sont percés
+Emballage (carton), à ajuster au volume du contenu",,,36,
+Kit documents AC,true,create,63,12345,true,Le Kit documents AC  est une malle metallique composée d’une série d’items consommables dont la liste est disponible pour chaque structure de sante.,"Ce qui nous intéresse principalement avec un kit, c’est sa livraison effective et complète au niveau de la structure de santé. Vous allez vérifier que la majorité des items des kits documents AC ont été effectivement livrée et distribuée aux destinataires (pas fermé à clé dans un bureau). ","Tous les kits documents AC sont censés être distribués aux personnes cibles. Vérifiez que cela soit le cas. Les kits documents AC doivent être utilisés par les AC. Si tout va bien, vous pouvez noter un « C’est OK ! » pour l’item dans EUSM.",12,
+Kit documents formateurs,true,create,64,12345,true,Le Kit documents formateurs  est une malle metallique composée d’une série d’items consommables dont la liste est disponible pour chaque structure de sante,"Ce qui nous intéresse principalement avec un kit, c’est sa livraison effective et complète au niveau de la structure de santé. Vous allez vérifier que la majorité des items des kits documents formateurs ont été effectivement livrée et distribuée aux destinataires (pas fermé à clé dans un bureau). ","Tous les kits documents formateurs sont censés être distribués aux personnes cibles. Vérifiez que cela soit le cas. Les kits documents formateurs doivent être utilisés par les formateurs. Si tout va bien, vous pouvez noter un « C’est OK ! » pour l’item dans EUSM.",12,
+Kit ECD (PPOS),true,create,75,1111,true,Souvent stocké dans les magains de la DREN et/ou CISCO,Le produit est en forme de caisse métallique contenant des matériels didactiques pour le préscolaire destinés au développement de la petite enfance,C'est un produit pré-positionné au sein des partenaires et devrait être utilisé en période d'urgence,24,
+Kit materiels AC,true,create,62,12345,true,Le Kit materiels AC est une malle metallique composée d’une série d’items consommables dont la liste est disponible pour chaque structure de sante.,"Ce qui nous intéresse principalement avec un kit, c’est sa livraison effective et complète au niveau de la structure de santé. Vous allez vérifier que la majorité des items des kits materiels AC ont été effectivement livrée et distribuée aux destinataires (pas fermé à clé dans un bureau)","Tous les kits materiels AC sont censés être distribués aux personnes cibles. Vérifiez que cela soit le cas. Les kits matériels AC doivent être utilisés par les AC. Si tout va bien, vous pouvez noter un « C’est OK ! » pour l’item dans EUSM.",12,
+Kit medicaments AC,true,create,61,12345,true,Le Kit medicaments AC est une malle metallique composée d’une série d’items consommables dont la liste est disponible pour chaque structure de sante,"Ce qui nous intéresse principalement avec un kit, c’est sa livraison effective et complète au niveau de la structure de santé. Vous allez vérifier que la majorité des items des kits medicaments AC ont été effectivement livrée et distribuée aux destinataires (pas fermé à clé dans un bureau). Pour les médicaments, la date limite d’utilisation n’a pas expiré.","Tous les kits medicaments AC sont censés être distribués aux personnes cibles. Vérifiez que cela soit le cas. Les kits médicaments AC doivent être utilisés par les AC. Si tout va bien, vous pouvez noter un « C’est OK ! » pour l’item dans EUSM.",12,
+Kit pédagogique Préscolaire,true,create,70,1111,true,"Voici les composants de ce kit :
+Cahier PM 100P	2
+Cahier PM 200P	2
+Cahier GM 200P	2
+Cutter	1
+compas	1
+scotch GM Jaune	2
+Chemise cartonne	1
+rame papier	2
+stylo 4 bleu	2
+gros feutre bte 12	2
+marker permanent	15
+craie blanche	2
+craie couleur	2
+Crayon de bois bte 12	1
+ciseau GM	2
+gomme	3
+ardoise	35
+rame couleur	4
+flipchart	2
+crayon de couleurs bte 12	35
+aquarelle	5
+colle blanche	2
+equerre	1
+regle 40cm	1
+taille crayon double	2
+rapporteur	1
+Carton pour mettre ces fournitures, avec LOGO UNICEF et MEN	1",,,36,
+Kit récréatif,true,create,74,1111,true,Le produit est souvent placé dans les magasins des DREN et/ou des CISCO,Le produit est composé des matériels de sport et jouets pour les élèves et est embalé dans des caisses métalliques du même forme que les school in a box,Ce produit est considéré comme des matériels d'urgence pré-positionnés au niveau des partenaires,24,
+Mallette prescolaire: Caissons de jeux / jouets,true,create,69,1111,true,"Voici le contenu de ce kit : 
+	PUZZLES découverte du corps, decoupe selon les elements du corps : la tete, les pieds, les bras, le tronc.	Bois peint traité, 30cm x 50cm	1
+Puzzle d'encastrement	En bois traités
+Dim : 18x13x1.8cm
+10-12 éléments, 7 couleurs assorties	2
+Puzzle massif escargot	En bois traités
+Dim : 18x13x1.8cm
+12 éléments, 7 couleurs assorties	2
+Puzzle massif cochon	En bois traités
+Dim : 18x13x1.8cm
+4 éléments, 4 couleurs assorties	2
+	Boulier chinois	en bois traité- dimension: 32cm x 20cm	2
+Bloc logique, 64 elements	en bois traité	1
+Domino de couleurs	en bois traité - Boite : 19cm x 11cm x 10cm
+Domino : 8cm x 4cm	2
+Domino de dessins	en bois traité- - Boite : 19cm x 11cm x 10cm
+Domino : 8cm x 4cm	1
+Boite à cube PM	En bois traité
+Dim boîte : 17x17x15cm
+Dim pièce : 3.5x3.5x3.5cm
+48 éléments, en 4 couleurs de base, bord arrondi
+Boîtier en pin nature	1
+Dominos animaux domestiques	En bois traité
+Dim boîte : 19x10.5x10cm
+Dim pièce : 80x40x8mm
+ pièces
+Boîtier en pin nature	1
+Body bois et/ou plateau a enficher	En bois traité
+pièces en bois coloré en 4 couleurs de base, en 4 formes différentes ;
+Dim socle : 24x15x16cm
+En pin nature	2
+Boite à forme	En bois traité
+ormes en bois : rond, carré, triangle, rectangle, en 4 couleurs de base
+Faire glisser dans la boîte les 4 formes	1
+Jeu de construction pour les enfants moins de 3-5 ans	En plastique  emballage	2
+Ballon pour les enfants moins de 3-5 ans	 	2
+Caisson pour emballage des jeux/jouets	En bois + LOGO MEN et UNICEF sur 2 cotés du caisson	1",,,36,
+"Midwifery kit,1-drugs (PPOS)",true,create,80,S9902217,true,"Le kit de sage-femme représente les besoins de base en médicaments pour faciliter environ 50 accouchements normaux. Cette trousse fait partie de la ""trousse de sage-femme - complète"" et de la ""trousse obstétricale et chirurgicale - complète"".",,,24,
+Moto,true,create,38,Z216,true,Verifier le marque et le modele ainsi que le numero de chassis dans l'appli EUSM,Verifiez que la moto fonctionne,"Des motos fournies par l'UNICEF a un partenaire doivent etre utilises strictement pour des activites de developpement du partenaire - toute autre utilisation non-autorisee est frauduleuse et strictement interdite. Essayez aussi de verifier que les documents du vehicule sont a jour - carte de visite, assurance, attestation d'entretien regulier, et verifiez l'existence et l'utilisation du carnet de bord",60,
+Ordinateur Desktop,true,create,18,11111,true,Verifier le marque et le modele ainsi que le numero de serie dans l'appli EUSM,Verifier si l'ordinateur fonctionne. Il aura besoin d'un branchement a une source d'electricite pour fonctionner,Le nom du produit doit inclure des informations sur la destination exacte de cet ordinateur et le travail pour lequel on en a besoin.,36,
+Ordinateur Laptop,true,create,31,Z2140101,true,Verifier la marque et modele ainsi que le numero de serie dans l'appli EUSM,Verifier que le laptop fonctionne. Il devrait avoir un chargeur,,36,
+Panneau Solaire,true,create,22,11111,true,"Le panneau solaire est normalement fixe sur le toit de l'etablissement qu'il dessert. Marque Sunny Sky modele TYM150W, puissance 150Wc
+Pour faire fonctionner le panneau, il faudrait egalement un Controleur de Charge Solaire (type MPPT Solar Controller TYC-30IR) ; un Convertisseur 500VA ainsi qu'une Batterie gel 12V150AH",Le panneau doit etre correctement branche et capable d'alimenter le point de service en l'energie necessaire. Verifier la disponibilite d'electricite,L'electricite generee par le panneau solaire doit etre utilise pour les fins du programme de partenariat d'UNICEF. Verifier que cela est le cas,36,
+Point d'eau - AEPP systeme solaire,true,create,26,11111,true,"Vous devrez demander à l'opérateur privé ou au gestionnaire du point d'eau où se trouvent les panneaux solaires et le forage (en gardant à l'esprit qu'il peut y en avoir plusieurs au même endroit, ou qu'il peut être situé quelque part en dehors du centre-village). Avec l'opérateur, localisez les panneaux photo-voltaïques et vérifiez si les panneaux sont en place et non cassés). Demandez-leur de vous montrer le forage relié aux panneaux.",Vérifiez si le site est bien clôturé et que tous les panneaux sont en place et bien protégés. Les panneaux ne doivent pas être à l'ombre ou sales. Demandez à l'opérateur s'il n'y a pas de tuyau ou de câble cassé qui relie les panneaux au forage,"Vérifiez l'onduleur de la pompe pour voir s'il mentionne RUN / ON le jour de votre visite. Dans le cas où vous voyez OFF / Low Power / Low voltage, cela peut être un problème avec les panneaux photovoltaïques",120,
+Point d'eau - Forage Mecanique,true,create,25,11111,true,"Vous devrez vous renseigner auprès du gestionnaire du point d'eau / association des utilisateurs du village où se trouve la pompe à main (en gardant à l'esprit qu'il peut y en avoir plusieurs dans un village, ou qu'elle peut être située quelque part en dehors du village)",Testez la pompe afin de vérifier qu'elle produit de l'eau. un seau / jerrycan de 20 litres doit être rempli avec 1 à 3 minutes de pompage. Demandez aux habitants si la pompe produit de l'eau à tout moment lorsque cela est nécessaire et tout au long de l'année.,Demandez aux habitants si la pompe est utilisée par toute la population? Cela fonctionne-t-il jusqu'à 6 heures par jour? Demandez s'il existe une heure d'ouverture convenue et programmée pour les utilisateurs? Et un moyen de paiement fonctionnel? Les populations vulnérables ont-elles accès à la pompe et l'utilisent-elles?,120,
+"Portable solar charger,62W",true,create,89,SL007157,true,Aupres des Intervenants Sociaux du Guichet Social,Materiel neuf,Pour charger les tablettes,24,
+Projecteur,true,create,30,Z2140103,true,Verifier le marque et le modele ainsi que le numero de serie dans l'appli EUSM,Verifier si le projecteur fonctionne. Il aura besoin d'un branchement a une source d'electricite pour fonctionner,,36,
+Smartphone,true,create,34,Z21506,true,Verifier le marque et le modele ainsi que le numero de serie dans l'appli EUSM,Verifier que le smartphone fonctionne. Il devrait avoir un chargeur,,24,
+Table chauffante,true,create,,111,true,CHRD Betioky,oui le produit est en bon etat,,3,
+Tablette Informatique,true,create,32,Z21506,true,Verifier le marque et le modele ainsi que le numero de serie dans l'appli EUSM,Verifier que la tablette fonctionne. Elle devrait avoir un chargeur,La tablette est fournie aux partenaires d'UNICEF pour la collecte et l'analyse des donnees. Le partenaire pourrait vous montrer comment ils l'utilisent dans ce sens.,24,
+Televiseur,true,create,23,11111,true,Verifier le marque et le modele ainsi que le numero de serie dans l'appli EUSM,Verifier si la televiseur fonctionne. Elle aura besoin d'un branchement a une source d'electricite pour fonctionner,Le nom du produit doit inclure des informations sur la destination exacte de cet ordinateur et le travail pour lequel on en a besoin.,36,
+Tente (PPOS),true,create,76,1111,true,Tente prépositionnée pour faire face aux urgences.,Tente en bon état,,12,
+Vehicule 4x4,true,create,36,Z216,true,Verifier le marque et le modele ainsi que le numero de serie dans l'appli EUSM,Verifiez que le vehicule fonctionne,"Des vehicules fournis par l'UNICEF a un partenaire doivent etre utilises strictement pour des activites de developpement du partenaire - toute autre utilisation non-autorisee est frauduleuse et strictement interdite. Essayez aussi de verifier que les documents du vehicule sont a jour - carte de visite, assurance, attestation d'entretien regulier, et verifiez l'existence et l'utilisation du carnet de bord",60,
+Vehicule autre,true,create,37,Z216,true,Verifier le marque et le modele ainsi que le numero de serie dans l'appli EUSM,Verifiez que le vehicule fonctionne,"Des vehicules fournis par l'UNICEF a un partenaire doivent etre utilises strictement pour des activites de developpement du partenaire - toute autre utilisation non-autorisee est frauduleuse et strictement interdite. Essayez aussi de verifier que les documents du vehicule sont a jour - carte de visite, assurance, attestation d'entretien regulier, et verifiez l'existence et l'utilisation du carnet de bord",60,

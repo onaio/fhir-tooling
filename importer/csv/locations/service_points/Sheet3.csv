@@ -1,0 +1,1001 @@
+locationname,locationstatus,method,locationid,locationparentname,locationparentid,locationtype,locationtypecode,locationadminlevel,locationphysicaltype,locationphysicaltypecode,longitude,latitude
+CEG Mizilo Gare,active,create,c346233d-a095-4125-a241-de1c617cbf10,,41911539-44ec-49f8-90fa-a19de1416925,CEG,ceg,5,Building,bu,,
+CEG Morafeno,active,create,9e240cb1-d26d-4a77-bdcc-e6ce73fffcb8,,4d0ebcc0-6477-4d25-9e10-183e06a4a091,CEG,ceg,5,Building,bu,43.486607,-21.784483
+CEG Morafeno,active,create,e590386b-afff-4b61-8341-b9dca99138d3,,ed13b810-0ccc-4ff4-9c19-d42c0880a35a,CEG,ceg,5,Building,bu,,
+CEG Moroteza,active,create,96871688-5bc6-47a9-b879-e6b55e7c54c9,,1e19d760-23c5-4574-a659-ebb3172033aa,CEG,ceg,5,Building,bu,,
+CEG Namakia,active,create,d7680fc0-e2f5-4973-9d05-f76c402d4a4d,,9d83a546-65b4-486a-b989-9192222167ba,CEG,ceg,5,Building,bu,,
+CEG Namatoa,active,create,5d7c26db-4a15-4312-bc26-fe0301254d6f,,74619b26-8d58-4381-8ef8-7eeadf3ff542,CEG,ceg,5,Building,bu,43.626475,-21.614983
+CEG Namohora Iaborano,active,create,24b1ccf4-051b-441e-96e6-2fb8bf05b9b0,,c80d4cf3-6fa6-4bf2-ad5d-21796b79c7f4,CEG,ceg,5,Building,bu,,
+CEG Namorona,active,create,4dbabbef-e948-4f05-bce3-5a01afde8a72,,3c2fc71a-8d34-4395-9e88-8379a23e109d,CEG,ceg,5,Building,bu,,
+CEG Nanasana,active,create,13fc8ee2-3507-4dd4-81ee-5a8957b22c6a,,e9bfd037-3c2b-4697-b9d8-a5fed6c85641,CEG,ceg,5,Building,bu,,
+CEG Nato,active,create,a0c5418e-2d99-4ec0-bd58-cf0a62c53132,,5bcb6825-4d99-49d7-8cbb-405656b405a0,CEG,ceg,5,Building,bu,,
+CEG Nikoly,active,create,518863b6-6200-47ce-866b-e828bc2487de,,409bb851-c200-4643-b590-5f0b2005e8d2,CEG,ceg,5,Building,bu,,
+CEG Nosibe Marotoko,active,create,bb1b5eee-fe60-44ae-9118-4502c8bb6774,,089019b6-9139-4907-b185-194065abb68e,CEG,ceg,5,Building,bu,,
+CEG Nosy Varika,active,create,ae2af9be-e01f-49b4-aca6-27179c4c1368,,cbba297f-18ae-440d-be70-b598c4b61683,Water Point,water_point,5,Building,bu,48.53308333,-20.5928
+CEG Onjatsy,active,create,e83ad335-b38a-4364-bbff-07c0ce1f9ecc,,c129684f-8a39-489f-a179-eb11967da763,CEG,ceg,5,Building,bu,,
+CEG Ranomafana,active,create,8a088546-beda-4d98-8f9a-df20e5926324,,ca47219b-3216-41e7-b112-94fe4df13907,CEG,ceg,5,Building,bu,,
+CEG Ranomafana,active,create,ccc9288f-8f0d-485b-8fec-f7698b2d3bb1,,6b1dcfda-74e1-480b-a9fc-1f706252544f,CEG,ceg,5,Building,bu,47.458033,-21.261417
+CEG Ranomena,active,create,adc2c55e-c491-4558-93a0-d75bfc038fab,,ba2ac9bc-d750-4d66-8a12-c5d3f651267d,CEG,ceg,5,Building,bu,,
+CEG Ranopiso,active,create,e2322889-4af4-4983-bc05-b628551b8b63,,e10efd4e-f85a-4d38-9fd9-b88369d3a367,CEG,ceg,5,Building,bu,46.687692,-25.057407
+CEG Ranotsara Atsimo,active,create,64bb5337-5cac-4622-9950-5c8882fb8f80,,c2eeee4b-1764-4d08-95f0-c826bcf1fe53,CEG,ceg,5,Building,bu,,
+CEG Rantabe,active,create,af359465-32c9-4210-ba5e-c84d8c802719,,23ac63b4-902a-48d5-a59e-f5d3c1e57eb3,CEG,ceg,5,Building,bu,,
+CEG Redira Isoanala,active,create,d59f2b0f-2f99-4df5-bdc0-290e1c72665b,,08a61379-f59c-415b-bc5b-b03d941a9787,CEG,ceg,5,Building,bu,,
+CEG Sahakondro,active,create,947dad64-6864-4e3f-8720-a29762316e22,,0791ade5-7ea2-4216-9e4f-c2e945b7b158,CEG,ceg,5,Building,bu,,
+CEG Sahalanona,active,create,2aec95f1-55d6-477b-9ed1-291ae108a740,,5a3d29c2-aa29-4d91-b7b9-504908c45fc2,CEG,ceg,5,Building,bu,,
+CEG Sahalava,active,create,f864d17b-1bbd-45ae-a5ef-4790581cfb31,,76e584f8-4122-49e2-a7e1-bbab17098cc5,CEG,ceg,5,Building,bu,,
+CEG Sahamadio,active,create,36fefb49-9fe2-4f43-8361-3cd937f4666a,,2ffd2891-31ab-4e83-abdd-e9523faf50a1,CEG,ceg,5,Building,bu,,
+CEG SAHAREVO,active,create,59ac8351-f067-4efb-9e7a-392ea8cc70bd,,4e9522bb-e73b-477f-9850-1ca034ec278d,CEG,ceg,5,Building,bu,,
+CEG Sahasinaka,active,create,2008cdcb-55de-47e8-b4d1-588e820d1632,,fc8ed3c4-6ea3-45e7-bd02-221cf20654c9,CEG,ceg,5,Building,bu,,
+CEG Sahatavy,active,create,a6510d64-d536-4798-b6de-86ab1310ca60,,497edb4f-f5b5-479e-9be5-f27de382f8a3,CEG,ceg,5,Building,bu,,
+CEG Sahavato,active,create,55c90768-fcfc-4a44-b320-1aa381f21293,,15e302e4-3ab6-416c-99b0-1562879f0271,CEG,ceg,5,Building,bu,,
+CEG Sahavoangy,active,create,10c9216b-5b99-4577-b533-523cd369a93e,,2fd3caa1-1186-4ac9-866c-0382971410fc,CEG,ceg,5,Building,bu,,
+Ceg Sahavola Fenerive-Est,active,create,c63c9e36-dda2-47c6-bad4-b36af1766fc7,,5ec5a49d-fb6a-4c5b-a2fb-2182671ffa83,CEG,ceg,5,Building,bu,,
+CEG Sahavolamena,active,create,c2b055a8-d1d2-43f0-b45b-e37b09d24b4d,,15e3dc94-d0c9-43f1-bbc5-4f3b19883f0f,Water Point,water_point,5,Building,bu,49.58722,-16.93358
+CEG Sakalava-Haut,active,create,3b72931b-d7d5-44b4-beb0-89312696419d,,3994ef97-3096-4826-91fd-17f8deeb73a6,CEG,ceg,5,Building,bu,,
+Ceg Sakamasay,active,create,1e080827-1b0b-4d39-9a8f-923f6915fa59,,ced122ee-d3d8-48e1-bfe3-85799e6f0bb4,CEG,ceg,5,Building,bu,,
+CEG Sakamasay,active,create,a6dfefb0-f61e-4359-9599-0e3326579f1f,,166b8220-b86e-4471-86fd-9627d922e2d3,CEG,ceg,5,Building,bu,,
+CEG Sakaraha,active,create,d4459a50-6eda-40d8-b88f-76f094ca16fb,,6605a637-2852-48e9-ac45-274e97cbaf78,CEG,ceg,5,Building,bu,,
+CEG Sakoana,active,create,02a1ed65-3056-4801-af7e-b50cd4cab13d,,5a44a8c8-2c78-4fb3-9aaa-09b014f2e832,CEG,ceg,5,Building,bu,,
+CEG SALOANIVO,active,create,e52c7779-4fab-4e6c-871c-b92646c758f4,,c9604fc4-cc91-455f-a804-f50425f9a6de,CEG,ceg,5,Building,bu,,
+CEG Salobe,active,create,79ac6fa4-e5d4-4ede-a645-f6e05e95af02,,c9604fc4-cc91-455f-a804-f50425f9a6de,CEG,ceg,5,Building,bu,,
+CEG Sampona,active,create,771a40ce-9e04-4905-8150-5dd4f19bdeaa,,f154f739-9998-43b3-85ca-33a4dfd4fb68,CEG,ceg,5,Building,bu,,
+CEG Sandrakatsy,active,create,8f7c844d-a26f-4dee-99ca-760a2cca8d3d,,a620857b-f0ee-4a4f-a743-4cf1731d9a9c,CEG,ceg,5,Building,bu,,
+CEG Sandravinany,active,create,ad21e49e-7137-47fb-af63-9d79382c3b5e,,954e466b-bc6a-4d98-9bdb-00a839550a45,CEG,ceg,5,Building,bu,,
+CEG Saranambana,active,create,e3984b14-b5b8-4b6f-8251-3c02179dba7e,,2a6dcb74-5f54-4590-9a5a-1b5ad8b8c855,CEG,ceg,5,Building,bu,,
+CEG Sarisambo,active,create,6a9010ec-8717-4d65-a913-f054174bb13e,,2e9fe1a0-ef76-4828-8449-945456b7651f,CEG,ceg,5,Building,bu,,
+CEG Saromaona,active,create,a9f15c2e-5cc9-4332-95fa-0ddb80cd9b94,,27640423-f466-4624-bc50-97e150f0a3e6,CEG,ceg,5,Building,bu,,
+CEG Savazy Ii,active,create,36cbdc5d-e9b2-424c-91c2-65f614a7750c,,9b0ffd20-9474-4fa7-8b47-a767eaeb9aac,CEG,ceg,5,Building,bu,,
+CEG Sihanamaro,active,create,f2c10b76-e082-4a69-88ad-09b2937bf1bd,,d2953469-fbf7-4ece-a9df-8c1b00a96ede,CEG,ceg,5,Building,bu,,
+CEG Sitampiky,active,create,b368748d-ac09-473b-9b33-d2350db9dd2c,,990cd430-5e3a-4a04-8e02-5613911be24c,CEG,ceg,5,Building,bu,,
+CEG Soakibany,active,create,0b7ed8d3-9207-4356-81ae-3bfe54b35d76,,07432254-16b2-4737-bb8b-1684e439ba6b,CEG,ceg,5,Building,bu,,
+CEG Soalala,active,create,c35b88d2-3cc2-44d9-957b-fc571d5aacd5,,3c1737e9-bcba-4e4f-87e9-fb618d99b6c9,CEG,ceg,5,Building,bu,,
+CEG Soalara Sud,active,create,690f2508-67cf-4537-8f57-a4232b8f773f,,eb86b1b3-cccf-49b0-aa25-93cbb9fc8fc9,CEG,ceg,5,Building,bu,,
+CEG Soamanitra,active,create,2094e0c5-825e-476d-9c5b-046029364d8e,,81fbdd83-3e3b-42a3-92c8-0c8a526a18d2,CEG,ceg,5,Building,bu,44.98804,-25.444143
+CEG Soamanonga,active,create,fffa6323-cb36-44b6-97a9-c593abc91a70,,a6d001ef-f194-4fde-9a2a-f43738d33b82,CEG,ceg,5,Building,bu,,
+CEG Soamanova,active,create,84bca846-7ceb-40c3-986e-9fdb5001561f,,a6b2e537-03d2-48d5-965a-c80ac9e49e1b,Water Point,water_point,5,Building,bu,47.50718,-22.74577
+CEG Soanatao Manaratsandry,active,create,cc91a247-dd52-45cd-949c-d9f7d480e41c,,df16044d-7511-4334-9728-e8735eab9935,CEG,ceg,5,Building,bu,,
+CEG Soanierana,active,create,1ce01eb9-2470-4149-b1ef-a82054c482b1,,8d083435-cd6a-46c7-abed-78b12e51840c,CEG,ceg,5,Building,bu,,
+CEG Soanierana,active,create,7f892473-b6f6-4fd7-aafc-6954eda59ec9,,fd999859-3d7f-4624-8f8d-a099fc7dfebe,CEG,ceg,5,Building,bu,,
+CEG Soanierana Ivongo,active,create,b28bac79-9de7-43d9-9dbb-bc95c3efe516,,15e3dc94-d0c9-43f1-bbc5-4f3b19883f0f,CEG,ceg,5,Building,bu,,
+CEG SOASERANA,active,create,6aeffd9a-16f4-46bf-97a1-53f9b648df1c,,03022ae7-30ae-4353-b67e-02e075995999,CEG,ceg,5,Building,bu,,
+CEG Soavary,active,create,263f2654-ae0a-49af-b034-11f83734e00a,,1ea89a7d-f68a-463c-b9a8-2f3f5883c506,CEG,ceg,5,Building,bu,,
+CEG Soavina Est,active,create,c9460244-c623-469d-90ff-f36024a87433,,a53fc23e-85e3-47fd-9d6b-41240da76e28,CEG,ceg,5,Building,bu,,
+CEG TALAKE -BAS,active,create,24286cda-4b44-4ed6-ac47-dfe30e014e85,,5f666d29-8b8c-4ebf-a630-e2cad0cb3685,CEG,ceg,5,Building,bu,,
+CEG Tamboholava,active,create,4f460b05-f522-45cf-be6f-37e0b69be818,,b504328e-527a-4d73-bd12-f009be583e5a,CEG,ceg,5,Building,bu,,
+CEG Tameantsoa,active,create,dd39bf91-2e79-40fc-a73e-6fe7df38ba4e,,ecb6bc61-b3b2-441d-b9b0-50c775947226,CEG,ceg,5,Building,bu,,
+CEG Tanakambana,active,create,d29a372b-8609-4a90-9878-94ad945a5a23,,a2ee617a-3630-44ef-b815-e66113d46ae4,CEG,ceg,5,Building,bu,,
+CEG TANAMBAO,active,create,01683617-57b2-45dd-980f-55c8c4df2255,,4d0ebcc0-6477-4d25-9e10-183e06a4a091,CEG,ceg,5,Building,bu,,
+CEG TANAMBAO,active,create,f5f5a45f-c1d9-4222-a938-fac26a9af055,,09b3b46f-71a1-45f7-9ab4-b93e449e2205,CEG,ceg,5,Building,bu,,
+CEG Tanambao Bitavola,active,create,626aa869-43cb-4e73-9b07-8c5e274656f5,,9e0dac3f-285e-48a9-b708-e3b8b2c274e0,CEG,ceg,5,Building,bu,,
+CEG Tanambao Fotsialanana,active,create,6a4e0558-06be-4430-a08b-5ff205bb5433,,beb61963-915a-4cbc-af46-3a0372d199d8,CEG,ceg,5,Building,bu,,
+Ceg Tanambao/Tsiandrany,active,create,9621f9c7-9f7a-4cac-976a-aaf554bbe64e,,5d25d248-4468-4c96-a566-4a539c7928f8,CEG,ceg,5,Building,bu,,
+CEG TANAMBAO TSIANDRANY,active,create,b9ef8f57-d5bc-4ea2-a4bc-0382aaae54bc,,5d25d248-4468-4c96-a566-4a539c7928f8,CEG,ceg,5,Building,bu,,
+CEG Tanambao-Vohitromby,active,create,e6cfae6b-a20d-4c09-83e7-546b3caf4420,,24abfa68-584b-404e-af76-192a7b683152,CEG,ceg,5,Building,bu,,
+CEG Tanandava,active,create,83293378-7955-49ae-8792-48ac9c3620c8,,624594ab-8385-4855-8d44-3d5279740ab3,CEG,ceg,5,Building,bu,,
+CEG Tanandava Ifantso,active,create,6a9a6917-2872-43cb-8c91-1fbfae0625cb,,0ade5cab-e586-4983-b361-2c8c15079b11,CEG,ceg,5,Building,bu,,
+CEG Tanandava-Station,active,create,f11c0d8f-b8ba-453d-99e0-14195e88fd36,,5e802a7c-edd6-4604-b56c-71b899dcf9ff,CEG,ceg,5,Building,bu,,
+CEG TANANDAVA STATION,active,create,13534355-418a-4444-b5ef-ea536ebcb75c,,5e802a7c-edd6-4604-b56c-71b899dcf9ff,CEG,ceg,5,Building,bu,,
+CEG Tanandava Sud,active,create,88fa0f43-6ccc-47eb-9ac6-052437fb44f0,,6f7933af-a024-435e-a875-a73fbdb69180,CEG,ceg,5,Building,bu,,
+CEG Tandrano,active,create,d9a9fcdc-a5e0-44e9-86d1-985e9192a63a,,65582195-1082-4610-b390-a6806e30e3af,CEG,ceg,5,Building,bu,,
+CEG Tangainony,active,create,010139f0-db3c-4422-bcbf-a79546da7558,,7542e25b-ade4-4504-bda5-40b3f82b023d,CEG,ceg,5,Building,bu,,
+CEG Tanibe,active,create,3da27026-aeed-4548-b651-650b1e597838,,74d6ecda-0ec1-4e0e-b32c-a1550eda16d7,CEG,ceg,5,Building,bu,,
+CEG Test,active,create,3623a315-f567-4be8-a825-b9b205022fdb,,124696f9-87ed-4178-ba7c-d100268dddba,CEG,ceg,5,Building,bu,,
+CEG Todia,active,create,41f789b7-fb7e-4cad-916e-5761cf64f756,,24abfa68-584b-404e-af76-192a7b683152,CEG,ceg,5,Building,bu,,
+CEG Tolongoina,active,create,4c640d6e-3942-4746-aa35-2d736ef21322,,2459c1e7-a964-4a90-93a8-29c5f85b911a,CEG,ceg,5,Building,bu,,
+CEG Tongobory,active,create,41d1a5fa-a623-4933-8ab0-f38001ba2d3f,,16fb627b-e39c-499d-9b83-eea86f03409f,CEG,ceg,5,Building,bu,,
+CEG Tovona,active,create,bb491182-88cd-459a-bcb8-0c40a2a79391,,d87a25fe-3212-4e53-875e-3baaebbc9ae6,CEG,ceg,5,Building,bu,,
+CEG Tranomaro,active,create,0acc8d3c-686e-46d2-ac59-7e0c48b09585,,42c86929-005d-42d1-8277-50e374ff3337,CEG,ceg,5,Building,bu,,
+CEG Tranoroa,active,create,2367f399-5838-43d5-aed3-24d0c6833a88,,8746b844-7ee5-4c7c-9cc1-60fc3c529b15,CEG,ceg,5,Building,bu,,
+CEG Tsaramandroso,active,create,a2b1478f-003e-4bd5-8b42-b9dc3bcef2db,,9b606a8a-d316-4943-88d9-020a4a3d0bf7,CEG,ceg,5,Building,bu,,
+CEG Tsaramandroso,active,create,b51f354d-1fda-45e8-8643-5fd9af06fa4c,,1ba948bd-3aa1-4b9f-81af-26670daffed1,CEG,ceg,5,Building,bu,,
+CEG TSARAMANDROSO,active,create,5d4b630d-4eb8-4894-b927-97902b920691,,c129684f-8a39-489f-a179-eb11967da763,CEG,ceg,5,Building,bu,,
+CEG Tsararano,active,create,2ef35c5c-a4aa-4591-8362-574c96d10953,,1c4d6025-5d90-4ebe-946c-d5782b33b946,CEG,ceg,5,Building,bu,,
+CEG Tsararano,active,create,e7f5a288-fbb9-4afb-82bb-8871e34169c0,,53b855c9-71de-44fb-a7b8-6dea302d2ccc,CEG,ceg,5,Building,bu,,
+CEG Tsararivotra Amibasy,active,create,02b9fb39-7113-4ead-8def-e9ec62267749,,9ec7eeee-9ba6-4c7d-a93d-5d242d964594,CEG,ceg,5,Building,bu,47.786076,-22.611086
+CEG Tsaratanana,active,create,3dbf49be-3bd6-4be9-bb9e-e06b239da3e9,,ad8e0995-d16c-4b3c-a5d8-f0986d4adff6,CEG,ceg,5,Building,bu,,
+CEG Tsiafanoka,active,create,15bfbf25-e20a-43bd-9806-f8086bed6394,,ac38946a-ff08-4941-ab55-9f25fb818265,CEG,ceg,5,Building,bu,,
+CEG Tsianisiha,active,create,45817e33-74f4-4826-8a97-77787a6286f4,,ac38946a-ff08-4941-ab55-9f25fb818265,CEG,ceg,5,Building,bu,,
+CEG Tsianofana,active,create,3bdfece1-0637-4c7d-8e1f-d0f27ceb9279,,7f7cb8bd-821d-4a37-a082-857c31f043e5,CEG,ceg,5,Building,bu,,
+CEG Tsiately,active,create,0fb578a6-185d-49ce-8746-0d66fe41bc58,,222d7387-b650-46f0-8899-ec12b73c6e5c,CEG,ceg,5,Building,bu,,
+CEG Tsiatosika,active,create,b556d2ae-5345-42d6-ac2c-cf4a64fb7fb5,,ae2380b1-744a-4772-9ea4-dff3942ce957,CEG,ceg,5,Building,bu,,
+CEG Tsiebo Calvin,active,create,d39f7a8a-8340-4f3a-b6cb-608763adc695,,cd1ecae6-301d-4964-96d9-c07c80710e5c,CEG,ceg,5,Building,bu,,
+CEG TSIFAHERA,active,create,7d7452ef-a5de-467e-ada9-249929006cda,,1ca7d983-3fc1-4051-ae7a-79d706bfbf18,CEG,ceg,5,Building,bu,,
+CEG Tsifota,active,create,29271142-876a-492c-b3ad-d4cfcae6a285,,5d3c096e-41c2-4ade-ab6e-a56ea42b1a96,CEG,ceg,5,Building,bu,,
+CEG Tsihombe,active,create,bf29c2fa-5295-4a7c-96e0-856796c78eb9,,edd7bc75-fc97-4748-840c-2fc554322284,CEG,ceg,5,Building,bu,,
+CEG TSIMANAKIARAKY,active,create,564c53ba-9f2c-40a9-ac40-32cc7eb428f1,,1ca7d983-3fc1-4051-ae7a-79d706bfbf18,CEG,ceg,5,Building,bu,,
+Ceg Tsimananada,active,create,5c1eeab8-57af-4e2a-aebf-c2b3455dbd11,,8a6ef53a-03ec-4e00-a880-75e698c808fe,CEG,ceg,5,Building,bu,46.02538,-25.2162
+CEG Tsirarafana,active,create,2041bf41-8270-47cd-8032-69bef6ab52c5,,15e3dc94-d0c9-43f1-bbc5-4f3b19883f0f,CEG,ceg,5,Building,bu,,
+CEG Tsivory,active,create,cebc8b96-daa8-4022-a9cf-7b8fef8ab627,,a6fe0fd7-79e8-41ed-b5a4-2be45df7f47c,CEG,ceg,5,Building,bu,,
+CEG Vangaindrano,active,create,3ee1212e-dba3-4fd4-94ce-123c40f29d18,,e9bfd037-3c2b-4697-b9d8-a5fed6c85641,CEG,ceg,5,Building,bu,,
+CEG Vanomaro Emilson,active,create,8c4e5d8f-ae5d-4544-831c-b2c5e24e65a2,,456f2d19-030a-4cae-af9c-c0d88f449cee,CEG,ceg,5,Building,bu,,
+CEG Vanono,active,create,fdf381c2-b847-442f-9e9c-0d3fbdb6d808,,be961e75-404d-4fc2-9b1f-2353c6f7aa71,CEG,ceg,5,Building,bu,,
+CEG Vatana,active,create,2cccd6a8-c5cf-47b9-b3a1-79248f33b9d4,,5073674c-4efa-4d1b-ab90-a77b91cae45b,CEG,ceg,5,Building,bu,,
+CEG Vatanato,active,create,e3f30ccf-95f1-436d-aade-cd7d3b0dfda2,,a0b2132b-c132-467c-af4f-b3f230510759,CEG,ceg,5,Building,bu,,
+CEG VATOLATSAKA,active,create,7df78b86-8e2b-4f37-ae25-3d8fc8e27eb1,,3e5a2e63-bc73-420c-896b-ab75d06632e8,CEG,ceg,5,Building,bu,,
+CEG Vatomora,active,create,43c92a85-04c6-4d36-92aa-7e0dcfa97571,,c38e0c1e-3d72-424b-ac37-29e8d3e82026,CEG,ceg,5,Building,bu,,
+CEG Vilanandro,active,create,32faedc3-1873-4e42-8c08-12fcc2445f9f,,2cffa3f2-651d-4522-9324-3a1b8b7a3ac6,CEG,ceg,5,Building,bu,,
+CEG Vineta Andamasiny,active,create,9d7dbaea-d3b6-471c-8f71-77ccd5a94ac9,,737b836b-4768-4e5b-9e71-bc5fdcd29c63,CEG,ceg,5,Building,bu,,
+CEG Voanaly,active,create,d609f539-eb92-42b2-b93e-0882632a82a3,,ef7746ef-e650-4e92-a525-a018991c24e1,CEG,ceg,5,Building,bu,,
+CEG Vohibe,active,create,4413c3d7-cf02-4448-89d0-ceade507df74,,a04282da-d940-4199-a5af-b79fddf81373,CEG,ceg,5,Building,bu,,
+CEG VOHIBITA,active,create,9ed2db7d-3ddc-4803-b9fe-799f948e6d07,,c129684f-8a39-489f-a179-eb11967da763,CEG,ceg,5,Building,bu,,
+CEG Vohiboreka,active,create,623e487a-b778-4d12-ad83-bfacf7785bcb,,30a4dc14-5e5e-4fac-8d7a-aee7e70a9340,CEG,ceg,5,Building,bu,,
+CEG Vohidroa,active,create,c8ef1401-1a34-4515-80a5-3cc51f0132d1,,9092c259-d0b7-4ae4-9a2a-949923f73c35,CEG,ceg,5,Building,bu,,
+CEG Vohijiny,active,create,bb32f5ba-e7d8-4480-ab5d-23b99a6052ff,,05298366-d8c0-4f72-9f10-9669e8f06b0b,CEG,ceg,5,Building,bu,,
+CEG Vohilany,active,create,daeb098d-4c7f-49db-baa5-47b8e7ac0dce,,751592b8-9206-4967-8c38-a6cd5a24618a,CEG,ceg,5,Building,bu,,
+CEG Vohilava,active,create,15da6de7-a698-46bd-8c82-65729f8206df,,c453fa07-d830-4ce5-b5fd-efb22f9ec0ea,CEG,ceg,5,Building,bu,,
+CEG Vohilava,active,create,1aea4bd3-dc67-4a0a-bcfd-fe280b7cb1e2,,e7420f45-58df-446d-a584-b303dc69026b,CEG,ceg,5,Building,bu,,
+CEG Vohilava,active,create,cf16be4f-b2ed-47bf-9e23-121471b42db9,,17dd876d-083a-4489-991a-cd4ccaab3686,CEG,ceg,5,Building,bu,,
+CEG Vohilava Faraony,active,create,2820f623-e211-4fd5-8732-ad24ab0b9d44,,c5e84bc6-956f-4f4c-bd85-e3cadbe43c86,CEG,ceg,5,Building,bu,,
+CEG Vohilavan' I Manapatra,active,create,d70c5aa3-d352-4f6d-bdce-cdb94bc3fa07,,f2a37521-c368-436c-a4fa-ff04c200248e,CEG,ceg,5,Building,bu,,
+CEG Vohilengo,active,create,33cdca6a-af04-4575-9312-eb7fa50f4507,,c149b572-ebc8-460b-8709-a7335b536d5f,CEG,ceg,5,Building,bu,,
+CEG Vohilengo,active,create,37d7bec0-1aea-406e-87fc-ca13f2340d43,,5e8c0686-1e69-475f-bab5-013aac13cf03,CEG,ceg,5,Building,bu,,
+CEG Vohimalaza,active,create,de732eb0-1d53-4e0b-9a62-728ce98b99f8,,30cfa775-a10f-4763-b4f0-aa34dbc7abbf,CEG,ceg,5,Building,bu,,
+CEG Vohimary,active,create,47fc96c8-9cb3-458c-877c-03e1a83f13aa,,a1c6c3a9-a14d-4211-8a08-e6819cd565fe,CEG,ceg,5,Building,bu,,
+CEG Vohimasina Nord,active,create,efbbdc93-1696-41e1-8d8e-a833f42389e2,,c9033de8-da1d-4d65-a17e-22ca21224b05,CEG,ceg,5,Building,bu,,
+CEG Vohimasy,active,create,fc8f9f2d-55eb-489c-b596-1d6d4879e3c0,,faa85abb-bd9b-495f-8549-5efba48da916,CEG,ceg,5,Building,bu,,
+CEG Vohindava,active,create,7ae4d7a6-1390-4e73-aa3a-4417d73c3587,,84f1ce51-103f-4f9e-8901-053ad038b0dc,CEG,ceg,5,Building,bu,,
+CEG Vohipaho,active,create,18798dc4-eaf5-4089-8507-5bed1cbb77b3,,bda9e461-9f0c-4bd2-b60f-9d50a9c86a77,CEG,ceg,5,Building,bu,,
+CEG Vohipeno,active,create,0c7bd065-df5f-4588-a555-5def17874fca,,58748f98-a17c-44d2-9ebf-dd44deaedb6f,CEG,ceg,5,Building,bu,,
+CEG Vohipeno,active,create,2d4cfef0-654b-4470-889b-6a8ea9dc13b9,,a04282da-d940-4199-a5af-b79fddf81373,CEG,ceg,5,Building,bu,,
+CEG Vohipotsy Sud,active,create,63caafcf-4fb4-41f0-93cd-0d0d25b81443,,a6d001ef-f194-4fde-9a2a-f43738d33b82,CEG,ceg,5,Building,bu,,
+CEG VOHITANY,active,create,6bd08047-1e7a-4123-a9b5-a183ded936a0,,badd39e4-9213-453e-b7ff-c26ac1dae9fa,CEG,ceg,5,Building,bu,,
+CEG Vohitrambo,active,create,c6dc30c2-d7d7-4e7a-a39d-5dccf91aa1e6,,7ca0b7db-78bd-4878-97d3-1042f4353e68,CEG,ceg,5,Building,bu,,
+CEG Vohitrandriana,active,create,6cb2433a-7a3d-49a1-bbf1-beed5baf19f0,,268d4bdb-a317-465f-82ac-616f0ffc7326,CEG,ceg,5,Building,bu,,
+CEG Vohitrindry,active,create,7b595358-f41c-4f4d-86e9-c9fcb8481c2d,,1ba948bd-3aa1-4b9f-81af-26670daffed1,CEG,ceg,5,Building,bu,,
+CEG Vohitromby,active,create,59a9cc8a-bb52-4f39-bfa2-da2b1ccffce6,,20d4e593-6bb4-48cb-a597-b30efa1a37bf,CEG,ceg,5,Building,bu,,
+CEG Volarivo,active,create,2d179f37-6884-44c7-8f6e-aedeab2b3f45,,0791ade5-7ea2-4216-9e4f-c2e945b7b158,CEG,ceg,5,Building,bu,,
+CEG Voloina,active,create,94df7afa-62d4-429f-83e5-bbc828349af6,,57a2aa2e-97fc-4e64-b90f-e7a75680456d,CEG,ceg,5,Building,bu,,
+CEG Vondrozo,active,create,1649ca32-bbe7-4987-af87-e13f41a5f419,,0aed832e-13f6-4542-bb3f-09e799934325,CEG,ceg,5,Building,bu,,
+CEG Voninkazo,active,create,f5767831-54d4-4297-b96d-76eaa836f91b,,0791ade5-7ea2-4216-9e4f-c2e945b7b158,CEG,ceg,5,Building,bu,,
+Centre AKAMA,active,create,96047f2a-f4f1-4338-a27f-86c575a5edab,,a5e56324-dfbe-4373-827e-772232cfc7e0,EPP,epp,5,Building,bu,,
+Centre de santé TEST Androy,active,create,a3a6ce61-e64a-4f27-b844-4f8e30524af1,,9aed171f-9f80-4f87-8118-1457fce598ab,CSB2,csb2,5,Building,bu,45.817928,-24.439779
+Centre Midongy,active,create,b3594a6f-0a47-49e6-9c90-0107918550d2,,c8ca3c65-56fc-47a2-9c68-fff76adb70d0,Water Point,water_point,5,Building,bu,47.014,-23.593636
+Centre Vonjy Taolagnaro,active,create,2f6b1e7a-6134-4d57-af86-4ec61cbf7ad0,,09b3b46f-71a1-45f7-9ab4-b93e449e2205,Warehouse,warehouse,5,Building,bu,46.98195,-25.022594
+Centre Vonjy Toliara,active,create,83b6bf4e-9ef1-4fbd-aa14-d4eed818ed2b,,98ca480b-16b5-41e8-940e-0f4a89f79b66,DRPPSPF,drppspf,5,Building,bu,,
+CHD1  Ambato Boeny,active,create,a3f1ad39-b5e7-4fdf-8a0f-cf925968c4f1,,94a7525e-68d9-4035-986e-18c7eb796268,CHRD1,chrd1,5,Building,bu,,
+CHD1  Ambatomainty,active,create,80f82ee1-5116-4735-a041-a2d855d1ad4e,,66718f37-bec0-4fff-aa98-6e828ce212c7,CHRD1,chrd1,5,Building,bu,,
+CHD1  Analalava,active,create,40bbcdc4-9974-4d61-aeb8-69c0002abcd4,,2445986e-6760-4a02-903f-19641ce80174,CHRD1,chrd1,5,Building,bu,,
+CHD1 Ankazoabo Sud,active,create,94983ce1-9951-4da8-a450-6c8e951b0290,,0daeae6e-7ac0-475c-b16a-ca693a2becb2,CHRD1,chrd1,5,Building,bu,,
+CHD1  Anosy Avaratra,active,create,b566de3a-368a-4381-8a7e-f2bd50a391c3,,b410d757-4164-40f6-af32-3d635b6ac48b,CHRD1,chrd1,5,Building,bu,,
+CHD1  Antsalova,active,create,ad373e64-655b-4518-8e76-0aea640a32f2,,18de7f24-7a28-40b9-8418-2df0b997eb46,CHRD1,chrd1,5,Building,bu,,
+CHD1  Bealanana,active,create,7e901f6c-9e39-4c25-a7eb-7af41661350c,,7e397f53-8392-4fd8-932d-618c24135843,CHRD1,chrd1,5,Building,bu,,
+CHD1  Befandriana Avaratra,active,create,d0aa043a-4aa8-44a1-b610-72b0bd36a8e7,,011876c5-8191-4361-afa2-82d35bf1c30d,CHRD1,chrd1,5,Building,bu,,
+CHD1 BEKILY,active,create,b4819bb0-7655-45f0-a494-1d504504f1f7,,4342c258-a4f9-4f05-8356-42be448ffec7,CHRD1,chrd1,5,Building,bu,,
+CHD1  Beloha,active,create,7cb8b6b8-2185-4558-92e7-d2635fb31579,,45080bdf-d7cf-4745-b19b-f06c4dac96c0,CHRD1,chrd1,5,Building,bu,45.059541,-25.173192
+CHD1  Benenitra,active,create,51ff0031-061a-4e8f-8e45-b65e3c8599ea,,7d36fdd0-1cbc-4ace-bd4a-d96dd630e6d7,CHRD1,chrd1,5,Building,bu,,
+CHD1  Besalampy,active,create,8cd67d3a-1981-4770-ba62-09e49d570a51,,94ac4b2f-0985-4efa-9f4a-a3b4cb3267d5,CHRD1,chrd1,5,Building,bu,,
+CHD1  Betafo Avaratsena,active,create,93e995b0-3754-4ffe-a210-7dcdf546cb5d,,bc3af750-7df3-4bf8-938d-191075c28981,CHRD1,chrd1,5,Building,bu,,
+CHD1  Betioky Sud,active,create,a29db3d7-c42d-4715-809d-0661206eabf3,,700c68ef-f8dc-4f83-9339-037f8ef0c675,CHRD1,chrd1,5,Building,bu,,
+CHD1  Fandana,active,create,6c2add30-35d7-4398-9f37-da9048e126d5,,521be9ba-24b9-4799-a600-609e7b45bcd9,CHRD1,chrd1,5,Building,bu,,
+CHD1  Iakora,active,create,407bf93a-b289-4f33-a074-b02d71204561,,19191ef6-0c25-4b1c-9e15-1ca81c3429f7,CHRD1,chrd1,5,Building,bu,,
+CHD1  Iakora,active,create,ec08b060-5bd3-4a34-bd02-fc8934ad4557,,4ccfcff8-9a13-458c-8fbd-72ad2ae62961,CHRD1,chrd1,5,Building,bu,,
+CHD1  Ivohibe,active,create,0bf460cf-40d2-4b92-8dd8-32d4dc98753c,,0a1939b3-b45a-4422-94cb-0b2bca6bd89e,CHRD1,chrd1,5,Building,bu,,
+CHD1  Ivohibe,active,create,2978b63f-a50a-43c3-9365-ff6184c86553,,2dae8d07-9695-4b72-ab25-71937f4068d2,CHRD1,chrd1,5,Building,bu,,
+CHD1  Mandritsara,active,create,cb979f09-bb3a-4f04-bfb3-07f8e47e08dc,,045a2e79-267a-4599-aaba-6f33e05d7cbd,CHRD1,chrd1,5,Building,bu,,
+CHD1  Morafenobe,active,create,3e3ddd03-d084-4d1b-bdf8-c9fed82d089b,,9143467f-f83c-401d-aa04-d4fdcc40e9f5,CHRD1,chrd1,5,Building,bu,,
+CHD1  Morombe,active,create,3872e323-761e-43c6-91ae-69926a8bc3c3,,74619b26-8d58-4381-8ef8-7eeadf3ff542,CHRD1,chrd1,5,Building,bu,,
+CHD1  Port Berge,active,create,832d3d87-debc-4556-b2f8-6ea43b8fde71,,1e3fa081-e07c-45fd-ada7-aec21db72ff1,CHRD1,chrd1,5,Building,bu,,
+CHD1  Sakaraha,active,create,fdbb77bf-8f5a-4626-b5ca-d3390d9d5c00,,6605a637-2852-48e9-ac45-274e97cbaf78,CHRD1,chrd1,5,Building,bu,,
+CHD1  Soanierana Ivongo,active,create,6e05cf57-c44a-423c-b909-5e4dc6857394,,15e3dc94-d0c9-43f1-bbc5-4f3b19883f0f,CHRD1,chrd1,5,Building,bu,,
+CHD1  Soavinandriana,active,create,b7656629-16f6-4cc3-a70a-a2a402c3d92d,,321eb309-2568-40af-b9a6-f03f2efb7021,CHRD1,chrd1,5,Building,bu,,
+CHD1  Tsihombe,active,create,d4cd7dc1-2f7e-4814-ad5e-4ed3433cc6fb,,edd7bc75-fc97-4748-840c-2fc554322284,CHRD1,chrd1,5,Building,bu,,
+CHD1  Vangaindrano,active,create,06af6bb5-a65f-45db-a534-691460b50949,,e9bfd037-3c2b-4697-b9d8-a5fed6c85641,CHRD1,chrd1,5,Building,bu,,
+CHD1  Vohipeno,active,create,44515998-34e9-4522-b324-55c000129cc5,,a04282da-d940-4199-a5af-b79fddf81373,CHRD1,chrd1,5,Building,bu,,
+CHD2  Ambanja,active,create,d897a885-f794-490b-be3c-34205aa8a52b,,9c4abdd5-023b-49aa-b006-4c8d7171bd19,CHRD2,chrd2,5,Building,bu,,
+CHD2  Ambilobe,active,create,cd61626c-8d90-4639-a449-e42f19e806b6,,9b7e1ddc-1122-455f-9c56-9087783193d6,CHRD2,chrd2,5,Building,bu,,
+CHD2  Bezaha,active,create,48909fbf-431d-465f-8f2e-c1f7998707e4,,b410c887-50df-4699-ae70-bde33bd4df0e,CHRD2,chrd2,5,Building,bu,,
+CHD2  Hopitaly Vaovao Mahafaly,active,create,77d8c8fe-494e-443c-9a1c-136a3c0890ad,,045a2e79-267a-4599-aaba-6f33e05d7cbd,CHRD2,chrd2,5,Building,bu,,
+CHD2  Ifanadiana,active,create,5aeae18e-7153-4c40-88be-61b89669d1ed,,7d0c14f2-b640-4dd9-8fe8-ea832cd858db,CHRD2,chrd2,5,Building,bu,,
+CHD2  Mamy,active,create,846255dc-acfa-4010-ab62-cd9c2aab6d54,,6605a637-2852-48e9-ac45-274e97cbaf78,CHRD2,chrd2,5,Building,bu,,
+CHD2  Mananjary,active,create,1c763ff8-66da-4fef-807e-f6073d1f48b3,,edf88ab2-7614-46e0-bf11-881c4ceeb5e1,CHRD2,chrd2,5,Building,bu,,
+CHD2  Maroantsetra,active,create,1af261e9-13fa-4dae-ad3b-f62b1585e118,,fd999859-3d7f-4624-8f8d-a099fc7dfebe,CHRD2,chrd2,5,Building,bu,,
+CHD2  Marovoay,active,create,4866ec44-cc59-4f78-a6a0-e4798be6bf83,,6563266a-7170-4590-bd92-59c17d102eb2,CHRD2,chrd2,5,Building,bu,,
+CHD2  Nosy Be,active,create,e875bd67-d450-40a2-89e7-06cd9a5ed609,,19528a20-c9a9-47f5-a403-0d4871d5c1f8,CHRD2,chrd2,5,Building,bu,48.264546,-13.400603
+CHD2  Sakalalina,active,create,f5cffee3-0587-40c4-ac56-7a8905ad4098,,51416e46-1d93-491c-bd5b-fcd20b3aa5ec,CHRD2,chrd2,5,Building,bu,,
+CHRD1 Anjozorobe,active,create,a8ec4e97-b114-43e3-9eb1-ee778da17f08,,c1e904a0-1498-4c4b-8bae-ba3745e0eb60,CHRD1,chrd1,5,Building,bu,,
+CHRD1 Arivonimamo,active,create,af89f6c0-96d5-44f1-8ee6-7d15846df0aa,,bb930466-f5a0-495c-ae4e-7b9c7391543a,CHRD1,chrd1,5,Building,bu,,
+CHRD1 Benilaza,active,create,ea5607f3-891d-4cf2-a3d0-21884057dbe9,,e9bfd037-3c2b-4697-b9d8-a5fed6c85641,CHRD1,chrd1,5,Building,bu,,
+CHRD1 Mananara Nord,active,create,7a78196d-a3f9-434c-99d9-8134a9d086e2,,5529a358-a09f-4443-8be6-f30527e5d88a,CHRD1,chrd1,5,Building,bu,,
+CHRD1 Manandriana,active,create,0570a0c7-0f40-458e-bc2a-f100d21da407,,aece0469-738e-4e61-b86d-55a3c8be39f5,CHRD1,chrd1,5,Building,bu,,
+CHRD1 Salfa Vangaindrano,active,create,3b8f9db8-1051-44a2-8112-562d3b050e27,,e9bfd037-3c2b-4697-b9d8-a5fed6c85641,CHRD1,chrd1,5,Building,bu,,
+CHRD1 Soalala,active,create,aa3963d1-c336-4107-8a7f-0657055bcfd4,,3c1737e9-bcba-4e4f-87e9-fb618d99b6c9,CHRD1,chrd1,5,Building,bu,,
+CHRD1 Soanierana Ivongo,active,create,878fe8f6-842c-4420-b8ef-32fbc3c99dbe,,15e3dc94-d0c9-43f1-bbc5-4f3b19883f0f,CHRD1,chrd1,5,Building,bu,,
+CHRD1 Vavatenina,active,create,d4753403-4a5d-4df4-873f-283b02ddc112,,053d4f7a-b383-4faa-b224-8418ecabf446,CHRD1,chrd1,5,Building,bu,,
+CHRD2  Adventiste Andapa,active,create,bdfcb272-b4c1-4352-8fef-faa8bcce4b4d,,c0cf1e6d-16ca-4908-9a44-1dcf65f4976f,CHRD2,chrd2,5,Building,bu,,
+CHRD2  Ambatofinandrahana,active,create,6f673dc3-a896-4ff3-b15a-e02eed7195c7,,1c601632-baea-46ef-bf31-e7af518b28a0,CHRD2,chrd2,5,Building,bu,,
+CHRD2  Ambodifotatra,active,create,6da2c17b-f40a-40ca-bd6b-0e9ede584fd8,,17dd876d-083a-4489-991a-cd4ccaab3686,CHRD2,chrd2,5,Building,bu,,
+CHRD2  Angle De Santé,active,create,e51958a0-edd4-4da4-b444-883424955500,,ea2f8b8f-4951-4fb8-8288-83325fcc308a,CHRD2,chrd2,5,Building,bu,,
+CHRD2  Ankazambo,active,create,b2186575-8ed7-4af6-a280-4ffbfb37fa56,,ba292c4c-11c7-4743-84ad-c7608e6c1380,CHRD2,chrd2,5,Building,bu,48.576,-15.287
+CHRD2  Ankazobe,active,create,ba0149ab-cb3c-4349-8e72-772e4045317a,,540dd66f-5c14-4583-9b14-4144369c7f3a,CHRD2,chrd2,5,Building,bu,,
+CHRD2  Antsohihy,active,create,209d8f8b-52c1-48c1-a267-350b2b78209d,,77bd3f5a-08dd-41a0-8ce1-290afedde1ac,CHRD2,chrd2,5,Building,bu,,
+CHRD2  Betroka,active,create,7a19f5fa-dc3b-4669-8e51-b2abb5af857f,,cd1ecae6-301d-4964-96d9-c07c80710e5c,CHRD2,chrd2,5,Building,bu,46.09109,-23.273655
+CHRD2  Fandriana,active,create,bf41e3a5-27c7-4602-88dc-faf6317b3329,,60d50a91-092e-4151-8521-4490edfa970e,CHRD2,chrd2,5,Building,bu,,
+CHRD2  Fenoarivo Be,active,create,90a95d7c-29db-4015-a44f-b0d305be1a22,,e0e2ed01-830e-4223-ba19-b4d9b2cc1b84,CHRD2,chrd2,5,Building,bu,,
+CHRD2  Homi Antsiranana,active,create,b9c6bfbe-48db-40b3-a9ee-e0a6085cf4ca,,0a497653-d63e-42ac-a134-17c0bd715549,CHRD2,chrd2,5,Building,bu,,
+CHRD2  Ikongo,active,create,18357df5-9197-4b4b-9201-825b9667681f,,0791ade5-7ea2-4216-9e4f-c2e945b7b158,CHRD2,chrd2,5,Building,bu,,
+CHRD2 Mananara Avaratra,active,create,e8b67944-9a5b-47a0-a44c-e969a9367dd1,,5529a358-a09f-4443-8be6-f30527e5d88a,CHRD2,chrd2,5,Building,bu,49.763581,-16.169276
+CHRD2  Manjakandriana,active,create,3ad71fd8-055a-4370-9a07-19c8a5a6f117,,d66d97d5-3a92-4f60-9c34-7074e812ad75,CHRD2,chrd2,5,Building,bu,,
+CHRD2 Maroantsetra,active,create,c4671119-98df-413f-849a-7f88263cc72d,,fd999859-3d7f-4624-8f8d-a099fc7dfebe,CHRD2,chrd2,5,Building,bu,,
+CHRD2 Sainte Marie,active,create,67034afa-15ff-44af-9330-12280b8d6a78,,17dd876d-083a-4489-991a-cd4ccaab3686,CHRD2,chrd2,5,Building,bu,,
+CHRD2  Salfa Andranomasibe Ii,active,create,aa660ba7-f1a2-47a3-b9b8-6cdca83797d8,,8ef31067-3223-4784-9355-e642ef1875f8,CHRD2,chrd2,5,Building,bu,49.998,-13.364
+CHRD2  Soa Ny Aina,active,create,e2b75833-032b-4d0e-a670-de24a024cd6b,,ae3e26fe-f4ef-43f5-bd23-c3982b62ee62,CHRD2,chrd2,5,Building,bu,,
+CHRD Amboasary Sud,active,create,3c7d1369-3042-4cc2-8b91-3020eac339f6,,124696f9-87ed-4178-ba7c-d100268dddba,CHRD2,chrd2,5,Building,bu,46.381595,-25.040281
+CHRD ANKAZOABO,active,create,f8a33425-c384-40c0-893d-53b3a8a27271,,0daeae6e-7ac0-475c-b16a-ca693a2becb2,CHRD1,chrd1,5,Building,bu,,
+CHRD BENENITRA,active,create,22cfb8de-c46d-451b-b63f-1abcc256c583,,7d36fdd0-1cbc-4ace-bd4a-d96dd630e6d7,CHRD1,chrd1,5,Building,bu,45.0720441,-23.4488771
+CHRD BEROROHA,active,create,1248b388-111d-4d94-bc7d-f73d3c11563b,,b0b75bc3-3d2d-4024-9c82-e6a48874899c,CHRD1,chrd1,5,Building,bu,45.16834822,-21.68194538
+CHRD II TSIHOMBE,active,create,08c76d6a-4a09-4618-9502-22ec5e32e29a,,edd7bc75-fc97-4748-840c-2fc554322284,CHRD2,chrd2,5,Building,bu,,
+CHRD Vangaindrano,active,create,d4c22a7d-01b5-43d0-a456-1f587016aacb,,e9bfd037-3c2b-4697-b9d8-a5fed6c85641,CHRD1,chrd1,5,Building,bu,47.60533,-23.35225
+CHRD Vavatenina,active,create,67ba8a12-9b4e-41c4-8c51-28235b6ba631,,053d4f7a-b383-4faa-b224-8418ecabf446,CHRD1,chrd1,5,Building,bu,49.196202,-17.466059
+CHRR Ambovombe,active,create,35ad0f3e-ca0e-4110-a7dd-0e08979a3898,,f8f6820f-96eb-4999-82ec-8b809cff94de,CHRR,chrr,5,Building,bu,,
+CHRR Amoron' I Mania,active,create,294e1bf7-1143-49ec-a67c-aeda020b0912,,8983f82e-d270-48c6-8f60-904737dd50a4,CHRR,chrr,5,Building,bu,,
+CHRR Analanjirofo,active,create,93cd1649-db6d-41bc-a5bd-4f6e61ab9ce2,,33dc4894-df03-4908-9f92-aef0f007baa1,CHRR,chrr,5,Building,bu,,
+Chrr Anosy,active,create,a11a107a-ad0d-4f50-a22f-46a83ae16933,,09b3b46f-71a1-45f7-9ab4-b93e449e2205,CHRR,chrr,5,Building,bu,,
+CHRR Fenerive Est,active,create,f6c0ed5d-9643-4584-97b5-6566da3bc882,,5ec5a49d-fb6a-4c5b-a2fb-2182671ffa83,CHRR,chrr,5,Building,bu,49.419573,-17.382581
+CHRR Itasy,active,create,7864fa36-48f7-48e0-a8aa-148163fa85db,,aba166fc-d2e1-4f21-8c44-581ee1c878c4,CHRR,chrr,5,Building,bu,,
+CHRR Manakara,active,create,bcc04cd4-3824-4738-8c91-bf6f5863aa2c,,7da9bcd5-9919-42eb-a771-4b02ad9ac48a,CHRR,chrr,5,Building,bu,,
+CHRR Mananjary,active,create,3f022504-b7fa-4fc8-aa47-7fb433f73aa7,,31344464-306c-4f4a-a70d-43ffbdfa19b2,CHRR,chrr,5,Building,bu,,
+CHU Mitsinjo Betanimena,active,create,dfa04629-6f71-468d-b1ed-6307e34e328c,,44c0bb20-72d9-4a66-a8dc-ebbf32c8255b,CHRR,chrr,5,Building,bu,43.682312,-23.335596
+CHU TANAMBAO,active,create,c3635697-8ef8-4462-93df-36e095ea515f,,c4d59d0a-7b64-43c0-8df8-8fa1082261ba,CSB2,csb2,5,Building,bu,43.6764086,-23.352746
+CISCO Ambato Boeny Magasin de stockage,active,create,fb86cde6-5a52-440f-9a87-cade5ff5925f,,72deaa01-143a-48a8-8a5d-468d47973b97,Warehouse,warehouse,5,Building,bu,,
+CISCO Ambilobe,active,create,79b34f01-6bde-4995-ab1d-fbd9fed4cd45,,9b7e1ddc-1122-455f-9c56-9087783193d6,Warehouse,warehouse,5,Building,bu,,
+CISCO Ambovombe,active,create,c172e8a0-d61c-4b6c-962b-3a7c15277668,,f8f6820f-96eb-4999-82ec-8b809cff94de,Warehouse,warehouse,5,Building,bu,46.08834,-25.177604
+CISCO Ampanihy,active,create,f9e6c749-e179-4b8e-abe2-bd37c78d241b,,86cd5df6-1d27-4762-a604-046137c1db52,Warehouse,warehouse,5,Building,bu,44.746493,-24.698149
+CISCO Andapa,active,create,30cc5c05-303f-4ded-915d-7571130967ff,,c0cf1e6d-16ca-4908-9a44-1dcf65f4976f,Warehouse,warehouse,5,Building,bu,,
+CISCO Ankazoabo,active,create,50278340-1818-4c74-b4b0-7dca39f60740,,c4d59d0a-7b64-43c0-8df8-8fa1082261ba,Warehouse,warehouse,5,Building,bu,,
+CISCO Antalaha,active,create,e6625b68-362b-40cc-8f8a-56ca25b66db1,,98779d59-606c-4f5d-845b-f9f0c9e45c00,Warehouse,warehouse,5,Building,bu,,
+CISCO Befotaka,active,create,f35e746a-ac6d-4933-8f65-7e2356905a2a,,fd6d4d35-d3e6-4c22-b484-6bc71f13ae09,Warehouse,warehouse,5,Building,bu,46.978606,-23.825448
+CISCO Beroroha,active,create,5196e67e-b4fc-428f-9c07-31ccaddee89a,,b0b75bc3-3d2d-4024-9c82-e6a48874899c,Warehouse,warehouse,5,Building,bu,45.169123,-21.68108
+CISCO Betioky,active,create,2a8cf005-893c-41a3-81b1-51245c71fac4,,700c68ef-f8dc-4f83-9339-037f8ef0c675,Water Point,water_point,5,Building,bu,44.378118,-23.721476
+CISCO Betroka,active,create,dc2a462c-2a25-40a9-8966-6c10c185342e,,cd1ecae6-301d-4964-96d9-c07c80710e5c,Warehouse,warehouse,5,Building,bu,46.098192,-23.268655
+CISCO Farafangana,active,create,2f6a3331-8491-498b-8089-187b8c2e0f93,,69191346-9a9a-4dc1-8152-bfd50185cf12,Warehouse,warehouse,5,Building,bu,47.826782,-22.815449
+CISCO Mananara Avaratra,active,create,87be083b-0569-4ac7-a2b2-a1aab49e1b48,,5529a358-a09f-4443-8be6-f30527e5d88a,Warehouse,warehouse,5,Building,bu,49.76847,-16.17074
+Cisco Mananara Nord 1,active,create,2ba63d1f-85f2-4bc8-ad58-96c784bfce4a,,5529a358-a09f-4443-8be6-f30527e5d88a,Warehouse,warehouse,5,Building,bu,49.7682,-16.1705
+Cisco Mananara Nord 2,active,create,051f2ef4-cd89-482d-b81d-e8707792ca3b,,5529a358-a09f-4443-8be6-f30527e5d88a,Warehouse,warehouse,5,Building,bu,49.7683,-16.1707
+CISCO Mananjary,active,create,b497e0d0-8ce8-4f18-8f8f-27ad0ab0001c,,31344464-306c-4f4a-a70d-43ffbdfa19b2,Warehouse,warehouse,5,Building,bu,48.34937,-21.228529
+Cisco Maroansetra 1,active,create,a473214c-b19a-4180-8297-6570fcf61ab5,,fd999859-3d7f-4624-8f8d-a099fc7dfebe,Warehouse,warehouse,5,Building,bu,49.7365,-15.4308
+Cisco Maroansetra 2,active,create,51e498d2-d712-4bc9-9e29-6750c447fc12,,fd999859-3d7f-4624-8f8d-a099fc7dfebe,Warehouse,warehouse,5,Building,bu,49.7363,-15.4281
+CISCO Maroantsetra,active,create,0ba4373c-7ef7-48b7-a2ad-135a8b57ced6,,fd999859-3d7f-4624-8f8d-a099fc7dfebe,Warehouse,warehouse,5,Building,bu,49.736327,-15.436333
+CISCO Marovoay (Magasin de stockage),active,create,84ad64d4-3038-465c-b2b6-6a64a63f6443,,c2df9c51-6629-4756-ab37-d58d51c02b30,Warehouse,warehouse,5,Building,bu,,
+CISCO Midongy atsimo,active,create,ac7ccc09-8e3d-4dd7-86ec-469a29a04c93,,fb9692ef-8243-4a10-8bda-2c970fba1f56,Warehouse,warehouse,5,Building,bu,47.015499,-23.589777
+CISCO Morombe,active,create,ef07ae53-95f1-43b2-90df-35ab32f02463,,4d0ebcc0-6477-4d25-9e10-183e06a4a091,Warehouse,warehouse,5,Building,bu,43.356424,-21.745435
+CISCO Sakaraha,active,create,d9d3d81b-1607-410e-b5d6-b6b6f231ac3a,,6605a637-2852-48e9-ac45-274e97cbaf78,Warehouse,warehouse,5,Building,bu,,
+CISCO Sambava,active,create,46f685af-2481-4118-b344-6ebbc344f6a7,,5a13b10b-2a54-44ef-9c16-9c2122b107a9,Warehouse,warehouse,5,Building,bu,,
+CISCO Soanierana Ivongo,active,create,17282a63-3278-49a8-bb6b-d8465f33d095,,15e3dc94-d0c9-43f1-bbc5-4f3b19883f0f,Warehouse,warehouse,5,Building,bu,,
+CISCO Vohemar,active,create,bcd01752-e7ee-4504-a92b-4fa27a89a104,,8ef31067-3223-4784-9355-e642ef1875f8,Warehouse,warehouse,5,Building,bu,,
+Clinique M-C Adventis,active,create,f8278daa-b5e5-425c-9399-e3738b5113e8,,913b79b1-0b8d-462f-b0d5-5c890df331cb,CHRD2,chrd2,5,Building,bu,,
+Clinique M-C Oliva,active,create,22f905bf-0599-4863-84aa-ad6d7b17be6a,,b410d757-4164-40f6-af32-3d635b6ac48b,CHRD2,chrd2,5,Building,bu,,
+Clinique Notre Dame,active,create,414201f5-6592-45e8-92bd-9156c0989c19,,ae3e26fe-f4ef-43f5-bd23-c3982b62ee62,CHRD2,chrd2,5,Building,bu,,
+Clinique Saint Damien,active,create,cf876965-2e51-436a-b061-867ca5de08ee,,9c4abdd5-023b-49aa-b006-4c8d7171bd19,CHRD1,chrd1,5,Building,bu,,
+Clinique Saint Luc,active,create,8ddc53cb-5ce7-46c2-9ce1-d243a9880759,,c4d59d0a-7b64-43c0-8df8-8fa1082261ba,CSB2,csb2,5,Building,bu,43.6887851,-23.3612695
+Clinique Soamiafara,active,create,0b970278-ea2c-4801-b286-0af8e89462dc,,bd49b943-c21c-4671-b113-1dcd1ae065c3,CHRD2,chrd2,5,Building,bu,,
+CMCRS,active,create,fce3545a-e39e-496a-89e8-8909c023e7d2,,c4d59d0a-7b64-43c0-8df8-8fa1082261ba,CSB2,csb2,5,Building,bu,43.6740395,-23.3511521
+CML AINA Betroka,active,create,647bc9eb-332f-4ad3-96f6-71355e98a764,,cd1ecae6-301d-4964-96d9-c07c80710e5c,CSB2,csb2,5,Building,bu,46.0979,-23.2693
+CML Betroka,active,create,a9cf87d7-fa7c-4918-a83e-9034605e52ee,,cd1ecae6-301d-4964-96d9-c07c80710e5c,CSB2,csb2,5,Building,bu,46.0968,-23.2666
+CML Bevala Amboasary Sud,active,create,9be92acd-b268-4682-a60d-deeedf540e0d,,124696f9-87ed-4178-ba7c-d100268dddba,CSB2,csb2,5,Building,bu,46.388947,-25.053113
+College Communautaire Ambahatrazo,active,create,647fb8c6-6482-415d-8faf-0679cb025e8c,,78bfde49-f756-428d-97f4-2a95ad006abe,CEG,ceg,5,Building,bu,,
+College Communautaire Ambalakazaha,active,create,edd27ac0-48bc-41ec-8283-286ade7b6f61,,f689424f-e121-468a-a1ee-2a43d9dc99e6,CEG,ceg,5,Building,bu,,
+College Communautaire Ambalakondro,active,create,fd862617-1731-4eb2-935c-d54590eabcec,,eadf078b-2054-4723-8af1-5d16c18ac240,CEG,ceg,5,Building,bu,,
+College Communautaire Ambalampikira,active,create,df42a528-4746-497c-af57-38bfca5f16ec,,d9cb2366-8527-476c-9cab-43a7385feb72,CEG,ceg,5,Building,bu,,
+College Communautaire Ambalavero,active,create,7aec3aa0-27d3-4c17-b89b-5ba0290c395f,,335a2c92-476c-4f6e-ac75-e07dc218198a,CEG,ceg,5,Building,bu,,
+College Communautaire Ambandrika,active,create,edf1e140-8f07-4b66-86ac-02309008a46a,,c453fa07-d830-4ce5-b5fd-efb22f9ec0ea,CEG,ceg,5,Building,bu,,
+College Communautaire Ambandrika,active,create,f7089983-3111-417b-8da7-b0482e68d4c3,,8bd12eaa-5732-4425-970e-af013204053c,CEG,ceg,5,Building,bu,,
+College Communautaire Ambatofitarafana,active,create,9dc585f7-3f99-4761-9a43-fe3c23b0628b,,5529a358-a09f-4443-8be6-f30527e5d88a,CEG,ceg,5,Building,bu,,
+College Communautaire Ambatoharanana,active,create,7db68c21-c6cb-46a8-9f66-a1ee2eb9dccd,,8df9e268-0054-4aa7-a3da-1c271653174c,CEG,ceg,5,Building,bu,,
+College Communautaire Ambatoina,active,create,f840a143-9cae-4ec9-88f9-5337366d2fbe,,15e302e4-3ab6-416c-99b0-1562879f0271,CEG,ceg,5,Building,bu,,
+College Communautaire Ambatomilo,active,create,b44c60c2-b029-49cd-991c-c3e752422a5b,,53aa61e3-d5b5-42aa-af0d-59438e1629d2,CEG,ceg,5,Building,bu,,
+Collège Communautaire Ambinanisalohy,active,create,918573b1-c78c-4f51-9e0d-3f9d2129344e,,8df9e268-0054-4aa7-a3da-1c271653174c,CEG,ceg,5,Building,bu,,
+College Communautaire Ambodiara Ii,active,create,3043b6e7-b805-4ad6-96f6-392ac85f6e48,,2625ecad-879b-49b7-bdcb-349f6e4e932b,CEG,ceg,5,Building,bu,,
+College Communautaire Ambodihasina-I,active,create,c0ee56da-827c-451a-bb1e-f945400a5ddf,,053d4f7a-b383-4faa-b224-8418ecabf446,CEG,ceg,5,Building,bu,,
+College Communautaire Ambodimanga Moratelo,active,create,2b801dbe-5529-42b6-940e-e677c91de836,,497edb4f-f5b5-479e-9be5-f27de382f8a3,CEG,ceg,5,Building,bu,,
+College Communautaire Ambodinanto,active,create,42d8cdf8-9b52-425d-82cb-35bab146004d,,bfe5192a-8cae-4805-954f-30e360922dd7,CEG,ceg,5,Building,bu,,
+College Communautaire Ambodinonoka,active,create,388dc84d-1316-444e-ba7c-823d4c1850f6,,778f0e89-e11c-48b4-a761-8fac553ba15e,CEG,ceg,5,Building,bu,,
+College Communautaire Ambodirano,active,create,903a689d-e52a-44be-8125-14249cd18247,,d2df7eb3-2f4a-4aa0-a63d-b3c1184a26e7,CEG,ceg,5,Building,bu,,
+College Communautaire Ambodisaina,active,create,ef823590-e67b-4adf-8b8f-3020bc349fb5,,456f2d19-030a-4cae-af9c-c0d88f449cee,CEG,ceg,5,Building,bu,,
+College Communautaire Ambodisatrana,active,create,09ec95d8-c16c-4365-81d1-966a4fd6bd09,,cf3171fa-0d32-4410-ae19-1824bea48eb2,CEG,ceg,5,Building,bu,,
+College Communautaire Ambodivandrika,active,create,c4b761a2-8483-44df-948b-9336dd8c82fc,,15e302e4-3ab6-416c-99b0-1562879f0271,CEG,ceg,5,Building,bu,,
+College Communautaire Ambodivandrika I,active,create,5242ab1a-ad80-418c-bc23-60f97b196168,,9f48cfda-9cea-4f5c-b417-c536524579d9,CEG,ceg,5,Building,bu,,
+College Communautaire Ambodivoangy,active,create,77853dcf-6dc2-4435-9d56-2f5010ac7843,,4eca52b0-cf9f-48f1-8fc5-9ec0c91a5528,CEG,ceg,5,Building,bu,,
+College Communautaire Ambodivoangy,active,create,a14d1e39-7d06-4f6b-8ee8-bfff33b2e4be,,66fbdbb7-ab1e-45f0-9b4f-2fe57550b89d,CEG,ceg,5,Building,bu,,
+College Communautaire Ambohimahatsara,active,create,9fcee76c-26e1-4a4f-9e03-eabf8c2b7ba0,,778f0e89-e11c-48b4-a761-8fac553ba15e,CEG,ceg,5,Building,bu,,
+College Communautaire Ambohimanakana,active,create,ef7d1698-e5e5-4a0a-af49-42725f08166f,,58748f98-a17c-44d2-9ebf-dd44deaedb6f,CEG,ceg,5,Building,bu,,
+College Communautaire Ambohimandroso,active,create,496c626d-cd3e-4194-bc9b-ba1c692283da,,b4190ce8-39bf-49ae-aaac-3568b3f3da5e,CEG,ceg,5,Building,bu,,
+College Communautaire Ambohitsara,active,create,b870b410-32be-4a50-9cdb-9060933201d1,,131ec156-fe01-41ec-805b-0e96d934211f,CEG,ceg,5,Building,bu,,
+College Communautaire Ambohitsara I,active,create,b80cc141-41db-4711-91e1-ab20d72b0243,,9092c259-d0b7-4ae4-9a2a-949923f73c35,CEG,ceg,5,Building,bu,,
+College Communautaire Ambotaka,active,create,d5bc8c51-63c6-4c60-8417-4d822f6e8495,,27c019cc-c90e-4239-ae90-6967404816f2,CEG,ceg,5,Building,bu,,
+College Communautaire Ampahibe,active,create,4f434b63-46f6-4841-978f-9bd1b33ab16f,,9420074c-b81a-4bc2-85b9-07f3697e7083,CEG,ceg,5,Building,bu,,
+College Communautaire Ampasimalaza,active,create,4fb136e1-d1fd-43ef-b674-0a17d0ef7776,,309ea2e1-8827-4ab5-962c-f7474094185a,CEG,ceg,5,Building,bu,,
+College Communautaire Ampasimanjeva,active,create,f277d502-8f8c-481c-a5b2-54513f90a31d,,8a099f9e-14f6-415c-8328-9ab6df6d19a0,CEG,ceg,5,Building,bu,,
+College Communautaire Ampasimbola,active,create,75fa99cc-f4f4-4cf7-9a5c-340c259b3d39,,61714fe1-236b-46cd-9e98-fe653d31dff7,CEG,ceg,5,Building,bu,,
+College Communautaire Ampasimpotsy Sud,active,create,9410b392-aec8-4d33-ad34-7f00b0b309f7,,125ca331-18ac-4bdb-86cf-ea6bfd8d78fa,CEG,ceg,5,Building,bu,,
+College Communautaire Ampasina,active,create,182b9b47-a258-46b1-a4c6-b932e371f5a2,,8d03fa63-211c-49c9-b6ba-cda28184bdf7,CEG,ceg,5,Building,bu,,
+College Communautaire Ampatakana,active,create,4a46021c-59f2-4628-b2ef-0a0f31e87d89,,910069e1-998e-42d9-ac7d-6b7c9a34da9a,CEG,ceg,5,Building,bu,,
+Collège Communautaire Ampatsy,active,create,c5b56374-2af8-499a-8c4a-d5446d06ab7d,,8df9e268-0054-4aa7-a3da-1c271653174c,CEG,ceg,5,Building,bu,,
+College Communautaire Andonabe,active,create,b37fd698-734a-4179-be75-9109b949ced0,,36ff845c-f898-4f93-837f-0ebc50637e15,CEG,ceg,5,Building,bu,,
+College Communautaire Andonaka,active,create,920d9498-baf7-4e86-ad0f-d70174a24f58,,456f2d19-030a-4cae-af9c-c0d88f449cee,CEG,ceg,5,Building,bu,,
+College Communautaire Andrakanana,active,create,adeded02-0252-4e73-812f-14af6e4126d2,,37f28985-4358-403b-b0f2-524ba68685f5,CEG,ceg,5,Building,bu,,
+College Communautaire Andranomaitso,active,create,34ee8cc8-fe18-4445-8143-0614263d3c44,,2625ecad-879b-49b7-bdcb-349f6e4e932b,CEG,ceg,5,Building,bu,,
+College Communautaire Andranomavo,active,create,064014b4-c766-44cd-853c-c401059e4072,,e574f8b0-c6c2-4477-9664-0a15c586b1ee,CEG,ceg,5,Building,bu,,
+College Communautaire Andranomavo Ii,active,create,aa053fa3-461e-443f-a67c-31f4ea47d876,,ae2380b1-744a-4772-9ea4-dff3942ce957,CEG,ceg,5,Building,bu,,
+College Communautaire Anivorano,active,create,cc0ce8cc-3df0-4231-8db6-fa03cad2bdc7,,053d4f7a-b383-4faa-b224-8418ecabf446,CEG,ceg,5,Building,bu,,
+College Communautaire Anivorano I,active,create,9ce7964e-7ca0-42fa-8854-0d9ca9a11c9d,,66fbdbb7-ab1e-45f0-9b4f-2fe57550b89d,CEG,ceg,5,Building,bu,,
+College Communautaire Anjahamarina,active,create,c37ac480-2d44-4a87-922b-02888b99c6eb,,053d4f7a-b383-4faa-b224-8418ecabf446,CEG,ceg,5,Building,bu,,
+College Communautaire Anjahamarina Lovasoa,active,create,2995cfb1-1483-4d11-b9e0-4d923a80b706,,8df9e268-0054-4aa7-a3da-1c271653174c,CEG,ceg,5,Building,bu,,
+College Communautaire Ankijabe,active,create,4803bfca-869f-4aa4-9e81-9451379fd7cc,,2ac11983-82a5-40a1-81db-f326b996da2e,CEG,ceg,5,Building,bu,,
+College Communautaire Anorombato,active,create,e0ae4bec-0793-444a-99ef-a4192206c02f,,4d47b70d-33b4-40d0-a30e-d533f97027ee,CEG,ceg,5,Building,bu,,
+College Communautaire Anosiala,active,create,932b66f9-0b33-41f3-a29d-0f22432baa34,,1924b614-2fdb-4a0c-86ca-6eb56d9f09bf,CEG,ceg,5,Building,bu,,
+College Communautaire Anosimparihy,active,create,ed19f3fb-951c-4893-90d1-b80b75a0b515,,67549f20-ca9c-4f98-8c68-10dfc69193f9,CEG,ceg,5,Building,bu,,
+College Communautaire Antanandava,active,create,41785c5a-ded3-4c63-abf6-0a0c257aba45,,8a099f9e-14f6-415c-8328-9ab6df6d19a0,CEG,ceg,5,Building,bu,,
+College Communautaire Antanetilava Ii,active,create,59ad6186-0bba-48a5-8ea8-07de0b15c28d,,35442304-cbba-429f-ad37-f093c9d65f20,CEG,ceg,5,Building,bu,,
+College Communautaire Antaretra,active,create,e757b994-87f6-4243-bbcf-b70c940cbeb5,,2055c2a0-401c-4c8a-b2a0-d1b23449c3b6,CEG,ceg,5,Building,bu,,
+College Communautaire Beronono,active,create,0103cb3f-b0d5-49e6-bc79-188ea269db52,,6614ec43-fa7a-4f08-9a02-9acaf9ceebec,CEG,ceg,5,Building,bu,,
+College Communautaire Bongabe,active,create,7e36522f-132c-40ef-8681-f06a157a4050,,309ea2e1-8827-4ab5-962c-f7474094185a,CEG,ceg,5,Building,bu,,
+College Communautaire Elahimanintsy,active,create,84d3a0ad-9228-422a-9de4-f1f0b3a236f3,,437a9492-22a6-4e12-9d03-efe8f0fa03b0,CEG,ceg,5,Building,bu,,
+College Communautaire Fiadanana Ankaramalaza,active,create,37ef802d-3f20-4177-8b53-4d3c40f7c410,,5073674c-4efa-4d1b-ab90-a77b91cae45b,CEG,ceg,5,Building,bu,,
+College Communautaire Iarindrano,active,create,f9549723-382a-454b-ba08-264785bb0c29,,d5f57217-1dfb-4c1b-b43c-e926dcdd5ff8,CEG,ceg,5,Building,bu,,
+College Communautaire Irondro,active,create,782a87f0-2014-479c-b8bd-954660ac6bb2,,0b9df312-da12-491d-8108-affacb0535bf,CEG,ceg,5,Building,bu,,
+College Communautaire Karimbary,active,create,d63d294e-36d5-400a-89ae-ed234b559689,,de8c2caa-43d7-4bd7-921d-2a9be307c143,CEG,ceg,5,Building,bu,,
+College Communautaire Mahanoro,active,create,d4766f6f-d3db-48e5-b37d-ae299c85b297,,0ecd6a67-6f60-4393-bdea-516e7bab132e,CEG,ceg,5,Building,bu,,
+College Communautaire Mahatsara Iefaka,active,create,7a10ceef-5370-4eb7-b022-0351e716b81b,,80282171-c28c-45d1-93aa-f9967785d2ff,CEG,ceg,5,Building,bu,,
+College Communautaire Mahatsara-Sud,active,create,b0da6307-b802-4116-880a-9d16ab4c5644,,4c47ff02-6d75-46c7-8b7f-9d39f459facc,CEG,ceg,5,Building,bu,,
+College Communautaire Mahatsinjo,active,create,09da203c-ae0f-49a9-bc17-41276eaf6b0f,,497edb4f-f5b5-479e-9be5-f27de382f8a3,CEG,ceg,5,Building,bu,,
+College Communautaire Manakana Nord,active,create,313fd5e9-accb-4f20-b39f-eebbd00ae1d2,,b03a2f8c-74e4-49a2-a984-4b1b2fea008d,CEG,ceg,5,Building,bu,,
+College Communautaire Manato,active,create,c260fd5d-916d-4cb4-a0a7-edc8948d8533,,a0274287-ebce-4f53-9cd3-2d5454903b1b,CEG,ceg,5,Building,bu,,
+College Communautaire Mangatsiotra,active,create,52c1fe9b-6a22-434a-adec-d241d9a67b53,,4a2f9c9d-6a5c-4033-bb77-0d1d43853929,CEG,ceg,5,Building,bu,,
+College Communautaire Mangolovolo,active,create,8c5608f9-ec77-465e-b32c-66e7d9c740f1,,4d0ebcc0-6477-4d25-9e10-183e06a4a091,CEG,ceg,5,Building,bu,,
+College Communautaire Marokarima,active,create,11c4a661-e4fa-4298-886a-9f390c344130,,7b584f4b-fa90-459c-9c0f-d69ac7035f70,CEG,ceg,5,Building,bu,48.139817,-21.221033
+College Communautaire Miadana,active,create,e0a6f846-7d4f-4305-8507-3f9e9c63de62,,eb8558f4-8224-4a75-8920-1826d1fb34e6,CEG,ceg,5,Building,bu,,
+College Communautaire Miarinarivo,active,create,c671abda-f6e7-4169-b979-49f66a28090a,,1e19d760-23c5-4574-a659-ebb3172033aa,CEG,ceg,5,Building,bu,,
+College Communautaire Morafeno,active,create,8efdfab8-2113-4fd2-b202-53faeeedacf6,,99e461f0-58a0-47c7-8809-0bcf97ebf301,CEG,ceg,5,Building,bu,,
+College Communautaire Nihaonana,active,create,3aeb0f63-a73b-40c7-921b-792702ccccc6,,4e2e4b03-3b07-4146-9eb3-5fcecd99e4de,CEG,ceg,5,Building,bu,,
+College Communautaire Onilahy,active,create,9c1708fc-f4af-4097-aecc-c71e6ea2db78,,ad5509a8-3e19-4840-8f10-e5761e6a8efa,CEG,ceg,5,Building,bu,,
+College Communautaire Sahamana,active,create,c48e854f-7397-4b21-acc6-3a164dd62299,,4eca52b0-cf9f-48f1-8fc5-9ec0c91a5528,CEG,ceg,5,Building,bu,,
+College Communautaire Sahanambohitra,active,create,406473e0-a4a5-4e4e-9189-d64a275bccc1,,8c552b4e-9260-4abd-8c0f-1ba435cd6f46,CEG,ceg,5,Building,bu,,
+College Communautaire Saharefo,active,create,860d343d-7fbf-4c9b-a476-b4460f30b74c,,a3b1d808-19fb-4a32-8aa8-f472f4ccbc8d,CEG,ceg,5,Building,bu,,
+College Communautaire Sakalava,active,create,c4128ed9-c89d-4e6d-a9f4-5df33373ed50,,934e3063-45ac-4a16-86ac-53f10c63b0e3,CEG,ceg,5,Building,bu,,
+College Communautaire Sandrangazana,active,create,5053ea46-9900-4dc0-bc78-8ba214537378,,ede05d31-a505-4ab4-ae2c-07f3bbb44d12,CEG,ceg,5,Building,bu,,
+College Communautaire Sandrohy,active,create,490282ce-d6ac-4ac1-8147-4d82efc0f700,,bfb2c9de-1767-4676-ac0a-104c01092604,CEG,ceg,5,Building,bu,,
+College Communautaire Sorombo,active,create,ab51f92c-fd7f-4d31-ab73-d375f71eb743,,913a85b9-81e9-4a17-9363-8d482a8f8daf,CEG,ceg,5,Building,bu,,
+College Communautaire Tanamarina,active,create,8e97d739-3d19-434b-ad42-07a0fd02478d,,29d95ed8-9713-43d9-a482-60d83bb5a464,CEG,ceg,5,Building,bu,,
+College Communautaire Tanambao,active,create,5faef729-5fa7-4aa4-81d0-d576c07b9c31,,1e19d760-23c5-4574-a659-ebb3172033aa,CEG,ceg,5,Building,bu,,
+College Communautaire Tanambao Ampano,active,create,293caaf0-187a-4960-8449-8ae1791044a6,,1372903c-b1bf-4359-a4d0-9ebf22de3178,CEG,ceg,5,Building,bu,,
+College Communautaire Tanambiavy,active,create,559deb6d-9972-45eb-b350-18763514e371,,053d4f7a-b383-4faa-b224-8418ecabf446,CEG,ceg,5,Building,bu,,
+College Communautaire Tataho,active,create,a652e594-0e91-4d31-bab8-bf2e1ebf8d0c,,5126cb76-a6cb-4f7d-9911-4b9adbe05dfa,CEG,ceg,5,Building,bu,,
+College Communautaire Tsaravary,active,create,e90b4f72-b18e-41a0-9f96-2e1e0a5e855a,,c5ef6181-8e5b-4bd0-9b78-8a1b88eb44bf,CEG,ceg,5,Building,bu,,
+Collège Communautaire Vavazahana,active,create,74f42db0-3352-4181-8278-40ae5d09836d,,eadf078b-2054-4723-8af1-5d16c18ac240,CEG,ceg,5,Building,bu,,
+College Communautaire Vinanitelo,active,create,65538dc9-72f3-463f-baf0-6707a8308565,,a1a5f97c-2dcc-431a-bd6b-01186f579b02,CEG,ceg,5,Building,bu,,
+College Communautaire Vohibarihely,active,create,39ef3513-1a23-47bf-b194-f95b7941a8d0,,053d4f7a-b383-4faa-b224-8418ecabf446,CEG,ceg,5,Building,bu,,
+College Communautaire Vohiboangy,active,create,821390ee-72da-47e5-af15-9dd32dc46eac,,4eca52b0-cf9f-48f1-8fc5-9ec0c91a5528,CEG,ceg,5,Building,bu,,
+College Communautaire Vohimanitra,active,create,b9187979-f01c-4e16-b1ae-421ffd80918a,,97a60770-389b-40ff-8677-dcfbdc0fe322,CEG,ceg,5,Building,bu,,
+College Communautaire Vohimasina Sud,active,create,31473e8d-a2a3-47b4-b0d0-d86e4682ce06,,8cd349af-726c-47bf-b41f-38738f2cc2d0,CEG,ceg,5,Building,bu,,
+College Communautaire Vohimasy,active,create,c39f652b-5340-44d6-a0b9-4f65cc36e4e5,,732bffe7-30c6-45af-b12f-5d4f83abf8dd,CEG,ceg,5,Building,bu,,
+College Communautaire Vohitsivalana,active,create,6802a5f7-ab45-4afb-aa9a-99c76a186694,,ede05d31-a505-4ab4-ae2c-07f3bbb44d12,CEG,ceg,5,Building,bu,,
+College Communautaire Vohitsivalana,active,create,8988e1fe-c0ab-4e25-828e-b97f42e9c020,,053d4f7a-b383-4faa-b224-8418ecabf446,CEG,ceg,5,Building,bu,,
+College De Reference,active,create,9322b55d-1575-4900-af78-25b08715b88f,,f8f6820f-96eb-4999-82ec-8b809cff94de,CEG,ceg,5,Building,bu,,
+College Jefson Jean Jonasy Morombe,active,create,46cc226d-900b-4aa7-ae28-a6950b53063e,,4d0ebcc0-6477-4d25-9e10-183e06a4a091,CEG,ceg,5,Building,bu,,
+Collège Sainte marie,active,create,7f44586d-c008-48e3-ae3d-822c5baf757b,,69191346-9a9a-4dc1-8152-bfd50185cf12,CEG,ceg,5,Building,bu,,
+Commune,active,create,460d4398-24fc-4cda-9221-1582d66343dc,,f8a96f70-3460-4957-bb58-146714a1de08,Water Point,water_point,5,Building,bu,49.61325,-16.87572
+Commune,active,create,6d1b2e4f-b253-4d00-b080-8d599225ccd5,,f76d39d0-4ab3-4310-bf8e-0487e04998da,Village,village,5,Building,bu,49.45222,-17.48722
+Commune Ambalaroka,active,create,41d4b2ea-605c-4c7a-8731-bbfe0440f774,,f76d39d0-4ab3-4310-bf8e-0487e04998da,Water Point,water_point,5,Building,bu,47.732198,-22.133535
+Commune Mahambo,active,create,22158bbc-a928-400f-a015-c0667fbcbc8b,,3a549dea-f588-417b-a658-77f70cc9a9b4,Water Point,water_point,5,Building,bu,49.45216,-17.48733
+Commune Urbaine Antananarivo Renivohitra,active,create,f7602d80-1d8f-4adf-8f57-498159a50763,,a5e56324-dfbe-4373-827e-772232cfc7e0,Warehouse,warehouse,5,Building,bu,,
+COUM 67ha BLV3476,active,create,fad4506f-392f-44db-b054-1d0da1b160c8,,8f127dd1-8e58-4d53-b273-bf8945e3e43a,Water Point,water_point,5,Building,bu,47.5101667,-18.903833
+CRENI Amboasary,active,create,b0136056-ff3c-4c23-94e8-73e31a4c1953,,124696f9-87ed-4178-ba7c-d100268dddba,Site Communautaire,site_communautaire,5,Building,bu,,
+CRENI AMPANIHY OUEST,active,create,49793fbe-a573-442d-b19d-6e696e9734da,,41150233-beb5-4fa9-86a0-66a3606bcef6,CHRD1,chrd1,5,Building,bu,44.74653,-24.69861
+CRENI Antsirabe,active,create,ea7ed430-f38a-4564-ba54-819ad2760a9e,,5dc761d0-32a3-42a5-b8fb-bfb0fbf8df15,Site Communautaire,site_communautaire,5,Building,bu,,
+CRENI Betafo,active,create,969a2a9c-6bca-4a3c-a402-3e30f0d22de9,,bc3af750-7df3-4bf8-938d-191075c28981,Site Communautaire,site_communautaire,5,Building,bu,,
+CRENI BETIOKY,active,create,777626b4-a30e-44b0-bfd6-2810259f1a51,,700c68ef-f8dc-4f83-9339-037f8ef0c675,CHRD1,chrd1,5,Building,bu,,
+CRENI Betroka,active,create,f5ee1523-0eb8-4783-8066-3db2a09fb97f,,cd1ecae6-301d-4964-96d9-c07c80710e5c,Site Communautaire,site_communautaire,5,Building,bu,,
+CRENI Manakara,active,create,c9865931-e8e4-44a0-8677-7a29e90f7440,,7da9bcd5-9919-42eb-a771-4b02ad9ac48a,Warehouse,warehouse,5,Building,bu,,
+CRENI Taolagnaro,active,create,68466f2f-98f3-484f-9507-66838f7b4cad,,09b3b46f-71a1-45f7-9ab4-b93e449e2205,Site Communautaire,site_communautaire,5,Building,bu,,
+CRINFP Belemboka,active,create,265c1591-1d94-4725-b5a6-239a58ea806f,,3c172f05-1266-4481-9285-c47b285a2ff9,DREN,dren,5,Building,bu,,
+CRINFP Mananjary,active,create,289807b9-d7de-4f71-8ea9-7c45a5c27b17,,31344464-306c-4f4a-a70d-43ffbdfa19b2,DREN,dren,5,Building,bu,,
+Croisement 12,active,create,5c9d8a36-f7ae-49ca-9b7a-f61a3d629361,,c2df9c51-6629-4756-ab37-d58d51c02b30,Water Point,water_point,5,Building,bu,46.74077778,-16.07506111
+CROISEMENT ANJIAJIA,active,create,295daecf-a0d1-4332-94e7-85aaf45a20e3,,03380fbe-d484-41ee-a8bc-24313e5e3788,Water Point,water_point,5,Building,bu,46.95974444,-16.38087222
+Croisement Fierena,active,create,5fe61853-8236-4124-81cb-a99033e4c261,,5c4426f6-3612-499a-bf76-56323c7a65b1,Water Point,water_point,5,Building,bu,47.57822,-22.76965
+Croisement Tsaratanana 1 Epp,active,create,4958ae44-1249-4ec2-b1a4-66ad840914a7,,fe7ec12f-51a4-41f6-9e29-262df5c89b66,Water Point,water_point,5,Building,bu,47.16733,-16.48383
+Croix Rouge Malagasy Ambanja,active,create,0ff12f22-e5fa-4af5-b337-e61cf3323430,,9c4abdd5-023b-49aa-b006-4c8d7171bd19,NGO Partner,ngo_partner,5,Building,bu,,
+Croix rouge Malagasy Antalaha,active,create,e9e1c313-a710-4173-bf6f-c142bb17a770,,98779d59-606c-4f5d-845b-f9f0c9e45c00,NGO Partner,ngo_partner,5,Building,bu,,
+Croix rouge Malagasy Antananarivo,active,create,8e2ee513-0f11-439a-bfa3-76cc99ed9c3f,,a5e56324-dfbe-4373-827e-772232cfc7e0,NGO Partner,ngo_partner,5,Building,bu,,
+Croix Rouge Malagasy Antsiranana,active,create,685c57b2-297f-4c2f-9106-bfba8e6c3c95,,0a497653-d63e-42ac-a134-17c0bd715549,NGO Partner,ngo_partner,5,Building,bu,,
+Croix Rouge Malagasy Mananjary,active,create,e97ea4e4-6688-484f-be76-a23e72e8cbd8,,31344464-306c-4f4a-a70d-43ffbdfa19b2,NGO Partner,ngo_partner,5,Building,bu,,
+Croix Rouge Malagasy Morondava,active,create,37443645-3184-4b97-b40e-3d94a61732a6,,52f92738-11cd-4e1a-8a36-9de25d066498,NGO Partner,ngo_partner,5,Building,bu,,
+Croix Rouge Malagasy Tamatave,active,create,7c8fe388-6e07-4e6c-834e-edc581e79f8f,,5639a70e-c3ee-4838-b33c-c2e1d3d57e4b,Warehouse,warehouse,5,Building,bu,49.412529,-18.156551
+Csb,active,create,bc61b05a-2ffa-407f-915a-891aa17bef06,,f76d39d0-4ab3-4310-bf8e-0487e04998da,Village,village,5,Building,bu,,
+CSB1 d’Iabomary,active,create,d71b72d4-6876-4367-bcc7-6b8f24d87c13,,e9bfd037-3c2b-4697-b9d8-a5fed6c85641,CSB1,csb1,5,Building,bu,47.56441,-23.33351
+CSB2 BEKOROBO,active,create,92c89b3c-5b40-4c56-89d6-61c6f267977d,,23c35721-4ab5-4661-ad50-a1962bb7851d,CSB2,csb2,5,Building,bu,45.85098889,-23.72444722
+CSB2 Hah Berenty,active,create,1bf8295a-db90-4d6e-a707-7dc83c0e976c,,5f666d29-8b8c-4ebf-a630-e2cad0cb3685,CSB2,csb2,5,Building,bu,45.75523,-25.3941
+CSB2 Mahanoro,active,create,def70768-4b93-4e5f-badc-b25ce7bfce11,,0ecd6a67-6f60-4393-bdea-516e7bab132e,CSB2,csb2,5,Building,bu,49.368535,-16.040091
+CSB Alakamisy Ambohijato,active,create,240c99b1-ea76-4bdb-a854-a5905395bd20,,6765d345-fb5b-4812-ad5c-380dc5428524,CSB1,csb1,5,Building,bu,47.315,-20.526
+CSB Alakamisy Ambohimaha,active,create,3386e690-e036-4ef7-9547-70b6b0c73b4e,,627d2d57-a002-428c-b845-66ecf0afae48,CSB2,csb2,5,Building,bu,47.22,-21.45
+CSB Alakamisy Ambohimahazo,active,create,b94153cf-de08-445a-b037-8f0d064aee10,,98e1ad5b-ce78-4999-9ba6-44dc9cec9351,CSB1,csb1,5,Building,bu,47.384,-20.447
+CSB Alakamisy Itenina,active,create,c86def0e-90d5-456c-a912-b48dd845593a,,7d21d7e0-3b42-4a18-9a49-157e27ae54ed,CSB2,csb2,5,Building,bu,,
+CSB Alakamisy Marososona,active,create,9404ee1f-25d6-49ae-b47e-c55f4698f718,,05245ca6-c079-46d8-a804-1fd3ea8af0ef,CSB2,csb2,5,Building,bu,46.88,-19.867
+CSB Alakamisy Tsarazaza,active,create,33b20f80-a468-49cc-8c18-0d2425c70d12,,c00413f1-9464-4775-953c-5d5e1c08bf9d,CSB1,csb1,5,Building,bu,47.311,-20.207
+CSB Alarobia Ambatomanga,active,create,6e1cb805-b1c0-4cea-92ff-4c31239dc98d,,8f127dd1-8e58-4d53-b273-bf8945e3e43a,CSB2,csb2,5,Building,bu,47.724,-18.896
+CSB Alarobia Vatosola,active,create,79444da9-8ecf-4ab2-814c-fbf90ae8365f,,2c69e9b6-e246-4ba6-ab2c-5c3aa421fe2d,CSB2,csb2,5,Building,bu,47.75,-18.821
+CSB Alasora,active,create,c35c27ab-74e7-4209-b103-4a3150b9d5a5,,71f414a9-c504-452a-bc57-1368ae11f3c9,CSB2,csb2,5,Building,bu,47.568,-18.98
+CSB Alatsinainikely,active,create,62afd030-af48-47ab-884e-c1b165919bc5,,0a1939b3-b45a-4422-94cb-0b2bca6bd89e,CSB1,csb1,5,Building,bu,46.566,-22.71
+CSB Alatsinainikely,active,create,f6294df7-6071-496c-b4f0-3b035050ce24,,2dae8d07-9695-4b72-ab25-71937f4068d2,CSB1,csb1,5,Building,bu,46.566,-22.71
+CSB Alatsinainy Ambazaha,active,create,c18f0ee5-ac10-4b45-99f6-733babcb5fcd,,6ff9026f-9eaf-4620-b7ef-f9a1daf996b8,CSB1,csb1,5,Building,bu,47.458,-18.461
+CSB Alatsinainy Bakaro,active,create,c638da94-95a7-44d1-a7bb-5cc71aa1e9be,,0726afb2-63cc-4b6d-a30f-18c64a3c92b4,CSB2,csb2,5,Building,bu,47.681,-18.809
+CSB Ambahatrazo,active,create,585ce144-c210-4056-802b-d3157fea598c,,e20fad2e-c286-4f4f-a427-16925a3d7ffa,CSB2,csb2,5,Building,bu,47.899,-19.273993
+CSB Ambahivahy,active,create,0c616084-b1bc-4a15-a8ad-40dc6c048a83,,fc6dd2e9-1aed-4d2a-8e7e-6ce325e5ad93,CSB2,csb2,5,Building,bu,45.037,-17.575
+CSB Ambahivahy,active,create,c67a13b2-4079-456e-8c91-ff8cc591f1ed,,da8378b3-bc8c-44e8-ab41-2be97e1f3716,CSB2,csb2,5,Building,bu,,
+CSB Ambahy,active,create,c7327485-cc7c-4943-b265-44a7c4ac2acc,,9f48cfda-9cea-4f5c-b417-c536524579d9,Water Point,water_point,5,Building,bu,48.47808111,-20.77284111
+CSB Ambaiboho,active,create,c4a853f7-796b-4b5b-aa69-708cb6188fa5,,156694ec-44af-4610-bbfd-8a2a79a993ba,CSB2,csb2,5,Building,bu,48.233,-14.355
+CSB Ambakirano,active,create,efbaf075-0cb2-4baf-abc7-bfec93d4d8cb,,85de4cb1-78f0-4aa8-bbde-3a1299b66b2c,CSB2,csb2,5,Building,bu,48.852,-18.769
+CSB Ambakirano Ambony,active,create,c56a88ac-0d65-4c15-ad42-6c338b5dbe72,,85de4cb1-78f0-4aa8-bbde-3a1299b66b2c,CSB2,csb2,5,Building,bu,49.154,-18.773
+CSB Ambalafary,active,create,4dc01565-9bf1-492a-918e-eae283493249,,1aa519d4-897d-44e1-999b-5363f10aafe6,CSB2,csb2,5,Building,bu,48.483,-14.676
+CSB Ambalahady,active,create,2ed87f6c-eec0-43c5-8cbe-c5547362a1ff,,22176193-faef-4904-b36a-76b11a8e5161,CSB2,csb2,5,Building,bu,,
+CSB Ambalahambana,active,create,42b3e181-7660-40b0-85d9-d93f89098bd0,,07d380c6-2a0d-42e7-8343-103e749f9ff5,CSB2,csb2,5,Building,bu,46.197,-20.606
+CSB Ambalahorina,active,create,f261656d-c35c-4312-b535-24736efca835,,29678bd8-7307-4469-a7a5-f55523b3f66d,CSB1,csb1,5,Building,bu,48.027,-19.118
+CSB Ambalakely,active,create,84290134-fce8-43aa-962a-3456667eef0e,,627d2d57-a002-428c-b845-66ecf0afae48,CSB2,csb2,5,Building,bu,47.166,-21.44
+CSB Ambalakida,active,create,e2c45cfc-484a-4900-99c8-5776c3a1dfab,,8d3b5f20-903b-4175-9b05-18a57fe3d94c,CSB1,csb1,5,Building,bu,46.714,-16.3
+CSB Ambalakirajy,active,create,c283d615-90a1-4779-8cf3-57ac0854cb3d,,17964066-ca4b-4167-a422-30bc67ff7b47,CSB1,csb1,5,Building,bu,48.424,-15.547
+CSB Ambalalehibe,active,create,5a59fbe7-39ff-494d-b98c-3102d09ebd49,,e684a469-f31b-466e-bf3b-de6eac61f147,CSB2,csb2,5,Building,bu,47.203,-20.627
+CSB Ambalamadiro,active,create,be8909d4-541b-49d9-866c-81e4ce79e61e,,a3f2d7a8-78c3-42fe-8c9a-035026c379c0,CSB1,csb1,5,Building,bu,48.742,-15.468
+CSB Ambalamahasoa,active,create,cbb97aba-5d0a-4eb9-a2a2-dae0fba9574b,,627d2d57-a002-428c-b845-66ecf0afae48,CSB2,csb2,5,Building,bu,47.143,-21.442
+CSB Ambalamahatsara,active,create,949961f7-ca2a-4fce-b45a-5a71fe55dd2c,,accd335f-9d80-4542-be78-543c0dad5e81,CSB1,csb1,5,Building,bu,46.848,-20.935
+CSB Ambalamanakana,active,create,eedf5e14-c1d9-4fcc-96c9-63408b83617c,,71ebae59-3c18-4994-9484-697a39962b38,CSB1,csb1,5,Building,bu,47.183,-20.549
+CSB Ambalamidera,active,create,070e9ad3-72ba-4fbc-a40e-d6deef93580c,,627d2d57-a002-428c-b845-66ecf0afae48,CSB1,csb1,5,Building,bu,46.854,-21.455
+CSB Ambalanirana,active,create,366ea18b-6b9f-4b55-a6bb-1545f2785060,,ffd748ce-0392-4417-8b20-206a10fdb528,CSB2,csb2,5,Building,bu,47.588,-17.604
+CSB Ambalanirana,active,create,6805ec8b-63ae-4e1d-82cc-5b76cf007e25,,9d83a546-65b4-486a-b989-9192222167ba,CSB2,csb2,5,Building,bu,46.519,-15.917
+CSB Ambalaomby,active,create,6c0cf4e7-16ff-4253-818f-c53cd6cb072e,,cdc64db0-1591-4658-8992-d542b7ba098b,CSB2,csb2,5,Building,bu,47.966,-19.739
+CSB Ambalapaiso,active,create,0b27038d-2abb-4fd7-b0fa-25ef36511e58,,fef78afe-3680-41c0-ab6c-6ab043311351,CSB2,csb2,5,Building,bu,47.082,-21.131
+CSB Ambalapaiso,active,create,a4c100dd-71cf-477a-8d70-60ba57714e36,,b09b4efb-567f-43ea-afa5-a968f0daafe1,CSB1,csb1,5,Building,bu,,
+CSB Ambalaromba,active,create,32740a91-1726-4a84-8534-829bb43fa266,,bb4d0041-e303-40c1-b437-766184fbf724,CSB2,csb2,5,Building,bu,49.336,-14.933
+CSB Ambalasatrana,active,create,741d7860-af31-4f24-9b05-c913375bf852,,a926f4d0-5fe3-4e1f-a3ea-8527259aab05,CSB2,csb2,5,Building,bu,49.699,-14.866
+CSB Ambalasoa,active,create,dd20ab9c-9b28-4cf2-b92b-5c70a6f6d3d5,,f68b7052-c16f-4d64-94a7-f316153ee7e8,CSB2,csb2,5,Building,bu,46.11978,-23.0115
+CSB Ambalavao,active,create,7325591a-257e-4004-894b-1762b1c22437,,82ae60fc-4e48-45d4-b5bd-4ea4ace0abb3,CSB1,csb1,5,Building,bu,47.528,-18.177
+Csb Ambalavato,active,create,aee11617-6e64-499b-8253-13492f5feabd,,fb9692ef-8243-4a10-8bda-2c970fba1f56,CSB2,csb2,5,Building,bu,,
+CSB Ambaniala,active,create,ebb0dee6-7789-4571-9541-e53e3ffd6e83,,2145fa99-c29b-4f94-9f61-a5e21da4b150,CSB2,csb2,5,Building,bu,,
+CSB Ambanitsena,active,create,7edeeaeb-4fbe-46a9-9a36-7302ec599ee7,,8f127dd1-8e58-4d53-b273-bf8945e3e43a,CSB2,csb2,5,Building,bu,,
+CSB Ambanja,active,create,48baebc6-72d4-43cb-9e3a-27f8dc522d4d,,4c3739aa-847c-42e1-8720-c8b3052016ac,CSB1,csb1,5,Building,bu,49.952,-14.991
+CSB Ambanja Du,active,create,7fe40e96-2e81-4370-add6-0d94de385c69,,c7c410c5-a3d8-42a7-8133-2d4d50ef093d,CSB2,csb2,5,Building,bu,48.452,-19.049
+CSB Ambano,active,create,d2d28aa5-4aa5-4508-a48c-b16e8cc252fd,,8c00d949-4d09-4910-8137-7920ef815e34,CSB2,csb2,5,Building,bu,,
+CSB Ambarakaraka,active,create,a35f3a90-3f27-442d-8b14-b85c5301fe00,,85de4cb1-78f0-4aa8-bbde-3a1299b66b2c,CSB2,csb2,5,Building,bu,48.848,-18.76
+CSB Ambaravaranala,active,create,ca75a2b5-1dc5-43f2-8861-e73ed18bfefc,,40e6184d-9637-4171-988b-05261c6fd9de,CSB2,csb2,5,Building,bu,45.697,-18.296
+CSB Ambarijeby,active,create,300cc848-1721-4a54-a155-450454a2a20c,,209f12b6-d561-46a9-9c63-63b87011fa5e,CSB1,csb1,5,Building,bu,,
+CSB Ambarimaninga,active,create,771d6a63-48fe-430b-84da-c3fd9ce0fb2b,,de72bec6-88a2-4597-abff-7d4e64dd4470,CSB1,csb1,5,Building,bu,46.004,-15.838
+CSB Ambarimay,active,create,9ecaa95f-4fc1-4478-9fca-3774b9d5f860,,57e7d037-fde4-4a69-9806-873302f561ab,CSB2,csb2,5,Building,bu,,
+CSB Ambarinanahary,active,create,16143dca-8683-49f9-85a8-811852e79e6c,,02931700-6ed5-4c5e-9d9e-7220407d7e7e,CSB2,csb2,5,Building,bu,45.515,-16.144
+CSB Ambarinanahary,active,create,3a580ab4-ef5c-4b9b-8f96-8d101d0f47e0,,a3ab4ce8-31a6-4d14-940a-f837f526c1f9,CSB2,csb2,5,Building,bu,45.505,-18.883
+CSB Ambariokorano,active,create,7b3c649b-3e2d-4675-8c17-4c17232e51d8,,011876c5-8191-4361-afa2-82d35bf1c30d,CSB2,csb2,5,Building,bu,48.987,-15.256
+CSB Ambariotelo,active,create,db791219-6722-4d8e-a4d4-a2675086c278,,9116d466-4bc3-47cb-a5e4-3ec9d6bf115e,CSB2,csb2,5,Building,bu,50.023,-14.19
+CSB Ambato,active,create,43799c2d-f8dc-4558-840c-df6b8c6fb8ec,,29fcb6c5-089e-4732-8e21-47969ae66530,CSB2,csb2,5,Building,bu,47.564,-16.27862
+CSB Ambatoafo,active,create,4720469d-d747-4f8f-b71d-5a26b5aa7280,,956ff119-1bc9-4b97-9a3a-f69624756dad,CSB1,csb1,5,Building,bu,49.679,-14.629
+CSB Ambatoasana Centre,active,create,bf604cc1-307d-446a-a791-a13dc7024b3e,,82686a84-8a84-430b-8b72-1a932ce1b635,CSB2,csb2,5,Building,bu,46.385,-18.992
+CSB Ambatobe,active,create,5b0f51c5-04e9-42a7-817c-fda40ce1bf08,,fc9c63de-2bfe-45f7-ba8d-6a3c9eec2e2e,CSB2,csb2,5,Building,bu,,
+CSB Ambatobe,active,create,f4e1fa7e-295d-4d9f-a773-317101b9a25f,,5761b2f3-1199-4fca-880a-73af2319edec,CSB1,csb1,5,Building,bu,48.634,-16.985
+CSB Ambatoben'Anjavy,active,create,c6d51981-9626-488d-bb38-d1e9ebb29a6d,,85de4cb1-78f0-4aa8-bbde-3a1299b66b2c,CSB2,csb2,5,Building,bu,,
+CSB Ambatoboeny,active,create,507c0381-ce01-40e4-93fa-6b9aff38d61f,,4ec3564c-4272-4ad9-a171-10e2001e0dab,CSB2,csb2,5,Building,bu,46.719,-17.045
+CSB Ambatofahavalo,active,create,0e5ea27f-814b-4979-8fc8-336b072712bd,,a11cc706-73e7-40af-b17c-0fcf72dd99f6,CSB2,csb2,5,Building,bu,47.599,-18.435
+CSB Ambatofinandrahana,active,create,d45f0725-a033-4de2-8fa6-ef384bf91e47,,1c601632-baea-46ef-bf31-e7af518b28a0,CSB2,csb2,5,Building,bu,46.801,-20.554
+CSB Ambatofitorahana,active,create,3dfb2df4-735a-4749-a233-aa73c60fdf2a,,4bfb75e7-7b34-430e-b8af-7fd7fc5cf296,CSB2,csb2,5,Building,bu,47.182,-20.742
+CSB Ambatojoby,active,create,87030b5d-c2c9-4daf-87b3-2d1a4584f8a4,,975a605b-7ef7-41db-b390-ce7c1a7fc104,CSB1,csb1,5,Building,bu,,
+CSB Ambatolahy,active,create,5b761767-2115-4223-a5af-0f5c18b33583,,6028a30f-3af7-4786-b970-3d9a2ba75928,CSB2,csb2,5,Building,bu,45.538,-17.979
+CSB Ambatolahy,active,create,646c3e0a-7aee-451d-a0c2-7adae0c1ec7a,,96b867d2-165e-4d25-84dc-428e35880da7,CSB1,csb1,5,Building,bu,47.286,-15.774
+CSB Ambatolahy,active,create,9437429e-2cc0-461d-a9d6-53eb9cea0af5,,1fb6c069-c06a-4f4f-98b1-da4036052434,CSB2,csb2,5,Building,bu,45.838,-21.373
+CSB Ambatolampikely,active,create,36c209c8-26d2-49c4-81f3-ed79314a3ba9,,aaed4faf-8fc2-49f2-97e5-2feb1d0e97ff,CSB2,csb2,5,Building,bu,47.525,-15.545
+CSB Ambatolampy,active,create,7f0fe02b-3af9-4f74-9206-2632bfb8c350,,03e7aa0c-a775-4413-9ab4-b34e336faa47,CSB1,csb1,5,Building,bu,,
+CSB Ambatolampy,active,create,e359119a-cd22-428e-a58f-026f26c24d8c,,115ea827-9513-4673-8e4d-a9099c7801e1,CSB2,csb2,5,Building,bu,47.431,-15.543
+CSB Ambatolaona,active,create,5164844a-72eb-4feb-96f2-c878cddf6b9c,,a5e56324-dfbe-4373-827e-772232cfc7e0,CSB2,csb2,5,Building,bu,47.881,-18.91
+CSB Ambatomainty,active,create,238237ca-77cd-4c71-9586-164605bb9376,,a228740d-ca4c-4923-9070-e9b46db3d266,CSB2,csb2,5,Building,bu,48.209,-17.658
+CSB Ambatomainty,active,create,696cba92-2018-4d80-a4cc-bb93b2d473ed,,03243eb4-9ac9-4d44-b936-833d28a416ab,CSB1,csb1,5,Building,bu,,
+CSB Ambatomainty,active,create,8995dff2-82ed-4f6b-8989-4e3caa764235,,97b23abc-c59b-4ab2-a208-00cb1c2937f6,CSB2,csb2,5,Building,bu,45.666,-18.747
+CSB Ambatomainty,active,create,904d250f-c509-4036-a3b4-ac82005244b2,,140d4d46-9fa1-4f23-b9f5-be6e46ac0e2e,CSB1,csb1,5,Building,bu,47.609,-17.74
+CSB Ambatomainty,active,create,f92662d9-eccc-44fc-b7ba-7a8514ebae41,,9482023d-6962-451f-9964-ae907a0a7aa2,CSB2,csb2,5,Building,bu,46.447,-20.962
+CSB Ambatomainty Atsimo,active,create,0c573ab0-8650-47e4-9e38-0e8903839b93,,6563266a-7170-4590-bd92-59c17d102eb2,CSB2,csb2,5,Building,bu,46.404,-16.104
+CSB Ambatomainty Avaratra,active,create,05652513-9a8a-4376-a5cb-6bda7937ce31,,6563266a-7170-4590-bd92-59c17d102eb2,CSB2,csb2,5,Building,bu,46.446,-16.097
+CSB Ambatomalama,active,create,348fe79f-a5c3-4906-86c1-af9ccd5ea9cc,,bdc2f40a-9478-4ffc-851c-f626990784ed,CSB1,csb1,5,Building,bu,48.324,-17.045
+CSB Ambatomanga,active,create,27ed3eed-db5a-4701-8a46-89369b9746e8,,a5e56324-dfbe-4373-827e-772232cfc7e0,CSB2,csb2,5,Building,bu,47.738,-18.908
+CSB Ambatomanga,active,create,94dee6b8-5dab-4286-867b-063214c77719,,3aa9c86c-9e95-451c-8950-163608395fde,CSB1,csb1,5,Building,bu,47.212,-23.306
+CSB Ambatomanga,active,create,a3c7e0b6-22c8-449a-a0da-3e3bca2b46d0,,444991b6-4a5c-4123-a921-31ef8fd8bfaa,CSB1,csb1,5,Building,bu,47.212,-23.306
+CSB Ambatomanjaka,active,create,128fbeca-9b69-48bb-b897-ab627d7660a8,,697628bd-e71b-492a-b9d4-b771c4702e87,CSB2,csb2,5,Building,bu,46.867,-22.48
+CSB Ambatomanoina,active,create,dd0527b8-c08d-4a4f-a65a-5d1d0f8a4f6e,,dae7d13c-0fe6-401d-ae6c-aa46e0a5ec53,CSB2,csb2,5,Building,bu,47.625,-19.247
+CSB Ambatomena,active,create,335bf4e8-1c61-4533-a6f9-e92f8dc6d053,,a5e56324-dfbe-4373-827e-772232cfc7e0,CSB2,csb2,5,Building,bu,47.757,-18.912
+CSB Ambatomena,active,create,c084fa31-dcbc-4673-b864-8b572174d248,,a526f2a4-0248-4069-967d-53c6ac3da6c0,CSB2,csb2,5,Building,bu,47.302,-19.732
+CSB Ambatomiady,active,create,c18825f3-d990-4d63-85e9-fe6575e509ad,,b63ea498-7d9a-4012-bf98-2258e371a259,CSB2,csb2,5,Building,bu,47.416,-15.895
+CSB Ambatomifanongoa,active,create,895f9e23-143c-424f-bd57-25f97c36a852,,1c601632-baea-46ef-bf31-e7af518b28a0,CSB1,csb1,5,Building,bu,,
+CSB Ambatomirahavavy,active,create,16e08a90-b87b-4d95-a5a1-b800826d14d8,,3aa9c86c-9e95-451c-8950-163608395fde,CSB1,csb1,5,Building,bu,47.393,-23.278
+CSB Ambatomirahavavy,active,create,abf4dfc0-460a-4763-8403-e000c46aef38,,444991b6-4a5c-4123-a921-31ef8fd8bfaa,CSB1,csb1,5,Building,bu,47.393,-23.278
+CSB Ambatomitsangana,active,create,74e6fb6f-21f5-4099-aac9-8a57be956d75,,ae3e26fe-f4ef-43f5-bd23-c3982b62ee62,CSB2,csb2,5,Building,bu,47.732,-18.85
+CSB Ambatondradama,active,create,e8cb6444-4914-4fb3-80fb-26810c977b4f,,67b1db19-3d0d-44fd-9912-73bf2e60e446,CSB2,csb2,5,Building,bu,47.036,-20.063
+CSB Ambatonikolahy,active,create,8ee220c9-fa88-40c0-af53-b116c6ffba68,,05245ca6-c079-46d8-a804-1fd3ea8af0ef,CSB2,csb2,5,Building,bu,46.941,-19.858
+CSB Ambatoriha Atsinanana,active,create,f5935358-a28a-4d91-8d88-b22e6842b210,,7886bebf-9366-42eb-8d6b-148de572d903,CSB1,csb1,5,Building,bu,48.956,-14.321
+CSB Ambatosia,active,create,2fe53d36-77ad-493b-b990-493778a86b1a,,2445986e-6760-4a02-903f-19641ce80174,CSB1,csb1,5,Building,bu,48.658,-14.78
+CSB Ambatosoratra,active,create,8866a071-82c8-4627-8106-9f2f08f29de5,,01d0c0c3-d30e-4a1d-81ef-d0b5e0857f6b,CSB2,csb2,5,Building,bu,48.517,-17.614
+CSB Ambatotsipihina,active,create,3e13fdbd-a045-484d-8de3-c6b774024745,,51b25504-9b7f-40ee-8475-02d136f20a85,CSB1,csb1,5,Building,bu,,
+CSB Ambatotsipihina,active,create,48649d52-4b4c-430a-bf34-f187c7fecd94,,9d750201-83fe-4489-a794-54caf7ed20e8,CSB2,csb2,5,Building,bu,47.238,-15.945
+CSB Ambatovaky,active,create,45a756f6-c5f5-4fb3-863a-ffb4449c542a,,627d2d57-a002-428c-b845-66ecf0afae48,CSB2,csb2,5,Building,bu,47.302,-21.456
+CSB Ambatovaventy Andrefana,active,create,818e3eb5-f0a7-48ac-9695-1fff6f9e9917,,6e666d8a-f774-446e-af51-8541e938e22e,CSB2,csb2,5,Building,bu,47.3,-16.059
+CSB Ambatovaventy Atsinanana,active,create,67bef668-4f41-4512-9119-a2f1a8c2cfe6,,bfd64e67-3dbd-47e4-805b-e15c9d3e4319,CSB2,csb2,5,Building,bu,47.4,-15.61
+CSB Ambatovola,active,create,09584ccc-5b5b-4bcc-83a8-4b93e7eb5516,,6bfb6f1b-ba2f-4c8b-91d8-2e7cb5a3c4c6,CSB2,csb2,5,Building,bu,48.514,-18.947
+CSB Ambavahady Anosy,active,create,bc11be60-43bd-42c1-a2e5-b7d1690cb31c,,ec0cf731-4ef0-4b1f-9562-feeed05eec39,CSB2,csb2,5,Building,bu,46.43,-16.423
+CSB Ambavaniasy,active,create,6aa96f7b-b2c9-4710-a171-c8fdc0dbbb8c,,6bfb6f1b-ba2f-4c8b-91d8-2e7cb5a3c4c6,CSB2,csb2,5,Building,bu,,
+CSB Ambavasambo,active,create,c3e5d5c0-30c2-4241-a54e-022d5fd46d83,,dae7d13c-0fe6-401d-ae6c-aa46e0a5ec53,CSB2,csb2,5,Building,bu,,
+CSB Ambereny,active,create,7dfd1f8d-6f7e-4fd7-933e-c5570654354b,,6711dc2b-a899-4dd0-ac9e-0d069bbac479,CSB2,csb2,5,Building,bu,44.388,-19.059
+CSB Amberobe,active,create,80ff0de9-1f00-4265-82e2-bb7e440bae4a,,28d75e6b-3008-4267-8451-1cfdd3b6d11e,CSB1,csb1,5,Building,bu,47.167,-19.8
+CSB Amberomanga,active,create,2ef04661-4049-4d41-bd66-6f804d680759,,82686a84-8a84-430b-8b72-1a932ce1b635,CSB2,csb2,5,Building,bu,46.617,-19.035
+CSB Ambery,active,create,26a6e88f-4c21-430e-b363-a089c27cf19f,,9b7e1ddc-1122-455f-9c56-9087783193d6,CSB2,csb2,5,Building,bu,49.332,-13.195
+CSB Ambia,active,create,b4a12f69-adba-4c8b-9abf-e51db48a01f0,,2dd0b7b0-3aa3-478b-a5dc-a84aed94c40f,CSB2,csb2,5,Building,bu,46.191,-21.356
+CSB Ambia,active,create,ebc8c547-7ff7-4cfb-a800-c4d59f5f7cb1,,e22eb0a9-f629-4ff4-9578-2bc3d52bd41b,CSB2,csb2,5,Building,bu,,
+CSB Ambiabe,active,create,e4876907-f012-4fde-b12d-e7f3b55fed53,,0e3bc5e3-27c0-4a9d-9045-af7ee3e87a42,CSB1,csb1,5,Building,bu,,
+CSB Ambika,active,create,62f044be-5e17-41f8-8fb7-865aaa8bcadf,,4ffed295-ec56-43aa-9308-71bed6e61efe,CSB2,csb2,5,Building,bu,44.317,-23.559
+CSB Ambilobe Du,active,create,013a08ca-bd7c-414e-9ea3-516a3e7aab71,,85de4cb1-78f0-4aa8-bbde-3a1299b66b2c,CSB2,csb2,5,Building,bu,49.047,-18.771
+CSB Ambilombe,active,create,a2c104f9-6222-4dbb-bb27-a7d449aeba3e,,519f92ac-23c2-44e2-8986-fd099a699b51,CSB2,csb2,5,Building,bu,49.026,-14.847
+CSB Ambinanin'Andravony,active,create,981cdca5-5f45-4bde-85ba-e6356c4e17e6,,a926f4d0-5fe3-4e1f-a3ea-8527259aab05,CSB2,csb2,5,Building,bu,,
+CSB Ambinanindrano,active,create,6cc2c7c3-b5ca-4653-a17c-0367b9902101,,208ea9c4-b06c-450b-8340-bfb4ff8e283a,CSB1,csb1,5,Building,bu,47.559,-20.094
+CSB Ambinanindrano,active,create,df2035cb-b644-43e6-a3ac-f8037932cc0c,,36296f25-d33a-4562-bc7d-f14db0cf65bc,CSB1,csb1,5,Building,bu,48.378,-19.48
+CSB Ambinanindrano Sandrakota,active,create,1fa176e7-2a1e-447a-8898-a377cf522771,,bd77a72c-4816-4c6b-bda1-4f48d2026a2c,CSB1,csb1,5,Building,bu,,
+CSB Ambinanin'Ifango,active,create,1074dc39-bc38-495d-9b95-6df40329629a,,a0f14412-0cf0-4700-9055-1ed028db5534,CSB2,csb2,5,Building,bu,48.803,-15.73
+CSB Ambinany,active,create,b08b7123-adf8-4e82-b6e8-fe9bf5b8cd2f,,864b348d-93df-4562-8fec-f2df4f144cfe,CSB1,csb1,5,Building,bu,,
+CSB Ambinome,active,create,d3ecd3f7-7ee8-423f-a253-39c4fdf33ddf,,9c886bdf-244d-4c19-9090-046d83e3ee2d,CSB1,csb1,5,Building,bu,47.131,-20.512
+CSB Amboaboa,active,create,68e72d1e-40af-4b07-b79b-ba69b1413a5f,,519f92ac-23c2-44e2-8986-fd099a699b51,CSB1,csb1,5,Building,bu,,
+CSB Amboanana,active,create,dfcd440f-2468-4e7e-bec4-021bc1000683,,4ccfcff8-9a13-458c-8fbd-72ad2ae62961,CSB1,csb1,5,Building,bu,47.172,-22.983
+CSB Amboanana,active,create,ff44a15a-caeb-4f36-97ae-6591a299c048,,19191ef6-0c25-4b1c-9e15-1ca81c3429f7,CSB1,csb1,5,Building,bu,47.172,-22.983
+CSB Amboangibe,active,create,73987211-c5c4-45d2-ada4-d97e3aacafea,,c4d00af3-a4ec-4e8c-9745-e761db55ec61,CSB2,csb2,5,Building,bu,49.811,-14.7
+CSB Amboangibe,active,create,7c0845c4-3b5c-486f-b5bf-bfaa341125fc,,faa85abb-bd9b-495f-8549-5efba48da916,Water Point,water_point,5,Building,bu,47.72362222,-22.80320278
+CSB Amboarabe,active,create,97b71e2b-2f9a-40f9-b02c-3bc7d6bea564,,f5a42de3-ae3f-4d87-ae08-9a925af70b9c,CSB1,csb1,5,Building,bu,48.523,-18.066
+CSB Amboavory,active,create,5b2ff15e-a43a-41d2-bb0a-a4342f662764,,b9f156ca-3f28-440b-ba56-15c21b58e254,CSB2,csb2,5,Building,bu,48.485,-17.331
+CSB Ambodiadabo Maitsokely,active,create,80a2852a-59bf-43f6-af5e-c3414dc741ea,,519f92ac-23c2-44e2-8986-fd099a699b51,CSB2,csb2,5,Building,bu,48.59,-14.874
+CSB Ambodiakatra,active,create,dfda0474-bde3-4d3b-860b-2c2630d7af53,,a90ddcd0-a29d-41d5-9f4d-b85b0785fe7c,CSB2,csb2,5,Building,bu,48.229,-18.913
+CSB Ambodiatafana,active,create,cf64ee62-2c0e-428d-bfa7-dac479a414e1,,a9591dc8-f277-49dc-b01e-de3edd50fe0b,CSB1,csb1,5,Building,bu,48.165,-17.831
+CSB Ambodiaviavy,active,create,1ea32551-4fd7-42a4-bb81-1d95b1d44f5f,,a48d460d-9343-49af-81ae-769c47c52a58,CSB1,csb1,5,Building,bu,47.506,-20.727
+CSB Ambodiaviavy,active,create,99c062bd-aaa3-4409-8c0c-e961e737825e,,741617e9-e092-4977-b047-97cd41010d04,CSB1,csb1,5,Building,bu,48.135,-17.926
+CSB Ambodibonara,active,create,30b1a802-9059-49db-8035-9b26c1b8c885,,a926f4d0-5fe3-4e1f-a3ea-8527259aab05,CSB2,csb2,5,Building,bu,50.086,-14.899
+CSB Ambodibonara,active,create,4912e2bf-c7b7-47c0-9075-98aa192f0421,,6ec8fb0f-983a-4398-ab57-1f285003275c,CSB2,csb2,5,Building,bu,,
+CSB Ambodibonara,active,create,658b8e1e-397c-42a3-83d6-1ae5491753af,,6b05d3a3-c1d0-4549-a177-19216060a86f,CSB2,csb2,5,Building,bu,,
+CSB Ambodibonara,active,create,7c3aff55-83b2-4060-a7a3-7ba3133bf00a,,85de4cb1-78f0-4aa8-bbde-3a1299b66b2c,CSB2,csb2,5,Building,bu,48.845,-18.763
+CSB Ambodifarihy,active,create,a649fcd5-d238-47b3-9569-5894fa8d99a4,,ca937298-2777-4cb0-b3ad-0d03b6895ac8,CSB2,csb2,5,Building,bu,47.563,-15.76
+CSB Ambodifinesy,active,create,33cd0c0a-8523-4708-9f6b-a479dfe8ae82,,20549f13-6917-495e-b3f1-7be87d70c08d,CSB2,csb2,5,Building,bu,48.385,-19.118
+CSB Ambodifotatra,active,create,23892e78-e689-439d-80ae-91a58101a34d,,f7a1db24-e8a7-4732-8b48-a21b05bd5007,CSB2,csb2,5,Building,bu,49.852,-15.332
+CSB Ambodihazoambo,active,create,f4f1e628-f3a5-4d76-801b-d53bbe690a0d,,6fc75b18-f2a0-4a47-a3bb-918386896bce,CSB1,csb1,5,Building,bu,47.91613,-15.187
+CSB Ambodilalona,active,create,eab0de7f-88d8-4c00-9a7a-988427215098,,3dfb50a8-3beb-4551-bd0d-e57e9eb7556a,CSB1,csb1,5,Building,bu,,
+CSB Ambodimadiro,active,create,57ea49a7-6aad-4c72-af0a-12078f724d5e,,bd4f310e-5e09-44ec-81c1-33123673554e,CSB2,csb2,5,Building,bu,,
+CSB Ambodimahabibo,active,create,c532a762-7424-4b0e-87e0-bf79585ff8ac,,65bffa05-41c3-4df4-b722-0a039791f84e,CSB2,csb2,5,Building,bu,48.127,-14.639
+CSB Ambodimanary,active,create,2d55961e-cd2b-45f1-9d79-64816d8697a4,,f5500f79-201a-488e-ae34-ddfd8fa185b7,CSB2,csb2,5,Building,bu,,
+CSB Ambodimotso Atsimo,active,create,945ea82f-cc5a-4d0f-9c66-ea5414ac8337,,da8378b3-bc8c-44e8-ab41-2be97e1f3716,CSB1,csb1,5,Building,bu,,
+CSB Ambodinifody,active,create,18eebc38-fe2a-436d-9e1c-2e2577855da0,,60f1f650-1bd8-4856-abb2-66516e705e0a,CSB2,csb2,5,Building,bu,48.08,-18.912
+CSB Ambodipamba,active,create,8abb1b1e-2ef8-449e-8ba3-3015165b8981,,a80de6c1-9347-4555-b53b-aa8141499f52,CSB2,csb2,5,Building,bu,47.088,-15.715
+CSB Ambodirafia,active,create,aab5ee6b-a70c-4c7b-ba04-060c193bc72d,,06547ab5-598e-4a9b-a7e4-dc1c76391e39,CSB1,csb1,5,Building,bu,,
+CSB Ambodirano,active,create,d346921b-472d-4190-b498-3c9a84579bd2,,334e8b99-2963-4b8f-ab21-51477dd8162b,CSB2,csb2,5,Building,bu,47.488,-20.642
+CSB Ambodirano Mangoro,active,create,889a9742-dafe-4236-bea7-58f93418aa78,,cfa0282c-3a70-4ae6-9fe7-36c76ad0a691,CSB1,csb1,5,Building,bu,48.084,-18.798
+CSB Ambodiriana,active,create,18d6e356-8512-4e8f-a004-40010fd4ff69,,ff3a0edc-e1bb-4c9d-97b1-3ccf4b9c837e,CSB2,csb2,5,Building,bu,47.565,-16.182
+CSB Ambodiriana,active,create,44693aa8-e859-496a-87be-16ef384ce60b,,5d4659dd-363a-4b72-a543-b05cb2e43dc0,CSB2,csb2,5,Building,bu,47.631,-16.00661
+CSB Ambodirian'Isahafary,active,create,33a0f24a-7ad5-42f6-a280-ec1e3e6d3136,,94644df2-a3bf-4fd3-90a3-5d44e7c22ef1,CSB1,csb1,5,Building,bu,,
+CSB Ambodisatrana,active,create,9e6655c0-7d2a-43f7-893b-c95f97788cbd,,06547ab5-598e-4a9b-a7e4-dc1c76391e39,CSB2,csb2,5,Building,bu,,
+CSB Ambodisatrana Manjola,active,create,9aa890ae-4508-49c5-b81a-3e01d831770a,,de25a0e2-0f34-4f10-be92-1075d944ca23,CSB1,csb1,5,Building,bu,48.813,-15.108
+CSB Ambodisikidy,active,create,31f57f7c-bafa-4dfb-8023-d082afc7fa40,,c6fd5ace-94aa-4b1d-a80d-75f9a2939f20,CSB1,csb1,5,Building,bu,48.902,-13.887
+CSB Ambodivoahangy,active,create,2c11fba2-3dac-43af-b9de-6ca71ac95042,,44fdd833-7d80-465b-916a-48e47588e441,CSB2,csb2,5,Building,bu,47.983,-21.729
+CSB Ambodivoara,active,create,cbc9246a-de3d-45c3-82e1-2a1ece0c4725,,925a78d0-e532-40f7-85a3-c1cba1553220,CSB2,csb2,5,Building,bu,48.455,-17.693
+CSB Ambodivoara,active,create,e15048ee-cdba-4c1b-a9f4-0e74d9a4fa1a,,5488471d-63d6-43da-b3d2-e3189e479b4f,CSB1,csb1,5,Building,bu,49.983,-14.551
+CSB Ambodivohitra,active,create,80e118a9-4f4f-42bd-8023-d61233fde011,,b63e5ef9-20a9-46a0-aa86-23a87f91ed22,CSB2,csb2,5,Building,bu,48.561,-14.532
+CSB Ambodivongo,active,create,6e051056-fe51-46da-929a-4bef1fc6fa43,,7e45e8b6-6d27-4f8a-a42d-1a6ef3f36f2c,CSB2,csb2,5,Building,bu,48.22,-14.413
+CSB Ambohibao Atsimo,active,create,aba9d484-3beb-4ebf-a796-e26f88717886,,a5e56324-dfbe-4373-827e-772232cfc7e0,CSB2,csb2,5,Building,bu,,
+CSB Ambohibary,active,create,018d4b85-dbb5-4731-844c-74742b5157b7,,6765d345-fb5b-4812-ad5c-380dc5428524,CSB1,csb1,5,Building,bu,46.936,-20.355
+CSB Ambohibary,active,create,40f37e37-cef8-40bb-b215-852e773f38bc,,a90ddcd0-a29d-41d5-9f4d-b85b0785fe7c,CSB2,csb2,5,Building,bu,48.229,-18.913
+CSB Ambohibary,active,create,4b007e14-556f-4528-af3b-fe321354dc49,,e0e2ed01-830e-4223-ba19-b4d9b2cc1b84,CSB1,csb1,5,Building,bu,46.184,-18.551
+CSB Ambohibary,active,create,a2a4ae46-6dd6-4c9a-983f-b6e8fd25f943,,a5e56324-dfbe-4373-827e-772232cfc7e0,CSB2,csb2,5,Building,bu,,
+CSB Ambohibary,active,create,f12f076b-2fb1-4196-9f2f-f2de9501d00b,,561a9e7a-70ca-4e4b-ace7-7d3f1773a063,CSB1,csb1,5,Building,bu,47.622,-19.176
+CSB Ambohibary,active,create,f47d6c46-e8fa-4f26-bfcf-c8bcb4cda899,,fd4eb872-6c12-4fa6-96ec-4862b896453b,CSB1,csb1,5,Building,bu,47.137,-19.702
+CSB Ambohibary Sahatorendrika,active,create,20c30879-24ca-4801-bcce-7eabb1a04c96,,d78a96e7-5fb9-4f6e-a627-d0977be8c1d1,CSB1,csb1,5,Building,bu,47.238,-20.211
+CSB Ambohiboatavo,active,create,e0db4be6-b6c8-4e59-a655-db1d0ac20eb8,,4ba90613-46f0-479e-9b15-fbdc5a8dba4e,CSB1,csb1,5,Building,bu,48.375,-17.801
+CSB Ambohibolabe,active,create,c7cbff4d-6c85-44f0-a464-d2b066758e2a,,76f7bdae-a7c8-46ff-8af5-682ae67c6776,CSB1,csb1,5,Building,bu,,
+CSB Ambohibolafotsy,active,create,0ba83d36-944b-4b1d-a86d-dbefada59c84,,208ea9c4-b06c-450b-8340-bfb4ff8e283a,CSB1,csb1,5,Building,bu,47.455,-20.156
+CSB Ambohiboromanga,active,create,b9bd7769-0bb1-4169-8f64-d8d74dc759f4,,53cf5bd1-cdb6-437c-bd50-6b59401b68fa,CSB2,csb2,5,Building,bu,48.386,-17.838
+CSB Ambohibory,active,create,ad927508-f788-41ce-a30e-10f58964dca8,,35645c0e-a273-4069-a5da-5ad95473df1f,CSB1,csb1,5,Building,bu,49.079,-13.027
+CSB Ambohidava,active,create,e006d809-f962-4160-bc12-a8c1e636b4d2,,2b71caf4-41b4-484b-9a66-0f6133c190d7,CSB2,csb2,5,Building,bu,48.525,-17.555
+CSB Ambohidehilahy,active,create,cfc19520-d647-4161-a78b-2e7477b35f18,,db742b68-89d4-45fc-b1d7-9c06ef167c50,CSB1,csb1,5,Building,bu,48.318,-17.8
+CSB Ambohidrabiby,active,create,f25efd65-ec47-448c-a1ce-5ad42df9e165,,611d8b2e-ace3-40a7-bf5e-3a5edfaf39c7,CSB2,csb2,5,Building,bu,,
+CSB Ambohidraisolo,active,create,83f8bc54-dd72-4088-ae88-38a70f9e7255,,a5e56324-dfbe-4373-827e-772232cfc7e0,CSB2,csb2,5,Building,bu,47.879,-18.903
+CSB Ambohidranandriana,active,create,cfdf76ce-ab98-4151-8aca-06d3dd7d8b1c,,658cafdc-b25b-4bc8-b00e-7b78d6b50aff,CSB2,csb2,5,Building,bu,47.17,-19.573
+CSB Ambohidrapeto,active,create,66559c8d-cd3c-44ed-8c06-4e3e70d2d5b9,,9d01b32d-c239-4146-b063-21ef4113e92f,CSB1,csb1,5,Building,bu,,
+CSB Ambohidratrimo,active,create,a4b61b15-5638-4976-8b93-ef813f478deb,,6e48f984-7345-46c5-9225-72bd329bff44,CSB2,csb2,5,Building,bu,47.437,-18.595
+CSB Ambohidratrimoanala,active,create,a32e5170-032a-4228-ab31-e93753cb8d3d,,e70844ea-2707-4622-8105-8046abf81235,CSB2,csb2,5,Building,bu,47.871,-18.92
+CSB Ambohidroa,active,create,b181e33e-334e-4e81-8564-6c55c25643da,,913b79b1-0b8d-462f-b0d5-5c890df331cb,CSB2,csb2,5,Building,bu,47.487,-18.899
+CSB Ambohijanahary,active,create,7efb67c0-0d85-4039-a798-c2ac27d3eeef,,41723faf-15f0-4ede-824e-22c6eee21aa4,CSB2,csb2,5,Building,bu,48.382,-17.402
+CSB Ambohijanaka,active,create,1c7a1b72-5734-4eb9-8cb9-eff1cf416daf,,ea2f8b8f-4951-4fb8-8288-83325fcc308a,CSB2,csb2,5,Building,bu,47.772,-18.84
+CSB Ambohijanaka,active,create,2a1dfa24-14e9-44b4-87ec-d9679c3c88b8,,20d64c1d-131d-42a7-a90a-e698b242084d,CSB2,csb2,5,Building,bu,47.562,-18.622
+CSB Ambohijoky,active,create,d686cdcc-7d2e-46a6-9259-3b4c8deadc81,,9d01b32d-c239-4146-b063-21ef4113e92f,CSB1,csb1,5,Building,bu,,
+CSB Ambohikambana,active,create,b380c6e9-291c-49d6-a995-45ddd87e298f,,d492534f-8d4e-4ffd-92f4-f15098b599dd,CSB1,csb1,5,Building,bu,46.883,-15.924
+CSB Ambohimahazo,active,create,0597ede0-59a9-43f6-8a79-374ade5a1ed8,,d78a96e7-5fb9-4f6e-a627-d0977be8c1d1,CSB1,csb1,5,Building,bu,47.073,-20.205
+CSB Ambohimandry,active,create,247206fb-f241-4da8-90a5-d1c2e8fed17d,,4ccfcff8-9a13-458c-8fbd-72ad2ae62961,CSB1,csb1,5,Building,bu,47.371,-23.102
+CSB Ambohimandry,active,create,c9b053c1-ccd8-4d23-a83c-2db79034c50d,,19191ef6-0c25-4b1c-9e15-1ca81c3429f7,CSB1,csb1,5,Building,bu,47.371,-23.102
+CSB Ambohimangakely,active,create,a9198f0f-38e4-404e-96b2-d0c1ab94b2eb,,72dbcef1-7bd3-4a75-ad24-19cd70d7c4a8,CSB2,csb2,5,Building,bu,47.594,-19.068
+CSB Ambohimanga Rova,active,create,822e782b-e4e6-4cfa-b3e8-a33da391320d,,611d8b2e-ace3-40a7-bf5e-3a5edfaf39c7,CSB2,csb2,5,Building,bu,47.567,-18.956
+CSB Ambohimanjaka,active,create,27aab07f-1c5e-4832-86a8-630230ff1160,,8fea7ea8-417e-4f47-8347-cfa622be1bd8,CSB2,csb2,5,Building,bu,47.092,-20.542
+CSB Ambohimarina,active,create,2a4a2997-82d0-4b75-9643-ed41fc80971b,,c7c410c5-a3d8-42a7-8133-2d4d50ef093d,CSB2,csb2,5,Building,bu,48.497,-19.044
+CSB Ambohimarina,active,create,7a3abac5-7b02-45aa-9cc6-01633dad873c,,19b02dea-8964-405d-8bff-d9780a02cce8,CSB2,csb2,5,Building,bu,46.693,-16.757
+CSB Ambohimarina,active,create,8211762e-b74a-4785-ba18-d644c1a40487,,6e48f984-7345-46c5-9225-72bd329bff44,CSB1,csb1,5,Building,bu,,
+CSB Ambohimasina,active,create,36840aac-b52f-4d91-be33-63293ed8d745,,e110d76e-fc48-4718-8051-0f037981338a,CSB2,csb2,5,Building,bu,46.823,-19.214
+CSB Ambohimasina,active,create,73712667-632c-4110-a9e9-40662ceb17a6,,460c2bec-03b1-4c85-a28e-cb38f4cbadfc,CSB2,csb2,5,Building,bu,48.425,-17.836
+CSB Ambohimasina,active,create,b3aae29a-783e-4505-8592-74805a6bb787,,b885171f-3bfd-4cdd-b0ed-e1f8cc8551fb,CSB1,csb1,5,Building,bu,47.269,-22.768
+CSB Ambohimasina,active,create,ff81da12-7038-42c2-9a53-1488b3aef0ae,,7919cbbb-8017-4cd3-809f-be2ab34aafb3,CSB2,csb2,5,Building,bu,46.764,-19.874
+CSB Ambohimena,active,create,da325c1f-7e58-44b6-8e2c-985e2489419b,,c7c410c5-a3d8-42a7-8133-2d4d50ef093d,CSB2,csb2,5,Building,bu,,
+CSB Ambohimena,active,create,eb6845fa-f5d3-4a93-8622-0ef5ddf099f0,,4ba90613-46f0-479e-9b15-fbdc5a8dba4e,CSB1,csb1,5,Building,bu,,
+CSB Ambohimiadana,active,create,9e97d6e6-67a7-4308-8475-49ed2ffe2767,,561a9e7a-70ca-4e4b-ace7-7d3f1773a063,CSB2,csb2,5,Building,bu,47.776,-19.163
+CSB Ambohimiadana,active,create,c8f23e18-498a-48c5-a338-8f259b15d1a2,,5c77d335-7629-45f0-ae65-4748e4b21a95,CSB2,csb2,5,Building,bu,47.591,-18.209
+CSB Ambohimiarintsoa,active,create,ab3fe5b7-9103-4558-9a2e-6e28b089db1a,,d4018f1e-a361-42d0-87e9-c868922f325f,CSB2,csb2,5,Building,bu,46.371,-18.593
+CSB Ambohimiarivo,active,create,e7cf346b-fda6-4614-9923-254657f49961,,168d3ad4-2191-442d-ba22-afff427ad27e,CSB2,csb2,5,Building,bu,47.165,-19.524
+CSB Ambohimilanja,active,create,e93fd78f-3d2f-4928-a1e4-72f3778d864a,,6b81f551-26a3-408d-b52f-8d12df4040bc,CSB2,csb2,5,Building,bu,47.043,-20.571
+CSB Ambohimirary,active,create,d0d6d9ce-a483-47c1-a67b-6290271a1e86,,dbf83d9a-60b7-4fb1-83ef-6d6e069e2c24,CSB1,csb1,5,Building,bu,47.724,-19.26
+CSB Ambohimitombo I,active,create,346059bc-2dac-4d28-b2a0-2f06c3fd59be,,a48d460d-9343-49af-81ae-769c47c52a58,CSB1,csb1,5,Building,bu,47.39,-20.623
+CSB Ambohimitombo Ii,active,create,31f459b9-9577-40af-bf09-d129acaed7d9,,d7bb2cff-4469-4bf6-8e78-7e209e9a9a67,CSB2,csb2,5,Building,bu,47.447,-20.679
+CSB Ambohimitsinjo,active,create,32aee407-bdde-4625-bbeb-a80aaf6c8448,,eef2bda8-eefb-4e47-af2e-18cfb614782e,CSB1,csb1,5,Building,bu,,
+CSB Ambohimitsinjo,active,create,e8b2020e-1910-4c22-8582-60d96b04424f,,c624fabd-cf1a-4cfc-b53d-a256e7b6faf1,CSB2,csb2,5,Building,bu,49.932,-14.742
+CSB Ambohimitsinjorano,active,create,8b247c76-17d8-489a-8b12-78036897609a,,6d4c51ef-0e56-4d91-b64c-1e9a44fa6523,CSB2,csb2,5,Building,bu,47.455,-18.798
+CSB Ambohinaivo,active,create,5fb6235a-4593-4840-a530-24c06d79a234,,bb930466-f5a0-495c-ae4e-7b9c7391543a,CSB2,csb2,5,Building,bu,,
+CSB Ambohinaorina,active,create,4cc27f72-7f8e-4a76-a9cf-100b0ce0d195,,7496e6e7-8454-49e8-ac0c-6dabbe119a5e,CSB1,csb1,5,Building,bu,47.407,-18.677
+CSB Ambohipaky,active,create,8e291158-0682-47be-8e9b-b70f57028cd4,,5defac73-3f2b-49c8-8b23-3220835b03c2,CSB2,csb2,5,Building,bu,44.974,-16.16
+CSB Ambohipananana,active,create,ac2e58f2-d151-4875-82ce-944b8d434813,,990ce31e-0f01-49c7-a52b-0d1df8cbadbd,CSB1,csb1,5,Building,bu,47.237,-20.308
+CSB Ambohipandrano,active,create,5c10fb94-9b91-42ef-903c-d9720913c10d,,b885171f-3bfd-4cdd-b0ed-e1f8cc8551fb,CSB1,csb1,5,Building,bu,47.338,-22.798
+CSB Ambohipato,active,create,c58cf0f2-62df-4d83-8cbe-afc80971beea,,907074d6-3ff4-46de-a469-3919d1ef189a,CSB2,csb2,5,Building,bu,49.337,-13.61
+CSB Ambohipeno,active,create,aeac0f0b-39df-4ab2-be7d-329fb4f83a84,,fd2f9598-c615-4599-b203-c706e44971a1,CSB2,csb2,5,Building,bu,,
+CSB Ambohipeno,active,create,e09f4307-818b-46f2-a64e-1cbd48ec88fc,,03e7aa0c-a775-4413-9ab4-b34e336faa47,CSB1,csb1,5,Building,bu,,
+CSB Ambohiperivoana,active,create,08da18c3-f74b-4206-a16b-f5e40be3c065,,ae8816ff-619c-4eca-8cab-3697ea42655a,CSB1,csb1,5,Building,bu,47.152,-20.418
+CSB Ambohipihaonana,active,create,3ccceb8a-8f81-47f6-b18f-c64f1275921a,,ca937298-2777-4cb0-b3ad-0d03b6895ac8,CSB2,csb2,5,Building,bu,,
+CSB Ambohipihaonana,active,create,6f2000a2-9114-4a82-9707-ab657c92a851,,0726afb2-63cc-4b6d-a30f-18c64a3c92b4,CSB2,csb2,5,Building,bu,47.568,-18.819
+CSB Ambohipo,active,create,02ca2069-7304-4274-b6a5-ba75f7d15a39,,4a97633c-dc97-478d-a717-b37c3de1385f,CSB2,csb2,5,Building,bu,47.559,-18.85
+CSB Ambohipo Sud,active,create,46c2e1cc-38e8-4f69-b5d3-db64aa30e48b,,6b81f551-26a3-408d-b52f-8d12df4040bc,CSB1,csb1,5,Building,bu,47.012,-20.624
+CSB Ambohisoa,active,create,50b3d3d9-1b2b-45e2-96a1-5b8090c3ef9c,,90cbb1e4-1f69-491b-b038-c09cd070c5bf,CSB2,csb2,5,Building,bu,48.295,-15.37
+CSB Ambohitoaka,active,create,35807ea0-1bd2-4ec3-abd3-8f78532f5f85,,075dca07-2cda-4d87-ac46-52722b5f9ab3,CSB1,csb1,5,Building,bu,47.6538,-15.456
+CSB Ambohitompoina Centre,active,create,e6f8e5c3-0063-4933-bef1-79e265bd1412,,965954e7-e157-4230-8cb0-d5badebad7af,CSB2,csb2,5,Building,bu,47.666,-16.496
+CSB Ambohitrakatso,active,create,596a08ca-d3f1-44a4-9e69-77239b453977,,a5e56324-dfbe-4373-827e-772232cfc7e0,CSB2,csb2,5,Building,bu,47.747,-18.907
+CSB Ambohitrambo,active,create,dd57cd37-badf-4232-8fc7-4bafe7401c67,,f808d337-9dd4-4628-a17a-b896b7efbc13,CSB2,csb2,5,Building,bu,47.179,-22.487
+CSB Ambohitrampirana,active,create,b9187464-20eb-4c10-9c55-9ce54810f1f5,,778843d7-ab61-42a3-af0c-aa1e9e2b85aa,CSB1,csb1,5,Building,bu,,
+CSB Ambohitrandriamanitra,active,create,6b973cce-265d-4bc5-b74f-a943b433e0a3,,a5e56324-dfbe-4373-827e-772232cfc7e0,CSB2,csb2,5,Building,bu,47.78,-18.906
+CSB Ambohitrandriana,active,create,c315275c-817f-4330-bb04-9035c830e916,,76c5f029-5b8b-4430-b382-c8ce0f40b526,CSB2,csb2,5,Building,bu,48.56,-18.694
+CSB Ambohitrarivo,active,create,f2911460-bc0d-4bf2-8429-6486b2f0cd6c,,0ab84566-7400-4b38-99e1-7ee8e99dd353,CSB2,csb2,5,Building,bu,48.353,-17.475
+CSB Ambohitrimanjaka,active,create,1ff72a8b-6b73-4dae-968b-7ef05b2e6122,,2c69e9b6-e246-4ba6-ab2c-5c3aa421fe2d,CSB2,csb2,5,Building,bu,47.438,-18.815
+CSB Ambohitrinibe Ii,active,create,8d2ed49f-bf6c-468b-a5df-927ef9fc3c5b,,8f127dd1-8e58-4d53-b273-bf8945e3e43a,CSB2,csb2,5,Building,bu,47.751,-18.872
+CSB Ambohitrolomahitsy,active,create,a655ed3a-d2c1-4658-8b2f-59d7b5078b0b,,a5e56324-dfbe-4373-827e-772232cfc7e0,CSB2,csb2,5,Building,bu,47.68,-18.907
+CSB Ambohitromby,active,create,222aef54-f78c-4076-89e2-43ea14088ebe,,af321c16-0325-4ec3-a570-14575cbbd71b,CSB2,csb2,5,Building,bu,47.17,-18.408
+CSB Ambohitromby,active,create,25ccde16-19ae-4e73-b093-ea61a1964967,,6563266a-7170-4590-bd92-59c17d102eb2,CSB2,csb2,5,Building,bu,46.421,-16.11
+CSB Ambohitromby,active,create,40ba4b14-49c2-45a2-99ee-14ad2121b4aa,,9ea290a2-96e7-4c4a-a77d-6049bda4be16,CSB1,csb1,5,Building,bu,47.129,-17.38
+CSB Ambohitromby,active,create,60be0cc3-c18a-4745-97ad-fb8085578f67,,f6d21453-be90-4b62-9484-8fbc6aa07ce2,CSB1,csb1,5,Building,bu,46.593,-19.888
+CSB Ambohitrony,active,create,cde0ae18-5c67-4f04-9c18-4901363fddef,,19500863-ce77-4afb-adbe-d6e37e50ca23,CSB2,csb2,5,Building,bu,47.769,-18.966
+CSB Ambohitsampanana,active,create,8c7c7ee0-9076-4849-9e3d-9e5d5484b18d,,f359d7ef-833e-4d70-838d-112a770bc5c2,CSB2,csb2,5,Building,bu,47.217,-19.904
+CSB Ambohitsara,active,create,a231bd17-af77-41fa-bad8-642f41319288,,5d21df87-8b80-4067-b1eb-3b5eb75cb7e3,CSB1,csb1,5,Building,bu,47.128,-20.199
+CSB Ambohitsara Manakana,active,create,7b156fe9-1e85-4cf8-98b6-1b9e70d451ed,,37ecfd37-c950-4fec-a4c4-a6d99de4cdd5,CSB2,csb2,5,Building,bu,,
+CSB Ambohitseheno,active,create,45419fcc-290f-4a5f-9e7c-895d31552388,,b875129f-a545-4149-890a-93153b9090f2,CSB2,csb2,5,Building,bu,47.775,-18.875
+CSB Ambohitsilaozana,active,create,8a0271f8-b3e1-4e96-a494-377a03f9bcff,,925a78d0-e532-40f7-85a3-c1cba1553220,CSB2,csb2,5,Building,bu,48.468,-17.702
+CSB Ambohitsimeloka,active,create,91fbe3f3-b6cb-4e62-a006-34e3c58b64ba,,0713058f-62a5-4264-b7c4-ba9c822754a0,CSB2,csb2,5,Building,bu,47.765,-18.929
+CSB Ambohitsoa,active,create,cbee4a63-1ac9-47aa-99f5-885618ad774a,,4a97633c-dc97-478d-a717-b37c3de1385f,CSB2,csb2,5,Building,bu,47.541,-18.851
+CSB Ambohomanakana,active,create,b535adda-34a6-419a-85b7-eb040b2798f9,,0e0c9b82-9127-4990-86b7-4925314047f9,CSB2,csb2,5,Building,bu,,
+CSB Ambolidibe Atsinanana,active,create,4fa981a8-e6d7-4eee-a531-4e047d596a70,,3d28e4d8-409b-4102-ab38-8a0580921888,CSB2,csb2,5,Building,bu,,
+CSB Ambolobozobe,active,create,02169a9f-a0c2-42fb-9c1f-ed2fb746b159,,106cb2b5-5e15-429e-96f9-7490c9f86bf3,CSB1,csb1,5,Building,bu,49.532,-13.398
+CSB Ambolodia Sud,active,create,c9631e8f-7093-4fc8-a54b-c7d76f839683,,5fa61353-bb98-4107-8c5f-79ce95839018,CSB2,csb2,5,Building,bu,,
+CSB Ambolomoty,active,create,355807ed-5d7d-476d-96d7-20b6ecb9490f,,a80de6c1-9347-4555-b53b-aa8141499f52,CSB2,csb2,5,Building,bu,46.698,-15.71
+CSB Ambolotara,active,create,7e8e8f33-bd65-4769-9f2d-dfd46d132e28,,60d50a91-092e-4151-8521-4490edfa970e,CSB1,csb1,5,Building,bu,,
+CSB Ambolotarabe,active,create,8ab08044-1134-4cc2-aa2b-9ac9876fd43b,,ed1c590f-458e-423f-becb-4f0d672cef20,CSB1,csb1,5,Building,bu,47.17,-18.12
+CSB Ambolotarakely,active,create,5f4e1b83-b53d-4a50-a0b6-f3624a9fc510,,59ce70cf-2b0d-483c-b82e-e60fc8213e88,CSB2,csb2,5,Building,bu,47.402,-18.566
+CSB Amboniandrefana,active,create,454a3db2-bac7-49c7-9257-607d87cca502,,3defc324-4a60-4ae1-81f0-42b0d1440ad9,CSB2,csb2,5,Building,bu,,
+CSB Amboniloha,active,create,ebd671c9-2675-4742-bb16-b4c47837a4a3,,913b79b1-0b8d-462f-b0d5-5c890df331cb,CSB1,csb1,5,Building,bu,47.521,-18.898
+CSB Amboriala,active,create,4b4aa5e2-5369-49ae-943c-e02ebdaa5930,,a926f4d0-5fe3-4e1f-a3ea-8527259aab05,CSB1,csb1,5,Building,bu,49.431,-14.908
+CSB Amboroho,active,create,419f48cc-9a5d-4fcd-880f-ac148a2f7566,,4a76c548-7776-44ec-aa2a-6aba5c5de1e4,CSB1,csb1,5,Building,bu,,
+CSB Amboroka,active,create,a7e3c89c-b560-4a06-8d7a-609d9e1e2a9f,,7174ae50-4d3d-4fd1-a906-4fab680bede5,CSB2,csb2,5,Building,bu,45.308,-16.182
+CSB Amborompotsy,active,create,0e445207-16be-4c4d-b43d-4d59e7f3974a,,9fa3d656-1b8d-4342-b43d-a6de5f0491b7,CSB1,csb1,5,Building,bu,46.246,-20.319
+CSB Amborompotsy,active,create,f9bd211d-95f8-47a7-ad3f-dc580f8d7b76,,9c327240-b6ab-4ad7-b691-7631374d1848,CSB1,csb1,5,Building,bu,48.463,-17.425
+CSB Amborondolo,active,create,0a9e37a8-eed7-4fb4-9e1c-a512ffe1f7a9,,85de4cb1-78f0-4aa8-bbde-3a1299b66b2c,CSB2,csb2,5,Building,bu,49.037,-18.772
+CSB Amborondolo,active,create,b0ccc4e9-bb09-456b-b605-66199c003c82,,beab9ca8-f4c6-4801-89bc-816e1c35201b,CSB1,csb1,5,Building,bu,48.485,-15.035
+CSB Amboronosy,active,create,93ee05ab-c65f-4776-8b37-c9632a7fa057,,5a5bb1fe-6833-4484-8768-23d5b2b3335b,CSB2,csb2,5,Building,bu,47.757,-18.965
+CSB Ambovombe Centre,active,create,8ada73a7-2a04-43f8-b0e2-4294c435275e,,95e52f73-e4b0-4869-9c07-13cc3fa518c9,CSB2,csb2,5,Building,bu,47.077,-20.692
+CSB Ambovonomby,active,create,5a9c93ac-c9d5-4223-8912-74c928b71b38,,c6fd5ace-94aa-4b1d-a80d-75f9a2939f20,CSB1,csb1,5,Building,bu,49.015,-14.103
+CSB Amcm,active,create,46dcb5fd-e58b-457c-8d48-68abbdbfcbb8,,a580ee00-578a-4d52-8224-6d0338ea8937,CSB2,csb2,5,Building,bu,,
+CSB Amcm Analamahitsy,active,create,b2dc807c-fe7e-4932-8087-56b9f5b37767,,b410d757-4164-40f6-af32-3d635b6ac48b,CSB1,csb1,5,Building,bu,,
+CSB Amcm Anosisoa,active,create,e0078caa-a01a-41bc-ba1a-09aa74f908b8,,b00116dc-f679-42bb-9136-a0237fa31755,CSB2,csb2,5,Building,bu,,
+CSB Amcm Soavimasoandro,active,create,48604b5f-f796-40b7-968a-2ddc0b0238a6,,7f551908-5e7e-4e9d-a91a-500fb48a786b,CSB2,csb2,5,Building,bu,,
+CSB Amel 67 Ha,active,create,5b3e643f-ba56-4767-bf4d-09a56a92cf14,,b410d757-4164-40f6-af32-3d635b6ac48b,CSB2,csb2,5,Building,bu,47.506,-18.826
+CSB Amical Avotr'Aina Andranobevava,active,create,9c8087b7-ab10-4bbc-889b-a46c023ca594,,913b79b1-0b8d-462f-b0d5-5c890df331cb,CSB2,csb2,5,Building,bu,47.552,-18.89
+CSB Amical Avotr'Aina Ivandry,active,create,18ca9aa0-192f-406e-901a-6c670e452a8b,,2b1ddda5-55ab-4211-a7d6-2cd9117b5852,CSB2,csb2,5,Building,bu,47.521,-18.797
+CSB Amin'Ampanga,active,create,ae06b4d3-b741-4840-9fdd-3b9d81bccc4e,,b410d757-4164-40f6-af32-3d635b6ac48b,CSB2,csb2,5,Building,bu,47.649,-18.831
+CSB Amis Des Jeunes Moramanga (Ex Du),active,create,51461081-e386-4880-8f07-cc59af315e5a,,0f8f5ecf-2476-45ba-b232-14f851a9c1da,CSB2,csb2,5,Building,bu,48.237,-18.948
+CSB Amit Ankadimbahoaka,active,create,fec404bf-5564-4339-9c10-3b01dc7909ef,,e70844ea-2707-4622-8105-8046abf81235,CSB2,csb2,5,Building,bu,47.525,-18.92
+CSB Amit Antanimena,active,create,bcd24462-3148-467c-8f88-f4a4b82646cb,,8f127dd1-8e58-4d53-b273-bf8945e3e43a,CSB2,csb2,5,Building,bu,47.521,-18.891
+CSB Amit Behoririka,active,create,4ebd4611-9815-4ff1-8c9c-c25999c09166,,e70844ea-2707-4622-8105-8046abf81235,CSB2,csb2,5,Building,bu,47.526,-18.936
+CSB Amit Sabotsy Namehana,active,create,b2593dac-2389-452c-a777-dae6709a8c2e,,b00116dc-f679-42bb-9136-a0237fa31755,CSB2,csb2,5,Building,bu,,
+CSB Amit Talatamaty,active,create,7fee3f7d-ff1a-4b2e-bfc2-98aac000e94e,,6e48f984-7345-46c5-9225-72bd329bff44,CSB1,csb1,5,Building,bu,47.462,-18.616
+CSB Ampahimanga,active,create,286879e6-9653-447b-ae19-941a9d2105f0,,fc99cf99-bbd6-4803-a80b-7e35a75a30a4,CSB1,csb1,5,Building,bu,,
+CSB Ampahimanga,active,create,67a82e26-77a6-4f4d-b7d4-4aae7e2d687b,,a0717d58-7fab-4cca-a777-df78d9bd0ad2,CSB2,csb2,5,Building,bu,46.722,-18.922
+CSB Ampahimanga,active,create,7765961f-d188-41d1-ae49-483309318954,,913b79b1-0b8d-462f-b0d5-5c890df331cb,CSB2,csb2,5,Building,bu,47.6,-18.908
+CSB Ampahitra,active,create,899ae6c6-cc28-4945-98b0-44e7184f6d32,,a90ddcd0-a29d-41d5-9f4d-b85b0785fe7c,CSB1,csb1,5,Building,bu,,
+CSB Ampahitrizina,active,create,b5ad2c4e-e1c1-4c93-b740-dc1eb10539ca,,2aaf573c-c7a4-47e6-ae81-1566112eb6ad,CSB2,csb2,5,Building,bu,47.7,-18.782
+CSB Ampahitrosy,active,create,c8779630-7fcb-45da-b426-d327d13e7fb2,,0e73e615-b301-4352-9bc3-4449282a67d0,CSB1,csb1,5,Building,bu,47.492,-17.965
+CSB Ampako,active,create,06d976a5-1dfc-42c8-8c6d-e11b98ee0991,,5fa61353-bb98-4107-8c5f-79ce95839018,CSB1,csb1,5,Building,bu,44.817,-18.847
+CSB Ampamehena,active,create,1adaea88-8c35-4337-aa17-1fc14b0b2ac6,,4c9a531c-9d88-4d5f-b582-f74dea6e0a20,CSB2,csb2,5,Building,bu,,
+CSB Ampananirabe,active,create,7eb72b53-3f05-4b21-a1e4-599042df317e,,8b8d203f-0175-4f00-94cf-66b2539b1031,CSB1,csb1,5,Building,bu,46.958,-16.391
+CSB Ampanarivo,active,create,7eb20f1f-d509-443d-ba4b-57f67c796470,,5f0f738e-8467-4621-8493-6a86bbc4161f,CSB2,csb2,5,Building,bu,47.766,-18.749
+CSB Ampanasina,active,create,46e5c89f-2cc5-436c-a1b1-41e48251ea01,,eb02f8bb-0d48-464d-a06e-253e82195485,CSB2,csb2,5,Building,bu,48.914,-13.638
+CSB Ampanataovana,active,create,4dbb8c85-56bb-4c7f-845f-8c5c4f0fd913,,fd4eb872-6c12-4fa6-96ec-4862b896453b,CSB2,csb2,5,Building,bu,47.348,-19.694
+CSB Ampandriankilandy,active,create,cd5a7cea-a57a-4b0b-be89-d8c5352326b7,,4a76c548-7776-44ec-aa2a-6aba5c5de1e4,CSB1,csb1,5,Building,bu,,
+CSB Ampandroantraka,active,create,3ef7f224-14ea-435d-bea5-f6c02ad9fcd3,,d5c0ffc0-01f6-44a7-a232-070ac8ae627d,CSB2,csb2,5,Building,bu,48.344,-19.407
+CSB Ampandrotrarana,active,create,d6740b2e-9628-49d4-8918-a54191c59ce8,,98e1ad5b-ce78-4999-9ba6-44dc9cec9351,CSB1,csb1,5,Building,bu,47.13,-20.424
+CSB Ampanefena,active,create,21bbaa04-1a58-4c28-87f5-1ca5f6dc144f,,a926f4d0-5fe3-4e1f-a3ea-8527259aab05,CSB2,csb2,5,Building,bu,49.949,-14.903
+CSB Ampanefy Nc 08,active,create,e7740680-d969-43e8-9b40-531453314458,,a197908b-0c93-43dc-90ef-eb87dbc9eee6,CSB2,csb2,5,Building,bu,47.495,-17.961
+CSB Ampaneva,active,create,f21ac961-0092-48c6-a5ca-d1c1a35bb6e7,,e5ea2a66-7e8c-40b8-93f9-075b95d0856f,CSB2,csb2,5,Building,bu,47.693,-18.847
+CSB Ampangabe,active,create,dd6a5594-e073-48d7-96d9-6e8027938a95,,b988bb9b-5742-4902-8f44-540488817372,CSB2,csb2,5,Building,bu,47.405,-18.683
+CSB Ampanihy,active,create,4666fced-c2fd-4363-a4cf-3bdb40008b50,,9e425374-dcfa-4509-b11e-5dd61f5d6cd4,CSB1,csb1,5,Building,bu,45.413,-18.178
+CSB Ampanihy,active,create,a827b5a5-8a29-4e9b-a0a4-4b5477230319,,98c561af-5b2c-4718-9f8b-c65b344e3087,CSB2,csb2,5,Building,bu,44.717,-16.348
+CSB Ampanotokana,active,create,59cd3225-0aa1-4caf-9181-0f57ada86a34,,9b4dfd90-f708-485f-840a-b7c2da024341,CSB2,csb2,5,Building,bu,47.33,-18.861
+CSB Amparafaravola,active,create,bad7b231-97b3-46cc-8852-9816b5d16425,,13b2f0d1-e883-437c-b7a5-c5e68eca708a,CSB2,csb2,5,Building,bu,48.221,-17.589
+CSB Amparaky,active,create,eaa0f80c-40b2-4e43-b3e7-4eddb7fffdc5,,82686a84-8a84-430b-8b72-1a932ce1b635,CSB2,csb2,5,Building,bu,,
+CSB Amparatanjona,active,create,cb3517c6-b650-4264-89e1-230aecda563a,,561a9e7a-70ca-4e4b-ace7-7d3f1773a063,CSB2,csb2,5,Building,bu,47.858,-19.171
+CSB Amparibe,active,create,5e775c43-1d16-4804-b101-85ac4e6117ed,,054319c2-77ae-4cc4-a118-662dab380538,CSB2,csb2,5,Building,bu,,
+CSB Amparibohitra,active,create,6b4d0ce3-9bb2-4cc9-bf1a-e894354063b0,,bb930466-f5a0-495c-ae4e-7b9c7391543a,CSB2,csb2,5,Building,bu,46.97,-19.016
+CSB Amparibohitra,active,create,af3755fb-d296-4c00-ae4c-fbe5c5f1d10a,,f3604384-cb10-4650-bc22-751c6506f8a8,CSB2,csb2,5,Building,bu,46.719,-19.266
+CSB Amparihibe,active,create,bba5f774-2d9d-4197-8f84-40788b04de9b,,e9ab9884-d25d-4cc3-9492-0511f5809619,CSB2,csb2,5,Building,bu,46.011,-18.823
+CSB Amparihikambana,active,create,c9c2ce35-0373-4096-9d21-07ba02d63484,,eef92d13-1c8a-4c2f-8724-3003b8838f29,CSB2,csb2,5,Building,bu,,
+CSB Amparihilava,active,create,936ff642-28f4-4974-a9c8-15e1404f17d4,,7bc16495-9f79-4ac7-aeab-cb6455e07ad5,CSB1,csb1,5,Building,bu,46.7,-15.781
+CSB Amparihitsokatra,active,create,ca2ce19f-f3c5-4ebc-861c-077e88c97eae,,1b55b93c-a7a2-496a-acd7-0f7c89042149,CSB2,csb2,5,Building,bu,48.573,-17.529
+CSB Amparihivola,active,create,132f5e7c-dada-469a-a2b0-4fb8bdcaf0a8,,71761843-f7c5-43d3-8361-8acbb28935e4,CSB1,csb1,5,Building,bu,48.36,-18.337
+CSB Amparihy,active,create,a15ff68c-387c-4fd0-8fad-b74f2bd6584a,,55030bac-438b-4336-aecc-cd2db3ab8c58,CSB2,csb2,5,Building,bu,47.717,-14.492
+CSB Amparihy Fenomanana,active,create,b4486925-8e8a-4855-a620-6e807d5abb71,,51b25504-9b7f-40ee-8475-02d136f20a85,CSB2,csb2,5,Building,bu,,
+CSB Amparilava,active,create,a42e5416-80fc-4246-bb5f-3e102f4aa5d4,,6563266a-7170-4590-bd92-59c17d102eb2,Water Point,water_point,5,Building,bu,46.66233,-16.10239
+CSB Ampary,active,create,bfbd3049-de9f-4e40-ad29-52792e1b2d28,,530f4851-8ecf-4e9a-997e-89f12aad0320,CSB2,csb2,5,Building,bu,46.71,-19.257
+CSB Ampasanimalo,active,create,c698a92f-5188-43fa-8827-2ef3063f5a90,,a5e56324-dfbe-4373-827e-772232cfc7e0,CSB2,csb2,5,Building,bu,47.542,-18.905
+CSB Ampasika,active,create,ef7cebe6-188c-4cea-8c79-f404c81c271b,,65687b10-a945-4b8b-8f77-6e2ad5dd9a21,CSB1,csb1,5,Building,bu,48.008,-18.82
+CSB Ampasikely,active,create,c5cd521d-5016-4150-8710-a0d69863feb4,,52b55eb9-7e1b-4d10-b506-7b5265b84cb3,CSB2,csb2,5,Building,bu,48.191,-17.658
+CSB Ampasimaneva,active,create,a738dcd3-32a9-4857-8285-84b3c2b77428,,ac10d02f-f80e-4a57-9fc2-21435c73f1d8,CSB2,csb2,5,Building,bu,48.065,-19.395
+CSB Ampasimatera,active,create,f1f2d815-29d2-4d92-8455-aa3b45d494fe,,144160bf-8c8c-480e-ab35-d5f91db94677,CSB1,csb1,5,Building,bu,47.73623,-15.441
+CSB Ampasimpotsy Sud,active,create,b40dcf49-31a6-4ecf-a066-acb7da589bbb,,c062eb09-c166-414a-8a1e-851284235b1f,CSB2,csb2,5,Building,bu,47.756,-19.578
+CSB Ampasindava,active,create,56dd9164-0f29-40f3-a8ec-241890a25d87,,cade9282-1a69-40cc-a279-b84b85be94bb,CSB2,csb2,5,Building,bu,48.476,-18.546
+CSB Ampasipotsy Gare,active,create,604c88fc-475b-4baa-b459-95d6c07ffa3f,,1858f086-87ed-40b9-9d1d-2ffd5a6793b6,CSB2,csb2,5,Building,bu,48.339,-18.963
+CSB Ampasipotsy Mandialaza,active,create,dfe7c3c5-a3d5-4bc4-90ff-bc0d1116ffb3,,29ec8b39-8e64-45c0-bee4-ab213982f1fa,CSB2,csb2,5,Building,bu,48.012,-18.644
+CSB Ampefiloha Ambodirano,active,create,6ecdfa65-3290-4e89-b8fc-9438df2a1b84,,fd2f9598-c615-4599-b203-c706e44971a1,CSB2,csb2,5,Building,bu,47.5,-18.856
+CSB Ampefy,active,create,ec4f61c8-5aa5-4db6-bc45-96e3e63c8faf,,b9533f02-c3cd-4fe6-92c9-cc42388defe8,CSB2,csb2,5,Building,bu,46.734,-19.22
+CSB Ampijoroa Nord,active,create,66ca2667-67e5-4f6e-84c9-ad37dc92aca1,,a80de6c1-9347-4555-b53b-aa8141499f52,CSB2,csb2,5,Building,bu,,
+CSB Ampikazo,active,create,a15bd87c-1488-47e4-94b5-a8ebea972c35,,449f3116-932e-47b8-99f3-d5dab0a81f7f,CSB1,csb1,5,Building,bu,,
+CSB Ampisikinana,active,create,a8153b1b-a0c0-4b2f-b848-c8fd550a263f,,05119fdb-d7cb-4e84-9b22-cb2461bf996e,CSB1,csb1,5,Building,bu,49.804,-14.865
+CSB Ampitambe,active,create,72a433b0-ece6-44e9-8a06-743101dcfa05,,a90ddcd0-a29d-41d5-9f4d-b85b0785fe7c,CSB1,csb1,5,Building,bu,,
+CSB Ampitanaky,active,create,d6344e2d-1a7f-4657-88f3-3db7c50d8cfc,,b717b9f1-85ef-4567-863f-5a5967804a0d,CSB2,csb2,5,Building,bu,,
+CSB Ampitatafika,active,create,2101ca40-08fc-4799-a09f-c94783dbe33b,,dcd7d275-f819-4887-a490-77e2cc45a377,CSB2,csb2,5,Building,bu,47.357,-15.597
+CSB Ampitatsimo,active,create,fc86c6a1-f9f1-4052-9439-09d782697975,,4ba90613-46f0-479e-9b15-fbdc5a8dba4e,CSB2,csb2,5,Building,bu,48.378,-17.807
+CSB Ampitetika,active,create,c5b7e415-d692-4fee-bd6c-1b839d2876a6,,e0759752-3670-4025-92ab-d2e99a606589,CSB2,csb2,5,Building,bu,,
+CSB Ampombilava,active,create,068bc103-eac5-4924-849c-a6c3fa458826,,22176193-faef-4904-b36a-76b11a8e5161,CSB1,csb1,5,Building,bu,,
+CSB Ampombilava,active,create,39b70670-55f7-480a-abda-9aed2f9b2f30,,90cbb1e4-1f69-491b-b038-c09cd070c5bf,CSB1,csb1,5,Building,bu,48.483,-15.36
+CSB Ampombilava,active,create,a9998a06-a892-412c-9baf-e5482ac9ed9c,,0f95ce60-c201-42f7-8d77-f7f75b294c1e,CSB2,csb2,5,Building,bu,47.312,-17.678
+CSB Ampondra,active,create,e881e1f3-9489-482f-9fb8-51a537a6144a,,4c3739aa-847c-42e1-8720-c8b3052016ac,CSB2,csb2,5,Building,bu,49.974,-14.999
+CSB Ampondralava,active,create,0b669a27-8c20-4951-b0b3-7a3a401e57cd,,85de4cb1-78f0-4aa8-bbde-3a1299b66b2c,CSB2,csb2,5,Building,bu,48.89,-18.77
+CSB Amsa Ambohibary,active,create,181a450f-8769-4a0a-acd9-00cda6a72b49,,a90ddcd0-a29d-41d5-9f4d-b85b0785fe7c,CSB2,csb2,5,Building,bu,48.243,-18.851
+CSB Amsan Antalaha,active,create,f9ca2db9-7e04-45f2-94fe-46e38e188bc3,,864b348d-93df-4562-8fec-f2df4f144cfe,CSB1,csb1,5,Building,bu,,
+CSB Anaborano Ifasy,active,create,37442597-59a8-4703-9a4a-115f910fec28,,3c8c19e8-9176-4373-88fc-f212e6b70aa9,CSB2,csb2,5,Building,bu,48.822,-13.528
+CSB Anaborengy,active,create,400aaa3d-7bb4-4618-8e7c-bbb725aaa8d8,,3830f987-da5e-46cd-a5ef-df977bf47599,CSB1,csb1,5,Building,bu,,
+CSB Anahidrano,active,create,5c88bf89-f01d-4fe0-90c5-f460b4ebbc5c,,4a76c548-7776-44ec-aa2a-6aba5c5de1e4,CSB1,csb1,5,Building,bu,,
+CSB Anahidrano Ii,active,create,e3903c32-b4fc-4ba2-b468-06c4e752dcb3,,d4782d1a-a96a-425b-9251-5d087b12eb7e,CSB1,csb1,5,Building,bu,,
+CSB Analaiva,active,create,54707eb0-5eb7-4037-a514-d76c6dcc2518,,da4965db-9a2d-4b78-8c05-99ac167b3035,CSB2,csb2,5,Building,bu,44.5,-19.807
+CSB Analakely,active,create,11acfef9-4616-4285-8327-f537f6ab0063,,208ea9c4-b06c-450b-8340-bfb4ff8e283a,CSB2,csb2,5,Building,bu,47.477,-20.127
+CSB Analalatsaka,active,create,14a76f66-edc0-4014-8dfa-19ab2e9f79af,,0a0dc311-3d9b-4a92-af8a-f913a654fc79,CSB2,csb2,5,Building,bu,48.998,-15.388
+CSB Analaliry,active,create,f2194d0b-d21b-4d69-afaf-411479e00439,,2b6435a0-4746-4b57-8616-0db221cb2f6f,CSB2,csb2,5,Building,bu,46.229,-21.389
+CSB Analamahitsy,active,create,93471531-0084-4f75-a2f7-297b3209f4d0,,fd2f9598-c615-4599-b203-c706e44971a1,CSB2,csb2,5,Building,bu,47.546,-18.875
+CSB Analamaho,active,create,8ea512e1-d990-4ad7-90c4-b06f372f1197,,d4a44bce-48ff-401c-b2df-d9eb7606751f,CSB2,csb2,5,Building,bu,49.945,-14.937
+CSB Analamitsivalana,active,create,77b21781-39bf-4045-9501-6411e2a58fcd,,07d02dc2-7dc3-48f9-ad34-9d6008e4433d,CSB2,csb2,5,Building,bu,44.717,-17.201
+CSB Analanana,active,create,93aa1e82-c9e8-4526-b6c2-552be7b093aa,,d9ace11e-d919-4b5b-b901-e14d47cd2fa8,CSB1,csb1,5,Building,bu,49.832,-14.315
+CSB Analandravy,active,create,16fdd8ce-b0e0-405e-b42b-185c4ead2ded,,eadd4c71-185d-4ddc-86dd-36bdb1be6edc,CSB2,csb2,5,Building,bu,,
+CSB Analaroa,active,create,ed549455-8fb5-41e2-a9f8-7b9c7cac2319,,2b46ffdd-1baa-41dd-9921-2e4675e2850a,CSB2,csb2,5,Building,bu,47.709,-19.259
+CSB Analasoa,active,create,35f6f555-392c-4650-a6c2-3630dbb8c0d1,,76f7bdae-a7c8-46ff-8af5-682ae67c6776,CSB2,csb2,5,Building,bu,,
+CSB Analavinidy,active,create,e3a7e3ae-b711-470b-9788-2fae9b953b91,,0d53f175-2afa-48d1-83de-011d9fb99eab,CSB2,csb2,5,Building,bu,47.769,-18.312
+CSB Analavoka,active,create,39b40b00-9489-4706-899b-73669d5736fe,,6bda314b-ee23-496b-95c7-e5647a3080c5,CSB2,csb2,5,Building,bu,,
+CSB Analavoka,active,create,7d6ef97e-e429-40e3-a7e4-5b7fe18a82d4,,2b6435a0-4746-4b57-8616-0db221cb2f6f,CSB1,csb1,5,Building,bu,46.488,-21.389
+CSB Analila,active,create,6e9b3c46-19bc-446f-aab5-9beafacc0c3e,,c6fd5ace-94aa-4b1d-a80d-75f9a2939f20,CSB1,csb1,5,Building,bu,48.994,-14.144
+CSB Anamakia,active,create,1a84cd6e-5760-4ed3-b31e-f18dc59ca666,,be2535e0-22c0-40fb-8e16-be4827f0359a,CSB2,csb2,5,Building,bu,49.251,-13.874
+CSB Anandrobe,active,create,1b7b0f20-dcac-4085-8909-f3ca6f65d1b6,,741617e9-e092-4977-b047-97cd41010d04,CSB1,csb1,5,Building,bu,48.206,-17.849
+CSB Anarabe,active,create,0b441004-8a71-4d88-b6b1-ed7945ed0bd0,,e5a8d99e-2308-4fd8-a200-bbf1c06032d9,CSB2,csb2,5,Building,bu,46.666,-21.392
+CSB Andaingo,active,create,ffe0c9bc-bf4f-4258-89ee-1b3e66290977,,084d1a13-107f-4135-af2c-21fee4f1d571,CSB2,csb2,5,Building,bu,48.267,-18.198
+CSB Andakatany,active,create,8e4e437b-714a-4e97-98d1-dd9d490383a8,,a174e61a-916b-4e6b-868c-874c203b7266,CSB2,csb2,5,Building,bu,47.011,-20.845
+CSB Andalatery,active,create,105ab1fe-b779-4a79-bdbc-b9ec46a61e22,,38983fc8-5953-4fb3-9795-f920be14c7c0,CSB2,csb2,5,Building,bu,47.07,-21.934
+CSB Andamoty,active,create,647ab313-cb55-44b9-a44a-f0f800f2d18e,,ea97d759-6d25-46c0-a3a8-7e868ec2344f,CSB2,csb2,5,Building,bu,,
+CSB Andampihely,active,create,aa49dbbd-d4bb-463a-b645-a5c417769bd9,,ede5bbec-62d3-463c-bca7-d1ad05f1c104,CSB1,csb1,5,Building,bu,48.579,-15.424
+CSB Andampinarosy,active,create,fc36156a-07fb-4a9a-8bcf-9611ca16f70c,,d852a8b6-c89b-4d27-ace1-543a1a3d6691,CSB2,csb2,5,Building,bu,,
+CSB Andapimena,active,create,2b0a1a75-5ec7-4520-b85b-55c5bbd5e2eb,,b36204d8-6a96-4de4-a581-31ed3df1853a,CSB2,csb2,5,Building,bu,,
+CSB Andasinimaro,active,create,a49bc4aa-4f61-4ba0-9711-5f17220dd557,,2445986e-6760-4a02-903f-19641ce80174,CSB1,csb1,5,Building,bu,48.829,-14.684
+CSB Andatsakala,active,create,9206f1fb-cb5e-42c9-b7b3-075e7962f4fb,,0eb87bde-c3e8-47ca-b4cb-bafa4e81aa3b,CSB2,csb2,5,Building,bu,49.886,-14.566
+CSB Andemademaka,active,create,aba2574d-1121-4d8f-9bcf-b369c94f095b,,2a02fdfa-adfd-4e40-aa3b-56d58de235de,CSB1,csb1,5,Building,bu,48.611,-17.846
+CSB Andembe,active,create,0d68c0c5-74df-4251-bdd2-133422cfaf13,,cd1ecae6-301d-4964-96d9-c07c80710e5c,CSB1,csb1,5,Building,bu,,
+CSB Andilamena Du,active,create,9321029b-8381-4761-a790-3399a7240569,,5761b2f3-1199-4fca-880a-73af2319edec,CSB2,csb2,5,Building,bu,48.571,-17.014
+CSB Andilana Nord,active,create,5a3c381c-0c2e-430f-80de-f949b4b8ce0d,,b909a079-e9a6-4f5d-907a-843e72605e6c,CSB2,csb2,5,Building,bu,48.547,-17.358
+CSB Andilana Sud,active,create,abe79d49-0532-42c8-847d-ba471a6056b4,,13b2f0d1-e883-437c-b7a5-c5e68eca708a,CSB1,csb1,5,Building,bu,48.243,-17.571
+CSB Andimaka,active,create,e044e560-c36c-4f0e-b11d-1349b0a87e65,,89fedccd-9c58-4876-b20d-e48c2356bdad,CSB1,csb1,5,Building,bu,44.709,-17.66
+CSB Andina,active,create,48a91489-207a-463c-88b8-4e5ffe4e85a0,,9c886bdf-244d-4c19-9090-046d83e3ee2d,CSB2,csb2,5,Building,bu,47.156,-20.519
+CSB Andingadingana,active,create,1e869bfc-472e-46cd-8a88-bff9dadd3214,,460c2bec-03b1-4c85-a28e-cb38f4cbadfc,CSB2,csb2,5,Building,bu,48.461,-17.832
+CSB Andiolava,active,create,aa7c0581-9ba6-461f-a6da-2ee2c329a3a9,,6c32fb6c-d9b6-4632-bd0b-5abb888bb1da,CSB2,csb2,5,Building,bu,45.624,-21.34
+CSB Andohajangoa,active,create,51c070da-6983-4a13-b191-8e73b15b3034,,ba292c4c-11c7-4743-84ad-c7608e6c1380,CSB1,csb1,5,Building,bu,48.496,-15.35
+CSB Andohalo,active,create,9ac0d2be-02d1-4aab-be69-13c04cf431cc,,cfcdfdc5-3a52-4528-ba1f-753d8eed8aea,CSB2,csb2,5,Building,bu,47.532,-18.927
+CSB Andohanilakaka,active,create,cbb9591a-72c4-47f4-b82f-cbc4a36640b3,,0b2e018f-999c-4c02-abf6-5397ca69cc67,CSB2,csb2,5,Building,bu,45.224,-21.646
+CSB Andoharano,active,create,b0c9b89e-becf-40ec-ac0a-2d3dfee984dd,,60d50a91-092e-4151-8521-4490edfa970e,CSB2,csb2,5,Building,bu,47.373,-20.248
+CSB Andoharanofotsy,active,create,eb0c234d-34f9-4156-9663-f34ae0ffed6a,,4ddc28a5-ffd0-41b5-a4af-849ab9d7bca4,CSB2,csb2,5,Building,bu,47.533,-18.976
+CSB Andoharanomaintso,active,create,49fc4499-cc29-44c7-b33a-24dc1c5690be,,627d2d57-a002-428c-b845-66ecf0afae48,CSB2,csb2,5,Building,bu,46.949,-21.448
+CSB Andohariana,active,create,529fabac-4043-401c-a6c5-b9be5c2c505d,,979c3722-62e0-417d-9271-013388d03044,CSB2,csb2,5,Building,bu,46.951,-19.762
+CSB Andohariana,active,create,af19df18-8ea5-4d47-abfe-111d385a5246,,2045b32d-5841-44dd-b2ec-93255b809b9d,CSB2,csb2,5,Building,bu,47.576,-19.228
+CSB Andolofotsy,active,create,439c646c-ce0f-40ee-9caf-60758f25fd01,,3d4cba19-058a-41e5-b434-41fdf02c578f,CSB1,csb1,5,Building,bu,46.639,-19.03
+CSB Andonaka,active,create,e9d61428-82b9-4f4f-9e54-c89534b0dbcf,,50fe43fa-ac5b-45fe-8362-d61dfa502f31,CSB1,csb1,5,Building,bu,48.289,-19.788
+CSB Andrafainkona,active,create,1d6979a1-626e-4d3e-8608-51ffac745835,,a9eec9ae-bda0-4436-a003-d7ab5f2c80b2,CSB2,csb2,5,Building,bu,49.466,-14.84
+CSB Andrafialava,active,create,11fe9a47-247a-45fe-b189-4e90c421354e,,a926f4d0-5fe3-4e1f-a3ea-8527259aab05,CSB2,csb2,5,Building,bu,,
+CSB Andrafiatoka,active,create,983d599b-0613-4ea1-b6fd-2537f0aae8bd,,5defac73-3f2b-49c8-8b23-3220835b03c2,CSB2,csb2,5,Building,bu,,
+CSB Andrahalana,active,create,33442640-7fd3-4454-b571-ff08132bd954,,1c601632-baea-46ef-bf31-e7af518b28a0,CSB1,csb1,5,Building,bu,46.756,-20.6
+CSB Andrahanjo,active,create,4509826a-88cf-44cd-8559-3fb29f3d6d41,,403aac75-b0c8-4a66-9795-7e0f3f28f76e,CSB2,csb2,5,Building,bu,49.825,-14.533
+CSB Andrakodavaka,active,create,b23f90f4-ddcd-40e6-b90f-a80afd83ccb0,,87b702c4-f47f-4a85-9835-78e531f843d3,CSB2,csb2,5,Building,bu,,
+CSB Andramasina Du,active,create,b41902aa-4b52-4dd4-bbb0-439a5ef3faaa,,be4251e1-4d60-4a07-91c1-78a6b104f463,CSB2,csb2,5,Building,bu,47.589,-19.322
+CSB Andramy,active,create,e0ca9887-2398-47cd-9553-6747b201cb05,,7768a84e-b549-4ec8-97d0-21cdb8962050,CSB2,csb2,5,Building,bu,44.765,-19.304
+CSB Andrangaranga,active,create,9b0efdb5-822f-416c-8a4b-fa15340ddd4d,,0b6930c1-aa45-499c-916f-21eb2778bded,CSB1,csb1,5,Building,bu,48.007,-19.589
+CSB Andranoboka,active,create,bd683160-7d64-4707-8dbc-ce8fb6c0cb91,,8d3b5f20-903b-4175-9b05-18a57fe3d94c,CSB2,csb2,5,Building,bu,46.889,-16.273
+CSB Andranofanjava,active,create,9f0fa41b-d857-4152-92dc-e5d38df2b6ee,,4dc80a71-98dd-4869-8c52-432591f41d0e,CSB2,csb2,5,Building,bu,49.042,-13.231
+CSB Andranofasika,active,create,c0a0e840-8653-4aa8-9226-1f51cd0a905d,,4210fe26-7cf0-40ad-96c0-4b64e9c590b7,CSB1,csb1,5,Building,bu,46.847,-17.544
+CSB Andranofeno,active,create,75ef75e1-e15a-4275-826c-975369028fd9,,c1e904a0-1498-4c4b-8bae-ba3745e0eb60,CSB1,csb1,5,Building,bu,47.149,-18.336
+CSB Andranofito,active,create,29bdad8b-df31-4550-a76b-94ef4dd8eaea,,dcd7d275-f819-4887-a490-77e2cc45a377,CSB1,csb1,5,Building,bu,47.456,-15.648
+CSB Andranokobaka,active,create,c932dbc7-54c8-4403-9f23-bd9da8054de6,,439548d0-f10c-4ac6-961e-209a0bb459c0,CSB1,csb1,5,Building,bu,48.259,-18.076
+CSB Andranokotona,active,create,d802254e-56c0-428e-9593-a2d86676d131,,f4e30a50-2aff-4979-bb9f-6d45f29d5312,CSB2,csb2,5,Building,bu,47.895,-18.118
+CSB Andranolava,active,create,ac0cc5b0-00a1-42ff-a10d-3ee484946bf0,,6fc75b18-f2a0-4a47-a3bb-918386896bce,CSB2,csb2,5,Building,bu,48.01187,-15.105
+CSB Andranolava,active,create,cd850bb9-8118-4b3e-9df3-e6c731fadea6,,7d21d7e0-3b42-4a18-9a49-157e27ae54ed,CSB2,csb2,5,Building,bu,47.206,-21.456
+CSB Andranolava,active,create,eacbfdc8-a2f0-42c1-85d6-67932173592d,,0f95ce60-c201-42f7-8d77-f7f75b294c1e,CSB2,csb2,5,Building,bu,47.322,-17.679
+CSB Andranomadio,active,create,2497e907-2772-434a-a98b-52e991a5743e,,0f9a9837-8884-4315-91c9-b536d55e34d4,CSB1,csb1,5,Building,bu,50.048,-14.37
+CSB Andranomadio,active,create,34c52ccc-e111-447b-8dcd-1cf130616abf,,d743a228-f5a8-42cd-a34a-f260b573450c,CSB2,csb2,5,Building,bu,47.63757,-15.1
+CSB Andranomalaza,active,create,8439a3d4-9ad9-4c7f-8945-d62d5e8160a9,,59acf7a2-8e7f-4191-b65d-efc108e9ca52,CSB1,csb1,5,Building,bu,47.738,-19.161
+CSB Andranomamy,active,create,36b57b76-ff69-4b88-8a7e-5c982f744656,,9ea290a2-96e7-4c4a-a77d-6049bda4be16,CSB2,csb2,5,Building,bu,47.124,-17.312
+CSB Andranomanelatra,active,create,a0c31cd1-66a6-48e9-8938-7bb82a08d900,,28d75e6b-3008-4267-8451-1cfdd3b6d11e,CSB2,csb2,5,Building,bu,47.112,-19.801
+CSB Andranomanjaka,active,create,fd918656-2994-4180-8452-74135d5d7ed0,,9f215fce-848f-43a0-8ede-e0d1b39dccef,CSB1,csb1,5,Building,bu,46.812,-19.585
+CSB Andranomasina,active,create,50df46df-a902-4668-bc4d-5bab9938cdcc,,ea2f8b8f-4951-4fb8-8288-83325fcc308a,CSB2,csb2,5,Building,bu,47.428,-18.838
+CSB Andranombao,active,create,7de2caca-8282-418b-994f-28fe02398628,,cd143049-7320-45c5-9b99-12d18cbbce13,CSB2,csb2,5,Building,bu,46.767,-21.319
+CSB Andranome I,active,create,c4fbe776-f8bd-47ae-b300-700d92f7bf4d,,03ab4c53-0115-4a5f-be5d-963108a4f38d,CSB1,csb1,5,Building,bu,,
+CSB Andranomeva,active,create,0e3ce6c8-9da1-4156-aeb7-091970644529,,53deeaa1-19ff-4c46-b47d-a23cc2ea5673,CSB1,csb1,5,Building,bu,,
+CSB Andranomiady,active,create,9d1156a2-dc1b-43ea-bc8e-1f6300bb7816,,f359d7ef-833e-4d70-838d-112a770bc5c2,CSB2,csb2,5,Building,bu,46.957,-19.945
+CSB Andranomiditra,active,create,b3ebd00d-3539-42b4-b165-8e9ceb81b20d,,7d21d7e0-3b42-4a18-9a49-157e27ae54ed,CSB2,csb2,5,Building,bu,,
+CSB Andranomiely,active,create,f2cafd01-ba0d-422b-b0d2-447007242fb7,,f3a0369e-385f-4eec-a290-5f8add147e60,CSB2,csb2,5,Building,bu,47.154,-22.503
+CSB Andranomiely Atsimo,active,create,0c99495f-d26d-4eb0-a5de-19f840e780ca,,f4167f23-decb-4494-9c6f-975f1a3a9876,CSB1,csb1,5,Building,bu,47.235,-18.029
+CSB Andranonahoatra,active,create,10a6218e-506d-430f-b8fe-9dd112af77e9,,f4167f23-decb-4494-9c6f-975f1a3a9876,CSB2,csb2,5,Building,bu,47.789,-18.219
+CSB Andranondambo,active,create,44fa2095-9f51-4c1b-92af-6dcbec344c98,,124696f9-87ed-4178-ba7c-d100268dddba,CSB2,csb2,5,Building,bu,46.58835,-24.42467
+CSB Andranovao,active,create,366d917f-d45a-4068-b13b-a72b9b9f3d17,,580cac12-b65e-4b58-89d7-6d3767abcf04,CSB2,csb2,5,Building,bu,,
+CSB Andranovelona,active,create,e57d14fc-00cf-491f-9965-e3c3e797d9a5,,3c279c34-2701-4fa9-adc0-a7c0477559ce,CSB1,csb1,5,Building,bu,47.627,-15.687
+CSB Andranovo,active,create,65d3efc1-af98-405d-bc52-b82d3784a19a,,f94ce37b-e582-4825-9a6d-b83bbdf9dfc3,CSB2,csb2,5,Building,bu,48.48,-14.461
+CSB Andranovondronina,active,create,aaf7a03c-88b2-40e4-8565-a20351bd5c04,,4dc80a71-98dd-4869-8c52-432591f41d0e,CSB1,csb1,5,Building,bu,49.312,-13.254
+CSB Andraramila,active,create,38a4dcec-0a23-4eab-849c-e1f616720c8f,,7f224a2f-4e61-46d8-a440-a0365cb45b1a,CSB2,csb2,5,Building,bu,47.293,-21.445
+CSB Andrasaha,active,create,e416858a-4890-4922-8ec5-319eb3f71b9f,,fcf1c160-ead2-41d4-bfbc-28134a4ee0dd,CSB2,csb2,5,Building,bu,,
+CSB Andratamarina,active,create,c172822a-52a0-46b3-9022-100fa1d77b52,,fcf1c160-ead2-41d4-bfbc-28134a4ee0dd,CSB2,csb2,5,Building,bu,49.901,-14.594
+CSB Andravola,active,create,9e488efe-e203-47f7-836d-0416a7e81e4f,,3fa06dbe-68c5-48e5-84e1-ea43c452f8f5,CSB2,csb2,5,Building,bu,47.374,-15.66
+CSB Andravory,active,create,95b57b0f-9f20-4436-8ac7-83e44d0478c2,,2db3deb6-1388-4306-9667-a70ab6c03555,CSB2,csb2,5,Building,bu,49.603,-14.771
+CSB Andreamboasary,active,create,b3c1fb27-daf0-44f5-978c-4cc8d4066354,,b55f35b7-71d6-4552-9829-07254b824e9c,CSB1,csb1,5,Building,bu,47.076,-21.912
+CSB Andreba,active,create,af2398d1-a5eb-4eb2-acf0-ccb33279c33b,,19640c6e-8cdb-4150-a6c2-3bfd8b51ff41,CSB2,csb2,5,Building,bu,,
+CSB Andrebakely Nord,active,create,7aaa20d1-8178-446b-b15c-89c15fd1c0d9,,fc4e88c7-e54c-4d93-8637-ff733debb22a,CSB2,csb2,5,Building,bu,48.63,-17.389
+CSB Andrebakely Sud,active,create,81e7a70d-717f-417d-a373-06473a9dec1a,,ea6d5178-61fb-49be-818e-743f47341557,CSB2,csb2,5,Building,bu,48.189,-17.678
+CSB Andremalama,active,create,7db0c200-d4b3-47c4-9da3-a2e9d828290e,,627d2d57-a002-428c-b845-66ecf0afae48,CSB2,csb2,5,Building,bu,,
+CSB Andrembesoa,active,create,deef614d-72b4-4967-8857-146ebfad213f,,6de408e9-f310-4001-9972-3a1eadd3665d,CSB2,csb2,5,Building,bu,46.55,-19.927
+CSB Andrembona,active,create,a2471afb-6a38-45b7-983a-a2ea38aa1530,,0f9a9837-8884-4315-91c9-b536d55e34d4,CSB2,csb2,5,Building,bu,49.791,-14.374
+CSB Andrevorevo,active,create,3e36d92f-4d95-472f-bee6-9f1c43bfd33f,,51cf85c4-6cea-4184-a843-8b6f95b132fb,CSB2,csb2,5,Building,bu,,
+CSB Andriambilany,active,create,7a077577-ad69-4199-ac6f-90d406fbdaec,,3fa06dbe-68c5-48e5-84e1-ea43c452f8f5,CSB1,csb1,5,Building,bu,47.466,-15.576
+CSB Andriampotsy,active,create,3861a11e-6a34-4590-b906-d18a1a33b4d4,,6563266a-7170-4590-bd92-59c17d102eb2,CSB2,csb2,5,Building,bu,46.462,-16.099
+CSB Andriankely,active,create,4733bc5d-3a9f-4ded-b2f0-6d98d90c3809,,c00413f1-9464-4775-953c-5d5e1c08bf9d,CSB2,csb2,5,Building,bu,47.368,-20.204
+CSB Andriatsivalana,active,create,f37f8af6-580e-49f9-b774-7ca4f004315e,,45af1096-5c0d-4777-a400-fdc882fb9ba5,CSB2,csb2,5,Building,bu,47.543,-16.09327
+CSB Andribavontsina,active,create,517a5f8a-b8c8-4c6b-8b67-1e976d9b65e5,,f8f32c8c-ce2b-4564-af70-20d43b917829,CSB2,csb2,5,Building,bu,,
+CSB Androfiamena,active,create,d09a9dee-0887-4b5f-b618-1296ce2f57ce,,da8d18ce-659f-47de-9468-a719ac5777c2,CSB2,csb2,5,Building,bu,49.633,-14.114
+CSB Andromba,active,create,6f0895a7-032f-4f85-9ecb-315e4bcf21a5,,e814ccbd-6d1d-40f4-b3e3-d927b6f22d1e,CSB2,csb2,5,Building,bu,48.643,-17.403
+CSB Androvatsimo,active,create,51ff3303-abdd-48db-8d5a-8164ddb6230c,,9807b593-6bee-4e2f-a48a-f6b0422a690f,CSB1,csb1,5,Building,bu,47.147,-18.386
+CSB Androy,active,create,4587c197-52e0-4628-a1ed-1523a0a55c12,,627d2d57-a002-428c-b845-66ecf0afae48,CSB1,csb1,5,Building,bu,47.272,-21.492
+CSB Andry Ambatomainty,active,create,35d194e2-0e41-4df9-8005-03f088736842,,cfcdfdc5-3a52-4528-ba1f-753d8eed8aea,CSB2,csb2,5,Building,bu,47.537,-18.942
+CSB Andry Fianarantsoa,active,create,0691ff1c-88ec-42e6-9d42-c9c564793fb4,,a01b1c66-1b33-4145-8ab9-27956c08fa63,CSB1,csb1,5,Building,bu,47.091,-21.273
+CSB Anepoka,active,create,033898c3-fffb-42b3-957c-4aed876e91e7,,b1ff5d24-2de2-4f6c-8f0c-347d2b857ec3,CSB2,csb2,5,Building,bu,47.612,-19.391
+CSB Anglican Ramainandro,active,create,20e1bced-0824-4d1a-a0f0-b14dbd791a56,,28dac602-8e8c-4a98-a344-2fa8f20a6d5b,CSB2,csb2,5,Building,bu,,
+CSB Anglikana Sambaina,active,create,af854c77-e190-4ac7-8862-30c258dd735d,,59ce70cf-2b0d-483c-b82e-e60fc8213e88,CSB1,csb1,5,Building,bu,47.163,-18.499
+CSB Angoaka Atsimo,active,create,0f8600e1-2d18-471e-86d5-7047d7059863,,ce068d74-4f09-44e9-853e-0b4115f6df47,CSB2,csb2,5,Building,bu,,
+CSB Angodongodona,active,create,99b5a750-1379-4c36-85cc-d0dd815857a7,,ad5509a8-3e19-4840-8f10-e5761e6a8efa,CSB2,csb2,5,Building,bu,47.835,-21.707
+CSB Angodongodona,active,create,b7c2dbf3-9442-4baf-863b-ea7f0a6b4117,,dae7d13c-0fe6-401d-ae6c-aa46e0a5ec53,CSB1,csb1,5,Building,bu,47.823,-19.285
+CSB Anivonisaina,active,create,be212c9d-db7c-4c23-8894-c28e6325d2bf,,0597fb20-d56c-4fe1-ae0f-3131129fdd50,CSB2,csb2,5,Building,bu,47.412,-15.759
+CSB Anjalazala,active,create,b3b6fd9d-f6cc-48a0-b06d-1c5ff67c45f6,,d852a8b6-c89b-4d27-ace1-543a1a3d6691,CSB1,csb1,5,Building,bu,,
+CSB Anjamanga,active,create,de08668f-d042-4740-9977-710b1ca43e6e,,bfd64e67-3dbd-47e4-805b-e15c9d3e4319,CSB1,csb1,5,Building,bu,47.608,-15.608
+CSB Anjampaly,active,create,784dc07e-cd85-4a7d-bc54-abfa6d42e250,,eff7b5fc-4224-4400-9165-0f3f7733a4a1,CSB1,csb1,5,Building,bu,45.3367541,-23.8438715
+CSB Anjanaborona,active,create,c594587e-1b7a-43d8-bc32-380c8f81559d,,c6fd5ace-94aa-4b1d-a80d-75f9a2939f20,CSB2,csb2,5,Building,bu,48.624,-13.979
+CSB Anjanadoria,active,create,a62cd754-e42e-4ffc-8afe-a1eb19035b33,,7496e6e7-8454-49e8-ac0c-6dabbe119a5e,CSB1,csb1,5,Building,bu,47.385,-18.686
+CSB Anjangoveratra,active,create,1499affb-83f9-4f53-90a1-575ca4cb8a42,,0f9a9837-8884-4315-91c9-b536d55e34d4,CSB1,csb1,5,Building,bu,50.061,-14.35
+CSB Anjepy,active,create,71a4e838-448b-4580-8544-23fba3c9aaf4,,0ac06e77-94c8-48e7-8833-4ffb2e0ed30b,CSB2,csb2,5,Building,bu,47.733,-18.697
+CSB Anjeva Gare,active,create,7c48feaa-99e2-48fb-bbda-e0620f5348bd,,a9cece5d-2bba-4db7-bc98-e6b4afba6dfa,CSB2,csb2,5,Building,bu,47.661,-18.958
+CSB Anjezika,active,create,bd4be4ae-806e-4e8e-9603-3051f4c5c686,,9d01b32d-c239-4146-b063-21ef4113e92f,CSB2,csb2,5,Building,bu,,
+CSB Anjiabe,active,create,12feb5c1-d567-482b-966a-932e83ab0e5f,,0a497653-d63e-42ac-a134-17c0bd715549,CSB2,csb2,5,Building,bu,,
+CSB Anjiabe,active,create,f1dfc68f-d7f7-43e0-b1ff-548080366c1f,,e83fc4b4-1d32-42ef-84c4-f6a57c50e558,CSB2,csb2,5,Building,bu,48.867,-13.764
+CSB Anjiabe,active,create,fe6737c1-7e97-4adf-974f-ca768f716f13,,a3f2d7a8-78c3-42fe-8c9a-035026c379c0,CSB2,csb2,5,Building,bu,48.351,-15.482
+CSB Anjiabe Bobaomby,active,create,99fcf35e-fc78-47d0-a445-20b619f6905b,,9b7e1ddc-1122-455f-9c56-9087783193d6,CSB2,csb2,5,Building,bu,49.319,-13.196
+CSB Anjiabory,active,create,920b2cbe-de65-455a-9c2e-0937bd9a2e54,,a5d466a5-0ff3-4dcb-af72-d2a8c9cb8dee,CSB1,csb1,5,Building,bu,,
+CSB Anjiajia,active,create,150d19c3-789a-4f49-8950-d9de688bb093,,9e92a872-64ed-43b6-b6c5-884ef3ade599,CSB1,csb1,5,Building,bu,46.95,-17.533
+CSB Anjialava,active,create,f89586a1-b275-48c6-a5c8-03986b694e63,,e739ff29-418c-4579-bc8e-53d0d1df1349,CSB2,csb2,5,Building,bu,,
+CSB Anjiamangirana,active,create,88464884-be2e-4e7b-a6cf-8835e1dbaf8b,,6b05d3a3-c1d0-4549-a177-19216060a86f,CSB1,csb1,5,Building,bu,,
+CSB Anjinjaomby,active,create,26663322-8aa0-4e90-b11d-1ca58fd78494,,6a75f7a5-87be-41c4-a555-6ca586dd6383,CSB2,csb2,5,Building,bu,49.97,-14.62
+CSB Anjohy,active,create,7e2a96c6-7358-4058-8b6e-e499bb9d1a82,,d4edae59-3eef-4f67-88a0-c41b814e275e,CSB2,csb2,5,Building,bu,47.8,-18.748
+CSB Anjoma Betoho,active,create,248cc225-8e74-44b4-a643-1facd499adaf,,b71d2a89-c020-43e0-b004-d8a3a942b755,CSB1,csb1,5,Building,bu,47.693,-19.081
+CSB Anjoma Csmi,active,create,ca293765-5b3a-42bb-844f-b636a31e5d9b,,b55f35b7-71d6-4552-9829-07254b824e9c,CSB1,csb1,5,Building,bu,47.089,-22.005
+CSB Anjoma Itsara,active,create,f76b1cda-1237-4fcb-89c8-952ddb5364ed,,627d2d57-a002-428c-b845-66ecf0afae48,CSB2,csb2,5,Building,bu,46.917,-21.448
+CSB Anjomakely,active,create,8e9018be-cb47-4a46-8dcf-fc7107711f8d,,7496e6e7-8454-49e8-ac0c-6dabbe119a5e,CSB2,csb2,5,Building,bu,47.474879,-18.729
+CSB Anjomakely,active,create,b6633584-12d3-409b-b8da-f7004e304eb2,,bd2622d6-9d41-43da-a106-30ff519b2130,CSB2,csb2,5,Building,bu,,
+CSB Anjomakely,active,create,bcf5e7ba-dca5-413f-8a0c-d0b07ff97a32,,2692f50d-eefd-4c68-bd39-2be697c8a745,CSB2,csb2,5,Building,bu,47.544,-19.097
+CSB Anjoman'Akona,active,create,ce287c98-7304-4c81-b6e1-f947acde2b33,,aece0469-738e-4e61-b86d-55a3c8be39f5,CSB2,csb2,5,Building,bu,47.105,-20.777
+CSB Anjoma Nandihizana,active,create,6a29f269-5f07-4437-9ebd-a0378fa23ee7,,aece0469-738e-4e61-b86d-55a3c8be39f5,CSB2,csb2,5,Building,bu,47.119,-20.782
+CSB Anjoma Ramaritina,active,create,d2ee00f4-4e4a-460c-aeec-bbae3fd8e707,,67b1db19-3d0d-44fd-9912-73bf2e60e446,CSB1,csb1,5,Building,bu,45.945,-20.072
+CSB Anjozoro,active,create,1a3a1a02-97dc-4845-924b-0dce26961676,,e12627de-c842-46f7-be97-660f5857220b,CSB2,csb2,5,Building,bu,47.77,-18.703
+CSB Anjozorobe,active,create,b9914240-4a37-44e2-b180-15ed7853af65,,010caa91-cc2d-4f2a-a6a1-35e0b6ab5004,CSB2,csb2,5,Building,bu,47.88,-18.326
+CSB Anjozoromadosy,active,create,fb4a78e8-5d18-4220-8dce-1a1397164510,,bd77a72c-4816-4c6b-bda1-4f48d2026a2c,CSB2,csb2,5,Building,bu,,
+CSB Ankabahaba,active,create,69c4c760-69a7-4453-966a-f2a18283bb74,,7919cbbb-8017-4cd3-809f-be2ab34aafb3,CSB2,csb2,5,Building,bu,,
+CSB Ankaboka,active,create,7c043005-625d-4cf9-9b66-3a284426027c,,a80de6c1-9347-4555-b53b-aa8141499f52,CSB2,csb2,5,Building,bu,,
+CSB Ankadikely Ilafy,active,create,60ab8739-a3d7-49f8-bc28-94586e30b57a,,139457de-b1db-4ecf-b0b4-d66e50e1665c,CSB2,csb2,5,Building,bu,47.562,-18.775
+CSB Ankadilalambe,active,create,35e235e4-b92d-4f90-9328-f7b58506ff2f,,3558a5d7-32bd-4578-837f-bbbd3fdc398b,CSB2,csb2,5,Building,bu,46.374,-21.59
+CSB Ankadilalana,active,create,9f46507a-c85b-4d37-88b3-c08322fc11d9,,62255a76-f4aa-4a48-8964-8483f68cad0a,CSB2,csb2,5,Building,bu,,
+CSB Ankadimanga,active,create,cb474e34-8da1-4ef0-b2fd-c5cb8b6f250b,,2f8d8320-0258-4a74-b6da-dfd391cf7085,CSB2,csb2,5,Building,bu,,
+CSB Ankadimanga,active,create,d41fb7af-c51e-443d-81cf-784273569811,,d5d56893-8bc1-4427-b47e-990cbeef601c,CSB2,csb2,5,Building,bu,47.777,-19.088
+CSB Ankadinandriana,active,create,ce411299-e438-4898-8cb1-999982d1c2e9,,fbc69357-73d6-4330-8834-edb5164328a3,CSB2,csb2,5,Building,bu,47.663,-18.896
+CSB Ankadinondry,active,create,7795c839-61f3-4426-8eb5-f679559dd37a,,ec0cf731-4ef0-4b1f-9562-feeed05eec39,CSB1,csb1,5,Building,bu,46.463,-16.259
+CSB Ankadivoribe,active,create,92bf2ecb-0635-40e8-b830-ad63adc6cf29,,19803d46-08ff-44a4-8607-e758882d9892,CSB2,csb2,5,Building,bu,47.502,-19.108
+CSB Ankafobalo,active,create,6261ce6c-cbdb-483d-89e1-a62639f86472,,7f07355e-f5b1-4a5d-9c25-dc5ec8dd5d6a,CSB1,csb1,5,Building,bu,47.449,-20.442
+CSB Ankafotra,active,create,693538d1-f48c-4169-ab74-18a6fcc003b7,,ebcd3ec1-f64c-496e-8ed6-51170d49f95e,CSB2,csb2,5,Building,bu,47.448,-20.265
+CSB Ankalalobe,active,create,9eb13ee9-8867-4eb7-8197-b961f0313206,,fcb0b611-50b2-4955-8786-65caa42ce725,CSB2,csb2,5,Building,bu,44.971,-17.744
+CSB Ankaramainty,active,create,46649fbe-7838-45c7-bbd6-2a980e10d858,,b237c783-6863-4414-9239-5da1d01da77d,CSB2,csb2,5,Building,bu,47.182,-20.528
+CSB Ankaramalaza,active,create,c3162850-c411-4f27-a8af-05102608e71f,,e7acd6b0-3935-4798-9a8e-ce5aa2cdfc1a,CSB2,csb2,5,Building,bu,,
+CSB Ankaramibe,active,create,af77af65-cc58-4cdb-8da1-8cb85b3ca9e2,,a5d466a5-0ff3-4dcb-af72-d2a8c9cb8dee,CSB2,csb2,5,Building,bu,48.179,-14.141
+CSB Ankaramy,active,create,8e063cdc-80bb-4387-a24d-532c213497d8,,c4a6b01f-9760-49d2-8496-c66eca2e28c5,CSB2,csb2,5,Building,bu,49.423,-13.727
+CSB Ankarany,active,create,3aceaa5f-80b3-4a0f-bf8d-a19adeab56ae,,65e90f29-8f54-4797-a9fb-61ab268dcb41,CSB2,csb2,5,Building,bu,49.191,-15.64
+CSB Ankaraobato,active,create,0888bd7c-082f-4dea-8b9f-c209844e312a,,81ed2ca3-25a3-43ce-b4e2-c5c38a6ebc15,CSB2,csb2,5,Building,bu,,
+CSB Ankaraobato,active,create,44ea04a7-d7cc-4a4a-8bd2-4d2851e9ebdd,,4075a7a1-51b7-4625-bc63-60fd4c75153b,CSB2,csb2,5,Building,bu,,
+CSB Ankaraobato,active,create,6db0d01c-542d-4271-977d-4457873ff144,,a80de6c1-9347-4555-b53b-aa8141499f52,CSB2,csb2,5,Building,bu,46.188,-15.714
+CSB Ankarinoro,active,create,ff2520d7-70a4-47ed-bdf5-f4564f587254,,e2cb4d42-5fe7-4733-95a9-90877a1f3f37,CSB1,csb1,5,Building,bu,47.483,-20.514
+CSB Ankaromalaza,active,create,65c46e45-e715-415a-a1b3-9c260b641022,,7d21d7e0-3b42-4a18-9a49-157e27ae54ed,CSB2,csb2,5,Building,bu,,
+CSB Ankarongana,active,create,c77d39aa-f271-4cb5-b12a-e73812cdda19,,40d4ed36-6c93-4af6-8cf0-0967ccad4f91,CSB1,csb1,5,Building,bu,49.394,-13.194
+CSB Ankarongana,active,create,fdfd7b86-7092-4303-b17d-3ed7e9029a95,,d8f5f464-921b-4ae6-b3b7-e9c2a7ee6bb4,CSB1,csb1,5,Building,bu,,
+CSB Ankasakasa Tsibiray,active,create,a0b890d5-2f82-4366-8cf2-20ea70a195f5,,0f393427-67c0-4563-9b9c-c48be8318828,CSB2,csb2,5,Building,bu,44.868,-18.99
+CSB Ankasy,active,create,017c55ea-f843-45f6-aabb-cbf190b2ad7c,,cd5c8901-58e0-41a0-b580-5b23280b0d56,CSB2,csb2,5,Building,bu,46.833,-21.631
+CSB Ankatafa,active,create,c5529d39-3207-4dce-af0b-5b662f94e4ad,,76c5f029-5b8b-4430-b382-c8ce0f40b526,CSB2,csb2,5,Building,bu,48.369,-18.701
+CSB Ankavandra,active,create,3b754a6a-a81d-4fed-bea1-ee06110951d4,,2747ec7f-ed99-4eea-965d-488f93a4aafd,CSB1,csb1,5,Building,bu,45.305,-18.063
+CSB Ankazoabo,active,create,f832e36d-c6fe-40b3-9204-e7e49ec7588f,,c100241f-a892-4bc7-97bf-7ed02ed0d40e,CSB1,csb1,5,Building,bu,,
+CSB Ankazoambo,active,create,7d69a464-6ce3-45a0-b8a7-0103e6fab24e,,1620499e-7d7c-41ee-811c-34c2e54129b9,CSB1,csb1,5,Building,bu,47.236,-20.545
+CSB Ankazobe,active,create,9588ee94-cc13-42d9-81c8-e5e6fd587ffb,,8f6afc3c-3201-47a6-acab-a8ebf900ef44,CSB2,csb2,5,Building,bu,47.863,-14.611
+CSB Ankazobe,active,create,acfbbf15-252f-4d4f-aa90-05d0f188548f,,6ff9026f-9eaf-4620-b7ef-f9a1daf996b8,CSB2,csb2,5,Building,bu,47.116,-18.433
+CSB Ankazomasina,active,create,b98480e3-ec38-4f6a-9414-22af7c946134,,67cfc28e-3c25-4afc-958e-9d378b139472,CSB2,csb2,5,Building,bu,47.509,-18.722
+CSB Ankazomena,active,create,103ddb58-f359-4820-a5fa-459ba539913f,,5e8d93a2-47f2-4310-8cd3-069a34599b4e,CSB2,csb2,5,Building,bu,47.9,-14.844
+CSB Ankazomiriotra,active,create,806d1c12-bbff-4f12-9d9a-9426417384dd,,a3a086ce-c852-43d8-87a1-6e1acb57703b,CSB1,csb1,5,Building,bu,,
+CSB Ankazondandy,active,create,c68324d4-c97d-47f3-bf0b-d68a2b81e5ae,,18e2a355-a7c4-4766-9178-77b01500f3d8,CSB1,csb1,5,Building,bu,47.796,-19.015
+CSB Ankazongoaika,active,create,058b2678-e023-4a08-a3b7-9e846c31f2ba,,bdecb1b9-3fe6-4d33-8a0d-158cb126f355,CSB2,csb2,5,Building,bu,47.733,-18.125
+CSB Ankazotokana,active,create,56699fe4-fc23-4ef2-a485-9bf51164d072,,bd77a72c-4816-4c6b-bda1-4f48d2026a2c,CSB1,csb1,5,Building,bu,,
+CSB Ankelilaly,active,create,17116828-8ba3-4148-8b86-ea1a17791d34,,a1fba7de-14bd-44e6-aaac-9efb1e00949e,CSB2,csb2,5,Building,bu,,
+CSB Ankeniheny,active,create,a0d3f859-6e80-489c-9db6-b41a72d4b13d,,0ff0229e-1237-4a30-9d34-be10069e3837,CSB1,csb1,5,Building,bu,48.648,-19.014
+CSB Ankerika,active,create,90bce762-4ed0-453e-90c1-dcc7c7e3bbe0,,ef456fac-91f4-4dce-a928-0a819524170c,CSB2,csb2,5,Building,bu,,
+CSB Ankevo,active,create,5cf2aed8-18e8-41bf-9a5d-7f3564b13ad1,,bf83c9c2-65ec-4872-9e53-980d23986103,CSB1,csb1,5,Building,bu,,
+CSB Ankiabe Salohy,active,create,774fab8b-b3c4-49b1-913e-60095d0181dc,,a3f2d7a8-78c3-42fe-8c9a-035026c379c0,CSB1,csb1,5,Building,bu,48.734,-15.608
+CSB Ankijabe,active,create,4c65a453-4edd-4e26-bf39-cd22c893b7f7,,9e92a872-64ed-43b6-b6c5-884ef3ade599,CSB1,csb1,5,Building,bu,,
+CSB Ankilahila,active,create,7b267b9d-b239-44e5-8fd4-f3ae97270311,,a80de6c1-9347-4555-b53b-aa8141499f52,CSB2,csb2,5,Building,bu,,
+CSB Ankilimionga,active,create,f23dd9f3-66fe-4c30-8b94-5a6234cc26d8,,2accff97-09f2-4f3d-9e0b-ec3dc0ba270c,CSB2,csb2,5,Building,bu,44.506,-19.134
+CSB Ankilivalo,active,create,20842ae5-75be-403f-a427-94ce0dee3258,,94ac4b2f-0985-4efa-9f4a-a3b4cb3267d5,CSB2,csb2,5,Building,bu,44.636,-16.745
+CSB Ankily,active,create,4d0c8fb7-881a-4449-b127-1a20a6ce2d7d,,2735035d-8e8b-46d5-99fd-1d1432dfaaa6,CSB2,csb2,5,Building,bu,46.099,-21.495
+CSB Ankingameloka,active,create,5154bc2e-ab12-4fa0-8563-31d53822791d,,76c5f029-5b8b-4430-b382-c8ce0f40b526,CSB1,csb1,5,Building,bu,48.298,-18.657
+CSB Ankirondro,active,create,e7e6b6d3-d5a4-4578-b60e-7474a503c88c,,927b4d12-16d8-4a0d-8e7c-9ab7516f6aa3,CSB1,csb1,5,Building,bu,44.584,-18.747
+CSB Ankisabe,active,create,8cadcfd7-2b16-4044-bc5b-21f2e3123fd6,,f7eea768-16d1-4fea-b53b-8548cae08258,CSB2,csb2,5,Building,bu,46.48,-18.913
+CSB Ankisatra,active,create,7c814009-e99d-4350-bca1-77c8b5b5ba39,,8e03e8b2-578f-422f-91d6-d997607d4436,CSB1,csb1,5,Building,bu,47.677,-17.459
+CSB Ankisatra,active,create,ab2ab3d2-f76e-408c-ab37-5f649670e4a3,,9143467f-f83c-401d-aa04-d4fdcc40e9f5,CSB1,csb1,5,Building,bu,,
+CSB Ankoba,active,create,bba1e954-7037-4bca-9a02-0a6ab5bdbecf,,1767b3f5-1013-4faa-91b6-85c81e15c89b,CSB2,csb2,5,Building,bu,,
+CSB Ankobakobaka,active,create,3f553e56-3b41-4b84-9857-5ad56b21b1e9,,b36204d8-6a96-4de4-a581-31ed3df1853a,CSB1,csb1,5,Building,bu,,
+CSB Ankokalava,active,create,9c7208e4-257b-45db-9622-219a32128e07,,33cf4c8f-e507-437f-87c5-5021a86ffa90,CSB1,csb1,5,Building,bu,48.091,-18.603
+CSB Ankonabe Ii,active,create,9654afdf-5c9d-49aa-8d87-931feb19afc2,,28dac602-8e8c-4a98-a344-2fa8f20a6d5b,CSB2,csb2,5,Building,bu,46.966,-19.699
+CSB Ankoraka,active,create,00d34b17-977d-410e-94ef-73ae38c71f25,,ff8ac5f4-7fb8-4044-ab3f-7e7ce5ba8074,CSB1,csb1,5,Building,bu,48.161,-19.412
+CSB Ankorefo,active,create,635d6b0b-8697-44b1-bc95-9ea9a612ef8f,,35645c0e-a273-4069-a5da-5ad95473df1f,CSB2,csb2,5,Building,bu,49.088,-13.071
+CSB Ankorera,active,create,bad8bfdd-a333-45d9-a5b7-1e68ce62be2d,,d0312a4b-d499-4d97-8ba8-c432d0ab08fd,CSB2,csb2,5,Building,bu,,
+CSB Ankorona,active,create,6ca2c1ed-4bdb-47b2-a4c9-04dc2cb54c98,,ded03966-b53d-434b-a5b1-5151f902be7f,CSB1,csb1,5,Building,bu,,
+CSB Ankorona,active,create,79297865-4487-47a2-83ab-8a02b972becd,,6d2297cd-5482-4a86-9fad-a1458cca5342,CSB2,csb2,5,Building,bu,47.727,-18.707
+CSB Ankosy,active,create,c5910716-2e92-4b6f-8360-b878109fb11e,,1ee1893f-5119-4f13-81e3-8f0a735bf455,CSB2,csb2,5,Building,bu,47.374,-20.564
+CSB Ankotrabe,active,create,f8787404-5598-4301-9f90-9fa3e6b3ec10,,1c4d6025-5d90-4ebe-946c-d5782b33b946,CSB2,csb2,5,Building,bu,46.68,-16.178
+CSB Ankotrofotsy,active,create,06103e67-cbb8-4f97-89f7-06dd56b624ac,,9143467f-f83c-401d-aa04-d4fdcc40e9f5,CSB1,csb1,5,Building,bu,45.529,-17.767
+CSB Anontsibe,active,create,f11f7860-05b0-4367-a118-97fc6a1873d4,,b1e7d6a6-1609-4dc8-98d9-58af8e78562d,CSB2,csb2,5,Building,bu,44.469,-18.168
+CSB Anoromby,active,create,2142f941-9fd9-446a-8d5f-58c4c0a1b01a,,58748f98-a17c-44d2-9ebf-dd44deaedb6f,CSB2,csb2,5,Building,bu,,
+CSB Anororo,active,create,84dd8d47-1125-4fe1-8046-b1a939c814d9,,59b94492-2ec9-4e47-851e-41dc1370e432,CSB2,csb2,5,Building,bu,48.43,-17.511
+CSB Anorotsangana,active,create,38ab8b7f-d428-4d3a-99c3-bbf629db2663,,76c5f029-5b8b-4430-b382-c8ce0f40b526,CSB1,csb1,5,Building,bu,,
+CSB Anosiarivo,active,create,4bbd2e87-3b00-4c95-8faa-93ca1783c114,,b00116dc-f679-42bb-9136-a0237fa31755,CSB1,csb1,5,Building,bu,47.558,-18.774
+CSB Anosiarivo I,active,create,cd9a08c6-0070-4c57-8a31-406cac0b6d15,,a747f458-ded1-4473-b472-01fdac24e607,CSB2,csb2,5,Building,bu,47.902,-19.961
+CSB Anosiarivo Manampana,active,create,744751f3-1206-451a-ba8a-3767d954df7e,,6de408e9-f310-4001-9972-3a1eadd3665d,CSB2,csb2,5,Building,bu,46.77,-19.876
+CSB Anosibe An'Ala,active,create,a24ad896-ef16-4be9-9530-39b576aa41b5,,ff8ac5f4-7fb8-4044-ab3f-7e7ce5ba8074,CSB2,csb2,5,Building,bu,48.207,-19.441
+CSB Anosibe Ifanja,active,create,b1559527-c6f2-4b27-8ab3-aaece92d45ad,,a0717d58-7fab-4cca-a777-df78d9bd0ad2,CSB2,csb2,5,Building,bu,46.753,-18.922
+CSB Anosibe Ifody,active,create,9f382a30-67b2-4aca-84c1-e26b2fed9a09,,60f1f650-1bd8-4856-abb2-66516e705e0a,CSB2,csb2,5,Building,bu,48.039,-18.93
+CSB Anosibe Trimoloharano,active,create,8b2b9005-5c3f-46ad-9692-cdfcb139a393,,dae7d13c-0fe6-401d-ae6c-aa46e0a5ec53,CSB2,csb2,5,Building,bu,47.773,-19.244
+CSB Anosikely,active,create,94457508-7286-4800-a68b-59b0aaf40663,,2ac11983-82a5-40a1-81db-f326b996da2e,CSB1,csb1,5,Building,bu,,
+CSB Anosimena,active,create,f51fe9c2-54eb-48b3-88b3-f0fe7e4b038f,,6997a020-da60-4ed9-b91c-78218976ce9b,CSB2,csb2,5,Building,bu,45.403,-19.263
+CSB Anosipatrana,active,create,ae549368-34a3-43c0-9dc5-541fb74f76ff,,8f127dd1-8e58-4d53-b273-bf8945e3e43a,CSB2,csb2,5,Building,bu,47.498,-18.871
+CSB Anosivola,active,create,7cac081f-ef18-47fb-bf29-e84f674ad75a,,2a02fdfa-adfd-4e40-aa3b-56d58de235de,CSB2,csb2,5,Building,bu,48.649,-17.714
+CSB Anosivolakely,active,create,c92c16fd-5d47-44a9-a701-7ade538509a4,,59ce70cf-2b0d-483c-b82e-e60fc8213e88,CSB1,csb1,5,Building,bu,,
+CSB Anosivola Nc 08,active,create,c92eeeaf-4cba-4701-a5ed-380127682543,,af321c16-0325-4ec3-a570-14575cbbd71b,CSB2,csb2,5,Building,bu,47.866,-18.413
+CSB Anosizato Andrefana,active,create,079d479a-eddf-4165-ab41-0a810cd825f1,,536b3985-b013-4ff0-9901-f40c18e9b60a,CSB2,csb2,5,Building,bu,47.492,-19
+CSB Anosy Avaratra,active,create,daa604ea-911e-4e30-b7a0-51373944e39d,,c61e1e6b-e179-4ff0-857f-40154c8637c7,CSB2,csb2,5,Building,bu,47.56,-18.761
+CSB Antafiabe,active,create,b35553e5-1450-4159-bf1e-8c2a403681c8,,b78231b6-1221-4f63-8f43-8ebf655b55a7,CSB2,csb2,5,Building,bu,48.177,-14.072
+CSB Antafiangita,active,create,12da0ae0-c262-4626-a0a1-18cb3bae4943,,6fc75b18-f2a0-4a47-a3bb-918386896bce,CSB1,csb1,5,Building,bu,47.88752,-15.175
+CSB Antakasina,active,create,ce908fd6-ef51-421e-b50a-5b0ceee773c2,,45af1096-5c0d-4777-a400-fdc882fb9ba5,CSB2,csb2,5,Building,bu,,
+CSB Antakavana,active,create,08be04ce-4257-4734-9992-9103a9cf3b2f,,a197908b-0c93-43dc-90ef-eb87dbc9eee6,CSB1,csb1,5,Building,bu,47.384,-17.897
