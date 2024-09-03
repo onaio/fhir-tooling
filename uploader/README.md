@@ -12,3 +12,9 @@ Install these dependency in-order to use the uploader tool:
 
 - On the command line run `bash uploader.sh`
 - Output will be posted to a file named `output.txt` in the same folder
+
+## Grant type option
+Grant type decides how your device authenticate to the server in-order to receive an access token, so your device can access the server's resources.
+This tool only supports 2 types of grant type at the moment:
+1. `client_credentials`
+2. `password`
