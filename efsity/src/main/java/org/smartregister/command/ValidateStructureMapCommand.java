@@ -26,42 +26,47 @@ public class ValidateStructureMapCommand implements Runnable {
   private String inputPath;
 
   @CommandLine.Option(
-      names = {"-c", "--composition"},
-      description = "path of the composition configuration file",
-      required = true)
-  String compositionFilePath;
+      names = {"-v", "--validate"},
+      description = "validate the fhir resources ",
+      defaultValue = "false")
+  private boolean validate;
 
   @Override
   public void run() {
-    if (inputPath != null && compositionFilePath != null) {
+    if (inputPath != null) {
       try {
-        validateStructureMap(inputPath, compositionFilePath);
+        validateStructureMap(inputPath, validate);
       } catch (IOException e) {
         throw new RuntimeException(e);
       }
     }
   }
 
-  private void validateStructureMap(String inputFilePath, String compositionFilePath)
-      throws IOException {
+  private void validateStructureMap(String inputFilePath, boolean validate) throws IOException {
     long start = System.currentTimeMillis();
+    FctUtils.printInfo("Starting structureMap validation");
+    FctUtils.printInfo(String.format("Input file path \u001b[35m%s\u001b[0m", inputFilePath));
 
     ArrayList<String> questionnaires = getResourceFiles(inputFilePath);
     for (String questionnairePath : questionnaires) {
-      FctUtils.printInfo(questionnairePath);
-      FctUtils.printInfo("Questionnaires available");
-      try {
-        ValidateFhirResourcesCommand.validateFhirResources(questionnairePath);
-      } catch (ValidationException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-      } catch (GenerationException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-      } catch (IOException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
+      FctUtils.printInfo("Processing: " + questionnairePath);
+
+      // Validate Questionnaire
+      if (validate) {
+        try {
+          ValidateFhirResourcesCommand.validateFhirResources(questionnairePath);
+        } catch (ValidationException | GenerationException | IOException e) {
+          throw new RuntimeException(e);
+        }
       }
+
+      // TODO This currently creates all the questionnaireResponses in the current path (.)
+      //  Create a folder called generatedResources if none exists in the current path
+      //  and save the generated resources there
+
+      // Generate QuestionnaireResponse
+      QuestionnaireResponseGeneratorCommand.generateResponse(
+          questionnairePath, "populate", ".", "", "http://localhost:8080/fhir", "", "", "");
     }
     FctUtils.printCompletedInDuration(start);
   }
@@ -69,15 +74,12 @@ public class ValidateStructureMapCommand implements Runnable {
   static ArrayList<String> getResourceFiles(String pathToFolder) throws IOException {
     ArrayList<String> filesArray = new ArrayList<>();
     Path projectPath = Paths.get(pathToFolder);
-    if (Files.isDirectory(projectPath) && !pathToFolder.startsWith("x_")) {
+    if (Files.isDirectory(projectPath)) {
       Files.walk(projectPath).forEach(path -> getFiles(filesArray, path.toFile()));
     } else if (Files.isRegularFile(projectPath)) {
 
-      if (!projectPath.getFileName().toString().startsWith("x_")
-          && projectPath.getFileName().toString().endsWith(".json")) {
+      if (projectPath.getFileName().toString().endsWith(".json")) {
         addFhirResource(pathToFolder, filesArray);
-      } else {
-        FctUtils.printWarning("Dropping " + projectPath.getFileName());
       }
     }
     return filesArray;
@@ -85,29 +87,18 @@ public class ValidateStructureMapCommand implements Runnable {
 
   static void getFiles(ArrayList<String> filesArray, File file) {
     if (file.isFile()) {
-      if (!file.getName().startsWith("x_") && file.getName().endsWith(".json")) {
-        FctUtils.printWarning("Adding " + file.getAbsolutePath() + " with name: " + file.getName());
+      if (file.getName().endsWith(".json")) {
         addFhirResource(file.getAbsolutePath(), filesArray);
-        FctUtils.printInfo("Questionnaires available 4");
-
-      } else {
-        FctUtils.printWarning(
-            "Dropping " + file.getAbsolutePath() + " with name: " + file.getName());
       }
     }
   }
 
   private static void addFhirResource(String filePath, List<String> filesArray) {
-    FctUtils.printInfo("Questionnaires available 1");
-
     try {
-      FctUtils.printInfo("Questionnaires available 2");
-
       JsonElement jsonElement = jsonParser.parse(new FileReader(filePath));
       JsonElement resourceType = jsonElement.getAsJsonObject().get("resourceType");
       if (resourceType != null && resourceType.toString().contains("Questionnaire")) {
-        FctUtils.printInfo(resourceType.toString());
-        FctUtils.printInfo("Questionnaires available 3");
+        FctUtils.printInfo("Adding " + filePath);
         filesArray.add(filePath);
       }
 
