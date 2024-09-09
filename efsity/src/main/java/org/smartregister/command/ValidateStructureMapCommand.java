@@ -23,13 +23,13 @@ public class ValidateStructureMapCommand implements Runnable {
       names = {"-i", "--input"},
       description = "path of the project folder",
       required = true)
-  private String inputPath;
+  String inputPath;
 
   @CommandLine.Option(
       names = {"-v", "--validate"},
       description = "validate the fhir resources ",
       defaultValue = "false")
-  private boolean validate;
+  boolean validate;
 
   @Override
   public void run() {
@@ -72,7 +72,14 @@ public class ValidateStructureMapCommand implements Runnable {
 
       // Generate QuestionnaireResponse
       QuestionnaireResponseGeneratorCommand.generateResponse(
-          questionnairePath, "populate", ".", "", "http://localhost:8080/fhir", "", "", "");
+          questionnairePath,
+          "populate",
+          generatedResourcesPath.toString(),
+          "",
+          "http://localhost:8080/fhir",
+          "",
+          "",
+          "");
     }
     FctUtils.printCompletedInDuration(start);
   }
@@ -99,7 +106,7 @@ public class ValidateStructureMapCommand implements Runnable {
     }
   }
 
-  private static void addFhirResource(String filePath, List<String> filesArray) {
+  static void addFhirResource(String filePath, List<String> filesArray) {
     try {
       JsonElement jsonElement = jsonParser.parse(new FileReader(filePath));
       JsonElement resourceType = jsonElement.getAsJsonObject().get("resourceType");

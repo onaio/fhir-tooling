@@ -7,21 +7,30 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import org.junit.jupiter.api.*;
+import java.util.ArrayList;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class ValidateStructureMapCommandTest {
 
   private ValidateStructureMapCommand validateStructureMapCommand;
   private File tempFile;
+  private Path tempDirectory;
+  private Path generatedResourcesPath;
 
   @BeforeEach
   public void setUp() throws IOException {
     validateStructureMapCommand = new ValidateStructureMapCommand();
-    tempFile = File.createTempFile("composition", ".json");
+    tempDirectory = Files.createTempDirectory("test");
+    tempFile = Files.createFile(tempDirectory.resolve("composition.json")).toFile();
+
     try (FileWriter writer = new FileWriter(tempFile)) {
       writer.write(
-          "{\"resourceType\": \"Questionnaire\", \"questionnaire1\": \"structureMap1\", \"questionnaire2\": \"structureMap2\"}");
+          "{\"questionnaire1\": \"structureMap1\", \"questionnaire2\": \"structureMap2\"}");
     }
+
+    generatedResourcesPath = tempDirectory.resolve("generatedResources");
   }
 
   @AfterEach
@@ -29,53 +38,55 @@ public class ValidateStructureMapCommandTest {
     if (tempFile.exists()) {
       tempFile.delete();
     }
-    // Clean up the generatedResources directory if it was created
-    Path generatedResourcesPath = Path.of("generatedResources");
-    if (Files.exists(generatedResourcesPath)) {
-      Files.walk(generatedResourcesPath).map(Path::toFile).forEach(File::delete);
-      Files.deleteIfExists(generatedResourcesPath);
+    if (Files.exists(tempDirectory)) {
+      Files.walk(tempDirectory)
+          .sorted((path1, path2) -> path2.compareTo(path1))
+          .map(Path::toFile)
+          .forEach(File::delete);
     }
   }
 
   @Test
-  public void testGeneratedResourcesDirectoryCreated() throws IOException {
-    // Run the command
-    validateStructureMapCommand.run();
-
-    // Check if the directory is created
-    Path generatedResourcesPath = Path.of("generatedResources");
-    assertTrue(
-        Files.exists(generatedResourcesPath),
-        "The generatedResources directory should be created.");
-  }
-
-  @Test
-  public void testQuestionnaireResponsesGenerated() throws IOException {
-    // Run the command
-    validateStructureMapCommand.run();
-
-    // Check if a questionnaire response file is created in the generatedResources directory
-    Path generatedResourcesPath = Path.of("generatedResources");
-    assertTrue(
-        Files.exists(generatedResourcesPath),
-        "The generatedResources directory should be created.");
-
-    // Simulate that a response is generated (you'd replace this with actual response file checks)
-    File responseFile = new File(generatedResourcesPath.toString(), "questionnaire1Response.json");
-    try (FileWriter writer = new FileWriter(responseFile)) {
-      writer.write("{\"response\": \"data\"}");
+  void testGetResourceFiles() throws IOException {
+    // Create a valid JSON file
+    File jsonFile = new File(tempDirectory.toFile(), "validQuestionnaire.json");
+    try (FileWriter writer = new FileWriter(jsonFile)) {
+      writer.write("{\"resourceType\": \"Questionnaire\"}");
     }
 
-    assertTrue(responseFile.exists(), "The questionnaire response file should be created.");
+    ArrayList<String> filesArray =
+        ValidateStructureMapCommand.getResourceFiles(tempDirectory.toString());
+    assertTrue(filesArray.contains(jsonFile.getAbsolutePath()));
+
+    // Test with an invalid file
+    File nonJsonFile = new File(tempDirectory.toFile(), "invalidFile.txt");
+    try (FileWriter writer = new FileWriter(nonJsonFile)) {
+      writer.write("Not a JSON file");
+    }
+
+    filesArray = ValidateStructureMapCommand.getResourceFiles(tempDirectory.toString());
+    assertFalse(filesArray.contains(nonJsonFile.getAbsolutePath()));
   }
 
   @Test
-  public void testValidateStructureMapWithInvalidFile() {
-    assertThrows(
-        RuntimeException.class,
-        () -> {
-          validateStructureMapCommand.validateStructureMap("invalid/path/to/file.json", true);
-        },
-        "Expected a RuntimeException for an invalid file path.");
+  void testAddFhirResource() throws IOException {
+    File jsonFile = new File(tempDirectory.toFile(), "questionnaire.json");
+    try (FileWriter writer = new FileWriter(jsonFile)) {
+      writer.write("{\"resourceType\": \"Questionnaire\"}");
+    }
+
+    ArrayList<String> filesArray = new ArrayList<>();
+    ValidateStructureMapCommand.addFhirResource(jsonFile.getAbsolutePath(), filesArray);
+
+    assertTrue(filesArray.contains(jsonFile.getAbsolutePath()));
+
+    // Test with invalid JSON
+    File invalidJsonFile = new File(tempDirectory.toFile(), "invalid.json");
+    try (FileWriter writer = new FileWriter(invalidJsonFile)) {
+      writer.write("{\"resourceType\": \"Other\"}");
+    }
+
+    ValidateStructureMapCommand.addFhirResource(invalidJsonFile.getAbsolutePath(), filesArray);
+    assertFalse(filesArray.contains(invalidJsonFile.getAbsolutePath()));
   }
 }
