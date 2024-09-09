@@ -42,10 +42,20 @@ public class ValidateStructureMapCommand implements Runnable {
     }
   }
 
-  private void validateStructureMap(String inputFilePath, boolean validate) throws IOException {
+  void validateStructureMap(String inputFilePath, boolean validate) throws IOException {
     long start = System.currentTimeMillis();
     FctUtils.printInfo("Starting structureMap validation");
     FctUtils.printInfo(String.format("Input file path \u001b[35m%s\u001b[0m", inputFilePath));
+    // Define the directory name for generated resources
+    String directoryName = "generatedResources";
+
+    // Create the directory if it doesn't exist
+    Path generatedResourcesPath = Paths.get(directoryName);
+    if (!Files.exists(generatedResourcesPath)) {
+      Files.createDirectory(generatedResourcesPath);
+      FctUtils.printInfo(
+          "Created directory: " + generatedResourcesPath.toAbsolutePath().toString());
+    }
 
     ArrayList<String> questionnaires = getResourceFiles(inputFilePath);
     for (String questionnairePath : questionnaires) {
@@ -59,10 +69,6 @@ public class ValidateStructureMapCommand implements Runnable {
           throw new RuntimeException(e);
         }
       }
-
-      // TODO This currently creates all the questionnaireResponses in the current path (.)
-      //  Create a folder called generatedResources if none exists in the current path
-      //  and save the generated resources there
 
       // Generate QuestionnaireResponse
       QuestionnaireResponseGeneratorCommand.generateResponse(
