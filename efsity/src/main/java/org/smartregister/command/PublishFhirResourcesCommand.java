@@ -2,15 +2,14 @@ package org.smartregister.command;
 
 import static org.smartregister.util.authentication.OAuthAuthentication.getAccessToken;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -104,13 +103,14 @@ public class PublishFhirResourcesCommand implements Runnable {
   public void run() {
     long start = System.currentTimeMillis();
     if (propertiesFile != null && !propertiesFile.isBlank()) {
-      try (InputStream inputProperties = new FileInputStream(propertiesFile)) {
-        Properties properties = new Properties();
-        properties.load(inputProperties);
-        setProperties(properties);
+
+      Properties properties = null;
+      try {
+        properties = FctUtils.readPropertiesFile(propertiesFile);
       } catch (IOException e) {
         throw new RuntimeException(e);
       }
+      setProperties(properties);
     }
     try {
       if (compositionFilePath != null) {
@@ -126,18 +126,21 @@ public class PublishFhirResourcesCommand implements Runnable {
   }
 
   void setProperties(Properties properties) {
+    if (properties == null)
+      throw new IllegalStateException("Properties file is missing or could not be parsed");
+
     if (projectFolder == null || projectFolder.isBlank()) {
       if (properties.getProperty("projectFolder") != null) {
         projectFolder = properties.getProperty("projectFolder");
       } else {
-        throw new NullPointerException("The projectFolder is missing");
+        throw new IllegalStateException("The projectFolder is missing");
       }
     }
     if (fhirBaseUrl == null || fhirBaseUrl.isBlank()) {
       if (properties.getProperty("fhirBaseUrl") != null) {
         fhirBaseUrl = properties.getProperty("fhirBaseUrl");
       } else {
-        throw new NullPointerException("The fhirBaseUrl is missing");
+        throw new IllegalStateException("The fhirBaseUrl is missing");
       }
     }
     if (accessToken == null || accessToken.isBlank()) {
@@ -508,5 +511,10 @@ public class PublishFhirResourcesCommand implements Runnable {
       return getProjectFolder(parentFolder.toString());
     }
     return parentFolder.toString();
+  }
+
+  @VisibleForTesting
+  public static final String getFCTReleaseVersion() {
+    return BuildConfig.RELEASE_VERSION;
   }
 }

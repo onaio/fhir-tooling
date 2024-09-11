@@ -269,13 +269,13 @@ public class PublishFhirResourcesCommandTest {
             .getString("data")
             .startsWith("eyJhcHBJZCI6InRlc3Qi"));
     assertEquals(
+        publishFhirResourcesCommand.getFCTReleaseVersion(),
         resources
             .get(2)
             .getJSONObject("resource")
             .getJSONObject("meta")
             .getJSONArray("tag")
             .getJSONObject(0)
-            .getString("code"),
-        "2.3.5-SNAPSHOT");
+            .getString("code"));
   }
 }
