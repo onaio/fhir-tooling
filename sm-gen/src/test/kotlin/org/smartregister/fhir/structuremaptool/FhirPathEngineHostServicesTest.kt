@@ -34,7 +34,7 @@ class FhirPathEngineHostServicesTest {
     assertEquals(
       "Test Value",
       (result as StringType).value,
-      "The resolved constant should match the expected value"
+      "The resolved constant should match the expected value",
     )
   }
 
@@ -88,7 +88,7 @@ class FhirPathEngineHostServicesTest {
           null,
           mutableListOf(),
           "testFunction",
-          mutableListOf()
+          mutableListOf(),
         )
       }
     assertEquals("executeFunction is not yet implemented.", exception.message)

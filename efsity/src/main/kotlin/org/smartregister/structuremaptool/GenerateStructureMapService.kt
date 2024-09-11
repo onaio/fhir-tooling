@@ -14,6 +14,7 @@ import org.hl7.fhir.r4.model.Questionnaire
 import org.hl7.fhir.r4.model.QuestionnaireResponse
 import org.hl7.fhir.utilities.npm.FilesystemPackageCacheManager
 import org.hl7.fhir.utilities.npm.ToolsVersion
+import org.smartregister.external.TransformSupportServices
 import java.io.File
 import java.io.FileInputStream
 import java.nio.charset.Charset

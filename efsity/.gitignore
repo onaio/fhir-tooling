@@ -9,6 +9,5 @@ fhircore-tooling.iml
 # build files
 bin
 target
-
 generated-structure-map.txt
 generated-json-map.json

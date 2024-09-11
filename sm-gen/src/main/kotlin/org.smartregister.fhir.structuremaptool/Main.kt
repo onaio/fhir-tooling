@@ -60,7 +60,7 @@ class Application : CliktCommand() {
     val questionnaire: Questionnaire =
       fhirJsonParser.parseResource(
         Questionnaire::class.java,
-        FileUtils.readFileToString(File(questionnairefile), Charset.defaultCharset())
+        FileUtils.readFileToString(File(questionnairefile), Charset.defaultCharset()),
       )
     val questionnaireResponseFile =
       File(javaClass.classLoader.getResource("questionnaire-response.json")?.file.toString())
@@ -68,7 +68,7 @@ class Application : CliktCommand() {
       questionnaireResponse =
         fhirJsonParser.parseResource(
           QuestionnaireResponse::class.java,
-          questionnaireResponseFile.readText(Charset.defaultCharset())
+          questionnaireResponseFile.readText(Charset.defaultCharset()),
         )
     } else {
       println("File not found: questionnaire-response.json")

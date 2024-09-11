@@ -28,7 +28,7 @@ fun getQuestionsPath(questionnaire: Questionnaire): HashMap<String, String> {
 fun getQuestionNames(
   parentName: String,
   item: QuestionnaireItemComponent,
-  questionsMap: HashMap<String, String>
+  questionsMap: HashMap<String, String>,
 ) {
   val currParentName = if (parentName.isEmpty()) "" else parentName
   questionsMap.put(item.linkId, currParentName)
@@ -37,7 +37,7 @@ fun getQuestionNames(
     getQuestionNames(
       currParentName + ".where(linkId = '${item.linkId}').item",
       itemComponent,
-      questionsMap
+      questionsMap,
     )
   }
 }
@@ -58,7 +58,7 @@ class Group(
     sb.append("create('Reference') as reference then {")
     sb.appendNewLine()
     sb.append(
-      "src-> reference.reference = evaluate(bundle, \$this.entry.where(resourceType = '$resourceName/$resourceIndex'))"
+      "src-> reference.reference = evaluate(bundle, \$this.entry.where(resourceType = '$resourceName/$resourceIndex'))",
     )
     sb.append(""" "rule_d";""".trimMargin())
     sb.appendNewLine()
@@ -77,7 +77,7 @@ class Group(
       stringBuilder.append(structureMapFunctionHead).appendNewLine()
       stringBuilder
         .append(
-          "src -> bundle.entry as  entry, entry.resource = create('$resourceName') as entity1 then {"
+          "src -> bundle.entry as  entry, entry.resource = create('$resourceName') as entity1 then {",
         )
         .appendNewLine()
 
@@ -293,11 +293,11 @@ class Group(
                 answerExpression.startsWith("evaluate")
             ) {
               println(
-                "Failed type matching --> ${instruction!!.fullPropertyPath()} of type $answerType != $propertyType"
+                "Failed type matching --> ${instruction!!.fullPropertyPath()} of type $answerType != $propertyType",
               )
               stringBuilder.append("src -> entity$currLevel.${instruction!!.fieldPath} = ")
               stringBuilder.append(
-                "create('${propertyType.getFhirType()}') as randomVal, randomVal.value = "
+                "create('${propertyType.getFhirType()}') as randomVal, randomVal.value = ",
               )
               stringBuilder.append(answerExpression)
               addRuleNo()
@@ -317,7 +317,7 @@ class Group(
         if (!name.equals("")) {
           val resourceType = resourceName
           stringBuilder.append(
-            "src -> entity$currLevel.$name = create('$resourceType') as entity${currLevel + 1} then {"
+            "src -> entity$currLevel.$name = create('$resourceType') as entity${currLevel + 1} then {",
           )
           stringBuilder.appendNewLine()
         } else {
@@ -435,7 +435,7 @@ private fun String.getType(questionnaireResponse: QuestionnaireResponse): String
 internal val fhirPathEngine: FHIRPathEngine =
   with(FhirContext.forCached(FhirVersionEnum.R4)) {
     FHIRPathEngine(HapiWorkerContext(this, this.validationSupport)).apply {
-      hostServices = FHIRPathEngineHostServices
+      hostServices = FhirPathEngineHostServices
     }
   }
 
@@ -509,8 +509,9 @@ fun String.getPossibleTypes(): List<Type> {
 fun String.canHandleConversion(sourceType: String): Boolean {
   val propertyClass = Class.forName("org.hl7.fhir.r4.model.$this")
   val targetType2 =
-    if (sourceType == "StringType") String::class.java
-    else Class.forName("org.hl7.fhir.r4.model.$sourceType")
+    if (sourceType == "StringType") {
+      String::class.java
+    } else Class.forName("org.hl7.fhir.r4.model.$sourceType")
 
   val possibleConversions =
     listOf(
