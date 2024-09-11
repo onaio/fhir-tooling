@@ -86,8 +86,6 @@ dependencies {
   implementation(deps.javafaker)
   implementation("org.apache.poi:poi:4.1.1")
   implementation("org.apache.poi:poi-ooxml:4.1.1")
-  
-  
 
   testImplementation(kotlin("test"))
   testImplementation("junit:junit:4.13.2")
