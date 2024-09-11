@@ -11,18 +11,23 @@ group = "org.example"
 version = "1.0-SNAPSHOT"
 
 repositories {
-  mavenCentral()
-  gradlePluginPortal()
+    google()
+    mavenCentral()
+    mavenLocal()
 }
 
 dependencies {
-  testImplementation(kotlin("test"))
-  implementation("com.github.ajalt.clikt:clikt:3.4.0")
-  implementation("org.apache.poi:poi:3.17")
-  implementation("org.apache.poi:poi-ooxml:3.17")
-  implementation("ca.uhn.hapi.fhir:hapi-fhir-structures-r4:5.4.0")
-  implementation("ca.uhn.hapi.fhir:hapi-fhir-validation:5.4.0")
-  implementation(kotlin("stdlib-jdk8"))
+
+    implementation("com.github.ajalt.clikt:clikt:3.4.0")
+    implementation("org.apache.poi:poi:3.17")
+    implementation("org.apache.poi:poi-ooxml:3.17")
+    implementation("ca.uhn.hapi.fhir:hapi-fhir-structures-r4:5.4.0")
+    implementation("ca.uhn.hapi.fhir:hapi-fhir-validation:5.4.0")
+    implementation(kotlin("stdlib-jdk8"))
+    testImplementation(kotlin("test"))
+    testImplementation("io.mockk:mockk:1.13.7")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.0")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.0")
 }
 
 tasks.test { useJUnitPlatform() }
