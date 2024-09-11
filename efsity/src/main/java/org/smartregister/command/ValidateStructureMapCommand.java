@@ -34,7 +34,7 @@ public class ValidateStructureMapCommand implements Runnable {
   @CommandLine.Option(
       names = {"-sm", "--structure-map"},
       description = "structure map file path",
-      required = true)
+      required = false)
   String structureMapFilePath;
 
   @Override
