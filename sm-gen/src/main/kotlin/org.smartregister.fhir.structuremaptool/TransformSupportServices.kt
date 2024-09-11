@@ -27,25 +27,25 @@ class TransformSupportServices constructor(val simpleWorkerContext: SimpleWorker
     println(message)
   }
 
-  @Throws(FHIRException::class)
-  override fun createType(appInfo: Any, name: String): Base {
-    return when (name) {
-      "RiskAssessment_Prediction" -> RiskAssessmentPredictionComponent()
-      "RiskAssessment\$RiskAssessmentPredictionComponent" -> RiskAssessmentPredictionComponent()
-      "Immunization_VaccinationProtocol" -> Immunization.ImmunizationProtocolAppliedComponent()
-      "Immunization_Reaction" -> Immunization.ImmunizationReactionComponent()
-      "EpisodeOfCare_Diagnosis" -> EpisodeOfCare.DiagnosisComponent()
-      "Encounter_Diagnosis" -> Encounter.DiagnosisComponent()
-      "Encounter_Participant" -> Encounter.EncounterParticipantComponent()
-      "CarePlan_Activity" -> CarePlan.CarePlanActivityComponent()
-      "CarePlan_ActivityDetail" -> CarePlan.CarePlanActivityDetailComponent()
-      "Patient_Link" -> Patient.PatientLinkComponent()
-      "Timing_Repeat" -> Timing.TimingRepeatComponent()
-      "PlanDefinition_Action" -> PlanDefinition.PlanDefinitionActionComponent()
-      "Group_Characteristic" -> Group.GroupCharacteristicComponent()
-      "Observation_Component" -> Observation.ObservationComponentComponent()
-      else -> ResourceFactory.createResourceOrType(name)
-    }
+    @Throws(FHIRException::class)
+    override fun createType(appInfo: Any, name: String): Base {
+        return when (name) {
+            "RiskAssessment_Prediction" -> RiskAssessmentPredictionComponent()
+            "RiskAssessment\$RiskAssessmentPredictionComponent" -> RiskAssessmentPredictionComponent()
+            "Immunization_AppliedProtocol" -> Immunization.ImmunizationProtocolAppliedComponent()
+            "Immunization_Reaction" -> Immunization.ImmunizationReactionComponent()
+            "EpisodeOfCare_Diagnosis" -> EpisodeOfCare.DiagnosisComponent()
+            "Encounter_Diagnosis" -> Encounter.DiagnosisComponent()
+            "Encounter_Participant" -> Encounter.EncounterParticipantComponent()
+            "CarePlan_Activity" -> CarePlan.CarePlanActivityComponent()
+            "CarePlan_ActivityDetail" -> CarePlan.CarePlanActivityDetailComponent()
+            "Patient_Link" -> Patient.PatientLinkComponent()
+            "Timing_Repeat" -> Timing.TimingRepeatComponent()
+            "PlanDefinition_Action" -> PlanDefinition.PlanDefinitionActionComponent()
+            "Group_Characteristic" -> Group.GroupCharacteristicComponent()
+            "Observation_Component" -> Observation.ObservationComponentComponent()
+            else -> ResourceFactory.createResourceOrType(name)
+        }
   }
 
   override fun createResource(appInfo: Any, res: Base, atRootofTransform: Boolean): Base {
