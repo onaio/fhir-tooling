@@ -1,6 +1,8 @@
 package org.smartregister.command;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import java.io.File;
 import java.io.FileReader;
@@ -13,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import net.jimblackler.jsonschemafriend.GenerationException;
 import net.jimblackler.jsonschemafriend.ValidationException;
+import org.smartregister.domain.FctFile;
 import org.smartregister.util.FctUtils;
 import picocli.CommandLine;
 
@@ -73,8 +76,6 @@ public class ValidateStructureMapCommand implements Runnable {
 
       // Define the directory name for generated resources
       String directoryName = "generatedResources";
-
-      // Create the directory if it doesn't exist
       Path generatedResourcesPath = Paths.get(directoryName);
       if (!Files.exists(generatedResourcesPath)) {
         Files.createDirectory(generatedResourcesPath);
@@ -104,8 +105,6 @@ public class ValidateStructureMapCommand implements Runnable {
 
       // Create the subdirectory called extractedResources
       Path extractedResourcesPath = generatedResourcesPath.resolve("extractedResources");
-
-      // Create the extractedResources directory if it doesn't exist
       if (!Files.exists(extractedResourcesPath)) {
         Files.createDirectory(extractedResourcesPath);
         FctUtils.printInfo(
@@ -118,16 +117,54 @@ public class ValidateStructureMapCommand implements Runnable {
           structureMapFilePath,
           extractedResourcesPath.toString());
 
-      // Validate the extracted resources
+      // Read the Bundle file using FctUtils.readFile and extract resources
       try (DirectoryStream<Path> extractedFiles =
           Files.newDirectoryStream(extractedResourcesPath, "*.json")) {
-        for (Path resourcePath : extractedFiles) {
-          FctUtils.printInfo("Validating extracted resource: " + resourcePath.toString());
-          try {
-            ValidateFhirResourcesCommand.validateFhirResources(resourcePath.toString());
-          } catch (ValidationException | GenerationException | IOException e) {
-            FctUtils.printError("Validation failed for: " + resourcePath.toString());
-            allResourcesValid = false;
+        for (Path bundleFile : extractedFiles) {
+          FctUtils.printInfo("Reading Bundle file: " + bundleFile.toString());
+
+          // Read the bundle file
+          FctFile bundleContent = FctUtils.readFile(bundleFile.toString());
+
+          JsonObject bundleJson =
+              JsonParser.parseString(bundleContent.getContent()).getAsJsonObject();
+
+          // Check if it's a Bundle
+          if (bundleJson.has("resourceType")
+              && "Bundle".equals(bundleJson.get("resourceType").getAsString())) {
+            JsonArray entries = bundleJson.getAsJsonArray("entry");
+            FctUtils.printInfo("Processing " + entries.size() + " entries from the Bundle.");
+
+            // Process each entry in the Bundle
+            for (int i = 0; i < entries.size(); i++) {
+              JsonObject entry = entries.get(i).getAsJsonObject();
+              JsonObject resource = entry.getAsJsonObject("resource");
+
+              if (resource != null) {
+                String resourceType = resource.get("resourceType").getAsString();
+
+                // Create a unique file name for each resource
+                String resourceFileName = resourceType + ".json";
+                Path resourceFilePath =
+                    Paths.get(extractedResourcesPath.toString(), resourceFileName);
+
+                // Write the resource to a file using FctUtils.writeJsonFile
+                FctUtils.writeJsonFile(resourceFilePath.toString(), resource.toString());
+
+                // Validate the extracted resource
+                try {
+                  ValidateFhirResourcesCommand.validateFhirResources(resourceFilePath.toString());
+                } catch (ValidationException | GenerationException | IOException e) {
+                  FctUtils.printError(
+                      "Validation failed for resource: " + resourceFilePath.toString());
+                  allResourcesValid = false;
+                }
+              } else {
+                FctUtils.printWarning("No resource found in entry " + i);
+              }
+            }
+          } else {
+            FctUtils.printError("File is not a Bundle: " + bundleContent.getName());
           }
         }
       } catch (IOException e) {
@@ -135,7 +172,6 @@ public class ValidateStructureMapCommand implements Runnable {
       }
     }
 
-    // Print final result based on validation
     if (allResourcesValid) {
       FctUtils.printInfo("All extracted resources are valid.");
     } else {
