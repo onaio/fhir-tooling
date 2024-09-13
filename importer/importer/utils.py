@@ -8,8 +8,9 @@ from datetime import datetime
 import click
 
 from importer.builder import get_base_url
-from importer.config.settings import fhir_base_url, keycloak_url
+from importer.config.settings import fhir_base_url
 from importer.request import post_request
+from importer.users import get_keycloak_url
 
 
 # This function takes in a csv file
@@ -332,8 +333,9 @@ def clean_duplicates(users, cascade_delete):
     for user in users:
         # get keycloak user uuid
         username = str(user[2].strip())
+        _keycloak_url = get_keycloak_url()
         user_details = handle_request(
-            "GET", "", keycloak_url + "/users?exact=true&username=" + username
+            "GET", "", _keycloak_url + "/users?exact=true&username=" + username
         )
         obj = json.loads(user_details[0])
         keycloak_uuid = obj[0]["id"]
