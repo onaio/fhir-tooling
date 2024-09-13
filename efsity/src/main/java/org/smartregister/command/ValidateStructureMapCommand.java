@@ -5,6 +5,7 @@ import com.google.gson.JsonParser;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -56,6 +57,8 @@ public class ValidateStructureMapCommand implements Runnable {
     FctUtils.printInfo(String.format("Input file path \u001b[35m%s\u001b[0m", inputFilePath));
 
     ArrayList<String> questionnaires = getResourceFiles(inputFilePath);
+    boolean allResourcesValid = true;
+
     for (String questionnairePath : questionnaires) {
       FctUtils.printInfo("Processing: " + questionnairePath);
 
@@ -99,11 +102,47 @@ public class ValidateStructureMapCommand implements Runnable {
                   .toString()
                   .replace(".json", "-response.json");
 
+      // Create the subdirectory called extractedResources
+      Path extractedResourcesPath = generatedResourcesPath.resolve("extractedResources");
+
+      // Create the extractedResources directory if it doesn't exist
+      if (!Files.exists(extractedResourcesPath)) {
+        Files.createDirectory(extractedResourcesPath);
+        FctUtils.printInfo(
+            "Created extracted resources folder: "
+                + extractedResourcesPath.toAbsolutePath().toString());
+      }
+
       StructureMapExtractResourcesCommand.extractResource(
           generatedQuestionnaireResponsePath,
           structureMapFilePath,
-          generatedResourcesPath.toString());
+          extractedResourcesPath.toString());
+
+      // Validate the extracted resources
+      try (DirectoryStream<Path> extractedFiles =
+          Files.newDirectoryStream(extractedResourcesPath, "*.json")) {
+        for (Path resourcePath : extractedFiles) {
+          FctUtils.printInfo("Validating extracted resource: " + resourcePath.toString());
+          try {
+            ValidateFhirResourcesCommand.validateFhirResources(resourcePath.toString());
+          } catch (ValidationException | GenerationException | IOException e) {
+            FctUtils.printError("Validation failed for: " + resourcePath.toString());
+            allResourcesValid = false;
+          }
+        }
+      } catch (IOException e) {
+        throw new RuntimeException("Failed to read extracted resources directory.", e);
+      }
     }
+
+    // Print final result based on validation
+    if (allResourcesValid) {
+      FctUtils.printInfo("All extracted resources are valid.");
+    } else {
+      FctUtils.printError("Some extracted resources are invalid.");
+      throw new RuntimeException("Validation failed for some extracted resources.");
+    }
+
     FctUtils.printCompletedInDuration(start);
   }
 
