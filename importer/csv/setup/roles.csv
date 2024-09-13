@@ -118,3 +118,5 @@ WEB_CLIENT,,
 ANDROID_CLIENT,,
 EDIT_KEYCLOAK_USERS,TRUE,manage-users|query-users
 VIEW_KEYCLOAK_USERS,TRUE,view-users|query-users|query-groups
+VIEW_ROLES,,
+VIEW_USER_GROUPS,,
