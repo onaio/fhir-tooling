@@ -30,7 +30,7 @@ import org.hl7.fhir.r4.utils.StructureMapUtilities.ITransformerServices
 class TransformSupportServices constructor(private val simpleWorkerContext: SimpleWorkerContext) :
   ITransformerServices {
 
-  private val outputs: MutableList<Base> = mutableListOf()
+  val outputs: MutableList<Base> = mutableListOf()
 
   override fun log(message: String) {
     // logger.info(message)

@@ -19,6 +19,8 @@ import org.hl7.fhir.r4.model.QuestionnaireResponse
 import org.hl7.fhir.utilities.npm.FilesystemPackageCacheManager
 import org.hl7.fhir.utilities.npm.ToolsVersion
 import org.smartregister.external.TransformSupportServices
+import org.smartregister.structuremaptool.extensions.addIndentation
+import org.smartregister.structuremaptool.extensions.clean
 
 fun main(
   xlsConfigFilePath: String,
@@ -178,10 +180,6 @@ fun main(
   }
 }
 
-fun String.clean(): String {
-  return this.replace("-", "").replace("_", "").replace(" ", "")
-}
-
 fun Row.isEmpty(): Boolean {
   return getCell(0) == null && getCell(1) == null && getCell(2) == null
 }
@@ -227,38 +225,6 @@ class Instruction {
   fun fullPropertyPath(): String = "$resource.$fullFieldPath"
 
   fun searchKey() = resource + resourceIndex
-}
-
-fun String.addIndentation(): String {
-  var currLevel = 0
-  val lines = split("\n")
-
-  val sb = StringBuilder()
-  lines.forEach { line ->
-    if (line.endsWith("{")) {
-      sb.append(line.addIndentation(currLevel))
-      sb.appendNewLine()
-      currLevel++
-    } else if (line.startsWith("}")) {
-      currLevel--
-      sb.append(line.addIndentation(currLevel))
-      sb.appendNewLine()
-    } else {
-      sb.append(line.addIndentation(currLevel))
-      sb.appendNewLine()
-    }
-  }
-  return sb.toString()
-}
-
-fun String.addIndentation(times: Int): String {
-  var processedString = ""
-  for (k in 1..times) {
-    processedString += "\t"
-  }
-
-  processedString += this
-  return processedString
 }
 
 fun Instruction.copyFrom(instruction: Instruction) {

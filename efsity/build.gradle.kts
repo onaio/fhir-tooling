@@ -90,6 +90,7 @@ dependencies {
   testImplementation(kotlin("test"))
   testImplementation("junit:junit:4.13.2")
   testImplementation("org.mockito:mockito-inline:3.12.4")
+  testImplementation("io.mockk:mockk:1.13.7")
 }
 
 tasks.withType<JavaCompile> { options.encoding = deps.versions.project.build.sourceEncoding.get() }
