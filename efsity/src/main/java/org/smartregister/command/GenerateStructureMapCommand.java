@@ -7,12 +7,6 @@ import picocli.CommandLine;
 
 @CommandLine.Command(name = "generateStructureMap")
 public class GenerateStructureMapCommand implements Runnable {
-
-  // generateStructureMap --questionnaire
-  // /Users/markloshilu/Ona/fhir-tooling/sm-gen/src/main/resources/questionnaire.json --configPath
-  // /Users/markloshilu/Ona/fhir-tooling/sm-gen/src/main/resources/StructureMap XLS.xls
-  // --questionnaireResponsePath
-  // /Users/markloshilu/Ona/fhir-tooling/sm-gen/src/main/resources/questionnaire-response.json
   @CommandLine.Option(
       names = {"-q", "--questionnaire"},
       description = "Questionnaire",
