@@ -66,6 +66,7 @@ LOGGING = {
 @click.option("--chunk_size", required=False, default=1000000)
 @click.option("--resources_count", required=False, default=100)
 @click.option("--list_resource_id", required=False)
+@click.option("--multifactor_authenticaton", required=False, is_flag=True)
 @click.option(
     "--log_level", type=click.Choice(["DEBUG", "INFO", "ERROR"], case_sensitive=False)
 )
@@ -144,9 +145,9 @@ def main(
 
     logging.info("Starting csv import...")
     json_path = "/".join([dir_path, "json_payloads/"])
-    resource_list = read_csv(csv_file)
 
-    if resource_list:
+    if csv_file is not None: 
+        resource_list = read_csv(csv_file)
         if resource_type == "users":
             logging.info("Processing users")
             with click.progressbar(
@@ -281,6 +282,19 @@ def main(
             logging.error("Unsupported request!")
     else:
         logging.error("Empty csv file!")
+        if multifactor_authenticaton is not None:
+           # get details
+            response = handle_request(
+                "GET",payload = "", url="http://localhost:8082/admin/realms/master"
+                )
+            logging.error(response[0])
+
+            respons = handle_request(
+                "PUT",payload = response[0], url="http://localhost:8082/admin/realms/master/authentication/flows/browser/executions"
+                )
+            
+            logging.error(respons)
+           
 
     if final_response and final_response.text:
         logging.info('{ "final-response": ' + final_response.text + "}")
