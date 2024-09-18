@@ -30,7 +30,7 @@ import org.hl7.fhir.r4.utils.StructureMapUtilities.ITransformerServices
 class TransformSupportServices constructor(private val simpleWorkerContext: SimpleWorkerContext) :
   ITransformerServices {
 
-  private val outputs: MutableList<Base> = mutableListOf()
+  val outputs: MutableList<Base> = mutableListOf()
 
   override fun log(message: String) {
     // logger.info(message)
@@ -40,6 +40,7 @@ class TransformSupportServices constructor(private val simpleWorkerContext: Simp
   override fun createType(appInfo: Any, name: String): Base {
     return when (name) {
       "RiskAssessment_Prediction" -> RiskAssessmentPredictionComponent()
+      "RiskAssessment\$RiskAssessmentPredictionComponent" -> RiskAssessmentPredictionComponent()
       "Immunization_AppliedProtocol" -> Immunization.ImmunizationProtocolAppliedComponent()
       "Immunization_Reaction" -> Immunization.ImmunizationReactionComponent()
       "EpisodeOfCare_Diagnosis" -> EpisodeOfCare.DiagnosisComponent()

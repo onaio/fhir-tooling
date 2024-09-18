@@ -84,10 +84,14 @@ dependencies {
   implementation(deps.xstream)
   implementation(deps.icu4j)
   implementation(deps.javafaker)
+  implementation("org.apache.poi:poi:4.1.1")
+  implementation("org.apache.poi:poi-ooxml:4.1.1")
 
   testImplementation(kotlin("test"))
   testImplementation("junit:junit:4.13.2")
   testImplementation("org.mockito:mockito-inline:3.12.4")
+  testImplementation("io.mockk:mockk:1.13.7")
+  testImplementation("org.mockito.kotlin:mockito-kotlin:4.1.0")
 }
 
 tasks.withType<JavaCompile> { options.encoding = deps.versions.project.build.sourceEncoding.get() }

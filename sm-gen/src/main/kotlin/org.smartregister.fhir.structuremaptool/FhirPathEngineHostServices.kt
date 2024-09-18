@@ -51,7 +51,7 @@ internal object FhirPathEngineHostServices : FHIRPathEngine.IEvaluationContext {
   }
 
   override fun resolveFunction(
-    functionName: String?
+    functionName: String?,
   ): FHIRPathEngine.IEvaluationContext.FunctionDetails {
     logger.info("Resolving function: ${functionName ?: "Unknown"}")
     return functionCache.getOrPut(functionName ?: "") {
