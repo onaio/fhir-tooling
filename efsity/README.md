@@ -175,14 +175,14 @@ is thrown showing the issue.
 ### Generating a structure map
 To generate a Structure Map, you need to provide the questionnaire, the configuration path, and the questionnaire response path. The output will be based on the specified inputs
 ```console
-$ $ generateStructureMap --questionnaire /path/to/questionnaire.json --configPath /path/to/config/StructureMap.xls --questionnaireResponsePath /path/to/questionnaire-response.json
+$ fct generateStructureMap --questionnaire /path/to/questionnaire.json --configPath /path/to/config/StructureMap.xls --questionnaireResponsePath /path/to/questionnaire-response.json
 ```
 This process will generate two output files: a .map file and its JSON equivalent
 **Options**
 ```
---questionnaire                 Path to the Questionnaire JSON file.
---configPath                    Path to the Structure Map configuration file (XLS format).
---questionnaireResponsePath     Path to the Questionnaire Response JSON file.
+-q or --questionnaire                 Path to the Questionnaire JSON file.
+-c or --configPath                    Path to the Structure Map configuration file (XLS format).
+-qr or --questionnaireResponsePath    Path to the Questionnaire Response JSON file.
 ```
 
 ### Localization
