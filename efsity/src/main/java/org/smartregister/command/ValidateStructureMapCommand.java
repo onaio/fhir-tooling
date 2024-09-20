@@ -197,8 +197,8 @@ public class ValidateStructureMapCommand implements Runnable {
 
     FctUtils.printCompletedInDuration(start);
   }
-  
- void validateStructureMapForProject(
+
+  void validateStructureMapForProject(
       String projectPath, String compositionFilePath, boolean validate) throws IOException {
     FctUtils.printInfo("Starting project mode validation with composition");
 
@@ -270,22 +270,22 @@ public class ValidateStructureMapCommand implements Runnable {
     return null;
   }
 
-    String findMatchingStructureMap(String questionnaireTitle, JsonArray structureMaps) {
-        for (JsonElement structureMapElement : structureMaps) {
-            JsonObject structureMap = structureMapElement.getAsJsonObject();
+  String findMatchingStructureMap(String questionnaireTitle, JsonArray structureMaps) {
+    for (JsonElement structureMapElement : structureMaps) {
+      JsonObject structureMap = structureMapElement.getAsJsonObject();
 
-            // Check if the "title" field exists and is not null
-            if (structureMap.has("title") && !structureMap.get("title").isJsonNull()) {
-                String structureMapTitle = structureMap.get("title").getAsString();
+      // Check if the "title" field exists and is not null
+      if (structureMap.has("title") && !structureMap.get("title").isJsonNull()) {
+        String structureMapTitle = structureMap.get("title").getAsString();
 
-                // Logic to match questionnaire title with structure map title
-                if (structureMapTitle.equals(questionnaireTitle)) {
-                    return structureMapTitle; // Return the matched structure map title
-                }
-            }
+        // Logic to match questionnaire title with structure map title
+        if (structureMapTitle.equals(questionnaireTitle)) {
+          return structureMapTitle; // Return the matched structure map title
         }
-        return null;
+      }
     }
+    return null;
+  }
 
   static ArrayList<String> getResourceFiles(String pathToFolder) throws IOException {
     ArrayList<String> filesArray = new ArrayList<>();
