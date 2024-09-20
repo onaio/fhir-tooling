@@ -221,8 +221,8 @@ public class ValidateStructureMapCommand implements Runnable {
           FctUtils.printInfo("Found structure map: " + structureMapName);
 
           // Define paths for Questionnaire and StructureMap
-          String questionnairePath = projectPath + "/questionnaire/" + questionnaireTitle + ".json";
-          String structureMapPath = projectPath + "/structure_map/" + structureMapName + ".json";
+          String questionnairePath = projectPath + "questionnaire/" + questionnaireTitle + ".json";
+          String structureMapPath = projectPath + "structure_map/" + structureMapName + ".json";
 
           // Step 3: Validate StructureMap using the existing validateStructureMap function
           validateStructureMap(questionnairePath, validate, structureMapPath);
