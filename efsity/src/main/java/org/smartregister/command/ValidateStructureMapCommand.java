@@ -30,6 +30,12 @@ public class ValidateStructureMapCommand implements Runnable {
   String inputPath;
 
   @CommandLine.Option(
+      names = {"-c", "--composition"},
+      description = "path of the composition configuration file",
+      required = false)
+  String compositionFilePath;
+
+  @CommandLine.Option(
       names = {"-v", "--validate"},
       description = "validate the fhir resources ",
       defaultValue = "false")
@@ -45,11 +51,21 @@ public class ValidateStructureMapCommand implements Runnable {
   public void run() {
     if (inputPath != null) {
       try {
-        validateStructureMap(inputPath, validate, structureMapFilePath);
+        if (isProjectMode(inputPath)) {
+          validateStructureMapForProject(inputPath, compositionFilePath, validate);
+        } else {
+          validateStructureMap(inputPath, validate, structureMapFilePath);
+        }
       } catch (IOException e) {
         throw new RuntimeException(e);
       }
     }
+  }
+
+  boolean isProjectMode(String inputPath) {
+    // Logic to determine if it's a project mode
+    Path path = Paths.get(inputPath);
+    return Files.isDirectory(path);
   }
 
   void validateStructureMap(String inputFilePath, boolean validate, String structureMapFilePath)
@@ -181,6 +197,95 @@ public class ValidateStructureMapCommand implements Runnable {
 
     FctUtils.printCompletedInDuration(start);
   }
+  
+ void validateStructureMapForProject(
+      String projectPath, String compositionFilePath, boolean validate) throws IOException {
+    FctUtils.printInfo("Starting project mode validation with composition");
+
+    // Step 1: Parse composition to get Questionnaires and StructureMaps sections
+    JsonObject composition = parseCompositionFile(compositionFilePath);
+    JsonArray questionnaires = getQuestionnairesFromComposition(composition);
+    JsonArray structureMaps = getStructureMapsFromComposition(composition);
+
+    if (questionnaires != null && structureMaps != null) {
+      // Step 2: Loop through Questionnaires and check for corresponding StructureMap
+      for (JsonElement questionnaireElement : questionnaires) {
+        JsonObject questionnaire = questionnaireElement.getAsJsonObject();
+        String questionnaireTitle = questionnaire.get("title").getAsString();
+        FctUtils.printInfo("Processing questionnaire: " + questionnaireTitle);
+
+        // Find matching structure map
+        String structureMapName = findMatchingStructureMap(questionnaireTitle, structureMaps);
+
+        if (structureMapName != null) {
+          FctUtils.printInfo("Found structure map: " + structureMapName);
+
+          // Define paths for Questionnaire and StructureMap
+          String questionnairePath = projectPath + "/questionnaire/" + questionnaireTitle + ".json";
+          String structureMapPath = projectPath + "/structure_map/" + structureMapName + ".json";
+
+          // Step 3: Validate StructureMap using the existing validateStructureMap function
+          validateStructureMap(questionnairePath, validate, structureMapPath);
+        } else {
+          FctUtils.printWarning(
+              "No matching structure map found for questionnaire: " + questionnaireTitle);
+        }
+      }
+    } else {
+      FctUtils.printError("Composition file is missing Questionnaires or StructureMaps sections.");
+    }
+  }
+
+  JsonObject parseCompositionFile(String compositionFilePath) throws IOException {
+    FctUtils.printInfo("Parsing composition file: " + compositionFilePath);
+    FctFile compositionFile = FctUtils.readFile(compositionFilePath);
+    return JsonParser.parseString(compositionFile.getContent()).getAsJsonObject();
+  }
+
+  JsonArray getQuestionnairesFromComposition(JsonObject composition) {
+    if (composition.has("section")) {
+      JsonArray sections = composition.getAsJsonArray("section");
+      for (JsonElement section : sections) {
+        JsonObject sectionObj = section.getAsJsonObject();
+        if (sectionObj.has("title")
+            && "Questionnaires".equals(sectionObj.get("title").getAsString())) {
+          return sectionObj.getAsJsonArray("section"); // Get the sections under Questionnaires
+        }
+      }
+    }
+    return null;
+  }
+
+  JsonArray getStructureMapsFromComposition(JsonObject composition) {
+    if (composition.has("section")) {
+      JsonArray sections = composition.getAsJsonArray("section");
+      for (JsonElement section : sections) {
+        JsonObject sectionObj = section.getAsJsonObject();
+        if (sectionObj.has("title")
+            && "StructureMaps".equals(sectionObj.get("title").getAsString())) {
+          return sectionObj.getAsJsonArray("section"); // Get the sections under StructureMaps
+        }
+      }
+    }
+    return null;
+  }
+
+    String findMatchingStructureMap(String questionnaireTitle, JsonArray structureMaps) {
+        for (JsonElement structureMapElement : structureMaps) {
+            JsonObject structureMap = structureMapElement.getAsJsonObject();
+
+            // Check if the "title" field exists and is not null
+            if (structureMap.has("title") && !structureMap.get("title").isJsonNull()) {
+                String structureMapTitle = structureMap.get("title").getAsString();
+
+                // Logic to match questionnaire title with structure map title
+                if (structureMapTitle.equals(questionnaireTitle)) {
+                    return structureMapTitle; // Return the matched structure map title
+                }
+            }
+        }
+        return null;
+    }
 
   static ArrayList<String> getResourceFiles(String pathToFolder) throws IOException {
     ArrayList<String> filesArray = new ArrayList<>();
