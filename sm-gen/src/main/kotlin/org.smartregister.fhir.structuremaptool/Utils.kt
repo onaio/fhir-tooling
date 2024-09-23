@@ -493,7 +493,7 @@ private fun String.getType(questionnaireResponse: QuestionnaireResponse): String
 internal val fhirPathEngine: FHIRPathEngine =
     with(FhirContext.forCached(FhirVersionEnum.R4)) {
         FHIRPathEngine(HapiWorkerContext(this, this.validationSupport)).apply {
-            hostServices = FHIRPathEngineHostServices
+            hostServices = FhirPathEngineHostServices
         }
     }
 
