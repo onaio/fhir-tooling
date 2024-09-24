@@ -1,50 +1,40 @@
 import logging
-import logging.config
 import pathlib
 from datetime import datetime
 
 import click
+import json
 
-from importer.builder import (build_assign_payload, build_group_list_resource,
-                              build_org_affiliation, build_payload,
-                              extract_matches, extract_resources, link_to_location)
+from importer.builder import (
+    build_assign_payload,
+    build_group_list_resource,
+    build_org_affiliation,
+    build_payload,
+    build_report,
+    extract_matches,
+    extract_resources,
+    link_to_location,
+)
 from importer.config.settings import fhir_base_url
 from importer.request import handle_request
-from importer.users import (assign_default_groups_roles, assign_group_roles,
-                            confirm_keycloak_user, confirm_practitioner,
-                            create_roles, create_user, create_user_resources)
-from importer.utils import (build_mapped_payloads, clean_duplicates,
-                            export_resources_to_csv, read_csv,
-                            read_file_in_chunks)
+from importer.users import (
+    assign_default_groups_roles,
+    assign_group_roles,
+    confirm_keycloak_user,
+    confirm_practitioner,
+    create_roles,
+    create_user,
+    create_user_resources,
+)
+from importer.utils import (
+    build_mapped_payloads,
+    clean_duplicates,
+    export_resources_to_csv,
+    read_csv,
+    read_file_in_chunks,
+)
 
 dir_path = str(pathlib.Path(__file__).parent.resolve())
-
-
-class ResponseFilter(logging.Filter):
-    def __init__(self, param=None):
-        self.param = param
-
-    def filter(self, record):
-        if self.param is None:
-            allow = True
-        else:
-            allow = self.param in record.msg
-        return allow
-
-
-LOGGING = {
-    "version": 1,
-    "filters": {
-        "custom-filter": {
-            "()": ResponseFilter,
-            "param": "final-response",
-        }
-    },
-    "handlers": {
-        "console": {"class": "logging.StreamHandler", "filters": ["custom-filter"]}
-    },
-    "root": {"level": "INFO", "handlers": ["console"]},
-}
 
 
 @click.command()
@@ -57,7 +47,7 @@ LOGGING = {
 @click.option("--roles_max", required=False, default=500)
 @click.option("--default_groups", required=False, default=True)
 @click.option("--cascade_delete", required=False, default=False)
-@click.option("--only_response", required=False)
+@click.option("--report_response", required=False)
 @click.option("--export_resources", required=False)
 @click.option("--parameter", required=False, default="_lastUpdated")
 @click.option("--value", required=False, default="gt2023-01-01")
@@ -90,7 +80,7 @@ def main(
     roles_max,
     default_groups,
     cascade_delete,
-    only_response,
+    report_response,
     log_level,
     export_resources,
     parameter,
@@ -117,11 +107,11 @@ def main(
         )
     logging.getLogger().addHandler(logging.StreamHandler())
 
-    if only_response:
-        logging.config.dictConfig(LOGGING)
-
     start_time = datetime.now()
     logging.info("Start time: " + start_time.strftime("%H:%M:%S"))
+    issues = []
+    fail_count = 0
+    fail_all = False
 
     if export_resources == "True":
         logging.info("Starting export...")
@@ -153,19 +143,30 @@ def main(
                 resource_list, label="Progress:Processing users "
             ) as process_user_progress:
                 for user in process_user_progress:
-                    user_id = create_user(user)
+                    user_id, create_issue = create_user(user)
                     if user_id == 0:
+                        fail_count = fail_count + 1
+                        if create_issue:
+                            issues.append(create_issue)
                         # user was not created above, check if it already exists
-                        user_id = confirm_keycloak_user(user)
+                        user_id, confirm_issue = confirm_keycloak_user(user)
+                        if confirm_issue:
+                            issues.append(confirm_issue)
                     if user_id != 0:
                         # user_id has been retrieved
                         # check practitioner
-                        practitioner_exists = confirm_practitioner(user, user_id)
+                        practitioner_exists, practitioner_issue = confirm_practitioner(
+                            user, user_id
+                        )
+                        if practitioner_issue:
+                            issues.append(practitioner_issue)
                         if not practitioner_exists:
                             payload = create_user_resources(user_id, user)
                             final_response = handle_request(
                                 "POST", payload, fhir_base_url
                             )
+                            if final_response.status_code > 201:
+                                issues.append(final_response.text)
                     logging.info("Processing complete!")
         elif resource_type == "locations":
             logging.info("Processing locations")
@@ -199,7 +200,6 @@ def main(
             matches = extract_matches(resource_list)
             json_payload = build_org_affiliation(matches, resource_list)
             final_response = handle_request("POST", json_payload, fhir_base_url)
-            logging.info(final_response)
             logging.info("Processing complete!")
         elif assign == "users-organizations":
             logging.info("Assigning practitioner to Organization")
@@ -244,7 +244,13 @@ def main(
                 final_response = handle_request("POST", "", fhir_base_url, list_payload)
                 logging.info("Processing complete!")
             else:
-                logging.error(product_creation_response.text)
+                fail_count = fail_count + 1
+                fail_all = True
+                json_response = json.loads(product_creation_response.text)
+                for _ in json_response["issue"]:
+                    del _["code"]
+                    issues.append(_)
+                logging.error(json_response)
         elif setup == "inventories":
             logging.info("Importing inventories as FHIR Group resources")
             json_payload = build_payload(
@@ -258,6 +264,14 @@ def main(
                 groups_created = extract_resources(
                     groups_created, inventory_creation_response.text
                 )
+            else:
+                fail_count = fail_count + 1
+                fail_all = True
+                json_response = json.loads(inventory_creation_response.text)
+                for _ in json_response["issue"]:
+                    del _["code"]
+                    issues.append(_)
+                logging.error(json_response)
 
             lists_created = []
             link_payload = link_to_location(resource_list)
@@ -265,6 +279,13 @@ def main(
                 link_response = handle_request("POST", link_payload, fhir_base_url)
                 if link_response.status_code == 200:
                     lists_created = extract_resources(lists_created, link_response.text)
+                else:
+                    fail_count = fail_count + 1
+                    fail_all = True
+                    json_response = json.loads(link_response.text)
+                    for _ in json_response["issue"]:
+                        del _["code"]
+                        issues.append(_)
                 logging.info(link_response.text)
 
             full_list_created_resources = groups_created + lists_created
@@ -278,6 +299,9 @@ def main(
                 final_response = handle_request("POST", "", fhir_base_url, list_payload)
                 logging.info("Processing complete!")
         else:
+            message = "Unsupported request!"
+            fail_all = True
+            issues.append({"Error": message})
             logging.error("Unsupported request!")
     else:
         logging.error("Empty csv file!")
@@ -289,6 +313,9 @@ def main(
     logging.info("End time: " + end_time.strftime("%H:%M:%S"))
     total_time = end_time - start_time
     logging.info("Total time: " + str(total_time.total_seconds()) + " seconds")
+
+    if report_response:
+        build_report(csv_file, final_response, issues, fail_count, fail_all)
 
 
 if __name__ == "__main__":
