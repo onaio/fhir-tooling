@@ -12,7 +12,8 @@ import magic
 import requests
 from dateutil.relativedelta import relativedelta
 
-from importer.config.settings import api_service, fhir_base_url, product_access_token
+from importer.config.settings import (api_service, fhir_base_url,
+                                      product_access_token)
 from importer.request import handle_request
 
 dir_path = str(pathlib.Path(__file__).parent.resolve())

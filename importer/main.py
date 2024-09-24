@@ -1,38 +1,22 @@
+import json
 import logging
 import pathlib
 from datetime import datetime
 
 import click
-import json
 
-from importer.builder import (
-    build_assign_payload,
-    build_group_list_resource,
-    build_org_affiliation,
-    build_payload,
-    build_report,
-    extract_matches,
-    extract_resources,
-    link_to_location,
-)
+from importer.builder import (build_assign_payload, build_group_list_resource,
+                              build_org_affiliation, build_payload,
+                              build_report, extract_matches, extract_resources,
+                              link_to_location)
 from importer.config.settings import fhir_base_url
 from importer.request import handle_request
-from importer.users import (
-    assign_default_groups_roles,
-    assign_group_roles,
-    confirm_keycloak_user,
-    confirm_practitioner,
-    create_roles,
-    create_user,
-    create_user_resources,
-)
-from importer.utils import (
-    build_mapped_payloads,
-    clean_duplicates,
-    export_resources_to_csv,
-    read_csv,
-    read_file_in_chunks,
-)
+from importer.users import (assign_default_groups_roles, assign_group_roles,
+                            confirm_keycloak_user, confirm_practitioner,
+                            create_roles, create_user, create_user_resources)
+from importer.utils import (build_mapped_payloads, clean_duplicates,
+                            export_resources_to_csv, read_csv,
+                            read_file_in_chunks)
 
 dir_path = str(pathlib.Path(__file__).parent.resolve())
 
