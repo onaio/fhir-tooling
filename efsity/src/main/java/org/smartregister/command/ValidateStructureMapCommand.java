@@ -12,7 +12,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import net.jimblackler.jsonschemafriend.GenerationException;
 import net.jimblackler.jsonschemafriend.ValidationException;
 import org.smartregister.domain.FctFile;
@@ -208,32 +210,88 @@ public class ValidateStructureMapCommand implements Runnable {
     JsonArray structureMaps = getStructureMapsFromComposition(composition);
 
     if (questionnaires != null && structureMaps != null) {
-      // Step 2: Loop through Questionnaires and check for corresponding StructureMap
+      // Step 2: Get the questionnaire to SM ID map
+      Map<String, String> questionnaireToStructureMapIdMap =
+          getQuestionnaireToStructureMapIdMap(questionnaires, structureMaps);
+
+      // Step 3: Loop through Questionnaires and check for corresponding StructureMap
       for (JsonElement questionnaireElement : questionnaires) {
         JsonObject questionnaire = questionnaireElement.getAsJsonObject();
-        String questionnaireTitle = questionnaire.get("title").getAsString();
-        FctUtils.printInfo("Processing questionnaire: " + questionnaireTitle);
+        String questionnaireId = questionnaire.get("title").getAsString();
 
-        // Find matching structure map
-        String structureMapName = findMatchingStructureMap(questionnaireTitle, structureMaps);
+        // Get the corresponding SM ID from the map
+        String structureMapId = questionnaireToStructureMapIdMap.get(questionnaireId);
 
-        if (structureMapName != null) {
-          FctUtils.printInfo("Found structure map: " + structureMapName);
+        if (structureMapId != null) {
+          FctUtils.printInfo("Found structure map: " + structureMapId);
 
           // Define paths for Questionnaire and StructureMap
-          String questionnairePath = projectPath + "questionnaire/" + questionnaireTitle + ".json";
-          String structureMapPath = projectPath + "structure_map/" + structureMapName + ".json";
+          String questionnairePath = projectPath + "questionnaire/" + questionnaireId + ".json";
+          String structureMapPath = projectPath + "structure_map/" + structureMapId + ".json";
 
-          // Step 3: Validate StructureMap using the existing validateStructureMap function
+          // Step 4: Validate StructureMap using the existing validateStructureMap function
+          ArrayList<String> questionnairesList = new ArrayList<>();
+          questionnairesList.add(questionnairePath);
           validateStructureMap(questionnairePath, validate, structureMapPath);
         } else {
           FctUtils.printWarning(
-              "No matching structure map found for questionnaire: " + questionnaireTitle);
+              "No matching structure map found for questionnaire: " + questionnaireId);
         }
       }
     } else {
       FctUtils.printError("Composition file is missing Questionnaires or StructureMaps sections.");
     }
+  }
+
+   Map<String, String> getQuestionnaireToStructureMapIdMap(
+      JsonArray questionnaires, JsonArray structureMaps) {
+    Map<String, String> questionnaireToStructureMapIdMap = new HashMap<>();
+
+    for (JsonElement questionnaireElement : questionnaires) {
+      JsonObject questionnaire = questionnaireElement.getAsJsonObject();
+      String questionnaireId = questionnaire.get("title").getAsString();
+
+      for (JsonElement structureMapElement : structureMaps) {
+        JsonObject structureMap = structureMapElement.getAsJsonObject();
+        String structureMapId = structureMap.get("title").getAsString();
+
+        // Check if the questionnaire has a reference to the structure map
+        if (hasQuestionnaireReferenceToStructureMap(questionnaire, structureMapId)) {
+          questionnaireToStructureMapIdMap.put(questionnaireId, structureMapId);
+          break;
+        }
+      }
+    }
+
+    return questionnaireToStructureMapIdMap;
+  }
+
+  private boolean hasQuestionnaireReferenceToStructureMap(
+      JsonObject questionnaire, String structureMapId) {
+    // Check if the questionnaire has an extension with a reference to the structure map
+    if (questionnaire.has("extension")) {
+      JsonArray extensions = questionnaire.getAsJsonArray("extension");
+      for (JsonElement extensionElement : extensions) {
+        JsonObject extension = extensionElement.getAsJsonObject();
+        if (extension.has("url")
+            && extension
+                .get("url")
+                .getAsString()
+                .equals(
+                    "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-targetStructureMap")) {
+          if (extension.has("valueReference")
+              && extension
+                  .getAsJsonObject("valueReference")
+                  .get("reference")
+                  .getAsString()
+                  .equals("StructureMap/" + structureMapId)) {
+            return true;
+          }
+        }
+      }
+    }
+
+    return false;
   }
 
   JsonObject parseCompositionFile(String compositionFilePath) throws IOException {
