@@ -243,7 +243,7 @@ public class ValidateStructureMapCommand implements Runnable {
     }
   }
 
-   Map<String, String> getQuestionnaireToStructureMapIdMap(
+  Map<String, String> getQuestionnaireToStructureMapIdMap(
       JsonArray questionnaires, JsonArray structureMaps) {
     Map<String, String> questionnaireToStructureMapIdMap = new HashMap<>();
 
@@ -266,8 +266,7 @@ public class ValidateStructureMapCommand implements Runnable {
     return questionnaireToStructureMapIdMap;
   }
 
-  private boolean hasQuestionnaireReferenceToStructureMap(
-      JsonObject questionnaire, String structureMapId) {
+  boolean hasQuestionnaireReferenceToStructureMap(JsonObject questionnaire, String structureMapId) {
     // Check if the questionnaire has an extension with a reference to the structure map
     if (questionnaire.has("extension")) {
       JsonArray extensions = questionnaire.getAsJsonArray("extension");
