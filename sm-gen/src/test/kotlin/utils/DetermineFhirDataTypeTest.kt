@@ -9,7 +9,7 @@ class DetermineFhirDataTypeTest {
     @Test
     fun testDetermineFhirDataType() {
         // Test Null or Empty Input
-        assertEquals("Invalid Input: Null or Empty String", determineFhirDataType(null))
+        assertEquals("Invalid Input: Null or Empty String", determineFhirDataType(null.toString()))
         assertEquals("Invalid Input: Null or Empty String", determineFhirDataType(""))
 
         // Test Boolean

@@ -13,7 +13,6 @@ import java.util.*
 import org.apache.commons.io.FileUtils
 import org.apache.poi.ss.usermodel.CellType
 import org.apache.poi.ss.usermodel.Row
-import org.apache.poi.ss.usermodel.Workbook
 import org.apache.poi.ss.usermodel.WorkbookFactory
 import org.hl7.fhir.r4.context.SimpleWorkerContext
 import org.hl7.fhir.r4.model.Bundle
@@ -38,37 +37,44 @@ REMAINING TASKS
  */
 
 class Application : CliktCommand() {
-    val xlsfile: String by option(help = "XLS filepath").prompt("Kindly enter the XLS filepath")
-    val questionnairefile : String by option(help = "Questionnaire filepath").prompt("Kindly enter the questionnaire filepath")
+  val xlsfile: String by option(help = "XLS filepath").prompt("Kindly enter the XLS filepath")
+  val questionnairefile: String by
+  option(help = "Questionnaire filepath").prompt("Kindly enter the questionnaire filepath")
 
+  override fun run() {
+    // Create a map of Resource -> questionnaire name or path -> value
+    // For each resource loop through creating or adding the correct instructions
 
-    override fun run() {
-        // Create a map of Resource -> questionnaire name or path -> value
-        // For each resource loop through creating or adding the correct instructions
+    lateinit var questionnaireResponse: QuestionnaireResponse
+    val contextR4 = FhirContext.forR4()
+    val fhirJsonParser = contextR4.newJsonParser()
+    val questionnaire: Questionnaire =
+      fhirJsonParser.parseResource(
+        Questionnaire::class.java,
+        FileUtils.readFileToString(File(questionnairefile), Charset.defaultCharset())
+      )
+    val questionnaireResponseFile =
+      File(javaClass.classLoader.getResource("questionnaire-response.json")?.file.toString())
+    if (questionnaireResponseFile.exists()) {
+      questionnaireResponse =
+        fhirJsonParser.parseResource(
+          QuestionnaireResponse::class.java,
+          questionnaireResponseFile.readText(Charset.defaultCharset())
+        )
+    } else {
+      println("File not found: questionnaire-response.json")
+    }
 
-        lateinit var questionnaireResponse: QuestionnaireResponse
-        val contextR4 = FhirContext.forR4()
-        val fhirJsonParser = contextR4.newJsonParser()
-        val questionnaire : Questionnaire = fhirJsonParser.parseResource(Questionnaire::class.java, FileUtils.readFileToString(File(questionnairefile), Charset.defaultCharset()))
-        val questionnaireResponseFile = File(javaClass.classLoader.getResource("questionnaire-response.json")?.file.toString())
-        if (questionnaireResponseFile.exists()) {
-            questionnaireResponse = fhirJsonParser.parseResource(QuestionnaireResponse::class.java, questionnaireResponseFile.readText(Charset.defaultCharset()))
-        } else {
-            println("File not found: questionnaire-response.json")
-        }
+    // reads the xls
+    val xlsFile = FileInputStream(xlsfile)
+    val xlWb = WorkbookFactory.create(xlsFile)
 
-        // reads the xls
-        val xlsFile = FileInputStream(xlsfile)
-        val xlWb = WorkbookFactory.create(xlsFile)
+    // TODO: Check that all the Resource(s) ub the Resource column are the correct name and type eg.
+    // RiskFlag in the previous XLSX was not valid
+    // TODO: Check that all the path's and other entries in the excel sheet are valid
+    // TODO: Add instructions for adding embedded classes like
+    // `RiskAssessment$RiskAssessmentPredictionComponent` to the TransformSupportServices
 
-        // Validate resources and paths in the XLS sheet
-        validateResourcesAndPaths(xlWb)
-
-        // Fix groups calling sequence
-        fixGroupCallingSequence(xlWb)
-        // TODO: Check that all the Resource(s) ub the Resource column are the correct name and type eg. RiskFlag in the previous XLSX was not valid
-        // TODO: Check that all the path's and other entries in the excel sheet are valid
-        // TODO: Add instructions for adding embedded classes like `RiskAssessment$RiskAssessmentPredictionComponent` to the TransformSupportServices
     /*
 
     READ THE SETTINGS SHEET
@@ -131,77 +137,6 @@ class Application : CliktCommand() {
           return@forEachIndexed
         }
 
-    }
-    private fun validateResourcesAndPaths(workbook: Workbook) {
-        val fieldMappingsSheet = workbook.getSheet("Field Mappings")
-        fieldMappingsSheet.forEachIndexed { index, row ->
-            if (index == 0) return@forEachIndexed
-
-            val resourceName = row.getCellAsString(2)
-            val fieldPath = row.getCellAsString(4)
-
-            if (!isValidResource(resourceName)) {
-                throw IllegalArgumentException("Invalid resource name: $resourceName")
-            }
-
-            if (!isValidPath(fieldPath)) {
-                throw IllegalArgumentException("Invalid field path: $fieldPath")
-            }
-        }
-    }
-    private fun isValidResource(resourceName: String?): Boolean {
-        // Implement logic to validate resource names
-        // This can be a list of known valid resource names, or a more complex validation
-        return resourceName != null && resourceName.isNotEmpty()
-    }
-
-    private fun isValidPath(path: String?): Boolean {
-        // Implement logic to validate paths
-        // This can involve checking against known paths or ensuring the format is correct
-        return path != null && path.isNotEmpty()
-    }
-
-    private fun fixGroupCallingSequence(workbook: Workbook) {
-        // Implement logic to fix group calling sequences
-        // Detect and handle cyclic dependencies, using topological sorting or other methods
-        // You can throw an exception if a cyclic dependency is detected
-    }
-
-    private fun groupRulesByResource(workbook: Workbook, questionnaireResponseItemIds: List<String>): Map<String, MutableList<Instruction>> {
-        val fieldMappingsSheet = workbook.getSheet("Field Mappings")
-        val resourceConversionInstructions = hashMapOf<String, MutableList<Instruction>>()
-
-        fieldMappingsSheet.forEachIndexed { index, row ->
-            if (index == 0) return@forEachIndexed
-
-            if (row.isEmpty()) {
-                return@forEachIndexed
-            }
-
-            val instruction = row.getInstruction()
-            val xlsId = instruction.responseFieldId
-            val comparedResponseAndXlsId = questionnaireResponseItemIds.contains(xlsId)
-            if (instruction.resource.isNotEmpty() && comparedResponseAndXlsId) {
-                resourceConversionInstructions.computeIfAbsent(instruction.searchKey(), { key -> mutableListOf() })
-                    .add(instruction)
-            }
-        }
-
-        return resourceConversionInstructions
-    }
-
-    fun Row.getInstruction() : Instruction {
-        return Instruction().apply {
-            responseFieldId = getCell(0) ?.stringCellValue
-            constantValue = getCellAsString(1)
-            resource = getCell(2).stringCellValue
-            resourceIndex = getCell(3) ?.numericCellValue?.toInt() ?: 0
-            fieldPath = getCell(4) ?.stringCellValue ?: ""
-            fullFieldPath = fieldPath
-            field = getCell(5) ?.stringCellValue
-            conversion = getCell(6) ?.stringCellValue
-            fhirPathStructureMapFunctions = getCell(7) ?.stringCellValue
-          
         val instruction = row.getInstruction()
         val xlsId = instruction.responseFieldId
         val comparedResponseAndXlsId = questionnaireResponseItemIds.contains(xlsId)
@@ -211,13 +146,6 @@ class Application : CliktCommand() {
             .add(instruction)
         }
       }
-      // val resource =  ?: Class.forName("org.hl7.fhir.r4.model.$resourceName").newInstance() as
-      // Resource
-
-      // Perform the extraction for the row
-      /*generateStructureMapLine(structureMapBody, row, resource, extractionResources)
-
-      extractionResources[resourceName + resourceIndex] = resource*/
 
       sb.append(structureMapHeader)
       sb.appendNewLine().appendNewLine().appendNewLine()
