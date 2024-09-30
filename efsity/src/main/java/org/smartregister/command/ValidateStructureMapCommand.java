@@ -11,13 +11,13 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
 import net.jimblackler.jsonschemafriend.GenerationException;
 import net.jimblackler.jsonschemafriend.ValidationException;
 import org.smartregister.domain.FctFile;
+import org.smartregister.processor.FctValidationProcessor;
+import org.smartregister.processor.QuestionnaireProcessor;
 import org.smartregister.util.FctUtils;
 import picocli.CommandLine;
 
@@ -28,14 +28,8 @@ public class ValidateStructureMapCommand implements Runnable {
   @CommandLine.Option(
       names = {"-i", "--input"},
       description = "path of the project folder",
-      required = true)
-  String inputPath;
-
-  @CommandLine.Option(
-      names = {"-c", "--composition"},
-      description = "path of the composition configuration file",
       required = false)
-  String compositionFilePath;
+  String inputPath;
 
   @CommandLine.Option(
       names = {"-v", "--validate"},
@@ -52,15 +46,18 @@ public class ValidateStructureMapCommand implements Runnable {
   @Override
   public void run() {
     if (inputPath != null) {
+
+      long start = System.currentTimeMillis();
       try {
         if (isProjectMode(inputPath)) {
-          validateStructureMapForProject(inputPath, compositionFilePath, validate);
+          validateStructureMapForProject(inputPath, validate);
         } else {
           validateStructureMap(inputPath, validate, structureMapFilePath);
         }
       } catch (IOException e) {
         throw new RuntimeException(e);
       }
+      FctUtils.printCompletedInDuration(start);
     }
   }
 
@@ -72,8 +69,6 @@ public class ValidateStructureMapCommand implements Runnable {
 
   void validateStructureMap(String inputFilePath, boolean validate, String structureMapFilePath)
       throws IOException {
-    long start = System.currentTimeMillis();
-
     FctUtils.printInfo("Starting structureMap validation");
     FctUtils.printInfo(String.format("Input file path \u001b[35m%s\u001b[0m", inputFilePath));
 
@@ -196,51 +191,34 @@ public class ValidateStructureMapCommand implements Runnable {
       FctUtils.printError("Some extracted resources are invalid.");
       throw new RuntimeException("Validation failed for some extracted resources.");
     }
-
-    FctUtils.printCompletedInDuration(start);
   }
 
-  void validateStructureMapForProject(
-      String projectPath, String compositionFilePath, boolean validate) throws IOException {
+  void validateStructureMapForProject(String questionnairesFolderPath, boolean validate) throws IOException {
     FctUtils.printInfo("Starting project mode validation with composition");
 
-    // Step 1: Parse composition to get Questionnaires and StructureMaps sections
-    JsonObject composition = parseCompositionFile(compositionFilePath);
-    JsonArray questionnaires = getQuestionnairesFromComposition(composition);
-    JsonArray structureMaps = getStructureMapsFromComposition(composition);
+    Map<String, Set<String>> questionnaireToStructureMapId;
 
-    if (questionnaires != null && structureMaps != null) {
-      // Step 2: Get the questionnaire to SM ID map
-      Map<String, String> questionnaireToStructureMapIdMap =
-          getQuestionnaireToStructureMapIdMap(questionnaires, structureMaps);
+    Map<String, Map<String, Set<String>>> questionnaireProcessorResults = new QuestionnaireProcessor(questionnairesFolderPath).process();
+    questionnaireToStructureMapId = questionnaireProcessorResults.getOrDefault(FctValidationProcessor.Constants.structuremap, new HashMap<>());
 
-      // Step 3: Loop through Questionnaires and check for corresponding StructureMap
-      for (JsonElement questionnaireElement : questionnaires) {
-        JsonObject questionnaire = questionnaireElement.getAsJsonObject();
-        String questionnaireId = questionnaire.get("title").getAsString();
+    for (Map.Entry<String, Set<String>> entry : questionnaireToStructureMapId.entrySet()) {
 
-        // Get the corresponding SM ID from the map
-        String structureMapId = questionnaireToStructureMapIdMap.get(questionnaireId);
+      String questionnaireId = entry.getKey();
+      String structureMapId = entry.getValue().stream().findFirst().orElse("");
+      FctUtils.printInfo("-----------------------------------------------");
+      FctUtils.printInfo("Questionnaire: " + questionnaireId);
+      FctUtils.printInfo("StructureMap: " + structureMapId);
 
-        if (structureMapId != null) {
-          FctUtils.printInfo("Found structure map: " + structureMapId);
-
-          // Define paths for Questionnaire and StructureMap
-          String questionnairePath = projectPath + "questionnaire/" + questionnaireId + ".json";
-          String structureMapPath = projectPath + "structure_map/" + structureMapId + ".json";
-
-          // Step 4: Validate StructureMap using the existing validateStructureMap function
-          ArrayList<String> questionnairesList = new ArrayList<>();
-          questionnairesList.add(questionnairePath);
-          validateStructureMap(questionnairePath, validate, structureMapPath);
-        } else {
-          FctUtils.printWarning(
-              "No matching structure map found for questionnaire: " + questionnaireId);
-        }
-      }
-    } else {
-      FctUtils.printError("Composition file is missing Questionnaires or StructureMaps sections.");
     }
+
+    // call mapIdentifierWithFilename
+  }
+
+  void mapIdentifierWithFilename(){
+    // This function should map questionnaires and structureMaps with their identifiers e.g
+    // { "a0c799d4-62f8-426d-a8ad-f6fb56ad4429" : "register_member.json" }
+    // the key is the id and the value is the file name
+
   }
 
   Map<String, String> getQuestionnaireToStructureMapIdMap(
