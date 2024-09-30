@@ -1,6 +1,6 @@
 package org.smartregister.fhir.structuremaptool
 
-import io.mockk.mockk
+import org.hl7.fhir.r4.context.SimpleWorkerContext
 import org.hl7.fhir.exceptions.FHIRException
 import org.hl7.fhir.r4.model.CarePlan
 import org.hl7.fhir.r4.model.Encounter
@@ -15,11 +15,13 @@ import org.junit.jupiter.api.BeforeEach
 import kotlin.test.Test
 
 class TransformSupportServicesTest{
-    lateinit var transformSupportServices: TransformSupportServices
+    private lateinit var transformSupportServices: TransformSupportServices
 
     @BeforeEach
     fun setUp() {
-        transformSupportServices = TransformSupportServices(mockk())
+        val simpleWorkerContext = SimpleWorkerContext()
+
+        transformSupportServices = TransformSupportServices(simpleWorkerContext)
     }
 
 
