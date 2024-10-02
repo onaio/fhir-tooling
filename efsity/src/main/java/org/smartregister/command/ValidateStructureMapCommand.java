@@ -7,17 +7,20 @@ import com.google.gson.JsonParser;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
-
 import net.jimblackler.jsonschemafriend.GenerationException;
 import net.jimblackler.jsonschemafriend.ValidationException;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.smartregister.domain.FctFile;
 import org.smartregister.processor.FctValidationProcessor;
 import org.smartregister.processor.QuestionnaireProcessor;
+import org.smartregister.processor.StructureMapProcessor;
 import org.smartregister.util.FctUtils;
 import picocli.CommandLine;
 
@@ -50,7 +53,7 @@ public class ValidateStructureMapCommand implements Runnable {
       long start = System.currentTimeMillis();
       try {
         if (isProjectMode(inputPath)) {
-          validateStructureMapForProject(inputPath, validate);
+          validateStructureMapForProject(inputPath, structureMapFilePath, validate);
         } else {
           validateStructureMap(inputPath, validate, structureMapFilePath);
         }
@@ -193,32 +196,105 @@ public class ValidateStructureMapCommand implements Runnable {
     }
   }
 
-  void validateStructureMapForProject(String questionnairesFolderPath, boolean validate) throws IOException {
-    FctUtils.printInfo("Starting project mode validation with composition");
+  void validateStructureMapForProject(
+      String questionnairesFolderPath, String structureMapsFolderPath, boolean validate)
+      throws IOException {
+    FctUtils.printInfo("Starting project mode validation");
 
+    // Process questionnaires and structure maps
     Map<String, Set<String>> questionnaireToStructureMapId;
 
-    Map<String, Map<String, Set<String>>> questionnaireProcessorResults = new QuestionnaireProcessor(questionnairesFolderPath).process();
-    questionnaireToStructureMapId = questionnaireProcessorResults.getOrDefault(FctValidationProcessor.Constants.structuremap, new HashMap<>());
+    // Process questionnaires
+    Map<String, Map<String, Set<String>>> questionnaireProcessorResults =
+        new QuestionnaireProcessor(questionnairesFolderPath).process();
+    questionnaireToStructureMapId =
+        questionnaireProcessorResults.getOrDefault(
+            FctValidationProcessor.Constants.structuremap, new HashMap<>());
 
+    // Map identifiers to filenames for both questionnaires and structure maps
+    Map<String, String> questionnaireFileMap = mapIdentifierWithFilename(questionnairesFolderPath);
+
+    // Use StructureMapProcessor for structure maps to get their ID-to-filename mapping
+    StructureMapProcessor structureMapProcessor =
+        new StructureMapProcessor(structureMapsFolderPath);
+    Map<String, String> structureMapFileMap = structureMapProcessor.generateIdToFilepathMap();
+
+    // Iterate over the map of questionnaires and corresponding structure maps
     for (Map.Entry<String, Set<String>> entry : questionnaireToStructureMapId.entrySet()) {
-
       String questionnaireId = entry.getKey();
-      String structureMapId = entry.getValue().stream().findFirst().orElse("");
+      Set<String> structureMapIds = entry.getValue();
+
       FctUtils.printInfo("-----------------------------------------------");
-      FctUtils.printInfo("Questionnaire: " + questionnaireId);
-      FctUtils.printInfo("StructureMap: " + structureMapId);
+      FctUtils.printInfo("Processing Questionnaire: " + questionnaireId);
 
+      // Get the corresponding questionnaire filename
+      String questionnaireFile = questionnaireFileMap.get(questionnaireId);
+      if (questionnaireFile != null) {
+        FctUtils.printInfo(
+            "Questionnaire ID: " + questionnaireId + " -> File: " + questionnaireFile);
+
+        // Handle multiple structure maps per questionnaire
+        for (String structureMapId : structureMapIds) {
+          FctUtils.printInfo("Processing StructureMap: " + structureMapId);
+
+          // Get the corresponding structure map filename
+          String structureMapFile = structureMapFileMap.get(structureMapId);
+          if (structureMapFile != null) {
+            FctUtils.printInfo(
+                "StructureMap ID: " + structureMapId + " -> File: " + structureMapFile);
+
+            // Call the existing validateStructureMap function for validation and resource
+            // extraction
+            try {
+              validateStructureMap(questionnaireFile, validate, structureMapFile);
+            } catch (IOException e) {
+              FctUtils.printError("Error during structure map validation: " + e.getMessage());
+              throw e; // Re-throw to maintain the behavior
+            }
+
+          } else {
+            FctUtils.printWarning("No file found for structureMap: " + structureMapId);
+          }
+        }
+
+      } else {
+        FctUtils.printWarning("No file found for questionnaire: " + questionnaireId);
+      }
     }
-
-    // call mapIdentifierWithFilename
   }
 
-  void mapIdentifierWithFilename(){
-    // This function should map questionnaires and structureMaps with their identifiers e.g
-    // { "a0c799d4-62f8-426d-a8ad-f6fb56ad4429" : "register_member.json" }
-    // the key is the id and the value is the file name
+  Map<String, String> mapIdentifierWithFilename(String folderPath) throws IOException {
+    Map<String, String> idToFileNameMap = new HashMap<>();
 
+    File folder = new File(folderPath);
+    File[] files = folder.listFiles();
+
+    if (files != null) {
+      for (File file : files) {
+        if (file.isFile() && file.getName().endsWith(".json")) {
+          String fileName = file.getName();
+          String fileContent =
+              new String(Files.readAllBytes(file.toPath()), StandardCharsets.UTF_8);
+          String id = extractIdFromJson(fileContent);
+
+          if (id != null && !id.isEmpty()) {
+            idToFileNameMap.put(id, fileName);
+          }
+        }
+      }
+    }
+    return idToFileNameMap;
+  }
+
+  String extractIdFromJson(String jsonContent) {
+    try {
+      // Parse the JSON content to extract the ID (assuming the ID is under "id")
+      JSONObject jsonObject = new JSONObject(jsonContent);
+      return jsonObject.optString("id", null); // Adjust the key if necessary
+    } catch (JSONException e) {
+      FctUtils.printError("Failed to parse JSON content: " + e.getMessage());
+      return null;
+    }
   }
 
   Map<String, String> getQuestionnaireToStructureMapIdMap(
