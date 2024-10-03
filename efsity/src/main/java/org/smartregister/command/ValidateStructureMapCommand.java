@@ -74,6 +74,8 @@ public class ValidateStructureMapCommand implements Runnable {
       throws IOException {
     FctUtils.printInfo("Starting structureMap validation");
     FctUtils.printInfo(String.format("Input file path \u001b[35m%s\u001b[0m", inputFilePath));
+    FctUtils.printInfo(
+        String.format("Input file path \u001b[35m%s\u001b[0m", structureMapFilePath));
 
     ArrayList<String> questionnaires = getResourceFiles(inputFilePath);
     boolean allResourcesValid = true;
@@ -212,7 +214,7 @@ public class ValidateStructureMapCommand implements Runnable {
             FctValidationProcessor.Constants.structuremap, new HashMap<>());
 
     // Map identifiers to filenames for both questionnaires and structure maps
-    Map<String, String> questionnaireFileMap = mapIdentifierWithFilename(questionnairesFolderPath);
+    Map<String, String> questionnaireFileMap = mapIdentifierWithFilePath(questionnairesFolderPath);
 
     // Use StructureMapProcessor for structure maps to get their ID-to-filename mapping
     StructureMapProcessor structureMapProcessor =
@@ -245,6 +247,9 @@ public class ValidateStructureMapCommand implements Runnable {
 
             // Call the existing validateStructureMap function for validation and resource
             // extraction
+
+            System.out.println(questionnaireFile);
+
             try {
               validateStructureMap(questionnaireFile, validate, structureMapFile);
             } catch (IOException e) {
@@ -263,7 +268,7 @@ public class ValidateStructureMapCommand implements Runnable {
     }
   }
 
-  Map<String, String> mapIdentifierWithFilename(String folderPath) throws IOException {
+  Map<String, String> mapIdentifierWithFilePath(String folderPath) throws IOException {
     Map<String, String> idToFileNameMap = new HashMap<>();
 
     File folder = new File(folderPath);
@@ -272,13 +277,12 @@ public class ValidateStructureMapCommand implements Runnable {
     if (files != null) {
       for (File file : files) {
         if (file.isFile() && file.getName().endsWith(".json")) {
-          String fileName = file.getName();
           String fileContent =
               new String(Files.readAllBytes(file.toPath()), StandardCharsets.UTF_8);
           String id = extractIdFromJson(fileContent);
 
           if (id != null && !id.isEmpty()) {
-            idToFileNameMap.put(id, fileName);
+            idToFileNameMap.put(id, file.getAbsolutePath());
           }
         }
       }
@@ -345,57 +349,6 @@ public class ValidateStructureMapCommand implements Runnable {
     }
 
     return false;
-  }
-
-  JsonObject parseCompositionFile(String compositionFilePath) throws IOException {
-    FctUtils.printInfo("Parsing composition file: " + compositionFilePath);
-    FctFile compositionFile = FctUtils.readFile(compositionFilePath);
-    return JsonParser.parseString(compositionFile.getContent()).getAsJsonObject();
-  }
-
-  JsonArray getQuestionnairesFromComposition(JsonObject composition) {
-    if (composition.has("section")) {
-      JsonArray sections = composition.getAsJsonArray("section");
-      for (JsonElement section : sections) {
-        JsonObject sectionObj = section.getAsJsonObject();
-        if (sectionObj.has("title")
-            && "Questionnaires".equals(sectionObj.get("title").getAsString())) {
-          return sectionObj.getAsJsonArray("section"); // Get the sections under Questionnaires
-        }
-      }
-    }
-    return null;
-  }
-
-  JsonArray getStructureMapsFromComposition(JsonObject composition) {
-    if (composition.has("section")) {
-      JsonArray sections = composition.getAsJsonArray("section");
-      for (JsonElement section : sections) {
-        JsonObject sectionObj = section.getAsJsonObject();
-        if (sectionObj.has("title")
-            && "StructureMaps".equals(sectionObj.get("title").getAsString())) {
-          return sectionObj.getAsJsonArray("section"); // Get the sections under StructureMaps
-        }
-      }
-    }
-    return null;
-  }
-
-  String findMatchingStructureMap(String questionnaireTitle, JsonArray structureMaps) {
-    for (JsonElement structureMapElement : structureMaps) {
-      JsonObject structureMap = structureMapElement.getAsJsonObject();
-
-      // Check if the "title" field exists and is not null
-      if (structureMap.has("title") && !structureMap.get("title").isJsonNull()) {
-        String structureMapTitle = structureMap.get("title").getAsString();
-
-        // Logic to match questionnaire title with structure map title
-        if (structureMapTitle.equals(questionnaireTitle)) {
-          return structureMapTitle; // Return the matched structure map title
-        }
-      }
-    }
-    return null;
   }
 
   static ArrayList<String> getResourceFiles(String pathToFolder) throws IOException {

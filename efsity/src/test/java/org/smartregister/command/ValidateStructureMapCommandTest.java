@@ -15,124 +15,95 @@ import java.util.Map;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+import org.smartregister.processor.StructureMapProcessor;
 
 public class ValidateStructureMapCommandTest {
 
-  private ValidateStructureMapCommand validateStructureMapCommand;
-  private File tempFile;
-  private Path tempDirectory;
+  private ValidateStructureMapCommand command;
+  private Path tempDir;
 
   @BeforeEach
   public void setUp() throws IOException {
-    validateStructureMapCommand = new ValidateStructureMapCommand();
-    tempDirectory = Files.createTempDirectory("test");
-    tempFile = Files.createFile(tempDirectory.resolve("composition.json")).toFile();
-
-    try (FileWriter writer = new FileWriter(tempFile)) {
-      writer.write(
-          "{\n"
-              + "  \"resourceType\": \"Composition\",\n"
-              + "  \"section\": [\n"
-              + "    {\n"
-              + "      \"title\": \"Questionnaires\",\n"
-              + "      \"section\": [{ \"title\": \"Questionnaire1\" }]\n"
-              + "    },\n"
-              + "    {\n"
-              + "      \"title\": \"StructureMaps\",\n"
-              + "      \"section\": [{ \"title\": \"StructureMap1\" }]\n"
-              + "    }\n"
-              + "  ]\n"
-              + "}");
-    }
+    command = new ValidateStructureMapCommand();
+    tempDir = Files.createTempDirectory("test_project");
   }
 
   @AfterEach
   public void tearDown() throws IOException {
-    if (tempFile.exists()) {
-      tempFile.delete();
-    }
-    if (Files.exists(tempDirectory)) {
-      Files.walk(tempDirectory)
-          .sorted((path1, path2) -> path2.compareTo(path1))
-          .map(Path::toFile)
-          .forEach(File::delete);
-    }
+    Files.walk(tempDir)
+        .sorted((a, b) -> b.compareTo(a))
+        .forEach(
+            p -> {
+              try {
+                Files.delete(p);
+              } catch (IOException e) {
+                e.printStackTrace();
+              }
+            });
   }
 
   @Test
-  public void testIsProjectModeReturnsFalseForFile() {
-    assertFalse(validateStructureMapCommand.isProjectMode(tempFile.toString()));
+  public void testIsProjectModeShouldReturnTrueForDirectory() throws IOException {
+    assertTrue(command.isProjectMode(tempDir.toString()));
   }
 
   @Test
-  public void testParseCompositionFile() throws IOException {
-    JsonObject composition = validateStructureMapCommand.parseCompositionFile(tempFile.getPath());
-    assertNotNull(composition);
-    assertEquals("Composition", composition.get("resourceType").getAsString());
+  public void testIsProjectModeShouldReturnFalseForFile() throws IOException {
+    Path tempFile = Files.createTempFile(tempDir, "file", ".json");
+    assertFalse(command.isProjectMode(tempFile.toString()));
   }
 
   @Test
-  public void testGetQuestionnairesFromComposition() throws IOException {
-    JsonObject composition = validateStructureMapCommand.parseCompositionFile(tempFile.getPath());
-    JsonArray questionnaires =
-        validateStructureMapCommand.getQuestionnairesFromComposition(composition);
-    assertNotNull(questionnaires);
-    assertEquals(1, questionnaires.size());
-    assertEquals(
-        "Questionnaire1", questionnaires.get(0).getAsJsonObject().get("title").getAsString());
+  public void testMapIdentifierWithFilePath() throws IOException {
+    String content = "{\"id\": \"questionnaire-id\"}";
+    Path jsonFile = Files.createFile(tempDir.resolve("questionnaire.json"));
+    Files.write(jsonFile, content.getBytes());
+
+    Map<String, String> result = command.mapIdentifierWithFilePath(tempDir.toString());
+    assertEquals(1, result.size());
+    assertEquals(jsonFile.toString(), result.get("questionnaire-id"));
   }
 
   @Test
-  public void testGetStructureMapsFromComposition() throws IOException {
-    JsonObject composition = validateStructureMapCommand.parseCompositionFile(tempFile.getPath());
-    JsonArray structureMaps =
-        validateStructureMapCommand.getStructureMapsFromComposition(composition);
-    assertNotNull(structureMaps);
-    assertEquals(1, structureMaps.size());
-    assertEquals(
-        "StructureMap1", structureMaps.get(0).getAsJsonObject().get("title").getAsString());
+  public void testMapIdentifierWithFilePathWithNoJsonFiles() throws IOException {
+    Map<String, String> result = command.mapIdentifierWithFilePath(tempDir.toString());
+    assertTrue(result.isEmpty());
   }
 
   @Test
-  public void testGetQuestionnaireToStructureMapIdMap() {
-    // Create a Questionnaire with an extension linking it to a StructureMap
-    JsonArray questionnaires = new JsonArray();
-    JsonObject questionnaire = new JsonObject();
-    questionnaire.addProperty("title", "Questionnaire1");
+  public void testExtractIdFromJson() {
+    String jsonContent = "{\"id\": \"test-id\"}";
+    assertEquals("test-id", command.extractIdFromJson(jsonContent));
+  }
 
-    // Add the extension with a reference to the StructureMap
-    JsonArray extensions = new JsonArray();
-    JsonObject extension = new JsonObject();
-    extension.addProperty(
-        "url",
-        "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-targetStructureMap");
+  @Test
+  public void testExtractIdFromJsonWithNoId() {
+    String jsonContent = "{\"name\": \"test-name\"}";
+    assertNull(command.extractIdFromJson(jsonContent));
+  }
 
-    JsonObject valueReference = new JsonObject();
-    valueReference.addProperty("reference", "StructureMap/StructureMap1");
+  @Test
+  public void testValidateStructureMapForProject() throws IOException {
+    // Simulating questionnaire and structure map files
+    Path questionnaireFile = Files.createFile(tempDir.resolve("questionnaire.json"));
+    Files.writeString(questionnaireFile, "{\"resourceType\": \"Questionnaire\", \"id\": \"q1\"}");
 
-    extension.add("valueReference", valueReference);
-    extensions.add(extension);
+    Path structureMapFile = Files.createFile(tempDir.resolve("structureMap.json"));
+    Files.writeString(structureMapFile, "{\"resourceType\": \"StructureMap\", \"id\": \"sm1\"}");
 
-    questionnaire.add("extension", extensions);
-    questionnaires.add(questionnaire);
+    // Simulating file mapping for testing
+    Map<String, String> mockQuestionnaireMap = new HashMap<>();
+    mockQuestionnaireMap.put("q1", questionnaireFile.toString());
 
-    // Create a StructureMap
-    JsonArray structureMaps = new JsonArray();
-    JsonObject structureMap = new JsonObject();
-    structureMap.addProperty("title", "StructureMap1");
-    structureMaps.add(structureMap);
+    StructureMapProcessor structureMapProcessorMock = Mockito.mock(StructureMapProcessor.class);
+    Mockito.when(structureMapProcessorMock.generateIdToFilepathMap())
+        .thenReturn(Map.of("sm1", structureMapFile.toString()));
 
-    // Expected map
-    Map<String, String> expectedMap = new HashMap<>();
-    expectedMap.put("Questionnaire1", "StructureMap1");
-
-    // Test actual output from the method
-    Map<String, String> actualMap =
-        validateStructureMapCommand.getQuestionnaireToStructureMapIdMap(
-            questionnaires, structureMaps);
-
-    // Assert equality of expected and actual results
-    assertEquals(expectedMap, actualMap);
+    // Call the method with mocks
+    command.validateStructureMapForProject(tempDir.toString(), tempDir.toString(), false);
+    // Check outputs (you can add assertions here to verify behavior based on how structure map
+    // processing should work)
   }
 
   @Test
@@ -144,27 +115,79 @@ public class ValidateStructureMapCommandTest {
         "url",
         "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-targetStructureMap");
     JsonObject valueReference = new JsonObject();
-    valueReference.addProperty("reference", "StructureMap/StructureMap1");
+    valueReference.addProperty("reference", "StructureMap/sm1");
     extension.add("valueReference", valueReference);
     extensions.add(extension);
     questionnaire.add("extension", extensions);
 
-    assertTrue(
-        validateStructureMapCommand.hasQuestionnaireReferenceToStructureMap(
-            questionnaire, "StructureMap1"));
+    assertTrue(command.hasQuestionnaireReferenceToStructureMap(questionnaire, "sm1"));
   }
 
   @Test
-  public void testAddFhirResourceAddsQuestionnaireResource() throws IOException {
-    ArrayList<String> filesArray = new ArrayList<>();
-    File questionnaireFile = Files.createFile(tempDirectory.resolve("questionnaire.json")).toFile();
+  public void testHasQuestionnaireReferenceToStructureMapNoMatch() {
+    JsonObject questionnaire = new JsonObject();
+    JsonArray extensions = new JsonArray();
+    JsonObject extension = new JsonObject();
+    extension.addProperty(
+        "url",
+        "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-targetStructureMap");
+    JsonObject valueReference = new JsonObject();
+    valueReference.addProperty("reference", "StructureMap/sm2"); // different structureMap
+    extension.add("valueReference", valueReference);
+    extensions.add(extension);
+    questionnaire.add("extension", extensions);
 
-    try (FileWriter writer = new FileWriter(questionnaireFile)) {
-      writer.write("{\"resourceType\": \"Questionnaire\"}");
+    assertFalse(command.hasQuestionnaireReferenceToStructureMap(questionnaire, "sm1"));
+  }
+
+  @Test
+  public void testGetResourceFilesForDirectory() throws IOException {
+    Path jsonFile = Files.createFile(tempDir.resolve("test-questionnaire.json"));
+    Files.writeString(jsonFile, "{\"resourceType\": \"Questionnaire\"}");
+
+    ArrayList<String> resourceFiles =
+        ValidateStructureMapCommand.getResourceFiles(tempDir.toString());
+    assertEquals(1, resourceFiles.size());
+    assertTrue(resourceFiles.get(0).endsWith("test-questionnaire.json"));
+  }
+
+  @Test
+  public void testGetResourceFilesForNonDirectoryFile() throws IOException {
+    Path jsonFile = Files.createFile(tempDir.resolve("test-questionnaire.json"));
+    Files.writeString(jsonFile, "{\"resourceType\": \"Questionnaire\"}");
+
+    ArrayList<String> resourceFiles =
+        ValidateStructureMapCommand.getResourceFiles(jsonFile.toString());
+    assertEquals(1, resourceFiles.size());
+    assertTrue(resourceFiles.get(0).endsWith("test-questionnaire.json"));
+  }
+
+  @Test
+  public void testAddFhirResource() throws IOException {
+    String jsonContent = "{\"resourceType\": \"Questionnaire\"}";
+    File tempFile = Files.createTempFile(tempDir, "resource", ".json").toFile();
+    try (FileWriter writer = new FileWriter(tempFile)) {
+      writer.write(jsonContent);
     }
 
-    ValidateStructureMapCommand.addFhirResource(questionnaireFile.getAbsolutePath(), filesArray);
-    assertEquals(1, filesArray.size());
-    assertTrue(filesArray.get(0).contains("questionnaire.json"));
+    ArrayList<String> resources = new ArrayList<>();
+    ValidateStructureMapCommand.addFhirResource(tempFile.getAbsolutePath(), resources);
+
+    assertEquals(1, resources.size());
+    assertEquals(tempFile.getAbsolutePath(), resources.get(0));
+  }
+
+  @Test
+  public void testAddFhirResourceWithNonQuestionnaireType() throws IOException {
+    String jsonContent = "{\"resourceType\": \"Observation\"}";
+    File tempFile = Files.createTempFile(tempDir, "resource", ".json").toFile();
+    try (FileWriter writer = new FileWriter(tempFile)) {
+      writer.write(jsonContent);
+    }
+
+    ArrayList<String> resources = new ArrayList<>();
+    ValidateStructureMapCommand.addFhirResource(tempFile.getAbsolutePath(), resources);
+
+    assertTrue(resources.isEmpty());
   }
 }

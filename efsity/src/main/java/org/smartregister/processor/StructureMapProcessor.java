@@ -137,8 +137,13 @@ public class StructureMapProcessor {
             // Extract the actual file name (e.g., child.map)
             String actualFileName = path.getFileName().toString();
 
-            // Map the StructureMap ID to the file name
-            structureMapToFilename.put(structureMapId, actualFileName);
+            if (actualFileName != null) {
+
+              // Map the StructureMap ID to the file name
+              structureMapToFilename.put(structureMapId, actualFileName);
+            }
+            // Map the StructureMap ID to the file path
+            structureMapToFilename.put(structureMapId, currentFile);
           }
         }
       }
