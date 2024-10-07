@@ -4,7 +4,7 @@ import pathlib
 import uuid
 
 from importer.builder import get_base_url
-from importer.config.settings import api_service, keycloak_url, realm, client_id
+from importer.config.settings import api_service
 from importer.request import handle_request
 
 dir_path = str(pathlib.Path(__file__).parent.resolve())
