@@ -172,6 +172,24 @@ $ fct validateFileStructure -i ~/Workspace/fhir-resources/<project> -s ~/path/to
 If the file structure matches the schema then a positive result is printed to the terminal, otherwise an error 
 is thrown showing the issue.
 
+### Validating StructureMap 
+The tool supports validation of a single structureMap and questionnaire **(single mode)** and validation of all the project files for the questionnaires and structureMaps **(project mode)**. The tool maps the different questionnaires to the specified structureMaps and then generates the questionnaireResponses. Once the questionnaireResponses have been generated, the bundle is then generated with the respective resources ie.(= Patient, Condition). To do this run the following command:
+
+**Options**
+```
+-i or --input - path to project folder which needs to be validated
+ -v or --validate : (Optional) whether to validate FHIR resources before publishing or not. Optional boolean - default is `false`
+-sm or --structure-map - file path to the path to the folder containing the structure maps. These can be nested
+```
+
+```console (single-mode)
+$  fct validateStructureMap -i ~/Workspace/fhir-resources/<project>/questionnaire/resource.json -sm ~/Workspace/fhir-resources/coda/structure_map/coda-child-structure-map.txt
+```
+
+```console (project-mode)
+$  fct validateStructureMap -i ~/Workspace/fhir-resources/<project>/questionnaire/ -sm ~/Workspace/fhir-resources/coda/structure_map/`
+```
+
 ### Localization
 Tool that supports localization by the use of the translation extension
 
