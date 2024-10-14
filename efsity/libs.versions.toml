@@ -18,6 +18,8 @@ project-build-sourceEncoding="UTF-8"
 spotless-version ="6.20.0"
 xstream="1.4.20"
 icu4j-version = "75.1"
+poi-version = "4.1.1"
+poi-ooxml-version = "4.1.1"
 
 [libraries]
 caffeine = { module = "com.github.ben-manes.caffeine:caffeine", version.ref = "caffeine-version" }
@@ -48,6 +50,8 @@ javafaker = { module = "com.github.javafaker:javafaker", version.ref = "javafake
 picocli = { module = "info.picocli:picocli", version.ref = "info-picocli-version" }
 xstream = { module = "com.thoughtworks.xstream:xstream", version.ref = "xstream" }
 icu4j = { module="com.ibm.icu:icu4j", version.ref = "icu4j-version" }
+poi = { module="org.apache.poi:poi", version.ref = "poi-version" }
+poiooxml = { module="org.apache.poi:poi-ooxml", version.ref = "poi-ooxml-version" }
 
 [bundles]
 cqf-cql = ["cql-to-elm","elm","elm-jackson","model","model-jackson"]

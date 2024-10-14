@@ -184,6 +184,23 @@ This process will generate two output files: a .map file and its JSON equivalent
 -c or --configPath                    Path to the Structure Map configuration file (XLS format).
 -qr or --questionnaireResponsePath    Path to the Questionnaire Response JSON file.
 ```
+**Sample Configuration File**
+
+To help users get started with the Structure Map generation process, we provide a sample configuration file in XLS format. You can download the sample from the link below:
+
+[Download Sample Structure Map Configuration (XLS)](https://github.com/onaio/fhir-tooling/blob/main/sm-gen/src/main/resources/StructureMap%20XLS.xls)
+
+Alternatively, if you have cloned the repository, the sample file can be found in the following path:
+
+console
+```
+/path/to/your/repository/src/main/resources/StructureMapXLS.xls
+```
+
+This sample XLS form includes the required structure and format to define mappings between questionnaire fields and FHIR resources. You can customize it according to your specific needs.
+
+For more documentation please refer to this  [documentation](https://github.com/onaio/fhir-tooling/blob/main/efsity/Structure_map_gen.md)
+
 
 ### Localization
 Tool that supports localization by the use of the translation extension
