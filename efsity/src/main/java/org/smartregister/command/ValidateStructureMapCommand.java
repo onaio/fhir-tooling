@@ -73,9 +73,10 @@ public class ValidateStructureMapCommand implements Runnable {
   void validateStructureMap(String inputFilePath, boolean validate, String structureMapFilePath)
       throws IOException {
     FctUtils.printInfo("Starting structureMap validation");
-    FctUtils.printInfo(String.format("Input file path \u001b[35m%s\u001b[0m", inputFilePath));
     FctUtils.printInfo(
-        String.format("Input file path \u001b[35m%s\u001b[0m", structureMapFilePath));
+        String.format("Questionnaire file path \u001b[35m%s\u001b[0m", inputFilePath));
+    FctUtils.printInfo(
+        String.format("StructureMap file path \u001b[35m%s\u001b[0m", structureMapFilePath));
 
     ArrayList<String> questionnaires = getResourceFiles(inputFilePath);
     boolean allResourcesValid = true;
@@ -206,6 +207,7 @@ public class ValidateStructureMapCommand implements Runnable {
     // Process questionnaires and structure maps
     Map<String, Set<String>> questionnaireToStructureMapId;
 
+    // Check the project folder then find the questionnaire folder then pass it in the
     // Process questionnaires
     Map<String, Map<String, Set<String>>> questionnaireProcessorResults =
         new QuestionnaireProcessor(questionnairesFolderPath).process();
@@ -276,7 +278,8 @@ public class ValidateStructureMapCommand implements Runnable {
 
     if (files != null) {
       for (File file : files) {
-        if (file.isFile() && file.getName().endsWith(".json")) {
+        if (file.isFile()
+            && (file.getName().endsWith(".json") || file.getName().endsWith(".map"))) {
           String fileContent =
               new String(Files.readAllBytes(file.toPath()), StandardCharsets.UTF_8);
           String id = extractIdFromJson(fileContent);

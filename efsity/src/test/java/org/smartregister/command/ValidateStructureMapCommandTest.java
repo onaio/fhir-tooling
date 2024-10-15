@@ -190,4 +190,16 @@ public class ValidateStructureMapCommandTest {
 
     assertTrue(resources.isEmpty());
   }
+
+  @Test
+  public void testMapIdentifierWithFilePathInvalidJson() throws IOException {
+    String invalidContent = "{invalid_json}";
+    Path jsonFile = Files.createFile(tempDir.resolve("invalid.json"));
+    Files.write(jsonFile, invalidContent.getBytes());
+
+    Map<String, String> result = command.mapIdentifierWithFilePath(tempDir.toString());
+
+    // Since the JSON is invalid, we expect the map to be empty
+    assertTrue(result.isEmpty());
+  }
 }
