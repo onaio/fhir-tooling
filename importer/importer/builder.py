@@ -1,4 +1,5 @@
 import base64
+import csv
 import json
 import logging
 import os
@@ -1065,3 +1066,61 @@ def link_to_location(resource_list):
             return build_assign_payload(arr, "List", "subject=Location/")
         else:
             return ""
+
+
+def count_records(csv_filepath):
+    with open(csv_filepath, newline="") as csvfile:
+        reader = csv.reader(csvfile)
+        return sum(1 for _ in reader) - 1
+
+
+def process_response(response):
+    json_response = json.loads(response)
+    issues = json_response["issue"]
+    return issues
+
+
+def build_report(csv_file, response, error_details, fail_count, fail_all):
+    # Get total number of records
+    total_records = count_records(csv_file)
+    issues = []
+
+    # Get status code
+    if hasattr(response, "status_code") and response.status_code > 201:
+        status = "Failed"
+        processed_records = 0
+
+        if response.text:
+            issues = process_response(response.text)
+            for issue in issues:
+                del issue["code"]
+    else:
+        if fail_count > 0:
+            status = "Failed"
+            if fail_all:
+                processed_records = total_records
+            else:
+                processed_records = total_records - fail_count
+        else:
+            status = "Completed"
+            processed_records = total_records
+
+    report = {
+        "status": status,
+        "totalRecords": total_records,
+        "processedRecords": processed_records,
+    }
+    if len(issues) > 0:
+        report["failedRecords"] = len(issues)
+
+    all_errors = issues + error_details
+
+    if len(all_errors) > 0:
+        report["errorDetails"] = all_errors
+
+    string_report = json.dumps(report, indent=4)
+    logging.info("============================================================")
+    logging.info("============================================================")
+    logging.info(string_report)
+    logging.info("============================================================")
+    logging.info("============================================================")
