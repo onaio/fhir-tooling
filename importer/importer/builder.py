@@ -1009,10 +1009,31 @@ def build_group_list_resource(
     current_version = get_resource(list_resource_id, "List")
     method = "create" if current_version == str(0) else "update"
     resource = [[title, "current", method, list_resource_id]]
-    result_payload = build_payload(
-        "List", resource, "json_payloads/group_list_payload.json"
-    )
-    return process_resources_list(result_payload, full_list_created_resources)
+
+    if method == "create":
+        result_payload = build_payload(
+            "List", resource, "json_payloads/group_list_payload.json"
+        )
+        return process_resources_list(result_payload, full_list_created_resources)
+    if method == "update":
+        resource_url = "/".join([get_base_url(), "List", list_resource_id])
+        response = handle_request("GET", "", resource_url)
+        payload = {
+            "resourceType": "Bundle",
+            "type": "transaction",
+            "entry": [
+                {
+                    "request": {
+                        "method": "PUT",
+                        "url": "List/" + list_resource_id,
+                        "ifMatch": current_version
+                    },
+                    "resource": json.loads(response[0])
+                }
+            ]
+        }
+        resource_payload = json.dumps(payload, indent=4)
+        return process_resources_list(resource_payload, full_list_created_resources)
 
 
 # This function takes a 'created_resources' array and a response string
@@ -1034,13 +1055,18 @@ def extract_resources(created_resources, response_string):
 # then returns the full resource payload
 def process_resources_list(payload, resources_list):
     entry = []
-    for resource in resources_list:
-        item = {"item": {"reference": resource}}
-        entry.append(item)
+    json_payload = json.loads(payload)
+    entries = json_payload["entry"][0]["resource"]["entry"]
+    if len(entries) > 0:
+        entry = entries
 
-    payload = json.loads(payload)
-    payload["entry"][0]["resource"]["entry"] = entry
-    return payload
+    for resource in resources_list:
+        if resource not in str(entries):
+            item = {"item": {"reference": resource}}
+            entry.append(item)
+
+    json_payload["entry"][0]["resource"]["entry"] = entry
+    return json_payload
 
 
 def link_to_location(resource_list):
