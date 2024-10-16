@@ -2,7 +2,7 @@
 buildConfig-version="4.1.2"
 caffeine-version="2.9.3"
 common-compress-version="1.22"
-cql-version="2.11.0"
+cql-version="3.3.2"
 gson-version="2.10.1"
 hapi-fhir-core-version="5.6.106"
 hapi-fhir-utilities-version="3.8.0"
