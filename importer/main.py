@@ -256,12 +256,14 @@ def main(
                     del _["code"]
                     issues.append(_)
                 logging.error(json_response)
+            logging.info(inventory_creation_response.text)
+            logging.info("GROUPS: " + str(groups_created))
 
             lists_created = []
             link_payload = link_to_location(resource_list)
             if len(link_payload) > 0:
                 link_response = handle_request("POST", link_payload, fhir_base_url)
-                if link_response.status_code == 200:
+                if link_response.status_code == 200 or link_response.status_code == 201:
                     lists_created = extract_resources(lists_created, link_response.text)
                 else:
                     fail_count = fail_count + 1
@@ -271,8 +273,10 @@ def main(
                         del _["code"]
                         issues.append(_)
                 logging.info(link_response.text)
+                logging.info("LISTS: " + str(lists_created))
 
             full_list_created_resources = groups_created + lists_created
+            logging.info("FULL LIST: " + str(full_list_created_resources))
             if len(full_list_created_resources) > 0:
                 list_payload = build_group_list_resource(
                     list_resource_id,
@@ -281,6 +285,7 @@ def main(
                     "Supply Chain commodities",
                 )
                 final_response = handle_request("POST", "", fhir_base_url, list_payload)
+                logging.info(final_response.text)
                 logging.info("Processing complete!")
         else:
             message = "Unsupported request!"
