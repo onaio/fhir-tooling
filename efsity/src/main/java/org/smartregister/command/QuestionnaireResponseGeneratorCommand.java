@@ -174,7 +174,7 @@ public class QuestionnaireResponseGeneratorCommand implements Runnable {
     LocalDate startDate = LocalDate.of(1960, 1, 1);
     LocalDate endDate = LocalDate.of(2023, 12, 31);
     long daysBetween = ChronoUnit.DAYS.between(startDate, endDate);
-    long randomDays = random.nextLong(daysBetween + 1);
+    long randomDays = (long) getRandomNumber(daysBetween + 1);
     return startDate.plusDays(randomDays);
   }
 
@@ -182,7 +182,7 @@ public class QuestionnaireResponseGeneratorCommand implements Runnable {
     LocalDateTime startDateTime = LocalDateTime.of(2000, 1, 1, 0, 0);
     LocalDateTime endDateTime = LocalDateTime.of(2024, 12, 31, 23, 59);
     long secondsBetween = ChronoUnit.SECONDS.between(startDateTime, endDateTime);
-    long randomSeconds = random.nextLong(secondsBetween + 1);
+    long randomSeconds = (long) getRandomNumber(secondsBetween + 1);
     return startDateTime.plusSeconds(randomSeconds);
   }
 
@@ -193,7 +193,7 @@ public class QuestionnaireResponseGeneratorCommand implements Runnable {
       if (Objects.equals(current_id, link_id)) {
         if (current_object.has("answerOption")) {
           JSONArray answer_options = current_object.getJSONArray("answerOption");
-          int random_index = random.nextInt(answer_options.length());
+          int random_index = (int) getRandomNumber(answer_options.length() + 1);
           return answer_options.getJSONObject(random_index).getJSONObject("valueCoding");
         }
       }
@@ -226,7 +226,7 @@ public class QuestionnaireResponseGeneratorCommand implements Runnable {
       }
     }
     JSONObject quantityAnswer = new JSONObject();
-    quantityAnswer.put("value", random.nextInt(minValue, maxValue));
+    quantityAnswer.put("value", getRandomNumber(minValue, maxValue));
     quantityAnswer.put("unit", unit);
     quantityAnswer.put("system", "http://unitsofmeasure.org");
     quantityAnswer.put("code", unit);
@@ -236,7 +236,7 @@ public class QuestionnaireResponseGeneratorCommand implements Runnable {
   public static JSONObject generateReferenceValue() {
     List<String> exampleResourceTypes =
         Arrays.asList("Patient", "Practitioner", "Location", "Immunization");
-    int randomPick = random.nextInt(0, exampleResourceTypes.size());
+    int randomPick = (int) getRandomNumber(0, exampleResourceTypes.size());
     JSONObject reference = new JSONObject();
     reference.put(
         "reference",
@@ -269,10 +269,11 @@ public class QuestionnaireResponseGeneratorCommand implements Runnable {
     switch (type.toLowerCase()) {
       case "string":
         return answer.put(
-            "valueString", result != null ? result.toString() : "FakeString" + random.nextInt(100));
+            "valueString",
+            result != null ? result.toString() : "FakeString" + getRandomNumber(100));
       case "integer":
         return answer.put(
-            "valueInteger", result instanceof Integer ? (Integer) result : random.nextInt(100));
+            "valueInteger", result instanceof Integer ? (Integer) result : getRandomNumber(100));
       case "boolean":
         return answer.put(
             "valueBoolean", result instanceof Boolean ? (Boolean) result : random.nextBoolean());
@@ -296,7 +297,7 @@ public class QuestionnaireResponseGeneratorCommand implements Runnable {
       case "text":
         return answer.put(
             "valueString",
-            result != null ? result.toString() : "This is a fake text" + random.nextInt(100));
+            result != null ? result.toString() : "This is a fake text" + getRandomNumber(100));
       case "reference":
         return answer.put("valueReference", generateReferenceValue());
       default:
@@ -437,6 +438,21 @@ public class QuestionnaireResponseGeneratorCommand implements Runnable {
         return "-1";
       }
     }
+  }
+
+  public static <T extends Number> double getRandomNumber(T bound) {
+    return random.nextDouble() * bound.doubleValue();
+  }
+
+  public static <T extends Number> double getRandomNumber(T origin, T bound) {
+    double originValue = origin.doubleValue();
+    double boundValue = bound.doubleValue();
+
+    if (originValue >= boundValue) {
+      throw new IllegalArgumentException("Origin must be less than bound");
+    }
+
+    return originValue + random.nextDouble() * (boundValue - originValue);
   }
 
   public static class Constants {
