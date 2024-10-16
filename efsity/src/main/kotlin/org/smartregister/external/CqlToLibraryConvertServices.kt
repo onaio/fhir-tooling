@@ -3,11 +3,9 @@ package org.smartregister.external
 
 import com.ibm.icu.impl.Assert.fail
 import org.cqframework.cql.cql2elm.CqlTranslator
-import org.cqframework.cql.cql2elm.CqlTranslatorOptions
 import org.cqframework.cql.cql2elm.LibraryManager
 import org.cqframework.cql.cql2elm.ModelManager
 import org.cqframework.cql.cql2elm.quick.FhirLibrarySourceProvider
-import org.fhir.ucum.UcumEssenceService
 import org.hl7.fhir.r4.model.Attachment
 import org.hl7.fhir.r4.model.Enumerations
 import org.hl7.fhir.r4.model.Library
@@ -49,21 +47,14 @@ class CqlToLibraryConvertServices {
    * @param cqlText the CQL Library
    * @return a [CqlTranslator] object that contains the elm representation of the library inside it.
    */
-  private fun compile(cqlText: String): CqlTranslator {
+  fun compile(cqlText: String): CqlTranslator {
     val modelManager = ModelManager()
     val libraryManager =
       LibraryManager(modelManager).apply {
         librarySourceLoader.registerProvider(FhirLibrarySourceProvider())
       }
 
-    val translator =
-      CqlTranslator.fromText(
-        cqlText,
-        modelManager,
-        libraryManager,
-        UcumEssenceService(this::class.java.getResourceAsStream("/ucum-essence.xml")),
-        *CqlTranslatorOptions.defaultOptions().options.toTypedArray()
-      )
+    val translator = CqlTranslator.fromText(cqlText, libraryManager)
 
     // Helper makes sure the test CQL compiles. Reports an error if it doesn't
     if (this.isStrictMode && translator.errors.isNotEmpty()) {
@@ -84,21 +75,20 @@ class CqlToLibraryConvertServices {
   }
 
   /**
-   * Assembles an ELM Library exported as a JSON in to a FHIRLibrary
+   * Assembles an ELM Library exported as a JSON into a FHIRLibrary
    *
    * @param jsonElmStr the JSON representation of the ELM Library
    * @param libName the Library name
    * @param libVersion the Library Version
    * @return a FHIR Library that includes the ELM Library.
    */
-  private fun assembleFhirLib(
+  fun assembleFhirLib(
     cqlStr: String?,
     jsonElmStr: String?,
     xmlElmStr: String?,
     libName: String,
-    libVersion: String
+    libVersion: String,
   ): Library {
-
     val attachmentCql =
       cqlStr?.let {
         Attachment().apply {
@@ -129,7 +119,7 @@ class CqlToLibraryConvertServices {
       version = libVersion
       status = Enumerations.PublicationStatus.ACTIVE
       experimental = true
-      url = "http://localhost/Library/$libName|$libVersion"
+      url = "http://localhost/Library/$libName"
       attachmentCql?.let { addContent(it) }
       attachmentJson?.let { addContent(it) }
       attachmentXml?.let { addContent(it) }
