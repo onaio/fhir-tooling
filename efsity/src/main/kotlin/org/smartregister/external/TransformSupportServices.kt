@@ -1,6 +1,8 @@
 /* (C)2021-2023 */
 package org.smartregister.external
 
+import javax.inject.Inject
+import javax.inject.Singleton
 import org.hl7.fhir.exceptions.FHIRException
 import org.hl7.fhir.r4.context.SimpleWorkerContext
 import org.hl7.fhir.r4.model.AdverseEvent
@@ -22,18 +24,25 @@ import org.hl7.fhir.r4.model.Task
 import org.hl7.fhir.r4.model.Timing
 import org.hl7.fhir.r4.terminologies.ConceptMapEngine
 import org.hl7.fhir.r4.utils.StructureMapUtilities.ITransformerServices
+import org.smartregister.util.FctUtils
 
 /**
- * 3RD PARTY CODE: Copied from
- * https://github.com/opensrp/fhircore/blob/main/android/engine/src/main/java/org/smartregister/fhircore/engine/util/helper/TransformSupportServices.kt
+ * Copied from
+ * https://github.com/hapifhir/org.hl7.fhir.core/blob/master/org.hl7.fhir.validation/src/main/java/org/hl7/fhir/validation/TransformSupportServices.java
+ * and adapted for R4. This class enables us to implement generation of Types and Resources not in
+ * the original Hapi Fhir source code here
+ * https://github.com/hapifhir/org.hl7.fhir.core/blob/master/org.hl7.fhir.r4/src/main/java/org/hl7/fhir/r4/model/ResourceFactory.java.
+ * The missing Types and Resources are internal model types eg RiskAssessment.Prediction,
+ * Immunization.Reaction
  */
-class TransformSupportServices constructor(private val simpleWorkerContext: SimpleWorkerContext) :
+@Singleton
+class TransformSupportServices @Inject constructor(val simpleWorkerContext: SimpleWorkerContext) :
   ITransformerServices {
 
-  private val outputs: MutableList<Base> = mutableListOf()
+  val outputs: MutableList<Base> = mutableListOf()
 
   override fun log(message: String) {
-    // logger.info(message)
+    FctUtils.printInfo(message)
   }
 
   @Throws(FHIRException::class)

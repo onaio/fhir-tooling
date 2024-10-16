@@ -75,7 +75,7 @@ class FhirCarePlanGeneratorLite {
       )
     )
 
-    if (planDefinition == null || planDefinition.action == null || planDefinition.action.size < 1) {
+    if (planDefinition.action == null || planDefinition.action.size < 1) {
       FctUtils.printWarning("No Actions defined found for the Plan definition")
     } else
       FctUtils.printInfo(
