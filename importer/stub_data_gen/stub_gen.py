@@ -211,7 +211,7 @@ def generate_inventory(locations, products, count: int):
         donor = fake.random_element(inventory_donors).get("code")
         location = location_record[3]
 
-        to_append = [product_name, status, "create", inventory_id, po_umber, serial_number, "true", product_id, delivery_date, "", quantity, unicef_section, donor, location]
+        to_append = [product_name, status, "create", inventory_id, po_umber, serial_number,"","true", product_id, delivery_date, "", quantity, unicef_section, donor, location]
         rows.append(to_append)
     return [header, rows]
 
