@@ -68,7 +68,7 @@ class TransformSupportServices(val simpleWorkerContext: SimpleWorkerContext) :
         AdverseEvent.AdverseEventSuspectEntityCausalityComponent()
       "Location_Position" -> Location.LocationPositionComponent()
       "List_Entry" -> ListResource.ListEntryComponent()
-      "Consent_PolicyRule" -> Consent.ConsentPolicyComponent()
+      "Consent_Policy" -> Consent.ConsentPolicyComponent()
       "Consent_Verification" -> Consent.ConsentVerificationComponent()
       "Consent_Provision" -> Consent.provisionComponent()
       "Consent_ProvisionActor" -> Consent.provisionActorComponent()

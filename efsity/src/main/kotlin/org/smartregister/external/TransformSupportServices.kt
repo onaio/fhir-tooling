@@ -70,6 +70,11 @@ class TransformSupportServices @Inject constructor(val simpleWorkerContext: Simp
         AdverseEvent.AdverseEventSuspectEntityCausalityComponent()
       "Location_Position" -> Location.LocationPositionComponent()
       "List_Entry" -> ListResource.ListEntryComponent()
+      "Consent_Policy" -> Consent.ConsentPolicyComponent()
+      "Consent_Verification" -> Consent.ConsentVerificationComponent()
+      "Consent_Provision" -> Consent.provisionComponent()
+      "Consent_ProvisionActor" -> Consent.provisionActorComponent()
+      "Consent_ProvisionData" -> Consent.provisionDataComponent()
       else -> ResourceFactory.createResourceOrType(name)
     }
   }
