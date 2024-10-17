@@ -6,6 +6,7 @@ Ofcourse you need to prepare your python environment and install the package dep
 python3 -m venv myenv
 source myenv/bin/activate
 pip instal -r ../requirements.txt
+cd stub_data_gen
 ```
 
 **To generate data for all resources**
