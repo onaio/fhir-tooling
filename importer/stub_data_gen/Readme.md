@@ -14,6 +14,12 @@ pip instal -r ../requirements.txt
 python faker-cli generate
 ```
 
+or 
+
+```commandline
+./faker-cli generate
+```
+
 **Generate data for a single resource**
 
 ```commandline
