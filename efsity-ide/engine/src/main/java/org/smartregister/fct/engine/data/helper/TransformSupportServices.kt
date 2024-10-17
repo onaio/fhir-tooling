@@ -22,6 +22,7 @@ import org.hl7.fhir.r4.model.AdverseEvent
 import org.hl7.fhir.r4.model.Base
 import org.hl7.fhir.r4.model.CarePlan
 import org.hl7.fhir.r4.model.Coding
+import org.hl7.fhir.r4.model.Consent
 import org.hl7.fhir.r4.model.Encounter
 import org.hl7.fhir.r4.model.EpisodeOfCare
 import org.hl7.fhir.r4.model.Group
@@ -83,6 +84,11 @@ class TransformSupportServices(val simpleWorkerContext: SimpleWorkerContext) :
         AdverseEvent.AdverseEventSuspectEntityCausalityComponent()
       "Location_Position" -> Location.LocationPositionComponent()
       "List_Entry" -> ListResource.ListEntryComponent()
+      "Consent_Policy" -> Consent.ConsentPolicyComponent()
+      "Consent_Verification" -> Consent.ConsentVerificationComponent()
+      "Consent_Provision" -> Consent.provisionComponent()
+      "Consent_ProvisionActor" -> Consent.provisionActorComponent()
+      "Consent_ProvisionData" -> Consent.provisionDataComponent()
       else -> ResourceFactory.createResourceOrType(name)
     }
   }
