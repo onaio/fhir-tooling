@@ -18,7 +18,6 @@ package org.smartregister.fct.engine.data.helper
 
 import org.hl7.fhir.exceptions.FHIRException
 import org.hl7.fhir.r4.context.SimpleWorkerContext
-import org.hl7.fhir.r4.model.*
 import org.hl7.fhir.r4.model.AdverseEvent
 import org.hl7.fhir.r4.model.Base
 import org.hl7.fhir.r4.model.CarePlan
