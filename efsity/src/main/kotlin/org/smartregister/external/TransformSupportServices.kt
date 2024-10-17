@@ -9,6 +9,7 @@ import org.hl7.fhir.r4.model.AdverseEvent
 import org.hl7.fhir.r4.model.Base
 import org.hl7.fhir.r4.model.CarePlan
 import org.hl7.fhir.r4.model.Coding
+import org.hl7.fhir.r4.model.Consent
 import org.hl7.fhir.r4.model.Encounter
 import org.hl7.fhir.r4.model.EpisodeOfCare
 import org.hl7.fhir.r4.model.Group
