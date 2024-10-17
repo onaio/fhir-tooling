@@ -4,9 +4,8 @@ caffeine-version="2.9.3"
 common-compress-version="1.22"
 cql-version="3.3.2"
 gson-version="2.10.1"
-hapi-fhir-core-version="5.6.106"
-hapi-fhir-utilities-version="3.8.0"
-hapi-fhir-version="6.0.1"
+hapi-fhir-core-version="6.0.22"
+hapi-fhir-version="6.8.0"
 info-picocli-version="4.7.4"
 jackson-version="2.15.2"
 javafaker-version="1.0.2"
@@ -34,9 +33,7 @@ evaluator-dagger = { module = "org.opencds.cqf.cql:evaluator.dagger", version.re
 evaluator-plandefinition = { module = "org.opencds.cqf.cql:evaluator.plandefinition", version.ref = "opencds-cql-version" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson-version" }
 hapi-fhir-structures-r4 = { module = "ca.uhn.hapi.fhir:hapi-fhir-structures-r4", version.ref = "hapi-fhir-version" }
-hapi-fhir-utilities = { module = "ca.uhn.hapi.fhir:hapi-fhir-utilities", version.ref = "hapi-fhir-utilities-version" }
 org-hl7-fhir-r4 = { module = "ca.uhn.hapi.fhir:org.hl7.fhir.r4", version.ref = "hapi-fhir-core-version" }
-org-hl7-fhir-utilities = { module = "ca.uhn.hapi.fhir:org.hl7.fhir.utilities", version.ref = "hapi-fhir-core-version" }
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin-stdlib" }
 model = { module = "info.cqframework:model", version.ref = "cql-version" }
 model-jackson = { module = "info.cqframework:model-jackson", version.ref = "cql-version" }
@@ -53,7 +50,7 @@ icu4j = { module="com.ibm.icu:icu4j", version.ref = "icu4j-version" }
 
 [bundles]
 cqf-cql = ["cql-to-elm","elm","elm-jackson","model","model-jackson"]
-hapi-fhir-core = ["org-hl7-fhir-r4","org-hl7-fhir-utilities"]
+hapi-fhir-core = ["org-hl7-fhir-r4"]
 jackson = ["jackson-annotations","jackson-core", "jackson-databind"]
 opencds = ["engine","engine-jackson","evaluator","evaluator-builder","evaluator-dagger","evaluator-plandefinition"]
 

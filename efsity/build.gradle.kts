@@ -77,7 +77,6 @@ dependencies {
   implementation(deps.commons.compress)
   implementation(deps.gson)
   implementation(deps.hapi.fhir.structures.r4)
-  implementation(deps.hapi.fhir.utilities)
   implementation(deps.json)
   implementation(deps.jsonschemafriend)
   implementation(deps.picocli)

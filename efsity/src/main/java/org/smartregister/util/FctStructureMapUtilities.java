@@ -22,7 +22,7 @@ public class FctStructureMapUtilities {
   public FctStructureMapUtilities() throws IOException {
 
     FilesystemPackageCacheManager pcm =
-        new FilesystemPackageCacheManager(true, ToolsVersion.TOOLS_VERSION);
+        new FilesystemPackageCacheManager(true);
 
     // Package name manually checked from
     // https://simplifier.net/packages?Text=hl7.fhir.core&fhirVersion=All+FHIR+Versions
