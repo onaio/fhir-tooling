@@ -1,15 +1,23 @@
 # usage
 
+Ofcourse you need to prepare your python environment and install the package dependencies
+
+```commandline
+python3 -m venv myenv
+source myenv/bin/activate
+pip instal -r ../requirements.txt
+```
+
 **To generate data for all resources**
 
 ```commandline
-python cli.py generate
+python faker-cli generate
 ```
 
 **Generate data for a single resource**
 
 ```commandline
-python cli.py generate users --count=100
+python faker-cli generate users --count=100
 ```
 
 **Generate single resource that requires pre-generated data like assignments**
@@ -17,11 +25,11 @@ python cli.py generate users --count=100
 e.g. When assigning users to organizations, provide individual csvs containing the users and organizations data
 
 ```commandline
-python cli.py generate users-orgs --orgs-csv=<orgs-csv-path> --users-csv=<users-csv-path>
+python faker-cli generate users-orgs --orgs-csv=<orgs-csv-path> --users-csv=<users-csv-path>
 ```
 
 **Learn more**
 
 ```commandline
-python cli.py generate --help
+python faker-cli generate --help
 ```

@@ -9,7 +9,7 @@ from stub_gen import generate_users, generate_products, generate_care_teams, gen
 
 
 @click.group()
-def cli():
+def faker():
     pass
 
 
@@ -157,7 +157,7 @@ def organizations(ctx):
     click.echo(f"Organization data generated and saved in {out_dir}")
 
 
-cli.add_command(generate)
+faker.add_command(generate)
 
 generate.add_command(users)
 generate.add_command(careteams)
@@ -169,4 +169,4 @@ generate.add_command(inventories)
 generate.add_command(organizations)
 
 if __name__ == '__main__':
-    cli()
+    faker()
