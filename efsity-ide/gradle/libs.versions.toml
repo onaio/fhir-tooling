@@ -1,0 +1,19 @@
+[versions]
+compose-plugin = "1.6.11"
+kotlin = "2.0.0"
+sqlDelight = "2.0.2"
+jsonSerialization = "2.0.0"
+agp = "8.3.1"
+kotlin2 = "1.9.0"
+jetbrainsKotlinJvm = "2.0.0"
+
+[libraries]
+
+
+[plugins]
+jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "compose-plugin" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+sqlDelight = { id = "app.cash.sqldelight", version.ref = "sqlDelight"}
+jsonSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "jsonSerialization" }
+jetbrainsKotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }

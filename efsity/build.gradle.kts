@@ -18,7 +18,7 @@ repositories {
 
 group = "org.smartregister"
 
-version = "2.3.8-SNAPSHOT"
+version = "2.3.9-SNAPSHOT"
 
 description = "fhircore-tooling (efsity)"
 
@@ -83,9 +83,10 @@ dependencies {
   implementation(deps.picocli)
   implementation(deps.xstream)
   implementation(deps.icu4j)
-  implementation(deps.javafaker)
   implementation(deps.poi)
   implementation(deps.poiooxml)
+  implementation(deps.javafaker) { exclude(group = "org.yaml") }
+  implementation(deps.snakeyaml)
 
   testImplementation(kotlin("test"))
   testImplementation("junit:junit:4.13.2")

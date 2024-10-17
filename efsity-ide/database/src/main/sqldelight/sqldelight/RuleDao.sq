@@ -1,0 +1,22 @@
+CREATE TABLE IF NOT EXISTS `rule` (
+    `id` TEXT PRIMARY KEY NOT NULL,
+    `name` TEXT NOT NULL,
+    `sources` TEXT NOT NULL,
+    `rules` TEXT NOT NULL
+);
+
+selectAll:
+SELECT * FROM `rule`;
+
+insert:
+INSERT INTO `rule` (id, name, sources, rules)
+VALUES(?, ?, ?, ?);
+
+update:
+UPDATE `rule`
+SET name = ?, sources = ?, rules = ?
+WHERE id = ?;
+
+delete:
+DELETE FROM `rule`
+WHERE id = ?;
