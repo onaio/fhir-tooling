@@ -1,4 +1,5 @@
 import base64
+import csv
 import json
 import logging
 import os
@@ -1008,10 +1009,31 @@ def build_group_list_resource(
     current_version = get_resource(list_resource_id, "List")
     method = "create" if current_version == str(0) else "update"
     resource = [[title, "current", method, list_resource_id]]
-    result_payload = build_payload(
-        "List", resource, "json_payloads/group_list_payload.json"
-    )
-    return process_resources_list(result_payload, full_list_created_resources)
+
+    if method == "create":
+        result_payload = build_payload(
+            "List", resource, "json_payloads/group_list_payload.json"
+        )
+        return process_resources_list(result_payload, full_list_created_resources)
+    if method == "update":
+        resource_url = "/".join([get_base_url(), "List", list_resource_id])
+        response = handle_request("GET", "", resource_url)
+        payload = {
+            "resourceType": "Bundle",
+            "type": "transaction",
+            "entry": [
+                {
+                    "request": {
+                        "method": "PUT",
+                        "url": "List/" + list_resource_id,
+                        "ifMatch": current_version
+                    },
+                    "resource": json.loads(response[0])
+                }
+            ]
+        }
+        resource_payload = json.dumps(payload, indent=4)
+        return process_resources_list(resource_payload, full_list_created_resources)
 
 
 # This function takes a 'created_resources' array and a response string
@@ -1033,13 +1055,18 @@ def extract_resources(created_resources, response_string):
 # then returns the full resource payload
 def process_resources_list(payload, resources_list):
     entry = []
-    for resource in resources_list:
-        item = {"item": {"reference": resource}}
-        entry.append(item)
+    json_payload = json.loads(payload)
+    entries = json_payload["entry"][0]["resource"]["entry"]
+    if len(entries) > 0:
+        entry = entries
 
-    payload = json.loads(payload)
-    payload["entry"][0]["resource"]["entry"] = entry
-    return payload
+    for resource in resources_list:
+        if resource not in str(entries):
+            item = {"item": {"reference": resource}}
+            entry.append(item)
+
+    json_payload["entry"][0]["resource"]["entry"] = entry
+    return json_payload
 
 
 def link_to_location(resource_list):
@@ -1065,3 +1092,61 @@ def link_to_location(resource_list):
             return build_assign_payload(arr, "List", "subject=Location/")
         else:
             return ""
+
+
+def count_records(csv_filepath):
+    with open(csv_filepath, newline="") as csvfile:
+        reader = csv.reader(csvfile)
+        return sum(1 for _ in reader) - 1
+
+
+def process_response(response):
+    json_response = json.loads(response)
+    issues = json_response["issue"]
+    return issues
+
+
+def build_report(csv_file, response, error_details, fail_count, fail_all):
+    # Get total number of records
+    total_records = count_records(csv_file)
+    issues = []
+
+    # Get status code
+    if hasattr(response, "status_code") and response.status_code > 201:
+        status = "Failed"
+        processed_records = 0
+
+        if response.text:
+            issues = process_response(response.text)
+            for issue in issues:
+                del issue["code"]
+    else:
+        if fail_count > 0:
+            status = "Failed"
+            if fail_all:
+                processed_records = total_records
+            else:
+                processed_records = total_records - fail_count
+        else:
+            status = "Completed"
+            processed_records = total_records
+
+    report = {
+        "status": status,
+        "totalRecords": total_records,
+        "processedRecords": processed_records,
+    }
+    if len(issues) > 0:
+        report["failedRecords"] = len(issues)
+
+    all_errors = issues + error_details
+
+    if len(all_errors) > 0:
+        report["errorDetails"] = all_errors
+
+    string_report = json.dumps(report, indent=4)
+    logging.info("============================================================")
+    logging.info("============================================================")
+    logging.info(string_report)
+    logging.info("============================================================")
+    logging.info("============================================================")
