@@ -28,7 +28,12 @@ import org.hl7.fhir.r4.utils.StructureMapUtilities.ITransformerServices
 import org.smartregister.util.FctUtils
 
 /**
- * Copied from
+ * 3RD PARTY CODE: Copied from
+ *
+ * https://github.com/opensrp/fhircore/blob/main/android/engine/src/main/java/org/smartregister/fhircore/engine/util/helper/TransformSupportServices.kt
+ *
+ * in turn copied from
+ *
  * https://github.com/hapifhir/org.hl7.fhir.core/blob/master/org.hl7.fhir.validation/src/main/java/org/hl7/fhir/validation/TransformSupportServices.java
  * and adapted for R4. This class enables us to implement generation of Types and Resources not in
  * the original Hapi Fhir source code here

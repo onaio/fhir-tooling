@@ -87,6 +87,7 @@ dependencies {
   implementation(deps.poiooxml)
   implementation(deps.javafaker) { exclude(group = "org.yaml") }
   implementation(deps.snakeyaml)
+  implementation("ca.uhn.hapi.fhir:hapi-fhir-validation:6.8.0")
 
   testImplementation(kotlin("test"))
   testImplementation("junit:junit:4.13.2")
