@@ -1,4 +1,4 @@
-package org.smartregister.fhir.structuremaptool
+package org.smartregister.structuremaptool
 
 import ca.uhn.fhir.context.FhirContext
 import ca.uhn.fhir.context.FhirVersionEnum
@@ -11,8 +11,8 @@ import org.hl7.fhir.r4.model.Questionnaire
 import org.hl7.fhir.r4.model.Questionnaire.QuestionnaireItemComponent
 import org.hl7.fhir.r4.model.QuestionnaireResponse
 import org.hl7.fhir.r4.model.Resource
-import org.hl7.fhir.r4.model.Type
 import org.hl7.fhir.r4.utils.FHIRPathEngine
+import org.smartregister.structuremaptool.extensions.*
 
 // Get the hl7 resources
 val contextR4 = FhirContext.forR4()
@@ -28,7 +28,7 @@ fun getQuestionsPath(questionnaire: Questionnaire): HashMap<String, String> {
 fun getQuestionNames(
   parentName: String,
   item: QuestionnaireItemComponent,
-  questionsMap: HashMap<String, String>,
+  questionsMap: HashMap<String, String>
 ) {
   val currParentName = if (parentName.isEmpty()) "" else parentName
   questionsMap.put(item.linkId, currParentName)
@@ -37,7 +37,7 @@ fun getQuestionNames(
     getQuestionNames(
       currParentName + ".where(linkId = '${item.linkId}').item",
       itemComponent,
-      questionsMap,
+      questionsMap
     )
   }
 }
@@ -45,7 +45,7 @@ fun getQuestionNames(
 class Group(
   entry: Map.Entry<String, MutableList<Instruction>>,
   val stringBuilder: StringBuilder,
-  val questionsPath: HashMap<String, String>,
+  val questionsPath: HashMap<String, String>
 ) {
 
   var lineCounter = 0
@@ -58,7 +58,7 @@ class Group(
     sb.append("create('Reference') as reference then {")
     sb.appendNewLine()
     sb.append(
-      "src-> reference.reference = evaluate(bundle, \$this.entry.where(resourceType = '$resourceName/$resourceIndex'))",
+      "src-> reference.reference = evaluate(bundle, \$this.entry.where(resourceType = '$resourceName/$resourceIndex'))"
     )
     sb.append(""" "rule_d";""".trimMargin())
     sb.appendNewLine()
@@ -77,7 +77,7 @@ class Group(
       stringBuilder.append(structureMapFunctionHead).appendNewLine()
       stringBuilder
         .append(
-          "src -> bundle.entry as  entry, entry.resource = create('$resourceName') as entity1 then {",
+          "src -> bundle.entry as  entry, entry.resource = create('$resourceName') as entity1 then {"
         )
         .appendNewLine()
 
@@ -110,6 +110,7 @@ class Group(
   }
 
   fun Instruction.getAnswerExpression(questionnaireResponse: QuestionnaireResponse): String {
+
     // 1. If the answer is static/literal, just return it here
     // TODO: We should infer the resource element and add the correct conversion or code to assign
     // this correctly
@@ -136,6 +137,7 @@ class Group(
         expression =
           "create('${if (fieldPath == "id") "id" else "positiveInt"}') as $fieldPath, $fieldPath.value = evaluate(src, $expression)"
       } else {
+
         // TODO: Infer the resource property type and answer to perform other conversions
         // TODO: Extend this to cover other corner cases
         if (expression.isCoding(questionnaireResponse) && fieldPath.isEnumeration(this)) {
@@ -263,7 +265,7 @@ class Group(
               fullPath = instruction.fieldPath
               this@apply.instruction = instruction
               resourceName = inferType("${this@Nest.resourceName}.$fullPath") ?: ""
-            },
+            }
           )
         }
       }
@@ -276,28 +278,24 @@ class Group(
         if (answerExpression != null) {
           if (
             answerExpression.isNotEmpty() &&
-            answerExpression.isNotBlank() &&
-            answerExpression != "''"
+              answerExpression.isNotBlank() &&
+              answerExpression != "''"
           ) {
             val propertyType = inferType(instruction!!.fullPropertyPath())
             val answerType = answerExpression.getAnswerType(questionnaireResponse)
 
             if (
               propertyType != "Type" &&
-              answerType != propertyType &&
-              propertyType
-                ?.canHandleConversion(
-                  answerType ?: "",
-                )
-                ?.not() == true &&
-              answerExpression.startsWith("evaluate")
+                answerType != propertyType &&
+                propertyType?.canHandleConversion(answerType ?: "")?.not() == true &&
+                answerExpression.startsWith("evaluate")
             ) {
               println(
-                "Failed type matching --> ${instruction!!.fullPropertyPath()} of type $answerType != $propertyType",
+                "Failed type matching --> ${instruction!!.fullPropertyPath()} of type $answerType != $propertyType"
               )
               stringBuilder.append("src -> entity$currLevel.${instruction!!.fieldPath} = ")
               stringBuilder.append(
-                "create('${propertyType.getFhirType()}') as randomVal, randomVal.value = ",
+                "create('${propertyType.getFhirType()}') as randomVal, randomVal.value = "
               )
               stringBuilder.append(answerExpression)
               addRuleNo()
@@ -317,12 +315,13 @@ class Group(
         if (!name.equals("")) {
           val resourceType = resourceName
           stringBuilder.append(
-            "src -> entity$currLevel.$name = create('$resourceType') as entity${currLevel + 1} then {",
+            "src -> entity$currLevel.$name = create('$resourceType') as entity${currLevel + 1} then {"
           )
           stringBuilder.appendNewLine()
         } else {
           // stringBuilder.append("src -> entity$currLevel.$name = create('$resourceType') as
           // entity${currLevel + 1} then {")
+
         }
 
         nests.forEach { it.buildStructureMap(currLevel + 1, questionnaireResponse) }
@@ -347,13 +346,13 @@ fun generateStructureMapLine(
   structureMapBody: StringBuilder,
   row: Row,
   resource: Resource,
-  extractionResources: HashMap<String, Resource>,
+  extractionResources: HashMap<String, Resource>
 ) {
   row.forEachIndexed { index, cell ->
     val cellValue = cell.stringCellValue
     val fieldPath = row.getCell(4).stringCellValue
     val targetDataType = determineFhirDataType(cellValue)
-    structureMapBody.append("src -> entity.$fieldPath=")
+    structureMapBody.append("src -> entity.${fieldPath}=")
 
     when (targetDataType) {
       "string" -> {
@@ -389,8 +388,12 @@ fun determineFhirDataType(cellValue: String): String {
   }
 }
 
-fun StringBuilder.appendNewLine(): StringBuilder {
-  append(System.lineSeparator())
+fun StringBuilder.appendNewLine(count: Int = 1): StringBuilder {
+  var counter = 0
+  while (counter < count) {
+    append(System.lineSeparator())
+    counter++
+  }
   return this
 }
 
@@ -403,11 +406,8 @@ private val Field.isParameterized: Boolean
 /** The non-parameterized type of this field (e.g. `String` for a field of type `List<String>`). */
 private val Field.nonParameterizedType: Class<*>
   get() =
-    if (isParameterized) {
-      (genericType as ParameterizedType).actualTypeArguments[0] as Class<*>
-    } else {
-      type
-    }
+    if (isParameterized) (genericType as ParameterizedType).actualTypeArguments[0] as Class<*>
+    else type
 
 private fun Class<*>.getFieldOrNull(name: String): Field? {
   return try {
@@ -417,46 +417,13 @@ private fun Class<*>.getFieldOrNull(name: String): Field? {
   }
 }
 
-private fun String.isCoding(questionnaireResponse: QuestionnaireResponse): Boolean {
-  val answerType = getType(questionnaireResponse)
-  return if (answerType != null) {
-    answerType == "org.hl7.fhir.r4.model.Coding"
-  } else {
-    false
-  }
-}
-
-private fun String.getType(questionnaireResponse: QuestionnaireResponse): String? {
-  val answer = fhirPathEngine.evaluate(questionnaireResponse, this)
-
-  return answer.firstOrNull()?.javaClass?.name
-}
-
 internal val fhirPathEngine: FHIRPathEngine =
   with(FhirContext.forCached(FhirVersionEnum.R4)) {
     FHIRPathEngine(HapiWorkerContext(this, this.validationSupport)).apply {
-      hostServices = FhirPathEngineHostServices
+      // TODO update to link to already existing FHIRPathEngineHostService in the external folder
+      //  hostServices = FHIRPathEngineHostServices
     }
   }
-
-private fun String.isEnumeration(instruction: Instruction): Boolean {
-  return inferType(instruction.fullPropertyPath())?.contains("Enumeration") ?: false
-}
-
-fun String.getAnswerType(questionnaireResponse: QuestionnaireResponse): String? {
-  return if (isEvaluateExpression()) {
-    val fhirPath = substring(indexOf(",") + 1, length - 1)
-
-    fhirPath.getType(questionnaireResponse)?.replace("org.hl7.fhir.r4.model.", "")
-  } else {
-    // TODO: WE can run the actual line against StructureMapUtilities.runTransform to get the actual
-    // one that is generated and confirm if we need more conversions
-    "StringType"
-  }
-}
-
-// TODO: Confirm and fix this
-fun String.isEvaluateExpression(): Boolean = startsWith("evaluate(")
 
 /**
  * Infer's the type and return the short class name eg `HumanName` for org.fhir.hl7.r4.model.Patient
@@ -482,66 +449,14 @@ fun inferType(parentClass: Class<*>?, parts: List<String>, index: Int): String? 
   val propertyField = parentClass?.getFieldOrNull(resourcePropertyName)
 
   val propertyType =
-    if (propertyField?.isList == true) {
-      propertyField.nonParameterizedType
-    } // TODO: Check if this is required
-    else if (propertyField?.type == Enumeration::class.java) {
-      // TODO: Check if this works
-      propertyField.nonParameterizedType
-    } else {
-      propertyField?.type
-    }
+    if (propertyField?.isList == true) propertyField.nonParameterizedType
+    // TODO: Check if this is required
+    else if (propertyField?.type == Enumeration::class.java)
+    // TODO: Check if this works
+    propertyField.nonParameterizedType
+    else propertyField?.type
 
   return if (parts.size > index + 1) {
     return inferType(propertyType, parts, index + 1)
-  } else {
-    propertyType?.name?.replace("org.hl7.fhir.r4.model.", "")
-  }
+  } else propertyType?.name?.replace("org.hl7.fhir.r4.model.", "")
 }
-
-fun String.isMultipleTypes(): Boolean = this == "Type"
-
-// TODO: Finish this. Use the annotation @Chid.type
-fun String.getPossibleTypes(): List<Type> {
-  return listOf()
-}
-
-fun String.canHandleConversion(sourceType: String): Boolean {
-  val propertyClass = Class.forName("org.hl7.fhir.r4.model.$this")
-  val targetType2 =
-    if (sourceType == "StringType") {
-      String::class.java
-    } else Class.forName("org.hl7.fhir.r4.model.$sourceType")
-
-  val possibleConversions =
-    listOf(
-      "BooleanType" to "StringType",
-      "DateType" to "StringType",
-      "DecimalType" to "IntegerType",
-      "AdministrativeGender" to "CodeType",
-    )
-
-  possibleConversions.forEach {
-    if (this.contains(it.first) && sourceType == it.second) {
-      return true
-    }
-  }
-
-  try {
-    propertyClass.getDeclaredMethod("fromCode", targetType2)
-  } catch (ex: NoSuchMethodException) {
-    return false
-  }
-
-  return true
-}
-
-fun String.getParentResource(): String? {
-  return substring(0, lastIndexOf('.'))
-}
-
-fun String.getResourceProperty(): String? {
-  return substring(lastIndexOf('.') + 1)
-}
-
-fun String.getFhirType(): String = replace("Type", "").lowercase()
