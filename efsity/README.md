@@ -172,22 +172,26 @@ $ fct validateFileStructure -i ~/Workspace/fhir-resources/<project> -s ~/path/to
 If the file structure matches the schema then a positive result is printed to the terminal, otherwise an error 
 is thrown showing the issue.
 
-### Validating StructureMap 
+### Validating Questionnaires and  StructureMap 
 The tool supports validation of a single structureMap and questionnaire **(single mode)** and validation of all the project files for the questionnaires and structureMaps **(project mode)**. The tool maps the different questionnaires to the specified structureMaps and then generates the questionnaireResponses. Once the questionnaireResponses have been generated, the bundle is then generated with the respective resources ie.(= Patient, Condition). To do this run the following command:
+To ensure this runs correctly, install `hapi=fhir-jpaserver-starter`. In `src/main/resources/application.yaml` change `hapi: fhir:` to `true`. Once done run, 
+`mvn spring-boot:run`
+The Server will then be accessible at http://localhost:8080/fhir and the CapabilityStatement will be found at http://localhost:8080/fhir/metadata.
 
 **Options**
 ```
--i or --input - path to project folder which needs to be validated
+-i or --input - path to project questionnaire folder to be validated
+-q or --questionnaire -path to a single questionnaire to be validated
  -v or --validate : (Optional) whether to validate FHIR resources before publishing or not. Optional boolean - default is `false`
 -sm or --structure-map - file path to the path to the folder containing the structure maps. These can be nested
 ```
 
 ```console (single-mode)
-$  fct validateStructureMap -i ~/Workspace/fhir-resources/<project>/questionnaire/resource.json -sm ~/Workspace/fhir-resources/coda/structure_map/coda-child-structure-map.txt
+$  fct validateStructureMap -q ~/Workspace/fhir-resources/<project>/questionnaire-folder/resource.json -sm ~/Workspace/fhir-resources/coda/structure_map-folder/coda-child-structure-map.txt
 ```
 
 ```console (project-mode)
-$  fct validateStructureMap -i ~/Workspace/fhir-resources/<project>/questionnaire/ -sm ~/Workspace/fhir-resources/coda/structure_map/`
+$  fct validateStructureMap -i ~/Workspace/fhir-resources/<project>/questionnaire-folder/ -sm ~/Workspace/fhir-resources/coda/structure_map-folder/`
 ```
 
 ### Localization

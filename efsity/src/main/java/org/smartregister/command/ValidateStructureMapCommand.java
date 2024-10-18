@@ -12,7 +12,11 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import net.jimblackler.jsonschemafriend.GenerationException;
 import net.jimblackler.jsonschemafriend.ValidationException;
 import org.json.JSONException;
@@ -30,9 +34,15 @@ public class ValidateStructureMapCommand implements Runnable {
 
   @CommandLine.Option(
       names = {"-i", "--input"},
-      description = "path of the project folder",
+      description = "path of the project or questionnaire folder",
       required = false)
   String inputPath;
+
+  @CommandLine.Option(
+      names = {"-q", "--questionnaire"},
+      description = "path of the single questionnaire file",
+      required = false)
+  String questionnairePath;
 
   @CommandLine.Option(
       names = {"-v", "--validate"},
@@ -48,14 +58,15 @@ public class ValidateStructureMapCommand implements Runnable {
 
   @Override
   public void run() {
-    if (inputPath != null) {
+    if (inputPath != null || questionnairePath != null) {
 
       long start = System.currentTimeMillis();
       try {
-        if (isProjectMode(inputPath)) {
+        if (isProjectMode(String.valueOf(inputPath != null && isProjectMode(inputPath)))) {
           validateStructureMapForProject(inputPath, structureMapFilePath, validate);
         } else {
-          validateStructureMap(inputPath, validate, structureMapFilePath);
+          String questionnaireFilePath = questionnairePath != null ? questionnairePath : inputPath;
+          validateStructureMap(questionnaireFilePath, validate, structureMapFilePath);
         }
       } catch (IOException e) {
         throw new RuntimeException(e);
@@ -81,6 +92,11 @@ public class ValidateStructureMapCommand implements Runnable {
     ArrayList<String> questionnaires = getResourceFiles(inputFilePath);
     boolean allResourcesValid = true;
 
+    // Fail if the list of questionnaires is empty
+    if (questionnaires.isEmpty()) {
+      FctUtils.printError("No questionnaires found. Validation cannot proceed.");
+      throw new RuntimeException("Validation failed: No questionnaires found.");
+    }
     for (String questionnairePath : questionnaires) {
       FctUtils.printInfo("Processing: " + questionnairePath);
 
