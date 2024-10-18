@@ -10,7 +10,6 @@ import org.hl7.fhir.r4.model.Parameters;
 import org.hl7.fhir.r4.model.StructureMap;
 import org.hl7.fhir.r4.utils.StructureMapUtilities;
 import org.hl7.fhir.utilities.npm.FilesystemPackageCacheManager;
-import org.hl7.fhir.utilities.npm.ToolsVersion;
 import org.smartregister.domain.FctFile;
 import org.smartregister.external.TransformSupportServices;
 
@@ -21,8 +20,7 @@ public class FctStructureMapUtilities {
 
   public FctStructureMapUtilities() throws IOException {
 
-    FilesystemPackageCacheManager pcm =
-        new FilesystemPackageCacheManager(true, ToolsVersion.TOOLS_VERSION);
+    FilesystemPackageCacheManager pcm = new FilesystemPackageCacheManager(true);
 
     // Package name manually checked from
     // https://simplifier.net/packages?Text=hl7.fhir.core&fhirVersion=All+FHIR+Versions
