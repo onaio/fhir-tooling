@@ -27,15 +27,6 @@ fun main(args: Array<String>) {
   Application().main(args)
 }
 
-/*fun main(args: Array<String>) {
-    val values = hashMapOf(Pair("username", "Bilira"), Pair("client_id", "uBr6UUy5VprEcvCnWndSWcALKivttaqk25"))
-    val digest = MessageDigest.getInstance("MD5")
-    val bytes = digest.digest(values.toString().toByteArray(charset("UTF-8")))
-    val answ = String.format("%032x", BigInteger(1, bytes))
-    System.out.println(answ)
-
-}*/
-
 /*
 
 REMAINING TASKS
@@ -48,7 +39,7 @@ REMAINING TASKS
 class Application : CliktCommand() {
   val xlsfile: String by option(help = "XLS filepath").prompt("Kindly enter the XLS filepath")
   val questionnairefile: String by
-    option(help = "Questionnaire filepath").prompt("Kindly enter the questionnaire filepath")
+  option(help = "Questionnaire filepath").prompt("Kindly enter the questionnaire filepath")
 
   override fun run() {
     // Create a map of Resource -> questionnaire name or path -> value
@@ -155,13 +146,6 @@ class Application : CliktCommand() {
             .add(instruction)
         }
       }
-      // val resource =  ?: Class.forName("org.hl7.fhir.r4.model.$resourceName").newInstance() as
-      // Resource
-
-      // Perform the extraction for the row
-      /*generateStructureMapLine(structureMapBody, row, resource, extractionResources)
-
-      extractionResources[resourceName + resourceIndex] = resource*/
 
       sb.append(structureMapHeader)
       sb.appendNewLine().appendNewLine().appendNewLine()

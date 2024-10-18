@@ -276,21 +276,21 @@ class Group(
         if (answerExpression != null) {
           if (
             answerExpression.isNotEmpty() &&
-              answerExpression.isNotBlank() &&
-              answerExpression != "''"
+            answerExpression.isNotBlank() &&
+            answerExpression != "''"
           ) {
             val propertyType = inferType(instruction!!.fullPropertyPath())
             val answerType = answerExpression.getAnswerType(questionnaireResponse)
 
             if (
               propertyType != "Type" &&
-                answerType != propertyType &&
-                propertyType
-                  ?.canHandleConversion(
-                    answerType ?: "",
-                  )
-                  ?.not() == true &&
-                answerExpression.startsWith("evaluate")
+              answerType != propertyType &&
+              propertyType
+                ?.canHandleConversion(
+                  answerType ?: "",
+                )
+                ?.not() == true &&
+              answerExpression.startsWith("evaluate")
             ) {
               println(
                 "Failed type matching --> ${instruction!!.fullPropertyPath()} of type $answerType != $propertyType",
