@@ -9,3 +9,5 @@ fhircore-tooling.iml
 # build files
 bin
 target
+
+generatedResources

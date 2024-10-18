@@ -91,7 +91,15 @@ public class QuestionnaireResponseGeneratorCommand implements Runnable {
     validateOptions();
     if (inputFilePath != null) {
       try {
-        generateResponse(inputFilePath, mode, extrasPath, fhir_base_url, apiKey);
+        generateResponse(
+            inputFilePath,
+            mode,
+            outputFilePath,
+            extrasPath,
+            fhir_base_url,
+            apiKey,
+            aiModel,
+            maxTokens);
       } catch (IOException e) {
         throw new RuntimeException(e);
       }
@@ -111,8 +119,15 @@ public class QuestionnaireResponseGeneratorCommand implements Runnable {
     }
   }
 
-  private void generateResponse(
-      String inputFilePath, String mode, String extrasPath, String fhir_base_url, String apiKey)
+  public static void generateResponse(
+      String inputFilePath,
+      String mode,
+      String outputFilePath,
+      String extrasPath,
+      String fhir_base_url,
+      String apiKey,
+      String aiModel,
+      String maxTokens)
       throws IOException {
     long start = System.currentTimeMillis();
 
@@ -127,17 +142,17 @@ public class QuestionnaireResponseGeneratorCommand implements Runnable {
     String questionnaireResponseString =
         (Objects.equals(mode, "populate"))
             ? populateMode(questionnaireData, fhir_base_url, extrasPath)
-            : aiMode(questionnaireData, apiKey);
+            : aiMode(questionnaireData, apiKey, aiModel, maxTokens);
 
     // Write response to file
     FctUtils.printInfo("Writing response to file");
     String output =
-        Files.isDirectory(Paths.get(this.outputFilePath))
-            ? this.outputFilePath
+        Files.isDirectory(Paths.get(outputFilePath))
+            ? outputFilePath
                 + File.separator
                 + inputFile.getNameWithoutExtension()
                 + Constants.QUESTIONNAIRE_RESPONSE_SUFFIX
-            : this.outputFilePath;
+            : outputFilePath;
 
     FctUtils.writeJsonFile(output, questionnaireResponseString);
     FctUtils.printInfo(
@@ -148,7 +163,7 @@ public class QuestionnaireResponseGeneratorCommand implements Runnable {
     FctUtils.printCompletedInDuration(start);
   }
 
-  Boolean checkResource(
+  static Boolean checkResource(
       String questionnaire_id, String resourceType, JSONObject resource, String fhir_base_url)
       throws IOException {
     JSONObject request = new JSONObject();
@@ -305,7 +320,7 @@ public class QuestionnaireResponseGeneratorCommand implements Runnable {
     }
   }
 
-  JSONArray getAnswers(JSONArray questions, JSONArray responses, JSONObject extras) {
+  static JSONArray getAnswers(JSONArray questions, JSONArray responses, JSONObject extras) {
     for (int i = 0; i < questions.length(); i++) {
       JSONObject current_question = questions.getJSONObject(i);
       String question_type = current_question.getString("type");
@@ -327,7 +342,7 @@ public class QuestionnaireResponseGeneratorCommand implements Runnable {
     return responses;
   }
 
-  String populateMode(String questionnaireData, String fhir_base_url, String extrasPath)
+  static String populateMode(String questionnaireData, String fhir_base_url, String extrasPath)
       throws IOException {
     JSONObject resource = new JSONObject(questionnaireData);
     String questionnaire_id = resource.getString("id");
@@ -369,7 +384,8 @@ public class QuestionnaireResponseGeneratorCommand implements Runnable {
     return String.valueOf(questionnaire_response);
   }
 
-  String aiMode(String questionnaireData, String apiKey) throws IOException {
+  static String aiMode(String questionnaireData, String apiKey, String aiModel, String maxTokens)
+      throws IOException {
     if (true) {
       throw new IllegalStateException("Sorry, the AI mode is temporarily unsupported");
     }
@@ -383,7 +399,7 @@ public class QuestionnaireResponseGeneratorCommand implements Runnable {
 
     // Generate response
     String generatedResponseString =
-        aiGenerated(questionnaireJsonString, apiKey, this.aiModel, this.maxTokens);
+        aiGenerated(questionnaireJsonString, apiKey, aiModel, maxTokens);
     JSONObject obj = new JSONObject(generatedResponseString);
     JSONArray choices = obj.getJSONArray("choices");
     String questionnaireResponseString = "";
