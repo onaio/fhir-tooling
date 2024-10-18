@@ -274,7 +274,7 @@ class FhirCarePlanGeneratorLite {
   private val fhirPathEngine: FHIRPathEngine =
     with(FhirContext.forCached(FhirVersionEnum.R4)) {
       FHIRPathEngine(HapiWorkerContext(this, this.validationSupport)).apply {
-        hostServices = FhirPathEngineHostServices
+        hostServices = FHIRPathEngineHostServices
       }
     }
 
