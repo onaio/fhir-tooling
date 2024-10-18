@@ -9,7 +9,7 @@ import org.hl7.fhir.r4.utils.FHIRPathEngine
 /**
  * Resolves constants defined in the fhir path expressions beyond those defined in the specification
  */
-internal object FHIRPathEngineHostServices : FHIRPathEngine.IEvaluationContext {
+internal object FhirPathEngineHostServices : FHIRPathEngine.IEvaluationContext {
   override fun resolveConstant(
     appContext: Any?,
     name: String?,
