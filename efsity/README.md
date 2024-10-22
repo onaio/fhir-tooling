@@ -173,17 +173,27 @@ If the file structure matches the schema then a positive result is printed to th
 is thrown showing the issue.
 
 ### Validating Questionnaires and  StructureMap 
-The tool supports validation of a single structureMap and questionnaire **(single mode)** and validation of all the project files for the questionnaires and structureMaps **(project mode)**. The tool maps the different questionnaires to the specified structureMaps and then generates the questionnaireResponses. Once the questionnaireResponses have been generated, the bundle is then generated with the respective resources ie.(= Patient, Condition). To do this run the following command:
-To ensure this runs correctly, install `hapi=fhir-jpaserver-starter`. In `src/main/resources/application.yaml` change `hapi: fhir:` to `true`. Once done run, 
-`mvn spring-boot:run`
-The Server will then be accessible at http://localhost:8080/fhir and the CapabilityStatement will be found at http://localhost:8080/fhir/metadata.
+The tool supports two validation modes:
 
+**1.Single mode** - Validates a single StructureMap and questionnaire.
+**2.Project mode** - Validates all project files, including multiple questionnaires and StructureMaps.
+
+The tool maps each questionnaire to the specified StructureMap, then generates the corresponding `QuestionnaireResponse`. Once generated, a bundle is created with the related resources (e.g., Patient, Condition).
+
+To run the tool, ensure the following:
+
+1. Install h`api=fhir-jpaserver-starter`.
+2. In `src/main/resources/application.yaml`, set `hapi: fhir`: to `true`.
+3. Run the command: `mvn spring-boot:run`
+
+The server will be accessible at http://localhost:8080/fhir, and the `CapabilityStatement` can be found at http://localhost:8080/fhir/metadata.
 **Options**
 ```
--i or --input - path to project questionnaire folder to be validated
--q or --questionnaire -path to a single questionnaire to be validated
- -v or --validate : (Optional) whether to validate FHIR resources before publishing or not. Optional boolean - default is `false`
--sm or --structure-map - file path to the path to the folder containing the structure maps. These can be nested
+-i or --input            Path to the project questionnaire folder to be validated.
+-q or --questionnaire     Path to a single questionnaire file to be validated.
+-v or --validate          (Optional) Boolean flag to validate FHIR resources before publishing. Default is `false`.
+-sm or --structure-map    Path to the folder containing StructureMaps. Nested directories are supported.
+
 ```
 
 ```console (single-mode)
