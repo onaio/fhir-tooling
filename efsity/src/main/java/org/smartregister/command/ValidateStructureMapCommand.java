@@ -66,7 +66,7 @@ public class ValidateStructureMapCommand implements Runnable {
           validateStructureMapForProject(inputPath, structureMapFilePath, validate);
         } else {
           String questionnaireFilePath = questionnairePath != null ? questionnairePath : inputPath;
-          validateStructureMap(questionnaireFilePath, validate, structureMapFilePath);
+          validateStructureMap(questionnaireFilePath, structureMapFilePath,validate);
         }
       } catch (IOException e) {
         throw new RuntimeException(e);
@@ -81,7 +81,7 @@ public class ValidateStructureMapCommand implements Runnable {
     return Files.isDirectory(path);
   }
 
-  void validateStructureMap(String inputFilePath, boolean validate, String structureMapFilePath)
+  void validateStructureMap(String inputFilePath, String structureMapFilePath, boolean validate)
       throws IOException {
     FctUtils.printInfo("Starting structureMap validation");
     FctUtils.printInfo(
@@ -170,16 +170,19 @@ public class ValidateStructureMapCommand implements Runnable {
             JsonArray entries = bundleJson.getAsJsonArray("entry");
             FctUtils.printInfo("Processing " + entries.size() + " entries from the Bundle.");
 
+            int resourceCounter = 0;
             // Process each entry in the Bundle
-            for (int i = 0; i < entries.size(); i++) {
-              JsonObject entry = entries.get(i).getAsJsonObject();
+            for (JsonElement entryElement : entries) {
+              JsonObject entry = entryElement.getAsJsonObject();
               JsonObject resource = entry.getAsJsonObject("resource");
 
               if (resource != null) {
                 String resourceType = resource.get("resourceType").getAsString();
 
-                // Create a unique file name for each resource
-                String resourceFileName = resourceType + ".json";
+                // Try to get the resource ID for a more unique file name
+                String resourceId = resource.has("id") ? resource.get("id").getAsString() : String.valueOf(resourceCounter++);
+                // Create a unique file name for each resource using both the type and the resource ID
+                String resourceFileName = resourceType + "_" + resourceId + ".json";
                 Path resourceFilePath =
                     Paths.get(extractedResourcesPath.toString(), resourceFileName);
 
@@ -195,7 +198,7 @@ public class ValidateStructureMapCommand implements Runnable {
                   allResourcesValid = false;
                 }
               } else {
-                FctUtils.printWarning("No resource found in entry " + i);
+                FctUtils.printWarning("No resource found in entry " + entryElement);
               }
             }
           } else {
@@ -265,11 +268,8 @@ public class ValidateStructureMapCommand implements Runnable {
 
             // Call the existing validateStructureMap function for validation and resource
             // extraction
-
-            System.out.println(questionnaireFile);
-
             try {
-              validateStructureMap(questionnaireFile, validate, structureMapFile);
+              validateStructureMap(questionnaireFile, structureMapFile ,validate);
             } catch (IOException e) {
               FctUtils.printError("Error during structure map validation: " + e.getMessage());
               throw e; // Re-throw to maintain the behavior
@@ -320,29 +320,6 @@ public class ValidateStructureMapCommand implements Runnable {
     }
   }
 
-  Map<String, String> getQuestionnaireToStructureMapIdMap(
-      JsonArray questionnaires, JsonArray structureMaps) {
-    Map<String, String> questionnaireToStructureMapIdMap = new HashMap<>();
-
-    for (JsonElement questionnaireElement : questionnaires) {
-      JsonObject questionnaire = questionnaireElement.getAsJsonObject();
-      String questionnaireId = questionnaire.get("title").getAsString();
-
-      for (JsonElement structureMapElement : structureMaps) {
-        JsonObject structureMap = structureMapElement.getAsJsonObject();
-        String structureMapId = structureMap.get("title").getAsString();
-
-        // Check if the questionnaire has a reference to the structure map
-        if (hasQuestionnaireReferenceToStructureMap(questionnaire, structureMapId)) {
-          questionnaireToStructureMapIdMap.put(questionnaireId, structureMapId);
-          break;
-        }
-      }
-    }
-
-    return questionnaireToStructureMapIdMap;
-  }
-
   boolean hasQuestionnaireReferenceToStructureMap(JsonObject questionnaire, String structureMapId) {
     // Check if the questionnaire has an extension with a reference to the structure map
     if (questionnaire.has("extension")) {
@@ -376,10 +353,8 @@ public class ValidateStructureMapCommand implements Runnable {
     if (Files.isDirectory(projectPath)) {
       Files.walk(projectPath).forEach(path -> getFiles(filesArray, path.toFile()));
     } else if (Files.isRegularFile(projectPath)) {
-
-      if (projectPath.getFileName().toString().endsWith(".json")) {
-        addFhirResource(pathToFolder, filesArray);
-      }
+      // Delegate to getFiles, as it already handles file checking logic
+      getFiles(filesArray, projectPath.toFile());
     }
     return filesArray;
   }
@@ -400,7 +375,6 @@ public class ValidateStructureMapCommand implements Runnable {
         FctUtils.printInfo("Adding " + filePath);
         filesArray.add(filePath);
       }
-
     } catch (Exception e) {
       FctUtils.printError(e.getMessage());
     }

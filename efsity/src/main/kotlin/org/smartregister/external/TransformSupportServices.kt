@@ -48,7 +48,7 @@ class TransformSupportServices @Inject constructor(val simpleWorkerContext: Simp
   val outputs: MutableList<Base> = mutableListOf()
 
   override fun log(message: String) {
-    FctUtils.printInfo(message)
+//    FctUtils.printInfo(message)
   }
 
   @Throws(FHIRException::class)
