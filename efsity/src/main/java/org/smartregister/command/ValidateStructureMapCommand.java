@@ -66,7 +66,7 @@ public class ValidateStructureMapCommand implements Runnable {
           validateStructureMapForProject(inputPath, structureMapFilePath, validate);
         } else {
           String questionnaireFilePath = questionnairePath != null ? questionnairePath : inputPath;
-          validateStructureMap(questionnaireFilePath, structureMapFilePath,validate);
+          validateStructureMap(questionnaireFilePath, structureMapFilePath, validate);
         }
       } catch (IOException e) {
         throw new RuntimeException(e);
@@ -180,8 +180,12 @@ public class ValidateStructureMapCommand implements Runnable {
                 String resourceType = resource.get("resourceType").getAsString();
 
                 // Try to get the resource ID for a more unique file name
-                String resourceId = resource.has("id") ? resource.get("id").getAsString() : String.valueOf(resourceCounter++);
-                // Create a unique file name for each resource using both the type and the resource ID
+                String resourceId =
+                    resource.has("id")
+                        ? resource.get("id").getAsString()
+                        : String.valueOf(resourceCounter++);
+                // Create a unique file name for each resource using both the type and the resource
+                // ID
                 String resourceFileName = resourceType + "_" + resourceId + ".json";
                 Path resourceFilePath =
                     Paths.get(extractedResourcesPath.toString(), resourceFileName);
@@ -269,7 +273,7 @@ public class ValidateStructureMapCommand implements Runnable {
             // Call the existing validateStructureMap function for validation and resource
             // extraction
             try {
-              validateStructureMap(questionnaireFile, structureMapFile ,validate);
+              validateStructureMap(questionnaireFile, structureMapFile, validate);
             } catch (IOException e) {
               FctUtils.printError("Error during structure map validation: " + e.getMessage());
               throw e; // Re-throw to maintain the behavior

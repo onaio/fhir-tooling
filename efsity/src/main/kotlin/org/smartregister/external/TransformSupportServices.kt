@@ -25,7 +25,6 @@ import org.hl7.fhir.r4.model.Task
 import org.hl7.fhir.r4.model.Timing
 import org.hl7.fhir.r4.terminologies.ConceptMapEngine
 import org.hl7.fhir.r4.utils.StructureMapUtilities.ITransformerServices
-import org.smartregister.util.FctUtils
 
 /**
  * 3RD PARTY CODE: Copied from
@@ -48,7 +47,7 @@ class TransformSupportServices @Inject constructor(val simpleWorkerContext: Simp
   val outputs: MutableList<Base> = mutableListOf()
 
   override fun log(message: String) {
-//    FctUtils.printInfo(message)
+    //    FctUtils.printInfo(message)
   }
 
   @Throws(FHIRException::class)
