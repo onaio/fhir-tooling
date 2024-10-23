@@ -101,39 +101,59 @@ public class StructureMapProcessor {
   }
 
   public Map<String, String> generateIdToFilepathMap() {
-    Map<String, String> structureMapToLinkIds = new HashMap<>();
+    // Map to hold StructureMap ID to file name mapping
+    Map<String, String> structureMapToFilename = new HashMap<>();
 
     try {
-
-      Map<String, Map<String, String>> folderTofilesIndexMap =
+      // Index the files in the specified directory with "map" and "txt" extensions
+      Map<String, Map<String, String>> folderToFilesIndexMap =
           FctUtils.indexConfigurationFiles(directoryPath, "map", "txt");
 
-      // Process other configurations
-      for (Map.Entry<String, Map<String, String>> entry : folderTofilesIndexMap.entrySet()) {
+      // Iterate through the indexed files
+      for (Map.Entry<String, Map<String, String>> entry : folderToFilesIndexMap.entrySet()) {
 
-        Map<String, String> fileIndexMap = folderTofilesIndexMap.get(entry.getKey());
+        Map<String, String> fileIndexMap = folderToFilesIndexMap.get(entry.getKey());
 
         for (Map.Entry<String, String> nestedEntry : fileIndexMap.entrySet()) {
 
+          // Get the full path to the current file
           currentFile = nestedEntry.getValue();
 
+          // Skip hidden or invalid files
           if (nestedEntry.getKey().startsWith(".")) continue;
 
           Path path = Paths.get(nestedEntry.getValue());
           String firstLine;
+
+          // Read the first line of the file to extract the StructureMap ID
           try (BufferedReader reader = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
             firstLine = reader.readLine();
           }
 
-          if (StringUtils.isNotBlank(firstLine))
-            structureMapToLinkIds.put(getStructureMapId(firstLine), currentFile);
+          // If the first line is not blank, get the StructureMap ID and map it to the file name
+          if (StringUtils.isNotBlank(firstLine)) {
+            String structureMapId = getStructureMapId(firstLine);
+
+            // Extract the actual file name (e.g., child.map)
+            String actualFileName = path.getFileName().toString();
+
+            if (actualFileName != null) {
+
+              // Map the StructureMap ID to the file name
+              structureMapToFilename.put(structureMapId, actualFileName);
+            }
+            // Map the StructureMap ID to the file path
+            structureMapToFilename.put(structureMapId, currentFile);
+          }
         }
       }
 
     } catch (IOException ioException) {
-      ioException.toString();
+      ioException.printStackTrace(); // Print the exception for debugging purposes
     }
-    return structureMapToLinkIds;
+
+    // Return the map of StructureMap IDs to their corresponding file names
+    return structureMapToFilename;
   }
 
   private String getSubstringBetween(String str, String opening, String closing) {
