@@ -91,7 +91,15 @@ public class QuestionnaireResponseGeneratorCommand implements Runnable {
     validateOptions();
     if (inputFilePath != null) {
       try {
-        generateResponse(inputFilePath, mode, extrasPath, fhir_base_url, apiKey);
+        generateResponse(
+            inputFilePath,
+            mode,
+            outputFilePath,
+            extrasPath,
+            fhir_base_url,
+            apiKey,
+            aiModel,
+            maxTokens);
       } catch (IOException e) {
         throw new RuntimeException(e);
       }
@@ -111,8 +119,15 @@ public class QuestionnaireResponseGeneratorCommand implements Runnable {
     }
   }
 
-  private void generateResponse(
-      String inputFilePath, String mode, String extrasPath, String fhir_base_url, String apiKey)
+  public static void generateResponse(
+      String inputFilePath,
+      String mode,
+      String outputFilePath,
+      String extrasPath,
+      String fhir_base_url,
+      String apiKey,
+      String aiModel,
+      String maxTokens)
       throws IOException {
     long start = System.currentTimeMillis();
 
@@ -127,17 +142,17 @@ public class QuestionnaireResponseGeneratorCommand implements Runnable {
     String questionnaireResponseString =
         (Objects.equals(mode, "populate"))
             ? populateMode(questionnaireData, fhir_base_url, extrasPath)
-            : aiMode(questionnaireData, apiKey);
+            : aiMode(questionnaireData, apiKey, aiModel, maxTokens);
 
     // Write response to file
     FctUtils.printInfo("Writing response to file");
     String output =
-        Files.isDirectory(Paths.get(this.outputFilePath))
-            ? this.outputFilePath
+        Files.isDirectory(Paths.get(outputFilePath))
+            ? outputFilePath
                 + File.separator
                 + inputFile.getNameWithoutExtension()
                 + Constants.QUESTIONNAIRE_RESPONSE_SUFFIX
-            : this.outputFilePath;
+            : outputFilePath;
 
     FctUtils.writeJsonFile(output, questionnaireResponseString);
     FctUtils.printInfo(
@@ -148,7 +163,7 @@ public class QuestionnaireResponseGeneratorCommand implements Runnable {
     FctUtils.printCompletedInDuration(start);
   }
 
-  Boolean checkResource(
+  static Boolean checkResource(
       String questionnaire_id, String resourceType, JSONObject resource, String fhir_base_url)
       throws IOException {
     JSONObject request = new JSONObject();
@@ -174,7 +189,7 @@ public class QuestionnaireResponseGeneratorCommand implements Runnable {
     LocalDate startDate = LocalDate.of(1960, 1, 1);
     LocalDate endDate = LocalDate.of(2023, 12, 31);
     long daysBetween = ChronoUnit.DAYS.between(startDate, endDate);
-    long randomDays = random.nextLong(daysBetween + 1);
+    long randomDays = (long) getRandomNumber(daysBetween + 1);
     return startDate.plusDays(randomDays);
   }
 
@@ -182,7 +197,7 @@ public class QuestionnaireResponseGeneratorCommand implements Runnable {
     LocalDateTime startDateTime = LocalDateTime.of(2000, 1, 1, 0, 0);
     LocalDateTime endDateTime = LocalDateTime.of(2024, 12, 31, 23, 59);
     long secondsBetween = ChronoUnit.SECONDS.between(startDateTime, endDateTime);
-    long randomSeconds = random.nextLong(secondsBetween + 1);
+    long randomSeconds = (long) getRandomNumber(secondsBetween + 1);
     return startDateTime.plusSeconds(randomSeconds);
   }
 
@@ -193,7 +208,7 @@ public class QuestionnaireResponseGeneratorCommand implements Runnable {
       if (Objects.equals(current_id, link_id)) {
         if (current_object.has("answerOption")) {
           JSONArray answer_options = current_object.getJSONArray("answerOption");
-          int random_index = random.nextInt(answer_options.length());
+          int random_index = (int) getRandomNumber(answer_options.length() + 1);
           return answer_options.getJSONObject(random_index).getJSONObject("valueCoding");
         }
       }
@@ -226,7 +241,7 @@ public class QuestionnaireResponseGeneratorCommand implements Runnable {
       }
     }
     JSONObject quantityAnswer = new JSONObject();
-    quantityAnswer.put("value", random.nextInt(minValue, maxValue));
+    quantityAnswer.put("value", getRandomNumber(minValue, maxValue));
     quantityAnswer.put("unit", unit);
     quantityAnswer.put("system", "http://unitsofmeasure.org");
     quantityAnswer.put("code", unit);
@@ -236,7 +251,7 @@ public class QuestionnaireResponseGeneratorCommand implements Runnable {
   public static JSONObject generateReferenceValue() {
     List<String> exampleResourceTypes =
         Arrays.asList("Patient", "Practitioner", "Location", "Immunization");
-    int randomPick = random.nextInt(0, exampleResourceTypes.size());
+    int randomPick = (int) getRandomNumber(0, exampleResourceTypes.size());
     JSONObject reference = new JSONObject();
     reference.put(
         "reference",
@@ -269,10 +284,11 @@ public class QuestionnaireResponseGeneratorCommand implements Runnable {
     switch (type.toLowerCase()) {
       case "string":
         return answer.put(
-            "valueString", result != null ? result.toString() : "FakeString" + random.nextInt(100));
+            "valueString",
+            result != null ? result.toString() : "FakeString" + getRandomNumber(100));
       case "integer":
         return answer.put(
-            "valueInteger", result instanceof Integer ? (Integer) result : random.nextInt(100));
+            "valueInteger", result instanceof Integer ? (Integer) result : getRandomNumber(100));
       case "boolean":
         return answer.put(
             "valueBoolean", result instanceof Boolean ? (Boolean) result : random.nextBoolean());
@@ -296,7 +312,7 @@ public class QuestionnaireResponseGeneratorCommand implements Runnable {
       case "text":
         return answer.put(
             "valueString",
-            result != null ? result.toString() : "This is a fake text" + random.nextInt(100));
+            result != null ? result.toString() : "This is a fake text" + getRandomNumber(100));
       case "reference":
         return answer.put("valueReference", generateReferenceValue());
       default:
@@ -304,7 +320,7 @@ public class QuestionnaireResponseGeneratorCommand implements Runnable {
     }
   }
 
-  JSONArray getAnswers(JSONArray questions, JSONArray responses, JSONObject extras) {
+  static JSONArray getAnswers(JSONArray questions, JSONArray responses, JSONObject extras) {
     for (int i = 0; i < questions.length(); i++) {
       JSONObject current_question = questions.getJSONObject(i);
       String question_type = current_question.getString("type");
@@ -326,7 +342,7 @@ public class QuestionnaireResponseGeneratorCommand implements Runnable {
     return responses;
   }
 
-  String populateMode(String questionnaireData, String fhir_base_url, String extrasPath)
+  static String populateMode(String questionnaireData, String fhir_base_url, String extrasPath)
       throws IOException {
     JSONObject resource = new JSONObject(questionnaireData);
     String questionnaire_id = resource.getString("id");
@@ -368,7 +384,8 @@ public class QuestionnaireResponseGeneratorCommand implements Runnable {
     return String.valueOf(questionnaire_response);
   }
 
-  String aiMode(String questionnaireData, String apiKey) throws IOException {
+  static String aiMode(String questionnaireData, String apiKey, String aiModel, String maxTokens)
+      throws IOException {
     if (true) {
       throw new IllegalStateException("Sorry, the AI mode is temporarily unsupported");
     }
@@ -382,7 +399,7 @@ public class QuestionnaireResponseGeneratorCommand implements Runnable {
 
     // Generate response
     String generatedResponseString =
-        aiGenerated(questionnaireJsonString, apiKey, this.aiModel, this.maxTokens);
+        aiGenerated(questionnaireJsonString, apiKey, aiModel, maxTokens);
     JSONObject obj = new JSONObject(generatedResponseString);
     JSONArray choices = obj.getJSONArray("choices");
     String questionnaireResponseString = "";
@@ -437,6 +454,21 @@ public class QuestionnaireResponseGeneratorCommand implements Runnable {
         return "-1";
       }
     }
+  }
+
+  public static <T extends Number> double getRandomNumber(T bound) {
+    return random.nextDouble() * bound.doubleValue();
+  }
+
+  public static <T extends Number> double getRandomNumber(T origin, T bound) {
+    double originValue = origin.doubleValue();
+    double boundValue = bound.doubleValue();
+
+    if (originValue >= boundValue) {
+      throw new IllegalArgumentException("Origin must be less than bound");
+    }
+
+    return originValue + random.nextDouble() * (boundValue - originValue);
   }
 
   public static class Constants {
