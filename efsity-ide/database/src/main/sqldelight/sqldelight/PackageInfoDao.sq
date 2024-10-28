@@ -1,0 +1,21 @@
+CREATE TABLE IF NOT EXISTS `package_info` (
+    `id` TEXT PRIMARY KEY NOT NULL,
+    `package_id` TEXT NOT NULL,
+    `package_name` TEXT NOT NULL
+);
+
+selectAll:
+SELECT * FROM `package_info`;
+
+insert:
+INSERT INTO `package_info` (id, package_id, package_name)
+VALUES(?, ?, ?);
+
+update:
+UPDATE `package_info`
+SET package_name = ?
+WHERE id = ?;
+
+delete:
+DELETE FROM `package_info`
+WHERE id = ?;

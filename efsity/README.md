@@ -172,6 +172,38 @@ $ fct validateFileStructure -i ~/Workspace/fhir-resources/<project> -s ~/path/to
 If the file structure matches the schema then a positive result is printed to the terminal, otherwise an error 
 is thrown showing the issue.
 
+### Validating Questionnaires and  StructureMap 
+The tool supports two validation modes:
+
+**1.Single mode** - Validates a single StructureMap and questionnaire.
+**2.Project mode** - Validates all project files, including multiple questionnaires and StructureMaps.
+
+The tool maps each questionnaire to the specified StructureMap, then generates the corresponding `QuestionnaireResponse`. Once generated, a bundle is created with the related resources (e.g., Patient, Condition).
+
+To run the tool, ensure the following:
+
+1. Install h`api=fhir-jpaserver-starter`.
+2. In `src/main/resources/application.yaml`, set `hapi: fhir`: to `true`.
+3. Run the command: `mvn spring-boot:run`
+
+The server will be accessible at http://localhost:8080/fhir, and the `CapabilityStatement` can be found at http://localhost:8080/fhir/metadata.
+**Options**
+```
+-i or --input            Path to the project questionnaire folder to be validated.
+-q or --questionnaire     Path to a single questionnaire file to be validated.
+-v or --validate          (Optional) Boolean flag to validate FHIR resources before publishing. Default is `false`.
+-sm or --structure-map    Path to the folder containing StructureMaps. Nested directories are supported.
+
+```
+
+```console (single-mode)
+$  fct validateStructureMap -q ~/Workspace/fhir-resources/<project>/questionnaire-folder/resource.json -sm ~/Workspace/fhir-resources/coda/structure_map-folder/coda-child-structure-map.txt
+```
+
+```console (project-mode)
+$  fct validateStructureMap -i ~/Workspace/fhir-resources/<project>/questionnaire-folder/ -sm ~/Workspace/fhir-resources/coda/structure_map-folder/`
+```
+
 ### Localization
 Tool that supports localization by the use of the translation extension
 
