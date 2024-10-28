@@ -260,7 +260,7 @@ def confirm_practitioner(user, user_id):
             return True, obj
 
 
-def create_roles(role_list, roles_max):
+def create_roles(role_list):
     for role in role_list:
         current_role = str(role[0])
         _keycloak_url = get_keycloak_url()
