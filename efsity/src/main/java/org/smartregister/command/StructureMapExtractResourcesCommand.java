@@ -42,19 +42,22 @@ public class StructureMapExtractResourcesCommand implements Runnable {
   public void run() {
 
     try {
-      extractResource(qr, sm);
+      extractResource(qr, sm, output);
 
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
   }
 
-  private void extractResource(String qrFilePath, String structureMapFilePath) throws IOException {
+  static void extractResource(String qrFilePath, String structureMapFilePath, String output)
+      throws IOException {
 
     long start = System.currentTimeMillis();
 
-    FctUtils.printInfo(String.format("Questionnaire Response file path \u001b[35m%s\u001b[0m", qr));
-    FctUtils.printInfo(String.format("Structure Map file path \u001b[35m%s\u001b[0m", sm));
+    FctUtils.printInfo(
+        String.format("Questionnaire Response file path \u001b[35m%s\u001b[0m", qrFilePath));
+    FctUtils.printInfo(
+        String.format("Structure Map file path \u001b[35m%s\u001b[0m", structureMapFilePath));
 
     FctFile questionnaireResponse = FctUtils.readFile(qrFilePath);
 

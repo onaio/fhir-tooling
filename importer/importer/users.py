@@ -69,9 +69,11 @@ def create_user(user):
         logging.info("Setting user password")
         r = handle_request("PUT", payload, url)
 
-        return user_id
+        return user_id, {}
     else:
-        return 0
+        logging.info(r.text)
+        obj = {"task": "Create user", "row": str(user), "error": r.text}
+        return 0, obj
 
 
 # This function build the FHIR resources related to a
@@ -177,21 +179,23 @@ def confirm_keycloak_user(user):
     try:
         response_username = json_response[0]["username"]
     except IndexError:
-        logging.error("Skipping user: " + str(user))
-        logging.error("Username not found!")
-        return 0
+        message = "Username not found! Skipping user: " + str(user[2])
+        logging.error(message)
+        obj = {"task": "Confirm Keycloak user", "row": str(user), "error": message}
+        return 0, obj
 
     if response_username != user_username:
-        logging.error("Skipping user: " + str(user))
-        logging.error("Username does not match")
-        return 0
+        message = "Username does not match! Skipping user: " + str(user[2])
+        logging.error(message)
+        obj = {"task": "Confirm Keycloak user", "row": str(user), "error": message}
+        return 0, obj
 
     if len(response_email) > 0 and response_email != user_email:
-        logging.error("Email does not match for user: " + str(user))
+        logging.error("Email does not match for user: " + str(user[2]))
 
     keycloak_id = json_response[0]["id"]
     logging.info("User confirmed with id: " + keycloak_id)
-    return keycloak_id
+    return keycloak_id, {}
 
 
 def confirm_practitioner(user, user_id):
@@ -203,18 +207,24 @@ def confirm_practitioner(user, user_id):
         json_r = json.loads(r[0])
         counter = json_r["total"]
         if counter > 0:
-            logging.info(
-                str(counter) + " Practitioner(s) exist, linked to the provided user"
+            message = (
+                "User "
+                + str(user[2])
+                + " is linked to "
+                + str(counter)
+                + " Practitioner(s)"
             )
-            return True
+            logging.info(message)
+            obj = {"task": "Confirm Practitioner", "row": str(user), "error": message}
+            return True, obj
         else:
-            return False
+            return False, {}
 
     r = handle_request("GET", "", base_url + "/Practitioner/" + practitioner_uuid)
 
     if r[1] == 404:
         logging.info("Practitioner does not exist, proceed to creation")
-        return False
+        return False, {}
     else:
         try:
             json_r = json.loads(r[0])
@@ -228,16 +238,26 @@ def confirm_practitioner(user, user_id):
                 logging.info(
                     "The Keycloak user and Practitioner are linked as expected"
                 )
-                return True
+                return True, {}
             else:
-                logging.error(
+                message = (
                     "The Keycloak user and Practitioner are not linked as expected"
                 )
-                return True
+                logging.error(message)
+                obj = {
+                    "task": "Confirm Practitioner",
+                    "row": str(user),
+                    "error": message,
+                }
+                return True, obj
 
         except Exception as err:
-            logging.error("Error occurred trying to find Practitioner: " + str(err))
-            return True
+            message = (
+                "Error occurred trying to find Practitioner. The error is: " + str(err)
+            )
+            logging.error(message)
+            obj = {"task": "Confirm Practitioner", "row": str(user), "error": message}
+            return True, obj
 
 
 def create_roles(role_list, roles_max):

@@ -105,7 +105,7 @@ class TestUsers(unittest.TestCase):
             "demo",
             "pa$$word",
         )
-        user_id = create_user(mocked_user_data)
+        user_id, obj = create_user(mocked_user_data)
 
         self.assertEqual(user_id, "6cd50351-3ddb-4296-b1db-aac2273e35f3")
         mock_logging.info.assert_called_with("Setting user password")
@@ -132,7 +132,7 @@ class TestUsers(unittest.TestCase):
             "demo",
             "pa$$word",
         )
-        user_id = create_user(mocked_user_data)
+        user_id, obj = create_user(mocked_user_data)
         self.assertEqual(user_id, 0)
 
     # Test the confirm_keycloak function
@@ -158,7 +158,7 @@ class TestUsers(unittest.TestCase):
             "demo",
             "pa$$word",
         )
-        user_id = create_user(mocked_user_data)
+        user_id, obj = create_user(mocked_user_data)
         self.assertEqual(user_id, 0)
 
         mock_response = (
@@ -172,7 +172,7 @@ class TestUsers(unittest.TestCase):
         )
         mock_handle_request.return_value = mock_response
         mock_json_response = json.loads(mock_response[0])
-        keycloak_id = confirm_keycloak_user(mocked_user_data)
+        keycloak_id, obj = confirm_keycloak_user(mocked_user_data)
 
         self.assertEqual(mock_json_response[0]["username"], "Jenny")
         self.assertEqual(mock_json_response[0]["email"], "jeendoe@example.com")
