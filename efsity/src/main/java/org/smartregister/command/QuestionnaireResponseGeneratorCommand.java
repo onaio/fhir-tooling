@@ -457,7 +457,7 @@ public class QuestionnaireResponseGeneratorCommand implements Runnable {
   }
 
   public static <T extends Number> double getRandomNumber(T bound) {
-    return random.nextDouble() * bound.doubleValue();
+    return random.nextDouble() * (bound.doubleValue() - 1);
   }
 
   public static <T extends Number> double getRandomNumber(T origin, T bound) {
@@ -468,7 +468,7 @@ public class QuestionnaireResponseGeneratorCommand implements Runnable {
       throw new IllegalArgumentException("Origin must be less than bound");
     }
 
-    return originValue + random.nextDouble() * (boundValue - originValue);
+    return originValue + random.nextDouble() * (boundValue - (originValue + 1));
   }
 
   public static class Constants {
