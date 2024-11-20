@@ -4,7 +4,7 @@ import pathlib
 import uuid
 
 from importer.builder import get_base_url
-from importer.config.settings import api_service, keycloak_url
+from importer.config.settings import api_service
 from importer.request import handle_request
 
 dir_path = str(pathlib.Path(__file__).parent.resolve())
@@ -260,21 +260,22 @@ def confirm_practitioner(user, user_id):
             return True, obj
 
 
-def create_roles(role_list, roles_max):
+def create_roles(role_list):
     for role in role_list:
         current_role = str(role[0])
+        _keycloak_url = get_keycloak_url()
         logging.debug("The current role is: " + current_role)
 
         # check if role already exists
         role_response = handle_request(
-            "GET", "", keycloak_url + "/roles/" + current_role
+            "GET", "", _keycloak_url + "/roles/" + current_role
         )
         logging.debug(role_response)
         if current_role in role_response[0]:
             logging.error("A role already exists with the name " + current_role)
         else:
             role_payload = '{"name": "' + current_role + '"}'
-            create_role = handle_request("POST", role_payload, keycloak_url + "/roles")
+            create_role = handle_request("POST", role_payload, _keycloak_url + "/roles")
             if create_role.status_code == 201:
                 logging.info("Successfully created role: " + current_role)
 
@@ -284,7 +285,7 @@ def create_roles(role_list, roles_max):
                 logging.debug("Role has composite roles")
                 # get roled id
                 full_role = handle_request(
-                    "GET", "", keycloak_url + "/roles/" + current_role
+                    "GET", "", _keycloak_url + "/roles/" + current_role
                 )
                 json_resp = json.loads(full_role[0])
                 role_id = json_resp["id"]
@@ -294,12 +295,9 @@ def create_roles(role_list, roles_max):
                 available_roles = handle_request(
                     "GET",
                     "",
-                    keycloak_url
-                    + "/admin-ui-available-roles/roles/"
-                    + role_id
-                    + "?first=0&max="
-                    + str(roles_max)
-                    + "&search=",
+                    _keycloak_url
+                    + "/roles-by-id/" + role_id
+                    + "/composites",
                 )
                 json_roles = json.loads(available_roles[0])
                 logging.debug("json_roles: " + str(json_roles))
@@ -307,29 +305,25 @@ def create_roles(role_list, roles_max):
                 rolesMap = {}
 
                 for jrole in json_roles:
-                    # remove client and clientId, then rename role to name
-                    # to build correct payload
-                    del jrole["client"]
-                    del jrole["clientId"]
-                    jrole["name"] = jrole["role"]
-                    del jrole["role"]
                     rolesMap[str(jrole["name"])] = jrole
 
                 associated_roles = str(role[2])
-                logging.debug("Associated roles: " + associated_roles)
                 associated_role_array = associated_roles.split("|")
                 arr = []
                 for arole in associated_role_array:
-                    if arole in rolesMap.keys():
-                        arr.append(rolesMap[arole])
+                    if arole not in rolesMap.keys():
+                        role_payload = '{"name": "' + arole + '"}'
+                        arr.append(role_payload)
                     else:
-                        logging.error("Role " + arole + "does not exist")
+                        logging.info("Role " + arole + " exists")
+
 
                 payload_arr = json.dumps(arr)
+                logging.info("Payload array: " + payload_arr)
                 handle_request(
                     "POST",
                     payload_arr,
-                    keycloak_url + "/roles-by-id/" + role_id + "/composites",
+                    _keycloak_url + "/roles-by-id/" + role_id + "/composites",
                 )
 
         except IndexError:
@@ -337,8 +331,9 @@ def create_roles(role_list, roles_max):
 
 
 def get_group_id(group):
+    _keycloak_url = get_keycloak_url()
     # check if group exists
-    all_groups = handle_request("GET", "", keycloak_url + "/groups")
+    all_groups = handle_request("GET", "", _keycloak_url + "/groups")
     json_groups = json.loads(all_groups[0])
     group_obj = {}
 
@@ -354,11 +349,12 @@ def get_group_id(group):
         logging.info("Group does not exists, lets create it")
         # create the group
         create_group_payload = '{"name":"' + group + '"}'
-        handle_request("POST", create_group_payload, keycloak_url + "/groups")
+        handle_request("POST", create_group_payload, _keycloak_url + "/groups")
         return get_group_id(group)
 
 
 def assign_group_roles(role_list, group, roles_max):
+    _keycloak_url = get_keycloak_url()
     group_id = get_group_id(group)
     logging.debug("The groupID is: " + group_id)
 
@@ -366,9 +362,8 @@ def assign_group_roles(role_list, group, roles_max):
     available_roles_for_group = handle_request(
         "GET",
         "",
-        keycloak_url
-        + "/groups/"
-        + group_id
+        _keycloak_url
+        + "/groups/" + group_id
         + "/role-mappings/realm/available?first=0&max="
         + str(roles_max),
     )
@@ -387,7 +382,7 @@ def assign_group_roles(role_list, group, roles_max):
     handle_request(
         "POST",
         json_assign_payload,
-        keycloak_url + "/groups/" + group_id + "/role-mappings/realm",
+        _keycloak_url + "/groups/" + group_id + "/role-mappings/realm",
     )
 
 
