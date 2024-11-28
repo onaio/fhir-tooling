@@ -2,6 +2,7 @@ import logging
 import logging.config
 import pathlib
 from datetime import datetime
+import json
 
 import click
 
@@ -12,7 +13,7 @@ from importer.config.settings import fhir_base_url
 from importer.request import handle_request
 from importer.users import (assign_default_groups_roles, assign_group_roles,
                             confirm_keycloak_user, confirm_practitioner,
-                            create_roles, create_user, create_user_resources)
+                            create_roles, create_user, create_user_resources, keycloak_url)
 from importer.utils import (build_mapped_payloads, clean_duplicates,
                             export_resources_to_csv, read_csv,
                             read_file_in_chunks)
@@ -103,6 +104,7 @@ def main(
     list_resource_id,
     sync,
     location_type_coding_system,
+    multifactor_authenticaton
 ):
     if log_level == "DEBUG":
         logging.basicConfig(
@@ -285,15 +287,20 @@ def main(
         if multifactor_authenticaton is not None:
            # get details
             response = handle_request(
-                "GET",payload = "", url="http://localhost:8082/admin/realms/master"
+                "GET",payload = "", url = keycloak_url+"/admin/realms/master/authentication/flows/browser/executions"
                 )
-            logging.error(response[0])
+            target_display_name = "Browser - Conditional OTP"
 
-            respons = handle_request(
-                "PUT",payload = response[0], url="http://localhost:8082/admin/realms/master/authentication/flows/browser/executions"
-                )
+            data = json.loads(response[0])
             
-            logging.error(respons)
+            result = next((item for item in data if item["displayName"] == target_display_name), None)
+            result["requirement"] = "REQUIRED"
+            parsed_payload = json.dumps(result)
+            respons = handle_request(
+                "PUT",payload = parsed_payload, url = keycloak_url+"/admin/realms/master/authentication/flows/browser/executions"
+                )
+            logging.info(respons)
+          
            
 
     if final_response and final_response.text:
