@@ -67,7 +67,7 @@ LOGGING = {
 @click.option("--chunk_size", required=False, default=1000000)
 @click.option("--resources_count", required=False, default=100)
 @click.option("--list_resource_id", required=False)
-@click.option("--multifactor_authenticaton", required=False, is_flag=True)
+@click.option("--multifactor_authentication", required=False, is_flag=True)
 @click.option(
     "--log_level", type=click.Choice(["DEBUG", "INFO", "ERROR"], case_sensitive=False)
 )
@@ -104,7 +104,7 @@ def main(
     list_resource_id,
     sync,
     location_type_coding_system,
-    multifactor_authenticaton
+    multifactor_authentication
 ):
     if log_level == "DEBUG":
         logging.basicConfig(
@@ -283,23 +283,22 @@ def main(
         else:
             logging.error("Unsupported request!")
     else:
-        logging.error("Empty csv file!")
-        if multifactor_authenticaton is not None:
+        if multifactor_authentication is not None:
            # get details
-            response = handle_request(
+            keyclock_browser_flows_response = handle_request(
                 "GET",payload = "", url = keycloak_url+"/admin/realms/master/authentication/flows/browser/executions"
                 )
             target_display_name = "Browser - Conditional OTP"
 
-            data = json.loads(response[0])
+            data = json.loads(keyclock_browser_flows_response[0])
             
             result = next((item for item in data if item["displayName"] == target_display_name), None)
             result["requirement"] = "REQUIRED"
             parsed_payload = json.dumps(result)
-            respons = handle_request(
+            update_keycloak_browser_flow_response = handle_request(
                 "PUT",payload = parsed_payload, url = keycloak_url+"/admin/realms/master/authentication/flows/browser/executions"
                 )
-            logging.info(respons)
+            logging.info(update_keycloak_browser_flow_response)
           
            
 
