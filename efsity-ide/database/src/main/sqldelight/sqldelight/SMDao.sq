@@ -1,0 +1,22 @@
+CREATE TABLE IF NOT EXISTS `sm` (
+    `id` TEXT PRIMARY KEY NOT NULL,
+    `name` TEXT NOT NULL,
+    `map_path` TEXT NOT NULL,
+    `source_path` TEXT NOT NULL
+);
+
+selectAll:
+SELECT * FROM `sm`;
+
+insert:
+INSERT INTO `sm` (`id`, `name`, `map_path`, `source_path`)
+VALUES (?, ?, ?, ?);
+
+update:
+UPDATE `sm`
+SET `name` = ?, `map_path` = ?, `source_path` = ?
+WHERE `id` = ?;
+
+delete:
+DELETE FROM `sm`
+WHERE `id` = ?;

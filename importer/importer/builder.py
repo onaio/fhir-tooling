@@ -1,13 +1,16 @@
 import base64
+import csv
 import json
 import logging
 import os
 import pathlib
 import uuid
+from datetime import datetime
 
 import click
 import magic
 import requests
+from dateutil.relativedelta import relativedelta
 
 from importer.config.settings import (api_service, fhir_base_url,
                                       product_access_token)
@@ -389,6 +392,42 @@ def save_image(image_source_url):
         return 0
 
 
+def get_product_accountability_period(product_id: str) -> int:
+    product_endpoint = "/".join([fhir_base_url, "Group", product_id])
+    response = handle_request("GET", "", product_endpoint)
+    if response[1] != 200:
+        logging.error(
+            "Error while attempting to get the accountability period from product : "
+            + product_id
+        )
+        logging.error(response[0])
+        return -1
+
+    json_product = json.loads(response[0])
+    product_characteristics = json_product["characteristic"]
+    for character in product_characteristics:
+        if (
+            character["code"]["coding"][0]["system"] == "http://smartregister.org/codes"
+            and character["code"]["coding"][0]["code"] == "67869606"
+        ):
+            accountability_period = character["valueQuantity"]["value"]
+            return accountability_period
+    logging.error(
+        "Accountability period was not found in the product characteristics : "
+        + product_id
+    )
+    return -1
+
+
+def calculate_date(delivery_date: str, product_accountability_period: int) -> str:
+    delivery_datetime = datetime.strptime(delivery_date, "%Y-%m-%dT%H:%M:%S.%fZ")
+    end_date = delivery_datetime + relativedelta(months=product_accountability_period)
+    end_date_str = end_date.strftime("%Y-%m-%dT%H:%M:%S.")
+    milliseconds = end_date.microsecond // 1000
+    end_date_str += f"{milliseconds:03d}Z"
+    return end_date_str
+
+
 # custom extras for product import
 def group_extras(resource, payload_string, group_type, created_resources):
     payload_obj = json.loads(payload_string)
@@ -582,9 +621,20 @@ def group_extras(resource, payload_string, group_type, created_resources):
                 GROUP_INDEX_MAPPING["inventory_member_index"]
             ]["period"]["end"] = accountability_date
         else:
-            payload_obj["resource"]["member"][
-                GROUP_INDEX_MAPPING["inventory_member_index"]
-            ]["period"]["end"] = ""
+            product_accountability_period = get_product_accountability_period(
+                product_id
+            )
+            if product_accountability_period != -1:
+                accountability_date = calculate_date(
+                    delivery_date, product_accountability_period
+                )
+                payload_obj["resource"]["member"][
+                    GROUP_INDEX_MAPPING["inventory_member_index"]
+                ]["period"]["end"] = accountability_date
+            else:
+                payload_obj["resource"]["member"][
+                    GROUP_INDEX_MAPPING["inventory_member_index"]
+                ]["period"]["end"] = ""
 
         if quantity:
             payload_obj["resource"]["characteristic"][
@@ -959,10 +1009,31 @@ def build_group_list_resource(
     current_version = get_resource(list_resource_id, "List")
     method = "create" if current_version == str(0) else "update"
     resource = [[title, "current", method, list_resource_id]]
-    result_payload = build_payload(
-        "List", resource, "json_payloads/group_list_payload.json"
-    )
-    return process_resources_list(result_payload, full_list_created_resources)
+
+    if method == "create":
+        result_payload = build_payload(
+            "List", resource, "json_payloads/group_list_payload.json"
+        )
+        return process_resources_list(result_payload, full_list_created_resources)
+    if method == "update":
+        resource_url = "/".join([get_base_url(), "List", list_resource_id])
+        response = handle_request("GET", "", resource_url)
+        payload = {
+            "resourceType": "Bundle",
+            "type": "transaction",
+            "entry": [
+                {
+                    "request": {
+                        "method": "PUT",
+                        "url": "List/" + list_resource_id,
+                        "ifMatch": current_version
+                    },
+                    "resource": json.loads(response[0])
+                }
+            ]
+        }
+        resource_payload = json.dumps(payload, indent=4)
+        return process_resources_list(resource_payload, full_list_created_resources)
 
 
 # This function takes a 'created_resources' array and a response string
@@ -984,13 +1055,18 @@ def extract_resources(created_resources, response_string):
 # then returns the full resource payload
 def process_resources_list(payload, resources_list):
     entry = []
-    for resource in resources_list:
-        item = {"item": {"reference": resource}}
-        entry.append(item)
+    json_payload = json.loads(payload)
+    entries = json_payload["entry"][0]["resource"]["entry"]
+    if len(entries) > 0:
+        entry = entries
 
-    payload = json.loads(payload)
-    payload["entry"][0]["resource"]["entry"] = entry
-    return payload
+    for resource in resources_list:
+        if resource not in str(entries):
+            item = {"item": {"reference": resource}}
+            entry.append(item)
+
+    json_payload["entry"][0]["resource"]["entry"] = entry
+    return json_payload
 
 
 def link_to_location(resource_list):
@@ -1016,3 +1092,61 @@ def link_to_location(resource_list):
             return build_assign_payload(arr, "List", "subject=Location/")
         else:
             return ""
+
+
+def count_records(csv_filepath):
+    with open(csv_filepath, newline="") as csvfile:
+        reader = csv.reader(csvfile)
+        return sum(1 for _ in reader) - 1
+
+
+def process_response(response):
+    json_response = json.loads(response)
+    issues = json_response["issue"]
+    return issues
+
+
+def build_report(csv_file, response, error_details, fail_count, fail_all):
+    # Get total number of records
+    total_records = count_records(csv_file)
+    issues = []
+
+    # Get status code
+    if hasattr(response, "status_code") and response.status_code > 201:
+        status = "Failed"
+        processed_records = 0
+
+        if response.text:
+            issues = process_response(response.text)
+            for issue in issues:
+                del issue["code"]
+    else:
+        if fail_count > 0:
+            status = "Failed"
+            if fail_all:
+                processed_records = total_records
+            else:
+                processed_records = total_records - fail_count
+        else:
+            status = "Completed"
+            processed_records = total_records
+
+    report = {
+        "status": status,
+        "totalRecords": total_records,
+        "processedRecords": processed_records,
+    }
+    if len(issues) > 0:
+        report["failedRecords"] = len(issues)
+
+    all_errors = issues + error_details
+
+    if len(all_errors) > 0:
+        report["errorDetails"] = all_errors
+
+    string_report = json.dumps(report, indent=4)
+    logging.info("============================================================")
+    logging.info("============================================================")
+    logging.info(string_report)
+    logging.info("============================================================")
+    logging.info("============================================================")
