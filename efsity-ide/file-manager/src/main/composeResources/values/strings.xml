@@ -1,0 +1,5 @@
+<resources>
+    <string name="system_file_manager_heading">System File Manager</string>
+    <string name="in_app_file_manager_heading">In App File Manager</string>
+    <string name="new_file">New File</string>
+</resources>

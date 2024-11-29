@@ -1,0 +1,22 @@
+CREATE TABLE IF NOT EXISTS `workflow` (
+    `id` TEXT PRIMARY KEY NOT NULL,
+    `name` TEXT NOT NULL,
+    `type` TEXT CHECK ( type IN ('Lite', 'Apply') ) NOT NULL,
+    `config` TEXT NOT NULL
+);
+
+selectAll:
+SELECT * FROM `workflow`;
+
+insert:
+INSERT INTO `workflow` (id, name, type, config)
+VALUES(?, ?, ?, ?);
+
+update:
+UPDATE `workflow`
+SET name = ?, type = ?, config = ?
+WHERE id = ?;
+
+delete:
+DELETE FROM `workflow`
+WHERE id = ?;

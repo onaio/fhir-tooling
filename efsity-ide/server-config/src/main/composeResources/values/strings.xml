@@ -1,0 +1,22 @@
+<resources>
+    <string name="create_new">Create New</string>
+    <string name="new_config">New Config</string>
+    <string name="import">Import</string>
+    <string name="import_configs">Import Configs</string>
+    <string name="export_configs">Export Configs</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="fhir_base_url">Fhir Base Url</string>
+    <string name="oauth_url">OAuth Url</string>
+    <string name="client_id">Client Id</string>
+    <string name="client_secret">Client Secret</string>
+    <string name="auth_token">Client Secret</string>
+    <string name="save">Save</string>
+    <string name="verify">Verify</string>
+    <string name="setting_saved">Setting Saved</string>
+    <string name="config_verified">%s config successfully verified</string>
+    <string name="success">Success</string>
+    <string name="failed">Failed</string>
+    <string name="error">Error</string>
+    <string name="description">Description</string>
+</resources>
