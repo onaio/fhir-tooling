@@ -306,7 +306,10 @@ def main(
             data = json.loads(keyclock_browser_flows_response[0])
             
             result = next((item for item in data if item["displayName"] == target_display_name), None)
-            result["requirement"] = "REQUIRED"
+            if(result["requirement"]== "ALTERNATIVE"):
+                result["requirement"] = "REQUIRED"
+            else:
+                result["requirement"] = "ALTERNATIVE"
             parsed_payload = json.dumps(result)
             update_keycloak_browser_flow_response = handle_request(
                 "PUT",payload = parsed_payload, url = keycloak_url+"/admin/realms/master/authentication/flows/browser/executions"
