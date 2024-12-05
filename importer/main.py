@@ -2,6 +2,7 @@ import json
 import logging
 import pathlib
 from datetime import datetime
+import json
 
 import click
 
@@ -13,7 +14,7 @@ from importer.config.settings import fhir_base_url
 from importer.request import handle_request
 from importer.users import (assign_default_groups_roles, assign_group_roles,
                             confirm_keycloak_user, confirm_practitioner,
-                            create_roles, create_user, create_user_resources)
+                            create_roles, create_user, create_user_resources, keycloak_url)
 from importer.utils import (build_mapped_payloads, clean_duplicates,
                             export_resources_to_csv, read_csv,
                             read_file_in_chunks)
@@ -40,6 +41,7 @@ dir_path = str(pathlib.Path(__file__).parent.resolve())
 @click.option("--chunk_size", required=False, default=1000000)
 @click.option("--resources_count", required=False, default=100)
 @click.option("--list_resource_id", required=False)
+@click.option("--multifactor_authentication", required=False, is_flag=True)
 @click.option(
     "--log_level", type=click.Choice(["DEBUG", "INFO", "ERROR"], case_sensitive=False)
 )
@@ -76,6 +78,7 @@ def main(
     list_resource_id,
     sync,
     location_type_coding_system,
+    multifactor_authentication
 ):
     if log_level == "DEBUG":
         logging.basicConfig(
@@ -118,9 +121,9 @@ def main(
 
     logging.info("Starting csv import...")
     json_path = "/".join([dir_path, "json_payloads/"])
-    resource_list = read_csv(csv_file)
 
-    if resource_list:
+    if csv_file is not None: 
+        resource_list = read_csv(csv_file)
         if resource_type == "users":
             logging.info("Processing users")
             with click.progressbar(
@@ -293,7 +296,27 @@ def main(
             issues.append({"Error": message})
             logging.error("Unsupported request!")
     else:
-        logging.error("Empty csv file!")
+        if multifactor_authentication is not None:
+           # get details
+            keyclock_browser_flows_response = handle_request(
+                "GET",payload = "", url = keycloak_url+"/admin/realms/master/authentication/flows/browser/executions"
+                )
+            target_display_name = "Browser - Conditional OTP"
+
+            data = json.loads(keyclock_browser_flows_response[0])
+            
+            result = next((item for item in data if item["displayName"] == target_display_name), None)
+            if(result["requirement"]== "ALTERNATIVE"):
+                result["requirement"] = "REQUIRED"
+            else:
+                result["requirement"] = "ALTERNATIVE"
+            parsed_payload = json.dumps(result)
+            update_keycloak_browser_flow_response = handle_request(
+                "PUT",payload = parsed_payload, url = keycloak_url+"/admin/realms/master/authentication/flows/browser/executions"
+                )
+            logging.info(update_keycloak_browser_flow_response)
+          
+           
 
     if final_response and final_response.text:
         logging.info('{ "final-response": ' + final_response.text + "}")
