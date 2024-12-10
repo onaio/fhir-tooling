@@ -82,15 +82,15 @@ def main(
 ):
     if log_level == "DEBUG":
         logging.basicConfig(
-            filename="importer.log", encoding="utf-8", level=logging.DEBUG
+            filename="importer.log", level=logging.DEBUG
         )
     elif log_level == "INFO":
         logging.basicConfig(
-            filename="importer.log", encoding="utf-8", level=logging.INFO
+            filename="importer.log",  level=logging.INFO
         )
     elif log_level == "ERROR":
         logging.basicConfig(
-            filename="importer.log", encoding="utf-8", level=logging.ERROR
+            filename="importer.log",  level=logging.ERROR
         )
     logging.getLogger().addHandler(logging.StreamHandler())
 
