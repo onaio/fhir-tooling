@@ -373,11 +373,14 @@ public class QuestionnaireResponseGeneratorCommand implements Runnable {
     List<String> result = HttpClient.postRequest(params.toString(), populate_endpoint, null);
 
     JSONObject questionnaire_response = new JSONObject(result.get(1));
+    FctUtils.printInfo("Debug: questionnaire_response before line 379: " + questionnaire_response);
+
     if (questionnaire_response.has("contained")) {
       questionnaire_response.remove("contained");
     }
     JSONArray response = (JSONArray) questionnaire_response.get("item");
     JSONArray questions = resource.getJSONArray("item");
+    FctUtils.printInfo("Debug: questionnaire_response before line 379: " + questionnaire_response);
 
     JSONArray response_with_answers = getAnswers(questions, response, extras);
     questionnaire_response.put("item", response_with_answers);
@@ -457,7 +460,7 @@ public class QuestionnaireResponseGeneratorCommand implements Runnable {
   }
 
   public static <T extends Number> double getRandomNumber(T bound) {
-    return random.nextDouble() * bound.doubleValue();
+    return random.nextDouble() * (bound.doubleValue() - 1);
   }
 
   public static <T extends Number> double getRandomNumber(T origin, T bound) {
@@ -468,7 +471,7 @@ public class QuestionnaireResponseGeneratorCommand implements Runnable {
       throw new IllegalArgumentException("Origin must be less than bound");
     }
 
-    return originValue + random.nextDouble() * (boundValue - originValue);
+    return originValue + random.nextDouble() * (boundValue - (originValue + 1));
   }
 
   public static class Constants {
