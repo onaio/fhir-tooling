@@ -1,4 +1,4 @@
-j# efsity
+# efsity
 A command line utility to support OpenSRP v2 (FHIRCore) app configs and content authoring. This tool supports the HL7 FHIR R4 spec.
 
 ## How to use it
