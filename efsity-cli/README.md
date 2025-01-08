@@ -1,4 +1,4 @@
-# efsity
+j# efsity
 A command line utility to support OpenSRP v2 (FHIRCore) app configs and content authoring. This tool supports the HL7 FHIR R4 spec.
 
 ## How to use it
@@ -305,6 +305,25 @@ SonatypePassword=<your sonatype password>
 ```console
 ./gradlew clean publishMavenPublicationToMavenLocal
 ```
+
+### Snapshot Artifact Releases
+
+To publish an artifact snapshot automatically, all you need to do is push a new tag, which then triggers the CI to generate and publish it. The configuration requires the tag to have a prefix in the glob pattern format:
+
+**v[0-9]+.[0-9]+.[0-9]+[0-9a-zA-Z.-]+-SNAPSHOT**
+
+For example the following are all valid tags that will trigger the generation of a release
+
+v2.0.0-SNAPSHOT
+
+v2.0.0-efsity-SNAPSHOT
+
+v2.0.0-efsity-cli-SNAPSHOT
+
+
+_Note_: when creating a tag for efsity version 2.0.0 for example, use the command:
+
+`git tag -a v2.0.0-efsity -s  && git push origin v2.0.0-efsity`
 
 ### Testing
 To run all tests:
