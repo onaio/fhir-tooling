@@ -318,7 +318,7 @@ v2.0.0-SNAPSHOT
 
 v2.0.0-efsity-SNAPSHOT
 
-v2.0.0-efsity-cli-SNAPSHOT
+v2.0.0-efsity-rc1-SNAPSHOT
 
 
 _Note_: when creating a tag for efsity version 2.0.0 for example, use the command:
