@@ -360,7 +360,12 @@ public class QuestionnaireResponseGeneratorCommand implements Runnable {
     }
     JSONObject subject = new JSONObject();
     subject.put("name", "subject");
-    subject.put("valueString", UUID.randomUUID().toString());
+    String referenceValue =
+        resourceType + "/" + UUID.randomUUID(); // Using resourceType dynamically
+    JSONObject reference = new JSONObject();
+    reference.put("reference", referenceValue);
+    subject.put("valueReference", reference);
+
     JSONArray arr = new JSONArray();
     arr.put(subject);
     JSONObject params = new JSONObject();
@@ -373,17 +378,17 @@ public class QuestionnaireResponseGeneratorCommand implements Runnable {
     List<String> result = HttpClient.postRequest(params.toString(), populate_endpoint, null);
 
     JSONObject questionnaire_response = new JSONObject(result.get(1));
-    FctUtils.printInfo("Debug: questionnaire_response before line 379: " + questionnaire_response);
+    FctUtils.printError("Debug: response from questionnaireResponse: " + questionnaire_response);
 
     if (questionnaire_response.has("contained")) {
       questionnaire_response.remove("contained");
     }
-    JSONArray response = (JSONArray) questionnaire_response.get("item");
-    JSONArray questions = resource.getJSONArray("item");
-    FctUtils.printInfo("Debug: questionnaire_response before line 379: " + questionnaire_response);
-
-    JSONArray response_with_answers = getAnswers(questions, response, extras);
-    questionnaire_response.put("item", response_with_answers);
+    if (questionnaire_response.has("item")) {
+      JSONArray response = (JSONArray) questionnaire_response.get("item");
+      JSONArray questions = resource.getJSONArray("item");
+      JSONArray response_with_answers = getAnswers(questions, response, extras);
+      questionnaire_response.put("item", response_with_answers);
+    }
     return String.valueOf(questionnaire_response);
   }
 
