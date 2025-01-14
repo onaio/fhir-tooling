@@ -1,0 +1,7 @@
+client_id = 'client_id'
+client_secret = 'client_secret'
+username = 'username'
+password = 'password'
+access_token_url = 'https://keycloak.smartregister.org/auth/realms/your-realm-here/protocol/openid-connect/token'
+fhir_base_url = 'https://example.smartregister.org/fhir'
+keycloak_url = 'https://keycloak.smartregister.org/auth/admin/realms/your-realm-here'

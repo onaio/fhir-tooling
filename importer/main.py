@@ -194,7 +194,7 @@ def main(
             logging.info("Processing complete!")
         elif setup == "roles":
             logging.info("Setting up keycloak roles")
-            create_roles(resource_list, roles_max)
+            create_roles(resource_list)
             if group:
                 assign_group_roles(resource_list, group, roles_max)
             logging.info("Processing complete")
