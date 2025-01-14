@@ -162,4 +162,141 @@ public class QuestionnaireResponseGeneratorCommandTest {
             .getString("reference")
             .matches("(Patient|Practitioner|Location|Immunization)/[a-f0-9-]{36}"));
   }
+
+  @Test
+  void testGenerateStringAnswer() {
+    JSONObject extras = new JSONObject();
+    JSONArray questions = new JSONArray();
+
+    JSONObject answer =
+        QuestionnaireResponseGeneratorCommand.generateAnswer("string", questions, "linkId", extras);
+
+    assertNotNull(answer);
+    assertTrue(answer.has("valueString"));
+    assertTrue(answer.getString("valueString").startsWith("FakeString"));
+  }
+
+  @Test
+  void testGenerateIntegerAnswer() {
+    JSONObject extras = new JSONObject();
+    JSONArray questions = new JSONArray();
+
+    JSONObject answer =
+        QuestionnaireResponseGeneratorCommand.generateAnswer(
+            "integer", questions, "linkId", extras);
+
+    assertNotNull(answer);
+    assertTrue(answer.has("valueInteger"));
+  }
+
+  @Test
+  void testGenerateBooleanAnswer() {
+    JSONObject extras = new JSONObject();
+    JSONArray questions = new JSONArray();
+
+    JSONObject answer =
+        QuestionnaireResponseGeneratorCommand.generateAnswer(
+            "boolean", questions, "linkId", extras);
+
+    assertNotNull(answer);
+    assertTrue(answer.has("valueBoolean"));
+    assertTrue(answer.get("valueBoolean") instanceof Boolean);
+  }
+
+  @Test
+  void testGenerateDecimalAnswer() {
+    JSONObject extras = new JSONObject();
+    JSONArray questions = new JSONArray();
+
+    JSONObject answer =
+        QuestionnaireResponseGeneratorCommand.generateAnswer(
+            "decimal", questions, "linkId", extras);
+
+    assertNotNull(answer);
+    assertTrue(answer.has("valueDecimal"));
+    assertTrue(answer.get("valueDecimal") instanceof Double);
+  }
+
+  @Test
+  void testGenerateDateAnswer() {
+    JSONObject extras = new JSONObject();
+    JSONArray questions = new JSONArray();
+
+    JSONObject answer =
+        QuestionnaireResponseGeneratorCommand.generateAnswer("date", questions, "linkId", extras);
+
+    assertNotNull(answer);
+    assertTrue(answer.has("valueDate"));
+    assertTrue(answer.get("valueDate") instanceof String);
+  }
+
+  @Test
+  void testGenerateDateTimeAnswer() {
+    JSONObject extras = new JSONObject();
+    JSONArray questions = new JSONArray();
+
+    JSONObject answer =
+        QuestionnaireResponseGeneratorCommand.generateAnswer(
+            "datetime", questions, "linkId", extras);
+
+    assertNotNull(answer);
+    assertTrue(answer.has("valueDateTime"));
+    assertTrue(answer.get("valueDateTime") instanceof String);
+  }
+
+  @Test
+  void testGenerateQuantityAnswer() {
+    JSONArray questions = new JSONArray();
+    JSONObject question = new JSONObject();
+    question.put("type", "quantity");
+    question.put("linkId", "linkId");
+    questions.put(question);
+
+    JSONObject extras = new JSONObject();
+    JSONObject answer =
+        QuestionnaireResponseGeneratorCommand.generateAnswer(
+            "quantity", questions, "linkId", extras);
+
+    assertNotNull(answer);
+    assertTrue(answer.has("valueQuantity"));
+  }
+
+  @Test
+  void testGenerateTextAnswer() {
+    JSONObject extras = new JSONObject();
+    JSONArray questions = new JSONArray();
+
+    JSONObject answer =
+        QuestionnaireResponseGeneratorCommand.generateAnswer("text", questions, "linkId", extras);
+
+    assertNotNull(answer);
+    assertTrue(answer.has("valueString"));
+    assertTrue(answer.getString("valueString").startsWith("This is a fake text"));
+  }
+
+  @Test
+  void testGenerateReferenceAnswer() {
+    JSONObject extras = new JSONObject();
+    JSONArray questions = new JSONArray();
+
+    JSONObject answer =
+        QuestionnaireResponseGeneratorCommand.generateAnswer(
+            "reference", questions, "linkId", extras);
+
+    assertNotNull(answer);
+    assertTrue(answer.has("valueReference"));
+  }
+
+  @Test
+  void testGenerateDefaultAnswer() {
+    JSONObject extras = new JSONObject();
+    JSONArray questions = new JSONArray();
+
+    JSONObject answer =
+        QuestionnaireResponseGeneratorCommand.generateAnswer(
+            "unsupported", questions, "linkId", extras);
+
+    assertNotNull(answer);
+    assertTrue(answer.isEmpty());
+  }
 }
