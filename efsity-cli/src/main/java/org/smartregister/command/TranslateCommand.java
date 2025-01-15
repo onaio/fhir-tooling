@@ -16,7 +16,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
-
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.smartregister.util.FCTConstants;
@@ -232,8 +231,7 @@ public class TranslateCommand implements Runnable {
       ├── another_file.json
 
    */
-  @NotNull
-  private static Path getTranslationDirectoryPath(@NotNull Path inputFilePath) {
+  @NotNull private static Path getTranslationDirectoryPath(@NotNull Path inputFilePath) {
     Objects.requireNonNull(inputFilePath, "Input file path cannot be null");
 
     if (inputFilePath.endsWith("configs") || inputFilePath.endsWith("fhir_content")) {
@@ -248,7 +246,6 @@ public class TranslateCommand implements Runnable {
     }
     return inputFilePath.resolve("translation");
   }
-
 
   private static void mergeContent(
       Path inputFilePath, String translationFile, String locale, Set<String> targetFields)
