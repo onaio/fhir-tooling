@@ -84,7 +84,7 @@ public class QuestionnaireResponseGeneratorCommand implements Runnable {
   private String outputFilePath;
 
   @CommandLine.Option(
-      names = {"-ihq", "--ignore-hidden-questions"},
+      names = {"-ih", "--ignore-hidden"},
       description = "Ignore hidden questions when generating responses",
       defaultValue = "true")
   private boolean ignoreHiddenQuestions;
@@ -357,8 +357,8 @@ public class QuestionnaireResponseGeneratorCommand implements Runnable {
     return responses;
   }
 
-  private static boolean isHiddenQuestion(JSONObject question) {
-    boolean isHidden = true;
+  static boolean isHiddenQuestion(JSONObject question) {
+    boolean isHidden = false;
 
     if (question.has("extension")) {
       JSONArray extensions = question.getJSONArray("extension");
