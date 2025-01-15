@@ -23,7 +23,7 @@
             {
                 "coding": [
                     {
-                        "system": "http://terminology.hl7.org/CodeSystem/location-type",
+                        "system": "$t_system",
                         "code": "$t_code",
                         "display": "$t_display"
                     }

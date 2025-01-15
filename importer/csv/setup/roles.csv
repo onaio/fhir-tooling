@@ -116,5 +116,7 @@ PUT_STRUCTUREMAP,,
 PUT_TASK,,
 WEB_CLIENT,,
 ANDROID_CLIENT,,
-EDIT_KEYCLOAK_USERS,TRUE,manage-users|query-users
-VIEW_KEYCLOAK_USERS,TRUE,view-users|query-users|query-groups
+EDIT_KEYCLOAK_USERS,TRUE,manage-users|query-users|query-groups
+VIEW_KEYCLOAK_USERS,TRUE,view-users|view-groups
+VIEW_USER_GROUPS,,
+VIEW_ROLES,,

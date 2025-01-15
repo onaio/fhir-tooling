@@ -1,6 +1,6 @@
 # Setup Keycloak Roles
 
-This script is used to setup keycloak roles and groups. It takes in a csv file with the following columns:
+This script is used to set up keycloak roles and groups. It takes in a csv file with the following columns:
 
 - **role**: The actual names of the roles you would like to create
 - **composite**: A boolean value that tells if the role has composite roles or not
@@ -8,21 +8,41 @@ This script is used to setup keycloak roles and groups. It takes in a csv file w
 
 ### Options
 
-- `setup` : (Required) This needs to be set to "roles" in order to initiate the setup process
-- `csv_file` : (Required) The csv file with the list of roles
+- `setup` : (Required) This needs to be set to "roles" to initiate the setup process
+- `csv_file` : (Required) The CSV file with the list of roles
 - `group` : (Not required) This is the actual group name. If not passed then the roles will just be created but not assigned to any group
-- `roles_max` : (Not required) This is the maximum number of roles to pull from the api. The default is set to 500. If the number of roles in your setup is more than this you will need to change this value
-- `defaultgroups` : (Not Required)
+- `roles_max` : (Not required) This is the maximum number of roles to pull from the API. The default is set to 500. If the number of roles in your setup is more than this you will need to change this value
+- `default_groups` : (Not Required) This is a boolean value to turn on and off the assignment of default roles. The default value is `true`
 
 
 ### To run script
 1. Create virtualenv
 2. Install requirements.txt - `pip install -r requirements.txt`
-3. Create a `config.py` file. The `sample_config.py` is an example  of what this should look like. Populate it with the right credentials, you can either provide an access token or client credentials. Ensure that the user whose details you provide in this config file has the necessary permissions/privilleges.
-4. Run script - `python3 main.py --setup roles --csv_file csv/setup/roles.csv --group Supervisor --defaultgroups true`
-5. If you are running the script without `https` setup e.g locally or a server without https setup, you will need to set the `OAUTHLIB_INSECURE_TRANSPORT` environment variable to 1. For example `export OAUTHLIB_INSECURE_TRANSPORT=1 && python3 main.py --setup roles --csv_file csv/setup/roles.csv --group OpenSRP_Provider --log_level debug`
+3. Set up your _.env_ file, see the sample below. Populate it with the right credentials, you can either provide an access token or client credentials. Ensure the user whose details you provide in this _.env_ file has the necessary permissions/privileges.
+4. Run script - `python3 main.py --setup roles --csv_file csv/setup/roles.csv --group Supervisor`
+5. If you are running the script without `https` setup e.g. locally or a server without https setup, you will need to set the `OAUTHLIB_INSECURE_TRANSPORT` environment variable to 1. For example `export OAUTHLIB_INSECURE_TRANSPORT=1 && python3 main.py --setup roles --csv_file csv/setup/roles.csv --group OpenSRP_Provider --log_level debug`
 6. You can turn on logging by passing a `--log_level` to the command line as `info`, `debug` or `error`. For example `python3 main.py --setup roles --csv_file csv/setup/roles.csv --group Supervisor --log_level debug`
 
+
+#### Sample .env file
+```
+client_id = 'example-client-id'
+client_secret = 'example-client-secret'
+fhir_base_url = 'https://example.smartregister.org/fhir'
+keycloak_url = 'https://keycloak.smartregister.org/auth'
+realm = 'example-realm'
+
+# access token for access to where product images are remotely stored
+product_access_token = 'example-product-access-token'
+
+# if using resource owner credentials (i.e importer handles getting authentication by itself)
+# This has greater precedence over the access and refresh tokens if supplied
+user_name = 'example-user_name'
+password = 'example-password'
+
+# if embedding importer into a service that already does the authentication
+access_token = 'example-access-token'
+```
 
 # FHIR Resource CSV Importer
 
@@ -32,11 +52,11 @@ and then posts them to the API for creation
 ### To run script
 1. Create virtualenv
 2. Install requirements.txt - `pip install -r requirements.txt`
-3. Create a `config.py` file. The `sample_config.py` is an example  of what this should look like. Populate it with the right credentials
+3. Set up your _.env_ file, see sample above. Populate it with the right credentials, you can either provide an access token or client credentials. Ensure that the user whose details you provide in this _.env_ file has the necessary permissions/privileges.
 4. Run script - `python3 main.py --csv_file csv/locations.csv --resource_type locations`
 5. You can turn on logging by passing a `--log_level` to the command line as `info`, `debug` or `error`. For example `python3 main.py --csv_file csv/locations.csv --resource_type locations --log_level info`
 6. There is a progress bar that shows the read_csv and build_payload progress as it is going on
-7. You can get only the response from the api after the import is done by passing `--only_response true`
+7. You can get a nicely formatted report response from the api after the import is done by passing `--report_response true`.
 
 
 See example csvs in the csv folder
@@ -72,6 +92,7 @@ The coverage report `coverage.html` will be at the working directory
 - The seventh and eighth columns are the location's type and typeCode, respectively
 - The ninth column is the administrative level, that shows the hierarchical level of the location. Root location would have a `level 0` and all child locations will have a level `parent_admin_level + 1`
 - The tenth and eleventh columns are the location's physicalType and physicalTypeCode, respectively
+- You can pass in `--location_type_coding_system` to define your own location type coding system url (not required)
 
 ### 2. Create users in bulk
 - Run `python3 main.py --csv_file csv/users.csv --resource_type users --log_level info`
@@ -87,7 +108,7 @@ The coverage report `coverage.html` will be at the working directory
 - Run `python3 main.py --csv_file csv/organizations/organizations_min.csv --resource_type organizations --log_level info`
 - See example csv [here](/importer/csv/organizations/organizations_min.csv)
 - The first  column __name__ is the only one required
-- If the csv file has only the required column, (e.g. [organizations_min.csv](/importer/csv/organizations/organizations_min.csv)) the __id__ , __active__, and __method__ are set to __generating a new unique_uuid__ and the default values __create__ and  __true__ respectively
+- If the csv file has only the required column, (e.g. [organizations_min.csv](/importer/csv/organizations/organizations_min.csv)) the __id__ , __active__, and __method__ are set to __generating a new unique_uuid__ and the default values __true__ and __create__ respectively
 - [organizations_full](/importer/csv/organizations/organizations_full.csv) shows more options available
 - The third column is the request method, can be either create or update. Default is set to create
 - The fourth column is the id, which is required when updating
@@ -141,18 +162,21 @@ The coverage report `coverage.html` will be at the working directory
 - See example csv [here](/importer/csv/import/product.csv)
 - This creates a Group resource for each product imported, a Binary resource for any products with an image, and a List resource with references to all the Group and Binary resources created
 - The first two columns __name__ and __active__ is the minimum required
-- The last column __imageSourceUrl__ contains a url to the product image. If this source requires authentication, then you need to provide the `product_access_token` in the config file. The image is added as a binary resource and referenced in the product's Group resource
+- The last column __imageSourceUrl__ contains a url to the product image. If this source requires authentication, then you need to provide the `product_access_token` in the _.env_ file. The image is added as a binary resource and referenced in the product's Group resource
 - You can pass in a `list_resource_id` to be used as the identifier for the List resource, or you can leave it empty and a random uuid will be generated
 
 ### 11. Import inventories from openSRP 1
-- Run `python3 main.py --csv_file csv/import/inventory.csv --setup inventories --log_level info`
+- Run `python3 main.py --csv_file csv/import/inventory.csv --setup inventories --list_resource_id 123 --log_level info`
 - See example csv [here](/importer/csv/import/inventory.csv)
 - This creates a Group resource for each inventory imported
 - The first two columns __name__ and __active__ is the minimum required
+- The `accountabilityDate` is an optional column. If left empty, the date will be automatically calculated using the product's accountability period
 - Adding a value to the Location column will create a separate List resource (or update) that links the inventory to the provided location resource
+- A separate List resource with references to all the Group and List resources generated is also created
+- You can pass in a `list_resource_id` to be used as the identifier for the (reference) List resource, or you can leave it empty and a random uuid will be generated
 
 ### 12. Import JSON resources from file
-- Run `python3 main.py --bulk_import True --json_file tests/fhir_sample.json --chunk_size 500000 --sync sort --resources_count 100 --log_level info`
+- Run `python3 main.py --bulk_import True --json_file tests/json/sample.json --chunk_size 500000 --sync sort --resources_count 100 --log_level info`
 - This takes in a file with a JSON array, reads the resources from the array in the file and posts them to the FHIR server
 - `bulk_import` (Required) must be set to True
 - `json_file` (Required) points to the file with the json array. The resources in the array need to be separated by a single comma (no spaces) and the **"id"** must always be the first attribute in the resource object. This is what the code uses to identify the beginning and end of resources
