@@ -212,17 +212,43 @@ public class TranslateCommand implements Runnable {
     }
   }
 
-  @NotNull private static Path getTranslationDirectoryPath(Path inputFilePath) {
-    Path translationsDirectoryPath;
-    if (inputFilePath.endsWith("configs")
-        || inputFilePath.endsWith("fhir_content")
-        || inputFilePath.toString().endsWith(".json")) {
-      if (inputFilePath.toString().endsWith(".json")) {
-        translationsDirectoryPath = inputFilePath.getParent().getParent().resolve("translation");
-      } else translationsDirectoryPath = inputFilePath.getParent().resolve("translation");
-    } else translationsDirectoryPath = inputFilePath.resolve("translation");
-    return translationsDirectoryPath;
+  /*
+  assuming the expected folder structure is always as follows
+  root/
+  ├── configs/
+  │   ├── translation/
+  │   ├── file1.json
+  │   └── file2.json
+  ├── fhir_content/
+  │   ├── translation/
+  │   ├── example1.json
+  │   └── example2.json
+  ├── other_folder/
+  │   ├── nested/
+  │   │   |
+  │   │   ├── file3.json
+  │   │   └── file4.txt
+  └── translation/
+      ├── another_file.json
+
+   */
+  @NotNull
+  private static Path getTranslationDirectoryPath(@NotNull Path inputFilePath) {
+    Objects.requireNonNull(inputFilePath, "Input file path cannot be null");
+
+    if (inputFilePath.endsWith("configs") || inputFilePath.endsWith("fhir_content")) {
+      return inputFilePath.getParent().resolve("translation");
+    }
+    if (inputFilePath.toString().endsWith(".json")) {
+      Path parent = inputFilePath.getParent();
+      if (parent == null || parent.getParent() == null) {
+        throw new IllegalArgumentException("Invalid file path structure for: " + inputFilePath);
+      }
+      return parent.getParent().resolve("translation");
+    }
+    return inputFilePath.resolve("translation");
   }
+
 
   private static void mergeContent(
       Path inputFilePath, String translationFile, String locale, Set<String> targetFields)
