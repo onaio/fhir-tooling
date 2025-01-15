@@ -16,6 +16,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
+
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.smartregister.util.FCTConstants;
 import org.smartregister.util.FctUtils;
