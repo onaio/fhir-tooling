@@ -296,7 +296,8 @@ public class QuestionnaireResponseGeneratorCommand implements Runnable {
             result != null ? result.toString() : "FakeString" + getRandomNumber(100));
       case "integer":
         return answer.put(
-            "valueInteger", result instanceof Integer ? (Integer) result : getRandomNumber(100));
+            "valueInteger",
+            result instanceof Integer ? (Integer) result : (int) getRandomNumber(100));
       case "boolean":
         return answer.put(
             "valueBoolean", result instanceof Boolean ? (Boolean) result : random.nextBoolean());
