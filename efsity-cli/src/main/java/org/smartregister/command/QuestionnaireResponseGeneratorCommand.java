@@ -414,7 +414,6 @@ public class QuestionnaireResponseGeneratorCommand implements Runnable {
     String populate_endpoint =
         String.join("/", fhir_base_url, resourceType, questionnaire_id, "$populate");
     List<String> result = HttpClient.postRequest(params.toString(), populate_endpoint, null);
-    System.out.println("Hidden questions" + ignoreHiddenQuestions);
     JSONObject questionnaire_response = new JSONObject(result.get(1));
     FctUtils.printError("Debug: response from questionnaireResponse: " + questionnaire_response);
 
