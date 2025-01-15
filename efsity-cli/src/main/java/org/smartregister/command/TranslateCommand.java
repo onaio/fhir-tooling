@@ -16,11 +16,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
-<<<<<<< HEAD:efsity/src/main/java/org/smartregister/command/TranslateCommand.java
 import org.jetbrains.annotations.NotNull;
-=======
-import org.apache.commons.lang3.StringUtils;
->>>>>>> main:efsity-cli/src/main/java/org/smartregister/command/TranslateCommand.java
 import org.smartregister.util.FCTConstants;
 import org.smartregister.util.FctUtils;
 import picocli.CommandLine;
