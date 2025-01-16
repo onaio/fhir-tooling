@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 
@@ -298,5 +299,233 @@ public class QuestionnaireResponseGeneratorCommandTest {
 
     assertNotNull(answer);
     assertTrue(answer.isEmpty());
+  }
+
+  @Test
+  void testIsHiddenQuestion_hiddenExtensionTrue() {
+    JSONObject question = new JSONObject();
+    JSONArray extensions = new JSONArray();
+    JSONObject hiddenExtension = new JSONObject();
+    hiddenExtension.put("url", "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden");
+    hiddenExtension.put("valueBoolean", true);
+    extensions.put(hiddenExtension);
+    question.put("extension", extensions);
+
+    assertTrue(QuestionnaireResponseGeneratorCommand.isHiddenQuestion(question));
+  }
+
+  @Test
+  void testIsHiddenQuestion_hiddenExtensionFalse() {
+    JSONObject question = new JSONObject();
+    JSONArray extensions = new JSONArray();
+    JSONObject hiddenExtension = new JSONObject();
+    hiddenExtension.put("url", "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden");
+    hiddenExtension.put("valueBoolean", false);
+    extensions.put(hiddenExtension);
+    question.put("extension", extensions);
+
+    assertFalse(QuestionnaireResponseGeneratorCommand.isHiddenQuestion(question));
+  }
+
+  @Test
+  void testIsHiddenQuestion_noHiddenExtension() {
+    JSONObject question = new JSONObject();
+    JSONArray extensions = new JSONArray();
+    JSONObject otherExtension = new JSONObject();
+    otherExtension.put("url", "http://example.com/other-extension");
+    otherExtension.put("valueBoolean", true);
+    extensions.put(otherExtension);
+    question.put("extension", extensions);
+
+    assertFalse(QuestionnaireResponseGeneratorCommand.isHiddenQuestion(question));
+  }
+
+  @Test
+  void testIsHiddenQuestion_noExtensions() {
+    JSONObject question = new JSONObject();
+    assertFalse(QuestionnaireResponseGeneratorCommand.isHiddenQuestion(question));
+  }
+
+  @Test
+  void testIsHiddenQuestion_hiddenExtensionNoValueBoolean() {
+    JSONObject question = new JSONObject();
+    JSONArray extensions = new JSONArray();
+    JSONObject hiddenExtension = new JSONObject();
+    hiddenExtension.put("url", "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden");
+    extensions.put(hiddenExtension);
+    question.put("extension", extensions);
+
+    assertTrue(QuestionnaireResponseGeneratorCommand.isHiddenQuestion(question));
+  }
+
+  @Test
+  void testGetAnswers_simpleQuestion() {
+    JSONArray questions = new JSONArray();
+    JSONObject question = new JSONObject();
+    question.put("type", "string");
+    question.put("linkId", "exampleLinkId");
+    questions.put(question);
+
+    JSONArray responses = new JSONArray();
+    JSONObject response = new JSONObject();
+    responses.put(response);
+
+    JSONObject extras = new JSONObject();
+
+    JSONArray updatedResponses =
+        QuestionnaireResponseGeneratorCommand.getAnswers(questions, responses, extras, false);
+
+    assertNotNull(updatedResponses);
+    assertTrue(updatedResponses.getJSONObject(0).has("answer"));
+    assertTrue(
+        updatedResponses
+            .getJSONObject(0)
+            .getJSONArray("answer")
+            .getJSONObject(0)
+            .has("valueString"));
+  }
+
+  @Test
+  void testGetAnswers_groupQuestion() {
+    JSONArray questions = new JSONArray();
+    JSONObject groupQuestion = new JSONObject();
+    groupQuestion.put("type", "group");
+    groupQuestion.put("linkId", "group1");
+    JSONArray nestedQuestions = new JSONArray();
+    JSONObject nestedQuestion = new JSONObject();
+    nestedQuestion.put("type", "integer");
+    nestedQuestion.put("linkId", "nested1");
+    nestedQuestions.put(nestedQuestion);
+    groupQuestion.put("item", nestedQuestions);
+    questions.put(groupQuestion);
+
+    JSONArray responses = new JSONArray();
+    JSONObject groupResponse = new JSONObject();
+    groupResponse.put("item", new JSONArray().put(new JSONObject()));
+    responses.put(groupResponse);
+
+    JSONObject extras = new JSONObject();
+
+    JSONArray updatedResponses =
+        QuestionnaireResponseGeneratorCommand.getAnswers(questions, responses, extras, false);
+
+    assertNotNull(updatedResponses);
+    JSONObject nestedResponse =
+        updatedResponses.getJSONObject(0).getJSONArray("item").getJSONObject(0);
+    assertTrue(nestedResponse.has("answer"));
+    assertTrue(nestedResponse.getJSONArray("answer").getJSONObject(0).has("valueInteger"));
+  }
+
+  @Test
+  void testGetAnswers_ignoreHiddenQuestions() {
+    JSONArray questions = new JSONArray();
+    JSONObject hiddenQuestion = new JSONObject();
+    hiddenQuestion.put("type", "boolean");
+    hiddenQuestion.put("linkId", "hidden1");
+    JSONArray extensions = new JSONArray();
+    JSONObject hiddenExtension = new JSONObject();
+    hiddenExtension.put("url", "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden");
+    hiddenExtension.put("valueBoolean", true);
+    extensions.put(hiddenExtension);
+    hiddenQuestion.put("extension", extensions);
+    questions.put(hiddenQuestion);
+
+    JSONArray responses = new JSONArray();
+    responses.put(new JSONObject());
+
+    JSONObject extras = new JSONObject();
+
+    JSONArray updatedResponses =
+        QuestionnaireResponseGeneratorCommand.getAnswers(questions, responses, extras, true);
+
+    assertNotNull(updatedResponses);
+    assertFalse(updatedResponses.getJSONObject(0).has("answer"));
+  }
+
+  @Test
+  void testGetAnswers_includeHiddenQuestions() {
+    JSONArray questions = new JSONArray();
+    JSONObject hiddenQuestion = new JSONObject();
+    hiddenQuestion.put("type", "boolean");
+    hiddenQuestion.put("linkId", "hidden1");
+    JSONArray extensions = new JSONArray();
+    JSONObject hiddenExtension = new JSONObject();
+    hiddenExtension.put("url", "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden");
+    hiddenExtension.put("valueBoolean", true);
+    extensions.put(hiddenExtension);
+    hiddenQuestion.put("extension", extensions);
+    questions.put(hiddenQuestion);
+
+    JSONArray responses = new JSONArray();
+    responses.put(new JSONObject());
+
+    JSONObject extras = new JSONObject();
+
+    JSONArray updatedResponses =
+        QuestionnaireResponseGeneratorCommand.getAnswers(questions, responses, extras, false);
+
+    assertNotNull(updatedResponses);
+    assertTrue(updatedResponses.getJSONObject(0).has("answer"));
+    assertTrue(
+        updatedResponses
+            .getJSONObject(0)
+            .getJSONArray("answer")
+            .getJSONObject(0)
+            .has("valueBoolean"));
+  }
+
+  @Test
+  void testGetAnswers_noExtras() {
+    JSONArray questions = new JSONArray();
+    JSONObject question = new JSONObject();
+    question.put("type", "decimal");
+    question.put("linkId", "decimal1");
+    questions.put(question);
+
+    JSONArray responses = new JSONArray();
+    responses.put(new JSONObject());
+
+    JSONArray updatedResponses =
+        QuestionnaireResponseGeneratorCommand.getAnswers(questions, responses, null, false);
+
+    assertNotNull(updatedResponses);
+    assertTrue(updatedResponses.getJSONObject(0).has("answer"));
+    assertTrue(
+        updatedResponses
+            .getJSONObject(0)
+            .getJSONArray("answer")
+            .getJSONObject(0)
+            .has("valueDecimal"));
+  }
+
+  @Test
+  void testGetAnswers_emptyQuestionnaire() {
+    JSONArray questions = new JSONArray();
+    JSONArray responses = new JSONArray();
+    JSONObject extras = new JSONObject();
+
+    JSONArray updatedResponses =
+        QuestionnaireResponseGeneratorCommand.getAnswers(questions, responses, extras, false);
+
+    assertNotNull(updatedResponses);
+    assertEquals(0, updatedResponses.length());
+  }
+
+  @Test
+  void testGetAnswers_mismatchedQuestionsAndResponses() {
+    JSONArray questions = new JSONArray();
+    JSONObject question = new JSONObject();
+    question.put("type", "text");
+    question.put("linkId", "text1");
+    questions.put(question);
+
+    JSONArray responses = new JSONArray();
+
+    JSONObject extras = new JSONObject();
+
+    assertThrows(
+        JSONException.class,
+        () ->
+            QuestionnaireResponseGeneratorCommand.getAnswers(questions, responses, extras, false));
   }
 }
