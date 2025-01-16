@@ -17,6 +17,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
 import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
 import org.smartregister.util.FCTConstants;
 import org.smartregister.util.FctUtils;
 import picocli.CommandLine;
@@ -77,18 +78,26 @@ public class TranslateCommand implements Runnable {
       long start = System.currentTimeMillis();
 
       Path inputFilePath = Paths.get(resourceFile);
-      FctUtils.printInfo("Starting extraction");
       FctUtils.printInfo(String.format("Input file \u001b[35m%s\u001b[0m", resourceFile));
 
       try {
-
-        if (Objects.equals(extractionType, "configs")) {
-          tempsConfig = Files.createTempDirectory("configs");
-        } else tempsConfig = null;
+        if (Objects.equals(translationFile, null)) {
+          Path translationsDirectoryPath = getTranslationDirectoryPath(inputFilePath);
+          String defaultTranslationFile = translationsDirectoryPath + "/strings_default.properties";
+          if (!Files.exists(translationsDirectoryPath)) {
+            Files.createDirectories(translationsDirectoryPath);
+            Files.createFile(Paths.get(defaultTranslationFile));
+          }
+          translationFile = defaultTranslationFile;
+        }
+        tempsConfig = Files.createTempDirectory("configs");
 
         // Check if the input path is a directory or a JSON file
         if (Files.isDirectory(inputFilePath)) {
-          if (Objects.equals(extractionType, "configs") || inputFilePath.endsWith("configs")) {
+          if ("configs".equals(extractionType) || inputFilePath.endsWith("configs")) {
+            // handle case where extractionType has not been given and inputFilePath ends with
+            // configs
+            if (Objects.equals(extractionType, null)) extractionType = "configs";
             Set<String> targetFields = FCTConstants.configTranslatables;
             copyDirectoryContent(inputFilePath, tempsConfig);
             extractContent(translationFile, inputFilePath, targetFields, extractionType);
@@ -108,6 +117,7 @@ public class TranslateCommand implements Runnable {
 
             if (Files.exists(configsPath) && Files.isDirectory(configsPath)) {
               extractionType = "configs";
+              copyDirectoryContent(configsPath, tempsConfig);
               Set<String> targetFields = FCTConstants.configTranslatables;
               extractContent(translationFile, configsPath, targetFields, extractionType);
             } else {
@@ -199,6 +209,42 @@ public class TranslateCommand implements Runnable {
         throw new RuntimeException(e);
       }
     }
+  }
+
+  /*
+  assuming the expected folder structure is always as follows
+  root/
+  ├── configs/
+  │   ├── translation/
+  │   ├── file1.json
+  │   └── file2.json
+  ├── fhir_content/
+  │   ├── translation/
+  │   ├── example1.json
+  │   └── example2.json
+  ├── other_folder/
+  │   ├── nested/
+  │   │   |
+  │   │   ├── file3.json
+  │   │   └── file4.txt
+  └── translation/
+      ├── another_file.json
+
+   */
+  @NotNull private static Path getTranslationDirectoryPath(@NotNull Path inputFilePath) {
+    Objects.requireNonNull(inputFilePath, "Input file path cannot be null");
+
+    if (inputFilePath.endsWith("configs") || inputFilePath.endsWith("fhir_content")) {
+      return inputFilePath.getParent().resolve("translation");
+    }
+    if (inputFilePath.toString().endsWith(".json")) {
+      Path parent = inputFilePath.getParent();
+      if (parent == null || parent.getParent() == null) {
+        throw new IllegalArgumentException("Invalid file path structure for: " + inputFilePath);
+      }
+      return parent.getParent().resolve("translation");
+    }
+    return inputFilePath.resolve("translation");
   }
 
   private static void mergeContent(
@@ -374,14 +420,18 @@ public class TranslateCommand implements Runnable {
     } else if (Files.isDirectory(inputFilePath)) {
       // Handle the case where inputFilePath is a directory (folders may contain multiple JSON
       // files)
+      Path inputDir;
+      if (extractionType.equals("configs")) {
+        inputDir = tempsConfig;
+      } else inputDir = inputFilePath;
 
-      Files.walk(tempsConfig)
+      Files.walk(inputDir)
           .filter(Files::isRegularFile)
           .filter(file -> file.toString().endsWith(".json"))
           .forEach(
               file -> {
                 try {
-                  if (Objects.equals(extractionType, "configs")) {
+                  if ("configs".equals(extractionType)) {
                     // Extract and replace target fields with hashed values
                     ObjectMapper objectMapper = new ObjectMapper();
                     JsonNode rootNode =
@@ -398,7 +448,8 @@ public class TranslateCommand implements Runnable {
                     processJsonFile(file, textToHash, targetFields);
                   }
                 } catch (IOException | NoSuchAlgorithmException e) {
-                  deleteDirectoryRecursively(tempsConfig);
+                  if (tempsConfig != null && Files.exists(tempsConfig))
+                    deleteDirectoryRecursively(tempsConfig);
                   throw new RuntimeException(
                       "Error while reading file " + file.getFileName() + " " + e);
                 }
@@ -416,13 +467,14 @@ public class TranslateCommand implements Runnable {
       }
     }
 
+    if (!Files.exists(propertiesFilePath)) Files.createFile(propertiesFilePath);
     Properties existingProperties = FctUtils.readPropertiesFile(propertiesFilePath.toString());
 
     // Merge existing properties with new properties
     existingProperties.putAll(textToHash);
     writePropertiesFile(existingProperties, translationFile);
     FctUtils.printInfo(String.format("Translation file\u001b[36m %s \u001b[0m", translationFile));
-    if (tempsConfig != null) deleteDirectoryRecursively(tempsConfig);
+    if (tempsConfig != null && Files.exists(tempsConfig)) deleteDirectoryRecursively(tempsConfig);
   }
 
   private static void processJsonFile(
