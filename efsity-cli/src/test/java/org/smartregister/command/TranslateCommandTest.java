@@ -18,22 +18,41 @@ import org.mockito.Mockito;
 import org.smartregister.util.FctUtils;
 
 public class TranslateCommandTest {
-  private Path tempCleanConfigsFolder;
   private TranslateCommand translateCommand;
+  // Create temp application directory and add fhir_content and questionnaire dirs
+  private Path tempAppFolderPath;
+  private Path fhirContentFolderPath;
+  private Path rawQuestionnairePath;
+  private Path tempRawQuestionnaire;
+  private Path tempAppConfigsFolder;
 
   @BeforeEach
   public void setUp() throws IOException {
 
-    tempCleanConfigsFolder = Files.createTempDirectory("temp_clean_configs_folder");
-    Path cleanConfigsFolder = Paths.get("src/test/resources/clean_configs_folder");
-    FctUtils.copyDirectoryContent(cleanConfigsFolder, tempCleanConfigsFolder);
+
+
+    // Create temp application directory and add configs, fhir_content, questionnaire dirs and content
+    tempAppFolderPath = createTempDirectory("tempApp");
+    tempAppConfigsFolder = tempAppFolderPath.resolve("configs");
+    Files.createDirectory(tempAppConfigsFolder);
+    FctUtils.copyDirectoryContent(Paths.get("src/test/resources/clean_configs_folder"), tempAppConfigsFolder);
+    fhirContentFolderPath = createSubDirectory(tempAppFolderPath, "fhir_content");
+    Path questionnairesFolderPath = createSubDirectory(fhirContentFolderPath, "questionnaires");
+    rawQuestionnairePath = Paths.get("src/test/resources/raw_questionnaire.json");
+    tempRawQuestionnaire = questionnairesFolderPath.resolve("temp_raw_questionnaire.json");
+    Files.createFile(tempRawQuestionnaire);
+
+
+    Path cleanTestConfigFile = tempAppConfigsFolder.resolve("profile_config.json");
+    Files.copy(tempAppConfigsFolder, cleanTestConfigFile, StandardCopyOption.REPLACE_EXISTING);
 
     translateCommand = new TranslateCommand();
   }
 
   @AfterEach
-  public void tearDown() {
-    FctUtils.deleteDirectoryRecursively(tempCleanConfigsFolder);
+  public void tearDown() throws IOException {
+    deleteDirectory(tempAppConfigsFolder);
+    deleteDirectory(tempAppFolderPath);
   }
 
   @Test
@@ -52,12 +71,11 @@ public class TranslateCommandTest {
   @Test
   public void testRunExtract() throws IOException {
     // Assuming you have a valid JSON file for testing
-    Path rawQuestionnairePath = Paths.get("src/test/resources/raw_questionnaire.json");
-    Path tempRawQuestionnaire = Files.createTempFile("temp_raw_questionnaire", ".json");
-    Files.copy(rawQuestionnairePath, tempRawQuestionnaire, StandardCopyOption.REPLACE_EXISTING);
 
-    Path defaultPropertiesPath = Paths.get("src/test/resources/strings_default.properties");
-    Path tempDefaultPropertiesPath = Files.createTempFile("temp_strings_default", ".properties");
+    Path tempRawQuestionnaire = createTempFileWithContents(
+            "temp_raw_questionnaire", ".json", rawQuestionnairePath);
+    Path tempDefaultPropertiesPath = createTempFile("temp_strings_default", ".properties");
+
 
     translateCommand.mode = "extract";
     translateCommand.resourceFile = tempRawQuestionnaire.toString();
@@ -66,40 +84,106 @@ public class TranslateCommandTest {
 
     assertDoesNotThrow(() -> translateCommand.run());
 
-    Properties existingProperties =
-        FctUtils.readPropertiesFile(defaultPropertiesPath.toFile().getAbsolutePath());
+    compareProperties(
+            "src/test/resources/strings_default.properties",
+            tempDefaultPropertiesPath.toString());
 
-    Properties newProperties =
-        FctUtils.readPropertiesFile(tempDefaultPropertiesPath.toFile().getAbsolutePath());
-
-    // Compare the contents of the two files
-    assertEquals(existingProperties, newProperties, "File contents are similar.");
-    // Clean up temporary resources
-    tempRawQuestionnaire.toFile().delete();
-    tempDefaultPropertiesPath.toFile().delete();
+    deleteFile(tempRawQuestionnaire);
+    deleteFile(tempDefaultPropertiesPath);
   }
 
   @Test
-  public void testRunExtractConfigWithCleanConfigsFolderRunsSuccessfully() throws IOException {
+  public void testRunExtractFhirContentGivenFolderPathWithoutTranslationFileAndWithoutExtractionType() throws IOException {
 
-    Path cleanConfigsFolder = tempCleanConfigsFolder;
-    Path backupFolder = Files.createTempDirectory("temp_back_up_dir");
-    FctUtils.copyDirectoryContent(cleanConfigsFolder, backupFolder);
+
+    Files.copy(rawQuestionnairePath, tempRawQuestionnaire, StandardCopyOption.REPLACE_EXISTING);
+
+    Path tempTranslationsPath = fhirContentFolderPath.resolve("translation");
+    Path tempDefaultPropertiesPath = tempTranslationsPath.resolve("strings_default.properties");
+
+    translateCommand.mode = "extract";
+    translateCommand.resourceFile = fhirContentFolderPath.toString();
+
+    assertDoesNotThrow(() -> translateCommand.run());
+
+    compareProperties(
+            "src/test/resources/strings_default.properties",
+            tempDefaultPropertiesPath.toString());
+
+    deleteFile(tempRawQuestionnaire);
+    deleteFile(tempDefaultPropertiesPath);
+
+  }
+
+  @Test
+  public void testRunExtractFhirContentGivenFolderNameWithExtractionTypeWithoutTranslationFile() throws IOException {
+
+
+    Files.copy(rawQuestionnairePath, tempRawQuestionnaire, StandardCopyOption.REPLACE_EXISTING);
+
+    Path translationsPath = fhirContentFolderPath.resolve("translation");
+    Path tempDefaultPropertiesPath = translationsPath.resolve("strings_default.properties");
+
+    translateCommand.mode = "extract";
+    translateCommand.resourceFile = fhirContentFolderPath.toString();
+    translateCommand.extractionType = "fhirContent";
+
+    assertDoesNotThrow(() -> translateCommand.run());
+
+
+    compareProperties(
+            "src/test/resources/strings_default.properties",
+            tempDefaultPropertiesPath.toString());
+
+    deleteFile(tempRawQuestionnaire);
+    deleteFile(tempDefaultPropertiesPath);
+
+  }
+
+
+  @Test
+  public void testRunExtractConfigWithCleanConfigsFolderGivenFolderNameWithoutExtractionTypeAndWithoutTranslationFileRunsSuccessfully() throws IOException {
+
+
     TranslateCommand translateCommandSpy = Mockito.spy(translateCommand);
     translateCommandSpy.mode = "extract";
-    translateCommandSpy.extractionType = "configs";
-    translateCommandSpy.resourceFile = cleanConfigsFolder.toString();
+    translateCommandSpy.resourceFile = tempAppConfigsFolder.toString();
 
     Path frPropertiesPathOriginal = Paths.get("src/test/resources/strings_fr.properties");
     Path frPropertiesPathTest =
-        tempCleanConfigsFolder.resolve(frPropertiesPathOriginal.getFileName());
-    Files.copy(frPropertiesPathOriginal, frPropertiesPathTest, StandardCopyOption.REPLACE_EXISTING);
+            tempAppConfigsFolder.resolve(frPropertiesPathOriginal.getFileName());
+    Files.createFile(frPropertiesPathTest);
+//    Files.copy(frPropertiesPathOriginal, frPropertiesPathTest, StandardCopyOption.REPLACE_EXISTING);
     translateCommandSpy.translationFile = frPropertiesPathTest.toString();
     translateCommandSpy.run();
+    compareProperties(
+            frPropertiesPathTest.toString(), frPropertiesPathOriginal.toString());
+
     Mockito.verify(translateCommandSpy, Mockito.atLeast(2))
         .copyDirectoryContent(Mockito.any(), Mockito.any());
     Mockito.verify(translateCommandSpy, Mockito.atLeast(1))
         .deleteDirectoryRecursively(Mockito.any());
+  }
+
+  @Test
+  public void testRunExtractConfigGivenFolderPathAndWithoutTranslationFileAndWithExtractionTypeRunsSuccessfully() throws IOException {
+
+
+    TranslateCommand translateCommandSpy = Mockito.spy(translateCommand);
+    translateCommandSpy.mode = "extract";
+    translateCommandSpy.extractionType = "configs";
+    translateCommandSpy.resourceFile = tempAppConfigsFolder.toString();
+
+    Path frPropertiesPathOriginal = Paths.get("src/test/resources/strings_fr.properties");
+    Path frPropertiesPathTest =
+            tempAppConfigsFolder.resolve(frPropertiesPathOriginal.getFileName());
+    Files.copy(frPropertiesPathOriginal, frPropertiesPathTest, StandardCopyOption.REPLACE_EXISTING);
+    translateCommandSpy.translationFile = frPropertiesPathTest.toString();
+    translateCommandSpy.run();
+    Mockito.verify(translateCommandSpy, Mockito.atLeast(2))
+            .copyDirectoryContent(Mockito.any(), Mockito.any());
+    Mockito.verify(translateCommandSpy, Mockito.atLeast(1))
+            .deleteDirectoryRecursively(Mockito.any());
   }
 
   @Test
@@ -140,16 +224,59 @@ public class TranslateCommandTest {
 
     assertDoesNotThrow(() -> translateCommand.run());
 
-    ObjectMapper objectMapper = new ObjectMapper();
-    JsonNode processedRawQuestionnaire =
-        objectMapper.readTree(
-            Files.newBufferedReader(tempRawQuestionnaire, StandardCharsets.UTF_8));
-    JsonNode mergedQuestionnaire =
-        objectMapper.readTree(
-            Files.newBufferedReader(expectedMergedQuestionnairePath, StandardCharsets.UTF_8));
+    compareJsonFiles(tempRawQuestionnaire, expectedMergedQuestionnairePath);
+    deleteFile(tempRawQuestionnaire);
+  }
 
-    // Compare the contents of the two nodes
-    assertEquals(mergedQuestionnaire, processedRawQuestionnaire, "File merged as expected");
-    tempRawQuestionnaire.toFile().delete();
+  // Helper Methods
+  private Path createTempDirectory(String name) throws IOException {
+    return Files.createTempDirectory(name);
+  }
+
+  private Path createTempDirectoryWithContents(String tempDirName, String sourceDir) throws IOException {
+    Path tempDir = createTempDirectory(tempDirName);
+    FctUtils.copyDirectoryContent(Paths.get(sourceDir), tempDir);
+    return tempDir;
+  }
+
+  private Path createSubDirectory(Path parent, String name) throws IOException {
+    Path subDir = parent.resolve(name);
+    Files.createDirectories(subDir);
+    return subDir;
+  }
+
+  private Path createTempFile(String prefix, String suffix) throws IOException {
+    return Files.createTempFile(prefix, suffix);
+  }
+
+  private Path createTempFileWithContents(String prefix, String suffix, Path sourceFile) throws IOException {
+    Path tempFile = createTempFile(prefix, suffix);
+    Files.copy(sourceFile, tempFile, StandardCopyOption.REPLACE_EXISTING);
+    return tempFile;
+  }
+
+  private void deleteDirectory(Path dir) throws IOException {
+    FctUtils.deleteDirectoryRecursively(dir);
+  }
+
+  private void deleteFile(Path file) {
+    try {
+      Files.deleteIfExists(file);
+    } catch (IOException e) {
+      System.err.println("Failed to delete file: " + file + " due to " + e.getMessage());
+    }
+  }
+
+  private void compareProperties(String expectedPath, String actualPath) throws IOException {
+    Properties expected = FctUtils.readPropertiesFile(expectedPath);
+    Properties actual = FctUtils.readPropertiesFile(actualPath);
+    assertEquals(expected, actual, "Properties files do not match.");
+  }
+
+  private void compareJsonFiles(Path actualPath, Path expectedPath) throws IOException {
+    ObjectMapper objectMapper = new ObjectMapper();
+    JsonNode actualJson = objectMapper.readTree(Files.newBufferedReader(actualPath, StandardCharsets.UTF_8));
+    JsonNode expectedJson = objectMapper.readTree(Files.newBufferedReader(expectedPath, StandardCharsets.UTF_8));
+    assertEquals(expectedJson, actualJson, "JSON files do not match.");
   }
 }
