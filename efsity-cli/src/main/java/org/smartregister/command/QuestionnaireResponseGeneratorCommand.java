@@ -83,6 +83,12 @@ public class QuestionnaireResponseGeneratorCommand implements Runnable {
       defaultValue = ".")
   private String outputFilePath;
 
+  @CommandLine.Option(
+      names = {"-ih", "--ignore-hidden"},
+      description = "Ignore hidden questions when generating responses",
+      defaultValue = "true")
+  private boolean ignoreHiddenQuestions;
+
   private static final Random random = new Random();
   private static final Faker faker = new Faker();
 
@@ -99,7 +105,8 @@ public class QuestionnaireResponseGeneratorCommand implements Runnable {
             fhir_base_url,
             apiKey,
             aiModel,
-            maxTokens);
+            maxTokens,
+            ignoreHiddenQuestions);
       } catch (IOException e) {
         throw new RuntimeException(e);
       }
@@ -127,7 +134,8 @@ public class QuestionnaireResponseGeneratorCommand implements Runnable {
       String fhir_base_url,
       String apiKey,
       String aiModel,
-      String maxTokens)
+      String maxTokens,
+      boolean ignoreHiddenQuestions)
       throws IOException {
     long start = System.currentTimeMillis();
 
@@ -141,7 +149,7 @@ public class QuestionnaireResponseGeneratorCommand implements Runnable {
 
     String questionnaireResponseString =
         (Objects.equals(mode, "populate"))
-            ? populateMode(questionnaireData, fhir_base_url, extrasPath)
+            ? populateMode(questionnaireData, fhir_base_url, extrasPath, ignoreHiddenQuestions)
             : aiMode(questionnaireData, apiKey, aiModel, maxTokens);
 
     // Write response to file
@@ -321,9 +329,15 @@ public class QuestionnaireResponseGeneratorCommand implements Runnable {
     }
   }
 
-  static JSONArray getAnswers(JSONArray questions, JSONArray responses, JSONObject extras) {
+  static JSONArray getAnswers(
+      JSONArray questions, JSONArray responses, JSONObject extras, boolean ignoreHiddenQuestions) {
     for (int i = 0; i < questions.length(); i++) {
       JSONObject current_question = questions.getJSONObject(i);
+
+      if (ignoreHiddenQuestions && isHiddenQuestion(current_question)) {
+        continue;
+      }
+
       String question_type = current_question.getString("type");
       String link_id = current_question.getString("linkId");
 
@@ -335,7 +349,7 @@ public class QuestionnaireResponseGeneratorCommand implements Runnable {
         if (current_question.has("item")) {
           JSONArray group_questions = current_question.getJSONArray("item");
           JSONArray group_responses = responses.getJSONObject(i).getJSONArray("item");
-          getAnswers(group_questions, group_responses, extras);
+          getAnswers(group_questions, group_responses, extras, ignoreHiddenQuestions);
         }
       }
       responses.getJSONObject(i).put("answer", answer_arr);
@@ -343,7 +357,30 @@ public class QuestionnaireResponseGeneratorCommand implements Runnable {
     return responses;
   }
 
-  static String populateMode(String questionnaireData, String fhir_base_url, String extrasPath)
+  static boolean isHiddenQuestion(JSONObject question) {
+    boolean isHidden = false;
+
+    if (question.has("extension")) {
+      JSONArray extensions = question.getJSONArray("extension");
+      for (int i = 0; i < extensions.length(); i++) {
+        JSONObject extension = extensions.getJSONObject(i);
+        if (extension
+            .getString("url")
+            .equals("http://hl7.org/fhir/StructureDefinition/questionnaire-hidden")) {
+          isHidden = extension.optBoolean("valueBoolean", true);
+          break;
+        }
+      }
+    }
+
+    return isHidden;
+  }
+
+  static String populateMode(
+      String questionnaireData,
+      String fhir_base_url,
+      String extrasPath,
+      boolean ignoreHiddenQuestions)
       throws IOException {
     JSONObject resource = new JSONObject(questionnaireData);
     String questionnaire_id = resource.getString("id");
@@ -377,7 +414,6 @@ public class QuestionnaireResponseGeneratorCommand implements Runnable {
     String populate_endpoint =
         String.join("/", fhir_base_url, resourceType, questionnaire_id, "$populate");
     List<String> result = HttpClient.postRequest(params.toString(), populate_endpoint, null);
-
     JSONObject questionnaire_response = new JSONObject(result.get(1));
     FctUtils.printError("Debug: response from questionnaireResponse: " + questionnaire_response);
 
@@ -387,7 +423,8 @@ public class QuestionnaireResponseGeneratorCommand implements Runnable {
     if (questionnaire_response.has("item")) {
       JSONArray response = (JSONArray) questionnaire_response.get("item");
       JSONArray questions = resource.getJSONArray("item");
-      JSONArray response_with_answers = getAnswers(questions, response, extras);
+      JSONArray response_with_answers =
+          getAnswers(questions, response, extras, ignoreHiddenQuestions);
       questionnaire_response.put("item", response_with_answers);
     }
     return String.valueOf(questionnaire_response);

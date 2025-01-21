@@ -235,12 +235,16 @@ public class TranslateCommand implements Runnable {
     Objects.requireNonNull(inputFilePath, "Input file path cannot be null");
 
     if (inputFilePath.endsWith("configs") || inputFilePath.endsWith("fhir_content")) {
+
       return inputFilePath.resolve("translation");
+
     }
     if (inputFilePath.toString().endsWith(".json")) {
       Path parent = inputFilePath.getParent();
       if (parent == null || parent.getParent() == null) {
+
         throw new IllegalArgumentException("Invalid file path for: " + inputFilePath);
+
       }
       return parent.getParent().resolve("translation");
     }
