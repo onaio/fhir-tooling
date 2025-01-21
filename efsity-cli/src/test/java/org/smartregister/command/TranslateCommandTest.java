@@ -29,22 +29,19 @@ public class TranslateCommandTest {
   @BeforeEach
   public void setUp() throws IOException {
 
-
-
-    // Create temp application directory and add configs, fhir_content, questionnaire dirs and content
+    // Create temp application directory and add configs, fhir_content, questionnaire dirs and
+    // content
     tempAppFolderPath = createTempDirectory("tempApp");
     tempAppConfigsFolder = tempAppFolderPath.resolve("configs");
     Files.createDirectory(tempAppConfigsFolder);
-    FctUtils.copyDirectoryContent(Paths.get("src/test/resources/clean_configs_folder"), tempAppConfigsFolder);
+    FctUtils.copyDirectoryContent(
+        Paths.get("src/test/resources/clean_configs_folder"), tempAppConfigsFolder);
     fhirContentFolderPath = createSubDirectory(tempAppFolderPath, "fhir_content");
     Path questionnairesFolderPath = createSubDirectory(fhirContentFolderPath, "questionnaires");
     rawQuestionnairePath = Paths.get("src/test/resources/raw_questionnaire.json");
     tempRawQuestionnaire = questionnairesFolderPath.resolve("temp_raw_questionnaire.json");
     Files.createFile(tempRawQuestionnaire);
-
-
-    Path cleanTestConfigFile = tempAppConfigsFolder.resolve("profile_config.json");
-    Files.copy(tempAppConfigsFolder, cleanTestConfigFile, StandardCopyOption.REPLACE_EXISTING);
+    Files.copy(rawQuestionnairePath, tempRawQuestionnaire, StandardCopyOption.REPLACE_EXISTING);
 
     translateCommand = new TranslateCommand();
   }
@@ -72,10 +69,9 @@ public class TranslateCommandTest {
   public void testRunExtract() throws IOException {
     // Assuming you have a valid JSON file for testing
 
-    Path tempRawQuestionnaire = createTempFileWithContents(
-            "temp_raw_questionnaire", ".json", rawQuestionnairePath);
+    Path tempRawQuestionnaire =
+        createTempFileWithContents("temp_raw_questionnaire", ".json", rawQuestionnairePath);
     Path tempDefaultPropertiesPath = createTempFile("temp_strings_default", ".properties");
-
 
     translateCommand.mode = "extract";
     translateCommand.resourceFile = tempRawQuestionnaire.toString();
@@ -85,16 +81,16 @@ public class TranslateCommandTest {
     assertDoesNotThrow(() -> translateCommand.run());
 
     compareProperties(
-            "src/test/resources/strings_default.properties",
-            tempDefaultPropertiesPath.toString());
+        "src/test/resources/strings_default.properties", tempDefaultPropertiesPath.toString());
 
     deleteFile(tempRawQuestionnaire);
     deleteFile(tempDefaultPropertiesPath);
   }
 
   @Test
-  public void testRunExtractFhirContentGivenFolderPathWithoutTranslationFileAndWithoutExtractionType() throws IOException {
-
+  public void
+      testRunExtractFhirContentGivenFolderPathWithoutTranslationFileAndWithoutExtractionType()
+          throws IOException {
 
     Files.copy(rawQuestionnairePath, tempRawQuestionnaire, StandardCopyOption.REPLACE_EXISTING);
 
@@ -107,17 +103,15 @@ public class TranslateCommandTest {
     assertDoesNotThrow(() -> translateCommand.run());
 
     compareProperties(
-            "src/test/resources/strings_default.properties",
-            tempDefaultPropertiesPath.toString());
+        "src/test/resources/strings_default.properties", tempDefaultPropertiesPath.toString());
 
     deleteFile(tempRawQuestionnaire);
     deleteFile(tempDefaultPropertiesPath);
-
   }
 
   @Test
-  public void testRunExtractFhirContentGivenFolderNameWithExtractionTypeWithoutTranslationFile() throws IOException {
-
+  public void testRunExtractFhirContentGivenFolderNameWithExtractionTypeWithoutTranslationFile()
+      throws IOException {
 
     Files.copy(rawQuestionnairePath, tempRawQuestionnaire, StandardCopyOption.REPLACE_EXISTING);
 
@@ -130,34 +124,28 @@ public class TranslateCommandTest {
 
     assertDoesNotThrow(() -> translateCommand.run());
 
-
     compareProperties(
-            "src/test/resources/strings_default.properties",
-            tempDefaultPropertiesPath.toString());
+        "src/test/resources/strings_default.properties", tempDefaultPropertiesPath.toString());
 
     deleteFile(tempRawQuestionnaire);
     deleteFile(tempDefaultPropertiesPath);
-
   }
 
-
   @Test
-  public void testRunExtractConfigWithCleanConfigsFolderGivenFolderNameWithoutExtractionTypeAndWithoutTranslationFileRunsSuccessfully() throws IOException {
-
+  public void
+      testRunExtractConfigWithCleanConfigsFolderGivenFolderNameWithoutExtractionTypeAndWithoutTranslationFileRunsSuccessfully()
+          throws IOException {
 
     TranslateCommand translateCommandSpy = Mockito.spy(translateCommand);
     translateCommandSpy.mode = "extract";
     translateCommandSpy.resourceFile = tempAppConfigsFolder.toString();
 
-    Path frPropertiesPathOriginal = Paths.get("src/test/resources/strings_fr.properties");
-    Path frPropertiesPathTest =
-            tempAppConfigsFolder.resolve(frPropertiesPathOriginal.getFileName());
-    Files.createFile(frPropertiesPathTest);
-//    Files.copy(frPropertiesPathOriginal, frPropertiesPathTest, StandardCopyOption.REPLACE_EXISTING);
-    translateCommandSpy.translationFile = frPropertiesPathTest.toString();
+    Path propertiesPathOriginal =
+        Paths.get("src/test/resources/clean_configs_folder/strings_configs.properties");
+    Path propertiesPathTest = createTempFile("strings_default", "properties");
+    translateCommandSpy.translationFile = propertiesPathTest.toString();
     translateCommandSpy.run();
-    compareProperties(
-            frPropertiesPathTest.toString(), frPropertiesPathOriginal.toString());
+    compareProperties(propertiesPathOriginal.toString(), propertiesPathOriginal.toString());
 
     Mockito.verify(translateCommandSpy, Mockito.atLeast(2))
         .copyDirectoryContent(Mockito.any(), Mockito.any());
@@ -166,8 +154,9 @@ public class TranslateCommandTest {
   }
 
   @Test
-  public void testRunExtractConfigGivenFolderPathAndWithoutTranslationFileAndWithExtractionTypeRunsSuccessfully() throws IOException {
-
+  public void
+      testRunExtractConfigGivenFolderPathAndWithoutTranslationFileAndWithExtractionTypeRunsSuccessfully()
+          throws IOException {
 
     TranslateCommand translateCommandSpy = Mockito.spy(translateCommand);
     translateCommandSpy.mode = "extract";
@@ -176,14 +165,14 @@ public class TranslateCommandTest {
 
     Path frPropertiesPathOriginal = Paths.get("src/test/resources/strings_fr.properties");
     Path frPropertiesPathTest =
-            tempAppConfigsFolder.resolve(frPropertiesPathOriginal.getFileName());
+        tempAppConfigsFolder.resolve(frPropertiesPathOriginal.getFileName());
     Files.copy(frPropertiesPathOriginal, frPropertiesPathTest, StandardCopyOption.REPLACE_EXISTING);
     translateCommandSpy.translationFile = frPropertiesPathTest.toString();
     translateCommandSpy.run();
     Mockito.verify(translateCommandSpy, Mockito.atLeast(2))
-            .copyDirectoryContent(Mockito.any(), Mockito.any());
+        .copyDirectoryContent(Mockito.any(), Mockito.any());
     Mockito.verify(translateCommandSpy, Mockito.atLeast(1))
-            .deleteDirectoryRecursively(Mockito.any());
+        .deleteDirectoryRecursively(Mockito.any());
   }
 
   @Test
@@ -233,7 +222,8 @@ public class TranslateCommandTest {
     return Files.createTempDirectory(name);
   }
 
-  private Path createTempDirectoryWithContents(String tempDirName, String sourceDir) throws IOException {
+  private Path createTempDirectoryWithContents(String tempDirName, String sourceDir)
+      throws IOException {
     Path tempDir = createTempDirectory(tempDirName);
     FctUtils.copyDirectoryContent(Paths.get(sourceDir), tempDir);
     return tempDir;
@@ -249,7 +239,8 @@ public class TranslateCommandTest {
     return Files.createTempFile(prefix, suffix);
   }
 
-  private Path createTempFileWithContents(String prefix, String suffix, Path sourceFile) throws IOException {
+  private Path createTempFileWithContents(String prefix, String suffix, Path sourceFile)
+      throws IOException {
     Path tempFile = createTempFile(prefix, suffix);
     Files.copy(sourceFile, tempFile, StandardCopyOption.REPLACE_EXISTING);
     return tempFile;
@@ -275,8 +266,10 @@ public class TranslateCommandTest {
 
   private void compareJsonFiles(Path actualPath, Path expectedPath) throws IOException {
     ObjectMapper objectMapper = new ObjectMapper();
-    JsonNode actualJson = objectMapper.readTree(Files.newBufferedReader(actualPath, StandardCharsets.UTF_8));
-    JsonNode expectedJson = objectMapper.readTree(Files.newBufferedReader(expectedPath, StandardCharsets.UTF_8));
+    JsonNode actualJson =
+        objectMapper.readTree(Files.newBufferedReader(actualPath, StandardCharsets.UTF_8));
+    JsonNode expectedJson =
+        objectMapper.readTree(Files.newBufferedReader(expectedPath, StandardCharsets.UTF_8));
     assertEquals(expectedJson, actualJson, "JSON files do not match.");
   }
 }
