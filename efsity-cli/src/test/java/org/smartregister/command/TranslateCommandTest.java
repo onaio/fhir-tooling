@@ -68,7 +68,6 @@ public class TranslateCommandTest {
   @Test
   public void testRunExtract() throws IOException {
     // Assuming you have a valid JSON file for testing
-
     Path tempRawQuestionnaire =
         createTempFileWithContents("temp_raw_questionnaire", ".json", rawQuestionnairePath);
     Path tempDefaultPropertiesPath = createTempFile("temp_strings_default", ".properties");
@@ -87,12 +86,10 @@ public class TranslateCommandTest {
     deleteFile(tempDefaultPropertiesPath);
   }
 
+  // this tests a case of type fct translate -m extract -rf
+  // ~/Workspace/fhir-resources/<project>/<environment>/<app>/fhir_content
   @Test
-  public void
-      testRunExtractFhirContentGivenFolderPathWithoutTranslationFileAndWithoutExtractionType()
-          throws IOException {
-
-    Files.copy(rawQuestionnairePath, tempRawQuestionnaire, StandardCopyOption.REPLACE_EXISTING);
+  public void testRunExtractFhirContent_Given_FhirContentFolderPath() throws IOException {
 
     Path tempTranslationsPath = fhirContentFolderPath.resolve("translation");
     Path tempDefaultPropertiesPath = tempTranslationsPath.resolve("strings_default.properties");
@@ -109,11 +106,11 @@ public class TranslateCommandTest {
     deleteFile(tempDefaultPropertiesPath);
   }
 
+  // this tests a case of type fct translate -m extract -rf
+  // ~/Workspace/fhir-resources/<project>/<environment>/<app>/fhir_content -et fhirContent
   @Test
-  public void testRunExtractFhirContentGivenFolderNameWithExtractionTypeWithoutTranslationFile()
+  public void testRunExtractFhirContent_Given_FhirContentFolderNameWithExtractionType()
       throws IOException {
-
-    Files.copy(rawQuestionnairePath, tempRawQuestionnaire, StandardCopyOption.REPLACE_EXISTING);
 
     Path translationsPath = fhirContentFolderPath.resolve("translation");
     Path tempDefaultPropertiesPath = translationsPath.resolve("strings_default.properties");
@@ -131,10 +128,10 @@ public class TranslateCommandTest {
     deleteFile(tempDefaultPropertiesPath);
   }
 
+  // this tests a case of type fct translate -m extract -rf
+  // ~/Workspace/fhir-resources/<project>/<environment>/<app>/configs
   @Test
-  public void
-      testRunExtractConfigWithCleanConfigsFolderGivenFolderNameWithoutExtractionTypeAndWithoutTranslationFileRunsSuccessfully()
-          throws IOException {
+  public void testRunExtractConfig_Given_ConfigsFolder() throws IOException {
 
     TranslateCommand translateCommandSpy = Mockito.spy(translateCommand);
     translateCommandSpy.mode = "extract";
@@ -153,10 +150,10 @@ public class TranslateCommandTest {
         .deleteDirectoryRecursively(Mockito.any());
   }
 
+  // this tests a case of type fct translate -m extract -rf
+  // ~/Workspace/fhir-resources/<project>/<environment>/<app>/configs -et configs
   @Test
-  public void
-      testRunExtractConfigGivenFolderPathAndWithoutTranslationFileAndWithExtractionTypeRunsSuccessfully()
-          throws IOException {
+  public void testRunExtractConfig_Given_ConfigsFolderPath_FileExtractionType() throws IOException {
 
     TranslateCommand translateCommandSpy = Mockito.spy(translateCommand);
     translateCommandSpy.mode = "extract";
@@ -176,7 +173,7 @@ public class TranslateCommandTest {
   }
 
   @Test
-  public void testRunExtractConfigWithDirtyConfigsFolderDeletesTempFileOnFailure()
+  public void testRunExtractConfig_Given_DirtyConfigsFolderDeletesTempFileOnFailure()
       throws RuntimeException {
     Path dirtyConfigsFolder = Paths.get("src/test/resources/dirty_configs_folder");
     TranslateCommand translateCommandSpy = Mockito.spy(translateCommand);
@@ -193,6 +190,48 @@ public class TranslateCommandTest {
         .copyDirectoryContent(Mockito.any(), Mockito.any());
     Mockito.verify(translateCommandSpy, Mockito.atLeast(1))
         .deleteDirectoryRecursively(Mockito.any());
+  }
+
+  // this function tests a case of type fct translate -m extract -rf
+  // ~/Workspace/fhir-resources/<project>/<environment>/<app>
+  @Test
+  public void testRunExtractAll_Given_ProjectPath() throws IOException {
+
+    Path tempTranslationsPath = tempAppFolderPath.resolve("translation");
+    Path tempDefaultPropertiesPath = tempTranslationsPath.resolve("strings_default.properties");
+
+    translateCommand.mode = "extract";
+    translateCommand.resourceFile = tempAppFolderPath.toString();
+
+    assertDoesNotThrow(() -> translateCommand.run());
+
+    compareProperties(
+        "src/test/resources/strings_all.properties", tempDefaultPropertiesPath.toString());
+
+    deleteFile(tempRawQuestionnaire);
+    deleteFile(tempDefaultPropertiesPath);
+  }
+
+  // this function tests a case of type fct translate -m extract -rf
+  // ~/Workspace/fhir-resources/<project>/<environment>/<app> -et all
+  @Test
+  public void testRunExtractAll_Given_ProjectPathAndExtraction()
+      throws IOException {
+
+    Path tempTranslationsPath = tempAppFolderPath.resolve("translation");
+    Path tempDefaultPropertiesPath = tempTranslationsPath.resolve("strings_default.properties");
+
+    translateCommand.mode = "extract";
+    translateCommand.resourceFile = tempAppFolderPath.toString();
+    translateCommand.extractionType = "all";
+
+    assertDoesNotThrow(() -> translateCommand.run());
+
+    compareProperties(
+        "src/test/resources/strings_all.properties", tempDefaultPropertiesPath.toString());
+
+    deleteFile(tempRawQuestionnaire);
+    deleteFile(tempDefaultPropertiesPath);
   }
 
   @Test

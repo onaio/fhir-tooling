@@ -237,14 +237,12 @@ public class TranslateCommand implements Runnable {
     if (inputFilePath.endsWith("configs") || inputFilePath.endsWith("fhir_content")) {
 
       return inputFilePath.resolve("translation");
-
     }
     if (inputFilePath.toString().endsWith(".json")) {
       Path parent = inputFilePath.getParent();
       if (parent == null || parent.getParent() == null) {
 
         throw new IllegalArgumentException("Invalid file path for: " + inputFilePath);
-
       }
       return parent.getParent().resolve("translation");
     }
