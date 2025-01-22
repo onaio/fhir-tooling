@@ -215,8 +215,7 @@ public class TranslateCommandTest {
   // this function tests a case of type fct translate -m extract -rf
   // ~/Workspace/fhir-resources/<project>/<environment>/<app> -et all
   @Test
-  public void testRunExtractAll_Given_ProjectPathAndExtraction()
-      throws IOException {
+  public void testRunExtractAll_Given_ProjectPathAndExtractionType() throws IOException {
 
     Path tempTranslationsPath = tempAppFolderPath.resolve("translation");
     Path tempDefaultPropertiesPath = tempTranslationsPath.resolve("strings_default.properties");
