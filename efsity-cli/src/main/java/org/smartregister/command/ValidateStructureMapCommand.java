@@ -127,7 +127,8 @@ public class ValidateStructureMapCommand implements Runnable {
           "http://localhost:8080/fhir",
           "",
           "",
-          "");
+          "",
+          true);
 
       // Extract Resources using the StructureMap and the generated QuestionnaireResponse
       String generatedQuestionnaireResponsePath =
