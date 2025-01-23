@@ -14,7 +14,7 @@ from importer.config.settings import fhir_base_url
 from importer.request import handle_request
 from importer.users import (assign_default_groups_roles, assign_group_roles,
                             confirm_keycloak_user, confirm_practitioner,
-                            create_roles, create_user, create_user_resources, keycloak_url)
+                            create_roles, create_user, create_user_resources, get_keycloak_url)
 from importer.utils import (build_mapped_payloads, clean_duplicates,
                             export_resources_to_csv, read_csv,
                             read_file_in_chunks)
@@ -299,7 +299,7 @@ def main(
         if multifactor_authentication is not None:
            # get details
             keyclock_browser_flows_response = handle_request(
-                "GET",payload = "", url = keycloak_url+"/admin/realms/master/authentication/flows/browser/executions"
+                "GET",payload = "", url = get_keycloak_url+"/admin/realms/master/authentication/flows/browser/executions"
                 )
             target_display_name = "Browser - Conditional OTP"
 
@@ -312,7 +312,7 @@ def main(
                 result["requirement"] = "ALTERNATIVE"
             parsed_payload = json.dumps(result)
             update_keycloak_browser_flow_response = handle_request(
-                "PUT",payload = parsed_payload, url = keycloak_url+"/admin/realms/master/authentication/flows/browser/executions"
+                "PUT",payload = parsed_payload, url = get_keycloak_url+"/admin/realms/master/authentication/flows/browser/executions"
                 )
             logging.info(update_keycloak_browser_flow_response)
           
