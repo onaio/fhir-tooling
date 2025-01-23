@@ -298,21 +298,22 @@ def main(
     else:
         if multifactor_authentication is not None:
            # get details
-            keyclock_browser_flows_response = handle_request(
-                "GET",payload = "", url = get_keycloak_url+"/admin/realms/master/authentication/flows/browser/executions"
+            keycloack_browser_flows_response = handle_request(
+                "GET",payload = "", url = get_keycloak_url()+"/admin/realms/master/authentication/flows/browser/executions"
                 )
             target_display_name = "Browser - Conditional OTP"
 
-            data = json.loads(keyclock_browser_flows_response[0])
+            data = json.loads(keycloack_browser_flows_response[0])
             
             result = next((item for item in data if item["displayName"] == target_display_name), None)
+            # Enable or disable multifactor authentication with OTP
             if(result["requirement"]== "ALTERNATIVE"):
                 result["requirement"] = "REQUIRED"
             else:
                 result["requirement"] = "ALTERNATIVE"
             parsed_payload = json.dumps(result)
             update_keycloak_browser_flow_response = handle_request(
-                "PUT",payload = parsed_payload, url = get_keycloak_url+"/admin/realms/master/authentication/flows/browser/executions"
+                "PUT",payload = parsed_payload, url = get_keycloak_url()+"/admin/realms/master/authentication/flows/browser/executions"
                 )
             logging.info(update_keycloak_browser_flow_response)
           
