@@ -5,9 +5,11 @@ from datetime import datetime
 
 import click
 
-from importer.builder import (build_assign_payload, build_group_list_resource,
-                              build_org_affiliation, build_payload,
-                              build_report, extract_matches, extract_resources,
+from importer.builder import (build_assign_payload, build_flag_payload,
+                              build_group_list_resource, build_org_affiliation,
+                              build_payload, build_report,
+                              build_single_resource, extract_matches,
+                              extract_resources, get_resource,
                               link_to_location)
 from importer.config.settings import fhir_base_url
 from importer.request import handle_request
@@ -40,6 +42,9 @@ dir_path = str(pathlib.Path(__file__).parent.resolve())
 @click.option("--chunk_size", required=False, default=1000000)
 @click.option("--resources_count", required=False, default=100)
 @click.option("--list_resource_id", required=False)
+@click.option("--encounter_id", required=False)
+@click.option("--practitioner_id", required=False)
+@click.option("--visit_location_id", required=False)
 @click.option(
     "--log_level", type=click.Choice(["DEBUG", "INFO", "ERROR"], case_sensitive=False)
 )
@@ -74,6 +79,9 @@ def main(
     chunk_size,
     resources_count,
     list_resource_id,
+    encounter_id,
+    practitioner_id,
+    visit_location_id,
     sync,
     location_type_coding_system,
 ):
@@ -287,6 +295,39 @@ def main(
                 final_response = handle_request("POST", "", fhir_base_url, list_payload)
                 logging.info(final_response.text)
                 logging.info("Processing complete!")
+        elif setup == "flags":
+            logging.info("Importing flags from OpenSRP1")
+            visit_encounter_exists = get_resource(encounter_id, "Encounter")
+            creation_success = True
+            if visit_encounter_exists == "0":
+                logging.info("Encounter does not exist, proceed to create")
+                period_start = datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
+                encounter_payload = build_single_resource(
+                    "service_point_visit_encounter", encounter_id, practitioner_id, period_start,
+                    visit_location_id, "", "", "", "", "",
+                )
+                initial_string = (
+                    """{"resourceType": "Bundle","type": "transaction","entry": [ """
+                )
+                encounter_payload = initial_string + encounter_payload + " ] } "
+                encounter_response = handle_request(
+                    "POST", encounter_payload, fhir_base_url
+                )
+                if encounter_response.status_code > 201:
+                    logging.error("Error creating the visit encounter...")
+                    logging.error(encounter_response.text)
+                    issues.append(
+                        str(encounter_response.status_code) + ": " + encounter_response.text
+                    )
+                    creation_success = False
+
+            if creation_success:
+                json_payload = build_flag_payload(
+                    resource_list, practitioner_id, encounter_id
+                )
+                final_response = handle_request("POST", json_payload, fhir_base_url)
+                logging.info(final_response.text)
+            logging.info("Processing complete!")
         else:
             message = "Unsupported request!"
             fail_all = True

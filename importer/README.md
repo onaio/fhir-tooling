@@ -175,7 +175,18 @@ The coverage report `coverage.html` will be at the working directory
 - A separate List resource with references to all the Group and List resources generated is also created
 - You can pass in a `list_resource_id` to be used as the identifier for the (reference) List resource, or you can leave it empty and a random uuid will be generated
 
-### 12. Import JSON resources from file
+### 12. Import flags from openSRP 1
+- Run `python3 main.py --csv_file csv/import/flags.csv --setup flags --encounter_id 123 --practitioner_id 456 --visit_location_id 789  --log_level info`
+- See example csv [here](/importer/csv/import/flags.csv)
+- `encounter_id` (Required) is the id of the visit encounter that will be linked to all the resources that are imported when the command is run
+- `practitioner_id` (Required) is the id of the practitioner that is linked to all the resources created during the import
+- `visit_location_id` (Required) is the location linked to the visit encounter, ideally should be the root location
+- This function creates a Visit Encounter using the provided encounter id (if one does not already exist)
+- It then creates a Flag resource, an Observation resource and an encounter resource for every row on the csv, depending on its type
+- It checks to confirm that the location provided in the csv exists, if it does not, it skips that row
+- If the entityType is product, it also checks to confirm that the Group id exists in the server and skips the row if it does not
+
+### 13. Import JSON resources from file
 - Run `python3 main.py --bulk_import True --json_file tests/json/sample.json --chunk_size 500000 --sync sort --resources_count 100 --log_level info`
 - This takes in a file with a JSON array, reads the resources from the array in the file and posts them to the FHIR server
 - `bulk_import` (Required) must be set to True

@@ -99,7 +99,7 @@ class FhirKeycloakApi:
         # TODO - spread headers into kwargs.
         headers = {"content-type": "application/json", "accept": "application/json"}
         response = self.api_service.oauth.request(headers=headers, **kwargs)
-        if response.status_code == 401 or '<html class="login-pf">' in response.text:
+        if response.status_code == 401 or 'login' in response.text:
             self.api_service.refresh_token()
             return self.api_service.oauth.request(headers=headers, **kwargs)
         return response
