@@ -86,6 +86,7 @@ dependencies {
   implementation(deps.javafaker) { exclude(group = "org.yaml") }
   implementation(deps.snakeyaml)
   implementation("ca.uhn.hapi.fhir:hapi-fhir-validation:6.8.0")
+  implementation("org.smartregister:fhir-common-utils:1.0.2-SNAPSHOT")
 
   testImplementation(kotlin("test"))
   testImplementation("junit:junit:4.13.2")
