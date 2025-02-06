@@ -297,7 +297,17 @@ loc-1-id
 loc-2-id
 loc-3-id
 ```
-
+The format of the env.properties file should be as below:
+```commandline
+fhirBaseUrl=<fhir_base_url>
+accessToken=<access_token>
+clientId=<client_id>
+clientSecret=<client_secret>
+username=<username>
+password=<password>
+accessTokenUrl=<access_toke_url>
+grantType=<grant_type>
+```
 ## Development
 ### Set up
 This is a Java + Kotlin gradle project. You can import it in you JetBrains IntelliJ IDE as such. The utility is built on the very awesome `Picocli` library found here https://picocli.info/.
