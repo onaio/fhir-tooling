@@ -10,4 +10,4 @@ fhircore-tooling.iml
 bin
 target
 
-generatedResources
+*local.properties
