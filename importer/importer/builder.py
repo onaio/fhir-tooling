@@ -501,21 +501,21 @@ def group_extras(resource, payload_string, group_type, created_resources):
         if availability:
             payload_obj["resource"]["characteristic"][
                 GROUP_INDEX_MAPPING["product_is_available_index"]
-            ]["valueCodeableConcept"]["text"] = availability
+            ]["valueCodeableConcept"]["text"] = escape_quotes(availability)
         else:
             del_indexes.append(GROUP_INDEX_MAPPING["product_is_available_index"])
 
         if condition:
             payload_obj["resource"]["characteristic"][
                 GROUP_INDEX_MAPPING["product_condition_index"]
-            ]["valueCodeableConcept"]["text"] = condition
+            ]["valueCodeableConcept"]["text"] = escape_quotes(condition)
         else:
             del_indexes.append(GROUP_INDEX_MAPPING["product_condition_index"])
 
         if appropriate_usage:
             payload_obj["resource"]["characteristic"][
                 GROUP_INDEX_MAPPING["product_appropriate_usage_index"]
-            ]["valueCodeableConcept"]["text"] = appropriate_usage
+            ]["valueCodeableConcept"]["text"] = escape_quotes(appropriate_usage)
         else:
             del_indexes.append(GROUP_INDEX_MAPPING["product_appropriate_usage_index"])
 
@@ -751,7 +751,7 @@ def build_payload(
 
             # ps = payload_string
             ps = (
-                payload_string.replace("$name", name)
+                payload_string.replace("$name", escape_quotes(name))
                 .replace("$unique_uuid", unique_uuid)
                 .replace("$identifier_uuid", identifier_uuid)
                 .replace("$version", version)
@@ -1104,6 +1104,11 @@ def process_response(response):
     json_response = json.loads(response)
     issues = json_response["issue"]
     return issues
+
+def escape_quotes(value):
+    if isinstance(value, str):
+        return value.replace('"', '\\"')
+    return value
 
 
 def build_report(csv_file, response, error_details, fail_count, fail_all):

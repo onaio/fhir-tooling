@@ -1,4 +1,5 @@
 import logging
+import json
 
 from importer.config.settings import api_service
 
@@ -9,7 +10,7 @@ def post_request(request_type, payload, url, json_payload):
     logging.info("Posting request")
     logging.info("Request type: " + request_type)
     logging.info("Url: " + url)
-    logging.debug("Payload: " + payload)
+    logging.debug("Payload: " + json.dumps(payload))
 
     return api_service.request(
         method=request_type, url=url, data=payload, json=json_payload
