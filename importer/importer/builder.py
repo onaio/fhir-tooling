@@ -1133,7 +1133,6 @@ def trim_json_strings(obj):
     else:
         return obj
 
-
 def build_report(csv_file, response, error_details, fail_count, fail_all):
     # Get total number of records
     total_records = count_records(csv_file)
