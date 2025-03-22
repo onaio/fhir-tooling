@@ -162,6 +162,7 @@ def main(
                 location_type_coding_system,
             )
             final_response = handle_request("POST", json_payload, fhir_base_url)
+            logging.info(final_response.text)
             logging.info("Processing complete!")
         elif resource_type == "organizations":
             logging.info("Processing organizations")
@@ -285,7 +286,7 @@ def main(
                     "Supply Chain commodities",
                 )
                 final_response = handle_request("POST", "", fhir_base_url, list_payload)
-                logging.info(final_response.text)
+                logging.info(final_response)
                 logging.info("Processing complete!")
         else:
             message = "Unsupported request!"
