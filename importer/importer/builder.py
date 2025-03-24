@@ -241,8 +241,7 @@ def location_extras(resource, payload_string, location_coding_system):
         payload_string = json.dumps(obj, indent=2, ensure_ascii=False)
 
     try:
-        if longitude and longitude != "longitude":
-         if latitude and latitude != "latitude":
+        if longitude and longitude != "longitude" and latitude and latitude != "latitude":
             payload_string = payload_string.replace('"$longitude"', longitude).replace(
                 '"$latitude"', latitude
             )
