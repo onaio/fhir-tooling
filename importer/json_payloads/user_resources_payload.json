@@ -1,109 +1,109 @@
 [
-    {
-        "request": {
-            "method": "PUT",
-            "url": "Practitioner/$practitioner_uuid",
-            "ifMatch": "1"
-        },
-        "resource": {
-            "resourceType": "Practitioner",
-            "id": "$practitioner_uuid",
-            "identifier": [
-                {
-                "use": "official",
-                "value": "$practitioner_uuid"
-                },
-                {
-                "use": "secondary",
-                "type" : {
-                    "coding": [
-                        {
-                            "system": "http://hl7.org/fhir/identifier-type",
-                            "code": "KUID",
-                            "display": "Keycloak user ID"
-                        }
-                    ],
-                    "text" : "Keycloak user ID"
-                },
-                "value": "$keycloak_user_uuid"
-                }
-            ],
-            "active": "$enable_user",
-            "name": [
-                {
-                "use": "official",
-                "family": "$lastName",
-                "given": [
-                    "$firstName",
-                    ""
-                ]
-                }
-            ],
-            "telecom": [
-                {
-                "system": "email",
-                "value": "$email"
-                }
-            ]
-        }
+  {
+    "request": {
+      "method": "PUT",
+      "url": "Practitioner/$practitioner_uuid",
+      "ifMatch": "1"
     },
-    {
-        "request": {
-            "method": "PUT",
-            "url": "Group/$group_uuid",
-            "ifMatch": "1"
+    "resource": {
+      "resourceType": "Practitioner",
+      "id": "$practitioner_uuid",
+      "identifier": [
+        {
+          "use": "official",
+          "value": "$practitioner_uuid"
         },
-        "resource": {
-            "resourceType": "Group",
-            "id": "$group_uuid",
-            "identifier": [
-                {
-                "use": "official",
-                "value": "$group_uuid"
-                },
-                {
-                "use": "secondary",
-                "value": "$keycloak_user_uuid"
-                }
+        {
+          "use": "secondary",
+          "type": {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/identifier-type",
+                "code": "KUID",
+                "display": "Keycloak user ID"
+              }
             ],
-            "active": "$enable_user",
-            "type": "practitioner",
-            "actual": true,
-            "name": "$firstName $lastName",
-            "member": [
-                {
-                "entity": {
-                    "reference": "Practitioner/$practitioner_uuid"
-                }
-                }
-            ]
+            "text": "Keycloak user ID"
+          },
+          "value": "$keycloak_user_uuid"
         }
-    },
-    {
-        "request": {
-            "method": "PUT",
-            "url": "PractitionerRole/$practitioner_role_uuid",
-            "ifMatch": "1"
-        },
-        "resource": {
-            "resourceType": "PractitionerRole",
-            "id": "$practitioner_role_uuid",
-            "identifier": [
-                {
-                "use": "official",
-                "value": "$practitioner_role_uuid"
-                },
-                {
-                "use": "secondary",
-                "value": "$keycloak_user_uuid"
-                }
-            ],
-            "active": "$enable_user",
-            "practitioner": {
-                "reference": "Practitioner/$practitioner_uuid",
-                "display": "$firstName $lastName"
-            },
-            "code": "$code"
+      ],
+      "active": "$enable_user",
+      "name": [
+        {
+          "use": "official",
+          "family": "$lastName",
+          "given": [
+            "$firstName",
+            ""
+          ]
         }
+      ],
+      "telecom": [
+        {
+          "system": "email",
+          "value": "$email"
+        }
+      ]
     }
+  },
+  {
+    "request": {
+      "method": "PUT",
+      "url": "Group/$group_uuid",
+      "ifMatch": "1"
+    },
+    "resource": {
+      "resourceType": "Group",
+      "id": "$group_uuid",
+      "identifier": [
+        {
+          "use": "official",
+          "value": "$group_uuid"
+        },
+        {
+          "use": "secondary",
+          "value": "$keycloak_user_uuid"
+        }
+      ],
+      "active": "$enable_user",
+      "type": "practitioner",
+      "actual": true,
+      "name": "$firstName $lastName",
+      "member": [
+        {
+          "entity": {
+            "reference": "Practitioner/$practitioner_uuid"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "request": {
+      "method": "PUT",
+      "url": "PractitionerRole/$practitioner_role_uuid",
+      "ifMatch": "1"
+    },
+    "resource": {
+      "resourceType": "PractitionerRole",
+      "id": "$practitioner_role_uuid",
+      "identifier": [
+        {
+          "use": "official",
+          "value": "$practitioner_role_uuid"
+        },
+        {
+          "use": "secondary",
+          "value": "$keycloak_user_uuid"
+        }
+      ],
+      "active": "$enable_user",
+      "practitioner": {
+        "reference": "Practitioner/$practitioner_uuid",
+        "display": "$firstName $lastName"
+      },
+      "code": "$code"
+    }
+  }
 ]
