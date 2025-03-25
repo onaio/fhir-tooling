@@ -1,4 +1,5 @@
 import logging
+import json
 
 from importer.config.settings import api_service
 
@@ -18,7 +19,7 @@ def post_request(request_type, payload, url, json_payload):
 
 def handle_request(request_type, payload, url, json_payload=None):
     try:
-        response = post_request(request_type, payload, url, json_payload)
+        response = post_request(request_type, payload.encode("utf-8"), url, json_payload)
         if response.status_code == 200 or response.status_code == 201:
             logging.info("[" + str(response.status_code) + "]" + ": SUCCESS!")
 

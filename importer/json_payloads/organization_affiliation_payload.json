@@ -1,8 +1,8 @@
 {
   "request": {
-      "method": "PUT",
-      "url": "OrganizationAffiliation/$unique_uuid",
-      "ifMatch" : "$version"
+    "method": "PUT",
+    "url": "OrganizationAffiliation/$unique_uuid",
+    "ifMatch": "$version"
   },
   "resource": {
     "resourceType": "OrganizationAffiliation",

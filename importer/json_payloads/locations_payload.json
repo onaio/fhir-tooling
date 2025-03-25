@@ -1,66 +1,69 @@
 {
-    "request": {
-        "method": "PUT",
-        "url": "Location/$unique_uuid",
-        "ifMatch" : "$version"
+  "request": {
+    "method": "PUT",
+    "url": "Location/$unique_uuid",
+    "ifMatch": "$version"
+  },
+  "resource": {
+    "resourceType": "Location",
+    "id": "$unique_uuid",
+    "status": "$status",
+    "name": "$name",
+    "identifier": [
+      {
+        "use": "official",
+        "value": "$unique_uuid"
+      }
+    ],
+    "partOf": {
+      "reference": "Location/$parentID",
+      "display": "$parentName"
     },
-    "resource": {
-        "resourceType": "Location",
-        "id": "$unique_uuid",
-        "status": "$status",
-        "name": "$name",
-        "identifier": [
-            {
-                "use": "official",
-                "value": "$unique_uuid"
-            }
+    "type": [
+      {
+        "coding": [
+          {
+            "system": "$t_system",
+            "code": "$t_code",
+            "display": "$t_display"
+          }
         ],
-        "partOf": {
-            "reference": "Location/$parentID",
-            "display": "$parentName"
-        },
-        "type": [
-            {
-                "coding": [
-                    {
-                        "system": "$t_system",
-                        "code": "$t_code",
-                        "display": "$t_display"
-                    }
-                ]
-            },
-            {
-                "coding": [
-                    {
-                        "system": "https://smartregister.org/codes/administrative-level",
-                        "code": "$adminLevelCode",
-                        "display": "Level $adminLevelCode"
-                    }
-                ]
-            },
-            {
-                "coding": [
-                    {
-                        "system": "http://terminology.hl7.org/CodeSystem/location-physical-type",
-                        "code": "$pt_code",
-                        "display": "$pt_display"
-                    }
-                ]
-            }
+        "text": "$t_display"
+      },
+      {
+        "coding": [
+          {
+            "system": "https://smartregister.org/codes/administrative-level",
+            "code": "$adminLevelCode",
+            "display": "Level $adminLevelCode"
+          }
         ],
-        "physicalType": {
-            "coding": [
-                {
-                    "system": "http://terminology.hl7.org/CodeSystem/location-physical-type",
-                    "code": "$pt_code",
-                    "display": "$pt_display"
-                }
-            ]
-        },
-        "position": {
-            "longitude": "$longitude",
-            "latitude": "$latitude"
+        "text": "Level $adminLevelCode"
+      },
+      {
+        "coding": [
+          {
+            "system": "http://terminology.hl7.org/CodeSystem/location-physical-type",
+            "code": "$pt_code",
+            "display": "$pt_display"
+          }
+        ],
+        "text": "$pt_display"
+      }
+    ],
+    "physicalType": {
+      "coding": [
+        {
+          "system": "http://terminology.hl7.org/CodeSystem/location-physical-type",
+          "code": "$pt_code",
+          "display": "$pt_display"
         }
+      ],
+      "text": "$pt_display"
+    },
+    "position": {
+      "longitude": "$longitude",
+      "latitude": "$latitude"
     }
+  }
 }
-
