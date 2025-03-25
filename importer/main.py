@@ -286,7 +286,7 @@ def main(
                     "Supply Chain commodities",
                 )
                 final_response = handle_request("POST", "", fhir_base_url, list_payload)
-                logging.info(final_response)
+                logging.info(final_response.text)
                 logging.info("Processing complete!")
         else:
             message = "Unsupported request!"

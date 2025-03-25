@@ -10,7 +10,7 @@ def post_request(request_type, payload, url, json_payload):
     logging.info("Posting request")
     logging.info("Request type: " + request_type)
     logging.info("Url: " + url)
-    logging.debug("Payload: " + json.dumps(payload, ensure_ascii=False))
+    logging.debug("Payload: " + payload)
 
     return api_service.request(
         method=request_type, url=url, data=payload, json=json_payload
