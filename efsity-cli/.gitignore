@@ -11,3 +11,4 @@ bin
 target
 
 generatedResources
+local.properties

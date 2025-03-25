@@ -23,6 +23,7 @@ import picocli.CommandLine.Command;
       ValidateFileStructureCommand.class,
       PublishFhirResourcesCommand.class,
       ValidateStructureMapCommand.class,
+      UpdateLocationLineageCommand.class,
     })
 public class Main implements Runnable {
   public static void main(String[] args) {

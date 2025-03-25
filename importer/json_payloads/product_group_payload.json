@@ -12,7 +12,7 @@
         "type":{
           "coding": {
             "system" : "http://smartregister.org/codes",
-            "code"   : "MATNUM"             ,
+            "code"   : "MATNUM",
             "display": "Material Number"
           }
         },
