@@ -44,7 +44,7 @@ def create_user(user):
     obj["email"] = email
     obj["attributes"]["fhir_core_app_id"][0] = appId
 
-    final_string = json.dumps(obj)
+    final_string = json.dumps(obj, ensure_ascii=False)
     logging.info("Creating user: " + username)
     _keycloak_url = get_keycloak_url()
     r = handle_request("POST", final_string, _keycloak_url + "/users")
@@ -154,7 +154,7 @@ def create_user_resources(user_id, user):
         }
     else:
         del obj[2]["resource"]["code"]
-    ff = json.dumps(obj, indent=4)
+    ff = json.dumps(obj, indent=2, ensure_ascii=False)
 
     payload = initial_string + ff + "}"
     return payload
@@ -318,7 +318,7 @@ def create_roles(role_list):
                         logging.info("Role " + arole + " exists")
 
 
-                payload_arr = json.dumps(arr)
+                payload_arr = json.dumps(arr, ensure_ascii=False)
                 logging.info("Payload array: " + payload_arr)
                 handle_request(
                     "POST",
@@ -378,7 +378,7 @@ def assign_group_roles(role_list, group, roles_max):
         if r[0] in role_obj.keys():
             assign_payload.append(role_obj[r[0]])
 
-    json_assign_payload = json.dumps(assign_payload)
+    json_assign_payload = json.dumps(assign_payload, ensure_ascii=False)
     handle_request(
         "POST",
         json_assign_payload,

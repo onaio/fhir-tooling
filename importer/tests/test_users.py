@@ -203,7 +203,7 @@ class TestUsers(unittest.TestCase):
             "type": "searchset",
             "total": 1,
         }
-        string_response = json.dumps(mocked_response_data)
+        string_response = json.dumps(mocked_response_data, ensure_ascii=False)
         mock_response = (string_response, 200)
         mock_handle_request.return_value = mock_response
         practitioner_exists = confirm_practitioner(
@@ -240,7 +240,7 @@ class TestUsers(unittest.TestCase):
                 {"use": "secondary", "value": "6cd50351-3ddb-4296-b1db-aac2273e35f3"},
             ],
         }
-        string_response = json.dumps(mocked_response_data)
+        string_response = json.dumps(mocked_response_data, ensure_ascii=False)
         mock_response = (string_response, 200)
         mock_handle_request.return_value = mock_response
         practitioner_exists = confirm_practitioner(
