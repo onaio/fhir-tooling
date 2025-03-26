@@ -1,0 +1,5 @@
+event_id,event_date,id,entitytype,locationid,locationname,productid,productname,product_flag_problem,product_not_there,product_not_good,product_not_good_specify_other,product_not_there_specify_other,product_misuse,product_issue_details,product_service_point_good_order,product_service_point_not_good_order_reason,product_consult_beneficiaries_flag,product_consult_beneficiaries_issues_raised,product_required_action,product_required_action_yes
+100,2022-11-06 21:00:00,5f513cfd-90fa-40a9-8d84-63eed687063d,service_point,661604af-d9f9-4be2-a500-4d127c4bfbed,Nakuru,,,,,,,,,,"[""no""]","[""Lack of infrastructure""]",,,,
+101,2023-05-17 21:00:00,b0038380-7800-4771-b8e3-b97c413f8177,service_point,66cb98a3-6f0b-439d-95c1-7f562996f070,Isiolo,,,,,,,,,,,,"[""yes""]","[""Infrequent power""]",,
+102,2024-10-11 21:00:00,f9a1bd74-23e8-433b-84b3-bbec68f70036,service_point,f0b8cfc6-eea7-4a54-8eec-057a14a4cc95,Kisumu,,,,,,,,,,,,,,"[""yes""]","[""Cleaning""]"
+103,2024-10-13 21:00:00,128053da-639f-40ab-becc-374713fe60e2,product,1523b35a-1a23-4fc9-af8f-6fb5905236de,Malindi,46d7c50b-bfee-4715-a61b-141eb80a4a9d,Wheelbarrow,"[""Product is not there""]","[""never_received""]",,,,,,,,,,,
