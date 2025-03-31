@@ -40,6 +40,7 @@ dir_path = str(pathlib.Path(__file__).parent.resolve())
 @click.option("--chunk_size", required=False, default=1000000)
 @click.option("--resources_count", required=False, default=100)
 @click.option("--list_resource_id", required=False)
+@click.option("--link_list_resources", required=False, default=True)
 @click.option(
     "--log_level", type=click.Choice(["DEBUG", "INFO", "ERROR"], case_sensitive=False)
 )
@@ -74,6 +75,7 @@ def main(
     chunk_size,
     resources_count,
     list_resource_id,
+    link_list_resources,
     sync,
     location_type_coding_system,
 ):
@@ -241,10 +243,13 @@ def main(
             json_payload = build_payload(
                 "Group", resource_list, json_path + "inventory_group_payload.json"
             )
+
+            logging.info(json_payload)
             inventory_creation_response = handle_request(
                 "POST", json_payload, fhir_base_url
             )
             groups_created = []
+            logging.info(inventory_creation_response)
             if inventory_creation_response.status_code == 200:
                 groups_created = extract_resources(
                     groups_created, inventory_creation_response.text
@@ -263,7 +268,7 @@ def main(
             lists_created = []
             link_payload = link_to_location(resource_list)
             if len(link_payload) > 0:
-                link_response = handle_request("POST", link_payload, fhir_base_url)
+                link_response = handle_request("POST", link_payload, fhir_base_url, None, True)
                 if link_response.status_code == 200 or link_response.status_code == 201:
                     lists_created = extract_resources(lists_created, link_response.text)
                 else:
@@ -278,16 +283,17 @@ def main(
 
             full_list_created_resources = groups_created + lists_created
             logging.info("FULL LIST: " + str(full_list_created_resources))
-            if len(full_list_created_resources) > 0:
-                list_payload = build_group_list_resource(
-                    list_resource_id,
-                    csv_file,
-                    full_list_created_resources,
-                    "Supply Chain commodities",
-                )
-                final_response = handle_request("POST", "", fhir_base_url, list_payload)
-                logging.info(final_response.text)
-                logging.info("Processing complete!")
+            if link_list_resources:
+                if len(full_list_created_resources) > 0:
+                    list_payload = build_group_list_resource(
+                        list_resource_id,
+                        csv_file,
+                        full_list_created_resources,
+                        "Supply Chain commodities",
+                    )
+                    final_response = handle_request("POST", "", fhir_base_url, list_payload)
+                    logging.info(final_response.text)
+                    logging.info("Processing complete!")
         else:
             message = "Unsupported request!"
             fail_all = True
