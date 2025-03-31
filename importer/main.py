@@ -244,7 +244,7 @@ def main(
                 "Group", resource_list, json_path + "inventory_group_payload.json"
             )
 
-            logging.info(json_payload)
+            logging.debug(json_payload)
             inventory_creation_response = handle_request(
                 "POST", json_payload, fhir_base_url
             )
