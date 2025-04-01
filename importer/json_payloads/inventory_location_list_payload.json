@@ -1,6 +1,20 @@
 {
   "resourceType": "List",
   "id": "$id",
+  "meta": {
+    "tag": [
+      {
+        "system": "https://smartregister.org/related-entity-location-tag-id",
+        "code": "$location_id",
+        "display": "Related Entity Location"
+      },
+      {
+        "system": "https://smartregister.org/location-tag-id",
+        "code": "$location_id",
+        "display": "Practitioner Location"
+      }
+    ]
+  },
   "status": "current",
   "title": "$title",
   "code": {

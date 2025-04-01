@@ -174,7 +174,7 @@ The coverage report `coverage.html` will be at the working directory
 - Adding a value to the Location column will create a separate List resource (or update) that links the inventory to the provided location resource
 - A separate List resource with references to all the Group and List resources generated is also created
 - You can pass in a `list_resource_id` to be used as the identifier for the (reference) List resource, or you can leave it empty and a random uuid will be generated
-
+- You can set `link_list_resources` to `False` to prevent linking the Group and Linkage List resources to the List resource defined on the `list_resource_id`. This is particularly useful when using the `Location` or `RelatedEntityLocation` sync strategies, where such linking is handled separately.
 ### 12. Import JSON resources from file
 - Run `python3 main.py --bulk_import True --json_file tests/json/sample.json --chunk_size 500000 --sync sort --resources_count 100 --log_level info`
 - This takes in a file with a JSON array, reads the resources from the array in the file and posts them to the FHIR server

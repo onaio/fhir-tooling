@@ -452,6 +452,8 @@ def group_extras(resource, payload_string, group_type, created_resources):
         "inventory_quantity_index": 0,
         "inventory_unicef_section_index": 1,
         "inventory_donor_index": 2,
+        "inventory_rel_location_index": 0,
+        "inventory_location_index": 1
     }
 
     if group_type == "product":
@@ -652,11 +654,23 @@ def group_extras(resource, payload_string, group_type, created_resources):
             del_indexes.append(GROUP_INDEX_MAPPING["inventory_unicef_section_index"])
 
         if donor:
-            payload_obj["resource"]["characteristic"][2]["valueCodeableConcept"][
-                "text"
-            ] = donor
+            payload_obj["resource"]["characteristic"][
+                GROUP_INDEX_MAPPING["inventory_donor_index"]
+            ]["valueCodeableConcept"]["text"] = donor
         else:
             del_indexes.append(GROUP_INDEX_MAPPING["inventory_donor_index"])
+
+        if location:
+            payload_obj["resource"]["meta"]["tag"][GROUP_INDEX_MAPPING["inventory_rel_location_index"]
+            ]["code"] = location
+        else:
+            del_indexes.append(GROUP_INDEX_MAPPING["inventory_rel_location_index"])
+
+        if location:
+            payload_obj["resource"]["meta"]["tag"][GROUP_INDEX_MAPPING["inventory_location_index"]
+            ]["code"] = location
+        else:
+            del_indexes.append(GROUP_INDEX_MAPPING["inventory_location_index"])
 
     else:
         logging.info("Group type not defined")
@@ -875,13 +889,12 @@ def update_practitioner_role(resource, organization_id, organization_name):
     return resource
 
 
-def update_list(resource, inventory_id, supply_date):
+def update_list(resource,location_id, inventory_id, supply_date):
     with open(json_path + "inventory_location_list_payload.json") as json_file:
         payload_string = json_file.read()
 
         payload_string = payload_string.replace("$supply_date", supply_date).replace(
-            "$inventory_id", inventory_id
-        )
+            "$inventory_id", inventory_id).replace("$location_id", location_id)
         json_payload = json.loads(payload_string)
 
         try:
@@ -893,6 +906,15 @@ def update_list(resource, inventory_id, supply_date):
         except KeyError:
             entry = {"entry": json_payload["entry"]}
             resource.update(entry)
+
+        try:
+            if location_id not in str(entries):
+                meta = json_payload["meta"]
+                resource["meta"].update(meta)
+
+        except KeyError:
+            meta = {"meta": json_payload["meta"]}
+            resource.update(meta)
     return resource
 
 
@@ -958,12 +980,11 @@ def build_assign_payload(rows, resource_type, url_filter):
                     resource, item_id, organization_name
                 )
             if resource_type == "List":
-                resource = update_list(resource, item_id, supply_date)
+                resource = update_list(resource, subject_id, item_id, supply_date)
 
             if "meta" in resource:
                 version = resource["meta"]["versionId"]
                 resource_id = resource["id"]
-                del resource["meta"]
 
         elif json_response["total"] == 0:
             logging.info("Creating a new resource")

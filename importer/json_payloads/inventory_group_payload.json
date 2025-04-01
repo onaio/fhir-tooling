@@ -7,6 +7,20 @@
   "resource": {
     "resourceType": "Group",
     "id": "$unique_uuid",
+    "meta": {
+      "tag": [
+        {
+          "system": "https://smartregister.org/related-entity-location-tag-id",
+          "code": "$location",
+          "display": "Related Entity Location"
+        },
+        {
+          "system": "https://smartregister.org/location-tag-id",
+          "code": "$location",
+          "display": "Practitioner Location"
+        }
+      ]
+    },
     "identifier": [
       {
         "type": {
