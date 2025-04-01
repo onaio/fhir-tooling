@@ -96,7 +96,6 @@ class FhirKeycloakApi:
         backoff.expo, requests.exceptions.RequestException, max_time=180
     )
     def request(self, **kwargs):
-        # TODO - spread headers into kwargs.
         response = self.api_service.oauth.request(**kwargs)
         if response.status_code == 401 or '<html class="login-pf">' in response.text:
             self.api_service.refresh_token()
