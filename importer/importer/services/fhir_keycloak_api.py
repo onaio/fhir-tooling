@@ -100,7 +100,7 @@ class FhirKeycloakApi:
         response = self.api_service.oauth.request(**kwargs)
         if response.status_code == 401 or '<html class="login-pf">' in response.text:
             self.api_service.refresh_token()
-            return self.api_service.oauth.request( **kwargs)
+            return self.api_service.oauth.request(**kwargs)
         return response
 
 
