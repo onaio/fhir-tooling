@@ -244,7 +244,7 @@ def main(
                 "Group", resource_list, json_path + "inventory_group_payload.json"
             )
 
-            logging.info(json_payload)
+            logging.debug(json_payload)
             inventory_creation_response = handle_request(
                 "POST", json_payload, fhir_base_url
             )
@@ -277,7 +277,7 @@ def main(
             lists_created = []
             link_payload = link_to_location(resource_list)
             if len(link_payload) > 0:
-                link_response = handle_request("POST", link_payload, fhir_base_url, None, True)
+                link_response = handle_request("POST", link_payload, fhir_base_url, is_update_list=True)
                 if link_response.status_code == 200 or link_response.status_code == 201:
                     lists_created = extract_resources(lists_created, link_response.text)
                 else:
