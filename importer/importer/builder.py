@@ -1326,9 +1326,8 @@ def build_resources(
         "", subject, value_string, note,
     )
 
-    resources = encounter + "," + flag + "," + observation + ","
-    return resources
-
+    resources = [encounter, flag, observation]
+    return ",".join(resources)
 
 def check_location(location_id, locations_list):
     if location_id in locations_list:
