@@ -45,6 +45,7 @@ dir_path = str(pathlib.Path(__file__).parent.resolve())
 @click.option("--encounter_id", required=False)
 @click.option("--practitioner_id", required=False)
 @click.option("--visit_location_id", required=False)
+@click.option("--link_list_resources", required=False, default=True)
 @click.option(
     "--log_level", type=click.Choice(["DEBUG", "INFO", "ERROR"], case_sensitive=False)
 )
@@ -60,30 +61,31 @@ dir_path = str(pathlib.Path(__file__).parent.resolve())
     default="http://terminology.hl7.org/CodeSystem/location-type",
 )
 def main(
-    csv_file,
-    json_file,
-    resource_type,
-    assign,
-    setup,
-    group,
-    roles_max,
-    default_groups,
-    cascade_delete,
-    report_response,
-    log_level,
-    export_resources,
-    parameter,
-    value,
-    limit,
-    bulk_import,
-    chunk_size,
-    resources_count,
-    list_resource_id,
-    encounter_id,
-    practitioner_id,
-    visit_location_id,
-    sync,
-    location_type_coding_system,
+        csv_file,
+        json_file,
+        resource_type,
+        assign,
+        setup,
+        group,
+        roles_max,
+        default_groups,
+        cascade_delete,
+        report_response,
+        log_level,
+        export_resources,
+        parameter,
+        value,
+        limit,
+        bulk_import,
+        chunk_size,
+        resources_count,
+        list_resource_id,
+        encounter_id,
+        practitioner_id,
+        visit_location_id,
+        link_list_resources,
+        sync,
+        location_type_coding_system,
 ):
     if log_level == "DEBUG":
         logging.basicConfig(
@@ -132,7 +134,7 @@ def main(
         if resource_type == "users":
             logging.info("Processing users")
             with click.progressbar(
-                resource_list, label="Progress:Processing users "
+                    resource_list, label="Progress:Processing users "
             ) as process_user_progress:
                 for user in process_user_progress:
                     user_id, create_issue = create_user(user)
@@ -170,6 +172,7 @@ def main(
                 location_type_coding_system,
             )
             final_response = handle_request("POST", json_payload, fhir_base_url)
+            logging.info(final_response.text)
             logging.info("Processing complete!")
         elif resource_type == "organizations":
             logging.info("Processing organizations")
@@ -248,10 +251,13 @@ def main(
             json_payload = build_payload(
                 "Group", resource_list, json_path + "inventory_group_payload.json"
             )
+
+            logging.debug(json_payload)
             inventory_creation_response = handle_request(
                 "POST", json_payload, fhir_base_url
             )
             groups_created = []
+            logging.info(inventory_creation_response)
             if inventory_creation_response.status_code == 200:
                 groups_created = extract_resources(
                     groups_created, inventory_creation_response.text
@@ -259,18 +265,27 @@ def main(
             else:
                 fail_count = fail_count + 1
                 fail_all = True
-                json_response = json.loads(inventory_creation_response.text)
-                for _ in json_response["issue"]:
-                    del _["code"]
-                    issues.append(_)
-                logging.error(json_response)
-            logging.info(inventory_creation_response.text)
-            logging.info("GROUPS: " + str(groups_created))
+                if inventory_creation_response.text:
+                    try:
+                        json_response = json.loads(inventory_creation_response.text)
+                        for _ in json_response.get("issue", []):
+                            _ = {k: v for k, v in _.items() if k != "code"}  # safer way to remove key
+                            issues.append(_)
+                        logging.error(json_response)
+                    except json.JSONDecodeError as e:
+                        logging.error(f"Failed to decode JSON from inventory response: {e}")
+                        logging.error(f"Raw response: {inventory_creation_response.text}")
+                        issues.append({"error": "Invalid JSON response from inventory creation"})
+                else:
+                    logging.error("Empty response from inventory creation request.")
+                    issues.append({"error": "Empty response from inventory creation"})
+                logging.info(inventory_creation_response.text)
+                logging.info("GROUPS: " + str(groups_created))
 
             lists_created = []
             link_payload = link_to_location(resource_list)
             if len(link_payload) > 0:
-                link_response = handle_request("POST", link_payload, fhir_base_url)
+                link_response = handle_request("POST", link_payload, fhir_base_url, is_update_list=True)
                 if link_response.status_code == 200 or link_response.status_code == 201:
                     lists_created = extract_resources(lists_created, link_response.text)
                 else:
@@ -285,16 +300,23 @@ def main(
 
             full_list_created_resources = groups_created + lists_created
             logging.info("FULL LIST: " + str(full_list_created_resources))
-            if len(full_list_created_resources) > 0:
-                list_payload = build_group_list_resource(
-                    list_resource_id,
-                    csv_file,
-                    full_list_created_resources,
-                    "Supply Chain commodities",
-                )
-                final_response = handle_request("POST", "", fhir_base_url, list_payload)
-                logging.info(final_response.text)
-                logging.info("Processing complete!")
+
+            if link_list_resources:
+                if len(full_list_created_resources) > 0:
+                    list_payload = build_group_list_resource(
+                        list_resource_id,
+                        csv_file,
+                        full_list_created_resources,
+                        "Supply Chain commodities",
+                    )
+                    final_response = handle_request("POST", "", fhir_base_url, list_payload)
+                    logging.info(final_response.text)
+                    logging.info("Processing complete!")
+            else:
+                message = "Unsupported request!"
+                fail_all = True
+                issues.append({"Error": message})
+                logging.error("Unsupported request!")
         elif setup == "flags":
             logging.info("Importing flags from OpenSRP1")
             visit_encounter_exists = get_resource(encounter_id, "Encounter")
@@ -328,11 +350,6 @@ def main(
                 final_response = handle_request("POST", json_payload, fhir_base_url)
                 logging.info(final_response.text)
             logging.info("Processing complete!")
-        else:
-            message = "Unsupported request!"
-            fail_all = True
-            issues.append({"Error": message})
-            logging.error("Unsupported request!")
     else:
         logging.error("Empty csv file!")
 

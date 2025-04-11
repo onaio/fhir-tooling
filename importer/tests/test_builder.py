@@ -250,7 +250,7 @@ class TestBuilder(unittest.TestCase):
                 }
             ],
         }
-        string_mocked_response_text = json.dumps(mocked_response_text)
+        string_mocked_response_text = json.dumps(mocked_response_text, ensure_ascii=False)
         mock_handle_request.return_value = (string_mocked_response_text, 200)
         location_parent_id = "18fcbc2e-4240-4a84-a270-7a444523d7b6"
         admin_level = check_parent_admin_level(location_parent_id)
@@ -645,7 +645,7 @@ class TestBuilder(unittest.TestCase):
                 }
             ],
         }
-        string_response = json.dumps(mock_response_data)
+        string_response = json.dumps(mock_response_data, ensure_ascii=False)
         mock_response = (string_response, 200)
         mock_handle_request.return_value = mock_response
 
@@ -705,7 +705,7 @@ class TestBuilder(unittest.TestCase):
                 }
             ],
         }
-        string_response = json.dumps(mock_response_data)
+        string_response = json.dumps(mock_response_data, ensure_ascii=False)
         mock_response = (string_response, 200)
         mock_handle_request.return_value = mock_response
 
@@ -745,7 +745,7 @@ class TestBuilder(unittest.TestCase):
     ):
         mock_get_base_url.return_value = "https://example.smartregister.org/fhir"
         mock_response_data = {"resourceType": "Bundle", "total": 0}
-        string_response = json.dumps(mock_response_data)
+        string_response = json.dumps(mock_response_data, ensure_ascii=False)
         mock_response = (string_response, 200)
         mock_handle_request.return_value = mock_response
 
@@ -788,7 +788,7 @@ class TestBuilder(unittest.TestCase):
     ):
         mock_get_base_url.return_value = "https://example.smartregister.org/fhir"
         mock_response_data = {"resourceType": "Bundle", "total": 0}
-        string_response = json.dumps(mock_response_data)
+        string_response = json.dumps(mock_response_data, ensure_ascii=False)
         mock_response = (string_response, 200)
         mock_handle_request.return_value = mock_response
 
@@ -852,7 +852,7 @@ class TestBuilder(unittest.TestCase):
                 }
             ],
         }
-        string_response = json.dumps(mock_response_data)
+        string_response = json.dumps(mock_response_data, ensure_ascii=False)
         mock_response = (string_response, 200)
         mock_handle_request.return_value = mock_response
 
@@ -888,7 +888,7 @@ class TestBuilder(unittest.TestCase):
     ):
         mock_get_base_url.return_value = "https://example.smartregister.org/fhir"
         mock_response_data = {"resourceType": "Bundle", "total": 0}
-        string_response = json.dumps(mock_response_data)
+        string_response = json.dumps(mock_response_data, ensure_ascii=False)
         mock_response = (string_response, 200)
         mock_handle_request.return_value = mock_response
 
@@ -1007,7 +1007,7 @@ class TestBuilder(unittest.TestCase):
                 },
             ],
         }
-        string_response = json.dumps(mock_response_data)
+        string_response = json.dumps(mock_response_data, ensure_ascii=False)
         mock_response = (string_response, 200)
         mock_handle_request.return_value = mock_response
 
@@ -1066,7 +1066,7 @@ class TestBuilder(unittest.TestCase):
                 },
             ],
         }
-        string_response = json.dumps(mock_response_data)
+        string_response = json.dumps(mock_response_data, ensure_ascii=False)
         mock_response = (string_response, 200)
         mock_handle_request.return_value = mock_response
 

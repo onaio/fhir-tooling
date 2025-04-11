@@ -7,6 +7,20 @@
   "resource": {
     "resourceType": "Group",
     "id": "$unique_uuid",
+    "meta": {
+      "tag": [
+        {
+          "system": "https://smartregister.org/related-entity-location-tag-id",
+          "code": "$location",
+          "display": "Related Entity Location"
+        },
+        {
+          "system": "https://smartregister.org/location-tag-id",
+          "code": "$location",
+          "display": "Practitioner Location"
+        }
+      ]
+    },
     "identifier": [
       {
         "type": {
@@ -95,8 +109,8 @@
           "coding": [
             {
               "system": "http://smartregister.org/codes",
-              "code": "98734231-1",
-              "display": "Value entered on the unicef section"
+              "code": "$unicef_section",
+              "display": "$unicef_section"
             }
           ],
           "text": "$unicef_section"
@@ -116,8 +130,8 @@
           "coding": [
             {
               "system": "http://smartregister.org/codes",
-              "code": "45981276-1",
-              "display": "Value entered on the donor"
+              "code": "$donor",
+              "display": "$donor"
             }
           ],
           "text": "$donor"

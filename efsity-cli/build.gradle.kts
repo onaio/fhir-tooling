@@ -13,12 +13,13 @@ repositories {
   mavenLocal()
   mavenCentral()
   google()
+  maven { url = uri("https://oss.sonatype.org/content/repositories/snapshots/") }
   maven { setUrl("https://jitpack.io") }
 }
 
 group = "org.smartregister"
 
-version = "2.3.13-SNAPSHOT"
+version = "2.3.14-SNAPSHOT"
 
 description = "fhircore-tooling (efsity)"
 
@@ -86,6 +87,7 @@ dependencies {
   implementation(deps.javafaker) { exclude(group = "org.yaml") }
   implementation(deps.snakeyaml)
   implementation("ca.uhn.hapi.fhir:hapi-fhir-validation:6.8.0")
+  implementation("org.smartregister:fhir-common-utils:1.0.3-SNAPSHOT")
 
   testImplementation(kotlin("test"))
   testImplementation("junit:junit:4.13.2")

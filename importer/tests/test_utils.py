@@ -74,7 +74,7 @@ class TestUtils(unittest.TestCase):
                 }
             ]
         }
-        string_response = json.dumps(mock_response_data)
+        string_response = json.dumps(mock_response_data, ensure_ascii=False)
         mock_response = (string_response, 200)
         mock_handle_request.return_value = mock_response
         test_data = [

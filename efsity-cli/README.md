@@ -265,6 +265,49 @@ $ fct translate -m merge -rf ~/Workspace/fhir-resources/<project>/<environment>/
 -l or --locale (Optional if it can be derived from the properties file). The translation locale
 ```
 
+### Update Location Lineage Tags
+To update locations lineage tags run the command:
+
+```console
+$ fct updateLocationLineage -e /path/to/env.properties -ids /path/to/location_ids.txt -bu https://base_url.org/fhir
+```
+
+**Options**
+```
+ -ids or --location-ids : Path to the file containing the location ids
+-bu or --fhir-base-url : The base url of the FHIR server to post resources to
+-at or --access-token : Access token to grant access to the FHIR server
+-ci or --client-id : The client identifier for authentication
+-cs or --client-secret :The client secret for authentication
+ -u or --username : The username for authentication
+ -p or --password : The password for authentication
+-au or --accessToken-url : The endpoint for the authentication server
+ -g or --grant-type : The authorization code grant type
+ -e or --env : A properties file that contains the neessary variables
+```
+You can either pass your variables on the CLI or include them in the properties file. Variables passed on CLI
+take precedence over anything in the properties file.
+
+You can either pass the actual accessToken as a variable or pass in the client credentials which will be used
+to get an accessToken from the accessToken url provided
+
+You must pass the path to your location ids file. The file contents should be in the format below:
+```commandline
+loc-1-id
+loc-2-id
+loc-3-id
+```
+The format of the env.properties file should be as below:
+```commandline
+fhirBaseUrl=<fhir_base_url>
+accessToken=<access_token>
+clientId=<client_id>
+clientSecret=<client_secret>
+username=<username>
+password=<password>
+accessTokenUrl=<access_toke_url>
+grantType=<grant_type>
+```
 ## Development
 ### Set up
 This is a Java + Kotlin gradle project. You can import it in you JetBrains IntelliJ IDE as such. The utility is built on the very awesome `Picocli` library found here https://picocli.info/.

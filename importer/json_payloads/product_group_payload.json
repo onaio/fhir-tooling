@@ -2,17 +2,17 @@
   "request": {
     "method": "PUT",
     "url": "Group/$unique_uuid",
-    "ifMatch" : "$version"
+    "ifMatch": "$version"
   },
   "resource": {
     "resourceType": "Group",
     "id": "$unique_uuid",
     "identifier": [
       {
-        "type":{
+        "type": {
           "coding": {
-            "system" : "http://smartregister.org/codes",
-            "code"   : "MATNUM"             ,
+            "system": "http://smartregister.org/codes",
+            "code": "MATNUM",
             "display": "Material Number"
           }
         },

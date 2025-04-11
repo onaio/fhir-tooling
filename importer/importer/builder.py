@@ -110,6 +110,7 @@ def location_extras(resource, payload_string, location_coding_system):
         location_physical_type = "physicalType"
         location_physical_type_code = "physicalTypeCode"
         longitude = "longitude"
+        latitude = "latitude"
 
     try:
         if location_parent_id and location_parent_id != "parentId":
@@ -117,7 +118,7 @@ def location_extras(resource, payload_string, location_coding_system):
             if not location_parent_name or location_parent_name == "parentName":
                 obj = json.loads(payload_string)
                 del obj["resource"]["partOf"]["display"]
-                payload_string = json.dumps(obj, indent=4)
+                payload_string = json.dumps(obj, indent=2, ensure_ascii=False)
             else:
                 payload_string = payload_string.replace(
                     "$parentName", location_parent_name
@@ -125,16 +126,16 @@ def location_extras(resource, payload_string, location_coding_system):
         else:
             obj = json.loads(payload_string)
             del obj["resource"]["partOf"]
-            payload_string = json.dumps(obj, indent=4)
+            payload_string = json.dumps(obj, indent=2, ensure_ascii=False)
     except IndexError:
         obj = json.loads(payload_string)
         del obj["resource"]["partOf"]
-        payload_string = json.dumps(obj, indent=4)
+        payload_string = json.dumps(obj, indent=2, ensure_ascii=False)
 
     try:
         payload_string = payload_string.replace("$t_system", location_coding_system)
         if location_type and location_type != "type":
-            payload_string = payload_string.replace("$t_display", location_type)
+            payload_string = payload_string.replace("$t_display", escape_quotes(location_type))
         if location_type_code and location_type_code != "typeCode":
             payload_string = payload_string.replace("$t_code", location_type_code)
         else:
@@ -144,7 +145,7 @@ def location_extras(resource, payload_string, location_coding_system):
             index = identify_coding_object_index(payload_type, current_system)
             if index >= 0:
                 del obj["resource"]["type"][index]
-                payload_string = json.dumps(obj, indent=4)
+                payload_string = json.dumps(obj, indent=2, ensure_ascii=False)
     except IndexError:
         obj = json.loads(payload_string)
         payload_type = obj["resource"]["type"]
@@ -152,7 +153,7 @@ def location_extras(resource, payload_string, location_coding_system):
         index = identify_coding_object_index(payload_type, current_system)
         if index >= 0:
             del obj["resource"]["type"][index]
-            payload_string = json.dumps(obj, indent=4)
+            payload_string = json.dumps(obj, indent=2, ensure_ascii=False)
 
     try:
         if location_admin_level and location_admin_level != "adminLevel":
@@ -172,14 +173,14 @@ def location_extras(resource, payload_string, location_coding_system):
                     current_system = "administrative-level"
                     index = identify_coding_object_index(obj_type, current_system)
                     del obj["resource"]["type"][index]
-                    payload_string = json.dumps(obj, indent=4)
+                    payload_string = json.dumps(obj, indent=2, ensure_ascii=False)
             else:
                 obj = json.loads(payload_string)
                 obj_type = obj["resource"]["type"]
                 current_system = "administrative-level"
                 index = identify_coding_object_index(obj_type, current_system)
                 del obj["resource"]["type"][index]
-                payload_string = json.dumps(obj, indent=4)
+                payload_string = json.dumps(obj, indent=2, ensure_ascii=False)
     except IndexError:
         if location_admin_level in resource:
             admin_level = check_parent_admin_level(location_parent_id)
@@ -191,14 +192,14 @@ def location_extras(resource, payload_string, location_coding_system):
                 current_system = "administrative-level"
                 index = identify_coding_object_index(obj_type, current_system)
                 del obj["resource"]["type"][index]
-                payload_string = json.dumps(obj, indent=4)
+                payload_string = json.dumps(obj, indent=2, ensure_ascii=False)
         else:
             obj = json.loads(payload_string)
             obj_type = obj["resource"]["type"]
             current_system = "administrative-level"
             index = identify_coding_object_index(obj_type, current_system)
             del obj["resource"]["type"][index]
-            payload_string = json.dumps(obj, indent=4)
+            payload_string = json.dumps(obj, indent=2, ensure_ascii=False)
 
     try:
         if location_physical_type and location_physical_type != "physicalType":
@@ -221,7 +222,7 @@ def location_extras(resource, payload_string, location_coding_system):
             index = identify_coding_object_index(payload_type, current_system)
             if index >= 0:
                 del obj["resource"]["type"][index]
-            payload_string = json.dumps(obj, indent=4)
+            payload_string = json.dumps(obj, indent=2, ensure_ascii=False)
     except IndexError:
         obj = json.loads(payload_string)
         del obj["resource"]["physicalType"]
@@ -230,30 +231,30 @@ def location_extras(resource, payload_string, location_coding_system):
         index = identify_coding_object_index(payload_type, current_system)
         if index >= 0:
             del obj["resource"]["type"][index]
-        payload_string = json.dumps(obj, indent=4)
+        payload_string = json.dumps(obj, indent=2, ensure_ascii=False)
 
     # check if type is empty
     obj = json.loads(payload_string)
     _type = obj["resource"]["type"]
     if not _type:
         del obj["resource"]["type"]
-        payload_string = json.dumps(obj, indent=4)
+        payload_string = json.dumps(obj, indent=2, ensure_ascii=False)
 
     try:
-        if longitude and longitude != "longitude":
+        if longitude and longitude != "longitude" and latitude and latitude != "latitude":
             payload_string = payload_string.replace('"$longitude"', longitude).replace(
                 '"$latitude"', latitude
             )
         else:
             obj = json.loads(payload_string)
             del obj["resource"]["position"]
-            payload_string = json.dumps(obj, indent=4)
+            payload_string = json.dumps(obj, indent=2, ensure_ascii=False)
     except IndexError:
         obj = json.loads(payload_string)
         del obj["resource"]["position"]
-        payload_string = json.dumps(obj, indent=4)
+        payload_string = json.dumps(obj, indent=2, ensure_ascii=False)
 
-    return payload_string
+    return trim_json_strings(payload_string)
 
 
 # custom extras for careTeams
@@ -309,7 +310,7 @@ def care_team_extras(resource, payload_string, f_type):
             obj = json.loads(payload_string)
             obj["resource"]["participant"] = participant_list
             obj["resource"]["managingOrganization"] = orgs_list
-            payload_string = json.dumps(obj)
+            payload_string = json.dumps(obj, ensure_ascii=False)
 
     if "users" in f_type:
         if len(elements2) > 0:
@@ -324,7 +325,7 @@ def care_team_extras(resource, payload_string, f_type):
         if len(participant_list) > 0:
             obj = json.loads(payload_string)
             obj["resource"]["participant"] = participant_list
-            payload_string = json.dumps(obj)
+            payload_string = json.dumps(obj, ensure_ascii=False)
 
     return payload_string
 
@@ -377,7 +378,7 @@ def save_image(image_source_url):
                 }
             ],
         }
-        payload_string = json.dumps(payload, indent=4)
+        payload_string = json.dumps(payload, indent=2, ensure_ascii=False)
         response = handle_request("POST", payload_string, get_base_url())
         if response.status_code == 200:
             logging.info(response.text)
@@ -451,6 +452,8 @@ def group_extras(resource, payload_string, group_type, created_resources):
         "inventory_quantity_index": 0,
         "inventory_unicef_section_index": 1,
         "inventory_donor_index": 2,
+        "inventory_rel_location_index": 0,
+        "inventory_location_index": 1
     }
 
     if group_type == "product":
@@ -501,21 +504,21 @@ def group_extras(resource, payload_string, group_type, created_resources):
         if availability:
             payload_obj["resource"]["characteristic"][
                 GROUP_INDEX_MAPPING["product_is_available_index"]
-            ]["valueCodeableConcept"]["text"] = availability
+            ]["valueCodeableConcept"]["text"] = escape_quotes(availability)
         else:
             del_indexes.append(GROUP_INDEX_MAPPING["product_is_available_index"])
 
         if condition:
             payload_obj["resource"]["characteristic"][
                 GROUP_INDEX_MAPPING["product_condition_index"]
-            ]["valueCodeableConcept"]["text"] = condition
+            ]["valueCodeableConcept"]["text"] = escape_quotes(condition)
         else:
             del_indexes.append(GROUP_INDEX_MAPPING["product_condition_index"])
 
         if appropriate_usage:
             payload_obj["resource"]["characteristic"][
                 GROUP_INDEX_MAPPING["product_appropriate_usage_index"]
-            ]["valueCodeableConcept"]["text"] = appropriate_usage
+            ]["valueCodeableConcept"]["text"] = escape_quotes(appropriate_usage)
         else:
             del_indexes.append(GROUP_INDEX_MAPPING["product_appropriate_usage_index"])
 
@@ -647,15 +650,39 @@ def group_extras(resource, payload_string, group_type, created_resources):
             payload_obj["resource"]["characteristic"][
                 GROUP_INDEX_MAPPING["inventory_unicef_section_index"]
             ]["valueCodeableConcept"]["text"] = unicef_section
+            payload_obj["resource"]["characteristic"][
+                GROUP_INDEX_MAPPING["inventory_unicef_section_index"]
+            ]["valueCodeableConcept"]["coding"][0]["code"] = unicef_section
+            payload_obj["resource"]["characteristic"][
+                GROUP_INDEX_MAPPING["inventory_unicef_section_index"]
+            ]["valueCodeableConcept"]["coding"][0]["display"] = unicef_section
         else:
             del_indexes.append(GROUP_INDEX_MAPPING["inventory_unicef_section_index"])
 
         if donor:
-            payload_obj["resource"]["characteristic"][2]["valueCodeableConcept"][
-                "text"
-            ] = donor
+            payload_obj["resource"]["characteristic"][
+                GROUP_INDEX_MAPPING["inventory_donor_index"]
+            ]["valueCodeableConcept"]["text"] = donor
+            payload_obj["resource"]["characteristic"][
+                GROUP_INDEX_MAPPING["inventory_donor_index"]
+            ]["valueCodeableConcept"]["coding"][0]["code"] = donor
+            payload_obj["resource"]["characteristic"][
+                GROUP_INDEX_MAPPING["inventory_donor_index"]
+            ]["valueCodeableConcept"]["coding"][0]["display"] = donor
         else:
             del_indexes.append(GROUP_INDEX_MAPPING["inventory_donor_index"])
+
+        if location:
+            payload_obj["resource"]["meta"]["tag"][GROUP_INDEX_MAPPING["inventory_rel_location_index"]
+            ]["code"] = location
+        else:
+            del_indexes.append(GROUP_INDEX_MAPPING["inventory_rel_location_index"])
+
+        if location:
+            payload_obj["resource"]["meta"]["tag"][GROUP_INDEX_MAPPING["inventory_location_index"]
+            ]["code"] = location
+        else:
+            del_indexes.append(GROUP_INDEX_MAPPING["inventory_location_index"])
 
     else:
         logging.info("Group type not defined")
@@ -665,7 +692,7 @@ def group_extras(resource, payload_string, group_type, created_resources):
     for x in reversed(del_identifier_indexes):
         del payload_obj["resource"]["identifier"][x]
 
-    payload_string = json.dumps(payload_obj, indent=4)
+    payload_string = json.dumps(payload_obj, indent=2, ensure_ascii=False)
     return payload_string, created_resources
 
 
@@ -705,8 +732,8 @@ def build_payload(
     location_coding_system=None,
 ):
     logging.info("Building request payload")
-    initial_string = """{"resourceType": "Bundle","type": "transaction","entry": [ """
-    final_string = group_type = " "
+    initial_string = """{"resourceType": "Bundle","type": "transaction","entry": ["""
+    final_string = group_type = ""
 
     with open(resource_payload_file) as json_file:
         payload_string = json_file.read()
@@ -751,7 +778,7 @@ def build_payload(
 
             # ps = payload_string
             ps = (
-                payload_string.replace("$name", name)
+                payload_string.replace("$name", escape_quotes(name))
                 .replace("$unique_uuid", unique_uuid)
                 .replace("$identifier_uuid", identifier_uuid)
                 .replace("$version", version)
@@ -781,9 +808,20 @@ def build_payload(
 
             final_string = final_string + ps + ","
 
-    final_string = initial_string + final_string[:-1] + " ] } "
+    final_string = initial_string + final_string.rstrip(",") + "]}"
+
+    if "$" in final_string:
+      logging.warning("Unresolved placeholders found in payload!")
+
+    try:
+        json.loads(final_string)
+    except json.JSONDecodeError as e:
+        logging.error("Invalid JSON generated: " + str(e))
+        raise
+
     if group_type == "product":
-        return final_string, created_resources
+     return final_string, created_resources
+
     return final_string
 
 
@@ -827,11 +865,11 @@ def build_org_affiliation(resources, resource_list):
 
             obj = json.loads(rp)
             obj["resource"]["location"] = locations
-            rp = json.dumps(obj)
+            rp = json.dumps(obj, ensure_ascii=False)
 
             fp = fp + rp + ","
 
-    fp = fp[:-1] + " ] } "
+    fp = fp[:-1] + " ]}"
     return fp
 
 
@@ -863,13 +901,12 @@ def update_practitioner_role(resource, organization_id, organization_name):
     return resource
 
 
-def update_list(resource, inventory_id, supply_date):
+def update_list(resource,location_id, inventory_id, supply_date):
     with open(json_path + "inventory_location_list_payload.json") as json_file:
         payload_string = json_file.read()
 
         payload_string = payload_string.replace("$supply_date", supply_date).replace(
-            "$inventory_id", inventory_id
-        )
+            "$inventory_id", inventory_id).replace("$location_id", location_id)
         json_payload = json.loads(payload_string)
 
         try:
@@ -881,6 +918,15 @@ def update_list(resource, inventory_id, supply_date):
         except KeyError:
             entry = {"entry": json_payload["entry"]}
             resource.update(entry)
+
+        try:
+            if location_id not in str(entries):
+                meta = json_payload["meta"]
+                resource["meta"].update(meta)
+
+        except KeyError:
+            meta = {"meta": json_payload["meta"]}
+            resource.update(meta)
     return resource
 
 
@@ -946,12 +992,11 @@ def build_assign_payload(rows, resource_type, url_filter):
                     resource, item_id, organization_name
                 )
             if resource_type == "List":
-                resource = update_list(resource, item_id, supply_date)
+                resource = update_list(resource, subject_id, item_id, supply_date)
 
             if "meta" in resource:
                 version = resource["meta"]["versionId"]
                 resource_id = resource["id"]
-                del resource["meta"]
 
         elif json_response["total"] == 0:
             logging.info("Creating a new resource")
@@ -998,7 +1043,7 @@ def build_assign_payload(rows, resource_type, url_filter):
         final_entries.append(results[entry])
 
     bundle["entry"] = final_entries
-    return json.dumps(bundle, indent=4)
+    return json.dumps(bundle, indent=2, ensure_ascii=False)
 
 
 def build_group_list_resource(
@@ -1032,7 +1077,7 @@ def build_group_list_resource(
                 }
             ]
         }
-        resource_payload = json.dumps(payload, indent=4)
+        resource_payload = json.dumps(payload, indent=2, ensure_ascii=False)
         return process_resources_list(resource_payload, full_list_created_resources)
 
 
@@ -1056,7 +1101,13 @@ def extract_resources(created_resources, response_string):
 def process_resources_list(payload, resources_list):
     entry = []
     json_payload = json.loads(payload)
-    entries = json_payload["entry"][0]["resource"]["entry"]
+
+    try:
+        entries = json_payload["entry"][0]["resource"]["entry"]
+    except KeyError:
+        entries = []
+        json_payload["entry"][0]["resource"]["entry"] = entries  # Ensure key exists
+
     if len(entries) > 0:
         entry = entries
 
@@ -1105,6 +1156,20 @@ def process_response(response):
     issues = json_response["issue"]
     return issues
 
+def escape_quotes(value):
+    if isinstance(value, str):
+        return value.replace('"', '\\"')
+    return value
+
+def trim_json_strings(obj):
+    if isinstance(obj, dict):
+        return {k: trim_json_strings(v) for k, v in obj.items()}
+    elif isinstance(obj, list):
+        return [trim_json_strings(i) for i in obj]
+    elif isinstance(obj, str):
+        return obj.strip()
+    else:
+        return obj
 
 def build_report(csv_file, response, error_details, fail_count, fail_all):
     # Get total number of records
@@ -1144,7 +1209,7 @@ def build_report(csv_file, response, error_details, fail_count, fail_all):
     if len(all_errors) > 0:
         report["errorDetails"] = all_errors
 
-    string_report = json.dumps(report, indent=4)
+    string_report = json.dumps(report, indent=2, ensure_ascii=False)
     logging.info("============================================================")
     logging.info("============================================================")
     logging.info(string_report)

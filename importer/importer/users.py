@@ -44,7 +44,7 @@ def create_user(user):
     obj["email"] = email
     obj["attributes"]["fhir_core_app_id"][0] = appId
 
-    final_string = json.dumps(obj)
+    final_string = json.dumps(obj, ensure_ascii=False)
     logging.info("Creating user: " + username)
     _keycloak_url = get_keycloak_url()
     r = handle_request("POST", final_string, _keycloak_url + "/users")
@@ -154,7 +154,7 @@ def create_user_resources(user_id, user):
         }
     else:
         del obj[2]["resource"]["code"]
-    ff = json.dumps(obj, indent=4)
+    ff = json.dumps(obj, indent=2, ensure_ascii=False)
 
     payload = initial_string + ff + "}"
     return payload
@@ -169,12 +169,21 @@ def confirm_keycloak_user(user):
         "GET", "", _keycloak_url + "/users?exact=true&username=" + user_username
     )
     logging.debug(response)
-    json_response = json.loads(response[0])
 
     try:
-        response_email = json_response[0]["email"]
-    except IndexError:
-        response_email = ""
+        json_response = json.loads(response[0])
+    except Exception as e:
+        logging.error(f"Invalid JSON response from Keycloak: {e}")
+        return 0, {"task": "Confirm Keycloak user", "row": str(user), "error": "Invalid JSON response"}
+
+    if not json_response:
+        message = f"No Keycloak user found for username: {user_username}"
+        logging.error(message)
+        return 0, {"task": "Confirm Keycloak user", "row": str(user), "error": message}
+
+    user_data = json_response[0]
+    response_email = user_data.get("email", "")
+    response_username = user_data.get("username")
 
     try:
         response_username = json_response[0]["username"]
@@ -193,8 +202,8 @@ def confirm_keycloak_user(user):
     if len(response_email) > 0 and response_email != user_email:
         logging.error("Email does not match for user: " + str(user[2]))
 
-    keycloak_id = json_response[0]["id"]
-    logging.info("User confirmed with id: " + keycloak_id)
+    keycloak_id = user_data.get("id")
+    logging.info("User confirmed with id: " + str(keycloak_id))
     return keycloak_id, {}
 
 
@@ -318,7 +327,7 @@ def create_roles(role_list):
                         logging.info("Role " + arole + " exists")
 
 
-                payload_arr = json.dumps(arr)
+                payload_arr = json.dumps(arr, ensure_ascii=False)
                 logging.info("Payload array: " + payload_arr)
                 handle_request(
                     "POST",
@@ -378,7 +387,7 @@ def assign_group_roles(role_list, group, roles_max):
         if r[0] in role_obj.keys():
             assign_payload.append(role_obj[r[0]])
 
-    json_assign_payload = json.dumps(assign_payload)
+    json_assign_payload = json.dumps(assign_payload, ensure_ascii=False)
     handle_request(
         "POST",
         json_assign_payload,

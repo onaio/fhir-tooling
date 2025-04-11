@@ -174,6 +174,7 @@ The coverage report `coverage.html` will be at the working directory
 - Adding a value to the Location column will create a separate List resource (or update) that links the inventory to the provided location resource
 - A separate List resource with references to all the Group and List resources generated is also created
 - You can pass in a `list_resource_id` to be used as the identifier for the (reference) List resource, or you can leave it empty and a random uuid will be generated
+- You can set `link_list_resources` to `False` to prevent linking the Group and Linkage List resources to the List resource defined on the `list_resource_id`. This is particularly useful when using the `Location` or `RelatedEntityLocation` sync strategies, where such linking is handled separately.
 
 ### 12. Import flags from openSRP 1
 - Run `python3 main.py --csv_file csv/import/flags.csv --setup flags --encounter_id 123 --practitioner_id 456 --visit_location_id 789  --log_level info`
