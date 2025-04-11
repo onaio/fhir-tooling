@@ -1400,6 +1400,6 @@ def build_flag_payload(resources, practitioner_id, visit_encounter):
             if len(sub_list) < 1:
                 sub_list = ""
 
-            final_string = final_string + sub_list
-    final_string = initial_string + final_string[:-1] + " ] } "
+            entries.append(sub_list)
+    final_string = initial_string + ",".join(entries) + " ] } "
     return final_string
