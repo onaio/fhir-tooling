@@ -257,13 +257,22 @@ def main(
             else:
                 fail_count = fail_count + 1
                 fail_all = True
-                json_response = json.loads(inventory_creation_response.text)
-                for _ in json_response["issue"]:
-                    del _["code"]
-                    issues.append(_)
-                logging.error(json_response)
-            logging.info(inventory_creation_response.text)
-            logging.info("GROUPS: " + str(groups_created))
+                if inventory_creation_response.text:
+                    try:
+                        json_response = json.loads(inventory_creation_response.text)
+                        for _ in json_response.get("issue", []):
+                            _ = {k: v for k, v in _.items() if k != "code"}  # safer way to remove key
+                            issues.append(_)
+                        logging.error(json_response)
+                    except json.JSONDecodeError as e:
+                        logging.error(f"Failed to decode JSON from inventory response: {e}")
+                        logging.error(f"Raw response: {inventory_creation_response.text}")
+                        issues.append({"error": "Invalid JSON response from inventory creation"})
+                else:
+                    logging.error("Empty response from inventory creation request.")
+                    issues.append({"error": "Empty response from inventory creation"})
+                logging.info(inventory_creation_response.text)
+                logging.info("GROUPS: " + str(groups_created))
 
             lists_created = []
             link_payload = link_to_location(resource_list)

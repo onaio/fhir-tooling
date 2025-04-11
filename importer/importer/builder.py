@@ -650,6 +650,12 @@ def group_extras(resource, payload_string, group_type, created_resources):
             payload_obj["resource"]["characteristic"][
                 GROUP_INDEX_MAPPING["inventory_unicef_section_index"]
             ]["valueCodeableConcept"]["text"] = unicef_section
+            payload_obj["resource"]["characteristic"][
+                GROUP_INDEX_MAPPING["inventory_unicef_section_index"]
+            ]["valueCodeableConcept"]["coding"][0]["code"] = unicef_section
+            payload_obj["resource"]["characteristic"][
+                GROUP_INDEX_MAPPING["inventory_unicef_section_index"]
+            ]["valueCodeableConcept"]["coding"][0]["display"] = unicef_section
         else:
             del_indexes.append(GROUP_INDEX_MAPPING["inventory_unicef_section_index"])
 
@@ -657,6 +663,12 @@ def group_extras(resource, payload_string, group_type, created_resources):
             payload_obj["resource"]["characteristic"][
                 GROUP_INDEX_MAPPING["inventory_donor_index"]
             ]["valueCodeableConcept"]["text"] = donor
+            payload_obj["resource"]["characteristic"][
+                GROUP_INDEX_MAPPING["inventory_donor_index"]
+            ]["valueCodeableConcept"]["coding"][0]["code"] = donor
+            payload_obj["resource"]["characteristic"][
+                GROUP_INDEX_MAPPING["inventory_donor_index"]
+            ]["valueCodeableConcept"]["coding"][0]["display"] = donor
         else:
             del_indexes.append(GROUP_INDEX_MAPPING["inventory_donor_index"])
 
@@ -1089,7 +1101,13 @@ def extract_resources(created_resources, response_string):
 def process_resources_list(payload, resources_list):
     entry = []
     json_payload = json.loads(payload)
-    entries = json_payload["entry"][0]["resource"]["entry"]
+
+    try:
+        entries = json_payload["entry"][0]["resource"]["entry"]
+    except KeyError:
+        entries = []
+        json_payload["entry"][0]["resource"]["entry"] = entries  # Ensure key exists
+
     if len(entries) > 0:
         entry = entries
 
