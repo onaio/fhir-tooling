@@ -1281,10 +1281,10 @@ def build_single_resource(
         "$location": location_id,
         "$form_encounter": form_encounter,
         "$visit_encounter": visit_encounter,
-        "$value_string": value_string,
+        "$value_string": json.dumps(value_string)[1:-1],
         "$boolean_code": boolean_code,
         "$boolean_value": boolean_value,
-        "$note": note,
+        "$note": json.dumps(note)[1:-1],
     }
     for var, value in visit_encounter_vars.items():
         resource_payload = resource_payload.replace(var, value)
@@ -1326,8 +1326,8 @@ def build_resources(
         "", subject, value_string, note,
     )
 
-    resources = [encounter, flag, observation]
-    return ",".join(resources)
+    resources = encounter + "," + flag + "," + observation + ","
+    return resources
 
 def check_location(location_id, locations_list):
     if location_id in locations_list:
@@ -1400,6 +1400,6 @@ def build_flag_payload(resources, practitioner_id, visit_encounter):
             if len(sub_list) < 1:
                 sub_list = ""
 
-            entries.append(sub_list)
-    final_string = initial_string + ",".join(entries) + " ] } "
+            final_string = final_string + sub_list
+    final_string = initial_string + final_string[:-1] + " ] } "
     return final_string
