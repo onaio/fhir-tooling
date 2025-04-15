@@ -1,0 +1,77 @@
+{
+  "request": {
+    "method": "PUT",
+    "url": "Observation/$id",
+    "ifMatch": "$version"
+  },
+  "resource": {
+    "resourceType": "Observation",
+    "id": "$id",
+    "identifier": [
+      {
+        "use": "usual",
+        "value": "$id"
+      }
+    ],
+    "status": "final",
+    "category": [
+      {
+        "coding": [
+          {
+            "system": "http://smartregister.org/",
+            "code": "$category_code",
+            "display": "$category_display"
+          }
+        ],
+        "text": "$category_text"
+      }
+    ],
+    "code": {
+      "coding": [
+        {
+          "system": "http://snomed.info/sct",
+          "code": "$code_code",
+          "display": "$code_display"
+        }
+      ],
+      "text": "$code_text"
+    },
+    "subject": {
+      "reference": "$subject"
+    },
+    "focus": [
+      {
+        "reference": "Location/$location"
+      }
+    ],
+    "encounter": {
+      "reference": "Encounter/$form_encounter"
+    },
+    "effectivePeriod": {
+      "start": "$start",
+      "end": "$end"
+    },
+    "performer": [
+      {
+        "reference": "Practitioner/$practitioner_id"
+      }
+    ],
+    "valueCodeableConcept": {
+      "coding": [
+        {
+          "system": "http://snomed.info/sct",
+          "code": "$boolean_code",
+          "display": "$boolean_value"
+        }
+      ],
+      "text": "$boolean_value"
+    },
+    "note": [
+      {
+        "time": "$start",
+        "text": "$note"
+      }
+    ],
+    "valueString": "$value_string"
+  }
+}
