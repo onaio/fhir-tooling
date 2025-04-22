@@ -169,12 +169,21 @@ def confirm_keycloak_user(user):
         "GET", "", _keycloak_url + "/users?exact=true&username=" + user_username
     )
     logging.debug(response)
-    json_response = json.loads(response[0])
 
     try:
-        response_email = json_response[0]["email"]
-    except IndexError:
-        response_email = ""
+        json_response = json.loads(response[0])
+    except Exception as e:
+        logging.error(f"Invalid JSON response from Keycloak: {e}")
+        return 0, {"task": "Confirm Keycloak user", "row": str(user), "error": "Invalid JSON response"}
+
+    if not json_response:
+        message = f"No Keycloak user found for username: {user_username}"
+        logging.error(message)
+        return 0, {"task": "Confirm Keycloak user", "row": str(user), "error": message}
+
+    user_data = json_response[0]
+    response_email = user_data.get("email", "")
+    response_username = user_data.get("username")
 
     try:
         response_username = json_response[0]["username"]
@@ -193,8 +202,8 @@ def confirm_keycloak_user(user):
     if len(response_email) > 0 and response_email != user_email:
         logging.error("Email does not match for user: " + str(user[2]))
 
-    keycloak_id = json_response[0]["id"]
-    logging.info("User confirmed with id: " + keycloak_id)
+    keycloak_id = user_data.get("id")
+    logging.info("User confirmed with id: " + str(keycloak_id))
     return keycloak_id, {}
 
 

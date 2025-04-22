@@ -1,0 +1,50 @@
+{
+  "request": {
+    "method": "PUT",
+    "url": "Flag/$id",
+    "ifMatch": "$version"
+  },
+  "resource": {
+    "resourceType": "Flag",
+    "id": "$id",
+    "identifier": [
+      {
+        "use": "usual",
+        "value": "$id"
+      }
+    ],
+    "status": "active",
+    "category": [
+      {
+        "coding": [
+          {
+            "system": "http://smartregister.org/",
+            "code": "$category_code",
+            "display": "$category_display"
+          }
+        ],
+        "text": "$category_text"
+      }
+    ],
+    "code": {
+      "coding": [
+        {
+          "system": "http://smartregister.org/",
+          "code": "65347579",
+          "display": "Vist Flag"
+        }
+      ],
+      "text": "Vist Flag"
+    },
+    "subject": {
+      "reference": "$subject"
+    },
+    "period": {
+      "start": "$start",
+      "end": "$end"
+    },
+    "encounter": {
+      "reference": "Encounter/$form_encounter"
+    }
+  }
+}

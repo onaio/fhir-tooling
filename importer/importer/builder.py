@@ -452,6 +452,8 @@ def group_extras(resource, payload_string, group_type, created_resources):
         "inventory_quantity_index": 0,
         "inventory_unicef_section_index": 1,
         "inventory_donor_index": 2,
+        "inventory_rel_location_index": 0,
+        "inventory_location_index": 1
     }
 
     if group_type == "product":
@@ -648,15 +650,39 @@ def group_extras(resource, payload_string, group_type, created_resources):
             payload_obj["resource"]["characteristic"][
                 GROUP_INDEX_MAPPING["inventory_unicef_section_index"]
             ]["valueCodeableConcept"]["text"] = unicef_section
+            payload_obj["resource"]["characteristic"][
+                GROUP_INDEX_MAPPING["inventory_unicef_section_index"]
+            ]["valueCodeableConcept"]["coding"][0]["code"] = unicef_section
+            payload_obj["resource"]["characteristic"][
+                GROUP_INDEX_MAPPING["inventory_unicef_section_index"]
+            ]["valueCodeableConcept"]["coding"][0]["display"] = unicef_section
         else:
             del_indexes.append(GROUP_INDEX_MAPPING["inventory_unicef_section_index"])
 
         if donor:
-            payload_obj["resource"]["characteristic"][2]["valueCodeableConcept"][
-                "text"
-            ] = donor
+            payload_obj["resource"]["characteristic"][
+                GROUP_INDEX_MAPPING["inventory_donor_index"]
+            ]["valueCodeableConcept"]["text"] = donor
+            payload_obj["resource"]["characteristic"][
+                GROUP_INDEX_MAPPING["inventory_donor_index"]
+            ]["valueCodeableConcept"]["coding"][0]["code"] = donor
+            payload_obj["resource"]["characteristic"][
+                GROUP_INDEX_MAPPING["inventory_donor_index"]
+            ]["valueCodeableConcept"]["coding"][0]["display"] = donor
         else:
             del_indexes.append(GROUP_INDEX_MAPPING["inventory_donor_index"])
+
+        if location:
+            payload_obj["resource"]["meta"]["tag"][GROUP_INDEX_MAPPING["inventory_rel_location_index"]
+            ]["code"] = location
+        else:
+            del_indexes.append(GROUP_INDEX_MAPPING["inventory_rel_location_index"])
+
+        if location:
+            payload_obj["resource"]["meta"]["tag"][GROUP_INDEX_MAPPING["inventory_location_index"]
+            ]["code"] = location
+        else:
+            del_indexes.append(GROUP_INDEX_MAPPING["inventory_location_index"])
 
     else:
         logging.info("Group type not defined")
@@ -680,7 +706,7 @@ def get_valid_resource_type(resource_type):
 
 # This function gets the current resource version from the API
 def get_resource(resource_id, resource_type):
-    if resource_type not in ["List", "Group"]:
+    if resource_type not in ["List", "Group", "Encounter", "Location"]:
         resource_type = get_valid_resource_type(resource_type)
     resource_url = "/".join([fhir_base_url, resource_type, resource_id])
     response = handle_request("GET", "", resource_url)
@@ -875,13 +901,12 @@ def update_practitioner_role(resource, organization_id, organization_name):
     return resource
 
 
-def update_list(resource, inventory_id, supply_date):
+def update_list(resource,location_id, inventory_id, supply_date):
     with open(json_path + "inventory_location_list_payload.json") as json_file:
         payload_string = json_file.read()
 
         payload_string = payload_string.replace("$supply_date", supply_date).replace(
-            "$inventory_id", inventory_id
-        )
+            "$inventory_id", inventory_id).replace("$location_id", location_id)
         json_payload = json.loads(payload_string)
 
         try:
@@ -893,6 +918,15 @@ def update_list(resource, inventory_id, supply_date):
         except KeyError:
             entry = {"entry": json_payload["entry"]}
             resource.update(entry)
+
+        try:
+            if location_id not in str(entries):
+                meta = json_payload["meta"]
+                resource["meta"].update(meta)
+
+        except KeyError:
+            meta = {"meta": json_payload["meta"]}
+            resource.update(meta)
     return resource
 
 
@@ -958,12 +992,11 @@ def build_assign_payload(rows, resource_type, url_filter):
                     resource, item_id, organization_name
                 )
             if resource_type == "List":
-                resource = update_list(resource, item_id, supply_date)
+                resource = update_list(resource, subject_id, item_id, supply_date)
 
             if "meta" in resource:
                 version = resource["meta"]["versionId"]
                 resource_id = resource["id"]
-                del resource["meta"]
 
         elif json_response["total"] == 0:
             logging.info("Creating a new resource")
@@ -1068,7 +1101,13 @@ def extract_resources(created_resources, response_string):
 def process_resources_list(payload, resources_list):
     entry = []
     json_payload = json.loads(payload)
-    entries = json_payload["entry"][0]["resource"]["entry"]
+
+    try:
+        entries = json_payload["entry"][0]["resource"]["entry"]
+    except KeyError:
+        entries = []
+        json_payload["entry"][0]["resource"]["entry"] = entries  # Ensure key exists
+
     if len(entries) > 0:
         entry = entries
 
@@ -1176,3 +1215,191 @@ def build_report(csv_file, response, error_details, fail_count, fail_all):
     logging.info(string_report)
     logging.info("============================================================")
     logging.info("============================================================")
+
+
+def build_single_resource(
+    resource_type, resource_id, practitioner_id, period_start, location_id, form_encounter,
+    visit_encounter, subject, value_string="", note="",
+):
+    template_map = {
+        "visit": "visit_encounter_payload.json",
+        "flag": "flag_payload.json",
+        "encounter": "flag_encounter_payload.json",
+        "observation": "flag_observation_payload.json",
+    }
+    json_template = next(
+        (template for key, template in template_map.items() if key in resource_type),
+        None,
+    )
+
+    boolean_code = boolean_value = ""
+    if "product" in resource_type:
+        code = "PRODCHECK"
+        display = text = "Product Check"
+        c_code = "issue_details"
+        c_display = c_text = value_string
+    elif "service_point_check" in resource_type:
+        code = "SPCHECK"
+        display = text = "Service Point Check"
+        c_code = "34657579"
+        c_display = c_text = "Service Point Good Order Check"
+        boolean_code = "373067005"
+        boolean_value = "No (qualifier value)"
+    elif "consult_beneficiaries" in resource_type:
+        code = "CNBEN"
+        display = text = "Consult Beneficiaries Visit"
+        c_code = "77223346"
+        c_display = c_text = "Consult Beneficiaries"
+        boolean_code = "373066001"
+        boolean_value = "Yes (qualifier value)"
+    elif "warehouse_check" in resource_type:
+        code = "WHCHECK"
+        display = text = "Warehouse check Visit"
+        c_code = "68561322"
+        c_display = c_text = "Required action"
+        boolean_code = "373066001"
+        boolean_value = "Yes (qualifier value)"
+    else:
+        code = display = text = c_code = c_display = c_text = ""
+
+    with open(json_path + json_template) as json_file:
+        resource_payload = json_file.read()
+
+    visit_encounter_vars = {
+        "$id": resource_id,
+        "$version": "1",
+        "$category_code": code,
+        "$category_display": display,
+        "$category_text": text,
+        "$code_code": c_code,
+        "$code_display": c_display,
+        "$code_text": c_text,
+        "$practitioner_id": practitioner_id,
+        "$start": period_start.replace(" ", "T"),
+        "$end": period_start.replace(" ", "T"),
+        "$subject": subject,
+        "$location": location_id,
+        "$form_encounter": form_encounter,
+        "$visit_encounter": visit_encounter,
+        "$value_string": json.dumps(value_string)[1:-1],
+        "$boolean_code": boolean_code,
+        "$boolean_value": boolean_value,
+        "$note": json.dumps(note)[1:-1],
+    }
+    for var, value in visit_encounter_vars.items():
+        resource_payload = resource_payload.replace(var, value)
+
+    obj = json.loads(resource_payload)
+    if "product_observation" in resource_type:
+        del obj["resource"]["valueCodeableConcept"]
+        del obj["resource"]["note"]
+    if (
+        "service_point_check_encounter" in resource_type
+        or "consult_beneficiaries_encounter" in resource_type
+    ):
+        del obj["resource"]["subject"]
+    if (
+        "service_point_check_observation" in resource_type
+        or "consult_beneficiaries_observation" in resource_type
+    ):
+        del obj["resource"]["focus"]
+        del obj["resource"]["valueString"]
+    resource_payload = json.dumps(obj, indent=4)
+
+    return resource_payload
+
+
+def build_resources(
+        resource_type, encounter_id, flag_id, observation_id, practitioner_id, period, location,
+        visit_encounter, subject, value_string="", note="",
+        ):
+    encounter = build_single_resource(
+        resource_type + "_encounter", encounter_id, practitioner_id, period, location, "",
+        visit_encounter, subject,
+    )
+    flag = build_single_resource(
+        resource_type + "_flag", flag_id, practitioner_id, period, location, encounter_id,
+        "", subject,
+    )
+    observation = build_single_resource(
+        resource_type + "_observation", observation_id, practitioner_id, period, location, encounter_id,
+        "", subject, value_string, note,
+    )
+
+    resources = encounter + "," + flag + "," + observation + ","
+    return resources
+
+def check_location(location_id, locations_list):
+    if location_id in locations_list:
+        return locations_list[location_id]
+
+    check = get_resource(location_id, "Location")
+    if check != "0":
+        locations_list[location_id] = True
+        return True
+    else:
+        locations_list[location_id] = False
+        logging.info("-- Skipping location, it does NOT EXIST " + location_id)
+        return False
+
+
+def build_flag_payload(resources, practitioner_id, visit_encounter):
+    initial_string = """{"resourceType": "Bundle","type": "transaction","entry": [ """
+    final_string = ""
+    locations = {}
+    for resource in resources:
+        flag_id = str(uuid.uuid5(uuid.NAMESPACE_DNS, "flag" + resource[2]))
+        observation_id = str(uuid.uuid5(uuid.NAMESPACE_DNS, "observation" + resource[2]))
+
+        sub_list = []
+        valid_location = check_location(resource[4], locations)
+        if valid_location:
+            if resource[3] == "service_point":
+                if "no" in resource[15]:
+                    note = (
+                        resource[16].replace('"', "").replace("[", "").replace("]", "")
+                    )
+                    sub_list = build_resources(
+                        "service_point_check", resource[2], flag_id, observation_id, practitioner_id,
+                        resource[1], resource[4], visit_encounter, "Location/" + resource[4], "", note,
+                    )
+                if "yes" in resource[17]:
+                    note = (
+                        resource[18].replace('"', "").replace("[", "").replace("]", "")
+                    )
+                    sub_list = build_resources(
+                        "consult_beneficiaries", resource[2], flag_id, observation_id, practitioner_id,
+                        resource[1], resource[4], visit_encounter, "Location/" + resource[4], "", note,
+                    )
+                if "yes" in resource[19]:
+                    note = (
+                        resource[20].replace('"', "").replace("[", "").replace("]", "")
+                    )
+                    sub_list = build_resources(
+                        "warehouse", resource[2], flag_id, observation_id, practitioner_id, resource[1],
+                        resource[4], visit_encounter, "Location/" + resource[4], "", note,
+                    )
+
+            elif resource[3] == "product":
+                if resource[8]:
+                    product_info = [
+                        resource[8], resource[9], resource[10], resource[11], resource[12], resource[13], resource[14],
+                    ]
+                    value_string = " | ".join(filter(None, product_info))
+                    value_string = value_string.replace('"', "")
+                    if resource[6]:
+                        sub_list = build_resources(
+                            "product", resource[2], flag_id, observation_id, practitioner_id,
+                            resource[1], resource[4], visit_encounter, "Group/" + resource[6], value_string,
+                        )
+                    else:
+                        logging.info("-- Missing Group, skipping resource: " + str(resource))
+            else:
+                logging.info("-- This entityType is not supported")
+
+            if len(sub_list) < 1:
+                sub_list = ""
+
+            final_string = final_string + sub_list
+    final_string = initial_string + final_string[:-1] + " ] } "
+    return final_string
