@@ -1,0 +1,25 @@
+name,shortName,aggregationType,domainType,periodOffset,valueType,dimensionItemType
+Number of BCG vaccinations administered,eir_BCG,SUM,AGGREGATE,0,NUMBER,DATA_ELEMENT
+Number of OPV 0 vaccinations administered,eir_OPV0,SUM,AGGREGATE,0,NUMBER,DATA_ELEMENT
+Number of OPV 1 vaccinations administered,eir_OPV1,SUM,AGGREGATE,0,NUMBER,DATA_ELEMENT
+Number of OPV 2 vaccinations administered,eir_OPV2,SUM,AGGREGATE,0,NUMBER,DATA_ELEMENT
+Number of OPV 3 vaccinations administered,eir_OPV3,SUM,AGGREGATE,0,NUMBER,DATA_ELEMENT
+Number of IPV vaccinations administered,eir_IPV,SUM,AGGREGATE,0,NUMBER,DATA_ELEMENT
+Number of DTP-HepB-Hib 1 vaccinations administered,eir_Penta1,SUM,AGGREGATE,0,NUMBER,DATA_ELEMENT
+Number of DTP-HepB-Hib 2 vaccinations administered,eir_Penta2,SUM,AGGREGATE,0,NUMBER,DATA_ELEMENT
+Number of DTP-HepB-Hib 3 vaccinations administered,eir_Penta3,SUM,AGGREGATE,0,NUMBER,DATA_ELEMENT
+Number of PCV 1 vaccinations administered,eir_PCV1,SUM,AGGREGATE,0,NUMBER,DATA_ELEMENT
+Number of PCV 2 vaccinations administered,eir_PCV2,SUM,AGGREGATE,0,NUMBER,DATA_ELEMENT
+Number of Rota 1 vaccinations administered,eir_Rota1,SUM,AGGREGATE,0,NUMBER,DATA_ELEMENT
+Number of Rota 2 vaccinations administered,eir_Rota2,SUM,AGGREGATE,0,NUMBER,DATA_ELEMENT
+Number of Measles 1 vaccinations administered,eir_MR1,SUM,AGGREGATE,0,NUMBER,DATA_ELEMENT
+Number of Measles 2 vaccinations administered,eir_MR2,SUM,AGGREGATE,0,NUMBER,DATA_ELEMENT
+Number of HPV 1 vaccinations administered,eir_HPV1,SUM,AGGREGATE,0,NUMBER,DATA_ELEMENT
+Number of HPV 2 vaccinations administered,eir_HPV2,SUM,AGGREGATE,0,NUMBER,DATA_ELEMENT
+Number of Vitamin A vaccinations administered to children between 6 & 11 months,eir_vitA_6_11_months,SUM,AGGREGATE,0,NUMBER,DATA_ELEMENT
+Number of Vitamin A vaccinations administered to children between 12 & 59 months,eir_vitA_12_59_months,SUM,AGGREGATE,0,NUMBER,DATA_ELEMENT
+The number of children who missed out on a vaccination(s) for the reporting period/Total number of children,eir_missed_stockout,SUM,AGGREGATE,0,NUMBER,DATA_ELEMENT
+The number of children who have completed all doses of the vaccines as per the full vaccination schedule/Total number of children registered in the application within the same age range,eir_fully_vaccinated,SUM,AGGREGATE,0,NUMBER,DATA_ELEMENT
+Number of reported adverse events after receiving a vaccine dose/The total number of doses administered to patients of the product.,eir_AEFI,SUM,AGGREGATE,0,NUMBER,DATA_ELEMENT
+The number of first doses of measles containing vaccine administered during reporting period minus the number of last doses of measles containing vaccine during the report period/Number of first doses of measles containing vaccine administered during the reporting period.,eir_dropout_MR1_MR2,SUM,AGGREGATE,0,NUMBER,DATA_ELEMENT
+Number of administrations of Penta1 (DTP1+HepB1+Hib1) administered during reporting period minus the number of administrations of Penta3 (DTP3+HepB3+Hib3) administered during report period/Number of doses of Penta 1 (DTP1+HepB1+Hib1) administered.,eir_dropout_Penta1_Penta3,SUM,AGGREGATE,0,NUMBER,DATA_ELEMENT
