@@ -164,32 +164,58 @@ def main(
                     logging.info("Processing complete!")
         elif resource_type == "locations":
             logging.info("Processing locations")
-            json_payload = build_payload(
+            chunk_num = 0
+            for json_payload_chunk in build_payload(
                 "locations",
                 resource_list,
                 "json_payloads/locations_payload.json",
                 None,
                 location_type_coding_system,
-            )
-            final_response = handle_request("POST", json_payload, fhir_base_url)
-            logging.info(final_response.text)
-            logging.info("Processing complete!")
+            ):
+                chunk_num += 1
+                logging.info(f"Sending locations chunk {chunk_num} to server")
+                chunk_response = handle_request("POST", json_payload_chunk, fhir_base_url, is_update_list=True)
+                if chunk_response:
+                    logging.info(f"Chunk {chunk_num} response: {chunk_response.status_code}")
+                    if chunk_response.status_code > 201:
+                        logging.error(f"Chunk {chunk_num} failed: {chunk_response.text}")
+                else:
+                    logging.error(f"Chunk {chunk_num}: No response received")
+            logging.info(f"Processing complete! Sent {chunk_num} chunk(s)")
         elif resource_type == "organizations":
             logging.info("Processing organizations")
-            json_payload = build_payload(
+            chunk_num = 0
+            for json_payload_chunk in build_payload(
                 "organizations",
                 resource_list,
                 json_path + "organizations_payload.json",
-            )
-            final_response = handle_request("POST", json_payload, fhir_base_url)
-            logging.info("Processing complete!")
+            ):
+                chunk_num += 1
+                logging.info(f"Sending organizations chunk {chunk_num} to server")
+                chunk_response = handle_request("POST", json_payload_chunk, fhir_base_url)
+                if chunk_response:
+                    logging.info(f"Chunk {chunk_num} response: {chunk_response.status_code}")
+                    if chunk_response.status_code > 201:
+                        logging.error(f"Chunk {chunk_num} failed: {chunk_response.text}")
+                else:
+                    logging.error(f"Chunk {chunk_num}: No response received")
+            logging.info(f"Processing complete! Sent {chunk_num} chunk(s)")
         elif resource_type == "careTeams":
             logging.info("Processing CareTeams")
-            json_payload = build_payload(
+            chunk_num = 0
+            for json_payload_chunk in build_payload(
                 "careTeams", resource_list, json_path + "careteams_payload.json"
-            )
-            final_response = handle_request("POST", json_payload, fhir_base_url)
-            logging.info("Processing complete!")
+            ):
+                chunk_num += 1
+                logging.info(f"Sending careTeams chunk {chunk_num} to server")
+                chunk_response = handle_request("POST", json_payload_chunk, fhir_base_url)
+                if chunk_response:
+                    logging.info(f"Chunk {chunk_num} response: {chunk_response.status_code}")
+                    if chunk_response.status_code > 201:
+                        logging.error(f"Chunk {chunk_num} failed: {chunk_response.text}")
+                else:
+                    logging.error(f"Chunk {chunk_num}: No response received")
+            logging.info(f"Processing complete! Sent {chunk_num} chunk(s)")
         elif assign == "organizations-Locations":
             logging.info("Assigning Organizations to Locations")
             matches = extract_matches(resource_list)
@@ -220,16 +246,34 @@ def main(
             logging.info("Processing complete!")
         elif setup == "products":
             logging.info("Importing products as FHIR Group resources")
-            json_payload, created_resources = build_payload(
+            chunk_num = 0
+            full_list_created_resources = []
+            for payload_chunk in build_payload(
                 "Group", resource_list, json_path + "product_group_payload.json", []
-            )
-            product_creation_response = handle_request(
-                "POST", json_payload, fhir_base_url
-            )
-            if product_creation_response.status_code == 200:
-                full_list_created_resources = extract_resources(
-                    created_resources, product_creation_response.text
+            ):
+                chunk_num += 1
+                json_payload, created_resources = payload_chunk
+                logging.info(f"Sending products chunk {chunk_num} to server")
+                product_creation_response = handle_request(
+                    "POST", json_payload, fhir_base_url
                 )
+                if product_creation_response and product_creation_response.status_code == 200:
+                    chunk_created_resources = extract_resources(
+                        created_resources, product_creation_response.text
+                    )
+                    full_list_created_resources.extend(chunk_created_resources)
+                else:
+                    fail_count = fail_count + 1
+                    fail_all = True
+                    if product_creation_response:
+                        json_response = json.loads(product_creation_response.text)
+                        for _ in json_response["issue"]:
+                            del _["code"]
+                            issues.append(_)
+                        logging.error(json_response)
+                    
+            logging.info(f"Processed {chunk_num} chunk(s) of products")
+            if full_list_created_resources:
                 list_payload = build_group_list_resource(
                     list_resource_id,
                     csv_file,
@@ -238,34 +282,30 @@ def main(
                 )
                 final_response = handle_request("POST", "", fhir_base_url, list_payload)
                 logging.info("Processing complete!")
-            else:
-                fail_count = fail_count + 1
-                fail_all = True
-                json_response = json.loads(product_creation_response.text)
-                for _ in json_response["issue"]:
-                    del _["code"]
-                    issues.append(_)
-                logging.error(json_response)
         elif setup == "inventories":
             logging.info("Importing inventories as FHIR Group resources")
-            json_payload = build_payload(
-                "Group", resource_list, json_path + "inventory_group_payload.json"
-            )
-
-            logging.debug(json_payload)
-            inventory_creation_response = handle_request(
-                "POST", json_payload, fhir_base_url
-            )
+            chunk_num = 0
             groups_created = []
-            logging.info(inventory_creation_response)
-            if inventory_creation_response.status_code == 200:
-                groups_created = extract_resources(
-                    groups_created, inventory_creation_response.text
+            for json_payload_chunk in build_payload(
+                "Group", resource_list, json_path + "inventory_group_payload.json"
+            ):
+                chunk_num += 1
+                logging.debug(json_payload_chunk)
+                logging.info(f"Sending inventories chunk {chunk_num} to server")
+                inventory_creation_response = handle_request(
+                    "POST", json_payload_chunk, fhir_base_url
                 )
-            else:
+                logging.info(inventory_creation_response)
+                if inventory_creation_response and inventory_creation_response.status_code == 200:
+                    groups_created = extract_resources(
+                        groups_created, inventory_creation_response.text
+                    )
+            
+            logging.info(f"Processed {chunk_num} chunk(s) of inventories")
+            if not groups_created:
                 fail_count = fail_count + 1
                 fail_all = True
-                if inventory_creation_response.text:
+                if inventory_creation_response and inventory_creation_response.text:
                     try:
                         json_response = json.loads(inventory_creation_response.text)
                         for _ in json_response.get("issue", []):
@@ -286,16 +326,30 @@ def main(
             link_payload = link_to_location(resource_list)
             if len(link_payload) > 0:
                 link_response = handle_request("POST", link_payload, fhir_base_url, is_update_list=True)
-                if link_response.status_code == 200 or link_response.status_code == 201:
+                if link_response and (link_response.status_code == 200 or link_response.status_code == 201):
                     lists_created = extract_resources(lists_created, link_response.text)
-                else:
+                elif link_response:
                     fail_count = fail_count + 1
                     fail_all = True
-                    json_response = json.loads(link_response.text)
-                    for _ in json_response["issue"]:
-                        del _["code"]
-                        issues.append(_)
-                logging.info(link_response.text)
+                    try:
+                        json_response = json.loads(link_response.text)
+                        for _ in json_response.get("issue", []):
+                            if "code" in _:
+                                del _["code"]
+                            issues.append(_)
+                    except json.JSONDecodeError as e:
+                        logging.error(f"Failed to parse error response JSON: {e}")
+                        logging.error(f"Response status: {link_response.status_code}")
+                        logging.error(f"Response text (first 500 chars): {link_response.text[:500]}")
+                        issues.append({"error": f"Invalid JSON response: {str(e)}"})
+                else:
+                    logging.error("No response received from link_to_location request")
+                    fail_count = fail_count + 1
+                    fail_all = True
+                    issues.append({"error": "No response from link_to_location"})
+                
+                if link_response:
+                    logging.info(link_response.text)
                 logging.info("LISTS: " + str(lists_created))
 
             full_list_created_resources = groups_created + lists_created

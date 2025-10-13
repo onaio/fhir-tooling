@@ -10,11 +10,12 @@ import os
 import time
 from dataclasses import dataclass, field, fields
 from typing import Union
+import logging
 
 import backoff
 import jwt
 import requests
-from oauthlib.oauth2 import LegacyApplicationClient
+from oauthlib.oauth2 import LegacyApplicationClient, TokenExpiredError
 from requests_oauthlib import OAuth2Session
 
 keycloak_url = os.getenv("keycloak_url")
@@ -96,11 +97,42 @@ class FhirKeycloakApi:
         backoff.expo, requests.exceptions.RequestException, max_time=180
     )
     def request(self, **kwargs):
-        response = self.api_service.oauth.request(**kwargs)
-        if response.status_code == 401 or 'login' in response.text:
-            self.api_service.refresh_token()
-            return self.api_service.oauth.request(**kwargs)
-        return response
+        max_retries = 2
+        for attempt in range(max_retries):
+            try:
+                response = self.api_service.oauth.request(**kwargs)
+                if response.status_code == 401 or 'login' in response.text:
+                    logging.info("Received 401 or login page, refreshing token...")
+                    try:
+                        self.api_service.refresh_token()
+                        logging.info("Token refreshed successfully, retrying request...")
+                    except Exception as refresh_error:
+                        logging.error(f"Failed to refresh token: {refresh_error}")
+                        if attempt < max_retries - 1:
+                            logging.info(f"Retrying token refresh (attempt {attempt + 2}/{max_retries})...")
+                            continue
+                        raise
+                    return self.api_service.oauth.request(**kwargs)
+                return response
+            except TokenExpiredError as e:
+                logging.info(f"Token expired: {e}. Refreshing token and retrying...")
+                try:
+                    self.api_service.refresh_token()
+                    logging.info("Token refreshed successfully after expiration, retrying request...")
+                    # Retry the request after refreshing token
+                    if attempt < max_retries - 1:
+                        continue
+                    return self.api_service.oauth.request(**kwargs)
+                except Exception as refresh_error:
+                    logging.error(f"Failed to refresh expired token: {refresh_error}")
+                    if attempt < max_retries - 1:
+                        logging.info(f"Retrying token refresh (attempt {attempt + 2}/{max_retries})...")
+                        time.sleep(1)  # Brief pause before retry
+                        continue
+                    raise
+        
+        # If we get here, all retries failed
+        raise RuntimeError("Failed to make request after multiple token refresh attempts")
 
 
 class InternalAuthenticationService:
@@ -130,7 +162,14 @@ class InternalAuthenticationService:
     def refresh_token(
         self,
     ):
-        return self.get_token()
+        try:
+            logging.info("Attempting to refresh OAuth token (Internal Auth)...")
+            result = self.get_token()
+            logging.info("Token refresh successful (Internal Auth)")
+            return result
+        except Exception as e:
+            logging.error(f"Token refresh failed (Internal Auth): {type(e).__name__}: {e}")
+            raise
 
     def _is_refresh_required(self):
         # TODO some defensive programming would be nice.
@@ -187,11 +226,20 @@ class ExternalAuthenticationService:
     def refresh_token(
         self,
     ):
-        return self.oauth.refresh_token(
-            self.options.token_uri,
-            client_id=self.options.client_id,
-            client_secret=self.options.client_secret,
-        )
+        try:
+            logging.info("Attempting to refresh OAuth token...")
+            result = self.oauth.refresh_token(
+                self.options.token_uri,
+                client_id=self.options.client_id,
+                client_secret=self.options.client_secret,
+            )
+            logging.info("Token refresh successful")
+            return result
+        except Exception as e:
+            logging.error(f"Token refresh failed: {type(e).__name__}: {e}")
+            logging.error(f"Token URI: {self.options.token_uri}")
+            logging.error(f"Client ID: {self.options.client_id}")
+            raise
 
     def _is_refresh_required(self):
         # TODO some defensive programming would be nice.
