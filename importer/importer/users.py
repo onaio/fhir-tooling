@@ -15,6 +15,59 @@ def get_keycloak_url():
     return api_service.auth_options.keycloak_realm_uri
 
 
+# Helper function to add user to group and set password
+def assign_user_group_and_password(user_id, username, keycloakGroupId, keycloakGroupName, password):
+    """
+    Adds a user to a Keycloak group and sets their password.
+    Returns (success: bool, error_obj: dict)
+    """
+    _keycloak_url = get_keycloak_url()
+    
+    # add user to group
+    payload = (
+        '{"id": "' + keycloakGroupId + '", "name": "' + keycloakGroupName + '"}'
+    )
+    group_endpoint = user_id + "/groups/" + keycloakGroupId
+    url = _keycloak_url + "/users/" + group_endpoint
+    logging.info("Adding user to Keycloak group: " + keycloakGroupName)
+    group_response = handle_request("PUT", payload, url)
+    
+    # Check if group assignment succeeded
+    if group_response is None:
+        error_msg = f"Failed to add user {username} to group {keycloakGroupName} - no response received"
+        logging.error(error_msg)
+        return False, {"task": "Add user to group", "username": username, "error": error_msg}
+    elif group_response.status_code not in [200, 201, 204]:
+        error_msg = f"Failed to add user {username} to group {keycloakGroupName} - status code {group_response.status_code}"
+        logging.error(error_msg)
+        logging.error(f"Response: {group_response.text}")
+        return False, {"task": "Add user to group", "username": username, "error": error_msg}
+    else:
+        logging.info(f"Successfully added user {username} to group {keycloakGroupName}")
+
+    # set password
+    payload = '{"temporary":false,"type":"password","value":"' + password + '"}'
+    password_endpoint = user_id + "/reset-password"
+    url = _keycloak_url + "/users/" + password_endpoint
+    logging.info("Setting user password")
+    password_response = handle_request("PUT", payload, url)
+    
+    # Check if password setting succeeded
+    if password_response is None:
+        error_msg = f"Failed to set password for user {username} - no response received"
+        logging.error(error_msg)
+        return False, {"task": "Set user password", "username": username, "error": error_msg}
+    elif password_response.status_code not in [200, 201, 204]:
+        error_msg = f"Failed to set password for user {username} - status code {password_response.status_code}"
+        logging.error(error_msg)
+        logging.error(f"Response: {password_response.text}")
+        return False, {"task": "Set user password", "username": username, "error": error_msg}
+    else:
+        logging.info(f"Successfully set password for user {username}")
+    
+    return True, {}
+
+
 # This function builds the user payload and posts it to
 # the keycloak api to create a new user
 # it also adds the user to the provided keycloak group
@@ -48,30 +101,85 @@ def create_user(user):
     logging.info("Creating user: " + username)
     _keycloak_url = get_keycloak_url()
     r = handle_request("POST", final_string, _keycloak_url + "/users")
+    
+    # Check if request failed
+    if r is None:
+        error_msg = "Failed to create user - no response received"
+        logging.error(error_msg)
+        obj = {"task": "Create user", "row": str(user), "error": error_msg}
+        return 0, obj
+    
     if r.status_code == 201:
         logging.info("User created successfully")
         new_user_location = r.headers["Location"]
         user_id = (new_user_location.split("/"))[-1]
 
-        # add user to group
-        payload = (
-            '{"id": "' + keycloakGroupId + '", "name": "' + keycloakGroupName + '"}'
+        # Use helper function to assign group and password
+        success, error_obj = assign_user_group_and_password(
+            user_id, username, keycloakGroupId, keycloakGroupName, password
         )
-        group_endpoint = user_id + "/groups/" + keycloakGroupId
-        url = _keycloak_url + "/users/" + group_endpoint
-        logging.info("Adding user to Keycloak group: " + keycloakGroupName)
-        r = handle_request("PUT", payload, url)
-
-        # set password
-        payload = '{"temporary":false,"type":"password","value":"' + password + '"}'
-        password_endpoint = user_id + "/reset-password"
-        url = _keycloak_url + "/users/" + password_endpoint
-        logging.info("Setting user password")
-        r = handle_request("PUT", payload, url)
+        
+        if not success:
+            error_obj["row"] = str(user)
+            return user_id, error_obj
 
         return user_id, {}
-    else:
+    
+    elif r.status_code == 409:
+        # User already exists, get the user ID and still assign group/password
+        logging.warning(f"User {username} already exists - will update group and password")
         logging.info(r.text)
+        
+        # Get the existing user's ID
+        response = handle_request(
+            "GET", "", _keycloak_url + "/users?exact=true&username=" + username
+        )
+        
+        if response is None:
+            error_msg = f"User {username} exists but failed to retrieve user details"
+            logging.error(error_msg)
+            obj = {"task": "Get existing user", "row": str(user), "error": error_msg}
+            return 0, obj
+        
+        response_text, status_code = response
+        
+        if status_code != 200:
+            error_msg = f"User {username} exists but failed to retrieve user details - status code {status_code}"
+            logging.error(error_msg)
+            obj = {"task": "Get existing user", "row": str(user), "error": error_msg}
+            return 0, obj
+        
+        try:
+            json_response = json.loads(response_text)
+        except json.JSONDecodeError as e:
+            error_msg = f"User {username} exists but received invalid JSON response: {str(e)}"
+            logging.error(error_msg)
+            obj = {"task": "Get existing user", "row": str(user), "error": error_msg}
+            return 0, obj
+        
+        if not json_response:
+            error_msg = f"User {username} exists but not found in query results"
+            logging.error(error_msg)
+            obj = {"task": "Get existing user", "row": str(user), "error": error_msg}
+            return 0, obj
+        
+        user_id = json_response[0].get("id")
+        logging.info(f"Found existing user {username} with id: {user_id}")
+        
+        # Use helper function to assign group and password for existing user
+        success, error_obj = assign_user_group_and_password(
+            user_id, username, keycloakGroupId, keycloakGroupName, password
+        )
+        
+        if not success:
+            error_obj["row"] = str(user)
+            return user_id, error_obj
+
+        return user_id, {}
+    
+    else:
+        logging.error(f"Failed to create user {username} - status code {r.status_code}")
+        logging.error(r.text)
         obj = {"task": "Create user", "row": str(user), "error": r.text}
         return 0, obj
 
@@ -213,8 +321,35 @@ def confirm_practitioner(user, user_id):
     if not practitioner_uuid:
         # If practitioner uuid not provided in csv, check if any practitioners exist linked to the keycloak user_id
         r = handle_request("GET", "", base_url + "/Practitioner?identifier=" + user_id)
-        json_r = json.loads(r[0])
-        counter = json_r["total"]
+        
+        # Check if request failed
+        if r is None:
+            message = "Failed to check for existing Practitioner - no response received"
+            logging.error(message)
+            obj = {"task": "Confirm Practitioner", "row": str(user), "error": message}
+            return True, obj
+        
+        response_text, status_code = r
+        
+        # Check for non-200 status codes
+        if status_code != 200:
+            message = f"Failed to check for existing Practitioner - received status code {status_code}"
+            logging.error(message)
+            logging.error(f"Response: {response_text[:500]}")  # Log first 500 chars of response
+            obj = {"task": "Confirm Practitioner", "row": str(user), "error": message}
+            return True, obj
+        
+        # Try to parse JSON response
+        try:
+            json_r = json.loads(response_text)
+        except json.JSONDecodeError as e:
+            message = f"Invalid JSON response when checking for Practitioner: {str(e)}"
+            logging.error(message)
+            logging.error(f"Response received: {response_text[:500]}")
+            obj = {"task": "Confirm Practitioner", "row": str(user), "error": message}
+            return True, obj
+        
+        counter = json_r.get("total", 0)
         if counter > 0:
             message = (
                 "User "
@@ -230,18 +365,34 @@ def confirm_practitioner(user, user_id):
             return False, {}
 
     r = handle_request("GET", "", base_url + "/Practitioner/" + practitioner_uuid)
+    
+    # Check if request failed
+    if r is None:
+        message = "Failed to fetch Practitioner - no response received"
+        logging.error(message)
+        obj = {"task": "Confirm Practitioner", "row": str(user), "error": message}
+        return True, obj
+    
+    response_text, status_code = r
 
-    if r[1] == 404:
+    if status_code == 404:
         logging.info("Practitioner does not exist, proceed to creation")
         return False, {}
+    elif status_code != 200:
+        # Handle other non-200 status codes (401, 403, 500, etc.)
+        message = f"Failed to fetch Practitioner - received status code {status_code}"
+        logging.error(message)
+        logging.error(f"Response: {response_text[:500]}")  # Log first 500 chars of response
+        obj = {"task": "Confirm Practitioner", "row": str(user), "error": message}
+        return True, obj
     else:
         try:
-            json_r = json.loads(r[0])
-            identifiers = json_r["identifier"]
+            json_r = json.loads(response_text)
+            identifiers = json_r.get("identifier", [])
             keycloak_id = 0
             for id in identifiers:
-                if id["use"] == "secondary":
-                    keycloak_id = id["value"]
+                if id.get("use") == "secondary":
+                    keycloak_id = id.get("value")
 
             if str(keycloak_id) == user_id:
                 logging.info(
@@ -260,6 +411,12 @@ def confirm_practitioner(user, user_id):
                 }
                 return True, obj
 
+        except json.JSONDecodeError as err:
+            message = f"Invalid JSON response from Practitioner endpoint: {str(err)}"
+            logging.error(message)
+            logging.error(f"Response received: {response_text[:500]}")
+            obj = {"task": "Confirm Practitioner", "row": str(user), "error": message}
+            return True, obj
         except Exception as err:
             message = (
                 "Error occurred trying to find Practitioner. The error is: " + str(err)

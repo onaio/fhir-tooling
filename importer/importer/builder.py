@@ -54,6 +54,86 @@ def check_parent_admin_level(location_parent_id):
         return None
 
 
+def build_location_lineage(location_id, location_parent_id, location_parent_name=None, locations_cache=None):
+    """
+    Builds the location lineage by traversing up the parent hierarchy.
+    Returns a list of tuples (id, name) from root to current location.
+    Example: [('country-id', 'Burundi'), ('province-id', 'Cibitoke'), ('district-id', 'Bukinanyana')]
+    
+    Args:
+        location_id: ID of the current location
+        location_parent_id: ID of the parent location
+        location_parent_name: Name of the parent location (from CSV)
+        locations_cache: Dict mapping location IDs to their names from current batch
+    """
+    if not location_parent_id or location_parent_id == "parentId":
+        # This is a root location
+        return [(location_id, None)]
+    
+    base_url = get_base_url()
+    lineage = []
+    current_parent_id = location_parent_id
+    current_parent_name = location_parent_name
+    max_depth = 20  # Prevent infinite loops
+    depth = 0
+    
+    # Traverse up the hierarchy
+    while current_parent_id and depth < max_depth:
+        try:
+            # First try to get parent name from cache (current batch being imported)
+            if locations_cache and current_parent_id in locations_cache:
+                parent_info = locations_cache[current_parent_id]
+                parent_name = parent_info.get("name", current_parent_id)
+                lineage.insert(0, (current_parent_id, parent_name))
+                
+                # Get next parent from cache
+                next_parent_id = parent_info.get("parent_id")
+                if next_parent_id and next_parent_id != "parentId":
+                    current_parent_id = next_parent_id
+                    current_parent_name = parent_info.get("parent_name")
+                else:
+                    break
+            else:
+                # Try to fetch from API
+                resource_url = "/".join([base_url, "Location", current_parent_id])
+                response = handle_request("GET", "", resource_url)
+                
+                if response is None or response[1] != 200:
+                    # Parent doesn't exist in server yet
+                    # Use the parent name if we have it from CSV
+                    parent_name = current_parent_name if current_parent_name and current_parent_name != "parentName" else None
+                    lineage.insert(0, (current_parent_id, parent_name))
+                    break
+                
+                obj = json.loads(response[0])
+                location_name = obj.get("name", current_parent_id)
+                lineage.insert(0, (current_parent_id, location_name))
+                
+                # Check if this location has a parent
+                if "partOf" in obj and "reference" in obj["partOf"]:
+                    parent_ref = obj["partOf"]["reference"]
+                    # Extract ID from reference (e.g., "Location/123" -> "123")
+                    current_parent_id = parent_ref.split("/")[-1] if "/" in parent_ref else parent_ref
+                    current_parent_name = obj["partOf"].get("display")
+                else:
+                    # No more parents, we've reached the root
+                    break
+                
+        except Exception as e:
+            logging.warning(f"Error building lineage for {current_parent_id}: {str(e)}")
+            # Add with whatever name we have
+            parent_name = current_parent_name if current_parent_name and current_parent_name != "parentName" else None
+            lineage.insert(0, (current_parent_id, parent_name))
+            break
+        
+        depth += 1
+    
+    # Add current location at the end (name will be added by caller if needed)
+    lineage.append((location_id, None))
+    
+    return lineage
+
+
 def extract_matches(resource_list):
     team_map = {}
     with click.progressbar(
@@ -86,7 +166,7 @@ def organization_extras(resource, payload_string):
 
 
 # custom extras for locations
-def location_extras(resource, payload_string, location_coding_system):
+def location_extras(resource, payload_string, location_coding_system, location_id, locations_cache=None):
     try:
         (
             locationName,
@@ -111,6 +191,42 @@ def location_extras(resource, payload_string, location_coding_system):
         location_physical_type_code = "physicalTypeCode"
         longitude = "longitude"
         latitude = "latitude"
+    
+    # Build and add location lineage as tags
+    try:
+        # Pass parent name from CSV and locations cache to help build lineage when parents don't exist yet
+        lineage = build_location_lineage(location_id, location_parent_id, location_parent_name, locations_cache)
+        
+        # Parse the payload to add the lineage tags
+        obj = json.loads(payload_string)
+        
+        # Add a tag for each parent in the lineage (excluding the current location itself)
+        lineage_tags = []
+        for parent_id, parent_name in lineage[:-1]:  # Exclude the last item (current location)
+            tag = {
+                "system": "http://smartregister.org/CodeSystem/location-lineage",
+                "code": parent_id,
+                "display": parent_name if parent_name else parent_id
+            }
+            lineage_tags.append(tag)
+        
+        if lineage_tags:
+            # Initialize meta.tag if it doesn't exist
+            if "meta" not in obj["resource"]:
+                obj["resource"]["meta"] = {}
+            
+            if "tag" in obj["resource"]["meta"]:
+                obj["resource"]["meta"]["tag"].extend(lineage_tags)
+            else:
+                obj["resource"]["meta"]["tag"] = lineage_tags
+            
+            payload_string = json.dumps(obj, indent=2, ensure_ascii=False)
+            logging.info(f"Added {len(lineage_tags)} lineage tag(s): {[(tag['code'], tag['display']) for tag in lineage_tags]}")
+        else:
+            logging.info(f"No parent lineage to add for root location {location_id}")
+        
+    except Exception as e:
+        logging.warning(f"Could not add location lineage for {location_id}: {str(e)}")
 
     try:
         if location_parent_id and location_parent_id != "parentId":
@@ -285,7 +401,8 @@ def care_team_extras(resource, payload_string, f_type):
             y = {}
             x = org.split(":")
             y["reference"] = "Organization/" + str(x[0])
-            y["display"] = str(x[1])
+            if len(x) > 1:
+                y["display"] = str(x[1])
             orgs_list.append(y)
 
             z = {
@@ -303,7 +420,8 @@ def care_team_extras(resource, payload_string, f_type):
                 "member": {},
             }
             z["member"]["reference"] = "Organization/" + str(x[0])
-            z["member"]["display"] = str(x[1])
+            if len(x) > 1:
+                z["member"]["display"] = str(x[1])
             participant_list.append(z)
 
         if len(participant_list) > 0:
@@ -319,7 +437,8 @@ def care_team_extras(resource, payload_string, f_type):
             y = {"member": {}}
             x = user.split(":")
             y["member"]["reference"] = "Practitioner/" + str(x[0])
-            y["member"]["display"] = str(x[1])
+            if len(x) > 1:
+                y["member"]["display"] = str(x[1])
             participant_list.append(y)
 
         if len(participant_list) > 0:
@@ -421,7 +540,25 @@ def get_product_accountability_period(product_id: str) -> int:
 
 
 def calculate_date(delivery_date: str, product_accountability_period: int) -> str:
-    delivery_datetime = datetime.strptime(delivery_date, "%Y-%m-%dT%H:%M:%S.%fZ")
+    # Handle multiple datetime formats
+    # Try with 'Z' suffix first
+    try:
+        delivery_datetime = datetime.strptime(delivery_date, "%Y-%m-%dT%H:%M:%S.%fZ")
+    except ValueError:
+        # Try with timezone offset like +00:00
+        try:
+            # Remove timezone offset and parse
+            if '+' in delivery_date or delivery_date.endswith('Z'):
+                # Remove timezone part
+                date_without_tz = delivery_date.split('+')[0].split('Z')[0]
+                delivery_datetime = datetime.strptime(date_without_tz, "%Y-%m-%dT%H:%M:%S.%f")
+            else:
+                # Try without microseconds
+                delivery_datetime = datetime.strptime(delivery_date, "%Y-%m-%dT%H:%M:%S")
+        except ValueError as e:
+            logging.error(f"Failed to parse date '{delivery_date}': {e}")
+            raise
+    
     end_date = delivery_datetime + relativedelta(months=product_accountability_period)
     end_date_str = end_date.strftime("%Y-%m-%dT%H:%M:%S.")
     milliseconds = end_date.microsecond // 1000
@@ -715,7 +852,9 @@ def get_resource(resource_id, resource_type):
 
 def check_for_nulls(resource: list) -> list:
     for index, value in enumerate(resource):
-        if len(value.strip()) < 1:
+        if value is None:
+            resource[index] = None
+        elif len(value.strip()) < 1:
             resource[index] = None
         else:
             resource[index] = value.strip()
@@ -724,20 +863,58 @@ def check_for_nulls(resource: list) -> list:
 
 # This function builds a json payload
 # which is posted to the api to create resources
+# It yields chunks of max_entries_per_bundle at a time
 def build_payload(
     resource_type,
     resources,
     resource_payload_file,
     created_resources=None,
     location_coding_system=None,
+    max_entries_per_bundle=1000,
 ):
-    logging.info("Building request payload")
+    logging.info(f"Building request payload (max {max_entries_per_bundle} entries per bundle)")
     initial_string = """{"resourceType": "Bundle","type": "transaction","entry": ["""
-    final_string = group_type = ""
+    group_type = ""
 
     with open(resource_payload_file) as json_file:
         payload_string = json_file.read()
 
+    # Build locations cache for lineage lookups
+    locations_cache = {}
+    if resource_type == "locations":
+        logging.info("Building locations cache for lineage processing")
+        for resource in resources:
+            try:
+                resource = check_for_nulls(resource)
+                name, status, method, _id, location_parent_name, location_parent_id, *_ = resource
+                
+                # Use provided ID or generate one
+                if method == "create":
+                    if _id:
+                        location_id = _id
+                    else:
+                        location_id = str(uuid.uuid5(uuid.NAMESPACE_DNS, name))
+                elif method == "update":
+                    location_id = _id if _id else None
+                else:
+                    continue
+                
+                if location_id:
+                    locations_cache[location_id] = {
+                        "name": name,
+                        "parent_id": location_parent_id,
+                        "parent_name": location_parent_name
+                    }
+            except (ValueError, IndexError) as e:
+                # Skip malformed rows
+                logging.debug(f"Skipping row in cache building: {e}")
+                continue
+        logging.info(f"Built locations cache with {len(locations_cache)} entries")
+
+    # Process resources in chunks
+    current_chunk = []
+    chunk_count = 0
+    
     with click.progressbar(
         resources, label="Progress::Building payload "
     ) as build_payload_progress:
@@ -754,6 +931,11 @@ def build_payload(
                 method = "create"
                 _id = str(uuid.uuid5(uuid.NAMESPACE_DNS, name))
 
+            # Initialize variables
+            version = "1"
+            unique_uuid = None
+            identifier_uuid = None
+
             if method == "create":
                 version = "1"
                 if _id:
@@ -763,7 +945,7 @@ def build_payload(
                         uuid.uuid5(uuid.NAMESPACE_DNS, name)
                     )
 
-            if method == "update":
+            elif method == "update":
                 if _id:
                     version = get_resource(_id, resource_type)
 
@@ -775,6 +957,17 @@ def build_payload(
                 else:
                     logging.info("The id is required!")
                     raise ValueError("The id is required to update a resource")
+            else:
+                # Default to create behavior for unknown methods
+                logging.warning(f"Unknown method '{method}', defaulting to create")
+                method = "create"
+                version = "1"
+                if _id:
+                    unique_uuid = identifier_uuid = _id
+                else:
+                    unique_uuid = identifier_uuid = str(
+                        uuid.uuid5(uuid.NAMESPACE_DNS, name)
+                    )
 
             # ps = payload_string
             ps = (
@@ -792,7 +985,7 @@ def build_payload(
             if resource_type == "organizations":
                 ps = organization_extras(resource, ps)
             elif resource_type == "locations":
-                ps = location_extras(resource, ps, location_coding_system)
+                ps = location_extras(resource, ps, location_coding_system, unique_uuid, locations_cache)
             elif resource_type == "careTeams":
                 ps = care_team_extras(resource, ps, "orgs & users")
             elif resource_type == "Group":
@@ -806,23 +999,54 @@ def build_payload(
                     resource, ps, group_type, created_resources
                 )
 
-            final_string = final_string + ps + ","
+            # Add entry to current chunk
+            current_chunk.append(ps)
 
-    final_string = initial_string + final_string.rstrip(",") + "]}"
+            # Check if chunk is full
+            if len(current_chunk) >= max_entries_per_bundle:
+                chunk_count += 1
+                # Build bundle from current chunk
+                chunk_string = initial_string + ",".join(current_chunk) + "]}"
+                
+                if "$" in chunk_string:
+                    logging.warning(f"Unresolved placeholders found in chunk {chunk_count}!")
+                
+                try:
+                    json.loads(chunk_string)
+                except json.JSONDecodeError as e:
+                    logging.error(f"Invalid JSON generated in chunk {chunk_count}: " + str(e))
+                    raise
+                
+                logging.info(f"Yielding chunk {chunk_count} with {len(current_chunk)} entries")
+                
+                if group_type == "product":
+                    yield chunk_string, created_resources
+                else:
+                    yield chunk_string
+                
+                # Reset for next chunk
+                current_chunk = []
 
-    if "$" in final_string:
-      logging.warning("Unresolved placeholders found in payload!")
-
-    try:
-        json.loads(final_string)
-    except json.JSONDecodeError as e:
-        logging.error("Invalid JSON generated: " + str(e))
-        raise
-
-    if group_type == "product":
-     return final_string, created_resources
-
-    return final_string
+    # Yield any remaining entries in the last chunk
+    if current_chunk:
+        chunk_count += 1
+        final_string = initial_string + ",".join(current_chunk) + "]}"
+        
+        if "$" in final_string:
+            logging.warning(f"Unresolved placeholders found in final chunk {chunk_count}!")
+        
+        try:
+            json.loads(final_string)
+        except json.JSONDecodeError as e:
+            logging.error(f"Invalid JSON generated in final chunk {chunk_count}: " + str(e))
+            raise
+        
+        logging.info(f"Yielding final chunk {chunk_count} with {len(current_chunk)} entries")
+        
+        if group_type == "product":
+            yield final_string, created_resources
+        else:
+            yield final_string
 
 
 def get_org_name(key, resource_list):
@@ -936,14 +1160,27 @@ def create_new_practitioner_role(
     with open(json_path + "practitioner_organization_payload.json") as json_file:
         payload_string = json_file.read()
 
+    # Escape quotes in values to prevent JSON parsing errors
+    def escape_json_value(value):
+        if value is None:
+            return ""
+        return str(value).replace('"', '\\"').replace('\n', '\\n').replace('\r', '\\r')
+
     payload_string = (
-        payload_string.replace("$id", new_id)
-        .replace("$practitioner_id", practitioner_id)
-        .replace("$practitioner_name", practitioner_name)
-        .replace("$organization_id", organization_id)
-        .replace("$organization_name", organization_name)
+        payload_string.replace("$id", escape_json_value(new_id))
+        .replace("$practitioner_id", escape_json_value(practitioner_id))
+        .replace("$practitioner_name", escape_json_value(practitioner_name))
+        .replace("$organization_id", escape_json_value(organization_id))
+        .replace("$organization_name", escape_json_value(organization_name))
     )
-    resource = json.loads(payload_string)
+    
+    try:
+        resource = json.loads(payload_string)
+    except json.JSONDecodeError as e:
+        logging.error(f"Failed to parse JSON in create_assign_practioner_organization: {e}")
+        logging.error(f"Payload string (first 1000 chars): {payload_string[:1000]}")
+        raise
+    
     return resource
 
 
@@ -951,14 +1188,27 @@ def create_new_list(new_id, location_id, inventory_id, title, supply_date):
     with open(json_path + "inventory_location_list_payload.json") as json_file:
         payload_string = json_file.read()
 
+    # Escape quotes in values to prevent JSON parsing errors
+    def escape_json_value(value):
+        if value is None:
+            return ""
+        return str(value).replace('"', '\\"').replace('\n', '\\n').replace('\r', '\\r')
+
     payload_string = (
-        payload_string.replace("$id", new_id)
-        .replace("$title", title)
-        .replace("$location_id", location_id)
-        .replace("$supply_date", supply_date)
-        .replace("$inventory_id", inventory_id)
+        payload_string.replace("$id", escape_json_value(new_id))
+        .replace("$title", escape_json_value(title))
+        .replace("$location_id", escape_json_value(location_id))
+        .replace("$supply_date", escape_json_value(supply_date))
+        .replace("$inventory_id", escape_json_value(inventory_id))
     )
-    resource = json.loads(payload_string)
+    
+    try:
+        resource = json.loads(payload_string)
+    except json.JSONDecodeError as e:
+        logging.error(f"Failed to parse JSON in create_new_list: {e}")
+        logging.error(f"Payload string (first 1000 chars): {payload_string[:1000]}")
+        raise
+    
     return resource
 
 

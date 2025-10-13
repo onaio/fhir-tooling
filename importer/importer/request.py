@@ -34,10 +34,11 @@ def handle_request(request_type, payload, url, json_payload=None, is_update_list
         # Conditionally add X-Meta-Snapshot-Mode: TAG for update_list
         if is_update_list:
             headers["X-Meta-Snapshot-Mode"] = "TAG"
+            logging.info("Added X-Meta-Snapshot-Mode: TAG header for tag updates")
 
         logging.info(f"Sending {request_type} request to {url}")
-        logging.debug(f"Headers: {headers}")
-        logging.info(f"Payload: {payload}")
+        logging.info(f"Headers: {headers}")
+        logging.debug(f"Payload: {payload}")
 
         response = post_request(request_type, payload.encode("utf-8"), url, json_payload, headers)
 
